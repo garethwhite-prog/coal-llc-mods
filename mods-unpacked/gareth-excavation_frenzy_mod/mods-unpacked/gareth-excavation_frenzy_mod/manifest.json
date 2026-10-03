@@ -1,0 +1,20 @@
+{
+    "name": "excavation_frenzy_mod",
+    "namespace": "gareth",
+    "version_number": "1.0.1",
+    "description": "Maintains a mining combo counter that buffs player movement, pickaxe speed, and triggers shockwaves.",
+    "website_url": "",
+    "dependencies": ["der_floh-pickaxeaoe_mod"],
+    "extra": {
+        "godot": {
+            "authors": ["gareth"],
+            "tags": ["gameplay"],
+            "description_rich": "",
+            "optional_dependencies": [],
+            "load_before": [],
+            "incompatibilities": [],
+            "compatible_mod_loader_version": ["7.0.1"],
+            "compatible_game_version": ["1.4.1.1"]
+        }
+    }
+}

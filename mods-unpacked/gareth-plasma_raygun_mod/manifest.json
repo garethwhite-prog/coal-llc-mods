@@ -1,0 +1,20 @@
+{
+    "name": "plasma_raygun_mod",
+    "namespace": "gareth",
+    "version_number": "1.0.0",
+    "description": "Equips the miner with an experimental high-energy Plasma Raygun on Right-Click that pierces multiple subterranean strata in a collimated beam.",
+    "website_url": "",
+    "dependencies": [],
+    "extra": {
+        "godot": {
+            "authors": ["gareth"],
+            "tags": ["gameplay", "weapons"],
+            "description_rich": "",
+            "optional_dependencies": [],
+            "load_before": [],
+            "incompatibilities": [],
+            "compatible_mod_loader_version": ["7.0.1"],
+            "compatible_game_version": ["1.4.1.1"]
+        }
+    }
+}
