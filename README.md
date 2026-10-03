@@ -126,6 +126,6 @@ coal-llc-mods/
 ---
 
 ## Credits & Acknowledgments
-* **Godot ModLoader Team** for the modding framework.
-* **Der-Floh** for foundational utility mods and hooks architecture.
-* **nanobotz** for the auto-passive chooser implementation.
+* **[Godot ModLoader Team](https://wiki.godotmodding.com/)** for the modding framework.
+* **[Der-Floh](https://github.com/Der-Floh/)** for foundational utility mods and hooks architecture.
+* **[nanobotz](https://github.com/NanobotZ)** for the auto-passive chooser implementation.
