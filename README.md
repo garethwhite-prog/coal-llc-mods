@@ -24,7 +24,7 @@ A collection of gameplay enhancements, dynamic weapon scaling, excavation mechan
 * **Godot ModLoader** (v7.0.1+ installed into your game executable directory)
 
 ### Quick Install (ZIP Packages)
-1. Download the desired `.zip` files from the [Releases](../../releases) tab or the `/mods` directory in this repository.
+1. Download the desired `.zip` files from the [mods](https://github.com/garethwhite-prog/coal-llc-mods/tree/main/mods) directory in this repository.
 2. Navigate to your Coal LLC install directory:
    ```text
    C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\
