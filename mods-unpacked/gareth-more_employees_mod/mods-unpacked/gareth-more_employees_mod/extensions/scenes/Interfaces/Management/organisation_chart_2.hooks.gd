@@ -16,7 +16,7 @@ func _ready(chain: ModLoaderHookChain) -> void:
 	if chart.has_node("TreeWrapper"):
 		return
 
-	# 1. Uncouple VBoxContainer from PanelContainer layout engine by wrapping it in a plain Control
+	# 1. Uncouple VBoxContainer from PanelContainer layout engine
 	var wrapper := Control.new()
 	wrapper.name = "TreeWrapper"
 	wrapper.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -24,7 +24,7 @@ func _ready(chain: ModLoaderHookChain) -> void:
 	chart.remove_child(vbox)
 	wrapper.add_child(vbox)
 
-	# 2. Remove all empty vanilla spacer rows so they don't consume vertical room
+	# 2. Remove all empty vanilla spacer rows completely
 	var to_remove: Array[Node] = []
 	for child in vbox.get_children():
 		if child is HBoxContainer:
@@ -43,7 +43,7 @@ func _ready(chain: ModLoaderHookChain) -> void:
 		vbox.remove_child(r)
 		r.queue_free()
 
-	# 3. Preload all custom employee and collector tier resources
+	# 3. Preload all employee and collector tier resources
 	var titan = load("res://mods-unpacked/gareth-more_employees_mod/levels/titan_miner.tres")
 	var md = load("res://mods-unpacked/gareth-more_employees_mod/levels/managing_director_miner.tres")
 	var cmo = load("res://mods-unpacked/gareth-more_employees_mod/levels/chief_mining_officer.tres")
@@ -80,14 +80,14 @@ func _ready(chain: ModLoaderHookChain) -> void:
 	vbox.add_child(r6)
 	vbox.move_child(r6, 3)
 
-	# 5. Row separation 4px, 0.52 scale (~67px icons), centered on yellow board
+	# 5. Row separation 4px, 0.53 scale (~68px icons), positioned at Y=80 right under subtitle
 	vbox.add_theme_constant_override("separation", 4)
-	vbox.scale = Vector2(0.52, 0.52)
-	vbox.position = Vector2(460, 305)
+	vbox.scale = Vector2(0.53, 0.53)
+	vbox.position = Vector2(350, 80)
 
 	chart.register_all_employee_icons()
 	chart.refresh_all_icons()
-	ModLoaderLog.info("Workforce chart scaled to 0.52 (67px icons) and centered at Vector2(460, 305).", "gareth-more_employees_mod")
+	ModLoaderLog.info("Workforce chart scaled to 0.53 (68px icons) and placed at Vector2(350, 80).", "gareth-more_employees_mod")
 
 func _create_grid_row(chart: OrganisationChart2, miner_lvl: EmployeeLevel, speed_col_lvl: EmployeeLevel, cap_col_lvl: EmployeeLevel) -> HBoxContainer:
 	var row := HBoxContainer.new()

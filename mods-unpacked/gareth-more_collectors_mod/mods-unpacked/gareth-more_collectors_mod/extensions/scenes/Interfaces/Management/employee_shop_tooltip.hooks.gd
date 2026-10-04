@@ -13,7 +13,7 @@ func _ready(chain: ModLoaderHookChain) -> void:
 		chain.execute_next([])
 		return
 
-	tooltip.scale = Vector2(1.92, 1.92)
+	tooltip.scale = Vector2(1.88, 1.88)
 
 	var lvl = tooltip.employee_level
 	if CUSTOM_NAMES.has(lvl.level_name):

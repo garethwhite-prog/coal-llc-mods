@@ -1,8 +1,8 @@
 {
   "name": "more_employees_mod",
   "namespace": "gareth",
-  "version_number": "1.0.6",
-  "description": "Adds Executive Miner tiers with proportional 52% tree scaling centered squarely on the yellow management board.",
+  "version_number": "1.0.7",
+  "description": "Adds Executive Miner tiers with calibrated 0.53 scaling (68px icons) centered on the yellow management board.",
   "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
   "dependencies": ["gareth-mod_settings_mod"],
   "extra": {
