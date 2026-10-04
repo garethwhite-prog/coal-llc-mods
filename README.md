@@ -1,11 +1,5 @@
 # Coal LLC Mod Suite
 
-A collection of gameplay enhancements, dynamic weapon scaling, excavation mechanics, and environmental hazard mods for **[Coal LLC](https://store.steampowered.com/app/3361510/Coal_LLC/)**, built for the **[Godot ModLoader 7.x](https://godotengine.org/asset-library/asset/4107)** framework.
-
----
-
-# Coal LLC Mod Suite
-
 A high-performance collection of gameplay overhauls, workforce hierarchy expansions, in-game configuration systems, dynamic weapon scaling, excavation utilities, and high-tier progression additions for **[Coal LLC](https://store.steampowered.com/app/3361510/Coal_LLC/)**, built on the **[Godot ModLoader 7.x](https://godotengine.org/asset-library/asset/4107)** framework.
 
 ---
