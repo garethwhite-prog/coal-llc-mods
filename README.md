@@ -21,7 +21,7 @@ A collection of gameplay enhancements, dynamic weapon scaling, excavation mechan
 
 ### Prerequisites
 * **Coal LLC** (Steam / PC version)
-* **Godot ModLoader** (v7.0.1+ installed into your game executable directory)
+* **Custom Godot ModLoader (NanobotZ Build)**: Coal LLC requires the custom hook-packing build of ModLoader rather than the generic upstream version. Follow the [Installation Setup in Der-Floh's Repo](https://github.com/Der-Floh/coal-llc-mods#installation) to install the patched loader.
 
 ### Quick Install (ZIP Packages)
 1. Download the desired `.zip` files from the [mods](https://github.com/garethwhite-prog/coal-llc-mods/tree/main/mods) directory in this repository.
