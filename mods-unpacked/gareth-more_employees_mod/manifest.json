@@ -1,8 +1,8 @@
 {
   "name": "more_employees_mod",
   "namespace": "gareth",
-  "version_number": "1.0.7",
-  "description": "Adds Executive Miner tiers with calibrated 0.53 scaling (68px icons) centered on the yellow management board.",
+  "version_number": "1.0.9",
+  "description": "Adds Executive Miner tiers with cascading prerequisite locking and strict line clipping.",
   "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
   "dependencies": ["gareth-mod_settings_mod"],
   "extra": {

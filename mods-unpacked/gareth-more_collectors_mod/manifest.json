@@ -1,8 +1,8 @@
 {
   "name": "more_collectors_mod",
   "namespace": "gareth",
-  "version_number": "1.0.7",
-  "description": "Adds 4 ultra-high-tier Collector drones: Vortex, Quantum, Abyssal, and Singularity.",
+  "version_number": "1.0.9",
+  "description": "Adds 4 ultra-high-tier Collector drones with cascading prerequisite locks.",
   "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
   "dependencies": ["gareth-mod_settings_mod"],
   "extra": {
