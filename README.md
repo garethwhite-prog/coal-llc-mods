@@ -14,6 +14,7 @@ A collection of gameplay enhancements, dynamic weapon scaling, excavation mechan
 | **Plasma Raygun** | `gareth-plasma_raygun_mod` | Adds a high-energy directional plasma cutting beam fired via Right-Click. | None |
 | **Prospector's Beacon** | `gareth-prospectors_beacon_mod` | Emits periodic acoustic pulses to detect and ping high-value ore veins. | None |
 | **Seismic Hazards** | `gareth-seismic_hazards_mod` | Introduces dynamic ceiling cave-ins and falling rubble triggered by heavy excavation. | None |
+| **Tank Arsenal** |`gareth-tank_arsenal_mod` |  Weapons & Shop | Adds 45 tiered Incendiary, Caustic, and Depleted Uranium tanks to the shop, hooks chest drops for fire/poison passives, and enables dynamic passive scaling. |
 
 ---
 
@@ -77,6 +78,37 @@ Hooks block destruction events in `tile_map_chunk.gd`:
 ### 6. Seismic Hazards Mod (`gareth-seismic_hazards_mod`)
 * Simulates ceiling load pressure.
 * Aggressive mining in deep shafts without leaving supporting columns risks structural failure, causing unstable ceiling tiles to collapse downward.
+
+## Featured Mod: Tank Arsenal (`gareth-tank_arsenal_mod`)
+
+Expands the **Tanker** profession and equipment shop with **45 new purchasable weapons** spanning all 15 equipment tiers (Shoddy through Onyx). Each tier is interleaved directly beside its vanilla tank counterpart in the shop.
+
+### Weapon Archetypes
+
+1. **Incendiary Tank (Tiers 1–15):**
+   * Fires high-explosive fireball rounds that detonate on impact, igniting all blocks in the blast radius with 6 burn ticks.
+   * **Scaling:** Direct explosive damage scales with `tank_damage`; lingering burn ticks scale with `fire_damage`.
+   * **Synergy:** Directly accelerates payouts when paired with `gareth-elemental_transmutation_mod`.
+
+2. **Caustic Tank (Tiers 1–15):**
+   * Fires chemical mortar shells that explode into a toxic bath, applying corrosive poison ticks to melt hard stone over time.
+   * **Scaling:** Direct explosive damage scales with `tank_damage`; corrosive tick damage scales with `poison_damage`.
+
+3. **Depleted Uranium Tank (Tiers 1–15):**
+   * Fires ultra-dense kinetic penetrators that punch straight through solid rock walls before detonating deep within ore pockets.
+   * **Tier-Scaled Penetration:** Penetrates **+1 block per material tier** before triggering its primary detonation:
+     * *Tier 1 (Shoddy):* 1 block penetration
+     * *Tier 2 (Copper):* 2 blocks penetration
+     * *Tier 3 (Iron):* 3 blocks penetration
+     * $\dots$
+     * *Tier 8 (Gold):* 8 blocks penetration
+     * *Tier 15 (Onyx):* 15 blocks penetration
+
+### Chest Drop Whitelist Expansion
+In the vanilla game, `tanker.gd` hardcodes its chest drop whitelist to exclude elemental passives. This mod hooks `_profession_effect` so opening bonus chests during Tanker runs rolls **Increase Fire Damage** and **Increase Poison Damage** upgrade cards alongside standard tank damage and fire rate perks.
+
+---
+
 
 ---
 

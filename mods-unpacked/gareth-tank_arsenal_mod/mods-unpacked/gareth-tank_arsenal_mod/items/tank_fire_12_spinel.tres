@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="Item" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://resources/BuyEffects/Scripts/AddToInventory.gd" id="1"]
+[ext_resource type="Script" path="res://resources/EquipEffects/Scripts/tank.gd" id="2"]
+[ext_resource type="Script" path="res://resources/PickupEffects/Scripts/PickupToInventory.gd" id="3"]
+[ext_resource type="Texture2D" path="res://assets/Equipment/vehicles/tanks/tank_12_spinel.png" id="4"]
+[ext_resource type="AudioStream" path="res://assets/sound/sound effects/pickup.wav" id="5"]
+[ext_resource type="Script" path="res://resources/Items/Scripts/Item.gd" id="6"]
+
+[sub_resource type="Resource" id="Resource_buy"]
+script = ExtResource("1")
+
+[sub_resource type="Resource" id="Resource_equip"]
+script = ExtResource("2")
+damage = 31000
+radius = 6
+cooldown_time = 1.9
+
+[sub_resource type="Resource" id="Resource_pickup"]
+script = ExtResource("3")
+
+[resource]
+script = ExtResource("6")
+itemID = "tank_fire_12_spinel"
+itemName = "Spinel Incendiary Tank"
+itemDescription = "Explosive Damage: 31000\nDamage Radius: 6\nCooldown: 1.9s\n\nPayload: Incendiary Fireball.\nIgnites all tiles in blast radius.\nScales with Tank Damage and Fire Damage passives."
+itemTexture = ExtResource("4")
+itemEquipEffect = SubResource("Resource_equip")
+itemPickupEffect = SubResource("Resource_pickup")
+pickupSound = ExtResource("5")
+itemBuyPrice = 5000000
+itemSellPrice = 2500000
+itemUnlocked = true
+itemBuyEffect = SubResource("Resource_buy")
+itemType = "tank"
+itemAnimatedTexture = null
+effectTexture = null

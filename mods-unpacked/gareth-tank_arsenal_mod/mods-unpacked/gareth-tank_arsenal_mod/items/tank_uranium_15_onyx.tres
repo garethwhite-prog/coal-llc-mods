@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="Item" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://resources/BuyEffects/Scripts/AddToInventory.gd" id="1"]
+[ext_resource type="Script" path="res://resources/EquipEffects/Scripts/tank.gd" id="2"]
+[ext_resource type="Script" path="res://resources/PickupEffects/Scripts/PickupToInventory.gd" id="3"]
+[ext_resource type="Texture2D" path="res://assets/Equipment/vehicles/tanks/tank_15_onyx.png" id="4"]
+[ext_resource type="AudioStream" path="res://assets/sound/sound effects/pickup.wav" id="5"]
+[ext_resource type="Script" path="res://resources/Items/Scripts/Item.gd" id="6"]
+
+[sub_resource type="Resource" id="Resource_buy"]
+script = ExtResource("1")
+
+[sub_resource type="Resource" id="Resource_equip"]
+script = ExtResource("2")
+damage = 3.125E+24
+radius = 7
+cooldown_time = 2.4
+
+[sub_resource type="Resource" id="Resource_pickup"]
+script = ExtResource("3")
+
+[resource]
+script = ExtResource("6")
+itemID = "tank_uranium_15_onyx"
+itemName = "Onyx Depleted Uranium Tank"
+itemDescription = "Kinetic Damage: 3.125E+24\nPenetration: 15 Blocks\nDamage Radius: 7\nCooldown: 2.4s\n\nPayload: Depleted Uranium Penetrator.\nDrills through 15 Blocks before detonating.\nScales with Tank Damage passives."
+itemTexture = ExtResource("4")
+itemEquipEffect = SubResource("Resource_equip")
+itemPickupEffect = SubResource("Resource_pickup")
+pickupSound = ExtResource("5")
+itemBuyPrice = 8.04E+25
+itemSellPrice = 4.02E+25
+itemUnlocked = true
+itemBuyEffect = SubResource("Resource_buy")
+itemType = "tank"
+itemAnimatedTexture = null
+effectTexture = null

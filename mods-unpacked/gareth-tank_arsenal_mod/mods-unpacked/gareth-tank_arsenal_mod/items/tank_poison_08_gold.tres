@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="Item" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://resources/BuyEffects/Scripts/AddToInventory.gd" id="1"]
+[ext_resource type="Script" path="res://resources/EquipEffects/Scripts/tank.gd" id="2"]
+[ext_resource type="Script" path="res://resources/PickupEffects/Scripts/PickupToInventory.gd" id="3"]
+[ext_resource type="Texture2D" path="res://assets/Equipment/vehicles/tanks/tank_08_gold.png" id="4"]
+[ext_resource type="AudioStream" path="res://assets/sound/sound effects/pickup.wav" id="5"]
+[ext_resource type="Script" path="res://resources/Items/Scripts/Item.gd" id="6"]
+
+[sub_resource type="Resource" id="Resource_buy"]
+script = ExtResource("1")
+
+[sub_resource type="Resource" id="Resource_equip"]
+script = ExtResource("2")
+damage = 1700
+radius = 5
+cooldown_time = 1.5
+
+[sub_resource type="Resource" id="Resource_pickup"]
+script = ExtResource("3")
+
+[resource]
+script = ExtResource("6")
+itemID = "tank_poison_08_gold"
+itemName = "Gold Caustic Tank"
+itemDescription = "Explosive Damage: 1700\nDamage Radius: 5\nCooldown: 1.5s\n\nPayload: Caustic Acid Mortar.\nPoisons all tiles in blast radius to melt stone.\nScales with Tank Damage and Poison Damage passives."
+itemTexture = ExtResource("4")
+itemEquipEffect = SubResource("Resource_equip")
+itemPickupEffect = SubResource("Resource_pickup")
+pickupSound = ExtResource("5")
+itemBuyPrice = 100000
+itemSellPrice = 50000
+itemUnlocked = true
+itemBuyEffect = SubResource("Resource_buy")
+itemType = "tank"
+itemAnimatedTexture = null
+effectTexture = null
