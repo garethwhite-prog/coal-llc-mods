@@ -144,6 +144,7 @@ coal-llc-mods/
 │   ├── gareth-plasma_raygun_mod.zip
 │   ├── gareth-prospectors_beacon_mod.zip
 │   ├── gareth-seismic_hazards_mod.zip
+│   ├── gareth-tank_arsenal_mod.zip
 │   └── gareth-weapon_stacker_mod.zip
 ├── mods-unpacked/                       # Raw source GDScript files
 │   ├── gareth-elemental_transmutation_mod/
@@ -151,6 +152,7 @@ coal-llc-mods/
 │   ├── gareth-plasma_raygun_mod/
 │   ├── gareth-prospectors_beacon_mod/
 │   ├── gareth-seismic_hazards_mod/
+│   ├── gareth-tank_arsenal_mod/
 │   └── gareth-weapon_stacker_mod/
 └── README.md
 ```
