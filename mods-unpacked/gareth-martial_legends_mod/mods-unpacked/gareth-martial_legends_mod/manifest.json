@@ -1,14 +1,14 @@
 {
-  "name": "hydrogen_bomb_mod",
+  "name": "martial_legends_mod",
   "namespace": "gareth",
-  "version_number": "2.0.0",
-  "description": "Adds 15 tiered Hydrogen Bombs spanning Shoddy to Onyx with massive blast radii for cavern excavation.",
+  "version_number": "1.0.0",
+  "description": "Extends Martial Artist with Mike Tyson, Jean-Claude Van Damme, and Chuck Norris moves and equipment.",
   "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
   "dependencies": [],
   "extra": {
     "godot": {
       "authors": ["Gareth White"],
-      "tags": ["weapons", "explosives"],
+      "tags": ["weapons", "combat", "professions"],
       "compatible_mod_loader_version": ["7.0.1"],
       "compatible_game_version": ["1.4.1.1"]
     }

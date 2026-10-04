@@ -1,8 +1,8 @@
 {
   "name": "hydrogen_bomb_mod",
   "namespace": "gareth",
-  "version_number": "1.1.0",
-  "description": "Adds the Hydrogen Bomb: massive 80-tile blast radius with 999,999 damage for wide cavern clearing.",
+  "version_number": "2.0.0",
+  "description": "Adds 15 tiered Hydrogen Bombs spanning Shoddy to Onyx with massive blast radii for cavern excavation.",
   "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
   "dependencies": [],
   "extra": {

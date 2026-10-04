@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="Item" load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://resources/BuyEffects/Scripts/AddToInventory.gd" id="1"]
+[ext_resource type="Script" path="res://resources/EquipEffects/Scripts/boxing_gloves.gd" id="2"]
+[ext_resource type="Script" path="res://resources/PickupEffects/Scripts/PickupToInventory.gd" id="3"]
+[ext_resource type="Texture2D" path="res://assets/Equipment/boxing_gloves/boxing_gloves_08_gold.png" id="4"]
+[ext_resource type="AudioStream" path="res://assets/sound/sound effects/pickup.wav" id="5"]
+[ext_resource type="Script" path="res://resources/Items/Scripts/Item.gd" id="6"]
+
+[sub_resource type="Resource" id="Resource_buy"]
+script = ExtResource("1")
+
+[sub_resource type="Resource" id="Resource_equip"]
+script = ExtResource("2")
+damage = 150000.0
+
+[sub_resource type="Resource" id="Resource_pickup"]
+script = ExtResource("3")
+
+[resource]
+script = ExtResource("6")
+itemID = "boxing_gloves_mike_tyson"
+itemName = "Mike Tyson's Championship Gloves"
+itemDescription = "Increases punch speed to 10/s. Automatically chains the 1986 Berbick Hook, 1986 Frazier Uppercut, and 1988 Spinks Knockout."
+itemTexture = ExtResource("4")
+itemEquipEffect = SubResource("Resource_equip")
+itemPickupEffect = SubResource("Resource_pickup")
+pickupSound = ExtResource("5")
+itemBuyPrice = 1986000.0
+itemSellPrice = 993000.0
+itemUnlocked = true
+itemBuyEffect = SubResource("Resource_buy")
+itemType = "boxing_glove"
+itemAnimatedTexture = null
+effectTexture = null

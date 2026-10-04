@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="Bombs" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://resources/BuyEffects/Scripts/AddToInventory.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/Equipment/bombs/nuke_sheet.png" id="2"]
+[ext_resource type="Script" path="res://resources/EquipEffects/Scripts/spawn_bomb_on_player.gd" id="3"]
+[ext_resource type="Script" path="res://resources/PickupEffects/Scripts/PickupToInventory.gd" id="4"]
+[ext_resource type="AudioStream" path="res://assets/sound/sound effects/pickup.wav" id="5"]
+[ext_resource type="Script" path="res://resources/Items/Scripts/bombs.gd" id="6"]
+
+[sub_resource type="Resource" id="Resource_buy"]
+script = ExtResource("1")
+
+[sub_resource type="Resource" id="Resource_equip"]
+script = ExtResource("3")
+damage = 0.0
+blast_radius = 24.0
+animated_texture = ExtResource("2")
+
+[sub_resource type="Resource" id="Resource_pickup"]
+script = ExtResource("4")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_icon"]
+atlas = ExtResource("2")
+region = Rect2(0, 0, 16, 16)
+
+[resource]
+script = ExtResource("6")
+itemID = "hydrogen_bomb_01_shoddy"
+itemName = ""
+itemDescription = "Tier 01 thermonuclear demolition charge. Huge 24-tile radius dealing 5,000 damage for cavern excavation."
+itemTexture = SubResource("AtlasTexture_icon")
+itemEquipEffect = SubResource("Resource_equip")
+itemPickupEffect = SubResource("Resource_pickup")
+pickupSound = ExtResource("5")
+itemBuyPrice = 0.0
+itemSellPrice = 0.0
+itemUnlocked = true
+itemBuyEffect = SubResource("Resource_buy")
+itemType = "nuke"
+itemAnimatedTexture = null
+effectTexture = null

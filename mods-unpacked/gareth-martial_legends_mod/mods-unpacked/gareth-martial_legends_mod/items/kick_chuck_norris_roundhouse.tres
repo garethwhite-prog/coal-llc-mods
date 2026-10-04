@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="Item" load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://resources/BuyEffects/Scripts/AddToInventory.gd" id="1"]
+[ext_resource type="Script" path="res://resources/EquipEffects/Scripts/roundhouse_kick.gd" id="2"]
+[ext_resource type="Script" path="res://resources/PickupEffects/Scripts/PickupToInventory.gd" id="3"]
+[ext_resource type="Texture2D" path="res://assets/Equipment/kicks/kick_08_gold.png" id="4"]
+[ext_resource type="AudioStream" path="res://assets/sound/sound effects/pickup.wav" id="5"]
+[ext_resource type="Script" path="res://resources/Items/Scripts/Item.gd" id="6"]
+
+[sub_resource type="Resource" id="Resource_buy"]
+script = ExtResource("1")
+
+[sub_resource type="Resource" id="Resource_equip"]
+script = ExtResource("2")
+damage = 250000.0
+
+[sub_resource type="Resource" id="Resource_pickup"]
+script = ExtResource("3")
+
+[resource]
+script = ExtResource("6")
+itemID = "kick_chuck_norris_roundhouse"
+itemName = "Chuck Norris Roundhouse Kick"
+itemDescription = "The Ultimate Meme Move. Fires an 8-tile penetrating shockwave straight forward that obliterates rock walls."
+itemTexture = ExtResource("4")
+itemEquipEffect = SubResource("Resource_equip")
+itemPickupEffect = SubResource("Resource_pickup")
+pickupSound = ExtResource("5")
+itemBuyPrice = 5000000.0
+itemSellPrice = 2500000.0
+itemUnlocked = true
+itemBuyEffect = SubResource("Resource_buy")
+itemType = "roundhouse_kick"
+itemAnimatedTexture = null
+effectTexture = null
