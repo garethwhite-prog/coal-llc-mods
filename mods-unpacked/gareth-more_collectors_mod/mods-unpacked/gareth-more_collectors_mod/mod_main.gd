@@ -14,4 +14,4 @@ func _init() -> void:
 	)
 
 func _ready() -> void:
-	ModLoaderLog.info("Cosmic Collectors initialized safely.", MOD_DIR)
+	ModLoaderLog.info("Cosmic Collectors initialized with click-through tooltips.", MOD_DIR)

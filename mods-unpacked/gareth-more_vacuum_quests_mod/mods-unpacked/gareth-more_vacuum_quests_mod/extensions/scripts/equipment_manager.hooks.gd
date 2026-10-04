@@ -18,4 +18,4 @@ func generate_vacuum_cleaner(chain: ModLoaderHookChain) -> void:
 		for child in mgr.get_children():
 			if child is VacuumCleaner:
 				child.vacuum_length = target_len
-				ModLoaderLog.info("Upgraded active vacuum tether length to %d px (%d tiles)." % [target_len, target_len / 16], "gareth-more_vacuum_quests_mod")
+				ModLoaderLog.info("Upgraded vacuum tether length to %d tiles (%d px)." % [target_len / 16, target_len], "gareth-more_vacuum_quests_mod")

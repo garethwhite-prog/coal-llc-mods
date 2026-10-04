@@ -1,8 +1,8 @@
 {
   "name": "more_employees_mod",
   "namespace": "gareth",
-  "version_number": "1.0.9",
-  "description": "Adds Executive Miner tiers with cascading prerequisite locking and strict line clipping.",
+  "version_number": "1.1.0",
+  "description": "Adds Executive Miner tiers with click-through tooltips and scaled position offsets.",
   "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
   "dependencies": ["gareth-mod_settings_mod"],
   "extra": {

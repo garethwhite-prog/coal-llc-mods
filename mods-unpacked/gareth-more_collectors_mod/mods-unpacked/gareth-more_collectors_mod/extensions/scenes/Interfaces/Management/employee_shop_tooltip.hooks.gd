@@ -9,11 +9,16 @@ const CUSTOM_NAMES := {
 
 func _ready(chain: ModLoaderHookChain) -> void:
 	var tooltip := chain.reference_object as EmployeeShopTooltip
-	if not tooltip or not tooltip.employee_level:
+	if not tooltip:
 		chain.execute_next([])
 		return
 
 	tooltip.scale = Vector2(1.88, 1.88)
+	_apply_click_through(tooltip)
+
+	if not tooltip.employee_level:
+		chain.execute_next([])
+		return
 
 	var lvl = tooltip.employee_level
 	if CUSTOM_NAMES.has(lvl.level_name):
@@ -25,3 +30,10 @@ func _ready(chain: ModLoaderHookChain) -> void:
 		tooltip.text_label.text = info
 		return
 	chain.execute_next([])
+	_apply_click_through(tooltip)
+
+func _apply_click_through(node: Node) -> void:
+	if node is Control:
+		node.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	for child in node.get_children():
+		_apply_click_through(child)

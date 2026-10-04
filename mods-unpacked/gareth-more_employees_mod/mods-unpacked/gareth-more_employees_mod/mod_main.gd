@@ -13,9 +13,13 @@ func _init() -> void:
 		mod_dir_path.path_join("extensions/scenes/Interfaces/Management/employee_shop_tooltip.hooks.gd")
 	)
 	ModLoaderMod.install_script_hooks(
+		"res://scenes/Interfaces/Management/employee_level_icon_2.gd",
+		mod_dir_path.path_join("extensions/scenes/Interfaces/Management/employee_level_icon_2.hooks.gd")
+	)
+	ModLoaderMod.install_script_hooks(
 		"res://resources/Employees/Scripts/employee_manager.gd",
 		mod_dir_path.path_join("extensions/resources/Employees/Scripts/employee_manager.hooks.gd")
 	)
 
 func _ready() -> void:
-	ModLoaderLog.info("Executive Miners initialized safely.", MOD_DIR)
+	ModLoaderLog.info("Executive Miners initialized safely with click-through tooltips.", MOD_DIR)
