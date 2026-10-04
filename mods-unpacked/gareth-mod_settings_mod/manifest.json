@@ -1,0 +1,16 @@
+{
+  "name": "mod_settings_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.1",
+  "description": "Adds a dedicated Gareth Mods settings tab into the native Settings menu with toggles and sliders for all mods.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": [],
+  "extra": {
+    "godot": {
+      "authors": ["Gareth White"],
+      "tags": ["ui", "settings", "configuration"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}

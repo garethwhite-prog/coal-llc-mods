@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="EmployeeLevel" load_steps=5 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/NPCs/PlayerSkins/Heads/playerSheet_Head_HelmetWhite.png" id="1"]
+[ext_resource type="Texture2D" path="res://assets/NPCs/PlayerSkins/Torsos/playerSheet_Torso_DarkBlue.png" id="2"]
+[ext_resource type="Resource" path="res://resources/Items/Equipment/Pickaxes/Pickaxe-15-onyx.tres" id="3"]
+[ext_resource type="Script" path="res://resources/Employees/Scripts/employee_level.gd" id="4"]
+
+[resource]
+script = ExtResource("4")
+level_name = 27
+type = 0
+equipment = ExtResource("3")
+mining_speed = 7.5
+aoe_range = 0.0
+aoe_damage = 0.0
+buff_range = 0.0
+buff_damage = 0.0
+bomb_rate = 0.0
+bomb_type = null
+fly_speed = 0.0
+inventory_space = 0.0
+upgrades_from = 26
+upgrade_cost = 5000000000.0
+employee_head_texture = ExtResource("1")
+employee_torso_texture = ExtResource("2")

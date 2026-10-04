@@ -1,0 +1,16 @@
+{
+  "name": "more_collectors_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.1",
+  "description": "Adds 4 ultra-high-tier Collector drones: Vortex Collector, Quantum Collector, Abyssal Collector, and Singularity Collector.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": ["gareth-mod_settings_mod"],
+  "extra": {
+    "godot": {
+      "authors": ["Gareth White"],
+      "tags": ["collectors", "automation"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}

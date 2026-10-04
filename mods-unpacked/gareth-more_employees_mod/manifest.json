@@ -1,0 +1,16 @@
+{
+  "name": "more_employees_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.1",
+  "description": "Adds 4 executive Miner tiers: Executive VP, Chief Mining Officer, Managing Director, and Titan Miner with valid pickaxes and safe hook resolution.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": ["gareth-mod_settings_mod"],
+  "extra": {
+    "godot": {
+      "authors": ["Gareth White"],
+      "tags": ["employees", "automation"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}
