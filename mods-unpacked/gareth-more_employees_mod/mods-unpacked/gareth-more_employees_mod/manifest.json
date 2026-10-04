@@ -1,8 +1,8 @@
 {
   "name": "more_employees_mod",
   "namespace": "gareth",
-  "version_number": "1.0.1",
-  "description": "Adds 4 executive Miner tiers: Executive VP, Chief Mining Officer, Managing Director, and Titan Miner with valid pickaxes and safe hook resolution.",
+  "version_number": "1.0.6",
+  "description": "Adds Executive Miner tiers with proportional 52% tree scaling centered squarely on the yellow management board.",
   "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
   "dependencies": ["gareth-mod_settings_mod"],
   "extra": {
