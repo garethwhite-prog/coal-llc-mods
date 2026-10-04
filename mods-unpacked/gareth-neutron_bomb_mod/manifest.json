@@ -1,0 +1,16 @@
+{
+  "name": "neutron_bomb_mod",
+  "namespace": "gareth",
+  "version_number": "1.1.0",
+  "description": "Adds the Neutron Bomb: compact 16-tile core with astronomical kinetic yield (10B damage) to instantly crack bedrock and obsidian.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": [],
+  "extra": {
+    "godot": {
+      "authors": ["Gareth White"],
+      "tags": ["weapons", "explosives"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}

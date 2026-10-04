@@ -1,0 +1,16 @@
+{
+  "name": "more_layer_shifts_mod",
+  "namespace": "gareth",
+  "version_number": "1.1.0",
+  "description": "Adds Shift Rock Layers Tiers 6 through 12, scaling costs from 750B to 750Sx, inserted directly adjacent to Shift 5.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": [],
+  "extra": {
+    "godot": {
+      "authors": ["Gareth White"],
+      "tags": ["gameplay", "mining"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}

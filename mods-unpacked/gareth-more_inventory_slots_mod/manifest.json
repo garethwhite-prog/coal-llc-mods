@@ -1,0 +1,16 @@
+{
+  "name": "more_inventory_slots_mod",
+  "namespace": "gareth",
+  "version_number": "1.1.0",
+  "description": "Adds Tiers 4 through 10 of inventory slot expansions with exponentially scaling capacities (+20 to +250 slots) and prices, inserted directly after Slot 3.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": [],
+  "extra": {
+    "godot": {
+      "authors": ["Gareth White"],
+      "tags": ["inventory", "utility"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}

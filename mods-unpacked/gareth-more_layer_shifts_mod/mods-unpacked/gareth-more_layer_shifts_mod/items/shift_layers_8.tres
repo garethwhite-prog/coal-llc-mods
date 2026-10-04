@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="BonusEffect" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://resources/BuyEffects/Scripts/shift_layers_up.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/items/GoldOre.png" id="2"]
+[ext_resource type="Script" path="res://resources/Items/BonusEffects/Scripts/BonusEffect.gd" id="3"]
+
+[sub_resource type="Resource" id="Resource_shift"]
+script = ExtResource("1")
+layer_count = 8
+
+[resource]
+script = ExtResource("3")
+itemID = "shift_layers_8"
+itemName = "Shift Rock Layers 8"
+itemDescription = "Shifts rock layers upward by 8 depths, elevating deep high-tier mineral veins directly into accessible mine regions."
+itemTexture = ExtResource("2")
+itemEquipEffect = null
+itemPickupEffect = null
+pickupSound = null
+itemBuyPrice = 7.5E+15
+itemSellPrice = 0.0
+itemUnlocked = true
+itemBuyEffect = SubResource("Resource_shift")
+itemType = "BonusEffect"
+itemAnimatedTexture = null
+effectTexture = null

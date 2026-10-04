@@ -1,0 +1,16 @@
+{
+  "name": "infini_platform_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "Adds the InfiniPlatform: builds a continuous bridge horizontally left and right across open gaps up to walls (max 200 blocks).",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": [],
+  "extra": {
+    "godot": {
+      "authors": ["Gareth White"],
+      "tags": ["utility", "structures"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}

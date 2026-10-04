@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="Item" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://resources/BuyEffects/Scripts/AddToInventory.gd" id="1"]
+[ext_resource type="Script" path="res://mods-unpacked/gareth-infini_platform_mod/scripts/infini_platform_equip.gd" id="2"]
+[ext_resource type="Resource" path="res://resources/PickupEffects/PickupOne.tres" id="3"]
+[ext_resource type="Texture2D" path="res://assets/16x16Platform.png" id="4"]
+[ext_resource type="AudioStream" path="res://assets/sound/sound effects/pickup.wav" id="5"]
+[ext_resource type="Script" path="res://resources/Items/Scripts/Item.gd" id="6"]
+
+[sub_resource type="Resource" id="Resource_buy"]
+script = ExtResource("1")
+
+[sub_resource type="Resource" id="Resource_equip"]
+script = ExtResource("2")
+
+[resource]
+script = ExtResource("6")
+itemID = "InfiniPlatform"
+itemName = "InfiniPlatform"
+itemDescription = "Place where you like. Builds a continuous platform bridge left and right across open gaps until colliding with solid tiles (maximum 200 blocks)."
+itemTexture = ExtResource("4")
+itemEquipEffect = SubResource("Resource_equip")
+itemPickupEffect = ExtResource("3")
+pickupSound = ExtResource("5")
+itemBuyPrice = 350.0
+itemSellPrice = 175.0
+itemUnlocked = true
+itemBuyEffect = SubResource("Resource_buy")
+itemType = "platform"
+itemAnimatedTexture = null
+effectTexture = null

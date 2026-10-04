@@ -1,0 +1,16 @@
+{
+  "name": "more_mortars_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "Adds Tiers 6 through 10 of Mortar Guns with damage scaling from 7.5 Million up to 500 Billion, inserted directly after Mortar Gun 5.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": [],
+  "extra": {
+    "godot": {
+      "authors": ["Gareth White"],
+      "tags": ["weapons", "structures"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}

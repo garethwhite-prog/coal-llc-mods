@@ -1,0 +1,16 @@
+{
+  "name": "more_inventory_stacks_mod",
+  "namespace": "gareth",
+  "version_number": "1.1.0",
+  "description": "Adds Tiers 7 through 16 of inventory stack upgrades, scaling from 75 Trillion up to 50 Septillion, inserted directly adjacent to Stack 6.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": [],
+  "extra": {
+    "godot": {
+      "authors": ["Gareth White"],
+      "tags": ["inventory", "utility"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}

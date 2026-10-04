@@ -1,0 +1,16 @@
+{
+  "name": "more_vacuum_quests_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "Adds Tiers 5 through 8 to vacuum cleaner tether lengths (up to 600 tiles) linked to extended Tabbitha research objectives.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": [],
+  "extra": {
+    "godot": {
+      "authors": ["Gareth White"],
+      "tags": ["quests", "utility"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}

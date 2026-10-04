@@ -1,0 +1,16 @@
+{
+  "name": "hydrogen_bomb_mod",
+  "namespace": "gareth",
+  "version_number": "1.1.0",
+  "description": "Adds the Hydrogen Bomb: massive 80-tile blast radius with 999,999 damage for wide cavern clearing.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": [],
+  "extra": {
+    "godot": {
+      "authors": ["Gareth White"],
+      "tags": ["weapons", "explosives"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}

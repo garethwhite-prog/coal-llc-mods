@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="BonusEffect" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://resources/BuyEffects/Scripts/increase_stack_size.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/UI/ExternalAssets/UI_Flat_IconArrow01a.png" id="2"]
+[ext_resource type="Script" path="res://resources/Items/BonusEffects/Scripts/BonusEffect.gd" id="3"]
+
+[sub_resource type="Resource" id="Resource_stack"]
+script = ExtResource("1")
+max_stack_to_add = 1E+21
+
+[resource]
+script = ExtResource("3")
+itemID = "AddInventoryStacks15"
+itemName = "Increase Inventory Stack Size 15"
+itemDescription = "Increases the stack size for each item in your inventory by 1E+21 units."
+itemTexture = ExtResource("2")
+itemEquipEffect = null
+itemPickupEffect = null
+pickupSound = null
+itemBuyPrice = 1E+24
+itemSellPrice = 0.0
+itemUnlocked = true
+itemBuyEffect = SubResource("Resource_stack")
+itemType = "BonusEffect"
+itemAnimatedTexture = null
+effectTexture = null

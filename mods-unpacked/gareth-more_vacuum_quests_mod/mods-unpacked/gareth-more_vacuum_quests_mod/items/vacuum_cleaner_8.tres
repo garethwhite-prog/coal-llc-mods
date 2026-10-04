@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="BonusEffect" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://resources/BuyEffects/Scripts/add_vacuum_cleaner.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/Equipment/structures/vacuum_end.png" id="2"]
+[ext_resource type="Script" path="res://resources/Items/BonusEffects/Scripts/BonusEffect.gd" id="3"]
+
+[sub_resource type="Resource" id="Resource_vac"]
+script = ExtResource("1")
+vacuum_level = 8
+
+[resource]
+script = ExtResource("3")
+itemID = "vacuum_cleaner_8"
+itemName = "Abyssal Bedrock Vacuum Cleaner"
+itemDescription = "Range: 600 tiles.\nExtended pneumatic suction tether reaching into the deepest cavern depths. Sucks up coal, minerals, and gems directly into the stockpile."
+itemTexture = ExtResource("2")
+itemEquipEffect = null
+itemPickupEffect = null
+pickupSound = null
+itemBuyPrice = 2000000000
+itemSellPrice = 0.0
+itemUnlocked = true
+itemBuyEffect = SubResource("Resource_vac")
+itemType = "BonusEffect"
+itemAnimatedTexture = null
+effectTexture = null

@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="Item" load_steps=8 format=3]
+
+[ext_resource type="Resource" path="res://resources/BuyEffects/AddOneToInventory.tres" id="1"]
+[ext_resource type="Script" path="res://resources/EquipEffects/Scripts/PlaceDrillInScene.gd" id="2"]
+[ext_resource type="Resource" path="res://resources/PickupEffects/PickupOne.tres" id="3"]
+[ext_resource type="Texture2D" path="res://assets/16x16Drill.png" id="4"]
+[ext_resource type="AudioStream" path="res://assets/sound/sound effects/pickup.wav" id="5"]
+[ext_resource type="Script" path="res://resources/Items/Scripts/Item.gd" id="6"]
+
+[sub_resource type="Resource" id="Resource_drill"]
+script = ExtResource("2")
+damage = 50000000000
+
+[resource]
+script = ExtResource("6")
+itemID = "drill_10"
+itemName = "Core Drill"
+itemDescription = "[/i]Damage: 50,000,000,000\nRate: x10 per second[i]\n\nCan be placed anywhere. Immediately drills downwards continuously. Consumed once used."
+itemTexture = ExtResource("4")
+itemEquipEffect = SubResource("Resource_drill")
+itemPickupEffect = ExtResource("3")
+pickupSound = ExtResource("5")
+itemBuyPrice = 3000000000000
+itemSellPrice = 1500000000000
+itemUnlocked = false
+itemBuyEffect = ExtResource("1")
+itemType = "drill"
+itemAnimatedTexture = null
+effectTexture = null

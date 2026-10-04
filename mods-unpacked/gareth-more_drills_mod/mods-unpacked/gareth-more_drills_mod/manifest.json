@@ -1,0 +1,16 @@
+{
+  "name": "more_drills_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "Adds Tiers 5 through 10 of Drills with damage scaling from 100,000 up to 50 Billion, inserted directly after Drill 4.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": [],
+  "extra": {
+    "godot": {
+      "authors": ["Gareth White"],
+      "tags": ["utility", "structures"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}

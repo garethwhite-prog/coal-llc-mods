@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="Item" load_steps=8 format=3]
+
+[ext_resource type="Resource" path="res://resources/BuyEffects/AddOneToInventory.tres" id="1"]
+[ext_resource type="Script" path="res://resources/EquipEffects/Scripts/PlaceMortargunInScene.gd" id="2"]
+[ext_resource type="Resource" path="res://resources/PickupEffects/PickupOne.tres" id="3"]
+[ext_resource type="Texture2D" path="res://assets/Equipment/structures/mortar_gun.png" id="4"]
+[ext_resource type="AudioStream" path="res://assets/sound/sound effects/pickup.wav" id="5"]
+[ext_resource type="Script" path="res://resources/Items/Scripts/Item.gd" id="6"]
+
+[sub_resource type="Resource" id="Resource_mortar"]
+script = ExtResource("2")
+damage = 100000000
+
+[resource]
+script = ExtResource("6")
+itemID = "mortar_gun_07"
+itemName = "Colossal Mortar Gun"
+itemDescription = "[/i]Damage: 100,000,000\nFires 1.0 mortars per second\nBlast radius: 5 tiles[i]\n\nCan be placed anywhere. Launches mortars to bomb all tiles below it. Consumed once placed."
+itemTexture = ExtResource("4")
+itemEquipEffect = SubResource("Resource_mortar")
+itemPickupEffect = ExtResource("3")
+pickupSound = ExtResource("5")
+itemBuyPrice = 3500000000
+itemSellPrice = 1750000000
+itemUnlocked = false
+itemBuyEffect = ExtResource("1")
+itemType = "mortar_gun"
+itemAnimatedTexture = null
+effectTexture = null

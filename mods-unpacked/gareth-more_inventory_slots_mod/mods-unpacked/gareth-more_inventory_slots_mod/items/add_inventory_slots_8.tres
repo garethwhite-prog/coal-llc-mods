@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="BonusEffect" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://resources/BuyEffects/Scripts/AddInventorySlots.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/Backpack.png" id="2"]
+[ext_resource type="Script" path="res://resources/Items/BonusEffects/Scripts/BonusEffect.gd" id="3"]
+
+[sub_resource type="Resource" id="Resource_slots"]
+script = ExtResource("1")
+inventory_slots_to_add = 100
+
+[resource]
+script = ExtResource("3")
+itemID = "AddInventorySlots8"
+itemName = "Increase Inventory Slots 8"
+itemDescription = "Increases the number of slots in your inventory by an additional 100 slots."
+itemTexture = ExtResource("2")
+itemEquipEffect = null
+itemPickupEffect = null
+pickupSound = null
+itemBuyPrice = 1000000000000
+itemSellPrice = 0.0
+itemUnlocked = true
+itemBuyEffect = SubResource("Resource_slots")
+itemType = "BonusEffect"
+itemAnimatedTexture = null
+effectTexture = null
