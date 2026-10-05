@@ -4,7 +4,7 @@ A high-performance collection of gameplay overhauls, workforce hierarchy expansi
 
 ---
 
-## Included Mods (19 Mods)
+## Included Mods (20 Mods)
 
 | Mod | Namespace / ID | Type | Description | Dependencies |
 | :--- | :--- | :--- | :--- | :--- |
@@ -27,7 +27,7 @@ A high-performance collection of gameplay overhauls, workforce hierarchy expansi
 | **Plasma Raygun** | `gareth-plasma_raygun_mod` | Weapons | High-energy directional plasma cutting beam fired via Right-Click. | None |
 | **Prospector's Beacon** | `gareth-prospectors_beacon_mod` | Utility | Emits periodic acoustic pulses to detect and ping high-value ore veins through solid rock. | None |
 | **Seismic Hazards** | `gareth-seismic_hazards_mod` | World Gameplay | Introduces dynamic ceiling cave-ins and falling rubble triggered by heavy excavation. | None |
-
+| **Vacuum Collector Depot** | `gareth-vacuum_depot_mod` | World Gameplay | If the vacuum nozzle is closer than the surface, collectors route directly to the nozzle tip to offload. | None |
 ---
 
 ## Installation
@@ -142,6 +142,14 @@ Hooks block destruction events in `tile_map_chunk.gd`:
 ### 15. Seismic Hazards Mod (`gareth-seismic_hazards_mod`)
 * Simulates ceiling load pressure.
 * Aggressive mining in deep shafts without leaving supporting columns risks structural failure, causing unstable ceiling tiles to collapse downward.
+
+### 16. Vacuum Collector Depot (gareth-vacuum_depot_mod)
+Dynamic Proximity Routing: UFO Collectors calculate distance vectors in real time between their home surface dock (Vector2(50, -55)) and the active nozzle of the Vacuum Cleaner (%SuckEndPhysicsBody).
+
+Subterranean Offloading: If the vacuum nozzle is closer than the surface, collectors route directly to the nozzle tip and offload carried cargo into the shared Stockpile inventory upon arrival (within 24px).
+
+Local Search Reloop: After depositing into the vacuum hose, collectors immediately resume searching for nearby ore drops at current mine depth, eliminating surface flight times.
+
 ---
 
 ## Troubleshooting
@@ -190,7 +198,8 @@ coal-llc-mods/
 │   ├── gareth-prospectors_beacon_mod.zip
 │   ├── gareth-seismic_hazards_mod.zip
 │   ├── gareth-tank_arsenal_mod.zip
-│   └── gareth-weapon_stacker_mod.zip
+│   ├── gareth-weapon_stacker_mod.zip
+│   └── gareth-vacuum_depot_mod.zip
 ├── mods-unpacked/                       # Raw source GDScript files
 │   ├── gareth-buyable_vacuums_mod/
 │   ├── gareth-elemental_transmutation_mod/
@@ -212,6 +221,7 @@ coal-llc-mods/
 │   ├── gareth-seismic_hazards_mod/
 │   ├── gareth-tank_arsenal_mod/
 │   └── gareth-weapon_stacker_mod/
+│   └── gareth-vacuum_depot_mod/
 └── README.md
 ```
 
