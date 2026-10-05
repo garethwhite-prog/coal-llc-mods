@@ -11,4 +11,4 @@ func _ready(chain: ModLoaderHookChain) -> void:
 	tab.set_script(tab_script)
 	tab.name = "Leaderboard"
 	settings.tab_container.add_child(tab)
-	ModLoaderLog.info("Leaderboard tab injected into Settings menu.", "gareth-leaderboard_mod")
+	ModLoaderLog.info("Categorized Leaderboard tab injected into Settings.", "gareth-leaderboard_mod")

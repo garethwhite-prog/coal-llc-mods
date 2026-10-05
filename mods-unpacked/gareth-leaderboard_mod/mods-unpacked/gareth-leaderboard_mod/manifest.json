@@ -1,8 +1,8 @@
 {
   "name": "leaderboard_mod",
   "namespace": "gareth",
-  "version_number": "1.0.0",
-  "description": "Tracks all-time records and quest rewards (pickaxe speed, vacuum reach, stats) in a Settings Leaderboard tab.",
+  "version_number": "2.0.0",
+  "description": "Comprehensive all-time high scores and quest rewards leaderboard covering collectors, mortars, combat, and wealth.",
   "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
   "dependencies": [],
   "extra": {

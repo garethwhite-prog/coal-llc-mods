@@ -15,4 +15,4 @@ func _ready() -> void:
 	tracker.name = "LeaderboardTracker"
 	tracker.set_script(tracker_script)
 	get_tree().root.call_deferred("add_child", tracker)
-	ModLoaderLog.info("Leaderboard tracker initialized.", MOD_DIR)
+	ModLoaderLog.info("Leaderboard v2 auto-tracker initialized.", MOD_DIR)
