@@ -27,7 +27,7 @@ A high-performance collection of gameplay overhauls, workforce hierarchy expansi
 | **Plasma Raygun** | `gareth-plasma_raygun_mod` | Weapons | High-energy directional plasma cutting beam fired via Right-Click. | None |
 | **Prospector's Beacon** | `gareth-prospectors_beacon_mod` | Utility | Emits periodic acoustic pulses to detect and ping high-value ore veins through solid rock. | None |
 | **Seismic Hazards** | `gareth-seismic_hazards_mod` | World Gameplay | Introduces dynamic ceiling cave-ins and falling rubble triggered by heavy excavation. | None |
-
+| **Vacuum Collector Depot** | `gareth-vacuum_depot_mod` | World Gameplay | If the vacuum nozzle is closer than the surface, collectors route directly to the nozzle tip to offload. | None |
 ---
 
 ## Installation
