@@ -4,7 +4,7 @@ A high-performance collection of gameplay overhauls, workforce hierarchy expansi
 
 ---
 
-## Included Mods (19 Mods)
+## Included Mods (20 Mods)
 
 | Mod | Namespace / ID | Type | Description | Dependencies |
 | :--- | :--- | :--- | :--- | :--- |
@@ -198,7 +198,8 @@ coal-llc-mods/
 │   ├── gareth-prospectors_beacon_mod.zip
 │   ├── gareth-seismic_hazards_mod.zip
 │   ├── gareth-tank_arsenal_mod.zip
-│   └── gareth-weapon_stacker_mod.zip
+│   ├── gareth-weapon_stacker_mod.zip
+│   └── gareth-vacuum_depot_mod.zip
 ├── mods-unpacked/                       # Raw source GDScript files
 │   ├── gareth-buyable_vacuums_mod/
 │   ├── gareth-elemental_transmutation_mod/
@@ -220,6 +221,7 @@ coal-llc-mods/
 │   ├── gareth-seismic_hazards_mod/
 │   ├── gareth-tank_arsenal_mod/
 │   └── gareth-weapon_stacker_mod/
+│   └── gareth-vacuum_depot_mod/
 └── README.md
 ```
 
