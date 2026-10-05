@@ -147,7 +147,7 @@ Hooks block destruction events in `tile_map_chunk.gd`:
 ### 16. Subterranean Vacuum Collector Depot (`gareth-vacuum_depot_mod`)
 Solves the late-game logistical bottleneck where automated UFO Collectors spend the majority of their flight time ferrying cargo back to the surface dock.
 
-Dynamic Proximity Routing: UFO Collectors calculate distance vectors in real time between their home surface dock (Vector2(50, -55)) and the active nozzle of the Vacuum Cleaner (%SuckEndPhysicsBody).
+UFO Collectors calculate distance vectors in real time between their home surface dock (Vector2(50, -55)) and the active nozzle of the Vacuum Cleaner (%SuckEndPhysicsBody).
 
 Subterranean Offloading: If the vacuum nozzle is closer than the surface, collectors route directly to the nozzle tip and offload carried cargo into the shared Stockpile inventory upon arrival (within 24px).
 
@@ -209,6 +209,8 @@ coal-llc-mods/
 │   ├── gareth-seismic_hazards_mod.zip
 │   ├── gareth-tank_arsenal_mod.zip
 │   ├── gareth-weapon_stacker_mod.zip
+│   ├── gareth-grenade_mod.zip
+│   ├── gareth-leaderboard_mod.zip
 │   └── gareth-vacuum_depot_mod.zip
 ├── mods-unpacked/                       # Raw source GDScript files
 │   ├── gareth-buyable_vacuums_mod/
@@ -231,6 +233,8 @@ coal-llc-mods/
 │   ├── gareth-seismic_hazards_mod/
 │   ├── gareth-tank_arsenal_mod/
 │   └── gareth-weapon_stacker_mod/
+│   └── gareth-grenade_mod/
+│   └── gareth-leaderboard_mod/
 │   └── gareth-vacuum_depot_mod/
 └── README.md
 ```
