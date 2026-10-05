@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="Bombs" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://resources/BuyEffects/Scripts/AddToInventory.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/Equipment/bombs/nuke_sheet.png" id="2"]
+[ext_resource type="Script" path="res://mods-unpacked/gareth-grenade_mod/scripts/grenade_equip_effect.gd" id="3"]
+[ext_resource type="Script" path="res://resources/PickupEffects/Scripts/PickupToInventory.gd" id="4"]
+[ext_resource type="AudioStream" path="res://assets/sound/sound effects/pickup.wav" id="5"]
+[ext_resource type="Script" path="res://resources/Items/Scripts/bombs.gd" id="6"]
+
+[sub_resource type="Resource" id="Resource_buy"]
+script = ExtResource("1")
+
+[sub_resource type="Resource" id="Resource_equip"]
+script = ExtResource("3")
+damage = 800000.0
+radius = 7.5
+animated_texture = ExtResource("2")
+
+[sub_resource type="Resource" id="Resource_pickup"]
+script = ExtResource("4")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_icon"]
+atlas = ExtResource("2")
+region = Rect2(0, 0, 16, 16)
+
+[resource]
+script = ExtResource("6")
+itemID = "bouncing_grenade_08_gold"
+itemName = "Gold Bouncing Grenade"
+itemDescription = "Tier 08 bouncing explosive. Throws with an upward arc, bounces off rock walls, and detonates after a 2.5s fuse. Blast radius: 7.5 tiles. Damage: 800,000."
+itemTexture = SubResource("AtlasTexture_icon")
+itemEquipEffect = SubResource("Resource_equip")
+itemPickupEffect = SubResource("Resource_pickup")
+pickupSound = ExtResource("5")
+itemBuyPrice = 900000.0
+itemSellPrice = 450000.0
+itemUnlocked = true
+itemBuyEffect = SubResource("Resource_buy")
+itemType = "bomb"
+itemAnimatedTexture = null
+effectTexture = null

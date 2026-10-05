@@ -1,0 +1,16 @@
+{
+  "name": "leaderboard_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "Tracks all-time records and quest rewards (pickaxe speed, vacuum reach, stats) in a Settings Leaderboard tab.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": [],
+  "extra": {
+    "godot": {
+      "authors": ["Gareth White"],
+      "tags": ["stats", "ui", "leaderboard", "settings"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}
