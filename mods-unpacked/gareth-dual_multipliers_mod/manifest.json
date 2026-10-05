@@ -1,0 +1,16 @@
+{
+  "name": "dual_multipliers_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "Adds secondary scaling multipliers (drill_speed, axe_speed, gun_rate) to give single-multiplier weapons quadratic late-game scaling.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": [],
+  "extra": {
+    "godot": {
+      "authors": ["Gareth White"],
+      "tags": ["balance", "weapons", "scaling", "drills"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}
