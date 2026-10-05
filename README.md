@@ -142,6 +142,14 @@ Hooks block destruction events in `tile_map_chunk.gd`:
 ### 15. Seismic Hazards Mod (`gareth-seismic_hazards_mod`)
 * Simulates ceiling load pressure.
 * Aggressive mining in deep shafts without leaving supporting columns risks structural failure, causing unstable ceiling tiles to collapse downward.
+
+### 16. Vacuum Collector Depot (gareth-vacuum_depot_mod)
+Dynamic Proximity Routing: UFO Collectors calculate distance vectors in real time between their home surface dock (Vector2(50, -55)) and the active nozzle of the Vacuum Cleaner (%SuckEndPhysicsBody).
+
+Subterranean Offloading: If the vacuum nozzle is closer than the surface, collectors route directly to the nozzle tip and offload carried cargo into the shared Stockpile inventory upon arrival (within 24px).
+
+Local Search Reloop: After depositing into the vacuum hose, collectors immediately resume searching for nearby ore drops at current mine depth, eliminating surface flight times.
+
 ---
 
 ## Troubleshooting
