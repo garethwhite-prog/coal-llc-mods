@@ -28,6 +28,7 @@ A high-performance collection of gameplay overhauls, workforce hierarchy expansi
 | **Prospector's Beacon** | `gareth-prospectors_beacon_mod` | Utility | Emits periodic acoustic pulses to detect and ping high-value ore veins through solid rock. | None |
 | **Seismic Hazards** | `gareth-seismic_hazards_mod` | World Gameplay | Introduces dynamic ceiling cave-ins and falling rubble triggered by heavy excavation. | None |
 | **Vacuum Collector Depot** | `gareth-vacuum_depot_mod` | World Gameplay | If the vacuum nozzle is closer than the surface, collectors route directly to the nozzle tip to offload. | None |
+| **Bouncing Grenade Arsenal** | `gareth-grenade_mod` | World Gameplay | Introduces an explosive projectile delivery system spanning all 15 material grades (Shoddy through Onyx). | None |
 ---
 
 ## Installation
@@ -143,12 +144,21 @@ Hooks block destruction events in `tile_map_chunk.gd`:
 * Simulates ceiling load pressure.
 * Aggressive mining in deep shafts without leaving supporting columns risks structural failure, causing unstable ceiling tiles to collapse downward.
 
-### 16. Vacuum Collector Depot (gareth-vacuum_depot_mod)
+### 16. Subterranean Vacuum Collector Depot (`gareth-vacuum_depot_mod`)
+Solves the late-game logistical bottleneck where automated UFO Collectors spend the majority of their flight time ferrying cargo back to the surface dock.
+
 Dynamic Proximity Routing: UFO Collectors calculate distance vectors in real time between their home surface dock (Vector2(50, -55)) and the active nozzle of the Vacuum Cleaner (%SuckEndPhysicsBody).
 
 Subterranean Offloading: If the vacuum nozzle is closer than the surface, collectors route directly to the nozzle tip and offload carried cargo into the shared Stockpile inventory upon arrival (within 24px).
 
 Local Search Reloop: After depositing into the vacuum hose, collectors immediately resume searching for nearby ore drops at current mine depth, eliminating surface flight times.
+
+### 17. Bouncing Grenade Arsenal (`gareth-grenade_mod`)
+The Bouncing Grenade Arsenal introduces an explosive projectile delivery system spanning all 15 material grades (Shoddy through Onyx). Unlike stationary placement charges, grenades are cast actively along a parabolic trajectory and rebound off subterranean geometry before detonation.
+
+### 18. Quest Rewards & Career Leaderboard (`gareth-leaderboard_mod`)
+A persistent analytics and career tracker accessible directly from the in-game Settings menu (settings_2.gd). The leaderboard maintains a persistent JSON database (user://leaderboard_records.json) recording all-time peaks across every run alongside live metrics.
+
 
 ---
 
