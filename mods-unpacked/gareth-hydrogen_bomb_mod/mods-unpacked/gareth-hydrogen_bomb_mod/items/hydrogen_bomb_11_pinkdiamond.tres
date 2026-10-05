@@ -12,7 +12,7 @@ script = ExtResource("1")
 
 [sub_resource type="Resource" id="Resource_equip"]
 script = ExtResource("3")
-damage = 0.0
+damage = 500000000.0
 blast_radius = 112.0
 animated_texture = ExtResource("2")
 
@@ -26,14 +26,14 @@ region = Rect2(0, 0, 16, 16)
 [resource]
 script = ExtResource("6")
 itemID = "hydrogen_bomb_11_pinkdiamond"
-itemName = ""
-itemDescription = "Tier 11 thermonuclear demolition charge. Huge 112-tile radius dealing 500,000,000 damage for cavern excavation."
+itemName = "Pink Diamond Hydrogen Bomb"
+itemDescription = "Tier 11 cavern excavation charge. Huge 112-tile radius dealing 500,000,000 damage."
 itemTexture = SubResource("AtlasTexture_icon")
 itemEquipEffect = SubResource("Resource_equip")
 itemPickupEffect = SubResource("Resource_pickup")
 pickupSound = ExtResource("5")
-itemBuyPrice = 0.0
-itemSellPrice = 0.0
+itemBuyPrice = 1250000000.0
+itemSellPrice = 625000000.0
 itemUnlocked = true
 itemBuyEffect = SubResource("Resource_buy")
 itemType = "nuke"
