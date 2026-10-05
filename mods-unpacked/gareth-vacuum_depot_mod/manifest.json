@@ -1,0 +1,16 @@
+{
+  "name": "vacuum_depot_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "Collectors depot at the vacuum nozzle when it is closer than the surface chest.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": [],
+  "extra": {
+    "godot": {
+      "authors": ["Gareth White"],
+      "tags": ["automation", "employees", "vacuum"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}
