@@ -16,6 +16,10 @@ func _init() -> void:
 		"res://scripts/PauseMenu.gd",
 		mod_dir_path.path_join("extensions/scripts/PauseMenu.hooks.gd")
 	)
+	ModLoaderMod.install_script_hooks(
+		"res://scenes/Interfaces/in_game/choose_passive.gd",
+		mod_dir_path.path_join("extensions/scenes/Interfaces/in_game/choose_passive.hooks.gd")
+	)
 
 func _ready() -> void:
-	ModLoaderLog.info("Universal Mod Manager active with Pause Menu and pinned Settings tabs.", MOD_DIR)
+	ModLoaderLog.info("Universal Mod Manager active with choose_passive fail-safe.", MOD_DIR)
