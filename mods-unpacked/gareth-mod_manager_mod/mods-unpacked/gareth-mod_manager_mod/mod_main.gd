@@ -20,6 +20,10 @@ func _init() -> void:
 		"res://scenes/Interfaces/in_game/choose_passive.gd",
 		mod_dir_path.path_join("extensions/scenes/Interfaces/in_game/choose_passive.hooks.gd")
 	)
+	ModLoaderMod.install_script_hooks(
+		"res://scenes/Stages/management_screen.gd",
+		mod_dir_path.path_join("extensions/scenes/Stages/management_screen.hooks.gd")
+	)
 
 func _ready() -> void:
-	ModLoaderLog.info("Universal Mod Manager active with choose_passive fail-safe.", MOD_DIR)
+	ModLoaderLog.info("Universal Mod Manager active with Shop & Tab filters.", MOD_DIR)

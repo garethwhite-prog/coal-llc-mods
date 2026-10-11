@@ -6,7 +6,7 @@
 ---
 
 ## Overview
-Adds 15 tiers of parabolic cluster grenades that rebound off solid strata and detonate on timed fuses.
+Adds 15 material grades of parabolic cluster grenades (Shoddy through Onyx) that rebound off solid subterranean geometry and detonate on timed fuses.
 
 ---
 

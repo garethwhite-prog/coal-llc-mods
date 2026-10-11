@@ -6,12 +6,12 @@
 ---
 
 ## Overview
-High-energy sidearm that fires a continuous 360-degree piercing energy beam on right-click.
+Equips the miner with an experimental high-energy plasma cutting raygun fired via Right-Click, cutting clean horizontal corridors through rock.
 
 ---
 
 ## Technical Details (For Modders)
-Hooks _physics_process in player_2.gd, calculating mouse aim vectors and raycasting tile damage along the line.
+Hooks _physics_process in player_2.gd, calculating aim vectors and raycasting tile damage along the line.
 
 ---
 

@@ -6,12 +6,12 @@
 ---
 
 ## Overview
-Consecutive pickaxe swings build a momentum combo multiplier that increases swing animation speed up to 3x and triggers a 5-hit shockwave.
+Chains rapid mining strikes into a momentum combo multiplier. Consecutive pickaxe hits accelerate swing speed up to 3x and unleash a shockwave on every 5th strike.
 
 ---
 
 ## Technical Details (For Modders)
-Hooks mine_action in player_2.gd, maintaining a timed swing counter and applying scale multipliers to the animation player.
+Hooks mine_action in player_2.gd, tracking a 1.2s timeout counter and scaling animation player speed proportionally with combo rank.
 
 ---
 

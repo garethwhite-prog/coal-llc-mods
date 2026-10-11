@@ -6,7 +6,7 @@
 ---
 
 ## Overview
-Extends the subterranean depth from 6 up to 12 distinct geological strata with unique ore concentrations and hardness.
+Extends subterranean mine generation from 6 up to 12 distinct geological strata, elevating high-tier mineral veins closer to reachable mining depths.
 
 ---
 

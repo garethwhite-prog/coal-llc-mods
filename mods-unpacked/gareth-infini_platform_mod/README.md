@@ -6,7 +6,10 @@
 ---
 
 ## Overview
-Instantly deploys horizontal platforms wall-to-wall and vertical ladders floor-to-ceiling with a climbable platform-ladder at the intersection.
+The horizontal and vertical bridging equivalent of the InfiniLadder. Deploying an InfiniPlatform triggers simultaneous 4-way expansion rays:
+* **Horizontal:** Lays platforms wall-to-wall across open caverns.
+* **Vertical:** Extends ladders floor-to-ceiling.
+* **Intersection:** Installs a climbable platform-ladder at the origin.
 
 ---
 

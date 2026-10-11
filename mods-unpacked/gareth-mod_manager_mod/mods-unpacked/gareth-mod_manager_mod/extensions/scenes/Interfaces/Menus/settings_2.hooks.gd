@@ -8,7 +8,7 @@ func _ready(chain: ModLoaderHookChain) -> void:
 
 	var tc: TabContainer = settings.tab_container
 
-	# 1. Add Mod Manager Tab
+	# 1. Add Mod Manager Tab ONLY if missing
 	var mm_tab = tc.get_node_or_null("ModManagerTab")
 	if not mm_tab:
 		var tab := PanelContainer.new()
@@ -63,20 +63,20 @@ func _ready(chain: ModLoaderHookChain) -> void:
 		tc.add_child(tab)
 		mm_tab = tab
 
-	# 2. Add Leaderboard Tab
-	var lb_tab = tc.get_node_or_null("LeaderboardTab")
-	if not lb_tab:
-		var tab_script = load("res://mods-unpacked/gareth-leaderboard_mod/scenes/leaderboard_tab.gd")
-		if tab_script:
-			var tab := PanelContainer.new()
-			tab.set_script(tab_script)
-			tab.name = "LeaderboardTab"
-			tab.set_name("Leaderboard")
-			tc.add_child(tab)
-			lb_tab = tab
+	# 2. Position Mod Manager at Index 6
+	tc.move_child(mm_tab, 6)
 
-	# 3. Force exact child positions: Mod Manager = Index 6, Leaderboard = Index 7
-	if mm_tab:
-		tc.move_child(mm_tab, 6)
-	if lb_tab:
-		tc.move_child(lb_tab, 7)
+	# 3. Align Leaderboard Tab at Index 7 and eliminate duplicate / unnamed tabs
+	var found_lb: bool = false
+	for child in tc.get_children():
+		var c_name := child.name
+		if c_name.to_lower().contains("leaderboard"):
+			if not found_lb:
+				child.name = "Leaderboard"
+				child.set_name("Leaderboard")
+				tc.move_child(child, 7)
+				found_lb = true
+			else:
+				child.queue_free()
+		elif c_name.begins_with("@PanelContainer@"):
+			child.queue_free()

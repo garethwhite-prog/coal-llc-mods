@@ -6,12 +6,12 @@
 ---
 
 ## Overview
-Adds purchasable inventory upgrades expanding active hotbar capacity from 4 slots up to 10 slots.
+Adds shop expansions increasing hotbar capacity from 4 slots up to 10 slots (+20 to +250 total capacity) scaling up to 2.5 Quadrillion.
 
 ---
 
 ## Technical Details (For Modders)
-Modifies player inventory maximum slot constraints and resizes hotbar container controls dynamically.
+Adjusts player inventory slot limits and dynamically resizes UI hotbar containers.
 
 ---
 

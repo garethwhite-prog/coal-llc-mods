@@ -6,12 +6,12 @@
 ---
 
 ## Overview
-Adds Tiers 5 through 10 of automated mining drill machinery with exponential mining damage scaling.
+Adds Tiers 5 through 10 of autonomous vertical boring drills with mining damage scaling from 100,000 up to 50 Billion.
 
 ---
 
 ## Technical Details (For Modders)
-Registers drill tiers into item_unlocks.tres and hooks drill_bit_2.gd to apply secondary drill speed scaling.
+Registers drill items into item_unlocks.tres and hooks drill_bit_2.gd to apply secondary drill speed scaling.
 
 ---
 

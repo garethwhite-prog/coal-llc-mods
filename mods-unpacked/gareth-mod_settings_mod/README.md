@@ -6,7 +6,7 @@
 ---
 
 ## Overview
-Lightweight compatibility bridge ensuring third-party mods depending on legacy settings references continue operating seamlessly.
+A lightweight compatibility bridge ensuring third-party mods depending on legacy settings references continue operating seamlessly.
 
 ---
 

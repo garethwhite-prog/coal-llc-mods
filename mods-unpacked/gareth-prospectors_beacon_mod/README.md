@@ -6,7 +6,7 @@
 ---
 
 ## Overview
-Emits periodic sonar pulses that highlight nearby valuable ores and gem veins through dense strata.
+Emits periodic sonar sweeps centered on the player, pinging coordinates of high-value ore veins through solid rock.
 
 ---
 

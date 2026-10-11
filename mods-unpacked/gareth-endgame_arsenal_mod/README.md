@@ -6,7 +6,9 @@
 ---
 
 ## Overview
-Injects previously unreferenced Tiers 12-15 Magic Staffs (Spinel, Uranium, Moonstone, Onyx) and all 15 Caustic Poison Guns into the equipment shop.
+Injects previously unreferenced Tiers 12 through 15 Magic Staffs (Spinel, Uranium, Moonstone, Onyx) and all 15 material grades of Caustic Poison Guns directly into the equipment shop.
+
+Provides late-game elemental scaling and weapon choices beyond the standard tier 10 boundaries.
 
 ---
 

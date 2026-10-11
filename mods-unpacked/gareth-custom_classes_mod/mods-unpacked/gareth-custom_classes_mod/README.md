@@ -11,7 +11,7 @@ Complete 9-Class Suite: Knight, Jedi, Bouncing Demolitionist, Rainbow Sinclairit
 ---
 
 ## Technical Details (For Modders)
-Installs scripts and resources via Godot ModLoader 7.0.1 conventions. Modifies game state using native hook chains.
+Installs hooks via Godot ModLoader 7.0.1 conventions.
 
 ---
 

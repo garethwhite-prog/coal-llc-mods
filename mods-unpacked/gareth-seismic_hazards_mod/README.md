@@ -6,12 +6,12 @@
 ---
 
 ## Overview
-Hardcore mutator where extensive deep mining causes tectonic instability, triggering ceiling collapses and falling rock hazards.
+A hardcore mutator where rapid deep excavation causes tectonic instability, triggering ceiling collapses and falling rubble.
 
 ---
 
 ## Technical Details (For Modders)
-Hooks destroy_tile in tile_map_chunk.gd, tracking consecutive break events to spawn falling rock physics entities from above.
+Hooks destroy_tile in tile_map_chunk.gd to track consecutive breaks and spawn falling rock physics entities from above.
 
 ---
 

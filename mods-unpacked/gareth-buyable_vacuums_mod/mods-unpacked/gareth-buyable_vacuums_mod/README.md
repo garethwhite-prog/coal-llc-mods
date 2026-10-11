@@ -1,4 +1,4 @@
-# Buyable Vacuums Mod
+# Buyable Vacuums & Strata Extensions
 
 **Namespace:** $namespace  
 **Compatibility:** Coal LLC v1.4.1.1+ (ModLoader 7.0.1)
@@ -6,12 +6,12 @@
 ---
 
 ## Overview
-Makes Tabatha's high-tier vacuum collectors directly purchasable in the equipment shop without requiring quest completion.
+Makes Tabbitha's vacuum upgrades purchasable directly from the Bonus shelf with cash in addition to quest rewards, and adds Levels 5 to 8 for hose reach up to 600 tiles.
 
 ---
 
 ## Technical Details (For Modders)
-Appends vacuum levels 1-8 directly into item_unlocks.tres during _ready() lifecycle.
+Injects vacuum levels 1-8 into item_unlocks.tres and hooks equipment_manager.gd to scale suction physics bodies to deep strata.
 
 ---
 

@@ -6,7 +6,7 @@
 ---
 
 ## Overview
-High-energy Force-wielder class equipped with a piercing Energy Saber and a rapid blaster sidearm for crowd control and fast cavern navigation.
+High-energy Force-wielder equipped with a piercing Energy Saber and rapid blaster sidearm for crowd control and fast cavern navigation.
 
 ---
 

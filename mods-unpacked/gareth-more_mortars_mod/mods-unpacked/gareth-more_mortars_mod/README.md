@@ -6,12 +6,12 @@
 ---
 
 ## Overview
-Adds Tiers 6 through 10 of automated mortar gun emplacements with parabolic ballistic trajectory and massive area-of-effect shells.
+Adds Tiers 6 through 10 of deployable mortar artillery emplacements that bombard vertical shafts with high-explosive shells dealing up to 500 Billion damage.
 
 ---
 
 ## Technical Details (For Modders)
-Injects mortar items into item_unlocks.tres and hooks shoot_mortar in mortar_manager.gd to scale shell velocities.
+Injects mortar items into item_unlocks.tres and hooks shoot_mortar in mortar_manager.gd to scale shell velocities and yields.
 
 ---
 

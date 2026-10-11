@@ -6,7 +6,7 @@
 ---
 
 ## Overview
-High-risk corporate class starting with late-game Onyx loadouts but saddled with -,000,000 corporate debt. Fail to meet daily quotas and corporate Repo Drones hunt you.
+High-risk corporate class starting with late-game Onyx loadouts but saddled with -,000,000 corporate debt. Fail to meet quotas and Repo Drones hunt you.
 
 ---
 

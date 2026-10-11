@@ -6,7 +6,7 @@
 ---
 
 ## Overview
-Summons an orbital cyan spirit familiar that circles the player, continuously saturating surrounding rock strata with water.
+Summons an orbital cyan spirit familiar that circles the player, saturating surrounding rock strata with water to prime tiles for double wet damage.
 
 ---
 

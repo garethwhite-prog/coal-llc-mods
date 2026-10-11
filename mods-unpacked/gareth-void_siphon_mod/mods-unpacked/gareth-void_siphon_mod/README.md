@@ -6,7 +6,7 @@
 ---
 
 ## Overview
-A hardcore class starting with zero mining tools. Uses gravitational implosions to collapse surrounding rock directly inward into mineral shards.
+Hardcore singularity master who begins with zero mining tools. Right-click collapses surrounding stone directly inward into mineral shards.
 
 ---
 

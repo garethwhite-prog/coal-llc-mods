@@ -18,17 +18,21 @@ func physics_process(player, _delta):
 		_cleave_attack(player)
 
 func _cleave_attack(player) -> void:
-	audio_player.play()
-	var dir := (player.pointer_global_pos - player.global_position).normalized()
-	var p_pos := player.global_position
-	var base_dmg: float = 70.0 * (1.0 + (Gvars.passives.axe_damage if Gvars and "passives" in Gvars else 0.0))
+	if audio_player:
+		audio_player.play()
+	var p_pos: Vector2 = player.global_position
+	var pointer_pos: Vector2 = player.pointer_global_pos
+	var dir: Vector2 = (pointer_pos - p_pos).normalized()
+	var base_dmg: float = 70.0
+	if Gvars and ("passives" in Gvars) and Gvars.passives and ("axe_damage" in Gvars.passives):
+		base_dmg *= (1.0 + Gvars.passives.axe_damage)
 
 	var tilemap = player.tilemap
 	if tilemap:
 		for angle_deg in [-60, -30, 0, 30, 60]:
-			var test_dir = dir.rotated(deg_to_rad(angle_deg))
-			for dist in [16, 32, 48]:
-				var t_pos = p_pos + test_dir * dist
-				var m_pos = tilemap.local_to_map(t_pos)
+			var test_dir: Vector2 = dir.rotated(deg_to_rad(angle_deg))
+			for dist in [16.0, 32.0, 48.0]:
+				var t_pos: Vector2 = p_pos + test_dir * dist
+				var m_pos: Vector2i = tilemap.local_to_map(t_pos)
 				if tilemap.is_tile_collision(m_pos):
 					tilemap.damage_tile(m_pos, base_dmg)

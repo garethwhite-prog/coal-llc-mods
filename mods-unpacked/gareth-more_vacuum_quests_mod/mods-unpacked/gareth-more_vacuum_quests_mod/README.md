@@ -6,7 +6,7 @@
 ---
 
 ## Overview
-Extends NPC Tabatha's storyline with new diamond, uranium, and moonstone quest tiers rewarding high-capacity vacuums.
+Extends NPC Tabatha's questline with Diamond, Uranium, and Moonstone tiers that reward high-capacity deep-strata vacuums.
 
 ---
 

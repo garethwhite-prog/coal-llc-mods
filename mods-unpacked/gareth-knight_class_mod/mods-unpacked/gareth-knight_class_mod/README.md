@@ -6,12 +6,16 @@
 ---
 
 ## Overview
-Playable melee class starting with a heavy broadsword that sweeps through rock and ore in a wide 180° frontal cleave arc. Includes an 11-tier sword shop progression.
+The **Knight Class** introduces a dedicated melee combat archetype to *Coal LLC*. Eschewing traditional pickaxes, the Knight begins their subterranean career wielding a heavy Shoddy Broadsword designed to cleave through stone, clay, and mineral veins in a single sweeping arc.
+
+Attacking with the sword executes a 180-degree frontal sweep that delivers high kinetic impact across all blocks within reach. Damage scales with player passive upgrades and progresses through 11 material grades from Copper up to Pink Diamond.
+
+In the management equipment shop, the Knight is strictly restricted to blade weaponry and basic traversal utilities (such as ladders and ore filters), keeping the class focused on melee combat.
 
 ---
 
 ## Technical Details (For Modders)
-Instantiates KnightSwordEquipEffect hooked into player.pointer_global_pos. Employs _profession_effect to lock out non-sword weapons in management_screen.gd.
+Instantiates KnightSwordEquipEffect hooked into player.pointer_global_pos. Dispatches rotational raycasts through player.tilemap with native SwordThud.wav audio. Injects 11 tiered sword resources into item_unlocks.tres.
 
 ---
 

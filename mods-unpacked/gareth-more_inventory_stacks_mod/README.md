@@ -6,12 +6,12 @@
 ---
 
 ## Overview
-Adds shop upgrades expanding carried ore stack sizes from 7 up to 16, allowing massive mining runs without overflowing.
+Adds Tiers 7 through 16 of stack upgrades (+25B to +50Sx items), allowing massive deep mining runs without inventory overflow.
 
 ---
 
 ## Technical Details (For Modders)
-Modifies playerInventory stack clamping logic and injects stack expansion items into the equipment shop.
+Modifies player inventory stack clamping logic and injects stack expansion items into the equipment shop.
 
 ---
 

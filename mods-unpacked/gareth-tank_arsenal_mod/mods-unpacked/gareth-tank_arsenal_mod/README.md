@@ -6,12 +6,19 @@
 ---
 
 ## Overview
-Adds 45 custom tank levels across Incendiary, Caustic, and Depleted Uranium variants with scaling ballistic shells.
+The **Tank Arsenal Mod** significantly broadens the Tanker profession by introducing 45 new purchasable combat tanks into the equipment shop across all 15 material tiers (Shoddy through Onyx). Tanks are interleaved cleanly alongside vanilla models.
+
+The arsenal features three distinct projectile variants:
+* **Incendiary Tanks (Tiers 1–15):** High-explosive shells that set every block within their Manhattan blast radius ablaze with 6 burn ticks. Synergizes with Elemental Transmutation for bonus cash bounties.
+* **Caustic Tanks (Tiers 1–15):** Chemical mortar rounds that release dense toxic acid clouds, melting through organic and clay deposits.
+* **Depleted Uranium Tanks (Tiers 1–15):** Kinetic armor-piercing rounds featuring dynamic tier penetration, punching through +1 solid stone block per material grade (up to 15 solid blocks at Onyx).
+
+Elemental scrolls are also injected into Tanker chest loot tables, with tank fire rates scaling dynamically with passives.
 
 ---
 
 ## Technical Details (For Modders)
-Hooks tanker.gd and management_screen.gd to dynamically inject and tier-sort tank equipment cards into the shop.
+Hooks tanker.gd and management_screen.gd to dynamically inject and tier-sort tank equipment cards into the shop. Modifies bullet collision logic in tank_bullet.gd to implement multi-block piercing.
 
 ---
 

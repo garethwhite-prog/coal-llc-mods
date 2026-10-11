@@ -6,7 +6,7 @@
 ---
 
 ## Overview
-Allows Collector UFO drones to offload collected minerals into subterranean vacuum nozzles instead of flying to the surface.
+Allows Collector UFO drones to offload minerals directly into subterranean vacuum nozzles when closer than the surface, eliminating round-trip flight times.
 
 ---
 

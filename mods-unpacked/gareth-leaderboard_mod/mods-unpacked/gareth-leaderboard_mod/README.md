@@ -6,12 +6,14 @@
 ---
 
 ## Overview
-Tracks all-time records across mining speed, damage, automated employee efficiency, and highest cash quotas, accessible directly from the Main Menu and Settings.
+A persistent analytics suite accessible from both the Main Menu and Settings screen. It records all-time records across mining speed, damage, automated employee efficiency, and highest cash quotas.
+
+Records persist across runs in user://leaderboard_records.json.
 
 ---
 
 ## Technical Details (For Modders)
-Runs an autoload tracker node sampling Gvars.passives, Gvars.bonus_equipment_manager, and quota milestones every 1.0s. Persists to user://leaderboard_records.json.
+Autoload node samples Gvars.passives, Gvars.bonus_equipment_manager, and cash milestones every 1.0s, updating high-score dictionaries in JSON storage.
 
 ---
 

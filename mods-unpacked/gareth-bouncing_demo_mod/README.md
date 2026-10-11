@@ -6,7 +6,7 @@
 ---
 
 ## Overview
-Explosives specialist equipped with kinetic bouncing bombs that rebound off solid walls multiple times before detonating.
+Explosives specialist equipped with kinetic bouncing bombs that rebound off solid cavern walls multiple times before detonating.
 
 ---
 

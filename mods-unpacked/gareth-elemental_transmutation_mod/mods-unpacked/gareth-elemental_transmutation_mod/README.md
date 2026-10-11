@@ -6,12 +6,12 @@
 ---
 
 ## Overview
-Destroying tiles afflicted with elemental effects (poison, fire, wet) transfigures neighboring stone into matching mineral clusters.
+Destroying tiles afflicted with elemental effects triggers economic bounties: burning tiles trigger thermal crystallization for cash bonuses, while corroded acid tiles yield scrap bounties.
 
 ---
 
 ## Technical Details (For Modders)
-Hooks destroy_tile in tile_map_chunk.gd, querying tile tick states and converting adjacent dirt coordinates to ore IDs.
+Hooks destroy_tile in tile_map_chunk.gd to check active fire and poison ticks, granting currency bonuses directly to player reserves.
 
 ---
 

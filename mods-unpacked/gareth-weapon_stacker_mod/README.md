@@ -6,12 +6,12 @@
 ---
 
 ## Overview
-Purchasing duplicate guns and water guns stacks additional projectile barrels and damage multiplicatively.
+Purchasing duplicate weapons in the shop multiplicatively scales their stats. Miniguns reduce cooldowns down to 0.01s while firing walls of lead; water guns expand spray radii logarithmically to soak entire shafts in a single blast.
 
 ---
 
 ## Technical Details (For Modders)
-Hooks gun.gd and water_gun.gd to query inventory count for matching weapon IDs and multiply projectile counts accordingly.
+Hooks gun.gd and water_gun.gd in physics_process, querying inventory item counts and multiplying projectile quantities and cooldowns accordingly.
 
 ---
 

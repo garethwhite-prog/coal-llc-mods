@@ -1,4 +1,4 @@
-# Neutron Bomb Clean-Yield Arsenal
+# Neutron Bomb Subatomic Core
 
 **Namespace:** $namespace  
 **Compatibility:** Coal LLC v1.4.1.1+ (ModLoader 7.0.1)
@@ -6,12 +6,14 @@
 ---
 
 ## Overview
-15 tiers of radiation explosives that pulverize stone and bedrock while preserving raw ore clusters intact for collection.
+Designed for deep bedrock penetration, the **Neutron Bomb** concentrates its blast into a tight **16-tile core** while packing **9,999,999,999 kinetic damage**.
+
+This intense subatomic yield instantly shatters dense obsidian and bedrock layers that resist conventional explosives. It is available in the equipment shop adjacent to the Hydrogen Bomb for ,000,000.
 
 ---
 
 ## Technical Details (For Modders)
-Overrides bomb tile destruction loop to filter out precious mineral tile IDs, damaging only surrounding rock matrix.
+Hooks Bus.BombExplode to dispatch a high-density, low-radius destruction shockwave capable of breaking tiles regardless of base hardness.
 
 ---
 

@@ -6,12 +6,14 @@
 ---
 
 ## Overview
-Adds 6 independent career profile slots to the main menu with stats tracking (day, cash, class) and automatic profile migration from single-save career files.
+Introduces 6 independent save profile slots accessible from the Main Menu, each tracking career progress, day count, cash reserves, and active classes.
+
+The manager automatically migrates single-save career files into Slot 1 and validates career badges on boot to protect unlocked classes and achievements.
 
 ---
 
 ## Technical Details (For Modders)
-Passive filesystem listener monitors user://v04_savegame.save modification timestamps and syncs to user://saves/slot_X/. Reads and validates user://v04_saveglobals.save on boot.
+Passive filesystem listener monitors user://v04_savegame.save timestamps and mirrors to user://saves/slot_X/. Reads and validates user://v04_saveglobals.save on startup.
 
 ---
 

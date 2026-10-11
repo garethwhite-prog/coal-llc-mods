@@ -6,12 +6,16 @@
 ---
 
 ## Overview
-Adds a unified Mod Manager to the Main Menu, in-game Pause Menu, and Settings. Includes a full-screen pre-run mutator selector that dynamically categorizes installed mods into weapons, progression, and mutators.
+The **Universal Mod Manager** provides seamless runtime control over every installed modification for *Coal LLC*. It dynamically hooks the Main Menu, in-game Pause Menu, and the native Settings screen, offering both an executive-level overview of installed mods and a full-screen pre-run mutator selector that categorizes add-ons into Weapons, Progression, Automation, Hardcore Mutators, and Performance utilities.
+
+The mod automatically scans ModLoaderStore.mod_data on engine boot, discovering present and future .zip packages without hardcoded registry lists. When starting a career run, the pre-run modal captures your custom toggle presets and writes them into user://saves/slot_X/run_config.json, preserving independent mod loadouts across different save profiles.
+
+Additionally, this framework includes an active shop filtering layer that intercepts management_screen.gd. It removes disabled weapons from the store shelves and enforces class-specific weapon whitelists, ensuring classes only encounter equipment matching their chosen archetype.
 
 ---
 
 ## Technical Details (For Modders)
-Hooks MainMenu.gd, settings_2.gd, and PauseMenu.gd. Scans ModLoaderStore.mod_data at runtime. Replaces choose_passive.gd with a fail-safe generator.
+Hooks MainMenu.gd, settings_2.gd, PauseMenu.gd, choose_passive.gd, and management_screen.gd. Intercepts load_equipment_shop() to filter shop cards by run_config.json toggles and class whitelists.
 
 ---
 

@@ -6,7 +6,7 @@
 ---
 
 ## Overview
-Registers 15 tiers of tactical nuclear ordnance into the equipment shop for late-game cavern excavation.
+Registers 15 tiers of balanced tactical nuclear ordnance into the equipment shop for late-game cavern excavation.
 
 ---
 

@@ -6,12 +6,14 @@
 ---
 
 ## Overview
-Deployable heavy defense and excavation turret utilizing the unused tank turret asset. Automatically acquires and drills nearby rock and ore deposits.
+Utilizes the unused tank turret graphic (ssets/Equipment/vehicles/tank_turret.png) to introduce deployable automated defense and mining turrets.
+
+When deployed onto the cavern floor, the turret actively tracks nearby stone and ore veins within radar range, automatically firing kinetic pulses every 0.35 seconds to drill surrounding blocks.
 
 ---
 
 ## Technical Details (For Modders)
-Instantiates HeavyTurretEntity on the tilemap. Performs radial tile collision sweeps and dynamically rotates the turret sprite toward target coordinates.
+Instantiates HeavyTurretEntity on the tilemap, executing radial collision sweeps and rotating the turret sprite toward target coordinates.
 
 ---
 

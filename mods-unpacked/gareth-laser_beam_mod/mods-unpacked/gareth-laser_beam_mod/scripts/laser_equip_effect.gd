@@ -1,7 +1,7 @@
 class_name LaserEquipEffect
 extends EquipEffect
 
-var beam_node: LaserBeamWeapon = null
+var beam_node: Node2D = null
 
 func start(player, _item):
 	var script_res = load("res://mods-unpacked/gareth-laser_beam_mod/scripts/laser_beam_weapon.gd")
@@ -11,14 +11,14 @@ func start(player, _item):
 
 func end(player):
 	if beam_node != null and is_instance_valid(beam_node):
-		beam_node.stop_beam()
+		beam_node.call("stop_beam")
 		beam_node.queue_free()
 		beam_node = null
 
 func physics_process(player, _delta):
-	if beam_node == null:
+	if beam_node == null or not is_instance_valid(beam_node):
 		return
 	if Input.is_action_pressed("useItem") or Input.is_action_pressed("fire"):
-		beam_node.fire_beam(player.global_position, player.pointer_global_pos, player.tilemap)
+		beam_node.call("fire_beam", player.global_position, player.pointer_global_pos, player.tilemap)
 	else:
-		beam_node.stop_beam()
+		beam_node.call("stop_beam")
