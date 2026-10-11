@@ -1,0 +1,18 @@
+{
+  "name": "mod_manager_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "Unified dynamic Mod Manager: full-screen pre-run selector, settings menu tab, and dynamic mod discovery.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": [],
+  "extra": {
+    "godot": {
+      "display_name": "Mod Manager",
+      "category": "Performance & System",
+      "authors": ["Gareth White"],
+      "tags": ["core", "ui", "manager", "settings"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}

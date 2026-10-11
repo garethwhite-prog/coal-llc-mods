@@ -1,0 +1,16 @@
+{
+  "name": "multisave_mod",
+  "namespace": "gareth",
+  "version_number": "2.2.0",
+  "description": "Multi-save slot manager with career progression restore and fullscreen pre-run mod selector.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": [],
+  "extra": {
+    "godot": {
+      "authors": ["Gareth White"],
+      "tags": ["core", "saves", "profiles", "mutators", "ui"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}
