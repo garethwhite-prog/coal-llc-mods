@@ -30,4 +30,4 @@ func _init() -> void:
 	)
 
 func _ready() -> void:
-	ModLoaderLog.info("Universal Mod Manager online with Class & Shop gating.", MOD_DIR)
+	ModLoaderLog.info("Universal Mod Manager active with full Class, Shop & Input gating.", MOD_DIR)

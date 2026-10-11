@@ -1,0 +1,18 @@
+{
+  "name": "tick_upgrade_mod",
+  "namespace": "gareth",
+  "version_number": "1.4.0",
+  "description": "Elemental tick upgrade rate engine. Based on der_floh's tick upgrade mod, enhanced for custom classes and modern ModLoader compatibility.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": [],
+  "extra": {
+    "godot": {
+      "display_name": "Elemental Tick Upgrades",
+      "category": "Progression & Upgrades",
+      "authors": ["Gareth White", "der_floh"],
+      "tags": ["elemental", "tick", "upgrades"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}

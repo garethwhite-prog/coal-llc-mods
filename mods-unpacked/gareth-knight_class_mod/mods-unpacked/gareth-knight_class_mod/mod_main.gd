@@ -1,6 +1,10 @@
 extends Node
 
 func _ready() -> void:
+	var reg = load("res://mods-unpacked/gareth-mod_manager_mod/scripts/mod_registry.gd")
+	if reg and not reg.is_mod_active_for_run("knight_class"):
+		return
+
 	var item_unlocks = load("res://resources/unlockable_items/scripts/item_unlocks.tres")
 	if item_unlocks:
 		for id_str in ["01_shoddy", "02_copper", "03_iron", "04_sapphire", "05_emerald", "06_silver", "07_amethyst", "08_gold", "09_ruby", "10_diamond", "11_pinkdiamond"]:
@@ -24,4 +28,4 @@ func _ready() -> void:
 		p.image = load("res://assets/Equipment/Sword-Shoddy.png")
 
 	pm.all_professions[101] = { "profession": p, "is_unlocked": true }
-	ModLoaderLog.info("Knight Class (ID 101) registered with true Item hierarchy.", "gareth-knight_class_mod")
+	ModLoaderLog.info("Knight Class (ID 101) registered cleanly.", "gareth-knight_class_mod")

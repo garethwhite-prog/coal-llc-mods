@@ -59,14 +59,14 @@ func load_equipment_shop(chain: ModLoaderHookChain) -> void:
 		elif itype == "laser" and reg and not reg.is_mod_active_for_run("laser_beam") and prof_name != "jedi" and prof_name != "rainbow sinclairity":
 			should_hide = true
 
-		# 2. ISOLATE CLASS-EXCLUSIVE WEAPONS
+		# 2. ENFORCE STRICT CLASS-SPECIFIC WEAPON ARCHETYPES
 		if not should_hide and itype in ALL_CLASS_WEAPONS:
 			if class_weapon_map.has(prof_name):
 				var allowed: Array = class_weapon_map[prof_name]
 				if not (itype in allowed):
 					should_hide = true
 			else:
-				# Vanilla classes cannot purchase swords or void cores
+				# Vanilla classes cannot buy custom weapon types
 				if itype in ["sword", "void_core"]:
 					should_hide = true
 

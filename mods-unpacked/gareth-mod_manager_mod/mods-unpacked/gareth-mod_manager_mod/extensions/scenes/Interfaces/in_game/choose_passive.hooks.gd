@@ -6,6 +6,12 @@ func _ready(chain: ModLoaderHookChain) -> void:
 		chain.execute_next([])
 		return
 
+	# Map sword so holding a sword generates axe_damage upgrades in chests
+	if not cp.PASSIVE_MAP.has("sword"):
+		cp.PASSIVE_MAP["sword"] = ["axe_damage"]
+
+	chain.execute_next([])
+
 	cp.process_mode = Node.PROCESS_MODE_ALWAYS
 	cp.get_tree().paused = true
 	cp.live = true

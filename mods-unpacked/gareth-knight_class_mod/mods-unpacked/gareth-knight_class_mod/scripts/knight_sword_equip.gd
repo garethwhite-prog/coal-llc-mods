@@ -39,12 +39,11 @@ func physics_process(player, delta):
 		var pointer_pos: Vector2 = player.pointer_global_pos
 		var angle: float = (pointer_pos - p_pos).angle()
 		sword_visual.rotation = angle + PI/4
-		if pointer_pos.x < p_pos.x:
-			sword_visual.flip_v = true
-		else:
-			sword_visual.flip_v = false
+		sword_visual.flip_v = (pointer_pos.x < p_pos.x)
 
-	if Input.is_action_just_pressed("useItem") and swing_cooldown <= 0.0:
+	# Continuous cleave when holding down left click (useItem or mouse button 1)
+	var is_attacking: bool = Input.is_action_pressed("useItem") or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
+	if is_attacking and swing_cooldown <= 0.0:
 		_cleave_attack(player)
 
 func _cleave_attack(player) -> void:
@@ -73,6 +72,5 @@ func _cleave_attack(player) -> void:
 			var test_dir: Vector2 = dir.rotated(deg_to_rad(angle_deg))
 			for dist in [16.0, 32.0, 48.0]:
 				var t_pos: Vector2 = p_pos + test_dir * dist
-				var m_pos: Vector2i = tilemap.local_to_map(t_pos)
-				if tilemap.is_tile_collision(m_pos):
-					tilemap.damageTileCoords(m_pos, base_dmg)
+				Bus.DamageTile.emit(t_pos, base_dmg)
+				tilemap.damageTile(t_pos, base_dmg)
