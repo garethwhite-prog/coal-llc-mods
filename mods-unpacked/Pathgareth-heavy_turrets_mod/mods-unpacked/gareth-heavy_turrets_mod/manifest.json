@@ -1,0 +1,18 @@
+{
+  "name": "heavy_turrets_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "Deployable automated heavy defense and mining turret utilizing unused tank_turret.png asset.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": [],
+  "extra": {
+    "godot": {
+      "display_name": "Heavy Automated Turrets",
+      "category": "Workforce & Automation",
+      "authors": ["Gareth White"],
+      "tags": ["class", "profession", "weapon"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}

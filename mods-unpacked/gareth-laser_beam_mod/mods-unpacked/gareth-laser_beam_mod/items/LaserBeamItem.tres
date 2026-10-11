@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://mods-unpacked/gareth-laser_beam_mod/scripts/laser_equip_effect.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/LaserbeamEnd.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+itemID = "LaserBeamWeapon"
+itemName = "High-Energy Laser Beam"
+itemDescription = "Fires a continuous, collimated fractal energy beam that melts stone and ore."
+itemTexture = ExtResource("2")
+cost = 7500000.0
+itemType = "laser"

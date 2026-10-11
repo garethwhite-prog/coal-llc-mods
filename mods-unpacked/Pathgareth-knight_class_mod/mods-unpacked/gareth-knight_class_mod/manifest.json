@@ -1,0 +1,18 @@
+{
+  "name": "knight_class_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "Master of chivalric blade combat. Starts with a Shoddy Sword that sweeps in a 180° frontal arc cleaving rock and ore.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": [],
+  "extra": {
+    "godot": {
+      "display_name": "The Knight Class",
+      "category": "Progression & Upgrades",
+      "authors": ["Gareth White"],
+      "tags": ["class", "profession", "weapon"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}

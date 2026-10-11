@@ -1,0 +1,18 @@
+{
+  "name": "jedi_class_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "Wielder of the energetic Force. Starts with an Energy Saber and rapid Blaster sidearm.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": [],
+  "extra": {
+    "godot": {
+      "display_name": "The Jedi Class",
+      "category": "Progression & Upgrades",
+      "authors": ["Gareth White"],
+      "tags": ["class", "profession", "weapon"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}
