@@ -1,13 +1,32 @@
-[gd_resource type="Resource" script_class="Item" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Item" load_steps=7 format=3]
 
-[ext_resource type="Script" path="res://mods-unpacked/gareth-heavy_turrets_mod/scripts/heavy_turret_equip.gd" id="1"]
+[ext_resource type="Script" path="res://resources/BuyEffects/Scripts/AddToInventory.gd" id="1"]
 [ext_resource type="Texture2D" path="res://assets/Equipment/vehicles/tank_turret.png" id="2"]
+[ext_resource type="Script" path="res://mods-unpacked/gareth-heavy_turrets_mod/scripts/heavy_turret_equip.gd" id="3"]
+[ext_resource type="Script" path="res://resources/PickupEffects/Scripts/PickupToInventory.gd" id="4"]
+[ext_resource type="Script" path="res://resources/Items/Scripts/Item.gd" id="5"]
+
+[sub_resource type="Resource" id="Resource_buy"]
+script = ExtResource("1")
+
+[sub_resource type="Resource" id="Resource_equip"]
+script = ExtResource("3")
+
+[sub_resource type="Resource" id="Resource_pickup"]
+script = ExtResource("4")
 
 [resource]
-script = ExtResource("1")
+script = ExtResource("5")
 itemID = "HeavyTurretDeployable"
 itemName = "Heavy Automated Turret"
-itemDescription = "Deployable heavy kinetic turret. Tracks and drills subterranean rock deposits automatically."
+itemDescription = "Deployable heavy kinetic turret. Automatically tracks and drills surrounding ore veins."
 itemTexture = ExtResource("2")
-cost = 4500000.0
+itemEquipEffect = SubResource("Resource_equip")
+itemPickupEffect = SubResource("Resource_pickup")
+itemBuyPrice = 4500000.0
+itemSellPrice = 2250000.0
+itemUnlocked = true
+itemBuyEffect = SubResource("Resource_buy")
 itemType = "turret"
+itemAnimatedTexture = null
+effectTexture = null

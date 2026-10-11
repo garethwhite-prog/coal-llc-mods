@@ -24,6 +24,10 @@ func _init() -> void:
 		"res://scenes/Stages/management_screen.gd",
 		mod_dir_path.path_join("extensions/scenes/Stages/management_screen.hooks.gd")
 	)
+	ModLoaderMod.install_script_hooks(
+		"res://scenes/Interfaces/Menus/profession_select.gd",
+		mod_dir_path.path_join("extensions/scenes/Interfaces/Menus/profession_select.hooks.gd")
+	)
 
 func _ready() -> void:
-	ModLoaderLog.info("Universal Mod Manager active with Shop & Tab filters.", MOD_DIR)
+	ModLoaderLog.info("Universal Mod Manager online with Class & Shop gating.", MOD_DIR)

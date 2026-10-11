@@ -19,9 +19,9 @@ func _ready() -> void:
 	var prof_script = load("res://mods-unpacked/gareth-knight_class_mod/scripts/knight_profession.gd")
 	var p = prof_script.new()
 	p.profession_name = "Knight"
-	p.description = "Master of chivalric blade combat.\nStarts with a Shoddy Sword.\nOnly swords and basic mining utilities are purchasable in the shop."
+	p.description = "Master of chivalric blade combat.\nStarts with a Shoddy Sword.\nOnly swords, standalone mod weapons, and utilities are purchasable."
 	if ResourceLoader.exists("res://assets/Equipment/Sword-Shoddy.png"):
 		p.image = load("res://assets/Equipment/Sword-Shoddy.png")
 
 	pm.all_professions[101] = { "profession": p, "is_unlocked": true }
-	ModLoaderLog.info("Knight Class (ID 101) registered cleanly.", "gareth-knight_class_mod")
+	ModLoaderLog.info("Knight Class (ID 101) registered with true Item hierarchy.", "gareth-knight_class_mod")

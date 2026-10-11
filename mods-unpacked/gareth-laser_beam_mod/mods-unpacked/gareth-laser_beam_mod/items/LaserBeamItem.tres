@@ -1,13 +1,32 @@
-[gd_resource type="Resource" script_class="Item" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Item" load_steps=7 format=3]
 
-[ext_resource type="Script" path="res://mods-unpacked/gareth-laser_beam_mod/scripts/laser_equip_effect.gd" id="1"]
+[ext_resource type="Script" path="res://resources/BuyEffects/Scripts/AddToInventory.gd" id="1"]
 [ext_resource type="Texture2D" path="res://assets/LaserbeamEnd.png" id="2"]
+[ext_resource type="Script" path="res://mods-unpacked/gareth-laser_beam_mod/scripts/laser_equip_effect.gd" id="3"]
+[ext_resource type="Script" path="res://resources/PickupEffects/Scripts/PickupToInventory.gd" id="4"]
+[ext_resource type="Script" path="res://resources/Items/Scripts/Item.gd" id="5"]
+
+[sub_resource type="Resource" id="Resource_buy"]
+script = ExtResource("1")
+
+[sub_resource type="Resource" id="Resource_equip"]
+script = ExtResource("3")
+
+[sub_resource type="Resource" id="Resource_pickup"]
+script = ExtResource("4")
 
 [resource]
-script = ExtResource("1")
+script = ExtResource("5")
 itemID = "LaserBeamWeapon"
 itemName = "High-Energy Laser Beam"
-itemDescription = "Fires a continuous, collimated fractal energy beam that melts stone and ore."
+itemDescription = "Continuous collimated fractal beam that melts rock in real time."
 itemTexture = ExtResource("2")
-cost = 7500000.0
+itemEquipEffect = SubResource("Resource_equip")
+itemPickupEffect = SubResource("Resource_pickup")
+itemBuyPrice = 7500000.0
+itemSellPrice = 3750000.0
+itemUnlocked = true
+itemBuyEffect = SubResource("Resource_buy")
 itemType = "laser"
+itemAnimatedTexture = null
+effectTexture = null
