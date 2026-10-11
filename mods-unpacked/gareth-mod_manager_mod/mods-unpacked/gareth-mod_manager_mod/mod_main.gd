@@ -12,6 +12,10 @@ func _init() -> void:
 		"res://scenes/Interfaces/Menus/settings_2.gd",
 		mod_dir_path.path_join("extensions/scenes/Interfaces/Menus/settings_2.hooks.gd")
 	)
+	ModLoaderMod.install_script_hooks(
+		"res://scripts/PauseMenu.gd",
+		mod_dir_path.path_join("extensions/scripts/PauseMenu.hooks.gd")
+	)
 
 func _ready() -> void:
-	ModLoaderLog.info("Universal Mod Manager active with dynamic scanning.", MOD_DIR)
+	ModLoaderLog.info("Universal Mod Manager active with Pause Menu and pinned Settings tabs.", MOD_DIR)
