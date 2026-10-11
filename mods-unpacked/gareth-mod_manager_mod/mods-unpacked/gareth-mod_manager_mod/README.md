@@ -1,6 +1,6 @@
 # Universal Mod Manager & Mutator Selector
 
-**Namespace:** gareth  
+**Namespace:** $namespace  
 **Compatibility:** Coal LLC v1.4.1.1+ (ModLoader 7.0.1)
 
 ---
@@ -11,7 +11,7 @@ Adds a unified Mod Manager to the Main Menu, in-game Pause Menu, and Settings. I
 ---
 
 ## Technical Details (For Modders)
-Hooks MainMenu.gd, settings_2.gd, and PauseMenu.gd. Dynamically scans ModLoaderStore.mod_data at runtime. Replaces choose_passive.gd with a clean fail-safe selection generator to prevent null-passive game freezes.
+Hooks MainMenu.gd, settings_2.gd, and PauseMenu.gd. Scans ModLoaderStore.mod_data at runtime. Replaces choose_passive.gd with a fail-safe generator.
 
 ---
 

@@ -1,17 +1,17 @@
 # The Knight Class
 
-**Namespace:** gareth  
+**Namespace:** $namespace  
 **Compatibility:** Coal LLC v1.4.1.1+ (ModLoader 7.0.1)
 
 ---
 
 ## Overview
-Playable melee class starting with a heavy broadsword that sweeps through rock and ore in a wide 180° frontal cleave arc.
+Playable melee class starting with a heavy broadsword that sweeps through rock and ore in a wide 180° frontal cleave arc. Includes an 11-tier sword shop progression.
 
 ---
 
 ## Technical Details (For Modders)
-Instantiates KnightSwordEquipEffect hooked into player.pointer_global_pos. Dispatches rotational raycasts through player.tilemap damaging colliding tiles using native SwordThud.wav audio.
+Instantiates KnightSwordEquipEffect hooked into player.pointer_global_pos. Employs _profession_effect to lock out non-sword weapons in management_screen.gd.
 
 ---
 

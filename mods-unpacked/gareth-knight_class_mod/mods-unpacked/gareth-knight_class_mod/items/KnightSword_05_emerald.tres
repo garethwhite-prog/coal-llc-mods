@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://mods-unpacked/gareth-knight_class_mod/scripts/knight_sword_equip.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/Equipment/Sword-Emerald.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+itemID = "KnightSword_05_emerald"
+itemName = "Emerald Knight Sword"
+itemDescription = "Broadsword (1100 cleave damage). Sweeps in a wide 180° frontal arc cleaving rock and ore."
+itemTexture = ExtResource("2")
+cost = 75000
+itemType = "sword"

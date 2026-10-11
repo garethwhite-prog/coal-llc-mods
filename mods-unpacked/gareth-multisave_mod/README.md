@@ -1,6 +1,6 @@
 # Multi-Save Profile Manager
 
-**Namespace:** gareth  
+**Namespace:** $namespace  
 **Compatibility:** Coal LLC v1.4.1.1+ (ModLoader 7.0.1)
 
 ---
@@ -11,7 +11,7 @@ Adds 6 independent career profile slots to the main menu with stats tracking (da
 ---
 
 ## Technical Details (For Modders)
-Passive filesystem listener monitors user://v04_savegame.save modification timestamps and syncs to user://saves/slot_X/. Reads and validates user://v04_saveglobals.save on boot to protect all unlocked classes and badges.
+Passive filesystem listener monitors user://v04_savegame.save modification timestamps and syncs to user://saves/slot_X/. Reads and validates user://v04_saveglobals.save on boot.
 
 ---
 

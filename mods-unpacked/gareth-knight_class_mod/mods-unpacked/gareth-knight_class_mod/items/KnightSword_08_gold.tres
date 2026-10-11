@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://mods-unpacked/gareth-knight_class_mod/scripts/knight_sword_equip.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/Equipment/Sword-Gold.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+itemID = "KnightSword_08_gold"
+itemName = "Gold Knight Sword"
+itemDescription = "Broadsword (8800 cleave damage). Sweeps in a wide 180° frontal arc cleaving rock and ore."
+itemTexture = ExtResource("2")
+cost = 1800000
+itemType = "sword"

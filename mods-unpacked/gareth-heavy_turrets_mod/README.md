@@ -1,6 +1,6 @@
 # Heavy Automated Turrets
 
-**Namespace:** gareth  
+**Namespace:** $namespace  
 **Compatibility:** Coal LLC v1.4.1.1+ (ModLoader 7.0.1)
 
 ---

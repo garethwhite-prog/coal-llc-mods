@@ -1,6 +1,6 @@
 # Categorized Leaderboards & Hall of Fame
 
-**Namespace:** gareth  
+**Namespace:** $namespace  
 **Compatibility:** Coal LLC v1.4.1.1+ (ModLoader 7.0.1)
 
 ---
@@ -11,7 +11,7 @@ Tracks all-time records across mining speed, damage, automated employee efficien
 ---
 
 ## Technical Details (For Modders)
-Runs an autoload tracker node sampling Gvars.passives, Gvars.bonus_equipment_manager, and quota milestones every 1.0s. Persists records to user://leaderboard_records.json.
+Runs an autoload tracker node sampling Gvars.passives, Gvars.bonus_equipment_manager, and quota milestones every 1.0s. Persists to user://leaderboard_records.json.
 
 ---
 
