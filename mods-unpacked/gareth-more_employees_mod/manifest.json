@@ -1,14 +1,16 @@
 {
   "name": "more_employees_mod",
   "namespace": "gareth",
-  "version_number": "1.1.0",
+  "version_number": "1.1.1",
   "description": "Adds Executive Miner tiers with click-through tooltips and scaled position offsets.",
   "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
-  "dependencies": ["gareth-mod_settings_mod"],
+  "dependencies": [],
   "extra": {
     "godot": {
+      "display_name": "Executive Miners",
+      "category": "Workforce & Automation",
       "authors": ["Gareth White"],
-      "tags": ["employees", "automation"],
+      "tags": ["workforce", "automation", "employee"],
       "compatible_mod_loader_version": ["7.0.1"],
       "compatible_game_version": ["1.4.1.1"]
     }

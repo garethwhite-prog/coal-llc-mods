@@ -8,6 +8,10 @@ func _init() -> void:
 		"res://scenes/Interfaces/Menus/settings_2.gd",
 		mod_dir_path.path_join("extensions/scenes/Interfaces/Menus/settings_2.hooks.gd")
 	)
+	ModLoaderMod.install_script_hooks(
+		"res://scripts/MainMenu.gd",
+		mod_dir_path.path_join("extensions/scripts/MainMenu.hooks.gd")
+	)
 
 func _ready() -> void:
 	var tracker_script = load("res://mods-unpacked/gareth-leaderboard_mod/scripts/record_tracker.gd")
@@ -15,4 +19,4 @@ func _ready() -> void:
 	tracker.name = "LeaderboardTracker"
 	tracker.set_script(tracker_script)
 	get_tree().root.call_deferred("add_child", tracker)
-	ModLoaderLog.info("Leaderboard v2 auto-tracker initialized.", MOD_DIR)
+	ModLoaderLog.info("Leaderboard v2 auto-tracker and Main Menu button online.", MOD_DIR)

@@ -18,7 +18,7 @@ func _ready(chain: ModLoaderHookChain) -> void:
 			menu.continue_game_button.disabled = false
 
 	var btn_grid = menu.get_node_or_null("%MainMenuButtons")
-	if btn_grid:
+	if btn_grid and not btn_grid.has_node("SaveProfilesButton"):
 		var profile_btn := Button.new()
 		profile_btn.name = "SaveProfilesButton"
 		profile_btn.text = "Save Profiles"
@@ -26,35 +26,6 @@ func _ready(chain: ModLoaderHookChain) -> void:
 		profile_btn.pressed.connect(func(): _open_profiles_modal(menu))
 		btn_grid.add_child(profile_btn)
 		btn_grid.move_child(profile_btn, 1)
-
-func on_profession_selected(chain: ModLoaderHookChain, mode: int, prof: Object, hard_modifier: Object) -> void:
-	var menu = chain.reference_object
-	if not menu:
-		chain.execute_next([mode, prof, hard_modifier])
-		return
-
-	var p_select = menu.get_node_or_null("ProfessionSelect")
-	if not p_select and "profession_select" in menu:
-		p_select = menu.profession_select
-	if p_select:
-		p_select.visible = false
-
-	var selector_script = load("res://mods-unpacked/gareth-multisave_mod/scenes/pre_run_mod_selector.gd")
-	var selector = selector_script.new()
-	selector.name = "PreRunModSelector"
-
-	selector.run_confirmed.connect(func():
-		selector.queue_free()
-		chain.execute_next([mode, prof, hard_modifier])
-	)
-
-	selector.back_requested.connect(func():
-		selector.queue_free()
-		if p_select:
-			p_select.visible = true
-	)
-
-	menu.add_child(selector)
 
 func _open_profiles_modal(menu: Control) -> void:
 	var modal_script = load("res://mods-unpacked/gareth-multisave_mod/scenes/save_slot_modal.gd")

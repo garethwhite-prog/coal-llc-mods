@@ -1,14 +1,16 @@
 {
   "name": "more_collectors_mod",
   "namespace": "gareth",
-  "version_number": "1.1.0",
+  "version_number": "1.1.1",
   "description": "Adds 4 ultra-high-tier Collector drones with click-through tooltips.",
   "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
-  "dependencies": ["gareth-mod_settings_mod"],
+  "dependencies": [],
   "extra": {
     "godot": {
+      "display_name": "Cosmic Collectors",
+      "category": "Workforce & Automation",
       "authors": ["Gareth White"],
-      "tags": ["collectors", "automation"],
+      "tags": ["workforce", "automation", "collector"],
       "compatible_mod_loader_version": ["7.0.1"],
       "compatible_game_version": ["1.4.1.1"]
     }
