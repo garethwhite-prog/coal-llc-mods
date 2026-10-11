@@ -20,6 +20,15 @@ func _ready(chain: ModLoaderHookChain) -> void:
 			mod_btn.text = "Mod Manager"
 			mod_btn.custom_minimum_size = resume_btn.custom_minimum_size
 			mod_btn.size_flags_horizontal = resume_btn.size_flags_horizontal
+
+			# Copy exact font, font size, and theme styling from resume button
+			var btn_font = resume_btn.get_theme_font("font")
+			if btn_font:
+				mod_btn.add_theme_font_override("font", btn_font)
+			var font_sz = resume_btn.get_theme_font_size("font_size")
+			if font_sz > 0:
+				mod_btn.add_theme_font_size_override("font_size", font_sz)
+
 			mod_btn.pressed.connect(func():
 				var view_script = load("res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd")
 				var view = view_script.new()
