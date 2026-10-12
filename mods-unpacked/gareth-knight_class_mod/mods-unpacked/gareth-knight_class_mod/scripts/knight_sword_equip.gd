@@ -6,6 +6,8 @@ var audio_player: AudioStreamPlayer2D
 var sword_visual: Sprite2D = null
 var is_swinging: bool = false
 var swing_cooldown: float = 0.0
+var _is_using: bool = false
+var _auto_swing_toggle: bool = false
 
 func start(player, item):
 	if "tool" in player and player.tool:
@@ -21,6 +23,8 @@ func start(player, item):
 	sword_visual.position = Vector2(4, 0)
 	sword_visual.visible = true
 	player.add_child(sword_visual)
+	_is_using = false
+	_auto_swing_toggle = false
 
 func end(player):
 	if "tool" in player and player.tool:
@@ -29,6 +33,8 @@ func end(player):
 		audio_player.queue_free()
 	if sword_visual and is_instance_valid(sword_visual):
 		sword_visual.queue_free()
+	_is_using = false
+	_auto_swing_toggle = false
 
 func physics_process(player, delta):
 	if swing_cooldown > 0.0:
@@ -41,13 +47,31 @@ func physics_process(player, delta):
 		sword_visual.rotation = angle + PI/4
 		sword_visual.flip_v = (pointer_pos.x < p_pos.x)
 
-	# Continuous cleave when holding down left click (useItem or mouse button 1)
-	var is_attacking: bool = Input.is_action_pressed("useItem") or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
-	if is_attacking and swing_cooldown <= 0.0:
+	# 1. Left-click hold & release
+	if Input.is_action_pressed("useItem") or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+		_is_using = true
+	elif Input.is_action_just_released("useItem") or (not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and not Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and not _auto_swing_toggle):
+		_is_using = false
+
+	# 2. Right-click toggle auto-swing (Vanilla Coal LLC auto-repeat convention)
+	if Input.is_action_just_pressed("toggle_use_item") or Input.is_action_just_pressed("rightMouseClick"):
+		_auto_swing_toggle = not _auto_swing_toggle
+		_is_using = _auto_swing_toggle
+
+	# 3. Right-click direct hold
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
+		_is_using = true
+
+	if _is_using and swing_cooldown <= 0.0:
 		_cleave_attack(player)
 
 func _cleave_attack(player) -> void:
-	swing_cooldown = 0.28
+	# Base swing cooldown: 0.28s, modified by sword_speed if present
+	var speed_mult: float = 1.0
+	if Gvars and ("passives" in Gvars) and Gvars.passives and ("sword_speed" in Gvars.passives):
+		speed_mult += Gvars.passives.sword_speed
+
+	swing_cooldown = max(0.08, 0.28 / speed_mult)
 	is_swinging = true
 	if audio_player:
 		audio_player.play()
@@ -55,22 +79,38 @@ func _cleave_attack(player) -> void:
 	var p_pos: Vector2 = player.global_position
 	var pointer_pos: Vector2 = player.pointer_global_pos
 	var dir: Vector2 = (pointer_pos - p_pos).normalized()
+	
+	# Damage scaling: 70 base, scaled by sword_damage and axe_damage
 	var base_dmg: float = 70.0
-	if Gvars and ("passives" in Gvars) and Gvars.passives and ("axe_damage" in Gvars.passives):
-		base_dmg *= (1.0 + Gvars.passives.axe_damage)
+	if Gvars and ("passives" in Gvars) and Gvars.passives:
+		if "sword_damage" in Gvars.passives:
+			base_dmg *= (1.0 + Gvars.passives.sword_damage)
+		if "axe_damage" in Gvars.passives:
+			base_dmg *= (1.0 + Gvars.passives.axe_damage)
+
+	# Range scaling: base reach 48.0, scaled by sword_range if present
+	var range_mult: float = 1.0
+	if Gvars and ("passives" in Gvars) and Gvars.passives and ("sword_range" in Gvars.passives):
+		range_mult += Gvars.passives.sword_range
 
 	if sword_visual and is_instance_valid(sword_visual):
 		var center_angle: float = dir.angle()
 		var tween = player.create_tween()
 		sword_visual.rotation = center_angle - deg_to_rad(65)
-		tween.tween_property(sword_visual, "rotation", center_angle + deg_to_rad(65), 0.14)
+		var tween_time: float = max(0.05, 0.14 / speed_mult)
+		tween.tween_property(sword_visual, "rotation", center_angle + deg_to_rad(65), tween_time)
 		tween.tween_callback(func(): is_swinging = false)
 
 	var tilemap = player.tilemap
 	if tilemap:
+		var cells_damaged: Array[Vector2i] = []
+		var distances = [16.0, 32.0, 48.0 * range_mult]
 		for angle_deg in [-60, -30, 0, 30, 60]:
 			var test_dir: Vector2 = dir.rotated(deg_to_rad(angle_deg))
-			for dist in [16.0, 32.0, 48.0]:
+			for dist in distances:
 				var t_pos: Vector2 = p_pos + test_dir * dist
-				Bus.DamageTile.emit(t_pos, base_dmg)
-				tilemap.damageTile(t_pos, base_dmg)
+				var cell: Vector2i = tilemap.local_to_map(t_pos)
+				if not cells_damaged.has(cell):
+					cells_damaged.append(cell)
+					if tilemap.is_tile_breakable(cell):
+						tilemap.damageTileCoords(cell, base_dmg)
