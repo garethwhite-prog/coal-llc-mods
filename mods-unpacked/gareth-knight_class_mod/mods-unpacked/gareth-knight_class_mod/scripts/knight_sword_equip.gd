@@ -47,31 +47,37 @@ func physics_process(player, delta):
 		sword_visual.rotation = angle + PI/4
 		sword_visual.flip_v = (pointer_pos.x < p_pos.x)
 
-	# 1. Left-click hold & release
+	# 1. Left-click hold and release
 	if Input.is_action_pressed("useItem") or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		_is_using = true
 	elif Input.is_action_just_released("useItem") or (not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and not Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and not _auto_swing_toggle):
 		_is_using = false
 
-	# 2. Right-click toggle auto-swing (Vanilla Coal LLC auto-repeat convention)
+	# 2. Right-click toggle continuous attack (vanilla toggle_use_item pattern)
 	if Input.is_action_just_pressed("toggle_use_item") or Input.is_action_just_pressed("rightMouseClick"):
 		_auto_swing_toggle = not _auto_swing_toggle
 		_is_using = _auto_swing_toggle
 
-	# 3. Right-click direct hold
+	# 3. Direct Right-click hold
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
 		_is_using = true
 
 	if _is_using and swing_cooldown <= 0.0:
 		_cleave_attack(player)
 
-func _cleave_attack(player) -> void:
-	# Base swing cooldown: 0.28s, modified by sword_speed if present
-	var speed_mult: float = 1.0
-	if Gvars and ("passives" in Gvars) and Gvars.passives and ("sword_speed" in Gvars.passives):
-		speed_mult += Gvars.passives.sword_speed
+func _get_passive_stat(stat_name: String) -> float:
+	if not Gvars or not ("passives" in Gvars) or not Gvars.passives:
+		return 0.0
+	var p = Gvars.passives
+	if p.has_meta(stat_name):
+		return float(p.get_meta(stat_name))
+	if stat_name in p:
+		return float(p.get(stat_name))
+	return 0.0
 
-	swing_cooldown = max(0.08, 0.28 / speed_mult)
+func _cleave_attack(player) -> void:
+	var speed_mult: float = 1.0 + _get_passive_stat("sword_speed")
+	swing_cooldown = max(0.06, 0.28 / speed_mult)
 	is_swinging = true
 	if audio_player:
 		audio_player.play()
@@ -79,32 +85,28 @@ func _cleave_attack(player) -> void:
 	var p_pos: Vector2 = player.global_position
 	var pointer_pos: Vector2 = player.pointer_global_pos
 	var dir: Vector2 = (pointer_pos - p_pos).normalized()
-	
-	# Damage scaling: 70 base, scaled by sword_damage and axe_damage
-	var base_dmg: float = 70.0
-	if Gvars and ("passives" in Gvars) and Gvars.passives:
-		if "sword_damage" in Gvars.passives:
-			base_dmg *= (1.0 + Gvars.passives.sword_damage)
-		if "axe_damage" in Gvars.passives:
-			base_dmg *= (1.0 + Gvars.passives.axe_damage)
 
-	# Range scaling: base reach 48.0, scaled by sword_range if present
-	var range_mult: float = 1.0
-	if Gvars and ("passives" in Gvars) and Gvars.passives and ("sword_range" in Gvars.passives):
-		range_mult += Gvars.passives.sword_range
+	var dmg_mult: float = 1.0 + _get_passive_stat("sword_damage") + _get_passive_stat("axe_damage")
+	var base_dmg: float = 70.0 * dmg_mult
+
+	var range_mult: float = 1.0 + _get_passive_stat("sword_range")
 
 	if sword_visual and is_instance_valid(sword_visual):
 		var center_angle: float = dir.angle()
 		var tween = player.create_tween()
 		sword_visual.rotation = center_angle - deg_to_rad(65)
-		var tween_time: float = max(0.05, 0.14 / speed_mult)
+		var tween_time: float = max(0.04, 0.14 / speed_mult)
 		tween.tween_property(sword_visual, "rotation", center_angle + deg_to_rad(65), tween_time)
 		tween.tween_callback(func(): is_swinging = false)
 
 	var tilemap = player.tilemap
 	if tilemap:
 		var cells_damaged: Array[Vector2i] = []
-		var distances = [16.0, 32.0, 48.0 * range_mult]
+		var max_dist: float = 48.0 * range_mult
+		var distances = [16.0, 32.0, max_dist]
+		if range_mult > 1.2:
+			distances.append(max_dist * 1.15)
+
 		for angle_deg in [-60, -30, 0, 30, 60]:
 			var test_dir: Vector2 = dir.rotated(deg_to_rad(angle_deg))
 			for dist in distances:
