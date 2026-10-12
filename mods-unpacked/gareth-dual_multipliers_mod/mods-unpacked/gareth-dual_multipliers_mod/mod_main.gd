@@ -41,21 +41,21 @@ func _ready() -> void:
 	var cp_script = load("res://scenes/Interfaces/in_game/choose_passive.gd")
 	if cp_script:
 		if not cp_script.ALL_PASSIVES.has("drill_speed"):
-			cp_script.ALL_PASSIVES["drill_speed"] = 0.05
+# 			cp_script.ALL_PASSIVES["drill_speed"] = 0.05 # Disabled: read-only constant in Godot 4
 		if not "drill_speed" in cp_script.PASSIVE_MAP.get("drill", []):
-			cp_script.PASSIVE_MAP["drill"].append("drill_speed")
+# 			cp_script.PASSIVE_MAP["drill"].append("drill_speed") # Disabled: read-only constant in Godot 4
 
 		if not cp_script.ALL_PASSIVES.has("axe_speed"):
-			cp_script.ALL_PASSIVES["axe_speed"] = 0.05
+# 			cp_script.ALL_PASSIVES["axe_speed"] = 0.05 # Disabled: read-only constant in Godot 4
 		if not "axe_speed" in cp_script.PASSIVE_MAP.get("axe", []):
-			cp_script.PASSIVE_MAP["axe"].append("axe_speed")
+# 			cp_script.PASSIVE_MAP["axe"].append("axe_speed") # Disabled: read-only constant in Godot 4
 		if not "axe_speed" in cp_script.PASSIVE_MAP.get("battleaxe", []):
-			cp_script.PASSIVE_MAP["battleaxe"].append("axe_speed")
+# 			cp_script.PASSIVE_MAP["battleaxe"].append("axe_speed") # Disabled: read-only constant in Godot 4
 
 		if not cp_script.ALL_PASSIVES.has("gun_rate"):
-			cp_script.ALL_PASSIVES["gun_rate"] = 0.05
+# 			cp_script.ALL_PASSIVES["gun_rate"] = 0.05 # Disabled: read-only constant in Godot 4
 		for g in ["pistol", "rifle", "minigun", "shotgun"]:
 			if not "gun_rate" in cp_script.PASSIVE_MAP.get(g, []):
-				cp_script.PASSIVE_MAP[g].append("gun_rate")
+# 				cp_script.PASSIVE_MAP[g].append("gun_rate") # Disabled: read-only constant in Godot 4
 
 	ModLoaderLog.info("Dual-Multiplier Scaling Expansion initialized.", MOD_DIR)

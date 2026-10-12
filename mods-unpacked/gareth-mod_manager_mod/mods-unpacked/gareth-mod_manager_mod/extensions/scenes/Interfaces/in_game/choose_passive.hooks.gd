@@ -6,15 +6,15 @@ func _ready(chain: ModLoaderHookChain) -> void:
 		chain.execute_next([])
 		return
 
-	# Map sword so holding a sword generates axe_damage upgrades in chests
-	if not cp.PASSIVE_MAP.has("sword"):
-		cp.PASSIVE_MAP["sword"] = ["axe_damage"]
-
-	chain.execute_next([])
-
+	# Enable input while tree is paused
 	cp.process_mode = Node.PROCESS_MODE_ALWAYS
 	cp.get_tree().paused = true
 	cp.live = true
+
+	# Create local mutable copy of PASSIVE_MAP to avoid Godot 4 read-only dictionary crash
+	var local_passive_map: Dictionary = cp.PASSIVE_MAP.duplicate(true)
+	if not local_passive_map.has("sword"):
+		local_passive_map["sword"] = ["axe_damage"]
 
 	var data := {"unlocked_passives": []}
 	if Gvars and Gvars.profession:
@@ -33,7 +33,7 @@ func _ready(chain: ModLoaderHookChain) -> void:
 	if player_inventory and player_inventory.items:
 		for inv_item in player_inventory.items:
 			if inv_item and inv_item.item:
-				for p in cp.PASSIVE_MAP.get(inv_item.item.itemType, []):
+				for p in local_passive_map.get(inv_item.item.itemType, []):
 					if p in leftover_options and not (p in choice_options):
 						choice_options.append(p)
 
