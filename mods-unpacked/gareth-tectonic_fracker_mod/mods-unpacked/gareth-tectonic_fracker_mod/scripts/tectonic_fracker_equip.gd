@@ -114,7 +114,7 @@ func _fire_seismic_pulse(player) -> void:
 
 	var target_atlas = null
 	if tilemap.has_method("get_cell_atlas_coords"):
-		target_atlas = tilemap.get_cell_atlas_coords(0, hit_cell)
+		target_atlas = tilemap.get_cell_atlas_coords(hit_cell)
 
 	while queue.size() > 0 and visited.size() <= eff_limit:
 		var curr = queue.pop_front()
@@ -127,7 +127,7 @@ func _fire_seismic_pulse(player) -> void:
 				if tilemap.is_tile_breakable(neighbor):
 					var is_same_seam = true
 					if target_atlas != null and tilemap.has_method("get_cell_atlas_coords"):
-						var n_atlas = tilemap.get_cell_atlas_coords(0, neighbor)
+						var n_atlas = tilemap.get_cell_atlas_coords(neighbor)
 						is_same_seam = (n_atlas == target_atlas)
 					if is_same_seam:
 						queue.append(neighbor)
