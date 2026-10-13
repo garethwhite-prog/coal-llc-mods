@@ -1,8 +1,8 @@
-{
+﻿{
   "name": "tectonic_fracker_mod",
   "namespace": "gareth",
-  "version_number": "1.0.0",
-  "description": "Industrial seismic harvester. Fires acoustic fracture pulses that shatter entire continuous ore seams simultaneously.",
+  "version_number": "1.2.0",
+  "description": "Industrial seismic harvester. Fires acoustic fracture pulses that shatter entire continuous ore seams simultaneously across 15 mineral tiers.",
   "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
   "dependencies": [],
   "extra": {
