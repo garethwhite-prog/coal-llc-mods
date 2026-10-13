@@ -48,8 +48,8 @@ func _register_weapon_tiers() -> void:
 		var item = item_script.new()
 		item.itemID = "tectonic_fracker_" + t["id"]
 		item.itemName = t["name"]
-		item.itemDescription = "Industrial seismic harvester.\nFires acoustic fracture pulses that shatter continuous ore seams simultaneously.\nDamage: %d | Max Seam Blocks: %d" % [int(t["dmg"]), int(t["seam"])]
-		
+		item.itemDescription = "Industrial seismic harvester.\nFires acoustic fracture pulses that shatter continuous ore seams.\nDamage: %d | Max Seam: %d\nScales with Fracker upgrades." % [int(t["dmg"]), int(t["seam"])]
+
 		var tex_path := "res://mods-unpacked/gareth-tectonic_fracker_mod/textures/fracker_%s.png" % t["id"]
 		item.itemTexture = _load_image_texture(tex_path)
 
@@ -67,7 +67,7 @@ func _register_weapon_tiers() -> void:
 		item.itemBuyPrice = t["price"]
 		item.itemSellPrice = t["price"] * 0.5
 		item.itemUnlocked = true
-		item.itemType = "weapon"
+		item.itemType = "fracker"
 
 		all_fracker_items.append(item)
 
@@ -89,7 +89,7 @@ func _register_profession() -> void:
 	var prof_script = load("res://mods-unpacked/gareth-tectonic_fracker_mod/scripts/tectonic_fracker_profession.gd")
 	var p = prof_script.new()
 	p.profession_name = "Tectonic Fracker"
-	p.description = "Industrial seismic harvester.\nFires acoustic fracture pulses that shatter entire continuous ore seams simultaneously.\nStarts with the Shoddy Tectonic Fracker."
+	p.description = "Industrial seismic harvester.\nFires acoustic fracture pulses that shatter entire continuous ore seams simultaneously.\nScales with bespoke Fracker upgrades."
 
 	var icon_path := "res://mods-unpacked/gareth-tectonic_fracker_mod/textures/tectonic_fracker_icon.png"
 	var icon_tex = _load_image_texture(icon_path)
@@ -97,4 +97,4 @@ func _register_profession() -> void:
 		p.image = icon_tex
 
 	pm.all_professions[109] = { "profession": p, "is_unlocked": true }
-	ModLoaderLog.info("Tectonic Fracker Class (ID 109) registered with bespoke 96x96 acoustic icon.", MOD_DIR)
+	ModLoaderLog.info("Tectonic Fracker Class (ID 109) registered cleanly.", MOD_DIR)

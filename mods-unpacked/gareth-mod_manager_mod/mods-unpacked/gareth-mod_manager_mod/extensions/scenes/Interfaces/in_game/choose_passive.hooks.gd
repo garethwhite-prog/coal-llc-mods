@@ -1,9 +1,12 @@
-extends Object
+﻿extends Object
 
 const CUSTOM_PASSIVES: Dictionary = {
 	"sword_damage": 0.10,
 	"sword_speed": 0.10,
-	"sword_range": 0.15
+	"sword_range": 0.15,
+	"fracker_pulse_damage": 0.10,
+	"fracker_seam_resonance": 0.15,
+	"fracker_fire_rate": 0.10
 }
 
 func _ready(chain: ModLoaderHookChain) -> void:
@@ -18,6 +21,7 @@ func _ready(chain: ModLoaderHookChain) -> void:
 
 	var local_passive_map: Dictionary = cp.PASSIVE_MAP.duplicate(true)
 	local_passive_map["sword"] = ["sword_damage", "sword_speed", "sword_range"]
+	local_passive_map["fracker"] = ["fracker_pulse_damage", "fracker_seam_resonance", "fracker_fire_rate"]
 
 	var data := {"unlocked_passives": []}
 	if Gvars and Gvars.profession:
@@ -124,4 +128,4 @@ func _apply_custom_stat(choice: String, delta_amount: float) -> void:
 	var updated: float = current + delta_amount
 	p.set_meta(choice, updated)
 	p.set(choice, updated)
-	print("[KnightPassives] Successfully applied ", choice, " +", delta_amount, " (Total: ", updated, ")")
+	print("[FrackerPassives] Applied ", choice, " +", delta_amount, " (Total: ", updated, ")")

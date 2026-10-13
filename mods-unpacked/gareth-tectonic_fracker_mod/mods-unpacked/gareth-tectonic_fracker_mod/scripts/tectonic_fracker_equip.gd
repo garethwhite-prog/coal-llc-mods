@@ -75,18 +75,21 @@ func _get_passive_stat(stat_name: String) -> float:
 	return 0.0
 
 func _fire_seismic_pulse(player) -> void:
-	fire_cooldown = 0.28
+	var fire_rate_mult: float = 1.0 + _get_passive_stat("fracker_fire_rate")
+	fire_cooldown = max(0.06, 0.26 / fire_rate_mult)
+
 	if audio_player and is_instance_valid(audio_player):
-		audio_player.pitch_scale = randf_range(0.75, 0.9)
+		audio_player.pitch_scale = randf_range(0.72, 0.88)
 		audio_player.play()
 
 	var p_pos: Vector2 = player.global_position
 	var pointer_pos: Vector2 = player.pointer_global_pos
 	var dir: Vector2 = (pointer_pos - p_pos).normalized()
+	var muzzle_pos: Vector2 = p_pos + (dir * 18.0)
 
 	if weapon_visual and is_instance_valid(weapon_visual):
 		var orig_pos = weapon_visual.position
-		weapon_visual.position -= dir * 4.0
+		weapon_visual.position -= dir * 5.0
 		var tween = player.create_tween()
 		tween.tween_property(weapon_visual, "position", orig_pos, 0.08)
 
@@ -94,19 +97,30 @@ func _fire_seismic_pulse(player) -> void:
 	if not tilemap:
 		return
 
+	var max_reach: float = 140.0
 	var hit_cell = null
-	for dist in range(8, 120, 6):
-		var check_pos: Vector2 = p_pos + (dir * float(dist))
+	var hit_world_pos: Vector2 = muzzle_pos + (dir * max_reach)
+
+	for dist in range(6, int(max_reach), 6):
+		var check_pos: Vector2 = muzzle_pos + (dir * float(dist))
 		var cell: Vector2i = tilemap.local_to_map(check_pos)
 		if tilemap.is_tile_breakable(cell):
 			hit_cell = cell
+			hit_world_pos = tilemap.map_to_local(cell)
 			break
+
+	_spawn_acoustic_beam(player, muzzle_pos, hit_world_pos)
 
 	if hit_cell == null:
 		return
 
-	var eff_dmg: float = damage * (1.0 + _get_passive_stat("pickaxe_damage"))
-	var eff_limit: int = seam_limit + int(_get_passive_stat("pickaxe_range") * 6.0)
+	_spawn_impact_ring(player, hit_world_pos)
+
+	var dmg_mult: float = 1.0 + _get_passive_stat("fracker_pulse_damage")
+	var eff_dmg: float = damage * dmg_mult
+
+	var seam_mult: float = 1.0 + _get_passive_stat("fracker_seam_resonance")
+	var eff_limit: int = int(float(seam_limit) * seam_mult)
 
 	var visited: Array[Vector2i] = []
 	var queue: Array[Vector2i] = [hit_cell]
@@ -131,3 +145,43 @@ func _fire_seismic_pulse(player) -> void:
 						is_same_seam = (n_atlas == target_atlas)
 					if is_same_seam:
 						queue.append(neighbor)
+
+func _spawn_acoustic_beam(player: Node2D, from_pos: Vector2, to_pos: Vector2) -> void:
+	var parent = player.get_parent()
+	if not parent:
+		parent = player
+
+	var beam := Line2D.new()
+	beam.width = 6.0
+	beam.default_color = Color(0.2, 0.95, 1.0, 0.95)
+	beam.add_point(from_pos)
+	beam.add_point(to_pos)
+	parent.add_child(beam)
+
+	var tween = parent.create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(beam, "width", 14.0, 0.12)
+	tween.tween_property(beam, "modulate:a", 0.0, 0.12)
+	tween.set_parallel(false)
+	tween.tween_callback(beam.queue_free)
+
+func _spawn_impact_ring(player: Node2D, at_pos: Vector2) -> void:
+	var parent = player.get_parent()
+	if not parent:
+		parent = player
+
+	var ring := Line2D.new()
+	ring.width = 2.5
+	ring.default_color = Color(0.9, 1.0, 1.0, 0.9)
+	var segs: int = 16
+	for i in range(segs + 1):
+		var ang: float = float(i) * TAU / float(segs)
+		ring.add_point(at_pos + Vector2(cos(ang), sin(ang)) * 4.0)
+	parent.add_child(ring)
+
+	var tween = parent.create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(ring, "scale", Vector2(3.5, 3.5), 0.16)
+	tween.tween_property(ring, "modulate:a", 0.0, 0.16)
+	tween.set_parallel(false)
+	tween.tween_callback(ring.queue_free)

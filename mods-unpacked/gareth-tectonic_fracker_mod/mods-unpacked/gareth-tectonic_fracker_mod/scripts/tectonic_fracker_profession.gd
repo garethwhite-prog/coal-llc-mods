@@ -12,10 +12,12 @@ func _profession_effect(data: Dictionary) -> Dictionary:
 
 	if data.has("unlocked_passives"):
 		data["unlocked_passives"] = [
+			"fracker_pulse_damage",
+			"fracker_seam_resonance",
+			"fracker_fire_rate",
 			"player_sprint_speed",
 			"player_jump_velocity",
-			"player_climb_speed",
-			"pickaxe_damage"
+			"player_climb_speed"
 		]
 
 	return data
