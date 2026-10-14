@@ -6,7 +6,10 @@ const CUSTOM_PASSIVES: Dictionary = {
 	"sword_range": 0.15,
 	"fracker_pulse_damage": 0.10,
 	"fracker_seam_resonance": 0.15,
-	"fracker_fire_rate": 0.10
+	"fracker_fire_rate": 0.10,
+	"ball_blast_damage": 0.10,
+	"ball_blast_radius": 0.15,
+	"ball_fire_rate": 0.10
 }
 
 func _ready(chain: ModLoaderHookChain) -> void:
@@ -22,6 +25,7 @@ func _ready(chain: ModLoaderHookChain) -> void:
 	var local_passive_map: Dictionary = cp.PASSIVE_MAP.duplicate(true)
 	local_passive_map["sword"] = ["sword_damage", "sword_speed", "sword_range"]
 	local_passive_map["fracker"] = ["fracker_pulse_damage", "fracker_seam_resonance", "fracker_fire_rate"]
+	local_passive_map["bouncing_ball"] = ["ball_blast_damage", "ball_blast_radius", "ball_fire_rate"]
 
 	var data := {"unlocked_passives": []}
 	if Gvars and Gvars.profession:
@@ -128,4 +132,4 @@ func _apply_custom_stat(choice: String, delta_amount: float) -> void:
 	var updated: float = current + delta_amount
 	p.set_meta(choice, updated)
 	p.set(choice, updated)
-	print("[FrackerPassives] Applied ", choice, " +", delta_amount, " (Total: ", updated, ")")
+	print("[CustomPassives] Applied ", choice, " +", delta_amount, " (Total: ", updated, ")")
