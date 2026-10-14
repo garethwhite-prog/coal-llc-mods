@@ -2,7 +2,7 @@
 extends EquipEffect
 
 @export var damage: float = 95.0
-@export var radius: float = 3.2
+@export var radius: float = 3.0
 
 var weapon_visual: Sprite2D = null
 var throw_cooldown: float = 0.0
@@ -17,8 +17,8 @@ func start(player, item):
 
 	weapon_visual = Sprite2D.new()
 	weapon_visual.texture = item.itemTexture
-	weapon_visual.offset = Vector2(0, -6)
-	weapon_visual.position = Vector2(6, 2)
+	weapon_visual.offset = Vector2(0, -4)
+	weapon_visual.position = Vector2(4, 2)
 	weapon_visual.visible = true
 	player.add_child(weapon_visual)
 	_is_using = false
@@ -70,7 +70,7 @@ func _get_passive_stat(stat_name: String) -> float:
 
 func _throw_bouncing_ball(player) -> void:
 	var fire_rate_mult: float = 1.0 + _get_passive_stat("ball_fire_rate")
-	throw_cooldown = max(0.12, 0.48 / fire_rate_mult)
+	throw_cooldown = max(0.10, 0.44 / fire_rate_mult)
 
 	var p_pos: Vector2 = player.global_position
 	var pointer_pos: Vector2 = player.pointer_global_pos
@@ -78,9 +78,9 @@ func _throw_bouncing_ball(player) -> void:
 
 	if weapon_visual and is_instance_valid(weapon_visual):
 		var orig_pos = weapon_visual.position
-		weapon_visual.position -= dir * 4.0
+		weapon_visual.position -= dir * 3.0
 		var tween = player.create_tween()
-		tween.tween_property(weapon_visual, "position", orig_pos, 0.09)
+		tween.tween_property(weapon_visual, "position", orig_pos, 0.08)
 
 	var proj_script = load("res://mods-unpacked/gareth-bouncing_ball_mod/scripts/bouncing_ball_projectile.gd")
 	var proj := CharacterBody2D.new()
@@ -92,11 +92,15 @@ func _throw_bouncing_ball(player) -> void:
 	var rad_mult: float = 1.0 + _get_passive_stat("ball_blast_radius")
 	proj.radius = radius * rad_mult
 
+	# Bind player tilemap directly
+	if "tilemap" in player:
+		proj.tilemap = player.tilemap
+
 	if held_item and "itemTexture" in held_item:
 		proj.ball_texture = held_item.itemTexture
 
-	proj.global_position = p_pos + (dir * 18.0)
-	proj.velocity = Vector2(dir.x * 440.0, min(-140.0, dir.y * 440.0 - 100.0))
+	proj.global_position = p_pos + (dir * 14.0)
+	proj.velocity = Vector2(dir.x * 460.0, min(-140.0, dir.y * 460.0 - 110.0))
 
 	var parent = player.get_parent()
 	if parent:
