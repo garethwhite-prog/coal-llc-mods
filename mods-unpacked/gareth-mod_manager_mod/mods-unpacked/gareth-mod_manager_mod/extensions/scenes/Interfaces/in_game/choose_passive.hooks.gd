@@ -12,7 +12,16 @@ const CUSTOM_PASSIVES: Dictionary = {
 	"ball_fire_rate": 0.10,
 	"exec_damage": 0.10,
 	"exec_fire_rate": 0.10,
-	"exec_bounty": 0.15
+	"exec_bounty": 0.15,
+	"jedi_saber_damage": 0.10,
+	"jedi_swing_rate": 0.10,
+	"jedi_cleave_reach": 0.15,
+	"sinclair_melt_damage": 0.10,
+	"sinclair_beam_width": 0.15,
+	"sinclair_spectrum_ticks": 0.10,
+	"void_implosion_damage": 0.10,
+	"void_pull_radius": 0.15,
+	"void_event_horizon": 0.10
 }
 
 func _ready(chain: ModLoaderHookChain) -> void:
@@ -30,6 +39,9 @@ func _ready(chain: ModLoaderHookChain) -> void:
 	local_passive_map["fracker"] = ["fracker_pulse_damage", "fracker_seam_resonance", "fracker_fire_rate"]
 	local_passive_map["bouncing_ball"] = ["ball_blast_damage", "ball_blast_radius", "ball_fire_rate"]
 	local_passive_map["debt_executioner"] = ["exec_damage", "exec_fire_rate", "exec_bounty"]
+	local_passive_map["jedi_saber"] = ["jedi_saber_damage", "jedi_swing_rate", "jedi_cleave_reach"]
+	local_passive_map["sinclair_prism"] = ["sinclair_melt_damage", "sinclair_beam_width", "sinclair_spectrum_ticks"]
+	local_passive_map["void_core"] = ["void_implosion_damage", "void_pull_radius", "void_event_horizon"]
 
 	var data := {"unlocked_passives": []}
 	if Gvars and Gvars.profession:
