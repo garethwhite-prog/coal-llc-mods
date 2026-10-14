@@ -88,6 +88,11 @@ func _execute_chrono_strike(player) -> void:
 	var pointer_pos: Vector2 = player.pointer_global_pos
 	var dir: Vector2 = (pointer_pos - p_pos).normalized()
 
+	if weapon_visual and is_instance_valid(weapon_visual):
+		weapon_visual.position -= dir * 3.0
+		var tween = player.create_tween()
+		tween.tween_property(weapon_visual, "position", Vector2(4, 2), 0.05)
+
 	var tilemap = player.tilemap
 	if not tilemap:
 		return
@@ -96,14 +101,48 @@ func _execute_chrono_strike(player) -> void:
 	var dmg_mult: float = 1.0 + _get_passive_stat("chrono_shockwave_damage")
 	var eff_dmg: float = damage * dmg_mult * (2.0 if is_stasis_shockwave else 1.0)
 
-	for dist in range(10, 110, 8):
-		var check_pos: Vector2 = p_pos + (dir * float(dist))
-		var cell: Vector2i = tilemap.local_to_map(check_pos)
+	var hit_cell = null
+	var hit_pos: Vector2 = p_pos + (dir * 120.0)
+
+	for dist in range(8, 120, 6):
+		var test_pos: Vector2 = p_pos + (dir * float(dist))
+		var local_pos: Vector2 = tilemap.to_local(test_pos)
+		var cell: Vector2i = tilemap.local_to_map(local_pos)
 		if tilemap.is_tile_breakable(cell):
-			tilemap.damageTileCoords(cell, eff_dmg)
-			if is_stasis_shockwave:
-				for offset in [Vector2i(1,0), Vector2i(-1,0), Vector2i(0,1), Vector2i(0,-1)]:
-					var n_cell: Vector2i = cell + offset
-					if tilemap.is_tile_breakable(n_cell):
-						tilemap.damageTileCoords(n_cell, eff_dmg * 0.7)
+			hit_cell = cell
+			hit_pos = test_pos
 			break
+
+	if hit_cell != null:
+		if tilemap.has_method("damageTile"):
+			tilemap.damageTile(hit_pos, eff_dmg)
+		if tilemap.has_method("damageTileCoords"):
+			tilemap.damageTileCoords(hit_cell, eff_dmg)
+
+		if is_stasis_shockwave:
+			_spawn_stasis_ripple(player, hit_pos)
+			for offset in [Vector2i(1,0), Vector2i(-1,0), Vector2i(0,1), Vector2i(0,-1)]:
+				var n_cell: Vector2i = hit_cell + offset
+				if tilemap.is_tile_breakable(n_cell):
+					if tilemap.has_method("damageTileCoords"):
+						tilemap.damageTileCoords(n_cell, eff_dmg * 0.7)
+
+func _spawn_stasis_ripple(player: Node2D, at_pos: Vector2) -> void:
+	var parent = player.get_parent()
+	if not parent:
+		parent = player
+
+	var ripple := Line2D.new()
+	ripple.top_level = true
+	ripple.z_index = 51
+	ripple.width = 3.0
+	ripple.default_color = Color(1.0, 0.85, 0.25, 0.95)
+	for i in range(17):
+		var ang: float = float(i) * TAU / 16.0
+		ripple.add_point(at_pos + Vector2(cos(ang), sin(ang)) * 6.0)
+	parent.add_child(ripple)
+
+	var tween = parent.create_tween()
+	tween.tween_property(ripple, "scale", Vector2(3.5, 3.5), 0.14)
+	tween.tween_property(ripple, "modulate:a", 0.0, 0.14)
+	tween.tween_callback(ripple.queue_free)
