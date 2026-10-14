@@ -1,8 +1,8 @@
-{
+﻿{
   "name": "chrono_industrialist_mod",
   "namespace": "gareth",
-  "version_number": "1.0.0",
-  "description": "Temporal excavation engineer. Every 10th strike deploys a Stasis Field, absorbing damage and releasing a 2x shockwave.",
+  "version_number": "1.1.0",
+  "description": "Temporal excavation engineer wielding 15 tiers of chrono harvesters.",
   "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
   "dependencies": [],
   "extra": {

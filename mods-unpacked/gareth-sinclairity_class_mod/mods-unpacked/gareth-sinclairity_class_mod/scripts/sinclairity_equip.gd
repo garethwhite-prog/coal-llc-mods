@@ -1,7 +1,7 @@
 ﻿class_name SinclairityEquipEffect
 extends EquipEffect
 
-@export var damage: float = 55.0
+@export var damage: float = 85.0
 @export var beam_width: float = 6.0
 
 var weapon_visual: Sprite2D = null
@@ -23,6 +23,8 @@ func start(player, item):
 	player.add_child(weapon_visual)
 
 	beam_line = Line2D.new()
+	beam_line.top_level = true
+	beam_line.z_index = 50
 	beam_line.width = beam_width
 	beam_line.visible = false
 	player.get_parent().add_child(beam_line)
@@ -126,3 +128,21 @@ func _process_prismatic_beam(player, delta) -> void:
 	if hit_cell != null:
 		var eff_dmg: float = damage * (1.0 + _get_passive_stat("sinclair_melt_damage")) * delta * 60.0
 		tilemap.damageTileCoords(hit_cell, eff_dmg)
+		_spawn_melt_spark(player, hit_pos, beam_col)
+
+func _spawn_melt_spark(player: Node2D, at_pos: Vector2, col: Color) -> void:
+	var parent = player.get_parent()
+	if not parent:
+		parent = player
+	var spark := Line2D.new()
+	spark.top_level = true
+	spark.z_index = 51
+	spark.width = 3.0
+	spark.default_color = col
+	for i in range(7):
+		var ang: float = float(i) * TAU / 6.0
+		spark.add_point(at_pos + Vector2(cos(ang), sin(ang)) * 4.0)
+	parent.add_child(spark)
+	var tween = parent.create_tween()
+	tween.tween_property(spark, "scale", Vector2(2.0, 2.0), 0.08)
+	tween.tween_callback(spark.queue_free)

@@ -17,10 +17,10 @@ const TIER_DATA := [
 	{ "id": "09_ruby",        "name": "Ruby Void Core",          "dmg": 2400.0,  "rad": 7.3,  "price": 20000000.0 },
 	{ "id": "10_diamond",     "name": "Diamond Void Core",       "dmg": 3600.0,  "rad": 8.1,  "price": 100000000.0 },
 	{ "id": "11_pinkdiamond", "name": "Pink Diamond Void Core",  "dmg": 5500.0,  "rad": 9.0,  "price": 600000000.0 },
-	{ "id": "12_spinel",      "name": "Spinel Void Core",        "dmg": 8500.0,  "rad": 10.0, price": 3500000000.0 },
-	{ "id": "13_uranium",     "name": "Uranium Void Core",       "dmg": 13500.0, "rad": 11.2, price": 25000000000.0 },
-	{ "id": "14_moonstone",   "name": "Moonstone Void Core",     "dmg": 21000.0, "rad": 12.6, price": 180000000000.0 },
-	{ "id": "15_onyx",        "name": "Onyx Void Core",          "dmg": 35000.0, "rad": 14.5, price": 1500000000000.0 }
+	{ "id": "12_spinel",      "name": "Spinel Void Core",        "dmg": 8500.0,  "rad": 10.0, "price": 3500000000.0 },
+	{ "id": "13_uranium",     "name": "Uranium Void Core",       "dmg": 13500.0, "rad": 11.2, "price": 25000000000.0 },
+	{ "id": "14_moonstone",   "name": "Moonstone Void Core",     "dmg": 21000.0, "rad": 12.6, "price": 180000000000.0 },
+	{ "id": "15_onyx",        "name": "Onyx Void Core",          "dmg": 35000.0, "rad": 14.5, "price": 1500000000000.0 }
 ]
 
 func _load_image_texture(path: String) -> ImageTexture:

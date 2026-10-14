@@ -1,75 +1,44 @@
-extends Object
-
-const ALL_CLASS_WEAPONS: Array[String] = [
-	"pickaxe", "electric_pickaxe", "axe", "battleaxe", "drill",
-	"pistol", "shotgun", "rifle", "minigun", "staff", "water_staff",
-	"poison_staff", "bomb", "mortar_gun", "tank", "jet", "orb",
-	"flamethrower", "water_gun", "poison_gun", "boxing_glove",
-	"roundhouse_kick", "earthquake", "nuke", "sword", "void_core"
-]
+﻿extends Object
 
 func load_equipment_shop(chain: ModLoaderHookChain) -> void:
 	chain.execute_next([])
-	var screen = chain.reference_object
-	if not screen:
+	var ms = chain.reference_object
+	if not ms or not Gvars or not Gvars.profession:
 		return
 
-	var reg = load("res://mods-unpacked/gareth-mod_manager_mod/scripts/mod_registry.gd")
-	var prof_name: String = ""
-	if Gvars and ("profession" in Gvars) and Gvars.profession and ("profession_name" in Gvars.profession):
-		prof_name = str(Gvars.profession.profession_name).to_lower()
-
-	var class_weapon_map: Dictionary = {
-		"knight": ["sword"],
-		"jedi": ["laser", "pistol"],
-		"bouncing demolitionist": ["bomb", "grenade"],
-		"rainbow sinclairity": ["laser"],
-		"void siphon": ["void_core"],
-		"debt executioner": ["staff", "poison_gun", "minigun"],
-		"chrono-industrialist": ["pickaxe"],
-		"gravitational dreadnought": ["shotgun", "tank"],
-		"tectonic fracker": ["drill", "mortar_gun"]
+	var prof_name: String = str(Gvars.profession.profession_name).to_lower()
+	var allowed_weapon_map := {
+		"knight": "sword",
+		"jedi": "jedi_saber",
+		"bouncing ball": "bouncing_ball",
+		"rainbow sinclairity": "sinclair_prism",
+		"void siphon": "void_core",
+		"debt executioner": "debt_executioner",
+		"chrono-industrialist": "chrono_drill",
+		"gravitational dreadnought": "dread_cannon",
+		"tectonic fracker": "fracker"
 	}
 
-	var eq_shop = screen.get_node_or_null("%EquipmentShop")
-	if not eq_shop and "equipment_shop" in screen:
-		eq_shop = screen.equipment_shop
-	if not eq_shop:
+	if not allowed_weapon_map.has(prof_name):
 		return
 
-	for card in eq_shop.get_children():
-		if not ("item" in card) or not card.item:
-			continue
-		var item = card.item
-		var itype: String = str(item.itemType).to_lower()
-		var iname: String = str(item.itemName).to_lower()
-		var should_hide: bool = false
+	var my_weapon_type: String = allowed_weapon_map[prof_name]
+	var all_weapon_types := [
+		"pickaxe", "axe", "battleaxe", "drill", "pistol", "shotgun", "rifle",
+		"minigun", "staff", "water_staff", "poison_staff", "bomb", "mortar_gun",
+		"tank", "jet", "orb", "laser", "flamethrower", "water_gun", "poison_gun",
+		"boxing_glove", "roundhouse_kick", "turret", "sword", "bouncing_ball",
+		"fracker", "jedi_saber", "sinclair_prism", "void_core", "debt_executioner",
+		"dread_cannon", "chrono_drill"
+	]
 
-		# 1. PURGE DISABLED MOD WEAPONS & EXPLOSIVES
-		if iname.contains("hydrogen") and reg and not reg.is_mod_active_for_run("hydrogen_bomb"):
-			should_hide = true
-		elif iname.contains("neutron") and reg and not reg.is_mod_active_for_run("neutron_bomb"):
-			should_hide = true
-		elif (itype == "nuke" or iname.contains("nuke")) and reg and not reg.is_mod_active_for_run("more_nukes"):
-			should_hide = true
-		elif itype == "turret" and reg and not reg.is_mod_active_for_run("heavy_turrets"):
-			should_hide = true
-		elif itype == "water_spirit" and reg and not reg.is_mod_active_for_run("water_spirit"):
-			should_hide = true
-		elif itype == "laser" and reg and not reg.is_mod_active_for_run("laser_beam") and prof_name != "jedi" and prof_name != "rainbow sinclairity":
-			should_hide = true
+	var shop_container = ms.find_child("EquipmentContainer", true, false)
+	if not shop_container:
+		shop_container = ms.find_child("GridContainer", true, false)
 
-		# 2. ENFORCE STRICT CLASS-SPECIFIC WEAPON ARCHETYPES
-		if not should_hide and itype in ALL_CLASS_WEAPONS:
-			if class_weapon_map.has(prof_name):
-				var allowed: Array = class_weapon_map[prof_name]
-				if not (itype in allowed):
-					should_hide = true
-			else:
-				# Vanilla classes cannot buy custom weapon types
-				if itype in ["sword", "void_core"]:
-					should_hide = true
-
-		if should_hide:
-			card.visible = false
-			card.queue_free()
+	if shop_container:
+		for child in shop_container.get_children():
+			if "item" in child and child.item:
+				var itype: String = str(child.item.itemType)
+				if all_weapon_types.has(itype) and itype != my_weapon_type:
+					child.visible = false

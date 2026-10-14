@@ -10,6 +10,15 @@ func _profession_effect(data: Dictionary) -> Dictionary:
 				"count": 1
 			}]
 
+	if not data.has("items_locked"):
+		data["items_locked"] = []
+	data["items_locked"].append_array([
+		"pickaxe", "axe", "battleaxe", "drill", "pistol", "shotgun", "rifle",
+		"minigun", "staff", "water_staff", "poison_staff", "bomb", "mortar_gun",
+		"tank", "jet", "orb", "laser", "flamethrower", "water_gun", "poison_gun",
+		"boxing_glove", "roundhouse_kick", "turret", "sword", "bouncing_ball", "fracker"
+	])
+
 	if data.has("unlocked_passives"):
 		data["unlocked_passives"] = [
 			"sinclair_melt_damage",

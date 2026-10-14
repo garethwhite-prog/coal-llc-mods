@@ -6,21 +6,21 @@ var starter_weapon = null
 var all_sinc_items: Array = []
 
 const TIER_DATA := [
-	{ "id": "01_shoddy",      "name": "Shoddy Optical Emitter",        "dmg": 55.0,    "width": 6.0,  "price": 0.0 },
-	{ "id": "02_copper",      "name": "Copper Optical Emitter",        "dmg": 80.0,    "width": 7.0,  "price": 350.0 },
-	{ "id": "03_iron",        "name": "Iron Optical Emitter",          "dmg": 115.0,   "width": 8.0,  "price": 1800.0 },
-	{ "id": "04_sapphire",    "name": "Sapphire Optical Emitter",      "dmg": 165.0,   "width": 9.0,  "price": 9500.0 },
-	{ "id": "05_emerald",     "name": "Emerald Optical Emitter",       "dmg": 240.0,   "width": 10.0, price": 45000.0 },
-	{ "id": "06_silver",      "name": "Silver Optical Emitter",        "dmg": 350.0,   "width": 11.0, price": 200000.0 },
-	{ "id": "07_amethyst",    "name": "Amethyst Optical Emitter",      "dmg": 500.0,   "width": 12.0, price": 850000.0 },
-	{ "id": "08_gold",        "name": "Gold Optical Emitter",          "dmg": 740.0,   "width": 13.0, price": 4000000.0 },
-	{ "id": "09_ruby",        "name": "Ruby Optical Emitter",          "dmg": 1100.0,  "width": 14.0, price": 20000000.0 },
-	{ "id": "10_diamond",     "name": "Diamond Optical Emitter",       "dmg": 1650.0,  "width": 15.0, price": 100000000.0 },
-	{ "id": "11_pinkdiamond", "name": "Pink Diamond Optical Emitter",  "dmg": 2500.0,  "width": 16.0, price": 600000000.0 },
-	{ "id": "12_spinel",      "name": "Spinel Optical Emitter",        "dmg": 3900.0,  "width": 17.0, price": 3500000000.0 },
-	{ "id": "13_uranium",     "name": "Uranium Optical Emitter",       "dmg": 6000.0,  "width": 18.0, price": 25000000000.0 },
-	{ "id": "14_moonstone",   "name": "Moonstone Optical Emitter",     "dmg": 9600.0,  "width": 20.0, price": 180000000000.0 },
-	{ "id": "15_onyx",        "name": "Onyx Optical Emitter",          "dmg": 16000.0, "width": 22.0, price": 1500000000000.0 }
+	{ "id": "01_shoddy",      "name": "Shoddy Optical Emitter",        "dmg": 85.0,    "width": 6.0,  "price": 0.0 },
+	{ "id": "02_copper",      "name": "Copper Optical Emitter",        "dmg": 120.0,   "width": 7.0,  "price": 350.0 },
+	{ "id": "03_iron",        "name": "Iron Optical Emitter",          "dmg": 170.0,   "width": 8.0,  "price": 1800.0 },
+	{ "id": "04_sapphire",    "name": "Sapphire Optical Emitter",      "dmg": 240.0,   "width": 9.0,  "price": 9500.0 },
+	{ "id": "05_emerald",     "name": "Emerald Optical Emitter",       "dmg": 340.0,   "width": 10.0, "price": 45000.0 },
+	{ "id": "06_silver",      "name": "Silver Optical Emitter",        "dmg": 490.0,   "width": 11.0, "price": 200000.0 },
+	{ "id": "07_amethyst",    "name": "Amethyst Optical Emitter",      "dmg": 700.0,   "width": 12.0, "price": 850000.0 },
+	{ "id": "08_gold",        "name": "Gold Optical Emitter",          "dmg": 1000.0,  "width": 13.0, "price": 4000000.0 },
+	{ "id": "09_ruby",        "name": "Ruby Optical Emitter",          "dmg": 1500.0,  "width": 14.0, "price": 20000000.0 },
+	{ "id": "10_diamond",     "name": "Diamond Optical Emitter",       "dmg": 2200.0,  "width": 15.0, "price": 100000000.0 },
+	{ "id": "11_pinkdiamond", "name": "Pink Diamond Optical Emitter",  "dmg": 3300.0,  "width": 16.0, "price": 600000000.0 },
+	{ "id": "12_spinel",      "name": "Spinel Optical Emitter",        "dmg": 5000.0,  "width": 17.0, "price": 3500000000.0 },
+	{ "id": "13_uranium",     "name": "Uranium Optical Emitter",       "dmg": 7800.0,  "width": 18.0, "price": 25000000000.0 },
+	{ "id": "14_moonstone",   "name": "Moonstone Optical Emitter",     "dmg": 12500.0, "width": 20.0, "price": 180000000000.0 },
+	{ "id": "15_onyx",        "name": "Onyx Optical Emitter",          "dmg": 20000.0, "width": 22.0, "price": 1500000000000.0 }
 ]
 
 func _load_image_texture(path: String) -> ImageTexture:

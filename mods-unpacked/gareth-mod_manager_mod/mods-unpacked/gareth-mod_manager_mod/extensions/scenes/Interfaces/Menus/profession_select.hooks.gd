@@ -6,13 +6,13 @@ func _ready(chain: ModLoaderHookChain) -> void:
 	if not ps or not ("professions" in ps) or not ps.professions:
 		return
 
-	# Enable horizontal mouse wheel scrolling across all cards
-	var parent_scroll = ps.professions.get_parent()
-	if parent_scroll and parent_scroll is ScrollContainer:
-		parent_scroll.gui_input.connect(func(event: InputEvent):
-			if event is InputEventMouseButton:
-				if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-					parent_scroll.scroll_horizontal += 80
-				elif event.button_index == MOUSE_BUTTON_WHEEL_UP:
-					parent_scroll.scroll_horizontal -= 80
-		)
+	var reg = load("res://mods-unpacked/gareth-mod_manager_mod/scripts/mod_registry.gd")
+	if not reg:
+		return
+
+	# Non-destructive: every card stays visible unless explicitly disabled in config
+	for card in ps.professions.get_children():
+		if "profession" in card and card.profession:
+			var pname: String = str(card.profession.profession_name).to_lower().replace(" ", "_").replace("-", "_")
+			if not reg.is_mod_active_for_run(pname):
+				card.visible = false

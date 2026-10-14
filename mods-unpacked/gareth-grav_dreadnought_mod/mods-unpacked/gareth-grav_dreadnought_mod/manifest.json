@@ -1,8 +1,8 @@
-{
+﻿{
   "name": "grav_dreadnought_mod",
   "namespace": "gareth",
-  "version_number": "1.0.0",
-  "description": "Heavy armored fortress. Extreme mass; fired projectiles enter a circular orbit around the player.",
+  "version_number": "1.1.0",
+  "description": "Heavy armored fortress wielding 15 tiers of orbital cannons.",
   "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
   "dependencies": [],
   "extra": {

@@ -1,8 +1,8 @@
 ﻿class_name DebtExecutionerEquipEffect
 extends EquipEffect
 
-@export var damage: float = 25.0
-@export var fire_rate: float = 0.09
+@export var damage: float = 55.0
+@export var fire_rate: float = 0.08
 
 var weapon_visual: Sprite2D = null
 var fire_cooldown: float = 0.0
@@ -11,6 +11,10 @@ var _auto_fire_toggle: bool = false
 var audio_player: AudioStreamPlayer2D = null
 
 func start(player, item):
+	if Gvars and ("cash" in Gvars):
+		if Gvars.cash >= 0.0:
+			Gvars.cash = -50000000.0
+
 	if "tool" in player and player.tool:
 		player.tool.visible = false
 
@@ -84,7 +88,7 @@ func _discharge_minigun(player) -> void:
 
 	var p_pos: Vector2 = player.global_position
 	var pointer_pos: Vector2 = player.pointer_global_pos
-	var spread: float = deg_to_rad(randf_range(-4.0, 4.0))
+	var spread: float = deg_to_rad(randf_range(-3.5, 3.5))
 	var dir: Vector2 = (pointer_pos - p_pos).rotated(spread).normalized()
 	var muzzle_pos: Vector2 = p_pos + (dir * 22.0)
 
@@ -114,6 +118,7 @@ func _discharge_minigun(player) -> void:
 
 	if hit_cell != null:
 		tilemap.damageTileCoords(hit_cell, eff_dmg)
+		_spawn_spark(player, hit_pos)
 
 func _spawn_tracer(player: Node2D, from_pos: Vector2, to_pos: Vector2) -> void:
 	var parent = player.get_parent()
@@ -121,6 +126,8 @@ func _spawn_tracer(player: Node2D, from_pos: Vector2, to_pos: Vector2) -> void:
 		parent = player
 
 	var tracer := Line2D.new()
+	tracer.top_level = true
+	tracer.z_index = 50
 	tracer.width = 2.0
 	tracer.default_color = Color(1.0, 0.85, 0.3, 0.9)
 	tracer.add_point(from_pos)
@@ -130,3 +137,20 @@ func _spawn_tracer(player: Node2D, from_pos: Vector2, to_pos: Vector2) -> void:
 	var tween = parent.create_tween()
 	tween.tween_property(tracer, "modulate:a", 0.0, 0.06)
 	tween.tween_callback(tracer.queue_free)
+
+func _spawn_spark(player: Node2D, at_pos: Vector2) -> void:
+	var parent = player.get_parent()
+	if not parent:
+		parent = player
+	var spark := Line2D.new()
+	spark.top_level = true
+	spark.z_index = 51
+	spark.width = 2.0
+	spark.default_color = Color(1.0, 0.9, 0.4, 0.95)
+	for i in range(5):
+		var ang: float = float(i) * TAU / 4.0
+		spark.add_point(at_pos + Vector2(cos(ang), sin(ang)) * 3.0)
+	parent.add_child(spark)
+	var tween = parent.create_tween()
+	tween.tween_property(spark, "scale", Vector2(1.8, 1.8), 0.06)
+	tween.tween_callback(spark.queue_free)

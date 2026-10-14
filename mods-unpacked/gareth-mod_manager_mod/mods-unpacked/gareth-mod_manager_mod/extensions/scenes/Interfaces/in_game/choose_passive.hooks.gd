@@ -21,7 +21,13 @@ const CUSTOM_PASSIVES: Dictionary = {
 	"sinclair_spectrum_ticks": 0.10,
 	"void_implosion_damage": 0.10,
 	"void_pull_radius": 0.15,
-	"void_event_horizon": 0.10
+	"void_event_horizon": 0.10,
+	"dread_shell_damage": 0.10,
+	"dread_fire_rate": 0.10,
+	"dread_impact_radius": 0.15,
+	"chrono_tick_rate": 0.10,
+	"chrono_shockwave_damage": 0.15,
+	"chrono_stasis_duration": 0.10
 }
 
 func _ready(chain: ModLoaderHookChain) -> void:
@@ -42,6 +48,8 @@ func _ready(chain: ModLoaderHookChain) -> void:
 	local_passive_map["jedi_saber"] = ["jedi_saber_damage", "jedi_swing_rate", "jedi_cleave_reach"]
 	local_passive_map["sinclair_prism"] = ["sinclair_melt_damage", "sinclair_beam_width", "sinclair_spectrum_ticks"]
 	local_passive_map["void_core"] = ["void_implosion_damage", "void_pull_radius", "void_event_horizon"]
+	local_passive_map["dread_cannon"] = ["dread_shell_damage", "dread_fire_rate", "dread_impact_radius"]
+	local_passive_map["chrono_drill"] = ["chrono_tick_rate", "chrono_shockwave_damage", "chrono_stasis_duration"]
 
 	var data := {"unlocked_passives": []}
 	if Gvars and Gvars.profession:

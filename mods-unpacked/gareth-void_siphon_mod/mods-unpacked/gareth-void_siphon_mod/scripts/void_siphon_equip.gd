@@ -91,7 +91,6 @@ func _trigger_singularity_implosion(player) -> void:
 	var rad_mult: float = 1.0 + _get_passive_stat("void_pull_radius")
 	var eff_rad: float = radius * rad_mult
 
-	# Singularity Implosion Damage
 	var cell_center: Vector2i = tilemap.local_to_map(center_pos)
 	var r_int: int = int(ceil(eff_rad))
 	for dx in range(-r_int, r_int + 1):
@@ -101,7 +100,6 @@ func _trigger_singularity_implosion(player) -> void:
 				if tilemap.is_tile_breakable(cell):
 					tilemap.damageTileCoords(cell, eff_dmg)
 
-	# Gravitational Ore Vacuum Pull
 	var items = player.get_tree().get_nodes_in_group("pickups")
 	for item_node in items:
 		if is_instance_valid(item_node) and "global_position" in item_node:
@@ -130,7 +128,6 @@ func _spawn_singularity_visual(player: Node2D, at_pos: Vector2, max_radius: floa
 
 	var tween = parent.create_tween()
 	tween.set_parallel(true)
-	# Implosion effect: shrinks rapidly into nothingness
 	tween.tween_property(ring, "scale", Vector2(0.1, 0.1), 0.18)
 	tween.tween_property(ring, "modulate:a", 0.0, 0.18)
 	tween.set_parallel(false)

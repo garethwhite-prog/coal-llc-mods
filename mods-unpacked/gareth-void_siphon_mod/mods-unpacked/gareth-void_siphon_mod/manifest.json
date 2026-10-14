@@ -1,7 +1,7 @@
 ﻿{
   "name": "void_siphon_mod",
   "namespace": "gareth",
-  "version_number": "1.1.0",
+  "version_number": "1.1.1",
   "description": "Gravitational singularity harvester with 15 tiers of void cores and implosion mechanics.",
   "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
   "dependencies": [],
