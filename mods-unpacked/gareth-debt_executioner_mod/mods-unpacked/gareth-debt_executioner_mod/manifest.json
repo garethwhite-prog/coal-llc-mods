@@ -1,16 +1,16 @@
-{
+﻿{
   "name": "debt_executioner_mod",
   "namespace": "gareth",
-  "version_number": "1.0.0",
-  "description": "Corporate enforcer with late-game Onyx loadouts. Starts with -,000,000 corporate debt. Meet quotas or Repo Drones hunt you.",
+  "version_number": "1.1.0",
+  "description": "Corporate enforcer starting at -$50M debt with 15 tiers of rotary miniguns.",
   "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
   "dependencies": [],
   "extra": {
     "godot": {
-      "display_name": "The Debt Executioner Class",
-      "category": "Progression & Upgrades",
+      "display_name": "Debt Executioner Class",
+      "category": "Hardcore Mutators",
       "authors": ["Gareth White"],
-      "tags": ["class", "profession", "weapon"],
+      "tags": ["class", "profession", "weapon", "minigun"],
       "compatible_mod_loader_version": ["7.0.1"],
       "compatible_game_version": ["1.4.1.1"]
     }

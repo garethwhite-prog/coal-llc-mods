@@ -9,7 +9,10 @@ const CUSTOM_PASSIVES: Dictionary = {
 	"fracker_fire_rate": 0.10,
 	"ball_blast_damage": 0.10,
 	"ball_blast_radius": 0.15,
-	"ball_fire_rate": 0.10
+	"ball_fire_rate": 0.10,
+	"exec_damage": 0.10,
+	"exec_fire_rate": 0.10,
+	"exec_bounty": 0.15
 }
 
 func _ready(chain: ModLoaderHookChain) -> void:
@@ -26,6 +29,7 @@ func _ready(chain: ModLoaderHookChain) -> void:
 	local_passive_map["sword"] = ["sword_damage", "sword_speed", "sword_range"]
 	local_passive_map["fracker"] = ["fracker_pulse_damage", "fracker_seam_resonance", "fracker_fire_rate"]
 	local_passive_map["bouncing_ball"] = ["ball_blast_damage", "ball_blast_radius", "ball_fire_rate"]
+	local_passive_map["debt_executioner"] = ["exec_damage", "exec_fire_rate", "exec_bounty"]
 
 	var data := {"unlocked_passives": []}
 	if Gvars and Gvars.profession:

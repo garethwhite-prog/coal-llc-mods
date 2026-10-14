@@ -51,7 +51,6 @@ func _physics_process(delta: float) -> void:
 			audio.play()
 			audio.finished.connect(audio.queue_free)
 
-		# Impact damage on ricochet
 		_damage_at_pos(collision.get_position() - (collision.get_normal() * 4.0), damage * 0.4)
 
 		if _bounces_left <= 0 or velocity.length() < 25.0:

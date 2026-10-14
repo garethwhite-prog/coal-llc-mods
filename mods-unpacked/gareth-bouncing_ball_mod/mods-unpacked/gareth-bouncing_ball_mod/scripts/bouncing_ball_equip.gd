@@ -92,7 +92,6 @@ func _throw_bouncing_ball(player) -> void:
 	var rad_mult: float = 1.0 + _get_passive_stat("ball_blast_radius")
 	proj.radius = radius * rad_mult
 
-	# Bind player tilemap directly
 	if "tilemap" in player:
 		proj.tilemap = player.tilemap
 
