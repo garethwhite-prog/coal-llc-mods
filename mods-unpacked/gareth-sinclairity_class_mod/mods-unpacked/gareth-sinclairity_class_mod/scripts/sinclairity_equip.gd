@@ -1,8 +1,8 @@
 ﻿class_name SinclairityEquipEffect
 extends EquipEffect
 
-@export var damage: float = 85.0
-@export var beam_width: float = 6.0
+@export var damage: float = 95.0
+@export var beam_width: float = 7.0
 
 var weapon_visual: Sprite2D = null
 var beam_line: Line2D = null
@@ -112,7 +112,8 @@ func _process_prismatic_beam(player, delta) -> void:
 
 	for d in range(8, int(max_reach), 6):
 		var check_pos: Vector2 = muzzle_pos + (dir * float(d))
-		var cell: Vector2i = tilemap.local_to_map(check_pos)
+		var local_pos: Vector2 = tilemap.to_local(check_pos)
+		var cell: Vector2i = tilemap.local_to_map(local_pos)
 		if tilemap.is_tile_breakable(cell):
 			hit_cell = cell
 			hit_pos = check_pos
@@ -127,7 +128,10 @@ func _process_prismatic_beam(player, delta) -> void:
 
 	if hit_cell != null:
 		var eff_dmg: float = damage * (1.0 + _get_passive_stat("sinclair_melt_damage")) * delta * 60.0
-		tilemap.damageTileCoords(hit_cell, eff_dmg)
+		if tilemap.has_method("damageTile"):
+			tilemap.damageTile(hit_pos, eff_dmg)
+		if tilemap.has_method("damageTileCoords"):
+			tilemap.damageTileCoords(hit_cell, eff_dmg)
 		_spawn_melt_spark(player, hit_pos, beam_col)
 
 func _spawn_melt_spark(player: Node2D, at_pos: Vector2, col: Color) -> void:

@@ -10,7 +10,6 @@ func _ready(chain: ModLoaderHookChain) -> void:
 	if not reg:
 		return
 
-	# Non-destructive: every card stays visible unless explicitly disabled in config
 	for card in ps.professions.get_children():
 		if "profession" in card and card.profession:
 			var pname: String = str(card.profession.profession_name).to_lower().replace(" ", "_").replace("-", "_")

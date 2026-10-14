@@ -1,7 +1,7 @@
 ﻿class_name DebtExecutionerEquipEffect
 extends EquipEffect
 
-@export var damage: float = 55.0
+@export var damage: float = 75.0
 @export var fire_rate: float = 0.08
 
 var weapon_visual: Sprite2D = null
@@ -12,7 +12,7 @@ var audio_player: AudioStreamPlayer2D = null
 
 func start(player, item):
 	if Gvars and ("cash" in Gvars):
-		if Gvars.cash >= 0.0:
+		if Gvars.cash >= 0.0 and ("day" in Gvars and Gvars.day <= 1):
 			Gvars.cash = -50000000.0
 
 	if "tool" in player and player.tool:
@@ -106,9 +106,10 @@ func _discharge_minigun(player) -> void:
 
 	var hit_cell = null
 	var hit_pos: Vector2 = muzzle_pos + (dir * 180.0)
-	for d in range(8, 180, 8):
+	for d in range(8, 180, 6):
 		var test_pos: Vector2 = muzzle_pos + (dir * float(d))
-		var cell: Vector2i = tilemap.local_to_map(test_pos)
+		var local_pos: Vector2 = tilemap.to_local(test_pos)
+		var cell: Vector2i = tilemap.local_to_map(local_pos)
 		if tilemap.is_tile_breakable(cell):
 			hit_cell = cell
 			hit_pos = test_pos
@@ -117,7 +118,10 @@ func _discharge_minigun(player) -> void:
 	_spawn_tracer(player, muzzle_pos, hit_pos)
 
 	if hit_cell != null:
-		tilemap.damageTileCoords(hit_cell, eff_dmg)
+		if tilemap.has_method("damageTile"):
+			tilemap.damageTile(hit_pos, eff_dmg)
+		if tilemap.has_method("damageTileCoords"):
+			tilemap.damageTileCoords(hit_cell, eff_dmg)
 		_spawn_spark(player, hit_pos)
 
 func _spawn_tracer(player: Node2D, from_pos: Vector2, to_pos: Vector2) -> void:
@@ -145,11 +149,11 @@ func _spawn_spark(player: Node2D, at_pos: Vector2) -> void:
 	var spark := Line2D.new()
 	spark.top_level = true
 	spark.z_index = 51
-	spark.width = 2.0
+	spark.width = 2.5
 	spark.default_color = Color(1.0, 0.9, 0.4, 0.95)
 	for i in range(5):
 		var ang: float = float(i) * TAU / 4.0
-		spark.add_point(at_pos + Vector2(cos(ang), sin(ang)) * 3.0)
+		spark.add_point(at_pos + Vector2(cos(ang), sin(ang)) * 4.0)
 	parent.add_child(spark)
 	var tween = parent.create_tween()
 	tween.tween_property(spark, "scale", Vector2(1.8, 1.8), 0.06)
