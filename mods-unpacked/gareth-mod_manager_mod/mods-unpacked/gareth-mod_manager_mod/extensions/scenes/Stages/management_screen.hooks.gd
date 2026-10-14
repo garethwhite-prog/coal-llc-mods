@@ -1,34 +1,34 @@
 ﻿extends Object
 
-func _ready(chain: ModLoaderHookChain) -> void:
+func load_equipment_shop(chain: ModLoaderHookChain) -> void:
 	chain.execute_next([])
 	var ms = chain.reference_object
 	if not ms or not Gvars:
 		return
 
+	# Enforce Day 1 -$50,000,000 starting balance for Debt Executioner
 	if Gvars.profession and str(Gvars.profession.profession_name).to_lower().contains("debt"):
-		Gvars.cash = -50000000.0
-		_refresh_cash_label(ms)
+		if Gvars.cash >= 0.0 and ("day" in Gvars and Gvars.day <= 1):
+			Gvars.cash = -50000000.0
+			for lbl_name in ["Cash", "CashLabel", "%Cash", "%CashLabel"]:
+				var lbl = ms.find_child(lbl_name, true, false)
+				if lbl and "text" in lbl:
+					lbl.text = "Cash: -50,000,000"
 
-func _process(chain: ModLoaderHookChain, delta: float) -> void:
-	chain.execute_next([delta])
+	_filter_shop_weapons(ms)
+
+func refresh_all_icons(chain: ModLoaderHookChain) -> void:
+	chain.execute_next([])
 	var ms = chain.reference_object
 	if ms and Gvars and Gvars.profession and str(Gvars.profession.profession_name).to_lower().contains("debt"):
 		if Gvars.cash >= 0.0 and ("day" in Gvars and Gvars.day <= 1):
 			Gvars.cash = -50000000.0
-			_refresh_cash_label(ms)
+			var lbl = ms.find_child("Cash", true, false)
+			if lbl and "text" in lbl:
+				lbl.text = "Cash: -50,000,000"
 
-func _refresh_cash_label(ms: CanvasItem) -> void:
-	var lbl = ms.find_child("Cash", true, false)
-	if not lbl:
-		lbl = ms.find_child("CashLabel", true, false)
-	if lbl and "text" in lbl:
-		lbl.text = "Cash: -50,000,000"
-
-func load_equipment_shop(chain: ModLoaderHookChain) -> void:
-	chain.execute_next([])
-	var ms = chain.reference_object
-	if not ms or not Gvars or not Gvars.profession:
+func _filter_shop_weapons(ms: CanvasItem) -> void:
+	if not Gvars or not Gvars.profession:
 		return
 
 	var prof_name: String = str(Gvars.profession.profession_name).to_lower()
