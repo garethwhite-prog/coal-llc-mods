@@ -11,7 +11,7 @@ foreach ($line in $gitStatus) { [void]$sb.AppendLine($line) }
 
 [void]$sb.AppendLine("`n=== RECENT COMMITS ===")
 $gitLog = git log -n 3 --oneline
-foreach ($line in$gitLog) { [void]$sb.AppendLine($line) }
+foreach ($line in $gitLog) { [void]$sb.AppendLine($line) }
 Pop-Location
 
 [void]$sb.AppendLine("`n=== ENGINE LOG (LAST 50 LINES) ===")

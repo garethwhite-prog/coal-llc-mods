@@ -1,0 +1,59 @@
+﻿=== GIT STATUS ===
+ M Dump-Context.ps1
+
+=== RECENT COMMITS ===
+7d2fdbc Update SESSION_PROMPT.md with full modding architecture and findings
+53bcfd1 Fix bomb textures, starting debt, and shop filtering
+1a7837d Added some Images
+
+=== ENGINE LOG (LAST 50 LINES) ===
+INFO gareth-more_nukes_mod: 15 Tactical Nukes registered with color-coded warheads.
+INFO gareth-more_vacuum_quests_mod: Tabatha Quests & Vacuum Levels 5-8 online.
+INFO gareth-multisave_mod: Multi-Save Slot Manager v2.2 active without Gvars hooks.
+INFO gareth-neutron_bomb_mod: 15 Neutron Bombs registered with color-coded canisters.
+INFO gareth-plasma_raygun_mod:Main: Plasma Raygun online! Hold Right-Click to fire.
+INFO gareth-prospectors_beacon_mod:Main: Ready and active in scene!
+INFO gareth-seismic_hazards_mod:Main: Ready and active in scene!
+INFO gareth-sinclairity_class_mod: 15 Rainbow Sinclairity Optical Emitter tiers registered into equipment shop.
+INFO gareth-sinclairity_class_mod: Rainbow Sinclairity Class (ID 104) registered cleanly.
+INFO gareth-tank_arsenal_mod: Registered and tier-sorted 45 custom tanks into shop.
+INFO gareth-tectonic_fracker_mod: 15 Tectonic Fracker tiers registered into equipment shop.
+INFO gareth-tectonic_fracker_mod: Tectonic Fracker Class (ID 109) registered cleanly.
+INFO gareth-tick_upgrade_mod: Elemental Tick Upgrades (gareth-tick_upgrade_mod, credit: der_floh) online.
+INFO gareth-vacuum_depot_mod: Vacuum Collector Depot mod initialized successfully.
+INFO gareth-weapon_stacker_mod:Main: Weapon Stacker Mod active and ready!
+INFO gareth-void_siphon_mod: 15 Void Siphon Core tiers registered into equipment shop.
+INFO gareth-void_siphon_mod: Void Siphon Class (ID 105) registered cleanly.
+INFO gareth-water_spirit_mod: 15 Water Spirit Fairy tiers loaded with custom textures.
+INFO der_floh-effect_spread_mod:Main: Effect Spread Mod ready. radius=3, inherit_ticks=true, fresh_ticks=3, debug_logging=false
+INFO der_floh-no_holes_mod:Main: Ready! debug_logging=false
+INFO der_floh-ore_value_mod:Main: Ready! debug_logging=false
+INFO der_floh-passive_drop_mod:Main: Ready! debug_logging=false
+INFO gareth-bouncing_ball_mod: 15 Bouncing Ball tiers registered into equipment shop.
+INFO gareth-bouncing_ball_mod: Bouncing Ball Class (ID 103) registered cleanly.
+INFO gareth-chrono_industrialist_mod: 15 Chrono-Industrialist Harvester tiers registered into equipment shop.
+INFO gareth-chrono_industrialist_mod: Chrono-Industrialist Class (ID 107) registered cleanly.
+INFO gareth-debt_executioner_mod: 15 Debt Executioner Minigun tiers registered into equipment shop.
+INFO gareth-debt_executioner_mod: Debt Executioner Class (ID 106) registered cleanly.
+INFO gareth-dual_multipliers_mod: Dual-Multiplier Scaling Expansion initialized.
+INFO gareth-elemental_transmutation_mod:Main: Ready and active in scene!
+INFO gareth-endgame_arsenal_mod: End-game Magic Staffs (12-15) and Poison Guns (1-15) registered into shop.
+INFO gareth-excavation_frenzy_mod:Main: Ready and active in scene!
+INFO gareth-grav_dreadnought_mod: 15 Gravitational Dreadnought Cannon tiers registered into equipment shop.
+INFO gareth-grav_dreadnought_mod: Gravitational Dreadnought Class (ID 108) registered cleanly.
+INFO gareth-grenade_mod: 15 Bouncing Grenades registered with color-coded textures.
+INFO gareth-heavy_bombs_mod: Heavy Demolition Bombs (Bunker Buster, Cryo-Cluster, Thermobaric) active.
+INFO gareth-heavy_turrets_mod: Heavy Automated Turrets mod active and registered into equipment shop.
+INFO gareth-hydrogen_bomb_mod: 15 Hydrogen Bombs registered with color-coded heavy casings.
+ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
+   at: _load (core/io/resource_loader.cpp:359)
+INFO gareth-jedi_class_mod: 15 Energy Saber tiers registered into equipment shop.
+INFO gareth-jedi_class_mod: Jedi Class (ID 102) registered cleanly.
+INFO gareth-laser_beam_mod: High-Energy Laser Beam weapon online and added to equipment shop.
+INFO gareth-leaderboard_mod: Leaderboard v2 auto-tracker and Main Menu button online.
+INFO gareth-martial_legends_mod: Martial Artist Legends expansion loaded cleanly.
+INFO gareth-mod_manager_mod: Universal Mod Manager active with full Class, Shop & Input gating.
+INFO ModLoader:ModHookPacker: Generating mod hooks .zip
+DEBUG ModLoader:ModHookPacker: Scripts requiring hooks: { "res://scenes/tilemaps/tile_map_manager.gd": ["load_chunks", "apply_tile_effects"], "res://scenes/equipment/electric_shock.gd": ["_physics_process"], "res://scripts/StateMachine/Player2/player_2.gd": ["mine_action", "_ready", "_physics_process"], "res://scenes/Interfaces/Menus/settings_2.gd": ["_ready"], "res://scenes/Interfaces/in_game/choose_passive.gd": ["_process", "_ready", "_on_button_pressed", "_on_button_2_pressed", "_on_button_3_pressed"], "res://scenes/tilemaps/tile_map_chunk.gd": ["destroy_tile", "adjust_level_bonus", "generate_chunk", "generate_chests"], "res://scripts/Chest.gd": ["pickup_item", "roll_loot"], "res://scenes/ManagersInScene/mortar_manager.gd": ["shoot_mortar"], "res://scripts/PauseMenu.gd": ["on_pressed_resume", "_ready"], "res://scenes/Interfaces/Management/employee_shop_tooltip.gd": ["_ready"], "res://resources/Employees/Scripts/employee_manager.gd": ["get_employee_level_from_enum", "purchase_employee_level"], "res://scenes/Interfaces/Management/organisation_chart_2.gd": ["_ready", "refresh_all_icons", "_draw"], "res://scenes/Interfaces/Management/employee_level_icon_2.gd": ["_ready", "position_tooltip"], "res://scripts/equipment_manager.gd": ["generate_vacuum_cleaner"], "res://scenes/NPCs/quest_scene_manager.gd": ["_ready", "refresh_all_quest_points"], "res://resources/Quests/quest_rewards/reward_vacuum.gd": ["reward"], "res://scripts/MainMenu.gd": ["_ready", "on_profession_selected"], "res://resources/professions/scripts/tanker.gd": ["_profession_effect"], "res://scenes/Stages/management_screen.gd": ["load_equipment_shop", "_ready", "refresh_cash"], "res://resources/EquipEffects/Scripts/tank.gd": ["start", "end"], "res://scenes/equipment/tank_bullet.gd": ["_ready", "attack_tile"], "res://scenes/equipment/vacuum_cleaner.gd": ["_physics_process"], "res://scripts/LootCollectorUFO.gd": ["_physics_process"], "res://resources/EquipEffects/Scripts/gun.gd": ["start", "end", "physics_process"], "res://resources/EquipEffects/Scripts/water_gun.gd": ["start", "end", "physics_process"], "res://scenes/equipment/boxing_gloves.gd": ["attack_tile"], "res://scenes/equipment/kick.gd": ["_process", "damage_tiles"], "res://resources/professions/scripts/martial_artist.gd": ["_profession_effect"], "res://scenes/Interfaces/Menus/profession_select.gd": ["_ready"] }
+INFO ModLoader:ModHookPacker: Scripts are already processed according to cache, skipping process.
+INFO gareth-multisave_mod: Career progression and hard modifier badges verified.
