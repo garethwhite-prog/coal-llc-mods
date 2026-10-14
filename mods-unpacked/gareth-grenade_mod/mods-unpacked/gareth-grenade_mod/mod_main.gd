@@ -14,7 +14,7 @@ func _ready() -> void:
 	]
 
 	for t in tiers:
-		var item_path := "res://mods-unpacked/gareth-grenade_mod/items/grenade_%s.tres" % t
+		var item_path := "res://mods-unpacked/gareth-grenade_mod/items/bouncing_grenade_%s.tres" % t
 		if ResourceLoader.exists(item_path):
 			var item = load(item_path)
 			var tex_path := "res://mods-unpacked/gareth-grenade_mod/textures/grenade_%s.png" % t

@@ -1,34 +1,35 @@
 ﻿extends Object
 
-func load_equipment_shop(chain: ModLoaderHookChain) -> void:
+func _ready(chain: ModLoaderHookChain) -> void:
 	chain.execute_next([])
 	var ms = chain.reference_object
 	if not ms or not Gvars:
 		return
 
-	# Enforce Day 1 -$50,000,000 starting balance for Debt Executioner
 	if Gvars.profession and str(Gvars.profession.profession_name).to_lower().contains("debt"):
-		if Gvars.cash >= 0.0 and ("day" in Gvars and Gvars.day <= 1):
+		if "CashCount" in Gvars and Gvars.CashCount >= 0.0:
+			Gvars.CashCount = -50000000.0
+		if "cash" in Gvars and Gvars.cash >= 0.0:
 			Gvars.cash = -50000000.0
-			for lbl_name in ["Cash", "CashLabel", "%Cash", "%CashLabel"]:
-				var lbl = ms.find_child(lbl_name, true, false)
-				if lbl and "text" in lbl:
-					lbl.text = "Cash: -50,000,000"
+		if ms.has_method("refresh_cash"):
+			ms.refresh_cash()
 
-	_filter_shop_weapons(ms)
-
-func refresh_all_icons(chain: ModLoaderHookChain) -> void:
+func refresh_cash(chain: ModLoaderHookChain) -> void:
 	chain.execute_next([])
 	var ms = chain.reference_object
-	if ms and Gvars and Gvars.profession and str(Gvars.profession.profession_name).to_lower().contains("debt"):
-		if Gvars.cash >= 0.0 and ("day" in Gvars and Gvars.day <= 1):
-			Gvars.cash = -50000000.0
-			var lbl = ms.find_child("Cash", true, false)
-			if lbl and "text" in lbl:
-				lbl.text = "Cash: -50,000,000"
+	if not ms or not Gvars:
+		return
 
-func _filter_shop_weapons(ms: CanvasItem) -> void:
-	if not Gvars or not Gvars.profession:
+	if Gvars.profession and str(Gvars.profession.profession_name).to_lower().contains("debt"):
+		if "CashCount" in Gvars and Gvars.CashCount >= 0.0 and ("day" in Gvars and Gvars.day <= 1):
+			Gvars.CashCount = -50000000.0
+			if "current_cash" in ms and ms.current_cash:
+				ms.current_cash.text = "[b]Cash: -50,000,000"
+
+func load_equipment_shop(chain: ModLoaderHookChain) -> void:
+	chain.execute_next([])
+	var ms = chain.reference_object
+	if not ms or not Gvars or not Gvars.profession:
 		return
 
 	var prof_name: String = str(Gvars.profession.profession_name).to_lower()
