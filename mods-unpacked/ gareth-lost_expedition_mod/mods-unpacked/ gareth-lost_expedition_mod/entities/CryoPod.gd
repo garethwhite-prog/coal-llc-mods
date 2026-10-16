@@ -50,6 +50,6 @@ func rescue_worker() -> void:
 		var chosen_emp = emp_mgr.ALL_EMPLOYEES[randi() % emp_mgr.ALL_EMPLOYEES.size()]
 		emp_mgr.purchase_employee_level(chosen_emp)
 		Gvars.CashCount += 10000.0
-		Game.log_message("Cryo-Pod opened! Rescued " + chosen_emp.employee_name + "! Salvaged  ,000.", Game.LogLvl.HIGH, Game.LogType.INFO)
+		Game.log_message("Cryo-Pod opened! Rescued " + chosen_emp.employee_name + "! Salvaged  $10,000.", Game.LogLvl.HIGH, Game.LogType.INFO)
 	
 	sprite.modulate = Color(0.3, 1.0, 0.4, 0.8)
