@@ -13,6 +13,10 @@ func _init() -> void:
 		"res://scenes/tilemaps/tile_map_chunk.gd",
 		mod_dir_path.path_join("extensions/scenes/tilemaps/tile_map_chunk.hooks.gd")
 	)
+	ModLoaderMod.install_script_hooks(
+		"res://scripts/Game.gd",
+		mod_dir_path.path_join("extensions/scripts/Game.hooks.gd")
+	)
 
 func _ready() -> void:
 	ModLoaderLog.info("Lost Expedition Custom Map Mod (ID 101) online!", MOD_DIR)

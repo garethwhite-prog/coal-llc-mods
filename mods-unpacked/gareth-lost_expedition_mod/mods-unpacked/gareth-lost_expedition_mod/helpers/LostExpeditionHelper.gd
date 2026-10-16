@@ -30,9 +30,36 @@ func calculate_tier(pos: Vector2i) -> int:
 	var depth: float = float(pos.y)
 	if depth < 0.0:
 		return -2
-	var wave: float = sin(float(pos.x) * 0.18) * 3.0
-	var tier: int = int(clamp((depth + wave) / 2.6, 0.0, 14.0))
-	return tier
+	
+	var wave: float = sin(float(pos.x) * 0.12) * 5.0
+	var effective_y: float = depth + wave
+	
+	if effective_y < 12.0:
+		return 0
+	elif effective_y < 35.0:
+		return 1
+	elif effective_y < 70.0:
+		return 2
+	elif effective_y < 120.0:
+		return 3
+	elif effective_y < 200.0:
+		return 4
+	elif effective_y < 300.0:
+		return 5
+	elif effective_y < 450.0:
+		return 6
+	elif effective_y < 600.0:
+		return 7
+	elif effective_y < 750.0:
+		return 8
+	elif effective_y < 900.0:
+		return 9
+	elif effective_y < 1050.0:
+		return 10
+	elif effective_y < 1200.0:
+		return 11
+	else:
+		return 12
 
 func tag_uxo_tiles(chunk: Node) -> void:
 	var uxo: Dictionary = {}
@@ -55,7 +82,6 @@ func detonate_uxo(chunk: Node, idx: int) -> void:
 	var local_pos: Vector2 = chunk.map_to_local(chunk.array_to_pos(idx))
 	var world_center: Vector2 = chunk.to_global(local_pos)
 	var manager = chunk.get_parent()
-	
 	for dx in range(-2, 3):
 		for dy in range(-2, 3):
 			var offset_world: Vector2 = world_center + Vector2(dx * 16.0, dy * 16.0)
@@ -91,9 +117,10 @@ func spawn_cryo_pods(chunk: Node, current_locs: Array[Vector2i]) -> Array[Vector
 				chunk.tiles[c_idx] = chunk.Tiles.EMPTY
 				chunk.build_tile(c_idx)
 				var pod_script = load("res://mods-unpacked/gareth-lost_expedition_mod/entities/CryoPod.gd")
-				var pod = pod_script.new()
-				pod.position = chunk.map_to_local(Vector2i(x, y))
-				chunk.add_child.call_deferred(pod)
+				if pod_script:
+					var pod = pod_script.new()
+					pod.position = chunk.map_to_local(Vector2i(x, y))
+					chunk.add_child.call_deferred(pod)
 			else:
 				chunk.tiles[c_idx] = chunk.chest_block_from_level(8)
 				chunk.build_tile(c_idx)

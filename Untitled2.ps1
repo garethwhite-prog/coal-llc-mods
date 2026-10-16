@@ -1,28 +1,35 @@
 ﻿cls
 `
 # ==============================================================================
-# Coal LLC - Fix Lost Expedition Stage Routing, Depth Scaling & Cache Rebuild
+# Coal LLC - Clean Deploy for Lost Expedition (No Asset Regen, Safe Paths)
 # ==============================================================================
 
- $repoRoot      = "C:\Dev\coal-llc-mods"
- $modName       = "gareth-lost_expedition_mod"
- $outerModDir   = Join-Path $repoRoot "mods-unpacked\ $modName"
- $innerModDir   = Join-Path $outerModDir "mods-unpacked\ $modName"
- $steamRoot     = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC"
- $steamModsDir  = Join-Path $steamRoot "mods"
- $zipPath       = Join-Path $steamModsDir " $modName.zip"
- $hookZipPath   = Join-Path $steamRoot "mod-hooks.zip"
+$repo       = "C:\Dev\coal-llc-mods"
+$steamRoot  = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC"
+$steamMods  = "$steamRoot\mods"
+$modName    = "gareth-lost_expedition_mod"
+$outerDir   = "$repo\mods-unpacked\$modName"
+$innerDir   = "$outerDir\mods-unpacked\$modName"
+$zipPath    = "$steamMods\$modName.zip"
+$hookZip    = "$steamRoot\mod-hooks.zip"
 
-Set-Location $repoRoot
+Set-Location $repo
 
-Write-Host ">>> 1. Creating extensions/scripts directory..." -ForegroundColor Cyan
- $scriptsHookDir = Join-Path $innerModDir "extensions\scripts"
-if (-not (Test-Path $scriptsHookDir)) {
-    New-Item -ItemType Directory -Path $scriptsHookDir -Force | Out-Null
+Write-Host ">>> 1. Removing space-prefixed folder and stray zip..." -ForegroundColor Cyan
+git rm -r -f --ignore-unmatch "mods-unpacked/ gareth-lost_expedition_mod" 2>$null
+if (Test-Path "$repo\mods-unpacked\ gareth-lost_expedition_mod") {
+    Remove-Item -Path "$repo\mods-unpacked\ gareth-lost_expedition_mod" -Recurse -Force
+}
+if (Test-Path "$steamMods\ gareth-lost_expedition_mod.zip") {
+    Remove-Item "$steamMods\ gareth-lost_expedition_mod.zip" -Force
 }
 
-Write-Host ">>> 2. Writing Game.hooks.gd to route Level 101 to MINE_REGION..." -ForegroundColor Cyan
- $gameHooksGd = @'
+Write-Host ">>> 2. Ensuring directories exist..." -ForegroundColor Cyan
+New-Item -ItemType Directory -Path "$innerDir\extensions\scripts" -Force | Out-Null
+New-Item -ItemType Directory -Path "$innerDir\helpers" -Force | Out-Null
+
+Write-Host ">>> 3. Writing Game.hooks.gd (routes ID 101 to MINE_REGION)..." -ForegroundColor Cyan
+@'
 extends Object
 
 func change_stage(chain: ModLoaderHookChain, target: int, targetPosition: Vector2) -> void:
@@ -31,13 +38,10 @@ func change_stage(chain: ModLoaderHookChain, target: int, targetPosition: Vector
 		if game and "MINE_REGION" in game:
 			game.target_stage = game.MINE_REGION
 	chain.execute_next([target, targetPosition])
-'@
- $gameHooksPath = Join-Path $scriptsHookDir "Game.hooks.gd"
-Set-Content -Path $gameHooksPath -Value $gameHooksGd -Encoding UTF8
-Write-Host "Created: $gameHooksPath" -ForegroundColor Green
+'@ | Set-Content -Path "$innerDir\extensions\scripts\Game.hooks.gd" -Encoding UTF8
 
-Write-Host ">>> 3. Updating mod_main.gd with Game.gd hook registration..." -ForegroundColor Cyan
- $modMainGd = @'
+Write-Host ">>> 4. Writing mod_main.gd with Game.gd hook..." -ForegroundColor Cyan
+@'
 extends Node
 
 const MOD_DIR := "gareth-lost_expedition_mod"
@@ -60,13 +64,10 @@ func _init() -> void:
 
 func _ready() -> void:
 	ModLoaderLog.info("Lost Expedition Custom Map Mod (ID 101) online!", MOD_DIR)
-'@
- $modMainPath = Join-Path $innerModDir "mod_main.gd"
-Set-Content -Path $modMainPath -Value $modMainGd -Encoding UTF8
-Write-Host "Updated: $modMainPath" -ForegroundColor Green
+'@ | Set-Content -Path "$innerDir\mod_main.gd" -Encoding UTF8
 
-Write-Host ">>> 4. Updating LostExpeditionHelper.gd with smooth depth scaling..." -ForegroundColor Cyan
- $helperGd = @'
+Write-Host ">>> 5. Writing LostExpeditionHelper.gd with smoothed depth scaling..." -ForegroundColor Cyan
+@'
 class_name LostExpeditionHelper
 extends RefCounted
 
@@ -151,7 +152,6 @@ func detonate_uxo(chunk: Node, idx: int) -> void:
 	var local_pos: Vector2 = chunk.map_to_local(chunk.array_to_pos(idx))
 	var world_center: Vector2 = chunk.to_global(local_pos)
 	var manager = chunk.get_parent()
-	
 	for dx in range(-2, 3):
 		for dy in range(-2, 3):
 			var offset_world: Vector2 = world_center + Vector2(dx * 16.0, dy * 16.0)
@@ -196,52 +196,34 @@ func spawn_cryo_pods(chunk: Node, current_locs: Array[Vector2i]) -> Array[Vector
 				chunk.build_tile(c_idx)
 	
 	return current_locs
-'@
- $helperPath = Join-Path $innerModDir "helpers\LostExpeditionHelper.gd"
-Set-Content -Path $helperPath -Value $helperGd -Encoding UTF8
-Write-Host "Updated: $helperPath" -ForegroundColor Green
+'@ | Set-Content -Path "$innerDir\helpers\LostExpeditionHelper.gd" -Encoding UTF8
 
-Write-Host ">>> 5. Deleting mod-hooks.zip to instrument Game.gd..." -ForegroundColor Cyan
-if (Test-Path $hookZipPath) {
-	Remove-Item -Path $hookZipPath -Force
-	Write-Host "mod-hooks.zip deleted." -ForegroundColor Green
+Write-Host ">>> 6. Flushing mod-hooks.zip..." -ForegroundColor Cyan
+if (Test-Path $hookZip) {
+    Remove-Item -Path $hookZip -Force
 }
 
-Write-Host ">>> 6. Repackaging $modName.zip for Steam..." -ForegroundColor Cyan
-if (Test-Path $zipPath) { Remove-Item $zipPath -Force }
-
+Write-Host ">>> 7. Packaging mod archive for Steam..." -ForegroundColor Cyan
+if (Test-Path $zipPath) {
+    Remove-Item $zipPath -Force
+}
 Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
- $zipStream = [System.IO.File]::Open( $zipPath, [System.IO.FileMode]::CreateNew)
- $archive = New-Object System.IO.Compression.ZipArchive( $zipStream, [System.IO.Compression.ZipArchiveMode]::Create)
+$zipStream = [System.IO.File]::Open($zipPath, [System.IO.FileMode]::CreateNew)
+$archive   = New-Object System.IO.Compression.ZipArchive($zipStream, [System.IO.Compression.ZipArchiveMode]::Create)
+$allFiles  = Get-ChildItem -Path $outerDir -Recurse -File
 
- $filesToZip = Get-ChildItem -Path $outerModDir -Recurse -File
-foreach ( $file in $filesToZip) { $relative = $file.FullName.Substring( $outerModDir.Length + 1).Replace("\", "/")
-	[System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile( $archive, $file.FullName, $relative) | Out-Null
+foreach ($f in $allFiles) {
+    $entryName = $f.FullName.Substring($outerDir.Length + 1).Replace("\", "/")
+    [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $f.FullName, $entryName) | Out-Null
 }
+$archive.Dispose()
+$zipStream.Dispose()
 
- $archive.Dispose() 
- $zipStream.Dispose()
-Write-Host "Archive re-packaged cleanly at: $zipPath" -ForegroundColor Green
-
-Write-Host ">>> 7. Updating SESSION_PROMPT.md..." -ForegroundColor Cyan
- $sessionPromptPath = Join-Path $repoRoot "SESSION_PROMPT.md"
- $sessionContent = Get-Content $sessionPromptPath -Raw
-
-if ( $sessionContent -notmatch "Custom Map Stage Routing") {
-	 $mapStageRule = @"
-7. Custom Map Stage Routing (`Game.gd:change_stage`):
-   `Game.gd:change_stage` contains a hardcoded `match Gvars.level` without a default case when `target == 2` (_MINE_REGION). Custom map IDs must be intercepted via a hook on `res://scripts/Game.gd:change_stage` to set `game.target_stage = game.MINE_REGION` before `chain.execute_next()`. Without this hook, `target_stage` retains previous screens (e.g. END_OF_DAY_OVERLAY) and fails quota on frame 1.
-"@
-	 $sessionContent = $sessionContent -replace "(?s)(## 3\. Godot 4 & ModLoader Engine Quirks.*?)(\n## 4\. Economy)", "` $1`n $mapStageRule` $2"
-	Set-Content -Path $sessionPromptPath -Value $sessionContent -Encoding UTF8
-	Write-Host "SESSION_PROMPT.md updated with stage routing rule." -ForegroundColor Green
-}
-
-Write-Host ">>> 8. Git staging, committing, and pushing..." -ForegroundColor Cyan
+Write-Host ">>> 8. Git committing and pushing..." -ForegroundColor Cyan
 git add -A
-git commit -m "Route Level 101 to MINE_REGION in Game.gd hook and smooth depth tier scaling"
+git commit -m "Route Level 101 to MINE_REGION and smooth strata tiers"
 git push origin main
 
-Write-Host "`nAll updates deployed cleanly! Launch Coal LLC to play Lost Expedition." -ForegroundColor Green
+Write-Host "`nDone! All files deployed cleanly." -ForegroundColor Green
