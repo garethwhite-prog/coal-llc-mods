@@ -1,13 +1,11 @@
 ﻿=== GIT STATUS ===
- M Dump-Context.ps1
 
 === RECENT COMMITS ===
+91963ad Upgrade Chrono stasis shockwaves, Dreadnought orbital shells, and Dump-Context
+73390e1 Enforce CashCount debt, regenerate explosive textures, and update session prompt
 7d2fdbc Update SESSION_PROMPT.md with full modding architecture and findings
-53bcfd1 Fix bomb textures, starting debt, and shop filtering
-1a7837d Added some Images
 
 === ENGINE LOG (LAST 50 LINES) ===
-INFO gareth-more_nukes_mod: 15 Tactical Nukes registered with color-coded warheads.
 INFO gareth-more_vacuum_quests_mod: Tabatha Quests & Vacuum Levels 5-8 online.
 INFO gareth-multisave_mod: Multi-Save Slot Manager v2.2 active without Gvars hooks.
 INFO gareth-neutron_bomb_mod: 15 Neutron Bombs registered with color-coded canisters.
@@ -56,4 +54,5 @@ INFO gareth-mod_manager_mod: Universal Mod Manager active with full Class, Shop 
 INFO ModLoader:ModHookPacker: Generating mod hooks .zip
 DEBUG ModLoader:ModHookPacker: Scripts requiring hooks: { "res://scenes/tilemaps/tile_map_manager.gd": ["load_chunks", "apply_tile_effects"], "res://scenes/equipment/electric_shock.gd": ["_physics_process"], "res://scripts/StateMachine/Player2/player_2.gd": ["mine_action", "_ready", "_physics_process"], "res://scenes/Interfaces/Menus/settings_2.gd": ["_ready"], "res://scenes/Interfaces/in_game/choose_passive.gd": ["_process", "_ready", "_on_button_pressed", "_on_button_2_pressed", "_on_button_3_pressed"], "res://scenes/tilemaps/tile_map_chunk.gd": ["destroy_tile", "adjust_level_bonus", "generate_chunk", "generate_chests"], "res://scripts/Chest.gd": ["pickup_item", "roll_loot"], "res://scenes/ManagersInScene/mortar_manager.gd": ["shoot_mortar"], "res://scripts/PauseMenu.gd": ["on_pressed_resume", "_ready"], "res://scenes/Interfaces/Management/employee_shop_tooltip.gd": ["_ready"], "res://resources/Employees/Scripts/employee_manager.gd": ["get_employee_level_from_enum", "purchase_employee_level"], "res://scenes/Interfaces/Management/organisation_chart_2.gd": ["_ready", "refresh_all_icons", "_draw"], "res://scenes/Interfaces/Management/employee_level_icon_2.gd": ["_ready", "position_tooltip"], "res://scripts/equipment_manager.gd": ["generate_vacuum_cleaner"], "res://scenes/NPCs/quest_scene_manager.gd": ["_ready", "refresh_all_quest_points"], "res://resources/Quests/quest_rewards/reward_vacuum.gd": ["reward"], "res://scripts/MainMenu.gd": ["_ready", "on_profession_selected"], "res://resources/professions/scripts/tanker.gd": ["_profession_effect"], "res://scenes/Stages/management_screen.gd": ["load_equipment_shop", "_ready", "refresh_cash"], "res://resources/EquipEffects/Scripts/tank.gd": ["start", "end"], "res://scenes/equipment/tank_bullet.gd": ["_ready", "attack_tile"], "res://scenes/equipment/vacuum_cleaner.gd": ["_physics_process"], "res://scripts/LootCollectorUFO.gd": ["_physics_process"], "res://resources/EquipEffects/Scripts/gun.gd": ["start", "end", "physics_process"], "res://resources/EquipEffects/Scripts/water_gun.gd": ["start", "end", "physics_process"], "res://scenes/equipment/boxing_gloves.gd": ["attack_tile"], "res://scenes/equipment/kick.gd": ["_process", "damage_tiles"], "res://resources/professions/scripts/martial_artist.gd": ["_profession_effect"], "res://scenes/Interfaces/Menus/profession_select.gd": ["_ready"] }
 INFO ModLoader:ModHookPacker: Scripts are already processed according to cache, skipping process.
+INFO gareth-multisave_mod: Career progression and hard modifier badges verified.
 INFO gareth-multisave_mod: Career progression and hard modifier badges verified.

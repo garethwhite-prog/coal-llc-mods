@@ -86,3 +86,20 @@ Archetype weapons and explosives scale across 15 standard mineral tiers:
 
 ## 8. Diagnostic Workflow
 - Use `.\Dump-Context.ps1` in PowerShell to automatically gather git status, latest commits, and the last 50 lines of `godot.log` directly into the Windows clipboard for immediate status sharing.
+## 9. Custom Map Architecture & Mechanics (IDs 101+)
+1. Level Registry:
+   - Maps are registered in Gvars.level_manager.all_levels[level_id] holding { "level": GameLevel, "is_unlocked": bool }.
+   - GameLevel exports: level_name, level (int/enum), mining_scene_path, level_image, level_description, level_difficulty, and unlock_description.
+2. Carousel UI Card Display:
+   - In level_select.gd, the menu iterates LEVEL_ORDER.
+   - By appending custom level IDs to LEVEL_ORDER in level_select.hooks.gd during _ready(), vanilla instantiates LEVEL_INFO cards, wires signals, and resolves gamepad/keyboard focus navigation automatically without destructive queue_free() calls.
+3. Subterranean Generation Hooks:
+   - lvl_from_global_pos(pos: Vector2i): Governs ore tier scaling (Tiers 1-15) based on world coordinates.
+   - generate_chunk(noise): Populates rock tiles; use metadata chunk.set_meta(...) to stamp hazard or UXO cell coordinates.
+   - generate_chests(locations): Intercept to clear 3x3 vault chambers and spawn custom interactive nodes (dd_child.call_deferred(entity)).
+   - destroy_tile(idx, props): Intercept to execute explosive chain reactions via 	ilemap.damageTile(world_pos, dmg) for full particle, fracturing, and audio feedback.
+4. Active Workforce Rescue:
+   - Employees are defined in Gvars.employee_manager.ALL_EMPLOYEES.
+   - Call Gvars.employee_manager.purchase_employee_level(chosen_emp) to grant active workforce levels directly during subterranean operations.
+5. Custom Map Registry:
+   - 101: Lost Expedition (gareth-lost_expedition_mod) - Subterranean demo ground with unexploded ordnance (UXO) and survivor Cryo-Pods.
