@@ -12,6 +12,8 @@
 ## 2. Packaging & Git Directives
 1. Dual-Manifest & Dual-README Requirement:
    Every mod archive MUST contain manifest.json and README.md at the archive root AND duplicate copies inside mods-unpacked/<namespace>-<mod_name>/.
+   manifest.json strictly requires: 'name', 'namespace', 'version_number', 'description', 'website_url', 'dependencies', and 'extra': { 'godot': { ... } }. Omitting website_url triggers a fatal ModManifest validation rejection.
+   Every mod archive MUST contain manifest.json and README.md at the archive root AND duplicate copies inside mods-unpacked/<namespace>-<mod_name>/.
 2. Forward Slash Zip Rule:
    Godot's virtual filesystem requires all zip entry paths to use forward slashes (/). Windows Compress-Archive uses backslashes (\), causing files to fail loading silently. Always use System.IO.Compression.ZipArchive with .Replace("\", "/").
 3. Repo Hierarchy:
@@ -39,6 +41,7 @@
    `tilemap.damageTileCoords(cell, dmg)` applies damage silently to internal block health data without audio, cracks, or debris. For full feedback (breaking sounds, fracture overlays, particle bursts), use:
      tilemap.damageTile(world_pos, dmg)
 5. ModLoader Hook Limitations:
+   Hook scripts (*.hooks.gd) must be registered via ModLoaderMod.install_script_hooks(), NOT install_script_extension(). They must ONLY contain method names that exist directly on the vanilla target script. Any custom helper functions defined at script root will trigger parse errors. Delegate custom logic to RefCounted helper classes.
    Hook scripts (*.hooks.gd) must ONLY contain method names that exist directly on the vanilla target script. Any custom helper functions defined at script root will be skipped with warnings or trigger parse errors. Embed helper logic directly inside hooked methods or delegate to RefCounted helper classes.
 
 ## 4. Economy, Cash & Save State
@@ -105,3 +108,4 @@ Archetype weapons and explosives scale across 15 standard mineral tiers:
    - Call `Gvars.employee_manager.purchase_employee_level(chosen_emp)` to grant active workforce levels directly during subterranean operations.
 5. Custom Map Registry:
    - 101: Lost Expedition (`gareth-lost_expedition_mod`) - Subterranean demo ground featuring undulating mineral strata, unexploded ordnance (UXO) chain detonations, and survivor Cryo-Pod recovery vaults.
+

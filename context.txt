@@ -1,32 +1,11 @@
 ﻿=== GIT STATUS ===
 
 === RECENT COMMITS ===
-91963ad Upgrade Chrono stasis shockwaves, Dreadnought orbital shells, and Dump-Context
-73390e1 Enforce CashCount debt, regenerate explosive textures, and update session prompt
-7d2fdbc Update SESSION_PROMPT.md with full modding architecture and findings
+68d4afc Populate full source files for Lost Expedition mod (scripts, hooks, entities, assets)
+514981e Fix manifest schema (extra.godot) and remove whitespace from Lost Expedition mod
+4fc6e6b Add Section 9 Custom Map Architecture to SESSION_PROMPT.md and finalize Lost Expedition mod
 
 === ENGINE LOG (LAST 50 LINES) ===
-INFO gareth-more_vacuum_quests_mod: Tabatha Quests & Vacuum Levels 5-8 online.
-INFO gareth-multisave_mod: Multi-Save Slot Manager v2.2 active without Gvars hooks.
-INFO gareth-neutron_bomb_mod: 15 Neutron Bombs registered with color-coded canisters.
-INFO gareth-plasma_raygun_mod:Main: Plasma Raygun online! Hold Right-Click to fire.
-INFO gareth-prospectors_beacon_mod:Main: Ready and active in scene!
-INFO gareth-seismic_hazards_mod:Main: Ready and active in scene!
-INFO gareth-sinclairity_class_mod: 15 Rainbow Sinclairity Optical Emitter tiers registered into equipment shop.
-INFO gareth-sinclairity_class_mod: Rainbow Sinclairity Class (ID 104) registered cleanly.
-INFO gareth-tank_arsenal_mod: Registered and tier-sorted 45 custom tanks into shop.
-INFO gareth-tectonic_fracker_mod: 15 Tectonic Fracker tiers registered into equipment shop.
-INFO gareth-tectonic_fracker_mod: Tectonic Fracker Class (ID 109) registered cleanly.
-INFO gareth-tick_upgrade_mod: Elemental Tick Upgrades (gareth-tick_upgrade_mod, credit: der_floh) online.
-INFO gareth-vacuum_depot_mod: Vacuum Collector Depot mod initialized successfully.
-INFO gareth-weapon_stacker_mod:Main: Weapon Stacker Mod active and ready!
-INFO gareth-void_siphon_mod: 15 Void Siphon Core tiers registered into equipment shop.
-INFO gareth-void_siphon_mod: Void Siphon Class (ID 105) registered cleanly.
-INFO gareth-water_spirit_mod: 15 Water Spirit Fairy tiers loaded with custom textures.
-INFO der_floh-effect_spread_mod:Main: Effect Spread Mod ready. radius=3, inherit_ticks=true, fresh_ticks=3, debug_logging=false
-INFO der_floh-no_holes_mod:Main: Ready! debug_logging=false
-INFO der_floh-ore_value_mod:Main: Ready! debug_logging=false
-INFO der_floh-passive_drop_mod:Main: Ready! debug_logging=false
 INFO gareth-bouncing_ball_mod: 15 Bouncing Ball tiers registered into equipment shop.
 INFO gareth-bouncing_ball_mod: Bouncing Ball Class (ID 103) registered cleanly.
 INFO gareth-chrono_industrialist_mod: 15 Chrono-Industrialist Harvester tiers registered into equipment shop.
@@ -56,3 +35,24 @@ DEBUG ModLoader:ModHookPacker: Scripts requiring hooks: { "res://scenes/tilemaps
 INFO ModLoader:ModHookPacker: Scripts are already processed according to cache, skipping process.
 INFO gareth-multisave_mod: Career progression and hard modifier badges verified.
 INFO gareth-multisave_mod: Career progression and hard modifier badges verified.
+ERROR: No loader found for resource: res:// (expected type: )
+   at: _load (core/io/resource_loader.cpp:359)
+ERROR: Error loading resource: ''.
+   at: load (core/core_bind.cpp:76)
+SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
+   at: reset_resources (res://scripts/Gvars.gd:499)
+Day Count: 0
+Days Passed: 0
+INFO gareth-more_employees_mod: Workforce chart initialized cleanly.
+INFO gareth-multisave_mod: Career progression and hard modifier badges verified.
+WARNING: 18 RIDs of type "CanvasItem" were leaked.
+   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2679)
+ERROR: 58 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+WARNING: 106 RIDs of type "Texture" were leaked.
+   at: finalize (servers/rendering/rendering_device.cpp:7130)
+ERROR: 6 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+ERROR: 4 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2378)
+ERROR: 153 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:614)
