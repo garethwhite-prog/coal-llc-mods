@@ -34,22 +34,26 @@ func _process(_delta: float) -> void:
 func _on_body_entered(_body: Node2D) -> void:
 	if not looted:
 		in_range = true
-		Bus.ShowInputIndicator.emit("interact", true, self)
+		if Bus and Bus.has_signal("ShowInputIndicator"):
+			Bus.ShowInputIndicator.emit("interact", true, self)
 
 func _on_body_exited(_body: Node2D) -> void:
 	in_range = false
-	Bus.ShowInputIndicator.emit("interact", false, self)
+	if Bus and Bus.has_signal("ShowInputIndicator"):
+		Bus.ShowInputIndicator.emit("interact", false, self)
 
 func rescue_worker() -> void:
 	looted = true
 	in_range = false
-	Bus.ShowInputIndicator.emit("interact", false, self)
+	if Bus and Bus.has_signal("ShowInputIndicator"):
+		Bus.ShowInputIndicator.emit("interact", false, self)
 	
 	var emp_mgr = Gvars.employee_manager
 	if emp_mgr and emp_mgr.ALL_EMPLOYEES.size() > 0:
 		var chosen_emp = emp_mgr.ALL_EMPLOYEES[randi() % emp_mgr.ALL_EMPLOYEES.size()]
 		emp_mgr.purchase_employee_level(chosen_emp)
 		Gvars.CashCount += 10000.0
-		Game.log_message("Cryo-Pod opened! Rescued " + chosen_emp.employee_name + "! Salvaged $10,000.", Game.LogLvl.HIGH, Game.LogType.INFO)
+		ModLoaderLog.info("Cryo-Pod opened! Rescued " + chosen_emp.employee_name + "! Salvaged $10,000.", "gareth-lost_expedition_mod")
 	
-	sprite.modulate = Color(0.3, 1.0, 0.4, 0.8)
+	if sprite:
+		sprite.modulate = Color(0.3, 1.0, 0.4, 0.8)
