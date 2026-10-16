@@ -109,3 +109,4 @@ Archetype weapons and explosives scale across 15 standard mineral tiers:
 5. Custom Map Registry:
    - 101: Lost Expedition (`gareth-lost_expedition_mod`) - Subterranean demo ground featuring undulating mineral strata, unexploded ordnance (UXO) chain detonations, and survivor Cryo-Pod recovery vaults.
 
+
