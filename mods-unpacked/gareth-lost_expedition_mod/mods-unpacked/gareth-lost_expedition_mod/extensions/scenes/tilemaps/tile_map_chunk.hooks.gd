@@ -12,14 +12,14 @@ func generate_chunk(chain: ModLoaderHookChain, noise: Noise) -> void:
 		var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
 		if helper_script:
 			var helper = helper_script.new()
-			helper.tag_uxo_tiles(self)
+			helper.tag_uxo_tiles(chain.reference)
 
 func destroy_tile(chain: ModLoaderHookChain, idx: int, tile_properties: Dictionary) -> void:
 	if Gvars.level == 101:
 		var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
 		if helper_script:
 			var helper = helper_script.new()
-			helper.handle_tile_destroyed(self, idx)
+			helper.handle_tile_destroyed(chain.reference, idx)
 	chain.execute_next([idx, tile_properties])
 
 func generate_chests(chain: ModLoaderHookChain, current_block_chest_locations: Array[Vector2i]) -> Array[Vector2i]:
@@ -28,5 +28,5 @@ func generate_chests(chain: ModLoaderHookChain, current_block_chest_locations: A
 		var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
 		if helper_script:
 			var helper = helper_script.new()
-			locs = helper.spawn_cryo_pods(self, locs)
+			locs = helper.spawn_cryo_pods(chain.reference, locs)
 	return locs
