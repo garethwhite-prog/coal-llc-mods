@@ -1,11 +1,12 @@
 ﻿=== GIT STATUS ===
 
 === RECENT COMMITS ===
+1242edc Fix manifest website_url validation and install_script_hooks for Lost Expedition mod
+594c480 Fix manifest website_url validation and install_script_hooks for Lost Expedition mod
 68d4afc Populate full source files for Lost Expedition mod (scripts, hooks, entities, assets)
-514981e Fix manifest schema (extra.godot) and remove whitespace from Lost Expedition mod
-4fc6e6b Add Section 9 Custom Map Architecture to SESSION_PROMPT.md and finalize Lost Expedition mod
 
 === ENGINE LOG (LAST 50 LINES) ===
+INFO der_floh-passive_drop_mod:Main: Ready! debug_logging=false
 INFO gareth-bouncing_ball_mod: 15 Bouncing Ball tiers registered into equipment shop.
 INFO gareth-bouncing_ball_mod: Bouncing Ball Class (ID 103) registered cleanly.
 INFO gareth-chrono_industrialist_mod: 15 Chrono-Industrialist Harvester tiers registered into equipment shop.
@@ -44,11 +45,10 @@ SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object 
 Day Count: 0
 Days Passed: 0
 INFO gareth-more_employees_mod: Workforce chart initialized cleanly.
-INFO gareth-multisave_mod: Career progression and hard modifier badges verified.
 WARNING: 18 RIDs of type "CanvasItem" were leaked.
    at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2679)
-ERROR: 58 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-WARNING: 106 RIDs of type "Texture" were leaked.
+ERROR: 57 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+WARNING: 105 RIDs of type "Texture" were leaked.
    at: finalize (servers/rendering/rendering_device.cpp:7130)
 ERROR: 6 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
 ERROR: 4 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.

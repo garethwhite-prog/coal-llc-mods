@@ -38,13 +38,13 @@
      var local_pos: Vector2 = tilemap.to_local(world_pos)
      var cell: Vector2i = tilemap.local_to_map(local_pos)
 4. Visual Tile Damage vs Silent Damage:
-   `tilemap.damageTileCoords(cell, dmg)` applies damage silently to internal block health data without audio, cracks, or debris. For full feedback (breaking sounds, fracture overlays, particle bursts), use:
+   	ilemap.damageTileCoords(cell, dmg) applies damage silently to internal block health data without audio, cracks, or debris. For full feedback (breaking sounds, fracture overlays, particle bursts), use:
      tilemap.damageTile(world_pos, dmg)
-5. ModLoader Hook Limitations:
-   Hook scripts (*.hooks.gd) must be registered via ModLoaderMod.install_script_hooks(), NOT install_script_extension(). They must ONLY contain method names that exist directly on the vanilla target script. Any custom helper functions defined at script root will trigger parse errors. Delegate custom logic to RefCounted helper classes.
-   Hook scripts (*.hooks.gd) must ONLY contain method names that exist directly on the vanilla target script. Any custom helper functions defined at script root will be skipped with warnings or trigger parse errors. Embed helper logic directly inside hooked methods or delegate to RefCounted helper classes.
-
-## 4. Economy, Cash & Save State
+5. ModLoader Hook Limitations & install_script_hooks Signature:
+   Hook scripts (*.hooks.gd) must be registered via ModLoaderMod.install_script_hooks(vanilla_script_path: String, hook_script_path: String).
+   Calling with only 1 argument triggers a GDScript parse error ("Too few arguments for install_script_hooks() call. Expected at least 2 but received 1").
+   Hook scripts must ONLY contain method names that exist directly on the vanilla target script. Any custom helper functions defined at script root will trigger parse errors. Delegate custom logic to RefCounted helper classes.
+   When registering hooks for a vanilla script not previously hooked, delete mod-hooks.zip from the Steam game root so ModHookPacker rebuilds the preprocessor archive on startup.## 4. Economy, Cash & Save State
 1. Cash Variable:
    Vanilla Coal LLC stores cash in `Gvars.CashCount` (float), NOT `Gvars.cash`.
 2. UI Label Binding:
@@ -108,5 +108,6 @@ Archetype weapons and explosives scale across 15 standard mineral tiers:
    - Call `Gvars.employee_manager.purchase_employee_level(chosen_emp)` to grant active workforce levels directly during subterranean operations.
 5. Custom Map Registry:
    - 101: Lost Expedition (`gareth-lost_expedition_mod`) - Subterranean demo ground featuring undulating mineral strata, unexploded ordnance (UXO) chain detonations, and survivor Cryo-Pod recovery vaults.
+
 
 
