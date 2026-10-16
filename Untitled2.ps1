@@ -1,215 +1,247 @@
 ﻿cls
 `
 # ==============================================================================
-# Coal LLC - Fix Lost Expedition Hooks (extends Object & chain.reference_object)
+# Coal LLC - Fix Lost Expedition Stage Routing, Depth Scaling & Cache Rebuild
 # ==============================================================================
 
-$repoRoot      = "C:\Dev\coal-llc-mods"
-$modName       = "gareth-lost_expedition_mod"
-$outerModDir   = Join-Path $repoRoot "mods-unpacked\$modName"
-$innerModDir   = Join-Path $outerModDir "mods-unpacked\$modName"
-$steamRoot     = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC"
-$steamModsDir  = Join-Path $steamRoot "mods"
-$zipPath       = Join-Path $steamModsDir "$modName.zip"
-$hookZipPath   = Join-Path $steamRoot "mod-hooks.zip"
+ $repoRoot      = "C:\Dev\coal-llc-mods"
+ $modName       = "gareth-lost_expedition_mod"
+ $outerModDir   = Join-Path $repoRoot "mods-unpacked\ $modName"
+ $innerModDir   = Join-Path $outerModDir "mods-unpacked\ $modName"
+ $steamRoot     = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC"
+ $steamModsDir  = Join-Path $steamRoot "mods"
+ $zipPath       = Join-Path $steamModsDir " $modName.zip"
+ $hookZipPath   = Join-Path $steamRoot "mod-hooks.zip"
 
 Set-Location $repoRoot
 
-Write-Host ">>> 1. Patching level_select.hooks.gd (extends Object & chain.reference_object)..." -ForegroundColor Cyan
+Write-Host ">>> 1. Creating extensions/scripts directory..." -ForegroundColor Cyan
+ $scriptsHookDir = Join-Path $innerModDir "extensions\scripts"
+if (-not (Test-Path $scriptsHookDir)) {
+    New-Item -ItemType Directory -Path $scriptsHookDir -Force | Out-Null
+}
 
-$levelSelectHooksGd = @'
+Write-Host ">>> 2. Writing Game.hooks.gd to route Level 101 to MINE_REGION..." -ForegroundColor Cyan
+ $gameHooksGd = @'
 extends Object
 
-func _ready(chain: ModLoaderHookChain) -> void:
-	var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
-	if helper_script:
-		var helper = helper_script.new()
-		helper.ensure_level_registered()
-		var ls = chain.reference_object
-		if ls and ("LEVEL_ORDER" in ls):
-			if not ls.LEVEL_ORDER.has(helper.EXPEDITION_LEVEL_ID):
-				ls.LEVEL_ORDER.append(helper.EXPEDITION_LEVEL_ID)
-	chain.execute_next([])
+func change_stage(chain: ModLoaderHookChain, target: int, targetPosition: Vector2) -> void:
+	var game = chain.reference_object
+	if target == 2 and Gvars.level == 101:
+		if game and "MINE_REGION" in game:
+			game.target_stage = game.MINE_REGION
+	chain.execute_next([target, targetPosition])
 '@
+ $gameHooksPath = Join-Path $scriptsHookDir "Game.hooks.gd"
+Set-Content -Path $gameHooksPath -Value $gameHooksGd -Encoding UTF8
+Write-Host "Created: $gameHooksPath" -ForegroundColor Green
 
-$levelSelectHooksPath = Join-Path $innerModDir "extensions\scenes\Interfaces\Menus\level_select.hooks.gd"
-Set-Content -Path $levelSelectHooksPath -Value $levelSelectHooksGd -Encoding UTF8
-Write-Host "Updated: $levelSelectHooksPath" -ForegroundColor Green
+Write-Host ">>> 3. Updating mod_main.gd with Game.gd hook registration..." -ForegroundColor Cyan
+ $modMainGd = @'
+extends Node
 
-Write-Host ">>> 2. Patching tile_map_chunk.hooks.gd (extends Object & chain.reference_object)..." -ForegroundColor Cyan
+const MOD_DIR := "gareth-lost_expedition_mod"
 
-$tileMapChunkHooksGd = @'
-extends Object
-
-func lvl_from_global_pos(chain: ModLoaderHookChain, pos: Vector2i) -> int:
-	if Gvars.level == 101:
-		var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
-		if helper_script:
-			var helper = helper_script.new()
-			return helper.calculate_tier(pos)
-	return chain.execute_next([pos])
-
-func generate_chunk(chain: ModLoaderHookChain, noise: Noise) -> void:
-	chain.execute_next([noise])
-	if Gvars.level == 101:
-		var chunk = chain.reference_object
-		if chunk:
-			var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
-			if helper_script:
-				var helper = helper_script.new()
-				helper.tag_uxo_tiles(chunk)
-
-func destroy_tile(chain: ModLoaderHookChain, idx: int, tile_properties: Dictionary) -> void:
-	if Gvars.level == 101:
-		var chunk = chain.reference_object
-		if chunk:
-			var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
-			if helper_script:
-				var helper = helper_script.new()
-				helper.handle_tile_destroyed(chunk, idx)
-	chain.execute_next([idx, tile_properties])
-
-func generate_chests(chain: ModLoaderHookChain, current_block_chest_locations: Array[Vector2i]) -> Array[Vector2i]:
-	var locs: Array[Vector2i] = chain.execute_next([current_block_chest_locations])
-	if Gvars.level == 101:
-		var chunk = chain.reference_object
-		if chunk:
-			var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
-			if helper_script:
-				var helper = helper_script.new()
-				locs = helper.spawn_cryo_pods(chunk, locs)
-	return locs
-'@
-
-$tileMapChunkHooksPath = Join-Path $innerModDir "extensions\scenes\tilemaps\tile_map_chunk.hooks.gd"
-Set-Content -Path $tileMapChunkHooksPath -Value $tileMapChunkHooksGd -Encoding UTF8
-Write-Host "Updated: $tileMapChunkHooksPath" -ForegroundColor Green
-
-Write-Host ">>> 3. Hardening CryoPod.gd and LostExpeditionHelper.gd..." -ForegroundColor Cyan
-
-$cryoPodGd = @'
-class_name CryoPod
-extends Area2D
-
-var in_range: bool = false
-var looted: bool = false
-var sprite: Sprite2D
+func _init() -> void:
+	ModLoaderLog.info("Lost Expedition Mod initializing...", MOD_DIR)
+	var mod_dir_path: String = ModLoaderMod.get_unpacked_dir().path_join(MOD_DIR)
+	ModLoaderMod.install_script_hooks(
+		"res://scenes/Interfaces/Menus/level_select.gd",
+		mod_dir_path.path_join("extensions/scenes/Interfaces/Menus/level_select.hooks.gd")
+	)
+	ModLoaderMod.install_script_hooks(
+		"res://scenes/tilemaps/tile_map_chunk.gd",
+		mod_dir_path.path_join("extensions/scenes/tilemaps/tile_map_chunk.hooks.gd")
+	)
+	ModLoaderMod.install_script_hooks(
+		"res://scripts/Game.gd",
+		mod_dir_path.path_join("extensions/scripts/Game.hooks.gd")
+	)
 
 func _ready() -> void:
-	monitoring = true
-	monitorable = true
-	collision_layer = 1
-	collision_mask = 1
-	
-	var col = CollisionShape2D.new()
-	var shape = CircleShape2D.new()
-	shape.radius = 16.0
-	col.shape = shape
-	add_child(col)
-	
-	sprite = Sprite2D.new()
-	var img = Image.load_from_file("res://mods-unpacked/gareth-lost_expedition_mod/assets/cryo_pod.png")
-	if img:
-		sprite.texture = ImageTexture.create_from_image(img)
-	add_child(sprite)
-	
-	body_entered.connect(_on_body_entered)
-	body_exited.connect(_on_body_exited)
-
-func _process(_delta: float) -> void:
-	if in_range and not looted:
-		if Input.is_action_just_pressed("interact"):
-			rescue_worker()
-
-func _on_body_entered(_body: Node2D) -> void:
-	if not looted:
-		in_range = true
-		if Bus and Bus.has_signal("ShowInputIndicator"):
-			Bus.ShowInputIndicator.emit("interact", true, self)
-
-func _on_body_exited(_body: Node2D) -> void:
-	in_range = false
-	if Bus and Bus.has_signal("ShowInputIndicator"):
-		Bus.ShowInputIndicator.emit("interact", false, self)
-
-func rescue_worker() -> void:
-	looted = true
-	in_range = false
-	if Bus and Bus.has_signal("ShowInputIndicator"):
-		Bus.ShowInputIndicator.emit("interact", false, self)
-	
-	var emp_mgr = Gvars.employee_manager
-	if emp_mgr and emp_mgr.ALL_EMPLOYEES.size() > 0:
-		var chosen_emp = emp_mgr.ALL_EMPLOYEES[randi() % emp_mgr.ALL_EMPLOYEES.size()]
-		emp_mgr.purchase_employee_level(chosen_emp)
-		Gvars.CashCount += 10000.0
-		ModLoaderLog.info("Cryo-Pod opened! Rescued " + chosen_emp.employee_name + "! Salvaged $10,000.", "gareth-lost_expedition_mod")
-	
-	if sprite:
-		sprite.modulate = Color(0.3, 1.0, 0.4, 0.8)
+	ModLoaderLog.info("Lost Expedition Custom Map Mod (ID 101) online!", MOD_DIR)
 '@
-Set-Content -Path (Join-Path $innerModDir "entities\CryoPod.gd") -Value $cryoPodGd -Encoding UTF8
+ $modMainPath = Join-Path $innerModDir "mod_main.gd"
+Set-Content -Path $modMainPath -Value $modMainGd -Encoding UTF8
+Write-Host "Updated: $modMainPath" -ForegroundColor Green
 
-Write-Host ">>> 4. Deleting mod-hooks.zip to trigger bytecode re-instrumentation..." -ForegroundColor Cyan
+Write-Host ">>> 4. Updating LostExpeditionHelper.gd with smooth depth scaling..." -ForegroundColor Cyan
+ $helperGd = @'
+class_name LostExpeditionHelper
+extends RefCounted
+
+const EXPEDITION_LEVEL_ID: int = 101
+
+func ensure_level_registered() -> void:
+	var lvl_mgr = Gvars.level_manager
+	if not lvl_mgr:
+		return
+	
+	if not lvl_mgr.all_levels.has(EXPEDITION_LEVEL_ID):
+		var custom_level = GameLevel.new()
+		custom_level.level_name = "Lost Expedition"
+		custom_level.level = EXPEDITION_LEVEL_ID
+		custom_level.mining_scene_path = "res://scenes/Stages/MineRegion.tscn"
+		custom_level.level_description = "Abandoned subterranean expedition.\nDeep strata riddled with volatile unexploded ordnance.\nCryo-shelters contain trapped mining personnel."
+		custom_level.level_difficulty = GameLevel.Difficulty.HARD
+		custom_level.unlock_description = ""
+		
+		var img = Image.load_from_file("res://mods-unpacked/gareth-lost_expedition_mod/assets/lost_expedition_card.png")
+		if img:
+			custom_level.level_image = ImageTexture.create_from_image(img)
+		
+		lvl_mgr.all_levels[EXPEDITION_LEVEL_ID] = {
+			"level": custom_level,
+			"is_unlocked": true
+		}
+
+func calculate_tier(pos: Vector2i) -> int:
+	var depth: float = float(pos.y)
+	if depth < 0.0:
+		return -2
+	
+	var wave: float = sin(float(pos.x) * 0.12) * 5.0
+	var effective_y: float = depth + wave
+	
+	if effective_y < 12.0:
+		return 0
+	elif effective_y < 35.0:
+		return 1
+	elif effective_y < 70.0:
+		return 2
+	elif effective_y < 120.0:
+		return 3
+	elif effective_y < 200.0:
+		return 4
+	elif effective_y < 300.0:
+		return 5
+	elif effective_y < 450.0:
+		return 6
+	elif effective_y < 600.0:
+		return 7
+	elif effective_y < 750.0:
+		return 8
+	elif effective_y < 900.0:
+		return 9
+	elif effective_y < 1050.0:
+		return 10
+	elif effective_y < 1200.0:
+		return 11
+	else:
+		return 12
+
+func tag_uxo_tiles(chunk: Node) -> void:
+	var uxo: Dictionary = {}
+	var total_cells: int = chunk.chunk_size * chunk.chunk_size
+	for idx in range(total_cells):
+		var tile_id = chunk.tiles[idx]
+		if tile_id != chunk.Tiles.EMPTY and chunk.TILE_PROPERTIES[tile_id]["breakable"]:
+			if randf() < 0.035:
+				uxo[idx] = true
+	chunk.set_meta("expedition_uxo", uxo)
+
+func handle_tile_destroyed(chunk: Node, idx: int) -> void:
+	if chunk.has_meta("expedition_uxo"):
+		var uxo: Dictionary = chunk.get_meta("expedition_uxo")
+		if uxo.has(idx):
+			uxo.erase(idx)
+			detonate_uxo(chunk, idx)
+
+func detonate_uxo(chunk: Node, idx: int) -> void:
+	var local_pos: Vector2 = chunk.map_to_local(chunk.array_to_pos(idx))
+	var world_center: Vector2 = chunk.to_global(local_pos)
+	var manager = chunk.get_parent()
+	
+	for dx in range(-2, 3):
+		for dy in range(-2, 3):
+			var offset_world: Vector2 = world_center + Vector2(dx * 16.0, dy * 16.0)
+			if manager and manager.has_method("damageTile"):
+				manager.damageTile(offset_world, 450)
+
+func spawn_cryo_pods(chunk: Node, current_locs: Array[Vector2i]) -> Array[Vector2i]:
+	if randf() > 0.60:
+		return current_locs
+	
+	var width: int = 3
+	var height: int = 3
+	var start_tile: Vector2i = Vector2i(
+		randi_range(0, chunk.chunk_size - width),
+		randi_range(0, chunk.chunk_size - height)
+	)
+	
+	for n in range(5):
+		if start_tile in current_locs:
+			start_tile = Vector2i(
+				randi_range(0, chunk.chunk_size - width),
+				randi_range(0, chunk.chunk_size - height)
+			)
+	
+	for x in range(start_tile.x - width, start_tile.x + width):
+		for y in range(start_tile.y - height, start_tile.y + height):
+			current_locs.append(Vector2i(x, y))
+	
+	for x in range(start_tile.x, start_tile.x + width):
+		for y in range(start_tile.y, start_tile.y + height):
+			var c_idx: int = chunk.pos_to_array(Vector2i(x, y))
+			if (x == start_tile.x + 1) and (y == start_tile.y + 1):
+				chunk.tiles[c_idx] = chunk.Tiles.EMPTY
+				chunk.build_tile(c_idx)
+				var pod_script = load("res://mods-unpacked/gareth-lost_expedition_mod/entities/CryoPod.gd")
+				if pod_script:
+					var pod = pod_script.new()
+					pod.position = chunk.map_to_local(Vector2i(x, y))
+					chunk.add_child.call_deferred(pod)
+			else:
+				chunk.tiles[c_idx] = chunk.chest_block_from_level(8)
+				chunk.build_tile(c_idx)
+	
+	return current_locs
+'@
+ $helperPath = Join-Path $innerModDir "helpers\LostExpeditionHelper.gd"
+Set-Content -Path $helperPath -Value $helperGd -Encoding UTF8
+Write-Host "Updated: $helperPath" -ForegroundColor Green
+
+Write-Host ">>> 5. Deleting mod-hooks.zip to instrument Game.gd..." -ForegroundColor Cyan
 if (Test-Path $hookZipPath) {
 	Remove-Item -Path $hookZipPath -Force
 	Write-Host "mod-hooks.zip deleted." -ForegroundColor Green
 }
 
-Write-Host ">>> 5. Repackaging $modName.zip for Steam..." -ForegroundColor Cyan
+Write-Host ">>> 6. Repackaging $modName.zip for Steam..." -ForegroundColor Cyan
 if (Test-Path $zipPath) { Remove-Item $zipPath -Force }
 
 Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
-$zipStream = [System.IO.File]::Open($zipPath, [System.IO.FileMode]::CreateNew)
-$archive = New-Object System.IO.Compression.ZipArchive($zipStream, [System.IO.Compression.ZipArchiveMode]::Create)
+ $zipStream = [System.IO.File]::Open( $zipPath, [System.IO.FileMode]::CreateNew)
+ $archive = New-Object System.IO.Compression.ZipArchive( $zipStream, [System.IO.Compression.ZipArchiveMode]::Create)
 
-$filesToZip = Get-ChildItem -Path $outerModDir -Recurse -File
-foreach ($file in $filesToZip) {
-	$relative = $file.FullName.Substring($outerModDir.Length + 1).Replace("\", "/")
-	[System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $file.FullName, $relative) | Out-Null
+ $filesToZip = Get-ChildItem -Path $outerModDir -Recurse -File
+foreach ( $file in $filesToZip) { $relative = $file.FullName.Substring( $outerModDir.Length + 1).Replace("\", "/")
+	[System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile( $archive, $file.FullName, $relative) | Out-Null
 }
 
-$archive.Dispose()
-$zipStream.Dispose()
-Write-Host "Re-packaged cleanly at: $zipPath" -ForegroundColor Green
+ $archive.Dispose() 
+ $zipStream.Dispose()
+Write-Host "Archive re-packaged cleanly at: $zipPath" -ForegroundColor Green
 
-Write-Host ">>> 6. Updating SESSION_PROMPT.md..." -ForegroundColor Cyan
-$sessionPromptPath = Join-Path $repoRoot "SESSION_PROMPT.md"
-$sessionContent = Get-Content $sessionPromptPath -Raw
+Write-Host ">>> 7. Updating SESSION_PROMPT.md..." -ForegroundColor Cyan
+ $sessionPromptPath = Join-Path $repoRoot "SESSION_PROMPT.md"
+ $sessionContent = Get-Content $sessionPromptPath -Raw
 
-$updatedSection3 = @'
-## 3. Godot 4 & ModLoader Engine Quirks
-1. Runtime Loose PNG Loading:
-   In exported Godot 4 builds, loose .png files placed in mod directories are not imported as .ctex resources. Calling ResourceLoader.load() or load() on loose images returns null. Always use runtime image decoding:
-     var img = Image.load_from_file(path)
-     if img:
-         item.itemTexture = ImageTexture.create_from_image(img)
-2. AtlasTexture Overrides:
-   Pre-existing .tres item resources with baked AtlasTextures (such as Tactical Nukes and Neutron Bombs) will continue displaying default yellow sprites unless item.itemTexture is explicitly overwritten with an ImageTexture at runtime.
-3. Coordinate Transforms (Godot 4.3+):
-   TileMapManager extends TileMapLayer. Coordinate inspection methods (e.g. get_cell_atlas_coords, is_tile_breakable) take 1 argument (Vector2i), NOT 2. When raycasting from world coordinates, always transform to map space using:
-     var local_pos: Vector2 = tilemap.to_local(world_pos)
-     var cell: Vector2i = tilemap.local_to_map(local_pos)
-4. Visual Tile Damage vs Silent Damage:
-   `tilemap.damageTileCoords(cell, dmg)` applies damage silently to internal block health data without audio, cracks, or debris. For full feedback (breaking sounds, fracture overlays, particle bursts), use:
-     tilemap.damageTile(world_pos, dmg)
-5. ModLoader Hook Rules:
-   - Hook scripts (*.hooks.gd) MUST begin with `extends Object` on line 1. Omitting this triggers a fatal assertion ("Scripts holding mod hooks should always extend Object").
-   - Access the hooked vanilla instance via `chain.reference_object` (NEVER `chain.reference`, which calls RefCounted.reference() and evaluates to a Callable).
-   - Hook scripts must ONLY contain method names that exist directly on the vanilla target script. Any custom helper functions defined at script root will trigger parse errors. Delegate custom logic to RefCounted helper classes.
-   - Register hook scripts via `ModLoaderMod.install_script_hooks(vanilla_script_path: String, hook_script_path: String)`. Both arguments are strictly required.
-   - When adding a hook for a vanilla script not previously hooked, delete `mod-hooks.zip` from the Steam game directory to force ModHookPacker to re-instrument the target script on startup.
-'@
+if ( $sessionContent -notmatch "Custom Map Stage Routing") {
+	 $mapStageRule = @"
+7. Custom Map Stage Routing (`Game.gd:change_stage`):
+   `Game.gd:change_stage` contains a hardcoded `match Gvars.level` without a default case when `target == 2` (_MINE_REGION). Custom map IDs must be intercepted via a hook on `res://scripts/Game.gd:change_stage` to set `game.target_stage = game.MINE_REGION` before `chain.execute_next()`. Without this hook, `target_stage` retains previous screens (e.g. END_OF_DAY_OVERLAY) and fails quota on frame 1.
+"@
+	 $sessionContent = $sessionContent -replace "(?s)(## 3\. Godot 4 & ModLoader Engine Quirks.*?)(\n## 4\. Economy)", "` $1`n $mapStageRule` $2"
+	Set-Content -Path $sessionPromptPath -Value $sessionContent -Encoding UTF8
+	Write-Host "SESSION_PROMPT.md updated with stage routing rule." -ForegroundColor Green
+}
 
-$sessionContent = $sessionContent -replace "(?s)## 3\. Godot 4 & ModLoader Engine Quirks.*?(?=## 4\. Economy)", $updatedSection3
-Set-Content -Path $sessionPromptPath -Value $sessionContent -Encoding UTF8
-Write-Host "SESSION_PROMPT.md updated." -ForegroundColor Green
-
-Write-Host ">>> 7. Git staging, committing, and pushing..." -ForegroundColor Cyan
+Write-Host ">>> 8. Git staging, committing, and pushing..." -ForegroundColor Cyan
 git add -A
-git commit -m "Fix ModLoader hook inheritance (extends Object) and chain.reference_object scoping"
+git commit -m "Route Level 101 to MINE_REGION in Game.gd hook and smooth depth tier scaling"
 git push origin main
 
-Write-Host "`nAll tasks completed! Start Coal LLC to test." -ForegroundColor Green
+Write-Host "`nAll updates deployed cleanly! Launch Coal LLC to play Lost Expedition." -ForegroundColor Green
