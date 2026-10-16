@@ -1,8 +1,0 @@
-﻿{
-  "name": "Lost Expedition Custom Map",
-  "namespace": "gareth",
-  "version_number": "1.0.0",
-  "description": "Custom subterranean expedition map featuring unexploded ordnance and cryo-pod survivor rescue mechanics.",
-  "dependencies": [],
-  "extra": {}
-}
