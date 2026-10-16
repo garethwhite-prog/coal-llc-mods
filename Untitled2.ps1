@@ -1,424 +1,147 @@
 ﻿cls
 
 # ==============================================================================
-# Coal LLC - Custom Map Scaffolding & Build Script (Clean & Safe)
-# Mod: gareth-lost_expedition_mod (Custom Map ID: 101)
+# Coal LLC - Synchronize SESSION_PROMPT.md & Push to Public GitHub
 # ==============================================================================
 
- $repoRoot     = "C:\Dev\coal-llc-mods"
- $modName      = "gareth-lost_expedition_mod"
- $outerModDir  = Join-Path $repoRoot "mods-unpacked\ $modName"
- $innerModDir  = Join-Path $outerModDir "mods-unpacked\ $modName"
- $steamModsDir = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods"
- $zipPath      = Join-Path  $steamModsDir " $modName.zip"
+ $repoRoot = "C:\Dev\coal-llc-mods"
+Set-Location  $repoRoot
 
-Write-Host ">>> Cleaning up any previous artifacts with whitespace..." -ForegroundColor Cyan
+Write-Host ">>> Updating SESSION_PROMPT.md with Custom Map architecture..." -ForegroundColor Cyan
 
-# Remove any accidentally created paths with leading spaces
- $badOuter = Join-Path  $repoRoot "mods-unpacked\  $modName"
-if (Test-Path  $badOuter) {
-    Remove-Item -Path  $badOuter -Recurse -Force
-}
- $badZip = Join-Path  $steamModsDir "  $modName.zip"
-if (Test-Path  $badZip) {
-    Remove-Item -Path  $badZip -Force
-}
-
-# 1. Directory Structure
- $dirs = @(
-     $outerModDir, $innerModDir,
-    (Join-Path  $innerModDir "assets"),
-    (Join-Path  $innerModDir "entities"),
-    (Join-Path  $innerModDir "helpers"),
-    (Join-Path  $innerModDir "extensions\scenes\Interfaces\Menus"),
-    (Join-Path  $innerModDir "extensions\scenes\tilemaps")
-)
-foreach ( $d in $dirs) {
-    if (-not (Test-Path  $d)) {
-        New-Item -ItemType Directory -Path  $d -Force | Out-Null
-    }
-}
-
-# 2. Textures (Pure Primitive Drawing - No Point Arrays)
-Add-Type -AssemblyName System.Drawing
-
-# A. Lost Expedition Map Card (256x160)
- $cardBmp = New-Object System.Drawing.Bitmap 256, 160 
- $gCard = [System.Drawing.Graphics]::FromImage( $cardBmp) 
- $gCard.Clear([System.Drawing.Color]::FromArgb(24, 28, 32))
-
- $strataBrush1 = New-Object System.Drawing.SolidBrush ([System.Drawing.Color]::FromArgb(45, 52, 54))
- $strataBrush2 = New-Object System.Drawing.SolidBrush ([System.Drawing.Color]::FromArgb(35, 40, 45)) 
- $goldBrush    = New-Object System.Drawing.SolidBrush ([System.Drawing.Color]::FromArgb(253, 203, 110))
- $cyanBrush    = New-Object System.Drawing.SolidBrush ([System.Drawing.Color]::FromArgb(0, 206, 201)) 
- $bombBrush    = New-Object System.Drawing.SolidBrush ([System.Drawing.Color]::FromArgb(255, 71, 87))
-
- $gCard.FillRectangle( $strataBrush1, 0, 40, 256, 50)
- $gCard.FillRectangle( $strataBrush2, 0, 90, 256, 70)
-
-# Hazard stripes using simple line draws
- $stripePen = New-Object System.Drawing.Pen ([System.Drawing.Color]::FromArgb(214, 48, 49)), 6
-for ( $x = -20;  $x -lt 280;  $x += 18) { $gCard.DrawLine( $stripePen, $x, 0, ( $x + 16), 16) } $stripePen.Dispose()
-
-# Central Cryo-Pod / Bunker Graphic
- $podPen = New-Object System.Drawing.Pen ([System.Drawing.Color]::FromArgb(223, 230, 233)), 2
- $gCard.DrawRectangle( $podPen, 108, 65, 40, 55)
- $gCard.FillRectangle( $cyanBrush, 114, 75, 28, 20)
- $gCard.FillEllipse( $goldBrush, 122, 100, 12, 12)
-
-# UXO hazard markers
- $gCard.FillEllipse( $bombBrush, 40, 110, 10, 10)
- $gCard.FillEllipse( $bombBrush, 75, 130, 12, 12)
- $gCard.FillEllipse( $bombBrush, 190, 115, 11, 11)
- $gCard.FillEllipse( $bombBrush, 220, 135, 10, 10)
-
- $cardTexturePath = Join-Path $innerModDir "assets\lost_expedition_card.png"
- $cardBmp.Save( $cardTexturePath, [System.Drawing.Imaging.ImageFormat]::Png)
- $gCard.Dispose() 
- $cardBmp.Dispose()
-
-# B. Cryo-Pod In-Game Sprite (32x32)
- $podBmp = New-Object System.Drawing.Bitmap 32, 32 
- $gPod = [System.Drawing.Graphics]::FromImage( $podBmp) 
- $gPod.Clear([System.Drawing.Color]::Transparent)
-
- $frameBrush = New-Object System.Drawing.SolidBrush ([System.Drawing.Color]::FromArgb(99, 110, 114)) 
- $steelBrush = New-Object System.Drawing.SolidBrush ([System.Drawing.Color]::FromArgb(178, 190, 195))
- $glowBrush  = New-Object System.Drawing.SolidBrush ([System.Drawing.Color]::FromArgb(0, 206, 201)) 
- $lightBrush = New-Object System.Drawing.SolidBrush ([System.Drawing.Color]::FromArgb(255, 234, 167))
-
- $gPod.FillRectangle( $frameBrush, 4, 2, 24, 28)
- $gPod.FillRectangle( $steelBrush, 6, 4, 20, 24)
- $gPod.FillRectangle( $glowBrush, 8, 8, 16, 12)
- $gPod.FillEllipse( $lightBrush, 13, 22, 6, 3)
-
- $podTexturePath = Join-Path $innerModDir "assets\cryo_pod.png"
- $podBmp.Save( $podTexturePath, [System.Drawing.Imaging.ImageFormat]::Png)
- $gPod.Dispose() 
- $podBmp.Dispose()
-
-Write-Host "Generated card and pod textures." -ForegroundColor Green
-
-# 3. Dual-Manifest & Dual-README
- $manifestJson = @'
-{
-  "name": "Lost Expedition Custom Map",
-  "namespace": "gareth",
-  "version_number": "1.0.0",
-  "description": "Custom subterranean expedition map featuring unexploded ordnance and cryo-pod survivor rescue mechanics.",
-  "dependencies": [],
-  "extra": {}
-}
-'@
-
- $readmeMd = @'
-# Lost Expedition Custom Map (Coal LLC Mod)
-
-## Overview
-Adds **Lost Expedition** (Map ID 101) to Coal LLC.
-- **Unexploded Ordnance (UXO):** Volatile demolition charges embedded in the stone. Mining triggers destructive radial detonations with visual fractures, debris, and sound.
-- **Cryo-Pod Shelters:** Subterranean vaults holding trapped mining personnel. Breaching a vault and opening the pod unlocks and purchases an employee level into your active workforce alongside bonus salvage cash.
-- **Mineral Strata:** High-yield undulating mineral fault seams that reward deep exploration.
-'@
-
-Set-Content -Path (Join-Path  $outerModDir "manifest.json") -Value  $manifestJson -Encoding UTF8
-Set-Content -Path (Join-Path  $outerModDir "README.md") -Value  $readmeMd -Encoding UTF8
-Set-Content -Path (Join-Path  $innerModDir "manifest.json") -Value  $manifestJson -Encoding UTF8
-Set-Content -Path (Join-Path  $innerModDir "README.md") -Value  $readmeMd -Encoding UTF8
-
-# 4. mod_main.gd
- $modMainGd = @'
-extends Node
-
-const MOD_DIR = "gareth-lost_expedition_mod"
-
-func _init() -> void:
-	ModLoaderLog.info("Lost Expedition Mod initializing...", MOD_DIR)
-	ModLoaderMod.install_script_extension("res://mods-unpacked/gareth-lost_expedition_mod/extensions/scenes/Interfaces/Menus/level_select.hooks.gd")
-	ModLoaderMod.install_script_extension("res://mods-unpacked/gareth-lost_expedition_mod/extensions/scenes/tilemaps/tile_map_chunk.hooks.gd")
-
-func _ready() -> void:
-	ModLoaderLog.info("Lost Expedition Custom Map Mod (ID 101) online!", MOD_DIR)
-'@
-Set-Content -Path (Join-Path  $innerModDir "mod_main.gd") -Value  $modMainGd -Encoding UTF8
-
-# 5. CryoPod Entity (entities/CryoPod.gd)
- $cryoPodGd = @'
-class_name CryoPod
-extends Area2D
-
-var in_range: bool = false
-var looted: bool = false
-var sprite: Sprite2D
-
-func _ready() -> void:
-	monitoring = true
-	monitorable = true
-	collision_layer = 1
-	collision_mask = 1
-	
-	var col = CollisionShape2D.new()
-	var shape = CircleShape2D.new()
-	shape.radius = 16.0
-	col.shape = shape
-	add_child(col)
-	
-	sprite = Sprite2D.new()
-	var img = Image.load_from_file("res://mods-unpacked/gareth-lost_expedition_mod/assets/cryo_pod.png")
-	if img:
-		sprite.texture = ImageTexture.create_from_image(img)
-	add_child(sprite)
-	
-	body_entered.connect(_on_body_entered)
-	body_exited.connect(_on_body_exited)
-
-func _process(_delta: float) -> void:
-	if in_range and not looted:
-		if Input.is_action_just_pressed("interact"):
-			rescue_worker()
-
-func _on_body_entered(_body: Node2D) -> void:
-	if not looted:
-		in_range = true
-		Bus.ShowInputIndicator.emit("interact", true, self)
-
-func _on_body_exited(_body: Node2D) -> void:
-	in_range = false
-	Bus.ShowInputIndicator.emit("interact", false, self)
-
-func rescue_worker() -> void:
-	looted = true
-	in_range = false
-	Bus.ShowInputIndicator.emit("interact", false, self)
-	
-	var emp_mgr = Gvars.employee_manager
-	if emp_mgr and emp_mgr.ALL_EMPLOYEES.size() > 0:
-		var chosen_emp = emp_mgr.ALL_EMPLOYEES[randi() % emp_mgr.ALL_EMPLOYEES.size()]
-		emp_mgr.purchase_employee_level(chosen_emp)
-		Gvars.CashCount += 10000.0
-		Game.log_message("Cryo-Pod opened! Rescued " + chosen_emp.employee_name + "! Salvaged  $10,000.", Game.LogLvl.HIGH, Game.LogType.INFO)
-	
-	sprite.modulate = Color(0.3, 1.0, 0.4, 0.8)
-'@
-Set-Content -Path (Join-Path  $innerModDir "entities\CryoPod.gd") -Value  $cryoPodGd -Encoding UTF8
-
-# 6. LostExpeditionHelper.gd
- $helperGd = @'
-class_name LostExpeditionHelper
-extends RefCounted
-
-const EXPEDITION_LEVEL_ID: int = 101
-
-func ensure_level_registered() -> void:
-	var lvl_mgr = Gvars.level_manager
-	if not lvl_mgr:
-		return
-	
-	if not lvl_mgr.all_levels.has(EXPEDITION_LEVEL_ID):
-		var custom_level = GameLevel.new()
-		custom_level.level_name = "Lost Expedition"
-		custom_level.level = EXPEDITION_LEVEL_ID
-		custom_level.mining_scene_path = "res://scenes/Stages/MineRegion.tscn"
-		custom_level.level_description = "Abandoned subterranean expedition.\nDeep strata riddled with volatile unexploded ordnance.\nCryo-shelters contain trapped mining personnel."
-		custom_level.level_difficulty = GameLevel.Difficulty.HARD
-		custom_level.unlock_description = ""
-		
-		var img = Image.load_from_file("res://mods-unpacked/gareth-lost_expedition_mod/assets/lost_expedition_card.png")
-		if img:
-			custom_level.level_image = ImageTexture.create_from_image(img)
-		
-		lvl_mgr.all_levels[EXPEDITION_LEVEL_ID] = {
-			"level": custom_level,
-			"is_unlocked": true
-		}
-
-func calculate_tier(pos: Vector2i) -> int:
-	var depth: float = float(pos.y)
-	if depth < 0.0:
-		return -2
-	var wave: float = sin(float(pos.x) * 0.18) * 3.0
-	var tier: int = int(clamp((depth + wave) / 2.6, 0.0, 14.0))
-	return tier
-
-func tag_uxo_tiles(chunk: Node) -> void:
-	var uxo: Dictionary = {}
-	var total_cells: int = chunk.chunk_size * chunk.chunk_size
-	for idx in range(total_cells):
-		var tile_id = chunk.tiles[idx]
-		if tile_id != chunk.Tiles.EMPTY and chunk.TILE_PROPERTIES[tile_id]["breakable"]:
-			if randf() < 0.035:
-				uxo[idx] = true
-	chunk.set_meta("expedition_uxo", uxo)
-
-func handle_tile_destroyed(chunk: Node, idx: int) -> void:
-	if chunk.has_meta("expedition_uxo"):
-		var uxo: Dictionary = chunk.get_meta("expedition_uxo")
-		if uxo.has(idx):
-			uxo.erase(idx)
-			detonate_uxo(chunk, idx)
-
-func detonate_uxo(chunk: Node, idx: int) -> void:
-	var local_pos: Vector2 = chunk.map_to_local(chunk.array_to_pos(idx))
-	var world_center: Vector2 = chunk.to_global(local_pos)
-	var manager = chunk.get_parent()
-	
-	for dx in range(-2, 3):
-		for dy in range(-2, 3):
-			var offset_world: Vector2 = world_center + Vector2(dx * 16.0, dy * 16.0)
-			if manager and manager.has_method("damageTile"):
-				manager.damageTile(offset_world, 450)
-
-func spawn_cryo_pods(chunk: Node, current_locs: Array[Vector2i]) -> Array[Vector2i]:
-	if randf() > 0.60:
-		return current_locs
-	
-	var width: int = 3
-	var height: int = 3
-	var start_tile: Vector2i = Vector2i(
-		randi_range(0, chunk.chunk_size - width),
-		randi_range(0, chunk.chunk_size - height)
-	)
-	
-	for n in range(5):
-		if start_tile in current_locs:
-			start_tile = Vector2i(
-				randi_range(0, chunk.chunk_size - width),
-				randi_range(0, chunk.chunk_size - height)
-			)
-	
-	for x in range(start_tile.x - width, start_tile.x + width):
-		for y in range(start_tile.y - height, start_tile.y + height):
-			current_locs.append(Vector2i(x, y))
-	
-	for x in range(start_tile.x, start_tile.x + width):
-		for y in range(start_tile.y, start_tile.y + height):
-			var c_idx: int = chunk.pos_to_array(Vector2i(x, y))
-			if (x == start_tile.x + 1) and (y == start_tile.y + 1):
-				chunk.tiles[c_idx] = chunk.Tiles.EMPTY
-				chunk.build_tile(c_idx)
-				var pod_script = load("res://mods-unpacked/gareth-lost_expedition_mod/entities/CryoPod.gd")
-				var pod = pod_script.new()
-				pod.position = chunk.map_to_local(Vector2i(x, y))
-				chunk.add_child.call_deferred(pod)
-			else:
-				chunk.tiles[c_idx] = chunk.chest_block_from_level(8)
-				chunk.build_tile(c_idx)
-	
-	return current_locs
-'@
-Set-Content -Path (Join-Path  $innerModDir "helpers\LostExpeditionHelper.gd") -Value  $helperGd -Encoding UTF8
-
-# 7. level_select.hooks.gd (Strict Hook Purity)
- $levelSelectHooksGd = @'
-func _ready(chain: ModLoaderHookChain) -> void:
-	var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
-	if helper_script:
-		var helper = helper_script.new()
-		helper.ensure_level_registered()
-		if not LEVEL_ORDER.has(helper.EXPEDITION_LEVEL_ID):
-			LEVEL_ORDER.append(helper.EXPEDITION_LEVEL_ID)
-	chain.execute_next()
-'@
-Set-Content -Path (Join-Path  $innerModDir "extensions\scenes\Interfaces\Menus\level_select.hooks.gd") -Value  $levelSelectHooksGd -Encoding UTF8
-
-# 8. tile_map_chunk.hooks.gd (Strict Hook Purity)
- $tileMapChunkHooksGd = @'
-func lvl_from_global_pos(chain: ModLoaderHookChain, pos: Vector2i) -> int:
-	if Gvars.level == 101:
-		var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
-		if helper_script:
-			var helper = helper_script.new()
-			return helper.calculate_tier(pos)
-	return chain.execute_next([pos])
-
-func generate_chunk(chain: ModLoaderHookChain, noise: Noise) -> void:
-	chain.execute_next([noise])
-	if Gvars.level == 101:
-		var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
-		if helper_script:
-			var helper = helper_script.new()
-			helper.tag_uxo_tiles(self)
-
-func destroy_tile(chain: ModLoaderHookChain, idx: int, tile_properties: Dictionary) -> void:
-	if Gvars.level == 101:
-		var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
-		if helper_script:
-			var helper = helper_script.new()
-			helper.handle_tile_destroyed(self, idx)
-	chain.execute_next([idx, tile_properties])
-
-func generate_chests(chain: ModLoaderHookChain, current_block_chest_locations: Array[Vector2i]) -> Array[Vector2i]:
-	var locs: Array[Vector2i] = chain.execute_next([current_block_chest_locations])
-	if Gvars.level == 101:
-		var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
-		if helper_script:
-			var helper = helper_script.new()
-			locs = helper.spawn_cryo_pods(self, locs)
-	return locs
-'@
-Set-Content -Path (Join-Path  $innerModDir "extensions\scenes\tilemaps\tile_map_chunk.hooks.gd") -Value  $tileMapChunkHooksGd -Encoding UTF8
-
-Write-Host "All mod code and textures generated cleanly." -ForegroundColor Green
-
-# 9. Update SESSION_PROMPT.md
  $sessionPromptPath = Join-Path $repoRoot "SESSION_PROMPT.md"
- $sessionContent = Get-Content $sessionPromptPath -Raw
 
- $mapArchitectureSection = @'
+ $sessionPromptFull = @'
+# Coal LLC Modding Architecture & Session Knowledge Base (Updated October 2026)
+
+## 1. Directory Structure & Environment Paths
+- Local Git Repository: C:\Dev\coal-llc-mods
+- Remote Repository: https://github.com/garethwhite-prog/coal-llc-mods
+- Active Unpacked Mods: C:\Dev\coal-llc-mods\mods-unpacked\<namespace>-<mod_name>
+- Steam Game Root: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC
+- Steam Active Mods (.zip): C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods
+- Hook Preprocessor Zip: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mod-hooks.zip
+- User Data & Logs: %APPDATA%\Godot\app_userdata\Coal LLC (godot.log, modloader.log, gareth_mods_config.json)
+
+## 2. Packaging & Git Directives
+1. Dual-Manifest & Dual-README Requirement:
+   Every mod archive MUST contain manifest.json and README.md at the archive root AND duplicate copies inside mods-unpacked/<namespace>-<mod_name>/.
+2. Forward Slash Zip Rule:
+   Godot's virtual filesystem requires all zip entry paths to use forward slashes (/). Windows Compress-Archive uses backslashes (\), causing files to fail loading silently. Always use System.IO.Compression.ZipArchive with .Replace("\", "/").
+3. Repo Hierarchy:
+   Keep source files structured as:
+   mods-unpacked/<mod_name>/mods-unpacked/<mod_name>/...
+   This allows packaging the outer mod folder directly so root and relative paths align cleanly.
+4. Git Staging:
+   Never leave generated textures or scripts unstaged. Always run `git add -A` after build steps so TortoiseGit, Git Extensions, and CLI commits include all new assets.
+5. In-Place Updates:
+   Never delete top-level mod directories recursively if doing so destroys git-tracked documentation READMEs. Update scripts and textures in-place.
+
+## 3. Godot 4 & ModLoader Engine Quirks
+1. Runtime Loose PNG Loading:
+   In exported Godot 4 builds, loose .png files placed in mod directories are not imported as .ctex resources. Calling ResourceLoader.load() or load() on loose images returns null. Always use runtime image decoding:
+     var img = Image.load_from_file(path)
+     if img:
+         item.itemTexture = ImageTexture.create_from_image(img)
+2. AtlasTexture Overrides:
+   Pre-existing .tres item resources with baked AtlasTextures (such as Tactical Nukes and Neutron Bombs) will continue displaying default yellow sprites unless item.itemTexture is explicitly overwritten with an ImageTexture at runtime.
+3. Coordinate Transforms (Godot 4.3+):
+   TileMapManager extends TileMapLayer. Coordinate inspection methods (e.g. get_cell_atlas_coords, is_tile_breakable) take 1 argument (Vector2i), NOT 2. When raycasting from world coordinates, always transform to map space using:
+     var local_pos: Vector2 = tilemap.to_local(world_pos)
+     var cell: Vector2i = tilemap.local_to_map(local_pos)
+4. Visual Tile Damage vs Silent Damage:
+   `tilemap.damageTileCoords(cell, dmg)` applies damage silently to internal block health data without audio, cracks, or debris. For full feedback (breaking sounds, fracture overlays, particle bursts), use:
+     tilemap.damageTile(world_pos, dmg)
+5. ModLoader Hook Limitations:
+   Hook scripts (*.hooks.gd) must ONLY contain method names that exist directly on the vanilla target script. Any custom helper functions defined at script root will be skipped with warnings or trigger parse errors. Embed helper logic directly inside hooked methods or delegate to RefCounted helper classes.
+
+## 4. Economy, Cash & Save State
+1. Cash Variable:
+   Vanilla Coal LLC stores cash in `Gvars.CashCount` (float), NOT `Gvars.cash`.
+2. UI Label Binding:
+   The management screen binds cash to `%CurrentCash` (RichTextLabel) via `refresh_cash()`.
+3. Reset Overwrites:
+   `Gvars.reset_resources()` resets CashCount to 0 when starting Day 1. To enforce debt balances (such as - $50,000,000 for Debt Executioner), hook `_ready` and `refresh_cash` on `management_screen.gd`.
+
+## 5. Custom Archetype Registry (IDs 101-109)
+- 101: Knight (gareth-knight_class_mod) - Broadsword cleave progression.
+- 102: Jedi (gareth-jedi_class_mod) - 7-ray forward arc plasma energy sabers.
+- 103: Bouncing Ball (gareth-bouncing_ball_mod) - 16x16 ricocheting kinetic spheres with shockwave detonation.
+- 104: Rainbow Sinclairity (gareth-sinclairity_class_mod) - Continuous refracting spectral prism melt laser.
+- 105: Void Siphon (gareth-void_siphon_mod) - Singularity core with gravitational implosions and ore vacuum.
+- 106: Debt Executioner (gareth-debt_executioner_mod) - Rotary minigun starting at - $50M debt.
+- 107: Chrono-Industrialist (gareth-chrono_industrialist_mod) - High-speed temporal strike harvester with 10th-hit Stasis Shockwave.
+- 108: Gravitational Dreadnought (gareth-grav_dreadnought_mod) - Heavy orbital mass dreadnought cannon.
+- 109: Tectonic Fracker (gareth-tectonic_fracker_mod) - Acoustic fracture pulse with BFS ore seam propagation.
+
+## 6. Standard 15-Tier Mineral Progression
+Archetype weapons and explosives scale across 15 standard mineral tiers:
+1. 01_shoddy
+2. 02_copper
+3. 03_iron
+4. 04_sapphire
+5. 05_emerald
+6. 06_silver
+7. 07_amethyst
+8. 08_gold
+9. 09_ruby
+10. 10_diamond
+11. 11_pinkdiamond
+12. 12_spinel
+13. 13_uranium
+14. 14_moonstone
+15. 15_onyx
+
+## 7. Universal Shop Gating & Card Display
+1. Mod Manager Shop Purity:
+   In `management_screen.hooks.gd`, `load_equipment_shop()` iterates all shop items and hides weapons belonging to other classes, ensuring each archetype only sees its dedicated 15 tiers alongside universal utility items (ladders, platforms, whistles, teleporters).
+2. Non-Destructive Card Display:
+   Cards on `profession_select.gd` must never be deleted with queue_free() during selection. They remain visible and scrollable via horizontal mouse-wheel navigation.
+
+## 8. Diagnostic Workflow
+- Use `.\Dump-Context.ps1` in PowerShell to automatically gather git status, latest commits, and the last 50 lines of `godot.log` directly into the Windows clipboard for immediate status sharing.
 
 ## 9. Custom Map Architecture & Mechanics (IDs 101+)
-1. Level Registry:
-   - Maps are registered in `Gvars.level_manager.all_levels[level_id]` holding `{ "level": GameLevel, "is_unlocked": bool }`.
-   - `GameLevel` exports: `level_name`, `level` (int/enum), `mining_scene_path`, `level_image`, `level_description`, `level_difficulty`, and `unlock_description`.
-2. Carousel UI Card Display:
-   - In `level_select.gd`, the menu iterates `LEVEL_ORDER`.
-   - By appending custom level IDs to `LEVEL_ORDER` in `level_select.hooks.gd` during `_ready()`, vanilla instantiates `LEVEL_INFO` cards, wires signals, and resolves gamepad/keyboard focus navigation automatically without destructive `queue_free()` calls.
-3. Subterranean Generation Hooks:
-   - `lvl_from_global_pos(pos: Vector2i)`: Governs ore tier scaling (Tiers 1-15) based on world coordinates.
-   - `generate_chunk(noise)`: Populates rock tiles; use metadata `chunk.set_meta(...)` to stamp hazard or UXO cell coordinates.
-   - `generate_chests(locations)`: Intercept to clear 3x3 vault chambers and spawn custom interactive nodes (`add_child.call_deferred(entity)`).
-   - `destroy_tile(idx, props)`: Intercept to execute explosive chain reactions via `tilemap.damageTile(world_pos, dmg)` for full particle, fracturing, and audio feedback.
+1. Level Registry & Resources:
+   - Maps are defined as `GameLevel` resources (`res://resources/levels/scripts/game_level.gd`) exporting: `level_name`, `level` (int/enum), `mining_scene_path` ("res://scenes/Stages/MineRegion.tscn"), `level_image` (Texture2D), `level_description` (String), `level_difficulty` (GameLevel.Difficulty), and `unlock_description` (String).
+   - The central registry is `Gvars.level_manager.all_levels` (Dictionary), holding `{ "level": GameLevel, "is_unlocked": bool }`.
+   - Vanilla enum is `Gconsts.Level` (IDs 0-7). Custom maps use integer IDs starting at 101+.
+2. Carousel UI Card Injection:
+   - `level_select.gd` manages the map selection screen and reads `LEVEL_ORDER: Array`.
+   - In `level_select.hooks.gd`, hook `_ready(chain)` and append custom level IDs to `LEVEL_ORDER` before calling `chain.execute_next()`. Vanilla will automatically instantiate `LEVEL_INFO` cards, wire `level_clicked`, format stats, and build gamepad/keyboard focus navigation without destructive `queue_free()` calls.
+3. Subterranean Generation Pipeline (`tile_map_chunk.gd`):
+   - `lvl_from_global_pos(pos: Vector2i) -> int`: Governs ore tier scaling (Tiers 0-14, -2 for sky). Hook to implement custom depth curves, sine wave fault lines, or localized cluster logic for custom level IDs.
+   - `generate_chunk(noise: Noise)`: Populates rock tiles. Use chunk metadata `chunk.set_meta(...)` to store cell coordinates for custom hazards, gas pockets, or unexploded ordnance.
+   - `generate_chests(locations: Array[Vector2i]) -> Array[Vector2i]`: Intercept after `chain.execute_next()` to carve 3x3 vault chambers and spawn custom interactive Node2D/Area2D scenes via `chunk.add_child.call_deferred(entity)`.
+   - `destroy_tile(idx: int, tile_properties: Dictionary)`: Hook to intercept block destruction. To trigger explosive detonations, resolve world positions and invoke `tilemap.damageTile(world_pos, dmg)` on the parent manager to ensure full cracking decals, breaking sounds, and particle bursts.
 4. Active Workforce Rescue:
-   - Employees are defined in `Gvars.employee_manager.ALL_EMPLOYEES`.
+   - Employee types are stored in `Gvars.employee_manager.ALL_EMPLOYEES`.
    - Call `Gvars.employee_manager.purchase_employee_level(chosen_emp)` to grant active workforce levels directly during subterranean operations.
 5. Custom Map Registry:
-   - 101: Lost Expedition (`gareth-lost_expedition_mod`) - Subterranean demo ground with unexploded ordnance (UXO) and survivor Cryo-Pods.
+   - 101: Lost Expedition (`gareth-lost_expedition_mod`) - Subterranean demo ground featuring undulating mineral strata, unexploded ordnance (UXO) chain detonations, and survivor Cryo-Pod recovery vaults.
 '@
 
-if ( $sessionContent -notmatch "## 9\. Custom Map Architecture") {
-     $sessionContent += $mapArchitectureSection
-    Set-Content -Path  $sessionPromptPath -Value $sessionContent -Encoding UTF8
-    Write-Host "SESSION_PROMPT.md updated." -ForegroundColor Green
-} else {
-    Write-Host "SESSION_PROMPT.md already verified." -ForegroundColor Yellow
-}
+Set-Content -Path  $sessionPromptPath -Value $sessionPromptFull -Encoding UTF8
+Write-Host "SESSION_PROMPT.md updated successfully." -ForegroundColor Green
 
-# 10. Packaging to Steam mods folder with Forward Slash Rule
-Write-Host "Packaging  $modName.zip..." -ForegroundColor Cyan
-if (Test-Path  $zipPath) { Remove-Item $zipPath -Force }
-
-Add-Type -AssemblyName System.IO.Compression
-Add-Type -AssemblyName System.IO.Compression.FileSystem
-
- $zipStream = [System.IO.File]::Open( $zipPath, [System.IO.FileMode]::CreateNew)
- $archive = New-Object System.IO.Compression.ZipArchive( $zipStream, [System.IO.Compression.ZipArchiveMode]::Create)
-
- $filesToZip = Get-ChildItem -Path $outerModDir -Recurse -File
-foreach ( $file in  $filesToZip) { $relative =  $file.FullName.Substring( $outerModDir.Length + 1).Replace("\", "/")
-    [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile( $archive,  $file.FullName,  $relative) | Out-Null
-}
-
- $archive.Dispose()
- $zipStream.Dispose()
-Write-Host "Archive created at:  $zipPath" -ForegroundColor Green
-
-# 11. Git Staging & Clean Commit
-Write-Host "Staging and committing cleanly to Git..." -ForegroundColor Cyan
-Push-Location  $repoRoot
+# Stage all files including the new mod and updated session prompt
+Write-Host "`n>>> Staging changes in Git repository..." -ForegroundColor Cyan
 git add -A
-git commit -m "Clean build: Lost Expedition custom map (ID 101) with UXO detonations and cryo-pod rescues"
-Pop-Location
 
-Write-Host "==========================================================" -ForegroundColor Green
-Write-Host "All tasks completed successfully! Custom Map 101 is live." -ForegroundColor Green
-Write-Host "==========================================================" -ForegroundColor Green
+# Commit
+ $status = git status --porcelain
+if ( $status) {
+    Write-Host "Committing updates..." -ForegroundColor Cyan
+    git commit -m "Add Section 9 Custom Map Architecture to SESSION_PROMPT.md and finalize Lost Expedition mod"
+} else {
+    Write-Host "Working tree already clean." -ForegroundColor Yellow
+}
+
+# Push to GitHub
+Write-Host "`n>>> Pushing local commits to GitHub (origin main)..." -ForegroundColor Cyan
+git push origin main
+
+Write-Host "`n=== RECENT COMMITS ===" -ForegroundColor Green
+git log -n 4 --oneline
+
+Write-Host "`nDone! Switch back to Git Extensions and press F5 to see the synchronized graph." -ForegroundColor Green
