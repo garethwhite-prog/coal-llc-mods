@@ -1,110 +1,115 @@
 ﻿cls
 `
 # ==============================================================================
-# Coal LLC - Fix mod_main.gd (2-arg install_script_hooks), Flush Hooks & Deploy
+# Coal LLC - Fix chain.reference in Lost Expedition Hooks & Rebuild Cache
 # ==============================================================================
 
-$repoRoot      = "C:\Dev\coal-llc-mods"
-$modName       = "gareth-lost_expedition_mod"
-$outerModDir   = Join-Path $repoRoot "mods-unpacked\$modName"
-$innerModDir   = Join-Path $outerModDir "mods-unpacked\$modName"
-$steamRoot     = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC"
-$steamModsDir  = Join-Path $steamRoot "mods"
-$zipPath       = Join-Path $steamModsDir "$modName.zip"
-$hookZipPath   = Join-Path $steamRoot "mod-hooks.zip"
+ $repoRoot      = "C:\Dev\coal-llc-mods"
+ $modName       = "gareth-lost_expedition_mod"
+ $outerModDir   = Join-Path $repoRoot "mods-unpacked\ $modName"
+ $innerModDir   = Join-Path $outerModDir "mods-unpacked\ $modName"
+ $steamRoot     = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC"
+ $steamModsDir  = Join-Path $steamRoot "mods"
+ $zipPath       = Join-Path $steamModsDir " $modName.zip"
+ $hookZipPath   = Join-Path $steamRoot "mod-hooks.zip"
 
 Set-Location $repoRoot
 
-Write-Host ">>> 1. Writing corrected mod_main.gd with 2 arguments..." -ForegroundColor Cyan
+Write-Host ">>> 1. Patching level_select.hooks.gd with chain.reference..." -ForegroundColor Cyan
 
-$modMainGd = @'
-extends Node
-
-const MOD_DIR := "gareth-lost_expedition_mod"
-
-func _init() -> void:
-	ModLoaderLog.info("Lost Expedition Mod initializing...", MOD_DIR)
-	var mod_dir_path: String = ModLoaderMod.get_unpacked_dir().path_join(MOD_DIR)
-	ModLoaderMod.install_script_hooks(
-		"res://scenes/Interfaces/Menus/level_select.gd",
-		mod_dir_path.path_join("extensions/scenes/Interfaces/Menus/level_select.hooks.gd")
-	)
-	ModLoaderMod.install_script_hooks(
-		"res://scenes/tilemaps/tile_map_chunk.gd",
-		mod_dir_path.path_join("extensions/scenes/tilemaps/tile_map_chunk.hooks.gd")
-	)
-
-func _ready() -> void:
-	ModLoaderLog.info("Lost Expedition Custom Map Mod (ID 101) online!", MOD_DIR)
+ $levelSelectHooksGd = @'
+func _ready(chain: ModLoaderHookChain) -> void:
+	var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
+	if helper_script:
+		var helper = helper_script.new()
+		helper.ensure_level_registered()
+		if chain.reference and "LEVEL_ORDER" in chain.reference:
+			if not chain.reference.LEVEL_ORDER.has(helper.EXPEDITION_LEVEL_ID):
+				chain.reference.LEVEL_ORDER.append(helper.EXPEDITION_LEVEL_ID)
+	chain.execute_next()
 '@
+Set-Content -Path (Join-Path $innerModDir "extensions\scenes\Interfaces\Menus\level_select.hooks.gd") -Value $levelSelectHooksGd -Encoding UTF8
 
-Set-Content -Path (Join-Path $innerModDir "mod_main.gd") -Value $modMainGd -Encoding UTF8
-Write-Host "mod_main.gd updated." -ForegroundColor Green
+Write-Host ">>> 2. Patching tile_map_chunk.hooks.gd with chain.reference..." -ForegroundColor Cyan
 
-Write-Host ">>> 2. Deleting cached mod-hooks.zip to force ModHookPacker rebuild..." -ForegroundColor Cyan
+ $tileMapChunkHooksGd = @'
+func lvl_from_global_pos(chain: ModLoaderHookChain, pos: Vector2i) -> int:
+	if Gvars.level == 101:
+		var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
+		if helper_script:
+			var helper = helper_script.new()
+			return helper.calculate_tier(pos)
+	return chain.execute_next([pos])
+
+func generate_chunk(chain: ModLoaderHookChain, noise: Noise) -> void:
+	chain.execute_next([noise])
+	if Gvars.level == 101:
+		var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
+		if helper_script:
+			var helper = helper_script.new()
+			helper.tag_uxo_tiles(chain.reference)
+
+func destroy_tile(chain: ModLoaderHookChain, idx: int, tile_properties: Dictionary) -> void:
+	if Gvars.level == 101:
+		var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
+		if helper_script:
+			var helper = helper_script.new()
+			helper.handle_tile_destroyed(chain.reference, idx)
+	chain.execute_next([idx, tile_properties])
+
+func generate_chests(chain: ModLoaderHookChain, current_block_chest_locations: Array[Vector2i]) -> Array[Vector2i]:
+	var locs: Array[Vector2i] = chain.execute_next([current_block_chest_locations])
+	if Gvars.level == 101:
+		var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
+		if helper_script:
+			var helper = helper_script.new()
+			locs = helper.spawn_cryo_pods(chain.reference, locs)
+	return locs
+'@
+Set-Content -Path (Join-Path $innerModDir "extensions\scenes\tilemaps\tile_map_chunk.hooks.gd") -Value $tileMapChunkHooksGd -Encoding UTF8
+
+Write-Host ">>> 3. Deleting cached mod-hooks.zip..." -ForegroundColor Cyan
 if (Test-Path $hookZipPath) {
     Remove-Item -Path $hookZipPath -Force
     Write-Host "mod-hooks.zip deleted." -ForegroundColor Green
-} else {
-    Write-Host "mod-hooks.zip was not present." -ForegroundColor Yellow
 }
 
-Write-Host ">>> 3. Re-packaging $modName.zip for Steam..." -ForegroundColor Cyan
+Write-Host ">>> 4. Repackaging $modName.zip for Steam..." -ForegroundColor Cyan
 if (Test-Path $zipPath) { Remove-Item $zipPath -Force }
 
 Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
-$zipStream = [System.IO.File]::Open($zipPath, [System.IO.FileMode]::CreateNew)
-$archive = New-Object System.IO.Compression.ZipArchive($zipStream, [System.IO.Compression.ZipArchiveMode]::Create)
+ $zipStream = [System.IO.File]::Open( $zipPath, [System.IO.FileMode]::CreateNew)
+ $archive = New-Object System.IO.Compression.ZipArchive( $zipStream, [System.IO.Compression.ZipArchiveMode]::Create)
 
-$filesToZip = Get-ChildItem -Path $outerModDir -Recurse -File
-foreach ($file in $filesToZip) {
-    $relative = $file.FullName.Substring($outerModDir.Length + 1).Replace("\", "/")
-    [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $file.FullName, $relative) | Out-Null
+ $filesToZip = Get-ChildItem -Path $outerModDir -Recurse -File
+foreach ( $file in $filesToZip) { $relative = $file.FullName.Substring( $outerModDir.Length + 1).Replace("\", "/")
+    [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile( $archive, $file.FullName, $relative) | Out-Null
 }
 
-$archive.Dispose()
-$zipStream.Dispose()
-Write-Host "Re-packaged cleanly to $zipPath" -ForegroundColor Green
+ $archive.Dispose() 
+ $zipStream.Dispose()
+Write-Host "Archive re-created at: $zipPath" -ForegroundColor Green
 
-Write-Host ">>> 4. Updating SESSION_PROMPT.md with verified signature..." -ForegroundColor Cyan
-$sessionPromptPath = Join-Path $repoRoot "SESSION_PROMPT.md"
-$sessionContent = Get-Content $sessionPromptPath -Raw
+Write-Host ">>> 5. Updating SESSION_PROMPT.md..." -ForegroundColor Cyan
+ $sessionPromptPath = Join-Path $repoRoot "SESSION_PROMPT.md"
+ $sessionContent = Get-Content $sessionPromptPath -Raw
 
-$updatedSection3 = @"
-## 3. Godot 4 & ModLoader Engine Quirks
-1. Runtime Loose PNG Loading:
-   In exported Godot 4 builds, loose .png files placed in mod directories are not imported as .ctex resources. Calling ResourceLoader.load() or load() on loose images returns null. Always use runtime image decoding:
-     var img = Image.load_from_file(path)
-     if img:
-         item.itemTexture = ImageTexture.create_from_image(img)
-2. AtlasTexture Overrides:
-   Pre-existing .tres item resources with baked AtlasTextures (such as Tactical Nukes and Neutron Bombs) will continue displaying default yellow sprites unless item.itemTexture is explicitly overwritten with an ImageTexture at runtime.
-3. Coordinate Transforms (Godot 4.3+):
-   TileMapManager extends TileMapLayer. Coordinate inspection methods (e.g. get_cell_atlas_coords, is_tile_breakable) take 1 argument (Vector2i), NOT 2. When raycasting from world coordinates, always transform to map space using:
-     var local_pos: Vector2 = tilemap.to_local(world_pos)
-     var cell: Vector2i = tilemap.local_to_map(local_pos)
-4. Visual Tile Damage vs Silent Damage:
-   `tilemap.damageTileCoords(cell, dmg)` applies damage silently to internal block health data without audio, cracks, or debris. For full feedback (breaking sounds, fracture overlays, particle bursts), use:
-     tilemap.damageTile(world_pos, dmg)
-5. ModLoader Hook Limitations & install_script_hooks Signature:
-   Hook scripts (*.hooks.gd) must be registered via `ModLoaderMod.install_script_hooks(vanilla_script_path: String, hook_script_path: String)`.
-   Calling with only 1 argument triggers a GDScript parse error ("Too few arguments for install_script_hooks() call. Expected at least 2 but received 1").
-   Hook scripts must ONLY contain method names that exist directly on the vanilla target script. Any custom helper functions defined at script root will trigger parse errors. Delegate custom logic to RefCounted helper classes.
-   When registering hooks for a vanilla script not previously hooked, delete `mod-hooks.zip` from the Steam game root so ModHookPacker rebuilds the preprocessor archive on startup.
+if ( $sessionContent -notmatch "chain\.reference Scope Isolation") {
+    $hookRuleNote = @"
+6. Hook Script Scope Isolation (`chain.reference`):
+   Hook scripts (*.hooks.gd) do NOT inherit the target class scope. Direct variable access (such as `LEVEL_ORDER` or `self`) fails at compile time or passes the hook script instead of the game node.
+   Always access target properties and pass the active target node using `chain.reference` (e.g. `chain.reference.LEVEL_ORDER` or `helper.tag_tiles(chain.reference)`).
 "@
+    $sessionContent = $sessionContent -replace "(?s)(## 3\. Godot 4 & ModLoader Engine Quirks.*?)(\n## 4\. Economy)", "` $1`n $hookRuleNote` $2"
+    Set-Content -Path $sessionPromptPath -Value $sessionContent -Encoding UTF8
+    Write-Host "SESSION_PROMPT.md updated with chain.reference rule." -ForegroundColor Green
+}
 
-# Replace section 3 in SESSION_PROMPT.md
-$sessionContent = $sessionContent -replace "(?s)## 3\. Godot 4 & ModLoader Engine Quirks.*?(?=## 4\. Economy)", $updatedSection3
-Set-Content -Path $sessionPromptPath -Value $sessionContent -Encoding UTF8
-Write-Host "SESSION_PROMPT.md updated." -ForegroundColor Green
-
-Write-Host ">>> 5. Git Staging, Commit & Push..." -ForegroundColor Cyan
+Write-Host ">>> 6. Git staging, committing, and pushing..." -ForegroundColor Cyan
 git add -A
-git commit -m "Fix install_script_hooks 2-arg signature for Lost Expedition mod and flush hook cache"
+git commit -m "Fix chain.reference target scoping in Lost Expedition hooks and update SESSION_PROMPT.md"
 git push origin main
 
-Write-Host "`n==========================================================" -ForegroundColor Green
-Write-Host "All tasks completed! Start Coal LLC to test." -ForegroundColor Green
-Write-Host "==========================================================" -ForegroundColor Green
+Write-Host "`nAll updates deployed. Launch Coal LLC to test." -ForegroundColor Green
