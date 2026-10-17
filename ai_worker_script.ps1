@@ -1,7 +1,7 @@
 ﻿cls
 
 # ==============================================================================
-# Coal LLC - Persist Rescued Employees to Org Chart & Roster
+# Coal LLC - Direct Workforce Ledger & Organisation Chart Persistence
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
@@ -12,11 +12,10 @@ $outerDir   = "$repo\mods-unpacked\$modName"
 $innerDir   = "$outerDir\mods-unpacked\$modName"
 $zipPath    = "$steamMods\$modName.zip"
 $hookZip    = "$steamRoot\mod-hooks.zip"
-$dumpRoot   = "$steamRoot\_dump"
 
 Set-Location $repo
 
-Write-Host ">>> 1. Updating entities/CryoPod.gd with direct workforce roster persistence..." -ForegroundColor Cyan
+Write-Host ">>> 1. Patching CryoPod.gd with direct ledger credit & branch unlock..." -ForegroundColor Cyan
 @'
 class_name CryoPod
 extends Node2D
@@ -133,27 +132,26 @@ func rescue_worker() -> void:
 	var chosen_emp: EmployeeLevel = null
 	if emp_mgr and emp_mgr.ALL_EMPLOYEES.size() > 0:
 		chosen_emp = emp_mgr.ALL_EMPLOYEES[randi() % emp_mgr.ALL_EMPLOYEES.size()]
+		var emp_key = chosen_emp.level_name
 		
-		# Credit the employee ledger directly
-		if not emp_mgr.employees.has(chosen_emp.level_name):
-			emp_mgr.employees[chosen_emp.level_name] = 0.0
-		emp_mgr.employees[chosen_emp.level_name] += 1.0
+		# Directly credit roster dictionary (bypasses store purchase requirements)
+		if not emp_mgr.employees.has(emp_key):
+			emp_mgr.employees[emp_key] = 0.0
+		emp_mgr.employees[emp_key] += 1.0
 		
-		# Unlock this tier and predecessor tiers in locked_employees
-		if emp_mgr.locked_employees.has(chosen_emp.level_name):
-			emp_mgr.locked_employees.erase(chosen_emp.level_name)
-		
+		# Unlock this tier and predecessor tiers so they are not hidden by more_employees_mod
 		var curr = chosen_emp
-		while curr and "upgrades_from" in curr and curr.upgrades_from != curr.EmployeeLevelNames.NOTHING:
-			var prev_emp = emp_mgr.get_employee_level_from_enum(curr.upgrades_from)
-			if prev_emp:
-				if emp_mgr.locked_employees.has(prev_emp.level_name):
-					emp_mgr.locked_employees.erase(prev_emp.level_name)
-				curr = prev_emp
+		while curr:
+			if emp_mgr.locked_employees.has(curr.level_name):
+				emp_mgr.locked_employees.erase(curr.level_name)
+			if "upgrades_from" in curr and curr.upgrades_from != curr.EmployeeLevelNames.NOTHING:
+				curr = emp_mgr.get_employee_level_from_enum(curr.upgrades_from)
 			else:
 				break
 		
-		if chosen_emp.get("level_name") != null:
+		if EmployeeLevel.EmployeeLevelNames.keys().size() > chosen_emp.level_name:
+			rescued_title = EmployeeLevel.EmployeeLevelNames.keys()[chosen_emp.level_name].capitalize()
+		elif chosen_emp.get("level_name") != null:
 			rescued_title = str(chosen_emp.level_name)
 	
 	# 4. Physically instantiate live worker directly inside MineRegion for current shift
@@ -217,7 +215,8 @@ $zipStream = [System.IO.File]::Open($zipPath, [System.IO.FileMode]::CreateNew)
 $archive   = New-Object System.IO.Compression.ZipArchive($zipStream, [System.IO.Compression.ZipArchiveMode]::Create)
 $allFiles  = Get-ChildItem -Path $outerDir -Recurse -File
 
-foreach ($f in $allFiles) {$entryName = $f.FullName.Substring($outerDir.Length + 1).Replace("\", "/")
+foreach ($f in $allFiles) {
+    $entryName = $f.FullName.Substring($outerDir.Length + 1).Replace("\", "/")
     [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $f.FullName, $entryName) | Out-Null
 }
 $archive.Dispose()
@@ -226,29 +225,7 @@ Write-Host "Packed archive at: $zipPath" -ForegroundColor Green
 
 Write-Host ">>> 4. Git staging, committing, and pushing..." -ForegroundColor Cyan
 git add -A
-git commit -m "Directly credit rescued employees to ledger and unlock hierarchy branch on Org Chart"
+git commit -m "Directly credit rescued workers to workforce roster and unlock hierarchy on Organisation Chart"
 git push origin main
 
-Write-Host ">>> 5. Inspecting employee_level_icon_2.gd & intern.tres..." -ForegroundColor Cyan
-$diagOutput = @()
-$diagOutput += "=== EMPLOYEE LEVEL ICON & RESOURCE INSPECTION ==="
-
-# 1. employee_level_icon_2.gd count and lock handling
-$iconScript = Join-Path $dumpRoot "scenes\Interfaces\Management\employee_level_icon_2.gd"
-if (Test-Path $iconScript) {$diagOutput += "`n--- 1. employee_level_icon_2.gd (First 60 lines) ---"
-    $iLines = Get-Content $iconScript
-    for ($i = 0; $i -lt [Math]::Min(60, $iLines.Count); $i++) {
-        $diagOutput += "{0,3}: {1}" -f ($i + 1), $iLines[$i]
-    }
-}
-
-# 2. intern.tres structure (properties and names)
-$internTres = Join-Path $dumpRoot "resources\Employees\EmployeeLevels\intern.tres"
-if (Test-Path $internTres) {
-    $diagOutput += "`n--- 2. intern.tres Content ---"
-    $diagOutput += Get-Content $internTres
-}
-
-$diagText =$diagOutput -join "`r`n"
-$diagText | Set-Clipboard
-Write-Host "Deploy complete! Diagnostic copied to clipboard." -ForegroundColor Green
+Write-Host "`nDeploy complete! Launch Coal LLC to test." -ForegroundColor Green

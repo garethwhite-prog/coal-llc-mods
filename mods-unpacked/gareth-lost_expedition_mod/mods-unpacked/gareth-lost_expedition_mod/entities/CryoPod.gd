@@ -113,27 +113,26 @@ func rescue_worker() -> void:
 	var chosen_emp: EmployeeLevel = null
 	if emp_mgr and emp_mgr.ALL_EMPLOYEES.size() > 0:
 		chosen_emp = emp_mgr.ALL_EMPLOYEES[randi() % emp_mgr.ALL_EMPLOYEES.size()]
+		var emp_key = chosen_emp.level_name
 		
-		# Credit the employee ledger directly
-		if not emp_mgr.employees.has(chosen_emp.level_name):
-			emp_mgr.employees[chosen_emp.level_name] = 0.0
-		emp_mgr.employees[chosen_emp.level_name] += 1.0
+		# Directly credit roster dictionary (bypasses store purchase requirements)
+		if not emp_mgr.employees.has(emp_key):
+			emp_mgr.employees[emp_key] = 0.0
+		emp_mgr.employees[emp_key] += 1.0
 		
-		# Unlock this tier and predecessor tiers in locked_employees
-		if emp_mgr.locked_employees.has(chosen_emp.level_name):
-			emp_mgr.locked_employees.erase(chosen_emp.level_name)
-		
+		# Unlock this tier and predecessor tiers so they are not hidden by more_employees_mod
 		var curr = chosen_emp
-		while curr and "upgrades_from" in curr and curr.upgrades_from != curr.EmployeeLevelNames.NOTHING:
-			var prev_emp = emp_mgr.get_employee_level_from_enum(curr.upgrades_from)
-			if prev_emp:
-				if emp_mgr.locked_employees.has(prev_emp.level_name):
-					emp_mgr.locked_employees.erase(prev_emp.level_name)
-				curr = prev_emp
+		while curr:
+			if emp_mgr.locked_employees.has(curr.level_name):
+				emp_mgr.locked_employees.erase(curr.level_name)
+			if "upgrades_from" in curr and curr.upgrades_from != curr.EmployeeLevelNames.NOTHING:
+				curr = emp_mgr.get_employee_level_from_enum(curr.upgrades_from)
 			else:
 				break
 		
-		if chosen_emp.get("level_name") != null:
+		if EmployeeLevel.EmployeeLevelNames.keys().size() > chosen_emp.level_name:
+			rescued_title = EmployeeLevel.EmployeeLevelNames.keys()[chosen_emp.level_name].capitalize()
+		elif chosen_emp.get("level_name") != null:
 			rescued_title = str(chosen_emp.level_name)
 	
 	# 4. Physically instantiate live worker directly inside MineRegion for current shift
