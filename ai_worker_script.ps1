@@ -246,7 +246,7 @@ if (Test-Path $iconScript) {$diagOutput += "`n--- 1. employee_level_icon_2.gd (F
 $internTres = Join-Path $dumpRoot "resources\Employees\EmployeeLevels\intern.tres"
 if (Test-Path $internTres) {
     $diagOutput += "`n--- 2. intern.tres Content ---"
-    $diagOutput += Get-Content$internTres
+    $diagOutput += Get-Content $internTres
 }
 
 $diagText =$diagOutput -join "`r`n"
