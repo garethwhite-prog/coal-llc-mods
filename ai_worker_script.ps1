@@ -171,7 +171,9 @@ if (Test-Path $nanobotzZip) {$diagOutput += "`n--- 2. nanobotz-autopassivechoose
     foreach ($entry in $za.Entries) {
         if ($entry.Name.EndsWith(".gd")) {
             $diagOutput += "`n>>> File in zip: $($entry.FullName)"
-            $reader = New-Object System.IO.StreamReader($entry.Open())$content = $reader.ReadToEnd()$reader.Dispose()
+            $reader = New-Object System.IO.StreamReader($entry.Open())
+            $content = $reader.ReadToEnd()
+            $reader.Dispose()
             $cLines =$content -split "`r?`n"
             for ($i = 0; $i -lt [Math]::Min(50, $cLines.Length);$i++) {
                 if ($cLines[$i] -match "(profession|Gvars|Settings|tab|Internship)") {
