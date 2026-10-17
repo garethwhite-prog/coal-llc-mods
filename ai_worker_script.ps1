@@ -1,7 +1,7 @@
 ﻿cls
 
 # ==============================================================================
-# Coal LLC - Fix CryoPod Error, Nanobotz Profession Detection & Map Registration
+# Coal LLC - Dynamic Vault Wall Hardness, Shop Weapon Filter & Employee Search
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
@@ -12,142 +12,33 @@ $outerDir   = "$repo\mods-unpacked\$modName"
 $innerDir   = "$outerDir\mods-unpacked\$modName"
 $zipPath    = "$steamMods\$modName.zip"
 $hookZip    = "$steamRoot\mod-hooks.zip"
+$dumpRoot   = "$steamRoot\_dump"
 
 Set-Location $repo
 
-Write-Host ">>> 1. Patching CryoPod.gd to fix employee property error & guarantee card emit..." -ForegroundColor Cyan
-@'
-class_name CryoPod
-extends Area2D
+Write-Host ">>> 1. Creating extensions/scenes/Stages directory..." -ForegroundColor Cyan
+New-Item -ItemType Directory -Path "$innerDir\extensions\scenes\Stages" -Force | Out-Null
 
-var in_range: bool = false
-var looted: bool = false
-var sprite: Sprite2D
-var tex_closed: Texture2D
-var tex_opened: Texture2D
-
-func _ready() -> void:
-	monitoring = true
-	monitorable = true
-	collision_layer = 1
-	collision_mask = 1
-	
-	var col = CollisionShape2D.new()
-	var shape = CircleShape2D.new()
-	shape.radius = 20.0
-	col.shape = shape
-	add_child(col)
-	
-	var img_closed = Image.load_from_file("res://mods-unpacked/gareth-lost_expedition_mod/assets/cryo_pod.png")
-	if img_closed:
-		tex_closed = ImageTexture.create_from_image(img_closed)
-	
-	var img_opened = Image.load_from_file("res://mods-unpacked/gareth-lost_expedition_mod/assets/cryo_pod_opened.png")
-	if img_opened:
-		tex_opened = ImageTexture.create_from_image(img_opened)
-	
-	sprite = Sprite2D.new()
-	sprite.texture = tex_closed
-	add_child(sprite)
-	
-	body_entered.connect(_on_body_entered)
-	body_exited.connect(_on_body_exited)
-
-func _process(_delta: float) -> void:
-	if in_range and not looted:
-		if Input.is_action_just_pressed("interact"):
-			rescue_worker()
-
-func _on_body_entered(_body: Node2D) -> void:
-	if not looted:
-		in_range = true
-		if Bus and Bus.has_signal("ShowInputIndicator"):
-			Bus.ShowInputIndicator.emit("interact", true, self)
-
-func _on_body_exited(_body: Node2D) -> void:
-	in_range = false
-	if Bus and Bus.has_signal("ShowInputIndicator"):
-		Bus.ShowInputIndicator.emit("interact", false, self)
-
-func rescue_worker() -> void:
-	if looted:
-		return
-	looted = true
-	in_range = false
-	monitoring = false
-	monitorable = false
-	
-	if Bus and Bus.has_signal("ShowInputIndicator"):
-		Bus.ShowInputIndicator.emit("interact", false, self)
-	
-	# 1. Visual confirmation: evacuated hollow sprite
-	if tex_opened:
-		sprite.texture = tex_opened
-	else:
-		sprite.modulate = Color(0.35, 0.4, 0.45, 0.7)
-	
-	# 2. Audio feedback
-	var sfx_stream = load("res://assets/sound/sound effects/coolDing.wav")
-	if sfx_stream:
-		var sfx = AudioStreamPlayer2D.new()
-		sfx.stream = sfx_stream
-		add_child(sfx)
-		sfx.play()
-	
-	# 3. Employee workforce promotion and salvage cash
-	var emp_mgr = Gvars.employee_manager
-	var rescued_name: String = "Expedition Specialist"
-	if emp_mgr and emp_mgr.ALL_EMPLOYEES.size() > 0:
-		var chosen_emp = emp_mgr.ALL_EMPLOYEES[randi() % emp_mgr.ALL_EMPLOYEES.size()]
-		emp_mgr.purchase_employee_level(chosen_emp, 1.0)
-		if chosen_emp.get("level_name") != null:
-			rescued_name = str(chosen_emp.level_name)
-		elif chosen_emp.get("employee_name") != null:
-			rescued_name = str(chosen_emp.employee_name)
-	Gvars.CashCount += 10000.0
-	
-	ModLoaderLog.info("Cryo-Pod breached! Rescued " + rescued_name + " + Salvaged $10,000.", "gareth-lost_expedition_mod")
-	
-	# 4. Trigger 3-card passive selection directly via Bus signal
-	var depth_mult: float = maxf(2.0, minf(6.0, 2.0 + abs(global_position.y) / 250.0))
-	if Bus and Bus.has_signal("choose_passive"):
-		Bus.choose_passive.emit(depth_mult)
-'@ | Set-Content -Path "$innerDir\entities\CryoPod.gd" -Encoding UTF8
-Write-Host "Updated: $innerDir\entities\CryoPod.gd" -ForegroundColor Green
-
-Write-Host ">>> 2. Updating Game.hooks.gd to persist level registration & set Game.player..." -ForegroundColor Cyan
+Write-Host ">>> 2. Writing management_screen.hooks.gd (pickaxes only on Map 101)..." -ForegroundColor Cyan
 @'
 extends Object
 
-func change_stage(chain: ModLoaderHookChain, target: int, targetPosition: Vector2) -> void:
-	var game = chain.reference_object
-	var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
-	if helper_script:
-		var helper = helper_script.new()
-		helper.ensure_level_registered()
+func load_equipment_shop(chain: ModLoaderHookChain) -> void:
+	chain.execute_next([])
+	if Gvars.level == 101:
+		var ms = chain.reference_object
+		if not ms:
+			return
+		var all_items = ms.find_children("", "Control", true, false)
+		var allowed_types := ["pickaxe", "item_filter", "increase_stack_size", "ladder", "whistle", "collector_whistle", "mining_whistle"]
+		for child in all_items:
+			if "item" in child and child.item:
+				var itype: String = str(child.item.itemType)
+				if not allowed_types.has(itype):
+					child.visible = false
+'@ | Set-Content -Path "$innerDir\extensions\scenes\Stages\management_screen.hooks.gd" -Encoding UTF8
 
-	if target == 2 and Gvars.level == 101:
-		if game and "MINE_REGION" in game:
-			game.target_stage = game.MINE_REGION
-
-	chain.execute_next([target, targetPosition])
-
-	if game:
-		if game.has_node("ColorRect"):
-			game.get_node("ColorRect").mouse_filter = Control.MOUSE_FILTER_IGNORE
-		game.visible = false
-		# Supply player & profession reference so nanobotz reads Gvars.profession
-		if Gvars.profession:
-			if not ("player" in game) or game.player == null:
-				var player_node = game.get_tree().get_first_node_in_group("player")
-				if player_node:
-					game.player = player_node
-			if "player" in game and game.player:
-				game.player.set("profession", Gvars.profession)
-'@ | Set-Content -Path "$innerDir\extensions\scripts\Game.hooks.gd" -Encoding UTF8
-Write-Host "Updated: $innerDir\extensions\scripts\Game.hooks.gd" -ForegroundColor Green
-
-Write-Host ">>> 3. Ensuring mod_main.gd registers level 101 globally at startup..." -ForegroundColor Cyan
+Write-Host ">>> 3. Updating mod_main.gd with management_screen hook registration..." -ForegroundColor Cyan
 @'
 extends Node
 
@@ -168,6 +59,10 @@ func _init() -> void:
 		"res://scripts/Game.gd",
 		mod_dir_path.path_join("extensions/scripts/Game.hooks.gd")
 	)
+	ModLoaderMod.install_script_hooks(
+		"res://scenes/Stages/management_screen.gd",
+		mod_dir_path.path_join("extensions/scenes/Stages/management_screen.hooks.gd")
+	)
 
 func _ready() -> void:
 	var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
@@ -176,14 +71,167 @@ func _ready() -> void:
 		helper.ensure_level_registered()
 	ModLoaderLog.info("Lost Expedition Custom Map Mod (ID 101) online!", MOD_DIR)
 '@ | Set-Content -Path "$innerDir\mod_main.gd" -Encoding UTF8
-Write-Host "Updated: $innerDir\mod_main.gd" -ForegroundColor Green
 
-Write-Host ">>> 4. Flushing mod-hooks.zip..." -ForegroundColor Cyan
+Write-Host ">>> 4. Updating LostExpeditionHelper.gd with dynamic stratum wall hardness..." -ForegroundColor Cyan
+@'
+class_name LostExpeditionHelper
+extends RefCounted
+
+const EXPEDITION_LEVEL_ID: int = 101
+
+func ensure_level_registered() -> void:
+	var lvl_mgr = Gvars.level_manager
+	if not lvl_mgr:
+		return
+	
+	if not lvl_mgr.all_levels.has(EXPEDITION_LEVEL_ID):
+		var custom_level = GameLevel.new()
+		custom_level.level_name = "Lost Expedition"
+		custom_level.level = EXPEDITION_LEVEL_ID
+		custom_level.mining_scene_path = "res://scenes/Stages/MineRegion.tscn"
+		custom_level.level_description = "Abandoned subterranean expedition.\nDeep strata riddled with volatile unexploded ordnance.\nCryo-shelters contain trapped mining personnel."
+		custom_level.level_difficulty = GameLevel.Difficulty.HARD
+		custom_level.unlock_description = ""
+		
+		var img = Image.load_from_file("res://mods-unpacked/gareth-lost_expedition_mod/assets/lost_expedition_card.png")
+		if img:
+			custom_level.level_image = ImageTexture.create_from_image(img)
+		
+		lvl_mgr.all_levels[EXPEDITION_LEVEL_ID] = {
+			"level": custom_level,
+			"is_unlocked": true
+		}
+
+func calculate_tier(pos: Vector2i) -> int:
+	var depth: float = float(pos.y)
+	if depth < 0.0:
+		return -2
+	
+	var wave: float = sin(float(pos.x) * 0.12) * 5.0
+	var effective_y: float = depth + wave
+	
+	if effective_y < 12.0:
+		return 0
+	elif effective_y < 35.0:
+		return 1
+	elif effective_y < 70.0:
+		return 2
+	elif effective_y < 120.0:
+		return 3
+	elif effective_y < 200.0:
+		return 4
+	elif effective_y < 300.0:
+		return 5
+	elif effective_y < 450.0:
+		return 6
+	elif effective_y < 600.0:
+		return 7
+	elif effective_y < 750.0:
+		return 8
+	elif effective_y < 900.0:
+		return 9
+	elif effective_y < 1050.0:
+		return 10
+	elif effective_y < 1200.0:
+		return 11
+	else:
+		return 12
+
+func tag_uxo_tiles(chunk: Node) -> void:
+	var uxo: Dictionary = {}
+	var total_cells: int = chunk.chunk_size * chunk.chunk_size
+	for idx in range(total_cells):
+		var tile_id = chunk.tiles[idx]
+		if tile_id != chunk.Tiles.EMPTY and chunk.TILE_PROPERTIES[tile_id]["breakable"]:
+			if randf() < 0.035:
+				uxo[idx] = true
+	chunk.set_meta("expedition_uxo", uxo)
+
+func handle_tile_destroyed(chunk: Node, idx: int, tile_properties: Dictionary = {}) -> void:
+	if chunk.has_meta("expedition_uxo"):
+		var uxo: Dictionary = chunk.get_meta("expedition_uxo")
+		if uxo.has(idx):
+			uxo.erase(idx)
+			detonate_uxo(chunk, idx)
+	
+	if tile_properties and tile_properties.get("loot", "none") != "none":
+		var global_pos = chunk.to_global(chunk.map_to_local(chunk.array_to_pos(idx)))
+		if randf() < 0.35:
+			var bonus_count: int = randi_range(2, 6)
+			Bus.drop_loot.emit(global_pos + Vector2(randf_range(-6.0, 6.0), randf_range(-6.0, 6.0)), "res://resources/Items/Coal.tres", bonus_count)
+		if randf() < 0.15:
+			var salvage_cash: float = randf_range(250.0, 1500.0)
+			Gvars.CashCount += salvage_cash
+
+func detonate_uxo(chunk: Node, idx: int) -> void:
+	var local_pos: Vector2 = chunk.map_to_local(chunk.array_to_pos(idx))
+	var world_center: Vector2 = chunk.to_global(local_pos)
+	var manager = chunk.get_parent()
+	for dx in range(-2, 3):
+		for dy in range(-2, 3):
+			var offset_world: Vector2 = world_center + Vector2(dx * 16.0, dy * 16.0)
+			if manager and manager.has_method("damageTile"):
+				manager.damageTile(offset_world, 450)
+
+func spawn_cryo_pods(chunk: Node, current_locs: Array[Vector2i]) -> Array[Vector2i]:
+	if randf() > 0.60:
+		return current_locs
+	
+	var width: int = 3
+	var height: int = 3
+	var start_tile: Vector2i = Vector2i(
+		randi_range(0, chunk.chunk_size - width),
+		randi_range(0, chunk.chunk_size - height)
+	)
+	
+	# Clamp depth: never spawn in sky or shallow surface grass (must be >= 16 tiles deep)
+	var local_start: Vector2 = chunk.map_to_local(start_tile)
+	var world_start: Vector2 = chunk.to_global(local_start)
+	var global_cell: Vector2i = Vector2i(world_start / 16.0)
+	if global_cell.y < 16:
+		return current_locs
+	
+	# Match vault wall hardness to the exact stratum depth tier
+	var pod_tier: int = calculate_tier(global_cell)
+	var wall_tile: int = chunk.chest_block_from_level(pod_tier)
+	if wall_tile == chunk.Tiles.EMPTY:
+		wall_tile = chunk.Tiles.HARD_CLAY
+	
+	for n in range(5):
+		if start_tile in current_locs:
+			start_tile = Vector2i(
+				randi_range(0, chunk.chunk_size - width),
+				randi_range(0, chunk.chunk_size - height)
+			)
+	
+	for x in range(start_tile.x - width, start_tile.x + width):
+		for y in range(start_tile.y - height, start_tile.y + height):
+			current_locs.append(Vector2i(x, y))
+	
+	for x in range(start_tile.x, start_tile.x + width):
+		for y in range(start_tile.y, start_tile.y + height):
+			var c_idx: int = chunk.pos_to_array(Vector2i(x, y))
+			if (x == start_tile.x + 1) and (y == start_tile.y + 1):
+				chunk.tiles[c_idx] = chunk.Tiles.EMPTY
+				chunk.build_tile(c_idx)
+				var pod_script = load("res://mods-unpacked/gareth-lost_expedition_mod/entities/CryoPod.gd")
+				if pod_script:
+					var pod = pod_script.new()
+					pod.position = chunk.map_to_local(Vector2i(x, y))
+					chunk.add_child.call_deferred(pod)
+			else:
+				chunk.tiles[c_idx] = wall_tile
+				chunk.build_tile(c_idx)
+	
+	return current_locs
+'@ | Set-Content -Path "$innerDir\helpers\LostExpeditionHelper.gd" -Encoding UTF8
+
+Write-Host ">>> 5. Flushing mod-hooks.zip..." -ForegroundColor Cyan
 if (Test-Path $hookZip) {
     Remove-Item -Path $hookZip -Force
 }
 
-Write-Host ">>> 5. Repackaging mod archive for Steam..." -ForegroundColor Cyan
+Write-Host ">>> 6. Repackaging mod archive for Steam..." -ForegroundColor Cyan
 if (Test-Path $zipPath) {
     Remove-Item -Path $zipPath -Force
 }
@@ -192,19 +240,40 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem
 
 $zipStream = [System.IO.File]::Open($zipPath, [System.IO.FileMode]::CreateNew)
 $archive   = New-Object System.IO.Compression.ZipArchive($zipStream, [System.IO.Compression.ZipArchiveMode]::Create)
-$allFiles  = Get-ChildItem -Path $outerDir -Recurse -File
+$allFiles  = Get-ChildItem -Path$outerDir -Recurse -File
 
-foreach ($f in $allFiles) {
-    $entryName = $f.FullName.Substring($outerDir.Length + 1).Replace("\", "/")
+foreach ($f in $allFiles) {$entryName = $f.FullName.Substring($outerDir.Length + 1).Replace("\", "/")
     [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $f.FullName, $entryName) | Out-Null
 }
 $archive.Dispose()
 $zipStream.Dispose()
-Write-Host "Packed clean archive at: $zipPath" -ForegroundColor Green
 
-Write-Host ">>> 6. Git committing and pushing..." -ForegroundColor Cyan
+Write-Host ">>> 7. Git staging, committing, and pushing..." -ForegroundColor Cyan
 git add -A
-git commit -m "Fix CryoPod employee level property crash, persist level 101 in LevelManager, set Game.player profession"
+git commit -m "Scale vault wall hardness by stratum tier, prevent shallow pods, filter shop to pickaxes"
 git push origin main
 
-Write-Host "`nAll patches deployed cleanly! Restart Coal LLC to test." -ForegroundColor Green
+Write-Host ">>> 8. Inspecting physical employee spawning in _dump..." -ForegroundColor Cyan
+$diagOutput = @()
+$diagOutput += "=== PHYSICAL EMPLOYEE SPAWN INSPECTION ==="
+
+# 1. Search for Employee scene files
+$diagOutput += "`n--- 1. Employee Scenes (*Employee*.tscn or *Miner*.tscn) ---"
+Get-ChildItem -Path $dumpRoot -Filter "*.tscn" -Recurse | Where-Object { $_.Name -match "Employee|Miner|Collector" } | ForEach-Object {
+    $diagOutput += $_.FullName.Replace($dumpRoot, "res:/")
+}
+
+# 2. Search for where employee scenes are instantiated in scripts
+$diagOutput += "`n--- 2. Employee Instantiation in scripts ---"
+Get-ChildItem -Path $dumpRoot -Filter "*.gd" -Recurse | ForEach-Object {
+    $matches = Get-Content $_.FullName | Select-String -Pattern "instantiate\(\)"
+    foreach ($m in $matches) {
+        if ($m.Line -match "employee|miner|collector") {
+            $diagOutput += "In $($_.FullName.Replace($dumpRoot, '')) (L$($m.LineNumber)): $($m.Line.Trim())"
+        }
+    }
+}
+
+$diagText =$diagOutput -join "`r`n"
+$diagText | Set-Clipboard
+Write-Host "Done! All files deployed and employee inspection copied to clipboard." -ForegroundColor Green

@@ -108,6 +108,19 @@ func spawn_cryo_pods(chunk: Node, current_locs: Array[Vector2i]) -> Array[Vector
 		randi_range(0, chunk.chunk_size - height)
 	)
 	
+	# Clamp depth: never spawn in sky or shallow surface grass (must be >= 16 tiles deep)
+	var local_start: Vector2 = chunk.map_to_local(start_tile)
+	var world_start: Vector2 = chunk.to_global(local_start)
+	var global_cell: Vector2i = Vector2i(world_start / 16.0)
+	if global_cell.y < 16:
+		return current_locs
+	
+	# Match vault wall hardness to the exact stratum depth tier
+	var pod_tier: int = calculate_tier(global_cell)
+	var wall_tile: int = chunk.chest_block_from_level(pod_tier)
+	if wall_tile == chunk.Tiles.EMPTY:
+		wall_tile = chunk.Tiles.HARD_CLAY
+	
 	for n in range(5):
 		if start_tile in current_locs:
 			start_tile = Vector2i(
@@ -131,11 +144,7 @@ func spawn_cryo_pods(chunk: Node, current_locs: Array[Vector2i]) -> Array[Vector
 					pod.position = chunk.map_to_local(Vector2i(x, y))
 					chunk.add_child.call_deferred(pod)
 			else:
-				chunk.tiles[c_idx] = chunk.chest_block_from_level(8)
+				chunk.tiles[c_idx] = wall_tile
 				chunk.build_tile(c_idx)
 	
 	return current_locs
-
-
-
-
