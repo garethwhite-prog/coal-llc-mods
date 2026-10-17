@@ -24,7 +24,6 @@ func _ready() -> void:
 	sprite.texture = tex_closed
 	add_child(sprite)
 	
-	# Built-in visual prompt indicator
 	prompt_label = Label.new()
 	prompt_label.text = "[E] RESCUE"
 	prompt_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -100,7 +99,7 @@ func rescue_worker() -> void:
 	else:
 		sprite.modulate = Color(0.35, 0.4, 0.45, 0.7)
 	
-	# 2. Audio chime
+	# 2. Audio feedback
 	var sfx_stream = load("res://assets/sound/sound effects/coolDing.wav")
 	if sfx_stream:
 		var sfx = AudioStreamPlayer2D.new()
@@ -108,19 +107,36 @@ func rescue_worker() -> void:
 		add_child(sfx)
 		sfx.play()
 	
-	# 3. Employee registration
+	# 3. Direct Workforce Ledger Persistence
 	var emp_mgr = Gvars.employee_manager
 	var rescued_title: String = "Expedition Specialist"
-	var chosen_emp = null
+	var chosen_emp: EmployeeLevel = null
 	if emp_mgr and emp_mgr.ALL_EMPLOYEES.size() > 0:
 		chosen_emp = emp_mgr.ALL_EMPLOYEES[randi() % emp_mgr.ALL_EMPLOYEES.size()]
-		emp_mgr.purchase_employee_level(chosen_emp, 1.0)
+		
+		# Credit the employee ledger directly
+		if not emp_mgr.employees.has(chosen_emp.level_name):
+			emp_mgr.employees[chosen_emp.level_name] = 0.0
+		emp_mgr.employees[chosen_emp.level_name] += 1.0
+		
+		# Unlock this tier and predecessor tiers in locked_employees
+		if emp_mgr.locked_employees.has(chosen_emp.level_name):
+			emp_mgr.locked_employees.erase(chosen_emp.level_name)
+		
+		var curr = chosen_emp
+		while curr and "upgrades_from" in curr and curr.upgrades_from != curr.EmployeeLevelNames.NOTHING:
+			var prev_emp = emp_mgr.get_employee_level_from_enum(curr.upgrades_from)
+			if prev_emp:
+				if emp_mgr.locked_employees.has(prev_emp.level_name):
+					emp_mgr.locked_employees.erase(prev_emp.level_name)
+				curr = prev_emp
+			else:
+				break
+		
 		if chosen_emp.get("level_name") != null:
 			rescued_title = str(chosen_emp.level_name)
-		elif chosen_emp.get("employee_name") != null:
-			rescued_title = str(chosen_emp.employee_name)
 	
-	# 4. Physically instantiate live worker directly inside MineRegion
+	# 4. Physically instantiate live worker directly inside MineRegion for current shift
 	if chosen_emp:
 		var mine_region = get_tree().root.find_child("MineRegion", true, false)
 		var worker_instance = null
@@ -153,7 +169,10 @@ func rescue_worker() -> void:
 				get_parent().add_child(worker_instance)
 	
 	Gvars.CashCount += 10000.0
-	ModLoaderLog.info("Cryo-Pod breached! Rescued " + rescued_title + " now working beside you! Salvaged $10,000.", "gareth-lost_expedition_mod")
+	if Bus and Bus.has_signal("UpdateUI"):
+		Bus.UpdateUI.emit()
+	
+	ModLoaderLog.info("Cryo-Pod breached! Rescued " + rescued_title + " added to Org Chart & active in mine! Salvaged $10,000.", "gareth-lost_expedition_mod")
 	
 	# 5. Passive selection card bonus
 	var depth_mult: float = maxf(2.0, minf(6.0, 2.0 + abs(global_position.y) / 250.0))

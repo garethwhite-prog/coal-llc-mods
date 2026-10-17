@@ -1,59 +1,58 @@
 ﻿=== GIT STATUS ===
- M ai_worker_script.ps1
 
 === RECENT COMMITS ===
-c543dde Fix CryoPod employee level property crash, persist level 101 in LevelManager, set Game.player profession
-be074f9 Fix case-sensitive Coal.tres drop path and directly emit Bus.choose_passive from CryoPod
-625f20d Fix case-sensitive Coal.tres drop path and directly emit Bus.choose_passive from CryoPod
+1a3d687 Replace CryoPod collision area with reliable distance-based proximity and add visual label
+c3ee89d Expand CryoPod collision to 32px, accept Player2 character body, spawn physical worker in mine
+cff8ddf Fix pod collision overlap, spawn physical workers from pods, restrict weapons in shop and chests
 
 === ENGINE LOG (LAST 50 LINES) ===
-INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Speed +15.0%
-INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Pickaxe Mining Damage +15.0%
-INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Pickaxe Mining Damage +15.0%
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (44.92527, 531.3931)
-INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Pickaxe Mining Damage +15.0%
-INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Speed +15.0%
-inventory count = 7,000
-max inventory = 7,000
+max inventory = 17,360
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
+inventory count = 24,244
+max inventory = 24,244
+inventory count = 24,244
+max inventory = 24,244
+inventory count = 24,244
+max inventory = 24,244
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (1879.924, 1463.994)!
+inventory count = 24,244
+max inventory = 24,244
+inventory count = 24,244
+max inventory = 24,244
+inventory count = 24,244
+max inventory = 24,244
 INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
 INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
 INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
 INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
 INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (53.25861, 524.0117)!
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (1879.924, 1463.994)!
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (1879.924, 1463.994)
 INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
 INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
 INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
 INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
 INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (155.2582, 487.9656)!
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (1879.924, 1463.994)!
 INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (263.5996, 417.5697)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (378.0249, 150.5443)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (31.46249, 197.9785)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (99.076, -40.00345)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-320.9464, -56.03945)
-INFO gareth-lost_expedition_mod: Cryo-Pod breached! Rescued 15 + Salvaged $10,000.
-INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Pickaxe Mining Speed +23.6%
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-634.2818, -56.03482)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-607.6159, -56.04687)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-155.968, -56.03511)
 end day
 SCRIPT ERROR: Trying to call an async function without "await".
    at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
-Day Count: 2
-Days Passed: 1
+Day Count: 5
+Days Passed: 4
 INFO gareth-more_employees_mod: Workforce chart initialized cleanly.
 say_game_has_been_saved() function running
 finished turning on
+finished turning off
 WARNING: 24 RIDs of type "CanvasItem" were leaked.
    at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2679)
-ERROR: 65 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-WARNING: 114 RIDs of type "Texture" were leaked.
+ERROR: 62 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+WARNING: 111 RIDs of type "Texture" were leaked.
    at: finalize (servers/rendering/rendering_device.cpp:7130)
 ERROR: 8 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
 ERROR: 4 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
 WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
    at: cleanup (core/object/object.cpp:2378)
-ERROR: 157 resources still in use at exit (run with --verbose for details).
+ERROR: 159 resources still in use at exit (run with --verbose for details).
    at: clear (core/io/resource.cpp:614)
