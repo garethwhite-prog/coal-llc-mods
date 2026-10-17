@@ -71,12 +71,21 @@ func tag_uxo_tiles(chunk: Node) -> void:
 				uxo[idx] = true
 	chunk.set_meta("expedition_uxo", uxo)
 
-func handle_tile_destroyed(chunk: Node, idx: int) -> void:
+func handle_tile_destroyed(chunk: Node, idx: int, tile_properties: Dictionary = {}) -> void:
 	if chunk.has_meta("expedition_uxo"):
 		var uxo: Dictionary = chunk.get_meta("expedition_uxo")
 		if uxo.has(idx):
 			uxo.erase(idx)
 			detonate_uxo(chunk, idx)
+	
+	if tile_properties and tile_properties.get("loot", "none") != "none":
+		var global_pos = chunk.to_global(chunk.map_to_local(chunk.array_to_pos(idx)))
+		if randf() < 0.35:
+			var bonus_count: int = randi_range(2, 6)
+			Bus.drop_loot.emit(global_pos + Vector2(randf_range(-6.0, 6.0), randf_range(-6.0, 6.0)), "res://resources/items/mined_items/coal.tres", bonus_count)
+		if randf() < 0.15:
+			var salvage_cash: float = randf_range(250.0, 1500.0)
+			Gvars.CashCount += salvage_cash
 
 func detonate_uxo(chunk: Node, idx: int) -> void:
 	var local_pos: Vector2 = chunk.map_to_local(chunk.array_to_pos(idx))

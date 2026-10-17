@@ -25,7 +25,7 @@ func destroy_tile(chain: ModLoaderHookChain, idx: int, tile_properties: Dictiona
 			var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
 			if helper_script:
 				var helper = helper_script.new()
-				helper.handle_tile_destroyed(chunk, idx)
+				helper.handle_tile_destroyed(chunk, idx, tile_properties)
 	chain.execute_next([idx, tile_properties])
 
 func generate_chests(chain: ModLoaderHookChain, current_block_chest_locations: Array[Vector2i]) -> Array[Vector2i]:
