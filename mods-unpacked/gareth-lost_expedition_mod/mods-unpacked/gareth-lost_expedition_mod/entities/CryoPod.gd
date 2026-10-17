@@ -15,7 +15,7 @@ func _ready() -> void:
 	
 	var col = CollisionShape2D.new()
 	var shape = CircleShape2D.new()
-	shape.radius = 14.0
+	shape.radius = 32.0
 	col.shape = shape
 	add_child(col)
 	
@@ -34,22 +34,34 @@ func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
 
+func _is_player(node: Node) -> bool:
+	if not node:
+		return false
+	if node.is_in_group("player") or node.is_in_group("Player"):
+		return true
+	var nm: String = node.name.to_lower()
+	if nm.contains("player"):
+		return true
+	if node is CharacterBody2D and not nm.contains("miner"):
+		return true
+	return false
+
 func _process(_delta: float) -> void:
 	if in_range and not looted:
 		if Input.is_action_just_pressed("interact"):
 			rescue_worker()
 
 func _on_body_entered(body: Node2D) -> void:
-	# STRICT: Ignore all static tile blocks, terrain, and debris
-	if not (body.name == "Player" or body.is_in_group("player")):
+	if not _is_player(body):
 		return
+	ModLoaderLog.info("Player entered Cryo-Pod zone: " + body.name, "gareth-lost_expedition_mod")
 	if not looted:
 		in_range = true
 		if Bus and Bus.has_signal("ShowInputIndicator"):
 			Bus.ShowInputIndicator.emit("interact", true, self)
 
 func _on_body_exited(body: Node2D) -> void:
-	if not (body.name == "Player" or body.is_in_group("player")):
+	if not _is_player(body):
 		return
 	in_range = false
 	if Bus and Bus.has_signal("ShowInputIndicator"):
@@ -66,7 +78,7 @@ func rescue_worker() -> void:
 	if Bus and Bus.has_signal("ShowInputIndicator"):
 		Bus.ShowInputIndicator.emit("interact", false, self)
 	
-	# 1. Visual state confirmation
+	# 1. Swap visual to evacuated state
 	if tex_opened:
 		sprite.texture = tex_opened
 	else:
@@ -80,7 +92,7 @@ func rescue_worker() -> void:
 		add_child(sfx)
 		sfx.play()
 	
-	# 3. Choose employee & register level promotion
+	# 3. Upgrade employee ledger
 	var emp_mgr = Gvars.employee_manager
 	var rescued_title: String = "Expedition Specialist"
 	var chosen_emp = null
@@ -92,7 +104,7 @@ func rescue_worker() -> void:
 		elif chosen_emp.get("employee_name") != null:
 			rescued_title = str(chosen_emp.employee_name)
 	
-	# 4. Physically instantiate the rescued worker right here in MineRegion
+	# 4. Physically instantiate live worker directly inside MineRegion
 	if chosen_emp:
 		var mine_region = get_tree().root.find_child("MineRegion", true, false)
 		var worker_instance = null
@@ -123,7 +135,7 @@ func rescue_worker() -> void:
 	Gvars.CashCount += 10000.0
 	ModLoaderLog.info("Cryo-Pod breached! Rescued " + rescued_title + " now working beside you! Salvaged $10,000.", "gareth-lost_expedition_mod")
 	
-	# 5. Passive selection card bonus
+	# 5. Trigger passive card selection (handled by choose_passive UI & auto-chooser)
 	var depth_mult: float = maxf(2.0, minf(6.0, 2.0 + abs(global_position.y) / 250.0))
 	if Bus and Bus.has_signal("choose_passive"):
 		Bus.choose_passive.emit(depth_mult)
