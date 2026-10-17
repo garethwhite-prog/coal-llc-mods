@@ -67,7 +67,7 @@ func _process(_delta: float) -> void:
 		return
 	
 	var dist: float = global_position.distance_to(player.global_position)
-	if dist <= 50.0:
+	if dist <= 52.0:
 		if not in_range:
 			in_range = true
 			prompt_label.visible = true
@@ -78,10 +78,10 @@ func _process(_delta: float) -> void:
 		if Input.is_action_just_pressed("interact"):
 			vent_controlled(player)
 		
-		# 2. Volatile Breach via Left-Click near siphon
+		# 2. Volatile Breach via Left-Click anywhere in range
 		elif Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			var mouse_pos = get_global_mouse_position()
-			if global_position.distance_to(mouse_pos) <= 36.0:
+			if global_position.distance_to(mouse_pos) <= 52.0 or dist <= 36.0:
 				breach_volatile()
 	else:
 		if in_range:
@@ -114,9 +114,8 @@ func vent_controlled(player: Node2D) -> void:
 	if Bus and Bus.has_signal("drop_loot"):
 		Bus.drop_loot.emit(global_position + Vector2(randf_range(-6.0, 6.0), randf_range(-6.0, 6.0)), "res://resources/Items/Coal.tres", randi_range(8, 16))
 	
-	# Native 3.5-tile chamber clearance blast
-	if Bus and Bus.has_signal("BombExplode"):
-		Bus.BombExplode.emit(global_position, 3.5, 3000.0)
+	# Obliterate 3x3 surrounding rock chamber (15,000 demolition damage)
+	_pulverize_rock(2, 15000.0)
 	
 	# Passive perk card offer
 	var depth_mult: float = maxf(2.5, minf(7.0, 2.5 + abs(global_position.y) / 200.0))
@@ -136,9 +135,8 @@ func breach_volatile() -> void:
 	
 	_trigger_visual_eruption(true)
 	
-	# Native 5.5-tile massive demolition crater blast
-	if Bus and Bus.has_signal("BombExplode"):
-		Bus.BombExplode.emit(global_position, 5.5, 10000.0)
+	# Obliterate massive 7x7 cavern (50,000 demolition damage)
+	_pulverize_rock(3, 50000.0)
 	
 	# Partial cash bounty + huge ore eruption
 	var bounty: float = 10000.0 + (abs(global_position.y) * 6.0)
@@ -154,7 +152,28 @@ func breach_volatile() -> void:
 	if Bus and Bus.has_signal("choose_passive"):
 		Bus.choose_passive.emit(depth_mult)
 	
-	ModLoaderLog.info("Magma Siphon breached! Massive 5.5-radius seismic demolition blast!", "gareth-tectonic_faultline_mod")
+	ModLoaderLog.info("Magma Siphon breached! Massive 7x7 seismic demolition blast!", "gareth-tectonic_faultline_mod")
+
+func _pulverize_rock(tile_radius: int, dmg: float) -> void:
+	# Channel 1: Native BombExplode signal (global area blast)
+	if Bus and Bus.has_signal("BombExplode"):
+		Bus.BombExplode.emit(global_position, float(tile_radius) + 0.5, dmg)
+	
+	# Channel 2: Point-by-point DamageTile signal directly into TileMapManager
+	if Bus and Bus.has_signal("DamageTile"):
+		for dx in range(-tile_radius, tile_radius + 1):
+			for dy in range(-tile_radius, tile_radius + 1):
+				var target_pixel_pos = global_position + Vector2(dx * 16.0, dy * 16.0)
+				Bus.DamageTile.emit(target_pixel_pos, dmg)
+	
+	# Channel 3: Direct parent chunk tile damage invocation
+	var parent_chunk = get_parent()
+	if parent_chunk and parent_chunk.has_method("damage_tile"):
+		for dx in range(-tile_radius, tile_radius + 1):
+			for dy in range(-tile_radius, tile_radius + 1):
+				var target_pixel_pos = global_position + Vector2(dx * 16.0, dy * 16.0)
+				var cell_coords = Vector2i(round(target_pixel_pos.x / 16.0), round(target_pixel_pos.y / 16.0))
+				parent_chunk.damage_tile(cell_coords, dmg)
 
 func _trigger_visual_eruption(is_explosion: bool) -> void:
 	# 1. Texture swap to dark vented obsidian
