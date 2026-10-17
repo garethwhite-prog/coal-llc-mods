@@ -2,7 +2,26 @@
   "name": "tectonic_faultline_mod",
   "namespace": "gareth",
   "version_number": "1.0.0",
-  "description": "Custom Map ID 102: Tectonic Faultline. Superheated strata, brittle seismic fracture seams, and high-pressure Magma Siphons.",
+  "description": "Custom subterranean faultline map with active magma strata and high-pressure magma siphons.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
   "dependencies": [],
-  "extra": {}
+  "extra": {
+    "godot": {
+      "display_name": "Tectonic Faultline",
+      "category": "Maps",
+      "authors": [
+        "Gareth White"
+      ],
+      "tags": [
+        "map",
+        "level"
+      ],
+      "compatible_mod_loader_version": [
+        "7.0.1"
+      ],
+      "compatible_game_version": [
+        "1.4.1.1"
+      ]
+    }
+  }
 }

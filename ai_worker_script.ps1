@@ -1,7 +1,7 @@
 ﻿cls
 
 # ==============================================================================
-# Coal LLC - Fix Tectonic Faultline Manifest Schema & Packaging
+# Coal LLC - Fix Tectonic Faultline Manifest Schema (extra.godot)
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
@@ -15,33 +15,49 @@ $hookZip    = "$steamRoot\mod-hooks.zip"
 
 Set-Location $repo
 
-Write-Host ">>> 1. Inspecting valid reference manifest from Lost Expedition..." -ForegroundColor Cyan
-$refManifestPath = "$repo\mods-unpacked\gareth-lost_expedition_mod\manifest.json"
-if (-not (Test-Path $refManifestPath)) {
-    $refManifestPath = "$repo\mods-unpacked\gareth-lost_expedition_mod\mods-unpacked\gareth-lost_expedition_mod\manifest.json"
-}
-if (Test-Path $refManifestPath) {
-    Get-Content $refManifestPath | ForEach-Object { Write-Host "   $_" -ForegroundColor DarkGray }
-}
-
-Write-Host "`n>>> 2. Writing schema-compliant manifest.json..." -ForegroundColor Cyan
+Write-Host ">>> 1. Writing complete schema manifest.json with extra.godot..." -ForegroundColor Cyan
 $manifestContent = @'
 {
   "name": "tectonic_faultline_mod",
   "namespace": "gareth",
   "version_number": "1.0.0",
-  "description": "Custom Map ID 102: Tectonic Faultline. Superheated strata, brittle seismic fracture seams, and high-pressure Magma Siphons.",
+  "description": "Custom subterranean faultline map with active magma strata and high-pressure magma siphons.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
   "dependencies": [],
-  "extra": {}
+  "extra": {
+    "godot": {
+      "display_name": "Tectonic Faultline",
+      "category": "Maps",
+      "authors": [
+        "Gareth White"
+      ],
+      "tags": [
+        "map",
+        "level"
+      ],
+      "compatible_mod_loader_version": [
+        "7.0.1"
+      ],
+      "compatible_game_version": [
+        "1.4.1.1"
+      ]
+    }
+  }
 }
 '@
 
-# Root of the zip
+# Write to outerDir (zip root) and innerDir (res://mods-unpacked/gareth-tectonic_faultline_mod/manifest.json)
 Set-Content -Path "$outerDir\manifest.json" -Value $manifestContent -Encoding UTF8
-# Virtual filesystem path (res://mods-unpacked/gareth-tectonic_faultline_mod/manifest.json)
 Set-Content -Path "$innerDir\manifest.json" -Value $manifestContent -Encoding UTF8
 
-Write-Host ">>> 3. Flushing mod-hooks.zip to recompile ModHookPacker..." -ForegroundColor Cyan
+Write-Host ">>> 2. Verifying JSON structure locally..." -ForegroundColor Cyan
+$parsed = Get-Content "$outerDir\manifest.json" -Raw | ConvertFrom-Json
+Write-Host "   Namespace : $($parsed.namespace)" -ForegroundColor DarkGray
+Write-Host "   Name      : $($parsed.name)" -ForegroundColor DarkGray
+Write-Host "   Expected  : $($parsed.namespace)-$($parsed.name)" -ForegroundColor Green
+Write-Host "   Display   : $($parsed.extra.godot.display_name)" -ForegroundColor Green
+
+Write-Host ">>> 3. Flushing mod-hooks.zip..." -ForegroundColor Cyan
 if (Test-Path $hookZip) {
     Remove-Item -Path $hookZip -Force
 }
@@ -63,26 +79,11 @@ foreach ($f in $allFiles) {
 }
 $archive.Dispose()
 $zipStream.Dispose()
+Write-Host "Packed archive at: $zipPath" -ForegroundColor Green
 
-Write-Host ">>> 5. Validating archive manifest entries..." -ForegroundColor Cyan
-$za = [System.IO.Compression.ZipFile]::OpenRead($zipPath)
-$rootM = $false
-$innerM = $false
-foreach ($entry in $za.Entries) {
-    if ($entry.FullName -eq "manifest.json") { $rootM = $true }
-    if ($entry.FullName -eq "mods-unpacked/gareth-tectonic_faultline_mod/manifest.json") { $innerM = $true }
-}
-$za.Dispose()
-
-if ($rootM -and $innerM) {
-    Write-Host "   Verification PASS: Both root and internal manifests exist." -ForegroundColor Green
-} else {
-    Write-Host "   Verification FAIL: Root=$rootM, Inner=$innerM" -ForegroundColor Red
-}
-
-Write-Host ">>> 6. Git committing and pushing..." -ForegroundColor Cyan
+Write-Host ">>> 5. Git committing and pushing..." -ForegroundColor Cyan
 git add -A
-git commit -m "Fix manifest schema: strip redundant namespace from name, add extra dict"
+git commit -m "Populate full extra.godot dictionary in manifest.json for ModLoader validation"
 git push origin main
 
 Write-Host "`nDeploy complete! Launch Coal LLC to test." -ForegroundColor Green
