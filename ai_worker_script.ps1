@@ -21,7 +21,7 @@ if (-not (Test-Path $refManifestPath)) {
     $refManifestPath = "$repo\mods-unpacked\gareth-lost_expedition_mod\mods-unpacked\gareth-lost_expedition_mod\manifest.json"
 }
 if (Test-Path $refManifestPath) {
-    Get-Content $refManifestPath \vert{} ForEach-Object { Write-Host "   $_" -ForegroundColor DarkGray }
+    Get-Content $refManifestPath | ForEach-Object { Write-Host "   $_" -ForegroundColor DarkGray }
 }
 
 Write-Host "`n>>> 2. Writing schema-compliant manifest.json..." -ForegroundColor Cyan
