@@ -21,6 +21,10 @@ func _init() -> void:
 		"res://scenes/Stages/management_screen.gd",
 		mod_dir_path.path_join("extensions/scenes/Stages/management_screen.hooks.gd")
 	)
+	ModLoaderMod.install_script_hooks(
+		"res://scripts/Chest.gd",
+		mod_dir_path.path_join("extensions/scripts/Chest.hooks.gd")
+	)
 
 func _ready() -> void:
 	var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")

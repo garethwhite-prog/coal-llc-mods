@@ -1,7 +1,7 @@
 ﻿cls
 
 # ==============================================================================
-# Coal LLC - Dynamic Vault Wall Hardness, Shop Weapon Filter & Employee Search
+# Coal LLC - Physical Employee Spawning, Pod Fix & Weapon Restriction
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
@@ -12,14 +12,169 @@ $outerDir   = "$repo\mods-unpacked\$modName"
 $innerDir   = "$outerDir\mods-unpacked\$modName"
 $zipPath    = "$steamMods\$modName.zip"
 $hookZip    = "$steamRoot\mod-hooks.zip"
-$dumpRoot   = "$steamRoot\_dump"
 
 Set-Location $repo
 
-Write-Host ">>> 1. Creating extensions/scenes/Stages directory..." -ForegroundColor Cyan
-New-Item -ItemType Directory -Path "$innerDir\extensions\scenes\Stages" -Force | Out-Null
+Write-Host ">>> 1. Updating entities/CryoPod.gd (Player-only collision & live employee spawn)..." -ForegroundColor Cyan
+@'
+class_name CryoPod
+extends Area2D
 
-Write-Host ">>> 2. Writing management_screen.hooks.gd (pickaxes only on Map 101)..." -ForegroundColor Cyan
+var in_range: bool = false
+var looted: bool = false
+var sprite: Sprite2D
+var tex_closed: Texture2D
+var tex_opened: Texture2D
+
+func _ready() -> void:
+	monitoring = true
+	monitorable = true
+	collision_layer = 1
+	collision_mask = 1
+	
+	var col = CollisionShape2D.new()
+	var shape = CircleShape2D.new()
+	shape.radius = 14.0
+	col.shape = shape
+	add_child(col)
+	
+	var img_closed = Image.load_from_file("res://mods-unpacked/gareth-lost_expedition_mod/assets/cryo_pod.png")
+	if img_closed:
+		tex_closed = ImageTexture.create_from_image(img_closed)
+	
+	var img_opened = Image.load_from_file("res://mods-unpacked/gareth-lost_expedition_mod/assets/cryo_pod_opened.png")
+	if img_opened:
+		tex_opened = ImageTexture.create_from_image(img_opened)
+	
+	sprite = Sprite2D.new()
+	sprite.texture = tex_closed
+	add_child(sprite)
+	
+	body_entered.connect(_on_body_entered)
+	body_exited.connect(_on_body_exited)
+
+func _process(_delta: float) -> void:
+	if in_range and not looted:
+		if Input.is_action_just_pressed("interact"):
+			rescue_worker()
+
+func _on_body_entered(body: Node2D) -> void:
+	# STRICT: Ignore all static tile blocks, terrain, and debris
+	if not (body.name == "Player" or body.is_in_group("player")):
+		return
+	if not looted:
+		in_range = true
+		if Bus and Bus.has_signal("ShowInputIndicator"):
+			Bus.ShowInputIndicator.emit("interact", true, self)
+
+func _on_body_exited(body: Node2D) -> void:
+	if not (body.name == "Player" or body.is_in_group("player")):
+		return
+	in_range = false
+	if Bus and Bus.has_signal("ShowInputIndicator"):
+		Bus.ShowInputIndicator.emit("interact", false, self)
+
+func rescue_worker() -> void:
+	if looted:
+		return
+	looted = true
+	in_range = false
+	monitoring = false
+	monitorable = false
+	
+	if Bus and Bus.has_signal("ShowInputIndicator"):
+		Bus.ShowInputIndicator.emit("interact", false, self)
+	
+	# 1. Visual state confirmation
+	if tex_opened:
+		sprite.texture = tex_opened
+	else:
+		sprite.modulate = Color(0.35, 0.4, 0.45, 0.7)
+	
+	# 2. Audio feedback
+	var sfx_stream = load("res://assets/sound/sound effects/coolDing.wav")
+	if sfx_stream:
+		var sfx = AudioStreamPlayer2D.new()
+		sfx.stream = sfx_stream
+		add_child(sfx)
+		sfx.play()
+	
+	# 3. Choose employee & register level promotion
+	var emp_mgr = Gvars.employee_manager
+	var rescued_title: String = "Expedition Specialist"
+	var chosen_emp = null
+	if emp_mgr and emp_mgr.ALL_EMPLOYEES.size() > 0:
+		chosen_emp = emp_mgr.ALL_EMPLOYEES[randi() % emp_mgr.ALL_EMPLOYEES.size()]
+		emp_mgr.purchase_employee_level(chosen_emp, 1.0)
+		if chosen_emp.get("level_name") != null:
+			rescued_title = str(chosen_emp.level_name)
+		elif chosen_emp.get("employee_name") != null:
+			rescued_title = str(chosen_emp.employee_name)
+	
+	# 4. Physically instantiate the rescued worker right here in MineRegion
+	if chosen_emp:
+		var mine_region = get_tree().root.find_child("MineRegion", true, false)
+		var worker_instance = null
+		if chosen_emp.type == EmployeeLevel.EmployeeType.COLLECTOR:
+			var ufo_scene = load("res://scenes/LootCollectorUFO.tscn")
+			if ufo_scene:
+				worker_instance = ufo_scene.instantiate()
+				worker_instance.employee_level = chosen_emp
+				worker_instance.count = 1.0
+				worker_instance.global_position = global_position
+		else:
+			var miner_scene = load("res://scenes/AutoMiners/multi_miner.tscn")
+			if miner_scene:
+				worker_instance = miner_scene.instantiate()
+				worker_instance.employee_level = chosen_emp
+				worker_instance.count = 1.0
+				var tm = get_tree().root.find_child("TileMapManager", true, false)
+				if tm:
+					worker_instance.tilemap = tm
+				worker_instance.global_position = global_position
+		
+		if worker_instance:
+			if mine_region:
+				mine_region.add_child(worker_instance)
+			else:
+				get_parent().add_child(worker_instance)
+	
+	Gvars.CashCount += 10000.0
+	ModLoaderLog.info("Cryo-Pod breached! Rescued " + rescued_title + " now working beside you! Salvaged $10,000.", "gareth-lost_expedition_mod")
+	
+	# 5. Passive selection card bonus
+	var depth_mult: float = maxf(2.0, minf(6.0, 2.0 + abs(global_position.y) / 250.0))
+	if Bus and Bus.has_signal("choose_passive"):
+		Bus.choose_passive.emit(depth_mult)
+'@ | Set-Content -Path "$innerDir\entities\CryoPod.gd" -Encoding UTF8
+Write-Host "Updated: $innerDir\entities\CryoPod.gd" -ForegroundColor Green
+
+Write-Host ">>> 2. Writing extensions/scripts/Chest.hooks.gd (weapons filter in chests)..." -ForegroundColor Cyan
+@'
+extends Object
+
+func roll_loot(chain: ModLoaderHookChain) -> void:
+	chain.execute_next([])
+	if Gvars.level == 101:
+		var chest = chain.reference_object
+		if chest and chest.loot:
+			var itype: String = str(chest.loot.itemType).to_lower()
+			var iid: String = str(chest.loot.itemID).to_lower()
+			# Replace non-pickaxe weapon scrolls with passive upgrades
+			if itype == "scroll" and not iid.contains("pickaxe"):
+				var pass_res = load("res://resources/Items/power_ups/PassiveUpgrade.tres")
+				if pass_res:
+					chest.loot = pass_res.duplicate()
+					chest.loot_count = 1
+			elif itype not in ["gem", "ore", "pickaxe", "passive_upgrade", "scroll"]:
+				var pass_res = load("res://resources/Items/power_ups/PassiveUpgrade.tres")
+				if pass_res:
+					chest.loot = pass_res.duplicate()
+					chest.loot_count = 1
+'@ | Set-Content -Path "$innerDir\extensions\scripts\Chest.hooks.gd" -Encoding UTF8
+Write-Host "Created: $innerDir\extensions\scripts\Chest.hooks.gd" -ForegroundColor Green
+
+Write-Host ">>> 3. Updating extensions/scenes/Stages/management_screen.hooks.gd (pickaxes only)..." -ForegroundColor Cyan
 @'
 extends Object
 
@@ -27,52 +182,17 @@ func load_equipment_shop(chain: ModLoaderHookChain) -> void:
 	chain.execute_next([])
 	if Gvars.level == 101:
 		var ms = chain.reference_object
-		if not ms:
-			return
-		var all_items = ms.find_children("", "Control", true, false)
-		var allowed_types := ["pickaxe", "item_filter", "increase_stack_size", "ladder", "whistle", "collector_whistle", "mining_whistle"]
-		for child in all_items:
-			if "item" in child and child.item:
-				var itype: String = str(child.item.itemType)
-				if not allowed_types.has(itype):
-					child.visible = false
+		if ms and "equipment_shop" in ms and ms.equipment_shop:
+			var allowed := ["pickaxe", "item_filter", "increase_stack_size", "ladder", "whistle", "collector_whistle", "mining_whistle"]
+			for card in ms.equipment_shop.get_children():
+				if "item" in card and card.item:
+					var itype: String = str(card.item.itemType).to_lower()
+					if not allowed.has(itype):
+						card.visible = false
 '@ | Set-Content -Path "$innerDir\extensions\scenes\Stages\management_screen.hooks.gd" -Encoding UTF8
+Write-Host "Updated: $innerDir\extensions\scenes\Stages\management_screen.hooks.gd" -ForegroundColor Green
 
-Write-Host ">>> 3. Updating mod_main.gd with management_screen hook registration..." -ForegroundColor Cyan
-@'
-extends Node
-
-const MOD_DIR := "gareth-lost_expedition_mod"
-
-func _init() -> void:
-	ModLoaderLog.info("Lost Expedition Mod initializing...", MOD_DIR)
-	var mod_dir_path: String = ModLoaderMod.get_unpacked_dir().path_join(MOD_DIR)
-	ModLoaderMod.install_script_hooks(
-		"res://scenes/Interfaces/Menus/level_select.gd",
-		mod_dir_path.path_join("extensions/scenes/Interfaces/Menus/level_select.hooks.gd")
-	)
-	ModLoaderMod.install_script_hooks(
-		"res://scenes/tilemaps/tile_map_chunk.gd",
-		mod_dir_path.path_join("extensions/scenes/tilemaps/tile_map_chunk.hooks.gd")
-	)
-	ModLoaderMod.install_script_hooks(
-		"res://scripts/Game.gd",
-		mod_dir_path.path_join("extensions/scripts/Game.hooks.gd")
-	)
-	ModLoaderMod.install_script_hooks(
-		"res://scenes/Stages/management_screen.gd",
-		mod_dir_path.path_join("extensions/scenes/Stages/management_screen.hooks.gd")
-	)
-
-func _ready() -> void:
-	var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
-	if helper_script:
-		var helper = helper_script.new()
-		helper.ensure_level_registered()
-	ModLoaderLog.info("Lost Expedition Custom Map Mod (ID 101) online!", MOD_DIR)
-'@ | Set-Content -Path "$innerDir\mod_main.gd" -Encoding UTF8
-
-Write-Host ">>> 4. Updating LostExpeditionHelper.gd with dynamic stratum wall hardness..." -ForegroundColor Cyan
+Write-Host ">>> 4. Updating LostExpeditionHelper.gd (surface check & stratum wall matching)..." -ForegroundColor Cyan
 @'
 class_name LostExpeditionHelper
 extends RefCounted
@@ -177,6 +297,10 @@ func spawn_cryo_pods(chunk: Node, current_locs: Array[Vector2i]) -> Array[Vector
 	if randf() > 0.60:
 		return current_locs
 	
+	# Strict: Surface chunks (y <= 0) must never contain subterranean vaults
+	if "chunk_pos" in chunk and chunk.chunk_pos.y < 1:
+		return current_locs
+	
 	var width: int = 3
 	var height: int = 3
 	var start_tile: Vector2i = Vector2i(
@@ -184,14 +308,13 @@ func spawn_cryo_pods(chunk: Node, current_locs: Array[Vector2i]) -> Array[Vector
 		randi_range(0, chunk.chunk_size - height)
 	)
 	
-	# Clamp depth: never spawn in sky or shallow surface grass (must be >= 16 tiles deep)
 	var local_start: Vector2 = chunk.map_to_local(start_tile)
 	var world_start: Vector2 = chunk.to_global(local_start)
 	var global_cell: Vector2i = Vector2i(world_start / 16.0)
 	if global_cell.y < 16:
 		return current_locs
 	
-	# Match vault wall hardness to the exact stratum depth tier
+	# Vault walls dynamically match the hardness of the surrounding stratum
 	var pod_tier: int = calculate_tier(global_cell)
 	var wall_tile: int = chunk.chest_block_from_level(pod_tier)
 	if wall_tile == chunk.Tiles.EMPTY:
@@ -225,13 +348,53 @@ func spawn_cryo_pods(chunk: Node, current_locs: Array[Vector2i]) -> Array[Vector
 	
 	return current_locs
 '@ | Set-Content -Path "$innerDir\helpers\LostExpeditionHelper.gd" -Encoding UTF8
+Write-Host "Updated: $innerDir\helpers\LostExpeditionHelper.gd" -ForegroundColor Green
 
-Write-Host ">>> 5. Flushing mod-hooks.zip..." -ForegroundColor Cyan
+Write-Host ">>> 5. Updating mod_main.gd with Chest.hooks.gd registration..." -ForegroundColor Cyan
+@'
+extends Node
+
+const MOD_DIR := "gareth-lost_expedition_mod"
+
+func _init() -> void:
+	ModLoaderLog.info("Lost Expedition Mod initializing...", MOD_DIR)
+	var mod_dir_path: String = ModLoaderMod.get_unpacked_dir().path_join(MOD_DIR)
+	ModLoaderMod.install_script_hooks(
+		"res://scenes/Interfaces/Menus/level_select.gd",
+		mod_dir_path.path_join("extensions/scenes/Interfaces/Menus/level_select.hooks.gd")
+	)
+	ModLoaderMod.install_script_hooks(
+		"res://scenes/tilemaps/tile_map_chunk.gd",
+		mod_dir_path.path_join("extensions/scenes/tilemaps/tile_map_chunk.hooks.gd")
+	)
+	ModLoaderMod.install_script_hooks(
+		"res://scripts/Game.gd",
+		mod_dir_path.path_join("extensions/scripts/Game.hooks.gd")
+	)
+	ModLoaderMod.install_script_hooks(
+		"res://scenes/Stages/management_screen.gd",
+		mod_dir_path.path_join("extensions/scenes/Stages/management_screen.hooks.gd")
+	)
+	ModLoaderMod.install_script_hooks(
+		"res://scripts/Chest.gd",
+		mod_dir_path.path_join("extensions/scripts/Chest.hooks.gd")
+	)
+
+func _ready() -> void:
+	var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
+	if helper_script:
+		var helper = helper_script.new()
+		helper.ensure_level_registered()
+	ModLoaderLog.info("Lost Expedition Custom Map Mod (ID 101) online!", MOD_DIR)
+'@ | Set-Content -Path "$innerDir\mod_main.gd" -Encoding UTF8
+Write-Host "Updated: $innerDir\mod_main.gd" -ForegroundColor Green
+
+Write-Host ">>> 6. Flushing mod-hooks.zip..." -ForegroundColor Cyan
 if (Test-Path $hookZip) {
     Remove-Item -Path $hookZip -Force
 }
 
-Write-Host ">>> 6. Repackaging mod archive for Steam..." -ForegroundColor Cyan
+Write-Host ">>> 7. Repackaging mod archive for Steam..." -ForegroundColor Cyan
 if (Test-Path $zipPath) {
     Remove-Item -Path $zipPath -Force
 }
@@ -242,38 +405,17 @@ $zipStream = [System.IO.File]::Open($zipPath, [System.IO.FileMode]::CreateNew)
 $archive   = New-Object System.IO.Compression.ZipArchive($zipStream, [System.IO.Compression.ZipArchiveMode]::Create)
 $allFiles  = Get-ChildItem -Path $outerDir -Recurse -File
 
-foreach ($f in $allFiles) {$entryName = $f.FullName.Substring($outerDir.Length + 1).Replace("\", "/")
+foreach ($f in $allFiles) {
+    $entryName = $f.FullName.Substring($outerDir.Length + 1).Replace("\", "/")
     [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $f.FullName, $entryName) | Out-Null
 }
 $archive.Dispose()
 $zipStream.Dispose()
+Write-Host "Packed clean archive at: $zipPath" -ForegroundColor Green
 
-Write-Host ">>> 7. Git staging, committing, and pushing..." -ForegroundColor Cyan
+Write-Host ">>> 8. Git staging, committing, and pushing..." -ForegroundColor Cyan
 git add -A
-git commit -m "Scale vault wall hardness by stratum tier, prevent shallow pods, filter shop to pickaxes"
+git commit -m "Fix pod collision overlap, spawn physical workers from pods, restrict weapons in shop and chests"
 git push origin main
 
-Write-Host ">>> 8. Inspecting physical employee spawning in _dump..." -ForegroundColor Cyan
-$diagOutput = @()
-$diagOutput += "=== PHYSICAL EMPLOYEE SPAWN INSPECTION ==="
-
-# 1. Search for Employee scene files
-$diagOutput += "`n--- 1. Employee Scenes (*Employee*.tscn or *Miner*.tscn) ---"
-Get-ChildItem -Path $dumpRoot -Filter "*.tscn" -Recurse | Where-Object { $_.Name -match "Employee|Miner|Collector" } | ForEach-Object {
-    $diagOutput += $_.FullName.Replace($dumpRoot, "res:/")
-}
-
-# 2. Search for where employee scenes are instantiated in scripts
-$diagOutput += "`n--- 2. Employee Instantiation in scripts ---"
-Get-ChildItem -Path $dumpRoot -Filter "*.gd" -Recurse | ForEach-Object {
-    $matches = Get-Content $_.FullName | Select-String -Pattern "instantiate\(\)"
-    foreach ($m in $matches) {
-        if ($m.Line -match "employee|miner|collector") {
-            $diagOutput += "In $($_.FullName.Replace($dumpRoot, '')) (L$($m.LineNumber)): $($m.Line.Trim())"
-        }
-    }
-}
-
-$diagText =$diagOutput -join "`r`n"
-$diagText | Set-Clipboard
-Write-Host "Done! All files deployed and employee inspection copied to clipboard." -ForegroundColor Green
+Write-Host "`nAll patches deployed cleanly! Restart Coal LLC to test." -ForegroundColor Green
