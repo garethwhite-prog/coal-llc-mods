@@ -1,7 +1,7 @@
 ﻿cls
 
 # ==============================================================================
-# Coal LLC - Fix Tectonic Faultline Manifest Schema (extra.godot)
+# Coal LLC - Register Map 102 into LEVEL_ORDER Array
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
@@ -15,54 +15,29 @@ $hookZip    = "$steamRoot\mod-hooks.zip"
 
 Set-Location $repo
 
-Write-Host ">>> 1. Writing complete schema manifest.json with extra.godot..." -ForegroundColor Cyan
-$manifestContent = @'
-{
-  "name": "tectonic_faultline_mod",
-  "namespace": "gareth",
-  "version_number": "1.0.0",
-  "description": "Custom subterranean faultline map with active magma strata and high-pressure magma siphons.",
-  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
-  "dependencies": [],
-  "extra": {
-    "godot": {
-      "display_name": "Tectonic Faultline",
-      "category": "Maps",
-      "authors": [
-        "Gareth White"
-      ],
-      "tags": [
-        "map",
-        "level"
-      ],
-      "compatible_mod_loader_version": [
-        "7.0.1"
-      ],
-      "compatible_game_version": [
-        "1.4.1.1"
-      ]
-    }
-  }
-}
-'@
+Write-Host ">>> 1. Patching level_select.hooks.gd with LEVEL_ORDER registration..." -ForegroundColor Cyan
+@'
+extends Object
 
-# Write to outerDir (zip root) and innerDir (res://mods-unpacked/gareth-tectonic_faultline_mod/manifest.json)
-Set-Content -Path "$outerDir\manifest.json" -Value $manifestContent -Encoding UTF8
-Set-Content -Path "$innerDir\manifest.json" -Value $manifestContent -Encoding UTF8
+func _ready(chain: ModLoaderHookChain) -> void:
+	var helper_script = load("res://mods-unpacked/gareth-tectonic_faultline_mod/helpers/TectonicFaultlineHelper.gd")
+	if helper_script:
+		var helper = helper_script.new()
+		helper.ensure_level_registered()
+		var ls = chain.reference_object
+		if ls and ("LEVEL_ORDER" in ls):
+			if not ls.LEVEL_ORDER.has(helper.FAULTLINE_LEVEL_ID):
+				ls.LEVEL_ORDER.append(helper.FAULTLINE_LEVEL_ID)
+	chain.execute_next([])
+'@ | Set-Content -Path "$innerDir\extensions\scenes\Interfaces\Menus\level_select.hooks.gd" -Encoding UTF8
+Write-Host "Updated: $innerDir\extensions\scenes\Interfaces\Menus\level_select.hooks.gd" -ForegroundColor Green
 
-Write-Host ">>> 2. Verifying JSON structure locally..." -ForegroundColor Cyan
-$parsed = Get-Content "$outerDir\manifest.json" -Raw | ConvertFrom-Json
-Write-Host "   Namespace : $($parsed.namespace)" -ForegroundColor DarkGray
-Write-Host "   Name      : $($parsed.name)" -ForegroundColor DarkGray
-Write-Host "   Expected  : $($parsed.namespace)-$($parsed.name)" -ForegroundColor Green
-Write-Host "   Display   : $($parsed.extra.godot.display_name)" -ForegroundColor Green
-
-Write-Host ">>> 3. Flushing mod-hooks.zip..." -ForegroundColor Cyan
+Write-Host ">>> 2. Flushing mod-hooks.zip..." -ForegroundColor Cyan
 if (Test-Path $hookZip) {
     Remove-Item -Path $hookZip -Force
 }
 
-Write-Host ">>> 4. Repackaging mod archive for Steam..." -ForegroundColor Cyan
+Write-Host ">>> 3. Repackaging mod archive for Steam..." -ForegroundColor Cyan
 if (Test-Path $zipPath) {
     Remove-Item -Path $zipPath -Force
 }
@@ -81,9 +56,22 @@ $archive.Dispose()
 $zipStream.Dispose()
 Write-Host "Packed archive at: $zipPath" -ForegroundColor Green
 
+Write-Host ">>> 4. Verifying ZIP contents..." -ForegroundColor Cyan
+$za = [System.IO.Compression.ZipFile]::OpenRead($zipPath)
+$hasHook = $false
+foreach ($e in $za.Entries) {
+    if ($e.FullName -match "level_select\.hooks\.gd$") { $hasHook = $true }
+}
+$za.Dispose()
+if ($hasHook) {
+    Write-Host "Verification PASS: level_select.hooks.gd confirmed in archive." -ForegroundColor Green
+} else {
+    Write-Host "Verification FAIL: hook file missing." -ForegroundColor Red
+}
+
 Write-Host ">>> 5. Git committing and pushing..." -ForegroundColor Cyan
 git add -A
-git commit -m "Populate full extra.godot dictionary in manifest.json for ModLoader validation"
+git commit -m "Append FAULTLINE_LEVEL_ID (102) to LEVEL_ORDER in level_select.hooks.gd"
 git push origin main
 
 Write-Host "`nDeploy complete! Launch Coal LLC to test." -ForegroundColor Green
