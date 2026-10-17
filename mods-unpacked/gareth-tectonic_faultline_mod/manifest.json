@@ -1,7 +1,8 @@
 ﻿{
-  "name": "gareth-tectonic_faultline_mod",
+  "name": "tectonic_faultline_mod",
   "namespace": "gareth",
   "version_number": "1.0.0",
   "description": "Custom Map ID 102: Tectonic Faultline. Superheated strata, brittle seismic fracture seams, and high-pressure Magma Siphons.",
-  "dependencies": []
+  "dependencies": [],
+  "extra": {}
 }

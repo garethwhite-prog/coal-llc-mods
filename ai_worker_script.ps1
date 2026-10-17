@@ -1,7 +1,7 @@
 ﻿cls
 
 # ==============================================================================
-# Coal LLC - Fix Tectonic Faultline Manifest & Packaging
+# Coal LLC - Fix Tectonic Faultline Manifest Schema & Packaging
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
@@ -15,33 +15,38 @@ $hookZip    = "$steamRoot\mod-hooks.zip"
 
 Set-Location $repo
 
-Write-Host ">>> 1. Writing manifest.json to root and inner directories..." -ForegroundColor Cyan
+Write-Host ">>> 1. Inspecting valid reference manifest from Lost Expedition..." -ForegroundColor Cyan
+$refManifestPath = "$repo\mods-unpacked\gareth-lost_expedition_mod\manifest.json"
+if (-not (Test-Path $refManifestPath)) {
+    $refManifestPath = "$repo\mods-unpacked\gareth-lost_expedition_mod\mods-unpacked\gareth-lost_expedition_mod\manifest.json"
+}
+if (Test-Path $refManifestPath) {
+    Get-Content $refManifestPath \vert{} ForEach-Object { Write-Host "   $_" -ForegroundColor DarkGray }
+}
+
+Write-Host "`n>>> 2. Writing schema-compliant manifest.json..." -ForegroundColor Cyan
 $manifestContent = @'
 {
-  "name": "gareth-tectonic_faultline_mod",
+  "name": "tectonic_faultline_mod",
   "namespace": "gareth",
   "version_number": "1.0.0",
   "description": "Custom Map ID 102: Tectonic Faultline. Superheated strata, brittle seismic fracture seams, and high-pressure Magma Siphons.",
-  "dependencies": []
+  "dependencies": [],
+  "extra": {}
 }
 '@
 
-# Write to outerDir (becomes manifest.json at the root of the ZIP)
+# Root of the zip
 Set-Content -Path "$outerDir\manifest.json" -Value $manifestContent -Encoding UTF8
-
-# Write to innerDir (becomes res://mods-unpacked/gareth-tectonic_faultline_mod/manifest.json)
+# Virtual filesystem path (res://mods-unpacked/gareth-tectonic_faultline_mod/manifest.json)
 Set-Content -Path "$innerDir\manifest.json" -Value $manifestContent -Encoding UTF8
 
-# Remove misnamed mod_manifest.json files if present
-if (Test-Path "$outerDir\mod_manifest.json") { Remove-Item "$outerDir\mod_manifest.json" -Force }
-if (Test-Path "$innerDir\mod_manifest.json") { Remove-Item "$innerDir\mod_manifest.json" -Force }
-
-Write-Host ">>> 2. Flushing mod-hooks.zip to force fresh hook compilation..." -ForegroundColor Cyan
+Write-Host ">>> 3. Flushing mod-hooks.zip to recompile ModHookPacker..." -ForegroundColor Cyan
 if (Test-Path $hookZip) {
     Remove-Item -Path $hookZip -Force
 }
 
-Write-Host ">>> 3. Repackaging mod archive for Steam..." -ForegroundColor Cyan
+Write-Host ">>> 4. Repackaging mod archive for Steam..." -ForegroundColor Cyan
 if (Test-Path $zipPath) {
     Remove-Item -Path $zipPath -Force
 }
@@ -58,27 +63,26 @@ foreach ($f in $allFiles) {
 }
 $archive.Dispose()
 $zipStream.Dispose()
-Write-Host "Packed archive at: $zipPath" -ForegroundColor Green
 
-Write-Host ">>> 4. Verifying ZIP contents for ModLoader requirements..." -ForegroundColor Cyan
+Write-Host ">>> 5. Validating archive manifest entries..." -ForegroundColor Cyan
 $za = [System.IO.Compression.ZipFile]::OpenRead($zipPath)
-$hasRootManifest = $false
-$hasInnerManifest = $false
-foreach ($e in $za.Entries) {
-    if ($e.FullName -eq "manifest.json") { $hasRootManifest = $true }
-    if ($e.FullName -eq "mods-unpacked/gareth-tectonic_faultline_mod/manifest.json") { $hasInnerManifest = $true }
+$rootM = $false
+$innerM = $false
+foreach ($entry in $za.Entries) {
+    if ($entry.FullName -eq "manifest.json") { $rootM = $true }
+    if ($entry.FullName -eq "mods-unpacked/gareth-tectonic_faultline_mod/manifest.json") { $innerM = $true }
 }
 $za.Dispose()
 
-if ($hasRootManifest -and $hasInnerManifest) {
-    Write-Host "SUCCESS: Both root manifest.json and inner manifest.json verified in ZIP!" -ForegroundColor Green
+if ($rootM -and $innerM) {
+    Write-Host "   Verification PASS: Both root and internal manifests exist." -ForegroundColor Green
 } else {
-    Write-Host "WARNING: Manifest check failed: Root=$hasRootManifest, Inner=$hasInnerManifest" -ForegroundColor Red
+    Write-Host "   Verification FAIL: Root=$rootM, Inner=$innerM" -ForegroundColor Red
 }
 
-Write-Host ">>> 5. Git staging, committing, and pushing..." -ForegroundColor Cyan
+Write-Host ">>> 6. Git committing and pushing..." -ForegroundColor Cyan
 git add -A
-git commit -m "Fix manifest.json naming and dual-placement for gareth-tectonic_faultline_mod"
+git commit -m "Fix manifest schema: strip redundant namespace from name, add extra dict"
 git push origin main
 
-Write-Host "`nAll updates deployed cleanly! Restart Coal LLC to test." -ForegroundColor Green
+Write-Host "`nDeploy complete! Launch Coal LLC to test." -ForegroundColor Green
