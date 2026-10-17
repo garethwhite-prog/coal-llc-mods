@@ -135,7 +135,7 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem
 
 $zipStream = [System.IO.File]::Open($zipPath, [System.IO.FileMode]::CreateNew)
 $archive   = New-Object System.IO.Compression.ZipArchive($zipStream, [System.IO.Compression.ZipArchiveMode]::Create)
-$allFiles  = Get-ChildItem -Path$outerDir -Recurse -File
+$allFiles  = Get-ChildItem -Path $outerDir -Recurse -File
 
 foreach ($f in $allFiles) {$entryName = $f.FullName.Substring($outerDir.Length + 1).Replace("\", "/")
     [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $f.FullName, $entryName) | Out-Null
