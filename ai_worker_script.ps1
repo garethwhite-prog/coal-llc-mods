@@ -1,7 +1,7 @@
 ﻿cls
 
 # ==============================================================================
-# Coal LLC - High-Yield Demolition Blast & Explosive Breach for Magma Siphon
+# Coal LLC - Wire MagmaSiphon to Native Bus.BombExplode Demolition
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
@@ -15,7 +15,7 @@ $hookZip    = "$steamRoot\mod-hooks.zip"
 
 Set-Location $repo
 
-Write-Host ">>> 1. Writing enhanced MagmaSiphon.gd with high-yield demolition damage..." -ForegroundColor Cyan
+Write-Host ">>> 1. Patching MagmaSiphon.gd with Bus.BombExplode demolition..." -ForegroundColor Cyan
 @'
 class_name MagmaSiphon
 extends Node2D
@@ -86,7 +86,7 @@ func _process(_delta: float) -> void:
 		return
 	
 	var dist: float = global_position.distance_to(player.global_position)
-	if dist <= 46.0:
+	if dist <= 50.0:
 		if not in_range:
 			in_range = true
 			prompt_label.visible = true
@@ -97,10 +97,10 @@ func _process(_delta: float) -> void:
 		if Input.is_action_just_pressed("interact"):
 			vent_controlled(player)
 		
-		# 2. Volatile Breach via Left-Click Strike on Siphon
+		# 2. Volatile Breach via Left-Click near siphon
 		elif Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			var mouse_pos = get_global_mouse_position()
-			if global_position.distance_to(mouse_pos) <= 24.0:
+			if global_position.distance_to(mouse_pos) <= 36.0:
 				breach_volatile()
 	else:
 		if in_range:
@@ -133,8 +133,9 @@ func vent_controlled(player: Node2D) -> void:
 	if Bus and Bus.has_signal("drop_loot"):
 		Bus.drop_loot.emit(global_position + Vector2(randf_range(-6.0, 6.0), randf_range(-6.0, 6.0)), "res://resources/Items/Coal.tres", randi_range(8, 16))
 	
-	# Clear out surrounding chamber rock (3x3 tiles) with high demolition damage
-	_pulverize_rock(2, 6000)
+	# Native 3.5-tile chamber clearance blast
+	if Bus and Bus.has_signal("BombExplode"):
+		Bus.BombExplode.emit(global_position, 3.5, 3000.0)
 	
 	# Passive perk card offer
 	var depth_mult: float = maxf(2.5, minf(7.0, 2.5 + abs(global_position.y) / 200.0))
@@ -154,8 +155,9 @@ func breach_volatile() -> void:
 	
 	_trigger_visual_eruption(true)
 	
-	# Violent high-yield cavern blast (Carves a massive 7x7 cavern)
-	_pulverize_rock(3, 15000)
+	# Native 5.5-tile massive demolition crater blast
+	if Bus and Bus.has_signal("BombExplode"):
+		Bus.BombExplode.emit(global_position, 5.5, 10000.0)
 	
 	# Partial cash bounty + huge ore eruption
 	var bounty: float = 10000.0 + (abs(global_position.y) * 6.0)
@@ -171,30 +173,7 @@ func breach_volatile() -> void:
 	if Bus and Bus.has_signal("choose_passive"):
 		Bus.choose_passive.emit(depth_mult)
 	
-	ModLoaderLog.info("Magma Siphon breached! Massive 7x7 seismic demolition blast!", "gareth-tectonic_faultline_mod")
-
-func _pulverize_rock(tile_radius: int, dmg: int) -> void:
-	var tm_mgr = get_tree().root.find_child("TileMapManager", true, false)
-	if not tm_mgr:
-		var parent = get_parent()
-		if parent and parent.get_parent():
-			tm_mgr = parent.get_parent()
-	
-	if not tm_mgr:
-		return
-	
-	# Carve through surrounding tiles by checking all possible vanilla damage method signatures
-	for dx in range(-tile_radius, tile_radius + 1):
-		for dy in range(-tile_radius, tile_radius + 1):
-			var target_pos = global_position + Vector2(dx * 16.0, dy * 16.0)
-			if tm_mgr.has_method("damage_tile"):
-				tm_mgr.damage_tile(target_pos, dmg)
-			elif tm_mgr.has_method("damage_tiles"):
-				tm_mgr.damage_tiles([target_pos], dmg)
-			elif tm_mgr.has_method("damageTile"):
-				tm_mgr.damageTile(target_pos, dmg)
-			elif tm_mgr.has_method("destroy_tile_at"):
-				tm_mgr.destroy_tile_at(target_pos)
+	ModLoaderLog.info("Magma Siphon breached! Massive 5.5-radius seismic demolition blast!", "gareth-tectonic_faultline_mod")
 
 func _trigger_visual_eruption(is_explosion: bool) -> void:
 	# 1. Texture swap to dark vented obsidian
@@ -289,7 +268,7 @@ Write-Host "Packed archive at: $zipPath" -ForegroundColor Green
 
 Write-Host ">>> 4. Git staging, committing, and pushing..." -ForegroundColor Cyan
 git add -A
-git commit -m "Scale Magma Siphon demolition damage to 15,000 HP and fix tile damage method invocation"
+git commit -m "Route Magma Siphon tile demolition through native Bus.BombExplode signal"
 git push origin main
 
 Write-Host "`nDeploy complete! Launch Coal LLC to test." -ForegroundColor Green
