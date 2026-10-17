@@ -1,23 +1,16 @@
 ﻿class_name CryoPod
-extends Area2D
+extends Node2D
 
 var in_range: bool = false
 var looted: bool = false
 var sprite: Sprite2D
+var prompt_label: Label
 var tex_closed: Texture2D
 var tex_opened: Texture2D
+var cached_player: Node2D = null
 
 func _ready() -> void:
-	monitoring = true
-	monitorable = true
-	collision_layer = 1
-	collision_mask = 1
-	
-	var col = CollisionShape2D.new()
-	var shape = CircleShape2D.new()
-	shape.radius = 32.0
-	col.shape = shape
-	add_child(col)
+	z_index = 5
 	
 	var img_closed = Image.load_from_file("res://mods-unpacked/gareth-lost_expedition_mod/assets/cryo_pod.png")
 	if img_closed:
@@ -31,60 +24,83 @@ func _ready() -> void:
 	sprite.texture = tex_closed
 	add_child(sprite)
 	
-	body_entered.connect(_on_body_entered)
-	body_exited.connect(_on_body_exited)
+	# Built-in visual prompt indicator
+	prompt_label = Label.new()
+	prompt_label.text = "[E] RESCUE"
+	prompt_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	prompt_label.position = Vector2(-36, -26)
+	prompt_label.add_theme_font_size_override("font_size", 10)
+	prompt_label.add_theme_color_override("font_color", Color(0.2, 1.0, 0.9, 1.0))
+	prompt_label.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 1.0))
+	prompt_label.add_theme_constant_override("outline_size", 3)
+	prompt_label.visible = false
+	add_child(prompt_label)
 
-func _is_player(node: Node) -> bool:
-	if not node:
-		return false
-	if node.is_in_group("player") or node.is_in_group("Player"):
-		return true
-	var nm: String = node.name.to_lower()
-	if nm.contains("player"):
-		return true
-	if node is CharacterBody2D and not nm.contains("miner"):
-		return true
-	return false
+func _get_player() -> Node2D:
+	if cached_player and is_instance_valid(cached_player):
+		return cached_player
+	if Game and "player" in Game and is_instance_valid(Game.player):
+		cached_player = Game.player
+		return cached_player
+	var tree = get_tree()
+	if not tree:
+		return null
+	var p = tree.root.find_child("Player", true, false)
+	if p and is_instance_valid(p) and p is Node2D:
+		cached_player = p
+		return cached_player
+	var p2 = tree.root.find_child("Player2", true, false)
+	if p2 and is_instance_valid(p2) and p2 is Node2D:
+		cached_player = p2
+		return cached_player
+	for candidate in tree.get_nodes_in_group("player"):
+		if is_instance_valid(candidate) and candidate is Node2D:
+			cached_player = candidate
+			return cached_player
+	return null
 
 func _process(_delta: float) -> void:
-	if in_range and not looted:
+	if looted:
+		return
+	
+	var player = _get_player()
+	if not player:
+		return
+	
+	var dist: float = global_position.distance_to(player.global_position)
+	if dist <= 38.0:
+		if not in_range:
+			in_range = true
+			prompt_label.visible = true
+			if Bus and Bus.has_signal("ShowInputIndicator"):
+				Bus.ShowInputIndicator.emit("interact", true, self)
+		
 		if Input.is_action_just_pressed("interact"):
 			rescue_worker()
-
-func _on_body_entered(body: Node2D) -> void:
-	if not _is_player(body):
-		return
-	ModLoaderLog.info("Player entered Cryo-Pod zone: " + body.name, "gareth-lost_expedition_mod")
-	if not looted:
-		in_range = true
-		if Bus and Bus.has_signal("ShowInputIndicator"):
-			Bus.ShowInputIndicator.emit("interact", true, self)
-
-func _on_body_exited(body: Node2D) -> void:
-	if not _is_player(body):
-		return
-	in_range = false
-	if Bus and Bus.has_signal("ShowInputIndicator"):
-		Bus.ShowInputIndicator.emit("interact", false, self)
+	else:
+		if in_range:
+			in_range = false
+			prompt_label.visible = false
+			if Bus and Bus.has_signal("ShowInputIndicator"):
+				Bus.ShowInputIndicator.emit("interact", false, self)
 
 func rescue_worker() -> void:
 	if looted:
 		return
 	looted = true
 	in_range = false
-	monitoring = false
-	monitorable = false
+	prompt_label.visible = false
 	
 	if Bus and Bus.has_signal("ShowInputIndicator"):
 		Bus.ShowInputIndicator.emit("interact", false, self)
 	
-	# 1. Swap visual to evacuated state
+	# 1. Swap visual to evacuated chamber
 	if tex_opened:
 		sprite.texture = tex_opened
 	else:
 		sprite.modulate = Color(0.35, 0.4, 0.45, 0.7)
 	
-	# 2. Audio feedback
+	# 2. Audio chime
 	var sfx_stream = load("res://assets/sound/sound effects/coolDing.wav")
 	if sfx_stream:
 		var sfx = AudioStreamPlayer2D.new()
@@ -92,7 +108,7 @@ func rescue_worker() -> void:
 		add_child(sfx)
 		sfx.play()
 	
-	# 3. Upgrade employee ledger
+	# 3. Employee registration
 	var emp_mgr = Gvars.employee_manager
 	var rescued_title: String = "Expedition Specialist"
 	var chosen_emp = null
@@ -108,7 +124,11 @@ func rescue_worker() -> void:
 	if chosen_emp:
 		var mine_region = get_tree().root.find_child("MineRegion", true, false)
 		var worker_instance = null
-		if chosen_emp.type == EmployeeLevel.EmployeeType.COLLECTOR:
+		var is_collector: bool = false
+		if "type" in chosen_emp and chosen_emp.type == EmployeeLevel.EmployeeType.COLLECTOR:
+			is_collector = true
+		
+		if is_collector:
 			var ufo_scene = load("res://scenes/LootCollectorUFO.tscn")
 			if ufo_scene:
 				worker_instance = ufo_scene.instantiate()
@@ -135,7 +155,7 @@ func rescue_worker() -> void:
 	Gvars.CashCount += 10000.0
 	ModLoaderLog.info("Cryo-Pod breached! Rescued " + rescued_title + " now working beside you! Salvaged $10,000.", "gareth-lost_expedition_mod")
 	
-	# 5. Trigger passive card selection (handled by choose_passive UI & auto-chooser)
+	# 5. Passive selection card bonus
 	var depth_mult: float = maxf(2.0, minf(6.0, 2.0 + abs(global_position.y) / 250.0))
 	if Bus and Bus.has_signal("choose_passive"):
 		Bus.choose_passive.emit(depth_mult)
