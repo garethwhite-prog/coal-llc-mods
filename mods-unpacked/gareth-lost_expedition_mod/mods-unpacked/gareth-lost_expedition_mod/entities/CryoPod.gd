@@ -81,7 +81,10 @@ func rescue_worker() -> void:
 	if emp_mgr and emp_mgr.ALL_EMPLOYEES.size() > 0:
 		var chosen_emp = emp_mgr.ALL_EMPLOYEES[randi() % emp_mgr.ALL_EMPLOYEES.size()]
 		emp_mgr.purchase_employee_level(chosen_emp, 1.0)
-		rescued_name = chosen_emp.employee_name
+		if chosen_emp.get("level_name") != null:
+			rescued_name = str(chosen_emp.level_name)
+		elif chosen_emp.get("employee_name") != null:
+			rescued_name = str(chosen_emp.employee_name)
 	Gvars.CashCount += 10000.0
 	
 	ModLoaderLog.info("Cryo-Pod breached! Rescued " + rescued_name + " + Salvaged $10,000.", "gareth-lost_expedition_mod")

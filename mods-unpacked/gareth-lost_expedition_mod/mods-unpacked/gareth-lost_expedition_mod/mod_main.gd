@@ -19,4 +19,8 @@ func _init() -> void:
 	)
 
 func _ready() -> void:
+	var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
+	if helper_script:
+		var helper = helper_script.new()
+		helper.ensure_level_registered()
 	ModLoaderLog.info("Lost Expedition Custom Map Mod (ID 101) online!", MOD_DIR)
