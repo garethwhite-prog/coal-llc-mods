@@ -61,7 +61,7 @@ func rescue_worker() -> void:
 	if Bus and Bus.has_signal("ShowInputIndicator"):
 		Bus.ShowInputIndicator.emit("interact", false, self)
 	
-	# 1. Visual confirmation: swap texture to hollow evacuated chamber
+	# 1. Visual confirmation: evacuated hollow sprite
 	if tex_opened:
 		sprite.texture = tex_opened
 	else:
@@ -86,12 +86,7 @@ func rescue_worker() -> void:
 	
 	ModLoaderLog.info("Cryo-Pod breached! Rescued " + rescued_name + " + Salvaged $10,000.", "gareth-lost_expedition_mod")
 	
-	# 4. Trigger 3-card passive selection (integrates with choose_passive & nanobotz-autopassivechooser)
-	var passive_res = load("res://resources/Items/power_ups/PassiveUpgrade.tres")
-	if passive_res:
-		var passive_upgrade = passive_res.duplicate()
-		if passive_upgrade and passive_upgrade.itemPickupEffect:
-			var effect = passive_upgrade.itemPickupEffect.duplicate()
-			var depth_mult: float = maxf(2.0, minf(6.0, 2.0 + abs(global_position.y) / 250.0))
-			effect.multiplier = depth_mult
-			effect.pickupEffect(passive_upgrade)
+	# 4. Trigger 3-card passive selection directly via Bus signal
+	var depth_mult: float = maxf(2.0, minf(6.0, 2.0 + abs(global_position.y) / 250.0))
+	if Bus and Bus.has_signal("choose_passive"):
+		Bus.choose_passive.emit(depth_mult)

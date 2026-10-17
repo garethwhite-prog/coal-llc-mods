@@ -82,7 +82,7 @@ func handle_tile_destroyed(chunk: Node, idx: int, tile_properties: Dictionary = 
 		var global_pos = chunk.to_global(chunk.map_to_local(chunk.array_to_pos(idx)))
 		if randf() < 0.35:
 			var bonus_count: int = randi_range(2, 6)
-			Bus.drop_loot.emit(global_pos + Vector2(randf_range(-6.0, 6.0), randf_range(-6.0, 6.0)), "res://resources/items/mined_items/coal.tres", bonus_count)
+			Bus.drop_loot.emit(global_pos + Vector2(randf_range(-6.0, 6.0), randf_range(-6.0, 6.0)), "res://resources/Items/Coal.tres", bonus_count)
 		if randf() < 0.15:
 			var salvage_cash: float = randf_range(250.0, 1500.0)
 			Gvars.CashCount += salvage_cash
@@ -135,3 +135,4 @@ func spawn_cryo_pods(chunk: Node, current_locs: Array[Vector2i]) -> Array[Vector
 				chunk.build_tile(c_idx)
 	
 	return current_locs
+

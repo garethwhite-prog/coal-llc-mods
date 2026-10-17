@@ -1,6 +1,7 @@
 ﻿cls
+
 # ==============================================================================
-# Coal LLC - Cryo-Pod Visual States & Passive Chest Integration
+# Coal LLC - Fix Coal Drops, Cryo-Pod Passive Signal & Inspect Profession
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
@@ -11,36 +12,19 @@ $outerDir   = "$repo\mods-unpacked\$modName"
 $innerDir   = "$outerDir\mods-unpacked\$modName"
 $zipPath    = "$steamMods\$modName.zip"
 $hookZip    = "$steamRoot\mod-hooks.zip"
+$dumpRoot   = "$steamRoot\_dump"
 
 Set-Location $repo
 
-Write-Host ">>> 1. Generating cryo_pod_opened.png (evacuated state)..." -ForegroundColor Cyan
-Add-Type -AssemblyName System.Drawing
+Write-Host ">>> 1. Patching LostExpeditionHelper.gd with exact Coal.tres path..." -ForegroundColor Cyan
+$helperPath = "$innerDir\helpers\LostExpeditionHelper.gd"
+$helperContent = Get-Content $helperPath -Raw
+# Replace invalid lowercase coal path with verified case-sensitive res://resources/Items/Coal.tres
+$helperContent =$helperContent -replace 'res://resources/items/mined_items/coal\.tres', 'res://resources/Items/Coal.tres'
+Set-Content -Path $helperPath -Value $helperContent -Encoding UTF8
+Write-Host "Updated Coal drop path in: $helperPath" -ForegroundColor Green
 
-$podOpenedPath = "$innerDir\assets\cryo_pod_opened.png"
-$podBmp = New-Object System.Drawing.Bitmap 32, 32
-$gPod = [System.Drawing.Graphics]::FromImage($podBmp)
-$gPod.Clear([System.Drawing.Color]::Transparent)
-
-$fBrush = New-Object System.Drawing.SolidBrush ([System.Drawing.Color]::FromArgb(60, 65, 70))
-$sBrush = New-Object System.Drawing.SolidBrush ([System.Drawing.Color]::FromArgb(45, 50, 55))
-$hBrush = New-Object System.Drawing.SolidBrush ([System.Drawing.Color]::FromArgb(18, 20, 24))
-$dBrush = New-Object System.Drawing.SolidBrush ([System.Drawing.Color]::FromArgb(75, 45, 45))
-
-# Unpowered exterior frame
-$gPod.FillRectangle($fBrush, 4, 2, 24, 28)
-$gPod.FillRectangle($sBrush, 6, 4, 20, 24)
-# Hollow opened interior chamber
-$gPod.FillRectangle($hBrush, 8, 7, 16, 15)
-# Dim red offline status diode
-$gPod.FillEllipse($dBrush, 13, 23, 6, 3)
-
-$podBmp.Save($podOpenedPath, [System.Drawing.Imaging.ImageFormat]::Png)
-$gPod.Dispose()
-$podBmp.Dispose()
-Write-Host "Generated: $podOpenedPath" -ForegroundColor Green
-
-Write-Host ">>> 2. Updating entities/CryoPod.gd with passive choice & state swap..." -ForegroundColor Cyan
+Write-Host ">>> 2. Updating CryoPod.gd to directly emit Bus.choose_passive..." -ForegroundColor Cyan
 @'
 class_name CryoPod
 extends Area2D
@@ -105,7 +89,7 @@ func rescue_worker() -> void:
 	if Bus and Bus.has_signal("ShowInputIndicator"):
 		Bus.ShowInputIndicator.emit("interact", false, self)
 	
-	# 1. Visual confirmation: swap texture to hollow evacuated chamber
+	# 1. Visual confirmation: evacuated hollow sprite
 	if tex_opened:
 		sprite.texture = tex_opened
 	else:
@@ -130,15 +114,10 @@ func rescue_worker() -> void:
 	
 	ModLoaderLog.info("Cryo-Pod breached! Rescued " + rescued_name + " + Salvaged $10,000.", "gareth-lost_expedition_mod")
 	
-	# 4. Trigger 3-card passive selection (integrates with choose_passive & nanobotz-autopassivechooser)
-	var passive_res = load("res://resources/Items/power_ups/PassiveUpgrade.tres")
-	if passive_res:
-		var passive_upgrade = passive_res.duplicate()
-		if passive_upgrade and passive_upgrade.itemPickupEffect:
-			var effect = passive_upgrade.itemPickupEffect.duplicate()
-			var depth_mult: float = maxf(2.0, minf(6.0, 2.0 + abs(global_position.y) / 250.0))
-			effect.multiplier = depth_mult
-			effect.pickupEffect(passive_upgrade)
+	# 4. Trigger 3-card passive selection directly via Bus signal
+	var depth_mult: float = maxf(2.0, minf(6.0, 2.0 + abs(global_position.y) / 250.0))
+	if Bus and Bus.has_signal("choose_passive"):
+		Bus.choose_passive.emit(depth_mult)
 '@ | Set-Content -Path "$innerDir\entities\CryoPod.gd" -Encoding UTF8
 Write-Host "Updated: $innerDir\entities\CryoPod.gd" -ForegroundColor Green
 
@@ -156,10 +135,9 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem
 
 $zipStream = [System.IO.File]::Open($zipPath, [System.IO.FileMode]::CreateNew)
 $archive   = New-Object System.IO.Compression.ZipArchive($zipStream, [System.IO.Compression.ZipArchiveMode]::Create)
-$allFiles  = Get-ChildItem -Path $outerDir -Recurse -File
+$allFiles  = Get-ChildItem -Path$outerDir -Recurse -File
 
-foreach ($f in $allFiles) {
-    $entryName = $f.FullName.Substring($outerDir.Length + 1).Replace("\", "/")
+foreach ($f in $allFiles) {$entryName = $f.FullName.Substring($outerDir.Length + 1).Replace("\", "/")
     [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $f.FullName, $entryName) | Out-Null
 }
 $archive.Dispose()
@@ -168,7 +146,44 @@ Write-Host "Packed clean archive at: $zipPath" -ForegroundColor Green
 
 Write-Host ">>> 5. Git committing and pushing..." -ForegroundColor Cyan
 git add -A
-git commit -m "Add evacuated Cryo-Pod sprite and integrate passive upgrade selection"
+git commit -m "Fix case-sensitive Coal.tres drop path and directly emit Bus.choose_passive from CryoPod"
 git push origin main
 
-Write-Host "`nAll tasks complete! Launch Coal LLC to test the updated pods." -ForegroundColor Green
+Write-Host ">>> 6. Inspecting Bus.NewGame listeners & nanobotz profession logic..." -ForegroundColor Cyan
+$diagOutput = @()
+$diagOutput += "=== PROFESSION & NEWGAME DIAGNOSTIC ==="
+
+# Search where Bus.NewGame is connected in _dump
+$diagOutput += "`n--- 1. Bus.NewGame Listeners in Vanilla ---"
+Get-ChildItem -Path $dumpRoot -Filter "*.gd" -Recurse | ForEach-Object {
+    $matches = Get-Content $_.FullName | Select-String -Pattern 'NewGame\.connect\b|connect\(\s*["'']NewGame["'']'
+    if ($matches) {
+        $diagOutput += "`nIn $($_.FullName.Replace($dumpRoot, '')):"
+        foreach ($m in $matches) {$diagOutput += "  L$($m.LineNumber): $($m.Line.Trim())"
+        }
+    }
+}
+
+# Inspect nanobotz-autopassivechooser settings tab / profession reading
+$nanobotzZip = "$steamMods\nanobotz-autopassivechooser.zip"
+if (Test-Path $nanobotzZip) {$diagOutput += "`n--- 2. nanobotz-autopassivechooser Script Contents ---"
+    $za = [System.IO.Compression.ZipFile]::OpenRead($nanobotzZip)
+    foreach ($entry in $za.Entries) {
+        if ($entry.Name.EndsWith(".gd")) {
+            $diagOutput += "`n>>> File in zip: $($entry.FullName)"
+            $reader = New-Object System.IO.StreamReader($entry.Open())$content = $reader.ReadToEnd()$reader.Dispose()
+            $cLines =$content -split "`r?`n"
+            for ($i = 0; $i -lt [Math]::Min(50, $cLines.Length);$i++) {
+                if ($cLines[$i] -match "(profession|Gvars|Settings|tab|Internship)") {
+                    $diagOutput += "{0,3}: {1}" -f ($i + 1), $cLines[$i]
+                }
+            }
+        }
+    }
+    $za.Dispose()
+}
+
+$diagText =$diagOutput -join "`r`n"
+$diagText | Set-Clipboard
+
+Write-Host "Diagnostic complete! Output copied to clipboard." -ForegroundColor Green

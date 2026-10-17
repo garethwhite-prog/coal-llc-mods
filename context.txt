@@ -1,58 +1,58 @@
 ﻿=== GIT STATUS ===
 
 === RECENT COMMITS ===
+3e7b512 Add evacuated Cryo-Pod sprite and integrate passive upgrade selection
+4967aaf Unblock camera input overlay, add custom expedition coal and salvage cash drops
 3802823 Fix purchase_employee_level count parameter in CryoPod and await stage transitions
-abdbf28 Route Level 101 to MINE_REGION and smooth strata tiers
-e3ca153 Route Level 101 to MINE_REGION in Game.gd hook and smooth depth tier scaling
 
 === ENGINE LOG (LAST 50 LINES) ===
-max inventory = 1.67417e+12
-inventory count = 1.67417e+12
-max inventory = 1.67417e+12
-inventory count = 1.67417e+12
-max inventory = 1.67417e+12
-inventory count = 1.67417e+12
-max inventory = 1.67417e+12
-inventory count = 1.67417e+12
-max inventory = 1.67417e+12
-inventory count = 1.67417e+12
-max inventory = 1.67417e+12
-inventory count = 1.67417e+12
-max inventory = 1.67417e+12
-inventory count = 1.67417e+12
-max inventory = 1.67417e+12
-inventory count = 1.67417e+12
-max inventory = 1.67417e+12
-inventory count = 1.67417e+12
-max inventory = 1.67417e+12
-Day Count: 11
-Days Passed: 10
-INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Damage +605.0%
-ERROR: WASAPI: GetBufferSize error
-   at: thread_func (drivers/wasapi/audio_driver_wasapi.cpp:782)
-WARNING: WASAPI: Current output_device invalidated, closing output_device
-   at: thread_func (drivers/wasapi/audio_driver_wasapi.cpp:853)
-ERROR: WASAPI: GetBufferSize error
-   at: thread_func (drivers/wasapi/audio_driver_wasapi.cpp:782)
-WARNING: WASAPI: Current output_device invalidated, closing output_device
-   at: thread_func (drivers/wasapi/audio_driver_wasapi.cpp:853)
+   at: ItemPickup._ready (res://scripts/ItemPickup2.gd:53)
+SCRIPT ERROR: Invalid access to property or key 'itemTexture' on a base object of type 'null instance'.
+   at: ItemPickup._ready (res://scripts/ItemPickup2.gd:53)
+SCRIPT ERROR: Invalid access to property or key 'itemTexture' on a base object of type 'null instance'.
+   at: ItemPickup._ready (res://scripts/ItemPickup2.gd:53)
+SCRIPT ERROR: Invalid access to property or key 'itemTexture' on a base object of type 'null instance'.
+   at: ItemPickup._ready (res://scripts/ItemPickup2.gd:53)
+SCRIPT ERROR: Invalid access to property or key 'itemTexture' on a base object of type 'null instance'.
+   at: ItemPickup._ready (res://scripts/ItemPickup2.gd:53)
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
+ERROR: Cannot open file 'res://resources/items/mined_items/coal.tres'.
+   at: load (scene/resources/resource_format_text.cpp:1388)
+ERROR: Failed loading resource: res://resources/items/mined_items/coal.tres. Make sure resources have been imported by opening the project in the editor at least once.
+   at: _load (core/io/resource_loader.cpp:343)
+ERROR: Cannot open file 'res://resources/items/mined_items/coal.tres'.
+   at: load (scene/resources/resource_format_text.cpp:1388)
+ERROR: Failed loading resource: res://resources/items/mined_items/coal.tres. Make sure resources have been imported by opening the project in the editor at least once.
+   at: _load (core/io/resource_loader.cpp:343)
+ERROR: Cannot open file 'res://resources/items/mined_items/coal.tres'.
+   at: load (scene/resources/resource_format_text.cpp:1388)
+ERROR: Failed loading resource: res://resources/items/mined_items/coal.tres. Make sure resources have been imported by opening the project in the editor at least once.
+   at: _load (core/io/resource_loader.cpp:343)
+ERROR: Cannot open file 'res://resources/items/mined_items/coal.tres'.
+   at: load (scene/resources/resource_format_text.cpp:1388)
+ERROR: Failed loading resource: res://resources/items/mined_items/coal.tres. Make sure resources have been imported by opening the project in the editor at least once.
+   at: _load (core/io/resource_loader.cpp:343)
+SCRIPT ERROR: Invalid access to property or key 'itemTexture' on a base object of type 'null instance'.
+   at: ItemPickup._ready (res://scripts/ItemPickup2.gd:53)
+SCRIPT ERROR: Invalid access to property or key 'itemTexture' on a base object of type 'null instance'.
+   at: ItemPickup._ready (res://scripts/ItemPickup2.gd:53)
+SCRIPT ERROR: Invalid access to property or key 'itemTexture' on a base object of type 'null instance'.
+   at: ItemPickup._ready (res://scripts/ItemPickup2.gd:53)
+SCRIPT ERROR: Invalid access to property or key 'itemTexture' on a base object of type 'null instance'.
+   at: ItemPickup._ready (res://scripts/ItemPickup2.gd:53)
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (-60.92527, 65.12824)!
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (30.92527, 71.96517)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (279.9253, 55.99852)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (203.2553, 71.98502)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (203.2553, 71.98502)
+end day
+SCRIPT ERROR: Trying to call an async function without "await".
+   at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+Day Count: 1
+Days Passed: 0
 INFO gareth-more_employees_mod: Workforce chart initialized cleanly.
 say_game_has_been_saved() function running
 finished turning on
-finished turning off
-WARNING: 96 RIDs of type "Canvas" were leaked.
-   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2679)
-WARNING: 754 RIDs of type "CanvasItem" were leaked.
-   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2679)
-ERROR: 96 RID allocations of type 'N10RendererRD12LightStorage11ShadowAtlasE' were leaked at exit.
-ERROR: 96 RID allocations of type 'N10RendererRD14TextureStorage12RenderTargetE' were leaked at exit.
-ERROR: 280 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-ERROR: 96 RID allocations of type 'N16RendererViewport8ViewportE' were leaked at exit.
-WARNING: 540 RIDs of type "Texture" were leaked.
-   at: finalize (servers/rendering/rendering_device.cpp:7130)
-ERROR: 2950 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
-ERROR: 4 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
-WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
-   at: cleanup (core/object/object.cpp:2378)
-ERROR: 167 resources still in use at exit (run with --verbose for details).
-   at: clear (core/io/resource.cpp:614)
