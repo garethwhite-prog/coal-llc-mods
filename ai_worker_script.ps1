@@ -1,7 +1,7 @@
 ﻿Clear-Host;
 
 # ==============================================================================
-# Coal LLC - Fix Progressive JPEG Loading & Equipment Shop Card Filtering
+# Coal LLC - Universal Baseline Image Conversion & GDScript Filter Fix
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
@@ -14,31 +14,32 @@ $mmInnerDir = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-m
 
 Set-Location $repo
 
-Write-Host ">>> 1. Converting C:\Dev\example_4.jpg into standard baseline JPEG and PNG..." -ForegroundColor Cyan
+Write-Host ">>> 1. Converting ALL C:\Dev\example_*.jpg images to baseline JPEG and PNG..." -ForegroundColor Cyan
 Add-Type -AssemblyName System.Drawing
 
-$ex4Path = "C:\Dev\example_4.jpg"
-if (Test-Path $ex4Path) {
-    $srcImg = [System.Drawing.Image]::FromFile($ex4Path)
-    $bmpCopy = New-Object System.Drawing.Bitmap($srcImg)
-    $srcImg.Dispose()
+$jpegCodec = [System.Drawing.Imaging.ImageCodecInfo]::GetImageEncoders() | Where-Object {$_.MimeType -eq "image/jpeg" }
+$encoderParams = New-Object System.Drawing.Imaging.EncoderParameters(1)$encoderParams.Param[0] = New-Object System.Drawing.Imaging.EncoderParameter([System.Drawing.Imaging.Encoder]::Quality, [long]95)
 
-    # Save clean baseline PNG
-    $pngPath = "C:\Dev\example_4.png"
-    $bmpCopy.Save($pngPath, [System.Drawing.Imaging.ImageFormat]::Png)
-    Write-Host "Saved baseline PNG: $pngPath" -ForegroundColor Green
+$devImages = Get-ChildItem -Path "C:\Dev" -Filter "example_*.jpg"
+foreach ($imgFile in $devImages) {
+    try {
+        $srcImg = [System.Drawing.Image]::FromFile($imgFile.FullName)
+		$bmpCopy = New-Object System.Drawing.Bitmap($srcImg)$srcImg.Dispose()
 
-    # Re-encode in-place as clean baseline JPEG
-    $jpegCodec = [System.Drawing.Imaging.ImageCodecInfo]::GetImageEncoders() | Where-Object { $_.MimeType -eq "image/jpeg" }
-    $encoderParams = New-Object System.Drawing.Imaging.EncoderParameters(1)
-    $encoderParams.Param[0] = New-Object System.Drawing.Imaging.EncoderParameter([System.Drawing.Imaging.Encoder]::Quality, [long]95)
-    
-    $bmpCopy.Save($ex4Path, $jpegCodec, $encoderParams)
-    $bmpCopy.Dispose()
-    Write-Host "Re-encoded baseline JPEG: $ex4Path" -ForegroundColor Green
+        # Save sibling PNG
+        $pngPath = [System.IO.Path]::ChangeExtension($imgFile.FullName, ".png")
+        $bmpCopy.Save($pngPath, [System.Drawing.Imaging.ImageFormat]::Png)
+
+        # Overwrite JPG as standard baseline JPEG
+        $bmpCopy.Save($imgFile.FullName, $jpegCodec, $encoderParams)
+		$bmpCopy.Dispose()
+        Write-Host "Processed: $($imgFile.Name) -> Baseline JPEG + PNG" -ForegroundColor Green
+    } catch {
+        Write-Host "Warning: Could not process $($imgFile.Name):$_" -ForegroundColor Yellow
+    }
 }
 
-Write-Host "`n>>> 2. Updating LivingCanvasHelper.gd (WebP/PNG/JPG support & no silent fallback)..." -ForegroundColor Cyan
+Write-Host "`n>>> 2. Updating LivingCanvasHelper.gd (live memory sync & path normalization)..." -ForegroundColor Cyan
 $lcHelperPath = "$lcInnerDir\helpers\LivingCanvasHelper.gd"
 
 @'
@@ -120,19 +121,29 @@ static func get_saved_image_path() -> String:
 			var txt = file.get_as_text()
 			var json = JSON.new()
 			if json.parse(txt) == OK and json.data is Dictionary:
-				return json.data.get("image_path", "")
+				return str(json.data.get("image_path", "")).replace("\\", "/")
 	return ""
 
 static func set_active_image(path: String) -> void:
+	path = path.replace("\\", "/")
 	var cfg = {"image_path": path}
 	var file = FileAccess.open(CONFIG_PATH, FileAccess.WRITE)
 	if file:
 		file.store_string(JSON.stringify(cfg))
 	cached_image = null
-	get_or_load_canvas()
-	ModLoaderLog.info("Active image set to: " + path, "gareth-living_canvas_mod")
+	var new_img = get_or_load_canvas()
+	
+	# Instantly synchronize in-memory level registration
+	if new_img and Gvars and ("level_manager" in Gvars) and Gvars.level_manager:
+		var lvl_mgr = Gvars.level_manager
+		if "all_levels" in lvl_mgr and lvl_mgr.all_levels.has(CANVAS_LEVEL_ID):
+			var new_tex = ImageTexture.create_from_image(new_img)
+			lvl_mgr.all_levels[CANVAS_LEVEL_ID]["level"].level_image = new_tex
+
+	ModLoaderLog.info("Active image updated to: " + path, "gareth-living_canvas_mod")
 
 static func load_image_from_path(path: String) -> Image:
+	path = path.replace("\\", "/")
 	if not FileAccess.file_exists(path):
 		return null
 	var bytes = FileAccess.get_file_as_bytes(path)
@@ -153,11 +164,8 @@ static func load_image_from_path(path: String) -> Image:
 			err = img.load_png_from_buffer(bytes)
 
 	if err == OK:
-		ModLoaderLog.info("Successfully loaded image from: " + path, "gareth-living_canvas_mod")
 		return img
-	else:
-		ModLoaderLog.error("Failed to decode image (" + str(err) + "): " + path, "gareth-living_canvas_mod")
-		return null
+	return null
 
 static func get_or_load_canvas() -> Image:
 	if cached_image != null:
@@ -166,21 +174,24 @@ static func get_or_load_canvas() -> Image:
 	var img: Image = null
 	var active_path = get_saved_image_path()
 
-	# 1. Try user selected path
+	# 1. Try saved user path
 	if active_path != "":
 		img = load_image_from_path(active_path)
+		# Sibling PNG fallback
+		if not img:
+			var alt_png = active_path.get_basename() + ".png"
+			if FileAccess.file_exists(alt_png):
+				img = load_image_from_path(alt_png)
 
-	# 2. Try clean PNG sibling if user selected a JPG that failed
-	if not img and active_path != "":
-		var alt_png = active_path.get_basename() + ".png"
-		if FileAccess.file_exists(alt_png):
-			img = load_image_from_path(alt_png)
-
-	# 3. Default fallback if no valid user selection exists
+	# 2. Try example_4 or example_1 if no valid user selection exists
+	if not img and FileAccess.file_exists("C:/Dev/example_4.png"):
+		img = load_image_from_path("C:/Dev/example_4.png")
+	if not img and FileAccess.file_exists("C:/Dev/example_1.png"):
+		img = load_image_from_path("C:/Dev/example_1.png")
 	if not img and FileAccess.file_exists("C:/Dev/example_1.jpg"):
 		img = load_image_from_path("C:/Dev/example_1.jpg")
 
-	# 4. Fallback procedural mosaic
+	# 3. Fallback procedural canvas
 	if not img:
 		img = _generate_fallback_canvas()
 	else:
@@ -287,9 +298,77 @@ static func paint_chunk_from_canvas(chunk: Node) -> void:
 			chunk.tiles[idx] = final_tile
 			chunk.build_tile(idx)
 '@ | Set-Content -Path $lcHelperPath -Encoding UTF8
-Write-Host "Updated: $lcHelperPath" -ForegroundColor Green
+Write-Host "Updated LivingCanvasHelper.gd" -ForegroundColor Green
 
-Write-Host "`n>>> 3. Rewriting management_screen.hooks.gd (filtering equipment_items children)..." -ForegroundColor Cyan
+Write-Host "`n>>> 3. Updating level_select.hooks.gd (live visual refresh without restart)..." -ForegroundColor Cyan
+$lsHookPath = "$lcInnerDir\extensions\scenes\Interfaces\Menus\level_select.hooks.gd"
+
+@'
+extends Object
+
+func _ready(chain: ModLoaderHookChain) -> void:
+	var helper_script = load("res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd")
+	if helper_script and helper_script.has_method("ensure_level_registered"):
+		helper_script.ensure_level_registered()
+		var ls = chain.reference_object
+		if ls and ("LEVEL_ORDER" in ls):
+			if not ls.LEVEL_ORDER.has(helper_script.CANVAS_LEVEL_ID):
+				ls.LEVEL_ORDER.append(helper_script.CANVAS_LEVEL_ID)
+
+	chain.execute_next([])
+
+	var ls = chain.reference_object
+	if ls and "levels" in ls and ls.levels:
+		for card in ls.levels.get_children():
+			if "game_level" in card and card.game_level and card.game_level.level == 103:
+				_inject_canvas_button(ls, card)
+
+func _inject_canvas_button(ls: Control, card: Control) -> void:
+	var helper_script = load("res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd")
+	var active_path = helper_script.get_saved_image_path() if helper_script else ""
+	var initial_label = "[ Choose Image ]"
+	if active_path != "":
+		initial_label = "[ " + active_path.get_file() + " ]"
+
+	var btn = Button.new()
+	btn.text = initial_label
+	btn.custom_minimum_size = Vector2(140, 26)
+	btn.add_theme_font_size_override("font_size", 9)
+	btn.focus_mode = Control.FOCUS_NONE
+	card.add_child(btn)
+	btn.position = Vector2(10, 180)
+
+	btn.pressed.connect(func():
+		var dialog = FileDialog.new()
+		dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
+		dialog.access = FileDialog.ACCESS_FILESYSTEM
+		dialog.filters = PackedStringArray(["*.jpg, *.jpeg, *.png, *.webp ; Image Files"])
+		dialog.current_dir = "C:/Dev"
+		dialog.title = "Select Image for The Living Canvas"
+		if "use_native_dialog" in dialog:
+			dialog.set("use_native_dialog", true)
+
+		dialog.file_selected.connect(func(path: String):
+			path = path.replace("\\", "/")
+			if helper_script and helper_script.has_method("set_active_image"):
+				helper_script.set_active_image(path)
+				btn.text = "[ " + path.get_file() + " ]"
+				
+				var new_tex = helper_script.get_preview_texture()
+				if new_tex:
+					card.game_level.level_image = new_tex
+					for child in card.find_children("*", "TextureRect", true, false):
+						if child.name != "Lock":
+							child.texture = new_tex
+		)
+
+		ls.add_child(dialog)
+		dialog.popup_centered(Vector2i(800, 500))
+	)
+'@ | Set-Content -Path $lsHookPath -Encoding UTF8
+Write-Host "Updated level_select.hooks.gd" -ForegroundColor Green
+
+Write-Host "`n>>> 4. Updating management_screen.hooks.gd (fixing syntax & adding Void Cores)..." -ForegroundColor Cyan
 $mgmtHook = "$mmInnerDir\extensions\scenes\Stages\management_screen.hooks.gd"
 
 @'
@@ -306,9 +385,17 @@ func _filter_cards(screen: Node) -> void:
 		return
 
 	var prof = Gvars.profession if ("profession" in Gvars and Gvars.profession) else null
-	var prof_name: String = prof.name if (prof and "name" in prof) else ""
+	var prof_name: String = ""
+	if prof:
+		if "profession_name" in prof:
+			prof_name = str(prof.profession_name)
+		elif "title" in prof:
+			prof_name = str(prof.title)
+		elif "name" in prof:
+			prof_name = str(prof.name)
 
-	if prof_name == "Internship" or prof_name == "":
+	# When playing Internship or no custom class, hide all modded class weapons
+	if prof_name == "Internship" or prof_name == "" or prof_name.begins_with("@"):
 		var container = null
 		if "equipment_items" in screen and screen.equipment_items:
 			container = screen.equipment_items
@@ -325,18 +412,28 @@ func _filter_cards(screen: Node) -> void:
 				if "item" in card and card.item and "itemName" in card.item:
 					txt += " " + str(card.item.itemName)
 
-				if txt.contains("Optical Emitter") or txt.contains("Tectonic Fracker") or txt.contains("Broadsword") or txt.contains("Energy Saber"):
+				# Use GDScript 'in' operator to avoid .contains() parse errors
+				var is_mod_weapon: bool = (
+					("Tectonic Fracker" in txt) or
+					("Void Core" in txt) or
+					("Optical Emitter" in txt) or
+					("Broadsword" in txt) or
+					("Energy Saber" in txt) or
+					("Laser Beam" in txt)
+				)
+
+				if is_mod_weapon:
 					card.visible = false
 					card.process_mode = Node.PROCESS_MODE_DISABLED
 '@ | Set-Content -Path $mgmtHook -Encoding UTF8
-Write-Host "Updated: $mgmtHook" -ForegroundColor Green
+Write-Host "Updated management_screen.hooks.gd" -ForegroundColor Green
 
-Write-Host "`n>>> 4. Flushing mod-hooks.zip..." -ForegroundColor Cyan
+Write-Host "`n>>> 5. Flushing mod-hooks.zip..." -ForegroundColor Cyan
 if (Test-Path $hookZip) {
     Remove-Item -Path $hookZip -Force
 }
 
-Write-Host ">>> 5. Repackaging living_canvas_mod.zip and mod_manager_mod.zip..." -ForegroundColor Cyan
+Write-Host ">>> 6. Repackaging living_canvas_mod.zip and mod_manager_mod.zip..." -ForegroundColor Cyan
 Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
@@ -355,9 +452,9 @@ foreach ($mTarget in @("gareth-living_canvas_mod", "gareth-mod_manager_mod")) {
     Write-Host "Repacked: $mZip" -ForegroundColor Green
 }
 
-Write-Host "`n>>> 6. Git staging and committing..." -ForegroundColor Cyan
+Write-Host "`n>>> 7. Git staging and committing..." -ForegroundColor Cyan
 git add -A
-git commit -m "Convert progressive JPEG example_4, support WebP/PNG buffers, and fix shop card filtering"
+git commit -m "Convert all C:/Dev images to baseline JPEG/PNG, fix GDScript 'in' string filter, and support live canvas switching without restart"
 git push origin main
 
-Write-Host "`nFixes deployed successfully! Launch Coal LLC to test." -ForegroundColor Green
+Write-Host "`nAll fixes applied! Launch Coal LLC to test." -ForegroundColor Green

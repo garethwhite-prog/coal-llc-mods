@@ -36,13 +36,14 @@ func _inject_canvas_button(ls: Control, card: Control) -> void:
 		var dialog = FileDialog.new()
 		dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
 		dialog.access = FileDialog.ACCESS_FILESYSTEM
-		dialog.filters = PackedStringArray(["*.jpg, *.jpeg, *.png ; Image Files"])
+		dialog.filters = PackedStringArray(["*.jpg, *.jpeg, *.png, *.webp ; Image Files"])
 		dialog.current_dir = "C:/Dev"
 		dialog.title = "Select Image for The Living Canvas"
 		if "use_native_dialog" in dialog:
 			dialog.set("use_native_dialog", true)
 
 		dialog.file_selected.connect(func(path: String):
+			path = path.replace("\\", "/")
 			if helper_script and helper_script.has_method("set_active_image"):
 				helper_script.set_active_image(path)
 				btn.text = "[ " + path.get_file() + " ]"
@@ -50,11 +51,9 @@ func _inject_canvas_button(ls: Control, card: Control) -> void:
 				var new_tex = helper_script.get_preview_texture()
 				if new_tex:
 					card.game_level.level_image = new_tex
-					# Find and update any TextureRect on the card
 					for child in card.find_children("*", "TextureRect", true, false):
 						if child.name != "Lock":
 							child.texture = new_tex
-							break
 		)
 
 		ls.add_child(dialog)

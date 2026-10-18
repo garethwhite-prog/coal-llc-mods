@@ -11,9 +11,17 @@ func _filter_cards(screen: Node) -> void:
 		return
 
 	var prof = Gvars.profession if ("profession" in Gvars and Gvars.profession) else null
-	var prof_name: String = prof.name if (prof and "name" in prof) else ""
+	var prof_name: String = ""
+	if prof:
+		if "profession_name" in prof:
+			prof_name = str(prof.profession_name)
+		elif "title" in prof:
+			prof_name = str(prof.title)
+		elif "name" in prof:
+			prof_name = str(prof.name)
 
-	if prof_name == "Internship" or prof_name == "":
+	# When playing Internship or no custom class, hide all modded class weapons
+	if prof_name == "Internship" or prof_name == "" or prof_name.begins_with("@"):
 		var container = null
 		if "equipment_items" in screen and screen.equipment_items:
 			container = screen.equipment_items
@@ -30,6 +38,16 @@ func _filter_cards(screen: Node) -> void:
 				if "item" in card and card.item and "itemName" in card.item:
 					txt += " " + str(card.item.itemName)
 
-				if txt.contains("Optical Emitter") or txt.contains("Tectonic Fracker") or txt.contains("Broadsword") or txt.contains("Energy Saber"):
+				# Use GDScript 'in' operator to avoid .contains() parse errors
+				var is_mod_weapon: bool = (
+					("Tectonic Fracker" in txt) or
+					("Void Core" in txt) or
+					("Optical Emitter" in txt) or
+					("Broadsword" in txt) or
+					("Energy Saber" in txt) or
+					("Laser Beam" in txt)
+				)
+
+				if is_mod_weapon:
 					card.visible = false
 					card.process_mode = Node.PROCESS_MODE_DISABLED

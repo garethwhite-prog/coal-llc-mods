@@ -1,27 +1,31 @@
-﻿>>> 1. Updating LivingCanvasHelper.gd with Ore & Coal Infusion...
-Updated LivingCanvasHelper.gd
+﻿>>> 1. Converting C:\Dev\example_4.jpg into standard baseline JPEG and PNG...
+Saved baseline PNG: C:\Dev\example_4.png
+Re-encoded baseline JPEG: C:\Dev\example_4.jpg
 
->>> 2. Rewriting management_screen.hooks.gd with working Callable filter...
-Updated management_screen.hooks.gd
+>>> 2. Updating LivingCanvasHelper.gd (WebP/PNG/JPG support & no silent fallback)...
+Updated: C:\Dev\coal-llc-mods\mods-unpacked\gareth-living_canvas_mod\mods-unpacked\gareth-living_canvas_mod\helpers\LivingCanvasHelper.gd
 
->>> 3. Flushing mod-hooks.zip...
->>> 4. Repackaging living_canvas_mod.zip and mod_manager_mod.zip...
+>>> 3. Rewriting management_screen.hooks.gd (filtering equipment_items children)...
+Updated: C:\Dev\coal-llc-mods\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\extensions\scenes\Stages\management_screen.hooks.gd
+
+>>> 4. Flushing mod-hooks.zip...
+>>> 5. Repackaging living_canvas_mod.zip and mod_manager_mod.zip...
 Repacked: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods\gareth-living_canvas_mod.zip
 Repacked: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods\gareth-mod_manager_mod.zip
 
->>> 5. Git staging and committing...
+>>> 6. Git staging and committing...
 warning: in the working copy of 'context.txt', LF will be replaced by CRLF the next time Git touches it
-[main 3bda95e] Implement ore and coal infusion for Living Canvas tiles and fix deferred shop filter
- 5 files changed, 382 insertions(+), 146 deletions(-)
+[main 9f2ab03] Convert progressive JPEG example_4, support WebP/PNG buffers, and fix shop card filtering
+ 5 files changed, 266 insertions(+), 211 deletions(-)
 Enumerating objects: 32, done.
 Counting objects: 100% (32/32), done.
 Delta compression using up to 24 threads
 Compressing objects: 100% (16/16), done.
-Writing objects: 100% (18/18), 5.54 KiB | 1.11 MiB/s, done.
+Writing objects: 100% (18/18), 5.14 KiB | 1.03 MiB/s, done.
 Total 18 (delta 8), reused 0 (delta 0), pack-reused 0 (from 0)
-remote: Resolving deltas: 100% (8/8), completed with 7 local objects.
+remote: Resolving deltas: 100% (8/8), completed with 8 local objects.
 To https://github.com/garethwhite-prog/coal-llc-mods.git
-   a4d81ad..3bda95e  main -> main
+   3bda95e..9f2ab03  main -> main
 
-Patch applied successfully! Launch Coal LLC to test.
+Fixes deployed successfully! Launch Coal LLC to test.
 PS C:\Dev\coal-llc-mods> 

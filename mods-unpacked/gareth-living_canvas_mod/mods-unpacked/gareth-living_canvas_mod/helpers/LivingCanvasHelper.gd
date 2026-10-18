@@ -76,19 +76,29 @@ static func get_saved_image_path() -> String:
 			var txt = file.get_as_text()
 			var json = JSON.new()
 			if json.parse(txt) == OK and json.data is Dictionary:
-				return json.data.get("image_path", "")
+				return str(json.data.get("image_path", "")).replace("\\", "/")
 	return ""
 
 static func set_active_image(path: String) -> void:
+	path = path.replace("\\", "/")
 	var cfg = {"image_path": path}
 	var file = FileAccess.open(CONFIG_PATH, FileAccess.WRITE)
 	if file:
 		file.store_string(JSON.stringify(cfg))
 	cached_image = null
-	get_or_load_canvas()
-	ModLoaderLog.info("Active image set to: " + path, "gareth-living_canvas_mod")
+	var new_img = get_or_load_canvas()
+	
+	# Instantly synchronize in-memory level registration
+	if new_img and Gvars and ("level_manager" in Gvars) and Gvars.level_manager:
+		var lvl_mgr = Gvars.level_manager
+		if "all_levels" in lvl_mgr and lvl_mgr.all_levels.has(CANVAS_LEVEL_ID):
+			var new_tex = ImageTexture.create_from_image(new_img)
+			lvl_mgr.all_levels[CANVAS_LEVEL_ID]["level"].level_image = new_tex
+
+	ModLoaderLog.info("Active image updated to: " + path, "gareth-living_canvas_mod")
 
 static func load_image_from_path(path: String) -> Image:
+	path = path.replace("\\", "/")
 	if not FileAccess.file_exists(path):
 		return null
 	var bytes = FileAccess.get_file_as_bytes(path)
@@ -109,11 +119,8 @@ static func load_image_from_path(path: String) -> Image:
 			err = img.load_png_from_buffer(bytes)
 
 	if err == OK:
-		ModLoaderLog.info("Successfully loaded image from: " + path, "gareth-living_canvas_mod")
 		return img
-	else:
-		ModLoaderLog.error("Failed to decode image (" + str(err) + "): " + path, "gareth-living_canvas_mod")
-		return null
+	return null
 
 static func get_or_load_canvas() -> Image:
 	if cached_image != null:
@@ -122,21 +129,24 @@ static func get_or_load_canvas() -> Image:
 	var img: Image = null
 	var active_path = get_saved_image_path()
 
-	# 1. Try user selected path
+	# 1. Try saved user path
 	if active_path != "":
 		img = load_image_from_path(active_path)
+		# Sibling PNG fallback
+		if not img:
+			var alt_png = active_path.get_basename() + ".png"
+			if FileAccess.file_exists(alt_png):
+				img = load_image_from_path(alt_png)
 
-	# 2. Try clean PNG sibling if user selected a JPG that failed
-	if not img and active_path != "":
-		var alt_png = active_path.get_basename() + ".png"
-		if FileAccess.file_exists(alt_png):
-			img = load_image_from_path(alt_png)
-
-	# 3. Default fallback if no valid user selection exists
+	# 2. Try example_4 or example_1 if no valid user selection exists
+	if not img and FileAccess.file_exists("C:/Dev/example_4.png"):
+		img = load_image_from_path("C:/Dev/example_4.png")
+	if not img and FileAccess.file_exists("C:/Dev/example_1.png"):
+		img = load_image_from_path("C:/Dev/example_1.png")
 	if not img and FileAccess.file_exists("C:/Dev/example_1.jpg"):
 		img = load_image_from_path("C:/Dev/example_1.jpg")
 
-	# 4. Fallback procedural mosaic
+	# 3. Fallback procedural canvas
 	if not img:
 		img = _generate_fallback_canvas()
 	else:

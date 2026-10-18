@@ -2,41 +2,41 @@
  M output.txt
 
 === RECENT COMMITS ===
+9f2ab03 Convert progressive JPEG example_4, support WebP/PNG buffers, and fix shop card filtering
 3bda95e Implement ore and coal infusion for Living Canvas tiles and fix deferred shop filter
 a4d81ad Fix damage_tile_idx 2-parameter signature and apply deferred equipment shop filtering
-0b16957 Fix Mod Manager indentation, expand 12-row starter buffer, add side quarries, and balance canvas block damage
 
-=== SESSION ERRORS & WARNINGS (179 found) ===
-SCRIPT ERROR: Invalid access to property or key '222' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '218' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '217' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '221' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '222' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '219' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '218' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '218' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '221' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '218' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '218' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '216' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '218' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '221' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '216' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '221' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '221' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '220' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '220' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '217' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '218' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '222' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '218' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '222' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '221' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '222' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '222' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '216' on a base object of type 'Dictionary[int, Dictionary]'.
-ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-ERROR: 153 resources still in use at exit (run with --verbose for details).
+=== SESSION ERRORS & WARNINGS (33 found) ===
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
+ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+SCRIPT ERROR: Trying to call an async function without "await".
+ERROR: 64 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+ERROR: 4 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+ERROR: 4 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
+ERROR: 162 resources still in use at exit (run with --verbose for details).
 
 === ACTIVE MOD LOG ENTRIES (13 found) ===
 	 - C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mods/gareth-tectonic_faultline_mod.zip
@@ -49,38 +49,38 @@ INFO ModLoader: mod_load_order -> 22) gareth-tectonic_faultline_mod
 INFO ModLoader: Initializing -> gareth-tectonic_faultline_mod
 DEBUG ModLoader: Loading script from -> res://mods-unpacked/gareth-tectonic_faultline_mod/mod_main.gd
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Mod initializing...
-DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultline_mod:<Node#709558807921>
-  "gareth-tectonic_faultline_mod": "<Resource#-9223371950686992807>",
+DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultline_mod:<Node#709709802865>
+  "gareth-tectonic_faultline_mod": "<Resource#-9223371950535997863>",
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Custom Map Mod (ID 102) online!
 
 === LOG TAIL (LAST 30 LINES) ===
-SCRIPT ERROR: Invalid access to property or key '220' on a base object of type 'Dictionary[int, Dictionary]'.
-   at: TileMapChunk.build_tile (res://scenes/tilemaps/tile_map_chunk.gd:1909)
-SCRIPT ERROR: Invalid access to property or key '220' on a base object of type 'Dictionary[int, Dictionary]'.
-   at: TileMapChunk.build_tile (res://scenes/tilemaps/tile_map_chunk.gd:1909)
-SCRIPT ERROR: Invalid access to property or key '217' on a base object of type 'Dictionary[int, Dictionary]'.
-   at: TileMapChunk.build_tile (res://scenes/tilemaps/tile_map_chunk.gd:1909)
-SCRIPT ERROR: Invalid access to property or key '218' on a base object of type 'Dictionary[int, Dictionary]'.
-   at: TileMapChunk.build_tile (res://scenes/tilemaps/tile_map_chunk.gd:1909)
-SCRIPT ERROR: Invalid access to property or key '222' on a base object of type 'Dictionary[int, Dictionary]'.
-   at: TileMapChunk.build_tile (res://scenes/tilemaps/tile_map_chunk.gd:1909)
-SCRIPT ERROR: Invalid access to property or key '218' on a base object of type 'Dictionary[int, Dictionary]'.
-   at: TileMapChunk.build_tile (res://scenes/tilemaps/tile_map_chunk.gd:1909)
-SCRIPT ERROR: Invalid access to property or key '222' on a base object of type 'Dictionary[int, Dictionary]'.
-   at: TileMapChunk.build_tile (res://scenes/tilemaps/tile_map_chunk.gd:1909)
-SCRIPT ERROR: Invalid access to property or key '221' on a base object of type 'Dictionary[int, Dictionary]'.
-   at: TileMapChunk.build_tile (res://scenes/tilemaps/tile_map_chunk.gd:1909)
-SCRIPT ERROR: Invalid access to property or key '222' on a base object of type 'Dictionary[int, Dictionary]'.
-   at: TileMapChunk.build_tile (res://scenes/tilemaps/tile_map_chunk.gd:1909)
-SCRIPT ERROR: Invalid access to property or key '222' on a base object of type 'Dictionary[int, Dictionary]'.
-   at: TileMapChunk.build_tile (res://scenes/tilemaps/tile_map_chunk.gd:1909)
-SCRIPT ERROR: Invalid access to property or key '216' on a base object of type 'Dictionary[int, Dictionary]'.
-   at: TileMapChunk.build_tile (res://scenes/tilemaps/tile_map_chunk.gd:1909)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (125.0091, -40.03485)
-ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-WARNING: 88 RIDs of type "Texture" were leaked.
+inventory count = 640
+max inventory = 640
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (95.39987, -73.95164)
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (38.73136, -56.03482)!
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-24.5961, -56.03482)
+end day
+SCRIPT ERROR: Trying to call an async function without "await".
+   at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+Day Count: 2
+Days Passed: 1
+INFO gareth-more_employees_mod: Workforce chart initialized cleanly.
+say_game_has_been_saved() function running
+finished turning on
+WARNING: 12 RIDs of type "CanvasItem" were leaked.
+   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2679)
+ERROR: 64 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+WARNING: 111 RIDs of type "Texture" were leaked.
    at: finalize (servers/rendering/rendering_device.cpp:7130)
+ERROR: 4 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+ERROR: 4 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
 WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
    at: cleanup (core/object/object.cpp:2378)
-ERROR: 153 resources still in use at exit (run with --verbose for details).
+ERROR: 162 resources still in use at exit (run with --verbose for details).
    at: clear (core/io/resource.cpp:614)
