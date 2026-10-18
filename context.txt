@@ -1,13 +1,11 @@
 ﻿=== GIT STATUS ===
 
 === RECENT COMMITS ===
+3270abe Populate ls.all_levels[102] in level_select.hooks.gd with 1-arg ModLoader hook signature
 0179915 Populate all LevelSelect instance dictionaries (images, names, descriptions, scenes) before chain.execute_next()
 72227a4 Restore ensure_level_registered() in TectonicFaultlineHelper to fix level select freeze
-fd03604 Implement 3 elemental pods (Fire/Water/Poison), reinforced vault walls, and cascading fluid drip with depth scaling
 
 === ENGINE LOG (LAST 50 LINES) ===
-INFO gareth-tick_upgrade_mod: Elemental Tick Upgrades (gareth-tick_upgrade_mod, credit: der_floh) online.
-INFO gareth-vacuum_depot_mod: Vacuum Collector Depot mod initialized successfully.
 INFO gareth-weapon_stacker_mod:Main: Weapon Stacker Mod active and ready!
 INFO gareth-void_siphon_mod: 15 Void Siphon Core tiers registered into equipment shop.
 INFO gareth-void_siphon_mod: Void Siphon Class (ID 105) registered cleanly.
@@ -45,6 +43,8 @@ INFO ModLoader:ModHookPacker: Generating mod hooks .zip
 DEBUG ModLoader:ModHookPacker: Scripts requiring hooks: { "res://scenes/tilemaps/tile_map_manager.gd": ["load_chunks", "apply_tile_effects"], "res://scenes/equipment/electric_shock.gd": ["_physics_process"], "res://scripts/StateMachine/Player2/player_2.gd": ["mine_action", "_ready", "_physics_process"], "res://scenes/Interfaces/Menus/settings_2.gd": ["_ready"], "res://scenes/Interfaces/in_game/choose_passive.gd": ["_process", "_ready", "_on_button_pressed", "_on_button_2_pressed", "_on_button_3_pressed"], "res://scenes/tilemaps/tile_map_chunk.gd": ["destroy_tile", "adjust_level_bonus", "lvl_from_global_pos", "generate_chunk", "generate_chests"], "res://scripts/Chest.gd": ["pickup_item", "roll_loot"], "res://scenes/ManagersInScene/mortar_manager.gd": ["shoot_mortar"], "res://scripts/PauseMenu.gd": ["on_pressed_resume", "_ready"], "res://scenes/Interfaces/Management/employee_shop_tooltip.gd": ["_ready"], "res://resources/Employees/Scripts/employee_manager.gd": ["get_employee_level_from_enum", "purchase_employee_level"], "res://scenes/Interfaces/Management/organisation_chart_2.gd": ["_ready", "refresh_all_icons", "_draw"], "res://scenes/Interfaces/Management/employee_level_icon_2.gd": ["_ready", "position_tooltip"], "res://scripts/equipment_manager.gd": ["generate_vacuum_cleaner"], "res://scenes/NPCs/quest_scene_manager.gd": ["_ready", "refresh_all_quest_points"], "res://resources/Quests/quest_rewards/reward_vacuum.gd": ["reward"], "res://scripts/MainMenu.gd": ["_ready", "on_profession_selected"], "res://resources/professions/scripts/tanker.gd": ["_profession_effect"], "res://scenes/Stages/management_screen.gd": ["load_equipment_shop", "_ready", "refresh_cash"], "res://resources/EquipEffects/Scripts/tank.gd": ["start", "end"], "res://scenes/equipment/tank_bullet.gd": ["_ready", "attack_tile"], "res://scenes/Interfaces/Menus/level_select.gd": ["_ready"], "res://scripts/Game.gd": ["change_stage"], "res://scenes/equipment/vacuum_cleaner.gd": ["_physics_process"], "res://scripts/LootCollectorUFO.gd": ["_physics_process"], "res://resources/EquipEffects/Scripts/gun.gd": ["start", "end", "physics_process"], "res://resources/EquipEffects/Scripts/water_gun.gd": ["start", "end", "physics_process"], "res://scenes/equipment/boxing_gloves.gd": ["attack_tile"], "res://scenes/equipment/kick.gd": ["_process", "damage_tiles"], "res://resources/professions/scripts/martial_artist.gd": ["_profession_effect"], "res://scenes/Interfaces/Menus/profession_select.gd": ["_ready"] }
 INFO ModLoader:ModHookPacker: Scripts are already processed according to cache, skipping process.
 INFO gareth-multisave_mod: Career progression and hard modifier badges verified.
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+   at: _ready (res://mods-unpacked/gareth-tectonic_faultline_mod/extensions/scenes/Interfaces/Menus/level_select.hooks.gd:8)
 WARNING: 18 RIDs of type "CanvasItem" were leaked.
    at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2679)
 ERROR: 56 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
@@ -54,5 +54,5 @@ ERROR: 6 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvanced
 ERROR: 4 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
 WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
    at: cleanup (core/object/object.cpp:2378)
-ERROR: 161 resources still in use at exit (run with --verbose for details).
+ERROR: 162 resources still in use at exit (run with --verbose for details).
    at: clear (core/io/resource.cpp:614)

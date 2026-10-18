@@ -11,14 +11,37 @@ static func is_faultline_level() -> bool:
 		return true
 	return false
 
-# Instance method called by mod_main.gd: helper.ensure_level_registered()
 func ensure_level_registered() -> void:
-	TectonicFaultlineHelper.register_faultline_level()
+	register_faultline_level()
 
 static func register_faultline_level() -> void:
 	if not Gvars:
 		return
 	
+	# Register into Gvars.level_manager.all_levels (the primary source of truth for level_select.gd)
+	if "level_manager" in Gvars and Gvars.level_manager and ("all_levels" in Gvars.level_manager):
+		var lvl_mgr = Gvars.level_manager
+		if not lvl_mgr.all_levels.has(FAULTLINE_LEVEL_ID):
+			var custom_level = GameLevel.new()
+			custom_level.level_name = "Tectonic Faultline"
+			custom_level.level = FAULTLINE_LEVEL_ID
+			custom_level.mining_scene_path = "res://scenes/Stages/MineRegion.tscn"
+			custom_level.level_description = "Seismic faultline with superheated vents, magma fissures, and elemental chambers.\n\nElemental pods contain explosive fluids and geothermal updrafts."
+			custom_level.level_difficulty = GameLevel.Difficulty.HARD
+			custom_level.unlock_description = ""
+			
+			var preview_path = "res://mods-unpacked/gareth-tectonic_faultline_mod/assets/magma_siphon_active.png"
+			if ResourceLoader.exists(preview_path):
+				var img = Image.load_from_file(preview_path)
+				if img:
+					custom_level.level_image = ImageTexture.create_from_image(img)
+			
+			lvl_mgr.all_levels[FAULTLINE_LEVEL_ID] = {
+				"level": custom_level,
+				"is_unlocked": true
+			}
+	
+	# Metadata backups in Gvars
 	if "level_info" in Gvars and Gvars.level_info is Dictionary:
 		if not Gvars.level_info.has(FAULTLINE_LEVEL_ID):
 			Gvars.level_info[FAULTLINE_LEVEL_ID] = {

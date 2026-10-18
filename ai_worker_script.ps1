@@ -1,12 +1,11 @@
 ﻿cls
 
 # ==============================================================================
-# Coal LLC - Fix Level Select Menu Hook & Register Map 102 Card in all_levels
+# Coal LLC - Upgrade Dump-Context & Fix Tectonic Faultline Level Registration
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
 $steamRoot  = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC"
-$dumpRoot   = "$steamRoot\_dump"
 $steamMods  = "$steamRoot\mods"
 $modName    = "gareth-tectonic_faultline_mod"
 $outerDir   = "$repo\mods-unpacked\$modName"
@@ -18,13 +17,62 @@ $hookPath   = "$innerDir\extensions\scenes\Interfaces\Menus\level_select.hooks.g
 
 Set-Location $repo
 
-Write-Host ">>> 1. Inspecting how Lost Expedition registers its level..." -ForegroundColor Cyan
-$leHelper = Get-ChildItem -Path "$repo\mods-unpacked\gareth-lost_expedition_mod" -Filter "LostExpeditionHelper.gd" -Recurse | Select-Object -First 1
-if ($leHelper) {
-    Get-Content $leHelper.FullName | Select-String -Pattern "func |all_levels|level_info|LEVEL" | ForEach-Object { Write-Host "   $_" -ForegroundColor DarkCyan }
+Write-Host ">>> 1. Upgrading Dump-Context.ps1 with error/warning and active mod extraction..." -ForegroundColor Cyan
+@'
+cls
+$repoRoot = "C:\Dev\coal-llc-mods"
+$appDataGodot = [System.IO.Path]::Combine($env:APPDATA, "Godot\app_userdata\Coal LLC")
+$outputFile = [System.IO.Path]::Combine($repoRoot, "context.txt")
+
+$sb = New-Object System.Text.StringBuilder
+[void]$sb.AppendLine("=== GIT STATUS ===")
+Push-Location $repoRoot$gitStatus = git status --short
+foreach ($line in$gitStatus) { [void]$sb.AppendLine($line) }
+
+[void]$sb.AppendLine("`n=== RECENT COMMITS ===")
+$gitLog = git log -n 3 --oneline
+foreach ($line in $gitLog) { [void]$sb.AppendLine($line) }
+Pop-Location
+
+$logPath = [System.IO.Path]::Combine($appDataGodot, "logs\godot.log")
+if (Test-Path $logPath) {
+    $allLogLines = Get-Content $logPath
+    
+    # 1. Capture every error, crash, and warning across the whole session
+    $errorLines = $allLogLines | Where-Object { 
+        $_ -match "(SCRIPT ERROR|ERROR:|Compile Error|Parse Error|Failed to load script|Invalid call|Invalid access)" 
+    }
+    
+    [void]$sb.AppendLine("`n=== SESSION ERRORS & WARNINGS ($($errorLines.Count) found) ===")
+    if ($errorLines.Count -gt 0) {
+        foreach ($line in ($errorLines | Select-Object -Last 30)) { [void]$sb.AppendLine($line) }
+    } else {
+        [void]$sb.AppendLine("None detected.")
+    }
+
+    # 2. Capture all log entries matching the mod currently being modified
+    $activeModLines = $allLogLines \vert{} Where-Object {$_ -match "tectonic_faultline" }
+    [void]$sb.AppendLine("`n=== ACTIVE MOD LOG ENTRIES ($($activeModLines.Count) found) ===")
+    if ($activeModLines.Count -gt 0) {
+        foreach ($line in ($activeModLines | Select-Object -Last 20)) { [void]$sb.AppendLine($line) }
+    } else {
+        [void]$sb.AppendLine("None detected.")
+    }
+
+    # 3. Trailing log context
+    [void]$sb.AppendLine("`n=== LOG TAIL (LAST 30 LINES) ===")
+    $tailLines =$allLogLines | Select-Object -Last 30
+    foreach ($line in$tailLines) { [void]$sb.AppendLine($line) }
 }
 
-Write-Host "`n>>> 2. Writing TectonicFaultlineHelper.gd with instance & static registration..." -ForegroundColor Cyan
+[System.IO.File]::WriteAllText($outputFile,$sb.ToString(), [System.Text.Encoding]::UTF8)
+Set-Clipboard -Value $sb.ToString()
+Write-Host "[+] Enhanced context collected in context.txt AND copied to clipboard!" -ForegroundColor Green
+Write-Host "    Press Ctrl+V in the chat to share your project status." -ForegroundColor Yellow
+'@ | Set-Content -Path "$repo\Dump-Context.ps1" -Encoding UTF8
+Write-Host "Updated: $repo\Dump-Context.ps1" -ForegroundColor Green
+
+Write-Host "`n>>> 2. Rewriting TectonicFaultlineHelper.gd (clean compilation, GameLevel registration)..." -ForegroundColor Cyan
 @'
 class_name TectonicFaultlineHelper
 extends RefCounted
@@ -39,14 +87,37 @@ static func is_faultline_level() -> bool:
 		return true
 	return false
 
-# Instance method called by mod_main.gd: helper.ensure_level_registered()
 func ensure_level_registered() -> void:
-	TectonicFaultlineHelper.register_faultline_level()
+	register_faultline_level()
 
 static func register_faultline_level() -> void:
 	if not Gvars:
 		return
 	
+	# Register into Gvars.level_manager.all_levels (the primary source of truth for level_select.gd)
+	if "level_manager" in Gvars and Gvars.level_manager and ("all_levels" in Gvars.level_manager):
+		var lvl_mgr = Gvars.level_manager
+		if not lvl_mgr.all_levels.has(FAULTLINE_LEVEL_ID):
+			var custom_level = GameLevel.new()
+			custom_level.level_name = "Tectonic Faultline"
+			custom_level.level = FAULTLINE_LEVEL_ID
+			custom_level.mining_scene_path = "res://scenes/Stages/MineRegion.tscn"
+			custom_level.level_description = "Seismic faultline with superheated vents, magma fissures, and elemental chambers.\n\nElemental pods contain explosive fluids and geothermal updrafts."
+			custom_level.level_difficulty = GameLevel.Difficulty.HARD
+			custom_level.unlock_description = ""
+			
+			var preview_path = "res://mods-unpacked/gareth-tectonic_faultline_mod/assets/magma_siphon_active.png"
+			if ResourceLoader.exists(preview_path):
+				var img = Image.load_from_file(preview_path)
+				if img:
+					custom_level.level_image = ImageTexture.create_from_image(img)
+			
+			lvl_mgr.all_levels[FAULTLINE_LEVEL_ID] = {
+				"level": custom_level,
+				"is_unlocked": true
+			}
+	
+	# Metadata backups in Gvars
 	if "level_info" in Gvars and Gvars.level_info is Dictionary:
 		if not Gvars.level_info.has(FAULTLINE_LEVEL_ID):
 			Gvars.level_info[FAULTLINE_LEVEL_ID] = {
@@ -173,53 +244,19 @@ static func spawn_magma_siphons(chunk: Node, current_locs: Array[Vector2i]) -> A
 '@ | Set-Content -Path $helperPath -Encoding UTF8
 Write-Host "Updated: $helperPath" -ForegroundColor Green
 
-Write-Host "`n>>> 3. Writing level_select.hooks.gd with all_levels[102] registration..." -ForegroundColor Cyan
+Write-Host "`n>>> 3. Rewriting level_select.hooks.gd (matching LostExpedition pattern)..." -ForegroundColor Cyan
 @'
 extends Object
-
-const FAULTLINE_LEVEL_ID: int = 102
 
 func _ready(chain: ModLoaderHookChain) -> void:
 	var helper_script = load("res://mods-unpacked/gareth-tectonic_faultline_mod/helpers/TectonicFaultlineHelper.gd")
 	if helper_script:
 		var helper = helper_script.new()
-		if helper.has_method("ensure_level_registered"):
-			helper.ensure_level_registered()
-	
-	var ls = chain.reference_object
-	if ls:
-		# 1. Register entry 102 into all_levels dictionary so line 56 never crashes
-		if "all_levels" in ls and ls.all_levels is Dictionary:
-			if not ls.all_levels.has(FAULTLINE_LEVEL_ID):
-				var sample_level = null
-				for k in ls.all_levels.keys():
-					if ls.all_levels[k] is Dictionary and ls.all_levels[k].has("level"):
-						if ls.all_levels[k]["level"] != null:
-							sample_level = ls.all_levels[k]["level"]
-							break
-				
-				var new_lvl = sample_level.duplicate() if sample_level else null
-				if new_lvl:
-					if "level_name" in new_lvl:
-						new_lvl.level_name = "Tectonic Faultline"
-					if "level_description" in new_lvl:
-						new_lvl.level_description = "Seismic faultline with superheated vents, magma fissures, and elemental chambers.\n\nElemental pods contain explosive fluids and geothermal updrafts."
-					if "depth" in new_lvl:
-						new_lvl.depth = 1400
-					var preview_path = "res://mods-unpacked/gareth-tectonic_faultline_mod/assets/magma_siphon_active.png"
-					if ResourceLoader.exists(preview_path) and ("level_image" in new_lvl):
-						new_lvl.level_image = load(preview_path)
-				
-				ls.all_levels[FAULTLINE_LEVEL_ID] = {
-					"level": new_lvl,
-					"is_unlocked": true
-				}
-		
-		# 2. Append 102 to LEVEL_ORDER sequence
-		if "LEVEL_ORDER" in ls and ls.LEVEL_ORDER is Array:
-			if not ls.LEVEL_ORDER.has(FAULTLINE_LEVEL_ID):
-				ls.LEVEL_ORDER.append(FAULTLINE_LEVEL_ID)
-	
+		helper.ensure_level_registered()
+		var ls = chain.reference_object
+		if ls and ("LEVEL_ORDER" in ls):
+			if not ls.LEVEL_ORDER.has(helper.FAULTLINE_LEVEL_ID):
+				ls.LEVEL_ORDER.append(helper.FAULTLINE_LEVEL_ID)
 	chain.execute_next([])
 '@ | Set-Content -Path $hookPath -Encoding UTF8
 Write-Host "Updated: $hookPath" -ForegroundColor Green
@@ -237,7 +274,7 @@ Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
 $zipStream = [System.IO.File]::Open($zipPath, [System.IO.FileMode]::CreateNew)
-$archive   = New-Object System.IO.Compression.ZipArchive($zipStream, [System.IO.FileMode]::Create)
+$archive   = New-Object System.IO.Compression.ZipArchive($zipStream, [System.IO.Compression.ZipArchiveMode]::Create)
 $allFiles  = Get-ChildItem -Path $outerDir -Recurse -File
 
 foreach ($f in $allFiles) {
@@ -250,7 +287,7 @@ Write-Host "Packed archive at: $zipPath" -ForegroundColor Green
 
 Write-Host ">>> 6. Git staging, committing, and pushing..." -ForegroundColor Cyan
 git add -A
-git commit -m "Populate ls.all_levels[102] in level_select.hooks.gd with 1-arg ModLoader hook signature"
+git commit -m "Upgrade Dump-Context.ps1 log parser and fix Tectonic Faultline level registration"
 git push origin main
 
 Write-Host "`nDeploy complete! Launch Coal LLC to test." -ForegroundColor Green
