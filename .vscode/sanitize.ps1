@@ -18,6 +18,7 @@ $text = $text -replace '\\vert(\{\})?', '|'
 $text = $text -replace '-Content\$', '-Content $'
 $text = $text -replace '-Path\$', '-Path $'
 $text = $text -replace '-Item\$', '-Item $'
+$text = $text -replace '-Value\$', '-Value $'
 
 # 3. Non-breaking space or missing space before in$
 $text = $text -replace '[\u00A0 ]in\$', ' in $'

@@ -23,7 +23,7 @@ $helperContent = Get-Content -Path $helperPath -Raw
 
 # Replace the invalid MEDIUM enum with HARD
 $helperContent = $helperContent -replace 'custom_level\.level_difficulty\s*=\s*GameLevel\.Difficulty\.MEDIUM', 'custom_level.level_difficulty = GameLevel.Difficulty.HARD'
-Set-Content -Path $helperPath -Value$helperContent -Encoding UTF8
+Set-Content -Path $helperPath -Value $helperContent -Encoding UTF8
 Write-Host "Patched: $helperPath" -ForegroundColor Green
 
 Write-Host "`n>>> 2. Hardening level_select.hooks.gd file dialog call..." -ForegroundColor Cyan

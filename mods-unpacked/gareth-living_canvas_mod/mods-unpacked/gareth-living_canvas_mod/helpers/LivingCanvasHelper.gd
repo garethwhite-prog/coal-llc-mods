@@ -47,7 +47,7 @@ static func ensure_level_registered() -> void:
 			custom_level.level = CANVAS_LEVEL_ID
 			custom_level.mining_scene_path = "res://scenes/Stages/MineRegion.tscn"
 			custom_level.level_description = "Subterranean strata sculpted directly from a real image or screenshot.\n\nMine your way through pixel-perfect mineral landscapes."
-			custom_level.level_difficulty = GameLevel.Difficulty.MEDIUM
+			custom_level.level_difficulty = GameLevel.Difficulty.HARD
 			custom_level.unlock_description = ""
 
 			var preview_tex = get_preview_texture()
@@ -206,3 +206,4 @@ static func paint_chunk_from_canvas(chunk: Node) -> void:
 				var tile_id = match_tile_from_color(pixel_col)
 				chunk.tiles[idx] = tile_id
 				chunk.build_tile(idx)
+
