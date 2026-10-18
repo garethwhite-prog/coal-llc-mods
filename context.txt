@@ -1,24 +1,39 @@
 ﻿=== GIT STATUS ===
- M Dump-Context.ps1
  M output.txt
 
 === RECENT COMMITS ===
+5ebd979 Fix Living Canvas Difficulty enum compilation error and safe dialog invocation
+a04c07f Fix Living Canvas Difficulty enum compilation error and safe dialog invocation
 37549c9 Implement Map 103: The Living Canvas with Euclidean image-to-strata engine and in-game file picker
-fb7a3aa Comprehensive documentation overhaul: 47-mod master README, Tectonic Faultline documentation, and SESSION_PROMPT update
-5264b63 Update SESSION_PROMPT.md with Map 102 generation, build_tile GPU sync, and passive chooser contracts
 
-=== SESSION ERRORS & WARNINGS (14 found) ===
-ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
-SCRIPT ERROR: Parse Error: The variable type is being inferred from a Variant value, so it will be typed as Variant. (Warning treated as error.)
-ERROR: Failed to load script "res://mods-unpacked/der_floh-performance_mod/extensions/scenes/tilemaps/tile_map_chunk.hooks.gd" with error "Parse error".
-SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+=== SESSION ERRORS & WARNINGS (34 found) ===
 SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
 ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
-SCRIPT ERROR: Parse Error: Cannot find member "MEDIUM" in base "GameLevel.Difficulty".
-ERROR: Failed to load script "res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd" with error "Parse error".
-SCRIPT ERROR: Invalid call. Nonexistent function 'ensure_level_registered' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'ensure_level_registered' in base 'GDScript'.
-ERROR: 56 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+ERROR: No loader found for resource: res:// (expected type: )
+ERROR: Error loading resource: ''.
+SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Trying to call an async function without "await".
+ERROR: No loader found for resource: res:// (expected type: )
+ERROR: Error loading resource: ''.
+SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Trying to call an async function without "await".
+ERROR: No loader found for resource: res:// (expected type: )
+ERROR: Error loading resource: ''.
+SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
+ERROR: No loader found for resource: res:// (expected type: )
+ERROR: Error loading resource: ''.
+SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
+ERROR: No loader found for resource: res:// (expected type: )
+ERROR: Error loading resource: ''.
+SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Trying to call an async function without "await".
+ERROR: No loader found for resource: res:// (expected type: )
+ERROR: Error loading resource: ''.
+SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
+ERROR: 61 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
 ERROR: 6 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
 ERROR: 4 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
 ERROR: 164 resources still in use at exit (run with --verbose for details).
@@ -39,29 +54,29 @@ DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultl
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Custom Map Mod (ID 102) online!
 
 === LOG TAIL (LAST 30 LINES) ===
-INFO gareth-jedi_class_mod: 15 Energy Saber tiers registered into equipment shop.
-INFO gareth-jedi_class_mod: Jedi Class (ID 102) registered cleanly.
-INFO gareth-laser_beam_mod: High-Energy Laser Beam weapon online and added to equipment shop.
-INFO gareth-leaderboard_mod: Leaderboard v2 auto-tracker and Main Menu button online.
-SCRIPT ERROR: Parse Error: Cannot find member "MEDIUM" in base "GameLevel.Difficulty".
-   at: GDScript::reload (res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd:50)
-ERROR: Failed to load script "res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd" with error "Parse error".
-   at: load (modules/gdscript/gdscript.cpp:3022)
-SCRIPT ERROR: Invalid call. Nonexistent function 'ensure_level_registered' in base 'GDScript'.
-   at: _ready (res://mods-unpacked/gareth-living_canvas_mod/mod_main.gd:13)
-INFO gareth-lost_expedition_mod: Lost Expedition Custom Map Mod (ID 101) online!
-INFO gareth-martial_legends_mod: Martial Artist Legends expansion loaded cleanly.
-INFO gareth-mod_manager_mod: Universal Mod Manager active with full Class, Shop & Input gating.
-INFO ModLoader:ModHookPacker: Generating mod hooks .zip
-DEBUG ModLoader:ModHookPacker: Scripts requiring hooks: { "res://scenes/tilemaps/tile_map_manager.gd": ["load_chunks", "apply_tile_effects"], "res://scenes/equipment/electric_shock.gd": ["_physics_process"], "res://scripts/StateMachine/Player2/player_2.gd": ["mine_action", "_ready", "_physics_process"], "res://scenes/Interfaces/Menus/settings_2.gd": ["_ready"], "res://scenes/Interfaces/in_game/choose_passive.gd": ["_process", "_ready", "_on_button_pressed", "_on_button_2_pressed", "_on_button_3_pressed"], "res://scenes/tilemaps/tile_map_chunk.gd": ["destroy_tile", "adjust_level_bonus", "lvl_from_global_pos", "generate_chunk", "generate_chests", "apply_tile_effects"], "res://scripts/Chest.gd": ["pickup_item", "roll_loot"], "res://scenes/ManagersInScene/mortar_manager.gd": ["shoot_mortar"], "res://scripts/PauseMenu.gd": ["on_pressed_resume", "_ready"], "res://scenes/Interfaces/Management/employee_shop_tooltip.gd": ["_ready"], "res://resources/Employees/Scripts/employee_manager.gd": ["get_employee_level_from_enum", "purchase_employee_level"], "res://scenes/Interfaces/Management/organisation_chart_2.gd": ["_ready", "refresh_all_icons", "_draw"], "res://scenes/Interfaces/Management/employee_level_icon_2.gd": ["_ready", "position_tooltip"], "res://scripts/equipment_manager.gd": ["generate_vacuum_cleaner"], "res://scenes/NPCs/quest_scene_manager.gd": ["_ready", "refresh_all_quest_points"], "res://resources/Quests/quest_rewards/reward_vacuum.gd": ["reward"], "res://scripts/MainMenu.gd": ["_ready", "on_profession_selected"], "res://resources/professions/scripts/tanker.gd": ["_profession_effect"], "res://scenes/Stages/management_screen.gd": ["load_equipment_shop", "_ready", "refresh_cash"], "res://resources/EquipEffects/Scripts/tank.gd": ["start", "end"], "res://scenes/equipment/tank_bullet.gd": ["_ready", "attack_tile"], "res://scenes/Interfaces/Menus/level_select.gd": ["_ready"], "res://scripts/Game.gd": ["change_stage"], "res://scenes/equipment/vacuum_cleaner.gd": ["_physics_process"], "res://scripts/LootCollectorUFO.gd": ["_physics_process"], "res://resources/EquipEffects/Scripts/gun.gd": ["start", "end", "physics_process"], "res://resources/EquipEffects/Scripts/water_gun.gd": ["start", "end", "physics_process"], "res://scenes/equipment/boxing_gloves.gd": ["attack_tile"], "res://scenes/equipment/kick.gd": ["_process", "damage_tiles"], "res://resources/professions/scripts/martial_artist.gd": ["_profession_effect"], "res://scenes/Interfaces/Menus/profession_select.gd": ["_ready"] }
-INFO ModLoader:ModHookPacker: Scripts are already processed according to cache, skipping process.
-INFO gareth-multisave_mod: Career progression and hard modifier badges verified.
-SCRIPT ERROR: Invalid call. Nonexistent function 'ensure_level_registered' in base 'GDScript'.
-   at: _ready (res://mods-unpacked/gareth-living_canvas_mod/extensions/scenes/Interfaces/Menus/level_select.hooks.gd:6)
+   at: load (core/core_bind.cpp:76)
+SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
+   at: reset_resources (res://scripts/Gvars.gd:499)
+SCRIPT ERROR: Trying to call an async function without "await".
+   at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+Day Count: 0
+Days Passed: 0
+INFO gareth-more_employees_mod: Workforce chart initialized cleanly.
+SCRIPT ERROR: Trying to call an async function without "await".
+   at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+ERROR: No loader found for resource: res:// (expected type: )
+   at: _load (core/io/resource_loader.cpp:359)
+ERROR: Error loading resource: ''.
+   at: load (core/core_bind.cpp:76)
+SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
+   at: reset_resources (res://scripts/Gvars.gd:499)
+DEBUG der_floh-ore_value_mod:Main: Ore sell prices refreshed for new day.
+Day Count: 1
+Days Passed: 0
 WARNING: 18 RIDs of type "CanvasItem" were leaked.
    at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2679)
-ERROR: 56 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-WARNING: 104 RIDs of type "Texture" were leaked.
+ERROR: 61 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+WARNING: 109 RIDs of type "Texture" were leaked.
    at: finalize (servers/rendering/rendering_device.cpp:7130)
 ERROR: 6 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
 ERROR: 4 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.

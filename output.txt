@@ -1,39 +1,25 @@
-﻿>>> 1. Creating directory structure for gareth-living_canvas_mod...
->>> 2. Writing manifest.json...
->>> 3. Writing mod_main.gd...
->>> 4. Writing helpers/LivingCanvasHelper.gd...
->>> 5. Writing extensions/.../level_select.hooks.gd...
->>> 6. Writing extensions/.../tile_map_chunk.hooks.gd...
->>> 7. Writing README.md for gareth-living_canvas_mod...
+﻿>>> 1. Patching LivingCanvasHelper.gd (changing Difficulty to HARD)...
+Patched: C:\Dev\coal-llc-mods\mods-unpacked\gareth-living_canvas_mod\mods-unpacked\gareth-living_canvas_mod\helpers\LivingCanvasHelper.gd
 
->>> 8. Flushing mod-hooks.zip...
->>> 9. Packaging gareth-living_canvas_mod.zip for Steam...
-Packed archive: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods\gareth-living_canvas_mod.zip
+>>> 2. Hardening level_select.hooks.gd file dialog call...
+Patched: C:\Dev\coal-llc-mods\mods-unpacked\gareth-living_canvas_mod\mods-unpacked\gareth-living_canvas_mod\extensions\scenes\Interfaces\Menus\level_select.hooks.gd
 
->>> 10. Staging, committing, and pushing to GitHub...
-warning: in the working copy of 'SESSION_PROMPT.md', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of '.vscode/tasks.json', LF will be replaced by CRLF the next time Git touches it
-[main 37549c9] Implement Map 103: The Living Canvas with Euclidean image-to-strata engine and in-game file picker
- 12 files changed, 929 insertions(+), 354 deletions(-)
- create mode 100644 .vscode/sanitize.ps1
- create mode 100644 .vscode/tasks.json
- create mode 100644 mods-unpacked/gareth-living_canvas_mod/README.md
- create mode 100644 mods-unpacked/gareth-living_canvas_mod/manifest.json
- create mode 100644 mods-unpacked/gareth-living_canvas_mod/mods-unpacked/gareth-living_canvas_mod/README.md
- create mode 100644 mods-unpacked/gareth-living_canvas_mod/mods-unpacked/gareth-living_canvas_mod/extensions/scenes/Interfaces/Menus/level_select.hooks.gd
- create mode 100644 mods-unpacked/gareth-living_canvas_mod/mods-unpacked/gareth-living_canvas_mod/extensions/scenes/tilemaps/tile_map_chunk.hooks.gd
- create mode 100644 mods-unpacked/gareth-living_canvas_mod/mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd
- create mode 100644 mods-unpacked/gareth-living_canvas_mod/mods-unpacked/gareth-living_canvas_mod/manifest.json
- create mode 100644 mods-unpacked/gareth-living_canvas_mod/mods-unpacked/gareth-living_canvas_mod/mod_main.gd
-Enumerating objects: 27, done.
-Counting objects: 100% (27/27), done.
+>>> 3. Flushing stale mod-hooks.zip...
+>>> 4. Repackaging gareth-living_canvas_mod.zip...
+Repacked: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods\gareth-living_canvas_mod.zip
+
+>>> 5. Git staging, committing, and pushing...
+[main 5ebd979] Fix Living Canvas Difficulty enum compilation error and safe dialog invocation
+ 3 files changed, 4 insertions(+), 2 deletions(-)
+Enumerating objects: 20, done.
+Counting objects: 100% (20/20), done.
 Delta compression using up to 24 threads
-Compressing objects: 100% (19/19), done.
-Writing objects: 100% (23/23), 14.18 KiB | 2.36 MiB/s, done.
-Total 23 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
-remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+Compressing objects: 100% (10/10), done.
+Writing objects: 100% (11/11), 1.00 KiB | 514.00 KiB/s, done.
+Total 11 (delta 6), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (6/6), completed with 6 local objects.
 To https://github.com/garethwhite-prog/coal-llc-mods.git
-   fb7a3aa..37549c9  main -> main
+   a04c07f..5ebd979  main -> main
 
-Deployment complete! Launch Coal LLC to test The Living Canvas.
+Fix deployed successfully! Launch Coal LLC to test.
 PS C:\Dev\coal-llc-mods> 

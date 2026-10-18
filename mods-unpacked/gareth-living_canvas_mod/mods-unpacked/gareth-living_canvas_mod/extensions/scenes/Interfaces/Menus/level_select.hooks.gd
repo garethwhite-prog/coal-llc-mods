@@ -18,9 +18,15 @@ func _ready(chain: ModLoaderHookChain) -> void:
 				_inject_canvas_button(ls, card)
 
 func _inject_canvas_button(ls: Control, card: Control) -> void:
+	var helper_script = load("res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd")
+	var active_path = helper_script.get_saved_image_path() if helper_script else ""
+	var initial_label = "[ Choose Image ]"
+	if active_path != "":
+		initial_label = "[ " + active_path.get_file() + " ]"
+
 	var btn = Button.new()
-	btn.text = "??? Choose Image"
-	btn.custom_minimum_size = Vector2(130, 26)
+	btn.text = initial_label
+	btn.custom_minimum_size = Vector2(140, 26)
 	btn.add_theme_font_size_override("font_size", 9)
 	btn.focus_mode = Control.FOCUS_NONE
 	card.add_child(btn)
@@ -37,12 +43,18 @@ func _inject_canvas_button(ls: Control, card: Control) -> void:
 			dialog.set("use_native_dialog", true)
 
 		dialog.file_selected.connect(func(path: String):
-			var helper_script = load("res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd")
 			if helper_script and helper_script.has_method("set_active_image"):
 				helper_script.set_active_image(path)
+				btn.text = "[ " + path.get_file() + " ]"
+				
 				var new_tex = helper_script.get_preview_texture()
-				if new_tex and "level_image" in card and card.level_image:
-					card.level_image.texture = new_tex
+				if new_tex:
+					card.game_level.level_image = new_tex
+					# Find and update any TextureRect on the card
+					for child in card.find_children("*", "TextureRect", true, false):
+						if child.name != "Lock":
+							child.texture = new_tex
+							break
 		)
 
 		ls.add_child(dialog)

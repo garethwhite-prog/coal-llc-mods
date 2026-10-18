@@ -1,10 +1,11 @@
 ﻿Clear-Host;
 
 # ==============================================================================
-# Coal LLC - Fix Living Canvas Difficulty Enum & Menu Lockout
+# Coal LLC - Fix Living Canvas UI & Diagnose reset_resources Crash
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
+$dumpRoot   = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\_dump"
 $steamRoot  = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC"
 $steamMods  = "$steamRoot\mods"
 $hookZip    = "$steamRoot\mod-hooks.zip"
@@ -13,20 +14,21 @@ $modName    = "gareth-living_canvas_mod"
 $outerDir   = "$repo\mods-unpacked\$modName"
 $innerDir   = "$outerDir\mods-unpacked\$modName"
 $zipPath    = "$steamMods\$modName.zip"
-$helperPath = "$innerDir\helpers\LivingCanvasHelper.gd"
 $lsHookPath = "$innerDir\extensions\scenes\Interfaces\Menus\level_select.hooks.gd"
 
 Set-Location $repo
 
-Write-Host ">>> 1. Patching LivingCanvasHelper.gd (changing Difficulty to HARD)..." -ForegroundColor Cyan
-$helperContent = Get-Content -Path $helperPath -Raw
+Write-Host ">>> 1. Inspecting Gvars.gd around line 499 to isolate itemBuyPrice null..." -ForegroundColor Cyan
+$gvarsPath = Join-Path $dumpRoot "scripts\Gvars.gd"
+if (Test-Path $gvarsPath) {$lines = Get-Content $gvarsPath$start = [Math]::Max(0, 485)
+    $end   = [Math]::Min($lines.Count - 1, 515)
+    Write-Host "--- Gvars.gd (Lines $($start + 1) to $($end + 1)) ---" -ForegroundColor Yellow
+    for ($i = $start; $i -le $end; $i++) {
+        Write-Host ("{0,4}: {1}" -f ($i + 1), $lines[$i])
+    }
+}
 
-# Replace the invalid MEDIUM enum with HARD
-$helperContent = $helperContent -replace 'custom_level\.level_difficulty\s*=\s*GameLevel\.Difficulty\.MEDIUM', 'custom_level.level_difficulty = GameLevel.Difficulty.HARD'
-Set-Content -Path $helperPath -Value $helperContent -Encoding UTF8
-Write-Host "Patched: $helperPath" -ForegroundColor Green
-
-Write-Host "`n>>> 2. Hardening level_select.hooks.gd file dialog call..." -ForegroundColor Cyan
+Write-Host "`n>>> 2. Updating level_select.hooks.gd (ASCII button + instant load feedback)..." -ForegroundColor Cyan
 @'
 extends Object
 
@@ -48,9 +50,15 @@ func _ready(chain: ModLoaderHookChain) -> void:
 				_inject_canvas_button(ls, card)
 
 func _inject_canvas_button(ls: Control, card: Control) -> void:
+	var helper_script = load("res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd")
+	var active_path = helper_script.get_saved_image_path() if helper_script else ""
+	var initial_label = "[ Choose Image ]"
+	if active_path != "":
+		initial_label = "[ " + active_path.get_file() + " ]"
+
 	var btn = Button.new()
-	btn.text = "??? Choose Image"
-	btn.custom_minimum_size = Vector2(130, 26)
+	btn.text = initial_label
+	btn.custom_minimum_size = Vector2(140, 26)
 	btn.add_theme_font_size_override("font_size", 9)
 	btn.focus_mode = Control.FOCUS_NONE
 	card.add_child(btn)
@@ -67,21 +75,27 @@ func _inject_canvas_button(ls: Control, card: Control) -> void:
 			dialog.set("use_native_dialog", true)
 
 		dialog.file_selected.connect(func(path: String):
-			var helper_script = load("res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd")
 			if helper_script and helper_script.has_method("set_active_image"):
 				helper_script.set_active_image(path)
+				btn.text = "[ " + path.get_file() + " ]"
+				
 				var new_tex = helper_script.get_preview_texture()
-				if new_tex and "level_image" in card and card.level_image:
-					card.level_image.texture = new_tex
+				if new_tex:
+					card.game_level.level_image = new_tex
+					# Find and update any TextureRect on the card
+					for child in card.find_children("*", "TextureRect", true, false):
+						if child.name != "Lock":
+							child.texture = new_tex
+							break
 		)
 
 		ls.add_child(dialog)
 		dialog.popup_centered(Vector2i(800, 500))
 	)
 '@ | Set-Content -Path $lsHookPath -Encoding UTF8
-Write-Host "Patched: $lsHookPath" -ForegroundColor Green
+Write-Host "Updated: $lsHookPath" -ForegroundColor Green
 
-Write-Host "`n>>> 3. Flushing stale mod-hooks.zip..." -ForegroundColor Cyan
+Write-Host "`n>>> 3. Flushing mod-hooks.zip..." -ForegroundColor Cyan
 if (Test-Path $hookZip) {
     Remove-Item -Path $hookZip -Force
 }
@@ -101,9 +115,9 @@ $archive.Dispose()
 $stream.Dispose()
 Write-Host "Repacked: $zipPath" -ForegroundColor Green
 
-Write-Host "`n>>> 5. Git staging, committing, and pushing..." -ForegroundColor Cyan
+Write-Host "`n>>> 5. Git staging and committing..." -ForegroundColor Cyan
 git add -A
-git commit -m "Fix Living Canvas Difficulty enum compilation error and safe dialog invocation"
+git commit -m "Fix Living Canvas UI button ASCII rendering and add active image label feedback"
 git push origin main
 
-Write-Host "`nFix deployed successfully! Launch Coal LLC to test." -ForegroundColor Green
+Write-Host "`nScript complete! Check console output above for lines 485-515 of Gvars.gd." -ForegroundColor Green
