@@ -1,6 +1,9 @@
 ﻿class_name MagmaSiphon
 extends Node2D
 
+enum ElementType { FIRE, WATER, POISON }
+
+var element_type: ElementType = ElementType.FIRE
 var in_range: bool = false
 var vented: bool = false
 var sprite: Sprite2D
@@ -12,6 +15,7 @@ var cached_player: Node2D = null
 # Animated Shockwave Ring
 var fx_radius: float = 0.0
 var fx_alpha: float = 0.0
+var fx_color: Color = Color(1.0, 0.6, 0.1)
 
 func _ready() -> void:
 	z_index = 6
@@ -29,15 +33,48 @@ func _ready() -> void:
 	add_child(sprite)
 	
 	prompt_label = Label.new()
-	prompt_label.text = "[E] VENT (FLY)  |  [CLICK] BLAST"
 	prompt_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	prompt_label.position = Vector2(-75, -28)
+	prompt_label.position = Vector2(-85, -28)
 	prompt_label.add_theme_font_size_override("font_size", 9)
-	prompt_label.add_theme_color_override("font_color", Color(1.0, 0.7, 0.1, 1.0))
-	prompt_label.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 1.0))
+	prompt_label.add_theme_override_colors()
 	prompt_label.add_theme_constant_override("outline_size", 3)
 	prompt_label.visible = false
 	add_child(prompt_label)
+	
+	_apply_visual_styling()
+
+func set_element(type_str: String) -> void:
+	match type_str.to_lower():
+		"water":
+			element_type = ElementType.WATER
+		"poison":
+			element_type = ElementType.POISON
+		_:
+			element_type = ElementType.FIRE
+	_apply_visual_styling()
+
+func _apply_visual_styling() -> void:
+	if not sprite or not prompt_label:
+		return
+	match element_type:
+		ElementType.WATER:
+			sprite.modulate = Color(0.35, 0.85, 1.0, 1.0)
+			fx_color = Color(0.2, 0.75, 1.0)
+			prompt_label.text = "[E] VENT GEYSER  |  [CLICK] RUPTURE"
+			prompt_label.add_theme_color_override("font_color", Color(0.4, 0.9, 1.0, 1.0))
+			prompt_label.add_theme_color_override("font_outline_color", Color(0.0, 0.2, 0.4, 1.0))
+		ElementType.POISON:
+			sprite.modulate = Color(0.45, 1.0, 0.35, 1.0)
+			fx_color = Color(0.3, 0.95, 0.2)
+			prompt_label.text = "[E] VENT ACID  |  [CLICK] DISSOLVE"
+			prompt_label.add_theme_color_override("font_color", Color(0.6, 1.0, 0.3, 1.0))
+			prompt_label.add_theme_color_override("font_outline_color", Color(0.1, 0.3, 0.0, 1.0))
+		_:
+			sprite.modulate = Color(1.0, 0.65, 0.2, 1.0)
+			fx_color = Color(1.0, 0.55, 0.1)
+			prompt_label.text = "[E] VENT MAGMA  |  [CLICK] DETONATE"
+			prompt_label.add_theme_color_override("font_color", Color(1.0, 0.7, 0.1, 1.0))
+			prompt_label.add_theme_color_override("font_outline_color", Color(0.3, 0.1, 0.0, 1.0))
 
 func _get_player() -> Node2D:
 	if cached_player and is_instance_valid(cached_player):
@@ -58,6 +95,31 @@ func _get_player() -> Node2D:
 		return cached_player
 	return null
 
+func _get_tile_map_manager() -> Node:
+	var n = get_parent()
+	while n:
+		if n.has_method("burn_tile") and n.has_method("damageTile"):
+			return n
+		n = n.get_parent()
+	var tree = get_tree()
+	if tree and tree.root:
+		return tree.root.find_child("TileMapManager", true, false)
+	return null
+
+func _get_scaling_multiplier() -> float:
+	var depth_stratum: float = maxf(1.0, 1.0 + abs(global_position.y) / 160.0)
+	var depth_factor: float = pow(depth_stratum, 1.45)
+	
+	var chest_mult: float = 1.0
+	if "chest_bonus" in Gvars:
+		chest_mult += float(Gvars.chest_bonus)
+	if "passives" in Gvars and "chest_rewards" in Gvars.passives:
+		chest_mult += float(Gvars.passives.chest_rewards)
+	if "multiplier" in Gvars:
+		chest_mult *= maxf(1.0, float(Gvars.multiplier))
+	
+	return depth_factor * chest_mult
+
 func _process(_delta: float) -> void:
 	if vented:
 		return
@@ -67,7 +129,7 @@ func _process(_delta: float) -> void:
 		return
 	
 	var dist: float = global_position.distance_to(player.global_position)
-	if dist <= 52.0:
+	if dist <= 54.0:
 		if not in_range:
 			in_range = true
 			prompt_label.visible = true
@@ -78,10 +140,10 @@ func _process(_delta: float) -> void:
 		if Input.is_action_just_pressed("interact"):
 			vent_controlled(player)
 		
-		# 2. Volatile Breach via Left-Click anywhere in range
+		# 2. Volatile Rupture via Left-Click
 		elif Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			var mouse_pos = get_global_mouse_position()
-			if global_position.distance_to(mouse_pos) <= 52.0 or dist <= 36.0:
+			if global_position.distance_to(mouse_pos) <= 54.0 or dist <= 38.0:
 				breach_volatile()
 	else:
 		if in_range:
@@ -101,28 +163,34 @@ func vent_controlled(player: Node2D) -> void:
 	
 	_trigger_visual_eruption(false)
 	
-	# High-Velocity Geothermal Steam Updraft: Launches miner upward toward surface
+	# Updraft velocity (Water geyser has highest skyward thrust)
 	if player and ("velocity" in player):
-		player.velocity.y = -750.0
+		match element_type:
+			ElementType.WATER:
+				player.velocity.y = -950.0
+			ElementType.POISON:
+				player.velocity.y = -700.0
+			_:
+				player.velocity.y = -800.0
 	
-	# Full energy bounty + coal loot
-	var bounty: float = 18000.0 + (abs(global_position.y) * 12.0)
+	var scale_mult = _get_scaling_multiplier()
+	var bounty: float = (20000.0 + (abs(global_position.y) * 14.0)) * maxf(1.0, scale_mult * 0.4)
 	Gvars.CashCount += bounty
 	if Bus and Bus.has_signal("UpdateUI"):
 		Bus.UpdateUI.emit()
 	
-	if Bus and Bus.has_signal("drop_loot"):
-		Bus.drop_loot.emit(global_position + Vector2(randf_range(-6.0, 6.0), randf_range(-6.0, 6.0)), "res://resources/Items/Coal.tres", randi_range(8, 16))
+	_spawn_loot(false)
 	
-	# Obliterate 3x3 surrounding rock chamber (15,000 demolition damage)
-	_pulverize_rock(2, 15000.0)
+	# Execute fluid cascade: radius 3.5, controlled demolition
+	var core_damage: float = 35000.0 * scale_mult
+	_start_fluid_cascade(3.5, core_damage, false)
 	
-	# Passive perk card offer
-	var depth_mult: float = maxf(2.5, minf(7.0, 2.5 + abs(global_position.y) / 200.0))
+	# Perk offer
+	var depth_mult: float = maxf(2.5, minf(8.0, 2.5 + abs(global_position.y) / 180.0))
 	if Bus and Bus.has_signal("choose_passive"):
 		Bus.choose_passive.emit(depth_mult)
 	
-	ModLoaderLog.info("Magma Siphon vented! Updraft engaged + Bounty: $" + str(int(bounty)), "gareth-tectonic_faultline_mod")
+	ModLoaderLog.info("Elemental Pod vented (%s)! Updraft + Scaled Bounty: $%d" % [ElementType.keys()[element_type], int(bounty)], "gareth-tectonic_faultline_mod")
 
 func breach_volatile() -> void:
 	if vented:
@@ -135,107 +203,159 @@ func breach_volatile() -> void:
 	
 	_trigger_visual_eruption(true)
 	
-	# Obliterate massive 7x7 cavern (50,000 demolition damage)
-	_pulverize_rock(3, 50000.0)
-	
-	# Partial cash bounty + huge ore eruption
-	var bounty: float = 10000.0 + (abs(global_position.y) * 6.0)
+	var scale_mult = _get_scaling_multiplier()
+	var bounty: float = (12000.0 + (abs(global_position.y) * 8.0)) * maxf(1.0, scale_mult * 0.35)
 	Gvars.CashCount += bounty
 	if Bus and Bus.has_signal("UpdateUI"):
 		Bus.UpdateUI.emit()
 	
-	if Bus and Bus.has_signal("drop_loot"):
-		Bus.drop_loot.emit(global_position + Vector2(randf_range(-16.0, 16.0), randf_range(-16.0, 16.0)), "res://resources/Items/Coal.tres", randi_range(20, 36))
+	_spawn_loot(true)
 	
-	# Passive card offer
-	var depth_mult: float = maxf(2.0, minf(5.5, 2.0 + abs(global_position.y) / 250.0))
+	# Execute massive volatile fluid cascade: radius 5.5, high demolition
+	var core_damage: float = 120000.0 * scale_mult
+	_start_fluid_cascade(5.5, core_damage, true)
+	
+	# Perk offer
+	var depth_mult: float = maxf(2.0, minf(6.5, 2.0 + abs(global_position.y) / 220.0))
 	if Bus and Bus.has_signal("choose_passive"):
 		Bus.choose_passive.emit(depth_mult)
 	
-	ModLoaderLog.info("Magma Siphon breached! Massive 7x7 seismic demolition blast!", "gareth-tectonic_faultline_mod")
+	ModLoaderLog.info("Elemental Pod breached (%s)! Massive scaled seismic detonation!" % ElementType.keys()[element_type], "gareth-tectonic_faultline_mod")
 
-func _pulverize_rock(tile_radius: int, dmg: float) -> void:
-	# Channel 1: Native BombExplode signal (global area blast)
+func _spawn_loot(is_breach: bool) -> void:
+	if not Bus or not Bus.has_signal("drop_loot"):
+		return
+	var item_path = "res://resources/Items/Coal.tres"
+	var count = randi_range(24, 45) if is_breach else randi_range(10, 20)
+	Bus.drop_loot.emit(global_position + Vector2(randf_range(-12.0, 12.0), randf_range(-12.0, 12.0)), item_path, count)
+
+func _start_fluid_cascade(radius: float, damage: float, is_breach: bool) -> void:
+	var tm_mgr = _get_tile_map_manager()
+	var scale_mult = _get_scaling_multiplier()
+	
+	# Wave 1: Immediate explosive core shockwave (Global BombExplode + DamageTile)
 	if Bus and Bus.has_signal("BombExplode"):
-		Bus.BombExplode.emit(global_position, float(tile_radius) + 0.5, dmg)
+		Bus.BombExplode.emit(global_position, radius, damage)
 	
-	# Channel 2: Point-by-point DamageTile signal directly into TileMapManager
+	var r_int: int = int(ceil(radius))
+	for dx in range(-r_int, r_int + 1):
+		for dy in range(-r_int, r_int + 1):
+			if Vector2(dx, dy).length() <= radius:
+				var target_pos = global_position + Vector2(dx * 16.0, dy * 16.0)
+				_apply_element_to_tile(tm_mgr, target_pos, damage, scale_mult)
+	
+	# Wave 2: Lateral splatter spread after 0.14s
+	get_tree().create_timer(0.14).timeout.connect(func():
+		var lat_radius = radius + 1.5
+		for dx in range(-int(lat_radius), int(lat_radius) + 1):
+			for dy in range(-1, 2):
+				var target_pos = global_position + Vector2(dx * 16.0, dy * 16.0)
+				_apply_element_to_tile(tm_mgr, target_pos, damage * 0.6, scale_mult)
+	)
+	
+	# Wave 3: Gravitational downward drip & seep after 0.28s
+	get_tree().create_timer(0.28).timeout.connect(func():
+		var drip_depth = 6 if is_breach else 4
+		for dy in range(1, drip_depth + 1):
+			for dx in range(-2, 3):
+				var drip_pos = global_position + Vector2(dx * 16.0, dy * 16.0)
+				_apply_element_to_tile(tm_mgr, drip_pos, damage * 0.45, scale_mult)
+	)
+
+func _apply_element_to_tile(tm_mgr: Node, pos: Vector2, dmg: float, scale_mult: float) -> void:
+	# 1. Direct block damage channel
 	if Bus and Bus.has_signal("DamageTile"):
-		for dx in range(-tile_radius, tile_radius + 1):
-			for dy in range(-tile_radius, tile_radius + 1):
-				var target_pixel_pos = global_position + Vector2(dx * 16.0, dy * 16.0)
-				Bus.DamageTile.emit(target_pixel_pos, dmg)
+		Bus.DamageTile.emit(pos, dmg)
 	
-	# Channel 3: Direct parent chunk tile damage invocation
-	var parent_chunk = get_parent()
-	if parent_chunk and parent_chunk.has_method("damage_tile"):
-		for dx in range(-tile_radius, tile_radius + 1):
-			for dy in range(-tile_radius, tile_radius + 1):
-				var target_pixel_pos = global_position + Vector2(dx * 16.0, dy * 16.0)
-				var cell_coords = Vector2i(round(target_pixel_pos.x / 16.0), round(target_pixel_pos.y / 16.0))
-				parent_chunk.damage_tile(cell_coords, dmg)
+	# 2. Elemental status application & spread
+	if not tm_mgr:
+		return
+	
+	match element_type:
+		ElementType.FIRE:
+			var burn_dps: float = 250.0 * scale_mult
+			var burn_ticks: int = 6
+			if tm_mgr.has_method("burn_tile"):
+				tm_mgr.burn_tile(pos, burn_dps, burn_ticks)
+		ElementType.WATER:
+			# Wetting doubles all incoming damage in the vanilla engine (2x + wet passives)
+			if tm_mgr.has_method("wet_tile"):
+				tm_mgr.wet_tile(pos)
+			# Immediate secondary erosion strike on softened rock
+			if Bus and Bus.has_signal("DamageTile"):
+				Bus.DamageTile.emit(pos, dmg * 0.5)
+		ElementType.POISON:
+			var poison_dps: float = 320.0 * scale_mult
+			var poison_ticks: int = 8
+			if tm_mgr.has_method("poison_tile"):
+				tm_mgr.poison_tile(pos, poison_dps, poison_ticks)
 
 func _trigger_visual_eruption(is_explosion: bool) -> void:
-	# 1. Texture swap to dark vented obsidian
 	if tex_vented:
 		sprite.texture = tex_vented
-	else:
-		sprite.modulate = Color(0.2, 0.2, 0.25, 0.8)
+	sprite.modulate = Color(0.25, 0.25, 0.3, 0.85)
 	
-	# 2. Audio playback
+	# Audio playback
 	var sfx_stream = load("res://assets/sound/sound effects/chestOpen.wav")
 	if sfx_stream:
 		var sfx = AudioStreamPlayer2D.new()
 		sfx.stream = sfx_stream
-		sfx.pitch_scale = 0.6 if is_explosion else 1.2
+		sfx.pitch_scale = 0.65 if is_explosion else 1.25
 		add_child(sfx)
 		sfx.play()
 	
-	# 3. Dense Magma Particle Burst
-	var p_magma = CPUParticles2D.new()
-	p_magma.emitting = true
-	p_magma.one_shot = true
-	p_magma.explosiveness = 0.95
-	p_magma.amount = 60 if is_explosion else 30
-	p_magma.lifetime = 0.85
-	p_magma.direction = Vector2(0, -1)
-	p_magma.spread = 180.0 if is_explosion else 60.0
-	p_magma.gravity = Vector2(0, 400)
-	p_magma.initial_velocity_min = 200.0 if is_explosion else 260.0
-	p_magma.initial_velocity_max = 380.0 if is_explosion else 450.0
-	p_magma.color = Color(1.0, 0.5, 0.05, 1.0)
-	p_magma.scale_amount_min = 4.0
-	p_magma.scale_amount_max = 9.0
-	add_child(p_magma)
+	# Primary Elemental Particle Burst
+	var p_elem = CPUParticles2D.new()
+	p_elem.emitting = true
+	p_elem.one_shot = true
+	p_elem.explosiveness = 0.95
+	p_elem.amount = 65 if is_explosion else 35
+	p_elem.lifetime = 0.9
+	p_elem.direction = Vector2(0, -1)
+	p_elem.spread = 180.0 if is_explosion else 55.0
+	p_elem.gravity = Vector2(0, 420)
+	p_elem.initial_velocity_min = 220.0 if is_explosion else 270.0
+	p_elem.initial_velocity_max = 420.0 if is_explosion else 480.0
+	p_elem.scale_amount_min = 4.0
+	p_elem.scale_amount_max = 9.5
 	
-	# 4. Superheated Steam Column
-	var p_steam = CPUParticles2D.new()
-	p_steam.emitting = true
-	p_steam.one_shot = true
-	p_steam.explosiveness = 0.85
-	p_steam.amount = 40
-	p_steam.lifetime = 1.1
-	p_steam.direction = Vector2(0, -1)
-	p_steam.spread = 40.0
-	p_steam.gravity = Vector2(0, -120)
-	p_steam.initial_velocity_min = 240.0
-	p_steam.initial_velocity_max = 420.0
-	p_steam.color = Color(1.0, 0.92, 0.82, 0.7)
-	p_steam.scale_amount_min = 5.0
-	p_steam.scale_amount_max = 11.0
-	add_child(p_steam)
+	match element_type:
+		ElementType.WATER:
+			p_elem.color = Color(0.3, 0.8, 1.0, 0.9)
+		ElementType.POISON:
+			p_elem.color = Color(0.4, 1.0, 0.25, 0.9)
+		_:
+			p_elem.color = Color(1.0, 0.5, 0.05, 1.0)
+	add_child(p_elem)
 	
-	# 5. Expanding Thermal Shockwave Ring
+	# Gravity Drip / Droplet Particles
+	var p_drip = CPUParticles2D.new()
+	p_drip.emitting = true
+	p_drip.one_shot = true
+	p_drip.explosiveness = 0.8
+	p_drip.amount = 40
+	p_drip.lifetime = 1.3
+	p_drip.direction = Vector2(0, 1)
+	p_drip.spread = 60.0
+	p_drip.gravity = Vector2(0, 500)
+	p_drip.initial_velocity_min = 80.0
+	p_drip.initial_velocity_max = 180.0
+	p_drip.scale_amount_min = 3.0
+	p_drip.scale_amount_max = 6.5
+	p_drip.color = p_elem.color
+	add_child(p_drip)
+	
+	# Animated Expanding Shockwave Ring
 	var tw = create_tween()
 	fx_radius = 8.0
 	fx_alpha = 1.0
-	var target_radius = 110.0 if is_explosion else 70.0
-	tw.tween_property(self, "fx_radius", target_radius, 0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	tw.parallel().tween_property(self, "fx_alpha", 0.0, 0.5)
+	var target_radius = 120.0 if is_explosion else 75.0
+	tw.tween_property(self, "fx_radius", target_radius, 0.52).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tw.parallel().tween_property(self, "fx_alpha", 0.0, 0.52)
 	tw.tween_callback(func(): queue_redraw())
 
 func _draw() -> void:
 	if fx_alpha > 0.01:
-		draw_arc(Vector2.ZERO, fx_radius, 0.0, TAU, 48, Color(1.0, 0.6, 0.1, fx_alpha), 5.5)
-		draw_arc(Vector2.ZERO, fx_radius * 0.7, 0.0, TAU, 48, Color(1.0, 0.95, 0.4, fx_alpha), 3.0)
+		draw_arc(Vector2.ZERO, fx_radius, 0.0, TAU, 48, Color(fx_color.r, fx_color.g, fx_color.b, fx_alpha), 5.5)
+		draw_arc(Vector2.ZERO, fx_radius * 0.7, 0.0, TAU, 48, Color(1.0, 1.0, 1.0, fx_alpha * 0.8), 2.8)
 		queue_redraw()
