@@ -1,0 +1,18 @@
+{
+  "name": "living_canvas_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "Custom subterranean map sculpted directly from real images, photos, and Minecraft screenshots with an in-game file picker.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": [],
+  "extra": {
+    "godot": {
+      "display_name": "The Living Canvas",
+      "category": "Maps & Environments",
+      "authors": ["Gareth White"],
+      "tags": ["map", "canvas", "image", "creative"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}

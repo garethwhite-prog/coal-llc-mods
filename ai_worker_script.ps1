@@ -1,276 +1,414 @@
-﻿cls
+﻿Clear-Host;
 
 # ==============================================================================
-# Coal LLC - Complete Documentation Suite & Repository Showcase Overhaul
+# Coal LLC - Deploy Map 103: The Living Canvas (gareth-living_canvas_mod)
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
-$rootReadme = "$repo\README.md"
-$sessionDoc = "$repo\SESSION_PROMPT.md"
-$steamMods  = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods"
+$steamRoot  = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC"
+$steamMods  = "$steamRoot\mods"
+$hookZip    = "$steamRoot\mod-hooks.zip"
+
+$modName    = "gareth-living_canvas_mod"
+$outerDir   = "$repo\mods-unpacked\$modName"
+$innerDir   = "$outerDir\mods-unpacked\$modName"
+$zipPath    = "$steamMods\$modName.zip"
 
 Set-Location $repo
 
-Write-Host ">>> 1. Creating detailed README.md for gareth-tectonic_faultline_mod..." -ForegroundColor Cyan
+Write-Host ">>> 1. Creating directory structure for $modName..." -ForegroundColor Cyan
+New-Item -ItemType Directory -Path "$innerDir\helpers" -Force | Out-Null
+New-Item -ItemType Directory -Path "$innerDir\assets" -Force | Out-Null
+New-Item -ItemType Directory -Path "$innerDir\extensions\scenes\Interfaces\Menus" -Force | Out-Null
+New-Item -ItemType Directory -Path "$innerDir\extensions\scenes\tilemaps" -Force | Out-Null
 
-$tfReadmeContent = @'
-# Tectonic Faultline Map (`gareth-tectonic_faultline_mod`)
+Write-Host ">>> 2. Writing manifest.json..." -ForegroundColor Cyan
+@'
+{
+  "name": "living_canvas_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "Custom subterranean map sculpted directly from real images, photos, and Minecraft screenshots with an in-game file picker.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": [],
+  "extra": {
+    "godot": {
+      "display_name": "The Living Canvas",
+      "category": "Maps & Environments",
+      "authors": ["Gareth White"],
+      "tags": ["map", "canvas", "image", "creative"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}
+'@ | Set-Content -Path "$outerDir\manifest.json" -Encoding UTF8
+Copy-Item -Path "$outerDir\manifest.json" -Destination "$innerDir\manifest.json" -Force
 
-![Tectonic Faultline Preview](assets/tectonic_preview.png)
+Write-Host ">>> 3. Writing mod_main.gd..." -ForegroundColor Cyan
+@'
+extends Node
+
+const MOD_ID := "gareth-living_canvas_mod"
+const LOG_NAME := "gareth-living_canvas_mod"
+
+func _init() -> void:
+	ModLoaderLog.info("The Living Canvas Mod initializing...", LOG_NAME)
+	install_hooks()
+
+func _ready() -> void:
+	var helper_script = load("res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd")
+	if helper_script:
+		helper_script.ensure_level_registered()
+	ModLoaderLog.info("The Living Canvas Custom Map (ID 103) online!", LOG_NAME)
+
+func install_hooks() -> void:
+	var unpacked_dir = ModLoaderMod.get_unpacked_dir().path_join(MOD_ID)
+	var ext_dir = unpacked_dir.path_join("extensions")
+
+	ModLoaderMod.install_script_hooks(
+		"res://scenes/Interfaces/Menus/level_select.gd",
+		ext_dir.path_join("scenes/Interfaces/Menus/level_select.hooks.gd")
+	)
+	ModLoaderMod.install_script_hooks(
+		"res://scenes/tilemaps/tile_map_chunk.gd",
+		ext_dir.path_join("scenes/tilemaps/tile_map_chunk.hooks.gd")
+	)
+'@ | Set-Content -Path "$innerDir\mod_main.gd" -Encoding UTF8
+
+Write-Host ">>> 4. Writing helpers/LivingCanvasHelper.gd..." -ForegroundColor Cyan
+@'
+class_name LivingCanvasHelper
+extends RefCounted
+
+const CANVAS_LEVEL_ID: int = 103
+const TARGET_CANVAS_WIDTH: int = 96
+const CONFIG_PATH: String = "user://living_canvas_config.json"
+
+# Palette: Color -> Tile Enum ID
+const PALETTE: Dictionary = {
+	Color(0.85, 0.20, 0.15): 231, # HARD_FIRE (Red / Lava / Netherrack)
+	Color(0.70, 0.90, 0.98): 230, # HARD_ICE (Cyan / Snow / Sky)
+	Color(0.12, 0.12, 0.15): 232, # HARD_DARK (Black / Obsidian / Deep Shadows)
+	Color(0.20, 0.78, 0.25): 233, # HARD_GREEN (Bright Emerald / Grass / Leaves)
+	Color(0.92, 0.50, 0.12): 234, # HARD_ORANGE (Amber / Dirt / Copper)
+	Color(0.65, 0.20, 0.85): 235, # HARD_PURPLE (Violet / Portal)
+	Color(0.12, 0.40, 0.15): 236, # HARD_DARKGREEN (Deep Forest / Pine / Spruce)
+	Color(0.95, 0.85, 0.18): 237, # HARD_YELLOW (Gold / Sand / Sunlight)
+	Color(0.40, 0.25, 0.15): 238, # HARD_DARKBROWN (Wood / Mud / Bark)
+	Color(0.10, 0.25, 0.70): 239, # HARD_DARKBLUE (Water / Deep Ocean)
+	Color(0.50, 0.50, 0.52): 229, # HARD_STONE (Stone / Cobblestone)
+	Color(0.75, 0.55, 0.45): 228, # HARD_CLAY (Clay / Terracotta)
+}
+
+static var cached_image: Image = null
+static var cached_width: int = 96
+static var cached_height: int = 49
+
+static func is_canvas_level() -> bool:
+	if Gvars:
+		if "level" in Gvars and Gvars.level == CANVAS_LEVEL_ID:
+			return true
+		if "chosen_level" in Gvars and Gvars.chosen_level == CANVAS_LEVEL_ID:
+			return true
+		if "current_level" in Gvars and Gvars.current_level == CANVAS_LEVEL_ID:
+			return true
+	return false
+
+static func ensure_level_registered() -> void:
+	if not Gvars:
+		return
+
+	if "level_manager" in Gvars and Gvars.level_manager and ("all_levels" in Gvars.level_manager):
+		var lvl_mgr = Gvars.level_manager
+		if not lvl_mgr.all_levels.has(CANVAS_LEVEL_ID):
+			var custom_level = GameLevel.new()
+			custom_level.level_name = "The Living Canvas"
+			custom_level.level = CANVAS_LEVEL_ID
+			custom_level.mining_scene_path = "res://scenes/Stages/MineRegion.tscn"
+			custom_level.level_description = "Subterranean strata sculpted directly from a real image or screenshot.\n\nMine your way through pixel-perfect mineral landscapes."
+			custom_level.level_difficulty = GameLevel.Difficulty.MEDIUM
+			custom_level.unlock_description = ""
+
+			var preview_tex = get_preview_texture()
+			if preview_tex:
+				custom_level.level_image = preview_tex
+
+			lvl_mgr.all_levels[CANVAS_LEVEL_ID] = {
+				"level": custom_level,
+				"is_unlocked": true
+			}
+
+	if "level_info" in Gvars and Gvars.level_info is Dictionary:
+		if not Gvars.level_info.has(CANVAS_LEVEL_ID):
+			Gvars.level_info[CANVAS_LEVEL_ID] = {
+				"name": "The Living Canvas",
+				"description": "Subterranean strata sculpted directly from real images or screenshots.",
+				"depth": 1000,
+				"cost": 0,
+				"unlocked": true
+			}
+
+static func get_saved_image_path() -> String:
+	if FileAccess.file_exists(CONFIG_PATH):
+		var file = FileAccess.open(CONFIG_PATH, FileAccess.READ)
+		if file:
+			var txt = file.get_as_text()
+			var json = JSON.new()
+			if json.parse(txt) == OK and json.data is Dictionary:
+				return json.data.get("image_path", "")
+	return ""
+
+static func set_active_image(path: String) -> void:
+	var cfg = {"image_path": path}
+	var file = FileAccess.open(CONFIG_PATH, FileAccess.WRITE)
+	if file:
+		file.store_string(JSON.stringify(cfg))
+	cached_image = null
+	get_or_load_canvas()
+	ModLoaderLog.info("Active image updated to: " + path, "gareth-living_canvas_mod")
+
+static func get_or_load_canvas() -> Image:
+	if cached_image != null:
+		return cached_image
+
+	var img: Image = Image.new()
+	var loaded: bool = false
+	var active_path = get_saved_image_path()
+
+	# 1. Load user selected image from config
+	if active_path != "" and FileAccess.file_exists(active_path):
+		var bytes = FileAccess.get_file_as_bytes(active_path)
+		if bytes.size() > 0:
+			if active_path.to_lower().ends_with(".png"):
+				if img.load_png_from_buffer(bytes) == OK:
+					loaded = true
+			else:
+				if img.load_jpg_from_buffer(bytes) == OK:
+					loaded = true
+
+	# 2. Default fallback to C:/Dev/example_1.jpg if present
+	if not loaded and FileAccess.file_exists("C:/Dev/example_1.jpg"):
+		var bytes = FileAccess.get_file_as_bytes("C:/Dev/example_1.jpg")
+		if bytes.size() > 0 and img.load_jpg_from_buffer(bytes) == OK:
+			loaded = true
+
+	# 3. Fallback procedural mosaic if no files found
+	if not loaded:
+		img = _generate_fallback_canvas()
+	else:
+		var orig_w = img.get_width()
+		var orig_h = img.get_height()
+		var aspect = float(orig_w) / float(max(1, orig_h))
+		cached_width = TARGET_CANVAS_WIDTH
+		cached_height = max(16, int(round(float(cached_width) / aspect)))
+		img.resize(cached_width, cached_height, Image.INTERPOLATE_LANCZOS)
+
+	cached_image = img
+	return cached_image
+
+static func get_preview_texture() -> ImageTexture:
+	var img = get_or_load_canvas()
+	if img:
+		return ImageTexture.create_from_image(img)
+	return null
+
+static func _generate_fallback_canvas() -> Image:
+	var img = Image.create(TARGET_CANVAS_WIDTH, 48, false, Image.FORMAT_RGBA8)
+	cached_width = TARGET_CANVAS_WIDTH
+	cached_height = 48
+	for x in range(TARGET_CANVAS_WIDTH):
+		for y in range(48):
+			var r = sin(float(x) * 0.1) * 0.5 + 0.5
+			var g = cos(float(y) * 0.15) * 0.5 + 0.5
+			var b = sin(float(x + y) * 0.08) * 0.5 + 0.5
+			img.set_pixel(x, y, Color(r, g, b, 1.0))
+	return img
+
+static func match_tile_from_color(col: Color) -> int:
+	if col.a < 0.2:
+		return 0 # Tiles.EMPTY
+
+	var best_tile: int = 229 # Default HARD_STONE
+	var min_dist: float = 999999.0
+
+	for p_col in PALETTE.keys():
+		var dr = col.r - p_col.r
+		var dg = col.g - p_col.g
+		var db = col.b - p_col.b
+		var dist = dr * dr + dg * dg + db * db
+		if dist < min_dist:
+			min_dist = dist
+			best_tile = PALETTE[p_col]
+
+	return best_tile
+
+static func paint_chunk_from_canvas(chunk: Node) -> void:
+	if not ("tiles" in chunk) or not ("chunk_size" in chunk):
+		return
+
+	var img = get_or_load_canvas()
+	if not img:
+		return
+
+	var half_w = int(cached_width / 2.0)
+
+	for x in range(chunk.chunk_size):
+		for y in range(chunk.chunk_size):
+			var local_pos = Vector2i(x, y)
+			var global_pos: Vector2i = Vector2i(chunk.to_global(chunk.map_to_local(local_pos)) / 16.0)
+
+			# Keep top rows intact for spawn grass and player foothold
+			if global_pos.y <= 3:
+				continue
+
+			var idx: int = chunk.pos_to_array(local_pos) if chunk.has_method("pos_to_array") else (x + y * chunk.chunk_size)
+			if idx < 0 or idx >= chunk.tiles.size():
+				continue
+
+			# Outside canvas horizontal width: generate framing bedrock or dark slate
+			if global_pos.x < -half_w or global_pos.x >= half_w:
+				if abs(global_pos.x) > half_w + 3:
+					chunk.tiles[idx] = chunk.Tiles.BEDROCK
+				else:
+					chunk.tiles[idx] = chunk.Tiles.HARD_DARK
+				chunk.build_tile(idx)
+				continue
+
+			# Inside canvas area: sample downsampled image coordinates
+			var img_u = global_pos.x + half_w
+			var img_v = (global_pos.y - 4) % cached_height
+			if img_v < 0:
+				img_v += cached_height
+
+			if img_u >= 0 and img_u < cached_width and img_v >= 0 and img_v < cached_height:
+				var pixel_col = img.get_pixel(img_u, img_v)
+				var tile_id = match_tile_from_color(pixel_col)
+				chunk.tiles[idx] = tile_id
+				chunk.build_tile(idx)
+'@ | Set-Content -Path "$innerDir\helpers\LivingCanvasHelper.gd" -Encoding UTF8
+
+Write-Host ">>> 5. Writing extensions/.../level_select.hooks.gd..." -ForegroundColor Cyan
+@'
+extends Object
+
+func _ready(chain: ModLoaderHookChain) -> void:
+	var helper_script = load("res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd")
+	if helper_script:
+		helper_script.ensure_level_registered()
+		var ls = chain.reference_object
+		if ls and ("LEVEL_ORDER" in ls):
+			if not ls.LEVEL_ORDER.has(helper_script.CANVAS_LEVEL_ID):
+				ls.LEVEL_ORDER.append(helper_script.CANVAS_LEVEL_ID)
+
+	chain.execute_next([])
+
+	var ls = chain.reference_object
+	if ls and "levels" in ls and ls.levels:
+		for card in ls.levels.get_children():
+			if "game_level" in card and card.game_level and card.game_level.level == 103:
+				_inject_canvas_button(ls, card)
+
+func _inject_canvas_button(ls: Control, card: Control) -> void:
+	var btn = Button.new()
+	btn.text = "??? Choose Image"
+	btn.custom_minimum_size = Vector2(130, 28)
+	btn.add_theme_font_size_override("font_size", 10)
+	btn.focus_mode = Control.FOCUS_NONE
+	card.add_child(btn)
+	btn.position = Vector2(12, 175)
+
+	btn.pressed.connect(func():
+		var dialog = FileDialog.new()
+		dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
+		dialog.access = FileDialog.ACCESS_FILESYSTEM
+		dialog.filters = PackedStringArray(["*.jpg, *.jpeg, *.png ; Image Files"])
+		dialog.current_dir = "C:/Dev"
+		dialog.title = "Select Image for The Living Canvas"
+		dialog.use_native_dialog = true
+
+		dialog.file_selected.connect(func(path: String):
+			var helper_script = load("res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd")
+			if helper_script:
+				helper_script.set_active_image(path)
+				var new_tex = helper_script.get_preview_texture()
+				if new_tex and "level_image" in card and card.level_image:
+					card.level_image.texture = new_tex
+		)
+
+		ls.add_child(dialog)
+		dialog.popup_centered(Vector2i(850, 550))
+	)
+'@ | Set-Content -Path "$innerDir\extensions\scenes\Interfaces\Menus\level_select.hooks.gd" -Encoding UTF8
+
+Write-Host ">>> 6. Writing extensions/.../tile_map_chunk.hooks.gd..." -ForegroundColor Cyan
+@'
+extends Object
+
+func lvl_from_global_pos(chain: ModLoaderHookChain, pos: Vector2i) -> int:
+	if Gvars and ("level" in Gvars) and Gvars.level == 103:
+		if pos.y < 0:
+			return -2 # Sky stratum air contract
+		return 1
+	return chain.execute_next([pos])
+
+func generate_chunk(chain: ModLoaderHookChain, noise: Noise) -> void:
+	chain.execute_next([noise])
+	if Gvars and ("level" in Gvars) and Gvars.level == 103:
+		var chunk = chain.reference_object
+		if chunk and "chunk_pos" in chunk and chunk.chunk_pos.y >= 0:
+			var helper_script = load("res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd")
+			if helper_script:
+				helper_script.paint_chunk_from_canvas(chunk)
+'@ | Set-Content -Path "$innerDir\extensions\scenes\tilemaps\tile_map_chunk.hooks.gd" -Encoding UTF8
+
+Write-Host ">>> 7. Writing README.md for gareth-living_canvas_mod..." -ForegroundColor Cyan
+@'
+# The Living Canvas (`gareth-living_canvas_mod`)
 
 **Author:** Gareth White  
-**Map ID:** `102`  
-**Difficulty:** Hard  
+**Map ID:** 103  
+**Difficulty:** Medium  
 **Compatibility:** Coal LLC v1.4.1.1+ (ModLoader 7.0.1)
 
 ---
 
 ## Overview
-**Tectonic Faultline** plunges your miner into a violent subterranean rift characterized by exposed magma fissures, superheated steam vents, and fortified elemental vaults. The map introduces dynamic vertical chasm sculpting, three color-coded elemental pod variants (Fire, Water, Poison), and tight integration with the game's passive progression and auto-chooser systems.
+**The Living Canvas** transforms subterranean strata into a playable mosaic sculpted directly from real images, photos, or screenshots. Using an intelligent Euclidean color quantization algorithm, pixels are converted into corresponding rock strata (`HARD_FIRE`, `HARD_ICE`, `HARD_GREEN`, `HARD_DARKBLUE`, etc.).
 
 ---
 
-## Key Features & Mechanics
+## Key Features
+* **In-Game Image Picker:** Click the **??? Choose Image** button on the level card to open a native Windows file dialog and load any PNG or JPEG.
+* **Auto-Downsampling:** Automatically downsamples large 1080p and 4K images to a 96-tile shaft width while preserving original aspect ratios.
+* **Seamless Strata Looping:** Digging deep through the shaft smoothly loops the landscape pattern.
+* **Bedrock Framing:** Borders beyond the canvas are encased in bedrock and dark slate to frame the subterranean artwork.
+'@ | Set-Content -Path "$outerDir\README.md" -Encoding UTF8
+Copy-Item -Path "$outerDir\README.md" -Destination "$innerDir\README.md" -Force
 
-### 1. Volatile Elemental Pods (`MagmaSiphon.gd`)
-Subterranean chunks spawn reinforced elemental vaults housing high-pressure geysers and pods. Pods spawn at **triple density (3x)** across subterranean strata, featuring distinct visual and mechanical identities:
-
-* **Magma Siphons (Crimson Red):** Superheated volcanic cores. Vents trigger violent thermal fire cascades setting surrounding rock ablaze, while ruptures detonate a massive kinetic shockwave.
-* **Hydro Geysers (Electric Azure):** High-pressure subterranean springs. Vents launch the player high into the air with **-950 updraft velocity** and saturate adjacent rock with wet status for **2x damage vulnerability**.
-* **Acid Vents (Toxic Green):** Corrosive chemical chambers. Vents release caustic clouds that seep downward through gravity drips, poisoning rock layers and breaking down dense minerals.
-
-### 2. Dual Interaction System
-* **Controlled Venting (`[E]`):** Safely vents geothermal pressure. Catapults the miner skyward, pays out a scaled cash bounty (amplified by mine depth, chest multipliers, and run passives), triggers a multi-wave fluid cascade, and rolls a bonus perk selection (`Bus.choose_passive`).
-* **Volatile Rupture (Left-Click):** Deliberately breaches the containment casing. Triggers a wide-radius seismic explosion dealing catastrophic kinetic damage to surrounding rock strata and spawning high-density coal drops.
-
-### 3. Subterranean Vault Generation
-* Pods spawn inside fortified 3x3 chambers carved into deep rock layers.
-* Chambers are enclosed by reinforced perimeter walls (+2 tiers harder than the surrounding stratum).
-* Multi-block chamber coordinates are registered in `generate_chests` to prevent vanilla loot chests from overlapping the rooms.
-
-### 4. Elemental Perks & Auto-Chooser Integration
-* **Bonus Chest Card Injection:** On Map 102, **Increase Fire Damage (+5%)**, **Increase Wet Damage (+1%)**, **Increase Poison Damage (+5%)**, and **Increase Elemental Tick Rate (+10%)** are injected directly into vanilla bonus chests and card selections without requiring specific elemental weapons equipped.
-* **Elemental Tick Acceleration:** Incorporates a dynamic tick engine that accelerates `burns_loop()` and `poisons_loop()`, causing ignited and poisoned rock to dissolve at high speeds.
-* **Nanobotz Auto-Passive Chooser Support:** Fully compatible with `nanobotz-autopassivechooser`. Configurable via **Settings -> Passive Order** with custom priority sorting, stat caps, and auto-pick execution.
-
----
-
-## Technical Specifications & Engine Contracts
-
-| Architecture Area | Implementation Detail |
-| :--- | :--- |
-| **Sky Air Contract** | `lvl_from_global_pos(pos)` returns `-2` when `pos.y < 0` to preserve clear skies without solid rock overhead. |
-| **GPU Sync Contract** | Vault carving executes `chunk.tiles[idx] = tile` followed by `chunk.build_tile(idx)` to force GPU render updates. |
-| **Asset Loading** | Preview cards and entity textures load via raw byte buffers (`FileAccess.get_file_as_bytes()`) to bypass virtual `.zip` path limitations. |
-| **Tick Hook** | Injects an accumulator loop inside `tile_map_chunk.hooks.gd:apply_tile_effects` to run extra tick cycles based on `elemental_tick_rate`. |
-
----
-
-## Installation
-1. Ensure the custom hook-packing Godot ModLoader build is installed.
-2. Place `gareth-tectonic_faultline_mod.zip` into your `Coal LLC/mods/` directory.
-3. Launch the game, navigate to the map selection terminal, and select **Tectonic Faultline**.
-'@
-
-$tfOuterReadme = "$repo\mods-unpacked\gareth-tectonic_faultline_mod\README.md"
-$tfInnerReadme = "$repo\mods-unpacked\gareth-tectonic_faultline_mod\mods-unpacked\gareth-tectonic_faultline_mod\README.md"
-
-Set-Content -Path $tfOuterReadme -Value $tfReadmeContent -Encoding UTF8
-if (Test-Path (Split-Path $tfInnerReadme)) {
-    Set-Content -Path $tfInnerReadme -Value $tfReadmeContent -Encoding UTF8
-}
-Write-Host "Created Tectonic Faultline READMEs successfully." -ForegroundColor Green
-
-Write-Host "`n>>> 2. Overhauling root README.md with all 47 mods, graphics, and technical details..." -ForegroundColor Cyan
-
-$rootReadmeContent = @'
-# Coal LLC Modding Suite
-
-A complete, high-performance ecosystem of gameplay overhauls, custom subterranean maps, unique character classes, industrial workforce hierarchies, high-tier demolition options, and quality-of-life tools for **[Coal LLC](https://store.steampowered.com/app/3361510/Coal_LLC/)**, built on the **[Godot ModLoader 7.x](https://godotengine.org/asset-library/asset/4107)** hook architecture.
-
-![Tectonic Faultline Preview](mods-unpacked/gareth-tectonic_faultline_mod/assets/tectonic_preview.png)
-
----
-
-## Complete Mod Directory (47 Mods)
-
-### 1. Custom Maps & Subterranean Overhauls
-| Mod | ID | Type | Description |
-| :--- | :--- | :--- | :--- |
-| **Tectonic Faultline** | `gareth-tectonic_faultline_mod` | Map (ID 102) | Seismic rift featuring vertical chasms, active magma fissures, 3x density elemental pods (Fire, Water, Poison), and an elemental tick rate progression engine. |
-| **The Lost Expedition** | `gareth-lost_expedition_mod` | Map (ID 101) | Subterranean cryo-abyss featuring ancient buried shelters, unexploded landmines (UXO), and survival extraction mechanics. |
-| **Seismic Hazards** | `gareth-seismic_hazards_mod` | World Gameplay | Simulates ceiling load pressure during aggressive deep excavation, triggering dynamic rock falls and cave-ins if structural pillars are removed. |
-
-### 2. Character Classes & Combat Archetypes
-| Mod | ID | Type | Description |
-| :--- | :--- | :--- | :--- |
-| **Expanded Class Suite** | `gareth-custom_classes_mod` | Class Hub | Master bundle aggregating 9 distinct combat and mining classes into a unified selection interface. |
-| **The Knight Class** | `gareth-knight_class_mod` | Melee Class | Wields a colossal broadsword with directional whirlwind cleaves, high kinetic impact, and melee swing speed scaling. |
-| **Jedi Class** | `gareth-jedi_class_mod` | Melee Class | Deploys an energy lightsaber capable of deflecting debris, extended cleave reach, and kinetic force pushes. |
-| **Chrono-Industrialist**| `gareth-chrono_industrialist_mod` | Temporal Class| Warps localized time fields with the Chrono-Drill, creating temporal stasis zones and accelerated mining tick windows. |
-| **Void Siphon** | `gareth-void_siphon_mod` | Exotic Class | Collapses gravitational singularities that pull surrounding minerals and rock into destructive event horizons. |
-| **Rainbow Sinclairity**| `gareth-sinclairity_class_mod` | Energy Class | Fires a multi-spectrum prismatic laser that melts through multi-tiered stone layers based on light refraction. |
-| **Debt Executioner** | `gareth-debt_executioner_mod` | Economic Class | High-risk, high-bounty class converting mined debt quotas into combat damage multipliers and executioner strike bonuses. |
-| **Gravitational Dreadnought** | `gareth-grav_dreadnought_mod` | Heavy Class | Fires high-mass kinetic ordnance that creates crushing localized gravity fields. |
-| **The Tectonic Fracker** | `gareth-tectonic_fracker_mod` | Seismic Class | Emits directional acoustic pulse waves along rock faultlines, shattering brittle seams across entire strata. |
-| **Bouncing Ball Class**| `gareth-bouncing_ball_mod` | Physics Class | Deploys hyper-elastic kinetic spheres that rebound off walls, pulverizing dense deposits through velocity accumulation. |
-| **Martial Legends** | `gareth-martial_legends_mod` | Unarmed Class | Replaces tools with rapid-fire martial arts strikes, scaling punch and roundhouse kick velocities into shockwave bursts. |
-| **Water Spirit** | `gareth-water_spirit_mod` | Elemental Class | Manipulates high-pressure hydraulic torrents, priming subterranean walls with continuous wet multipliers. |
-
-### 3. Demolition & Heavy Weaponry
-| Mod | ID | Type | Description |
-| :--- | :--- | :--- | :--- |
-| **Tank Arsenal** | `gareth-tank_arsenal_mod` | Weapons & Shop | Adds 45 tiered Incendiary, Caustic, and Depleted Uranium tanks with tier penetration (+1 to +15 solid blocks), burn DoTs, and chest drops. |
-| **Hydrogen Bomb** | `gareth-hydrogen_bomb_mod` | Demolition | Wide-area thermonuclear charge: 80-tile blast radius delivering 999,999 damage for wide cavern clearing. |
-| **Neutron Bomb** | `gareth-neutron_bomb_mod` | Demolition | Focused subatomic core: compact 16-tile blast delivering 9,999,999,999 kinetic yield to instantly pulverize obsidian and hard bedrock. |
-| **Heavy Demolition Bombs** | `gareth-heavy_bombs_mod` | Explosives | Adds high-yield industrial demolition blocks spanning mid-to-endgame material grades. |
-| **Bouncing Grenade Arsenal** | `gareth-grenade_mod` | Projectiles | Casts parabolic rebounding explosives across all 15 material grades (Shoddy to Onyx) that bounce off underground geometry before detonating. |
-| **Heavy Automated Turrets** | `gareth-heavy_turrets_mod` | Structures | Autonomous emplacements that provide perimeter fire support and automated point defense in deep shafts. |
-| **Mortar Gun Arsenal** | `gareth-more_mortars_mod` | Structures | Tiers 6 through 10 of autonomous artillery delivering 7.5 Million up to 500 Billion damage straight down mine shafts. |
-| **High-Yield Auto-Drills**| `gareth-more_drills_mod` | Structures | Tiers 5 through 10 of vertical boring bits delivering 100,000 up to 50 Billion damage at 10 ticks per second. |
-| **Tactical Nukes Expansion** | `gareth-more_nukes_mod` | Demolition | Additional atomic payload variants bridging the gap between conventional dynamite and thermonuclear charges. |
-| **Plasma Raygun** | `gareth-plasma_raygun_mod` | Mining Utility | Directional continuous thermal cutting beam fired on Right-Click to core out horizontal access corridors. |
-| **High-Energy Laser Beam**| `gareth-laser_beam_mod` | Directed Energy | Sustained energy lance that melts linearly through dense rock formations. |
-| **End-Game Arsenal** | `gareth-endgame_arsenal_mod` | Magic & Ranged | High-tier Gold, Ruby, Diamond, and Pink Diamond staffs and poison guns designed for deep cavern excavation. |
-
-### 4. Logistics, Automation & Workforce
-| Mod | ID | Type | Description |
-| :--- | :--- | :--- | :--- |
-| **Executive Workforce** | `gareth-more_employees_mod` | Workforce | Adds Executive VP, CMO, Managing Director, and Titan Miner tiers. Features 53% tree scaling, dynamic orthogonal red/green connection lines, and cascading profession locks. |
-| **Cosmic Collectors** | `gareth-more_collectors_mod` | Logistics | Adds Vortex, Quantum, Abyssal, and Singularity Collector drones carrying payloads up to 2,500,000 items at 9.0 flight speed. |
-| **Vacuum Collector Depot** | `gareth-vacuum_depot_mod` | Logistics | Routes autonomous UFO collectors directly to the vacuum nozzle tip if it is closer than the surface, eliminating surface flight times. |
-| **Buyable Vacuums** | `gareth-buyable_vacuums_mod` | Equipment | Makes Tabbitha's vacuum upgrades purchasable on the Bonus shelf and adds Levels 5 to 8 (Abyssal extension reaching 600 tiles). |
-| **Vacuum Quests Expansion** | `gareth-more_vacuum_quests_mod` | Quests | Injects expanded side objectives and rewards focused on vacuum automation. |
-
-### 5. Progression, Economy & Upgrades
-| Mod | ID | Type | Description |
-| :--- | :--- | :--- | :--- |
-| **Shift Rock Layers (6-12)**| `gareth-more_layer_shifts_mod` | Progression | Extends bedrock shifts past Shift 5, elevating deep mineral veins closer to the surface with costs up to 750 Sextillion. |
-| **More Inventory Slots (4-10)**| `gareth-more_inventory_slots_mod`| Progression | Expands carrying capacity up to +250 slots ($2.5 Quadrillion). |
-| **More Inventory Stacks (7-16)**| `gareth-more_inventory_stacks_mod`| Progression | Extends item stack limits past 18 Trillion up to +50 Sextillion items. |
-| **Elemental Transmutation** | `gareth-elemental_transmutation_mod` | Economy | Destroys burned blocks for crystallized ore cash bonuses and converts acid-corroded rock into scrap slag bounties. |
-| **Elemental Tick Upgrades** | `gareth-tick_upgrade_mod` | Mechanics | Foundational engine accelerating poison and burn damage-over-time tick rates on subterranean strata. |
-| **Dual Multipliers** | `gareth-dual_multipliers_mod` | Progression | Expands multiplicative stacking logic across simultaneous score, depth, and loot multipliers. |
-| **Weapon Stacker** | `gareth-weapon_stacker_mod` | Mechanics | Scales weapon stats dynamically based on inventory count (minigun fires 40-pellet bursts at 0.01s cooldown; water gun spray radius expands logarithmically). |
-| **Excavation Frenzy** | `gareth-excavation_frenzy_mod` | Mechanics | Chains rapid pickaxe strikes into an escalating frenzy combo, multiplying swing speed and drop yields. |
-
-### 6. Tools, UI & System Utilities
-| Mod | ID | Type | Description |
-| :--- | :--- | :--- | :--- |
-| **Mod Manager** | `gareth-mod_manager_mod` | Core Framework | Central mod controller handling custom class passives mapping, perk injection, and runtime weapon whitelists. |
-| **Mod Settings System** | `gareth-mod_settings_mod` | Settings UI | Adds a unified "Gareth Mods" settings tab with persistent JSON storage (`user://gareth_mods_config.json`) and tuning sliders. |
-| **Auto Passive Chooser** | `nanobotz-autopassivechooser` | Automation UI | Adds a "Passive Order" settings tab to prioritize and auto-select chest perks. Enhanced with full elemental and tick rate perk support. |
-| **Career Leaderboard** | `gareth-leaderboard_mod` | Analytics | Persistent career analytics tracking all-time mining records, quotas, and depth milestones in `user://leaderboard_records.json`. |
-| **Multi-Save Profile Manager**| `gareth-multisave_mod` | Core Utility | Multi-slot profile manager allowing isolated playthroughs without overwriting vanilla progress. |
-| **Prospector's Beacon** | `gareth-prospectors_beacon_mod` | Radar Utility | Emits periodic acoustic pulses to detect and ping high-value ore veins through solid rock. |
-| **InfiniPlatform** | `gareth-infini_platform_mod` | Building Utility | Places a horizontal bridging scaffold that expands left and right until hitting solid walls (up to 200 blocks). |
-
----
-
-## Installation Guide
-
-### Prerequisites
-* **Coal LLC** (Steam / PC version)
-* **Custom Godot ModLoader (NanobotZ Build)**: Coal LLC requires the hook-packing ModLoader build. Follow the [Installation Setup in Der-Floh's Repo](https://github.com/Der-Floh/coal-llc-mods#installation) to install the loader.
-
-### Release ZIP Installation
-1. Download desired mod `.zip` archives from the `mods/` folder.
-2. Navigate to your Steam install folder:
-    C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\
-3. Copy the `.zip` files into the `mods/` directory.
-4. **Important on first install or update:** Delete `mod-hooks.zip` from your game folder if present. This ensures hook chains are rebuilt cleanly.
-5. Launch the game through Steam.
-
----
-
-## Core Engine Modding Contracts
-
-For developers writing extensions or custom classes, keep these Godot 4 engine contracts in mind:
-* **Sky Code Contract:** `lvl_from_global_pos(pos)` must return `-2` whenever `pos.y < 0`. Returning `0` causes vanilla chunk logic to generate solid Level 0 copper stone in the sky.
-* **Tile Cache Sync:** `TileMapChunk` does not use standard Godot 4 `set_cell()`. Custom tile changes require updating `chunk.tiles[idx]` followed immediately by `chunk.build_tile(idx)` to update GPU meshes.
-* **Subterranean Vaults:** Multi-tile chamber carving belongs in `generate_chests`, reserving coordinates in `current_block_chest_locations` to prevent vanilla chests from generating inside custom structures.
-* **Virtual ZIP Assets:** Textures packaged in `.zip` archives should be loaded as raw bytes using `FileAccess.get_file_as_bytes()` into an `Image` before creating an `ImageTexture`.
-
----
-
-## Credits & Acknowledgments
-* **[Godot ModLoader Team](https://wiki.godotmodding.com/)** for the modding framework.
-* **[Der-Floh](https://github.com/Der-Floh/)** for foundational utility mods and hooks architecture.
-* **[nanobotz](https://github.com/NanobotZ)** for the original auto-passive chooser architecture.
-'@
-
-Set-Content -Path $rootReadme -Value $rootReadmeContent -Encoding UTF8
-Write-Host "Updated root README.md successfully." -ForegroundColor Green
-
-Write-Host "`n>>> 3. Verifying and updating SESSION_PROMPT.md..." -ForegroundColor Cyan
-
-$tectonicSection = @'
-
-## 10. Tectonic Faultline (Map ID 102) & Elemental Systems Architecture
-
-### Engine Contracts & Core Generation Rules
-- Sky Stratum Code (-2): lvl_from_global_pos(pos) must return -2 whenever pos.y < 0 (tile grid coordinates). Returning 0 causes vanilla Coal LLC to classify the sky as Level 0 rock (HARD_ORANGE copper stone) and paint solid blocks across the clouds.
-- Tile Coordinate Systems: Coordinates passed into lvl_from_global_pos(pos) are raw tile row indices (y < 0 for sky, y >= 0 for underground), not pixel values.
-- Tile Cache & GPU Synchronization (build_tile): TileMapChunk does not update rendered blocks through standard Godot 4 set_cell() calls. Modifying rock layers or carving chambers requires setting chunk.tiles[c_idx] = target_tile followed immediately by chunk.build_tile(c_idx) to update the GPU render mesh and block metadata.
-- Subterranean Vault Hooking (generate_chests): Multi-block chambers and pod vaults must be hooked in generate_chests(chain, current_block_chest_locations) rather than generate_chunk. This guarantees strata generation has completed and allows appending vault coordinates to current_block_chest_locations to prevent vanilla chests from spawning inside.
-- ModLoader Virtual Zip Asset Loading: Texture files packaged inside .zip archives cannot be reliably loaded using ResourceLoader.load(). Custom card previews and entity sprites must be loaded as raw bytes via FileAccess.get_file_as_bytes() into an Image, then converted via ImageTexture.create_from_image(), or drawn procedurally onto an ImageTexture.
-
-### Elemental Pods (MagmaSiphon.gd)
-- Visual Color Modulation:
-  - Magma (Fire): Modulated crimson red Color(1.4, 0.2, 0.2) with fiery ember particles and expanding blast rings.
-  - Hydro Geyser (Water): Modulated electric azure Color(0.2, 0.55, 1.4) with blue spray droplets.
-  - Toxic Acid (Poison): Modulated neon emerald Color(0.25, 1.3, 0.25) with corrosive drip cascades.
-- Triple Spawn Density (3x): spawn_magma_siphons() attempts three non-overlapping vault placements per subterranean chunk using a 1-tile clearance check against current_block_chest_locations.
-- Interaction Contracts:
-  - [E] Vent: Geyser updraft velocity (y = -700 to -950), scaled cash bounty, multi-wave fluid cascade, and Bus.choose_passive trigger.
-  - Left-Click Rupture: High-radius core explosion, wider fluid splatter, and massive damage to surrounding strata.
-
-### Passive Chooser & Chest Loot Injection
-- Vanilla Inventory Gating: In choose_passive.gd, c1 and c2 cards pull strictly from choice_options (built only from equipped weapon types in PlayerInventory.tres), while c3 is locked to mobility stats. When holding a pickaxe, elemental damage perks are excluded and never roll.
-- Map 102 Injection: In gareth-mod_manager_mod/extensions/scenes/Interfaces/in_game/choose_passive.hooks.gd, when Gvars.level == 102, fire_damage, wet_damage, poison_damage, and elemental_tick_rate are injected directly into choice_options so bonus chests present elemental cards without requiring elemental weapons. Standard maps remain untouched.
-- Built-in Vanilla Multipliers:
-  - fire_damage (+5%): Directly scales burn DPS (tile_map_chunk.gd:2428).
-  - poison_damage (+5%): Directly scales poison DPS (tile_map_chunk.gd:2378).
-  - wet_damage (+1%): Multiplies all damage to saturated blocks by 2 * (1 + wet_damage) (tile_map_chunk.gd:2246).
-- Elemental Tick Rate Acceleration: Vanilla tick intervals are fixed (POISON_TICK_LENGTH = 6, BURN_TICK_LENGTH = 7). In tile_map_chunk.hooks.gd, apply_tile_effects accumulates fractional bonuses from elemental_tick_rate to trigger extra calls to poisons_loop() and burns_loop(), accelerating damage-over-time block melting.
-
-### nanobotz-autopassivechooser Integration
-- Settings UI Discovery: passive_order.gd:get_possible_passives_for_professions() queries _profession_effect() per class. Non-elemental classes (like Internship) omit elemental perks from the UI list.
-- UI Patch: Appending fire_damage, wet_damage, poison_damage, and elemental_tick_rate to get_possible_passives_for_professions() ensures they appear in Settings -> Passive Order with limit inputs and priority controls for all professions.
-- In-Game Auto-Pick Contract: In choose_passive.hooks.gd, the auto-picker checks passive.get("enabled", false) and evaluates stat caps across both Gvars.passives and Gvars.custom_passives to prevent null-reference runtime exceptions.
-'@
-
-$sessionContent = Get-Content -Path $sessionDoc -Raw
-if ($sessionContent -match "## 10\. Tectonic Faultline") {
-    $pattern = "(?s)## 10\. Tectonic Faultline.*?(?=\r?\n## |\Z)"
-    $updatedSession = $sessionContent -replace $pattern, $tectonicSection.Trim()
-    Set-Content -Path $sessionDoc -Value $updatedSession -Encoding UTF8
-    Write-Host "Updated Tectonic Faultline section in SESSION_PROMPT.md" -ForegroundColor Green
-} else {
-    Add-Content -Path $sessionDoc -Value $tectonicSection -Encoding UTF8
-    Write-Host "Appended Tectonic Faultline section to SESSION_PROMPT.md" -ForegroundColor Green
+Write-Host "`n>>> 8. Flushing mod-hooks.zip..." -ForegroundColor Cyan
+if (Test-Path $hookZip) {
+    Remove-Item -Path $hookZip -Force
 }
 
-Write-Host "`n>>> 4. Repackaging gareth-tectonic_faultline_mod.zip with updated README..." -ForegroundColor Cyan
-$tfOuterDir = "$repo\mods-unpacked\gareth-tectonic_faultline_mod"
-$tfZipPath  = "$steamMods\gareth-tectonic_faultline_mod.zip"
-if (Test-Path $tfZipPath) { Remove-Item -Path $tfZipPath -Force }
+Write-Host ">>> 9. Packaging gareth-living_canvas_mod.zip for Steam..." -ForegroundColor Cyan
+if (Test-Path $zipPath) { Remove-Item -Path $zipPath -Force }
 
 Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
-$stream  = [System.IO.File]::Open($tfZipPath, [System.IO.FileMode]::CreateNew)
+$stream  = [System.IO.File]::Open($zipPath, [System.IO.FileMode]::CreateNew)
 $archive = New-Object System.IO.Compression.ZipArchive($stream, [System.IO.Compression.ZipArchiveMode]::Create)
-foreach ($f in (Get-ChildItem -Path $tfOuterDir -Recurse -File)) {$entryName = $f.FullName.Substring($tfOuterDir.Length + 1).Replace("\", "/")
+foreach ($f in (Get-ChildItem -Path $outerDir -Recurse -File)) {$entryName = $f.FullName.Substring($outerDir.Length + 1).Replace("\", "/")
     [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $f.FullName, $entryName) | Out-Null
 }
 $archive.Dispose()
 $stream.Dispose()
-Write-Host "Repacked: $tfZipPath" -ForegroundColor Green
+Write-Host "Packed archive: $zipPath" -ForegroundColor Green
 
-Write-Host "`n>>> 5. Git staging, committing, and pushing..." -ForegroundColor Cyan
+Write-Host "`n>>> 10. Staging, committing, and pushing to GitHub..." -ForegroundColor Cyan
 git add -A
-git commit -m "Comprehensive documentation overhaul: 47-mod master README, Tectonic Faultline documentation, and SESSION_PROMPT update"
+git commit -m "Implement Map 103: The Living Canvas with Euclidean image-to-strata engine and in-game file picker"
 git push origin main
 
-Write-Host "`nAll documentation and repo files are synchronized and pushed to GitHub!" -ForegroundColor Green
+Write-Host "`nDeployment complete! Launch Coal LLC to test The Living Canvas." -ForegroundColor Green
