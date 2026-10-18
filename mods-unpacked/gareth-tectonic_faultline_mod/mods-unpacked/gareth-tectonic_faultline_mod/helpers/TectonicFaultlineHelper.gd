@@ -5,10 +5,13 @@ const FAULTLINE_LEVEL_ID: int = 102
 const CHUNK_SIZE: int = 16
 
 static func is_faultline_level() -> bool:
-	if Gvars and "chosen_level" in Gvars and Gvars.chosen_level == FAULTLINE_LEVEL_ID:
-		return true
-	if Gvars and "current_level" in Gvars and Gvars.current_level == FAULTLINE_LEVEL_ID:
-		return true
+	if Gvars:
+		if "level" in Gvars and Gvars.level == FAULTLINE_LEVEL_ID:
+			return true
+		if "chosen_level" in Gvars and Gvars.chosen_level == FAULTLINE_LEVEL_ID:
+			return true
+		if "current_level" in Gvars and Gvars.current_level == FAULTLINE_LEVEL_ID:
+			return true
 	return false
 
 func ensure_level_registered() -> void:
@@ -29,19 +32,43 @@ static func register_faultline_level() -> void:
 			custom_level.level_difficulty = GameLevel.Difficulty.HARD
 			custom_level.unlock_description = ""
 			
-			# Load preview texture directly from mod assets
+			# 1. Try loading disk PNG buffer
+			var preview_tex: Texture2D = null
 			var preview_path = "res://mods-unpacked/gareth-tectonic_faultline_mod/assets/tectonic_preview.png"
-			if ResourceLoader.exists(preview_path):
-				var img = Image.load_from_file(preview_path)
-				if img:
-					custom_level.level_image = ImageTexture.create_from_image(img)
+			var bytes = FileAccess.get_file_as_bytes(preview_path)
+			if bytes and bytes.size() > 0:
+				var f_img = Image.new()
+				if f_img.load_png_from_buffer(bytes) == OK:
+					preview_tex = ImageTexture.create_from_image(f_img)
 			
-			if not custom_level.level_image:
-				var fallback_path = "res://mods-unpacked/gareth-tectonic_faultline_mod/assets/magma_siphon_active.png"
-				if ResourceLoader.exists(fallback_path):
-					var fimg = Image.load_from_file(fallback_path)
-					if fimg:
-						custom_level.level_image = ImageTexture.create_from_image(fimg)
+			# 2. Procedural guaranteed fallback texture
+			if not preview_tex:
+				var p_img = Image.create(280, 150, false, Image.FORMAT_RGBA8)
+				p_img.fill(Color(0.1, 0.08, 0.12))
+				for x in range(0, 280, 16):
+					for y in range(0, 150, 16):
+						var col = Color(0.18, 0.14, 0.2) if ((x + y) / 16) % 2 == 0 else Color(0.14, 0.11, 0.16)
+						for bx in range(1, 15):
+							for by in range(1, 15):
+								p_img.set_pixel(x + bx, y + by, col)
+				for y in range(150):
+					var cx = int(140 + sin(y * 0.08) * 22 + (y - 75) * 0.45)
+					for x in range(cx - 16, cx + 17):
+						if x >= 0 and x < 280:
+							p_img.set_pixel(x, y, Color(0.9, 0.35, 0.05))
+					for x in range(cx - 6, cx + 7):
+						if x >= 0 and x < 280:
+							p_img.set_pixel(x, y, Color(1.0, 0.85, 0.25))
+					for x in range(cx - 2, cx + 3):
+						if x >= 0 and x < 280:
+							p_img.set_pixel(x, y, Color(1.0, 0.98, 0.8))
+				for y in range(14):
+					for x in range(280):
+						if ((x + y) / 10) % 2 == 0:
+							p_img.set_pixel(x, y, Color(0.85, 0.2, 0.15))
+				preview_tex = ImageTexture.create_from_image(p_img)
+			
+			custom_level.level_image = preview_tex
 			
 			lvl_mgr.all_levels[FAULTLINE_LEVEL_ID] = {
 				"level": custom_level,
@@ -110,66 +137,52 @@ static func pick_faultline_block(chunk: Node, global_cell: Vector2i, noise: Fast
 		base_tile = chunk.Tiles.HARD_FIRE
 	return base_tile
 
-static func tag_seismic_seams(_chunk: Node) -> void:
-	pass
-
-static func spawn_magma_siphons(chunk: Node, current_locs: Array[Vector2i]) -> Array[Vector2i]:
-	# 75% spawn chance per eligible chunk so pods are plentiful
-	if randf() > 0.75:
-		return current_locs
+static func generate_faultline_strata(chunk: Node, noise: FastNoiseLite) -> void:
+	if not ("tiles" in chunk) or not ("chunk_size" in chunk):
+		return
 	
+	for x in range(chunk.chunk_size):
+		for y in range(chunk.chunk_size):
+			var local_pos = Vector2i(x, y)
+			var global_posi: Vector2i = Vector2i(chunk.to_global(chunk.map_to_local(local_pos)) / 16.0)
+			
+			# Leave surface grass and top dirt intact (y <= 3) so spawn structures stand firm
+			if global_posi.y > 3:
+				var idx = x + y * chunk.chunk_size
+				if idx >= 0 and idx < chunk.tiles.size():
+					if chunk.tiles[idx] != chunk.Tiles.EMPTY:
+						chunk.tiles[idx] = pick_faultline_block(chunk, global_posi, noise)
+
+static func spawn_magma_siphons(chunk: Node) -> void:
 	if "chunk_pos" in chunk and chunk.chunk_pos.y < 0:
-		return current_locs
+		return
+	
+	# 80% chance of vault per underground chunk
+	if randf() > 0.80:
+		return
 	
 	var width: int = 3
 	var height: int = 3
-	var start_tile: Vector2i = Vector2i(
-		randi_range(0, chunk.chunk_size - width),
-		randi_range(0, chunk.chunk_size - height)
-	)
+	var start_x = randi_range(1, chunk.chunk_size - width - 1)
+	var start_y = randi_range(1, chunk.chunk_size - height - 1)
 	
-	var global_cell: Vector2i = Vector2i(chunk.to_global(chunk.map_to_local(start_tile)) / 16.0)
-	# Allow pods anywhere below surface dirt (y >= 6)
+	var global_cell: Vector2i = Vector2i(chunk.to_global(chunk.map_to_local(Vector2i(start_x, start_y))) / 16.0)
 	if global_cell.y < 6:
-		return current_locs
+		return
 	
-	# Vault perimeter walls (+2 tier harder rock)
+	# Fortified chamber perimeter walls
 	var pod_tier: int = calculate_faultline_tier(global_cell)
 	var wall_tier: int = min(pod_tier + 2, 12)
 	var wall_tile: int = chunk.chest_block_from_level(wall_tier)
 	if wall_tile == chunk.Tiles.EMPTY:
-		if global_cell.y > 50:
-			wall_tile = chunk.Tiles.HARD_DARK
-		elif global_cell.y > 25:
-			wall_tile = chunk.Tiles.HARD_FIRE
-		else:
-			wall_tile = chunk.Tiles.HARD_ORANGE
+		wall_tile = chunk.Tiles.HARD_DARK if global_cell.y > 40 else chunk.Tiles.HARD_FIRE
 	
-	for n in range(5):
-		if start_tile in current_locs:
-			start_tile = Vector2i(
-				randi_range(0, chunk.chunk_size - width),
-				randi_range(0, chunk.chunk_size - height)
-			)
-	
-	for x in range(start_tile.x - width, start_tile.x + width):
-		for y in range(start_tile.y - height, start_tile.y + height):
-			current_locs.append(Vector2i(x, y))
-	
-	# Carve 3x3 vault and build outer perimeter walls
-	for x in range(start_tile.x, start_tile.x + width):
-		for y in range(start_tile.y, start_tile.y + height):
-			var local_coord: Vector2i = Vector2i(x, y)
-			var idx: int = -1
-			if chunk.has_method("local_pos_to_array"):
-				idx = chunk.local_pos_to_array(local_coord)
-			elif chunk.has_method("pos_to_array"):
-				idx = chunk.pos_to_array(local_coord)
-			else:
-				idx = local_coord.x + local_coord.y * chunk.chunk_size
-			
+	# Carve 3x3 vault into chunk.tiles array
+	for x in range(start_x, start_x + width):
+		for y in range(start_y, start_y + height):
+			var idx = x + y * chunk.chunk_size
 			if idx >= 0 and idx < chunk.tiles.size():
-				if x == start_tile.x or x == start_tile.x + width - 1 or y == start_tile.y or y == start_tile.y + height - 1:
+				if x == start_x or x == start_x + width - 1 or y == start_y or y == start_y + height - 1:
 					chunk.tiles[idx] = wall_tile
 				else:
 					chunk.tiles[idx] = chunk.Tiles.EMPTY
@@ -178,9 +191,7 @@ static func spawn_magma_siphons(chunk: Node, current_locs: Array[Vector2i]) -> A
 	var SiphonScene = load("res://mods-unpacked/gareth-tectonic_faultline_mod/entities/MagmaSiphon.gd")
 	if SiphonScene:
 		var siphon = SiphonScene.new()
-		var center_tile: Vector2i = Vector2i(start_tile.x + 1, start_tile.y + 1)
-		siphon.position = chunk.map_to_local(center_tile)
-		
+		siphon.position = chunk.map_to_local(Vector2i(start_x + 1, start_y + 1))
 		var roll = randf()
 		if roll < 0.40:
 			siphon.set_element("fire")
@@ -188,7 +199,4 @@ static func spawn_magma_siphons(chunk: Node, current_locs: Array[Vector2i]) -> A
 			siphon.set_element("water")
 		else:
 			siphon.set_element("poison")
-		
 		chunk.add_child(siphon)
-	
-	return current_locs

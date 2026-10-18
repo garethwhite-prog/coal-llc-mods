@@ -49,3 +49,4 @@ if (Test-Path $logPath) {
 Set-Clipboard -Value $sb.ToString()
 Write-Host "[+] Enhanced context collected in context.txt AND copied to clipboard!" -ForegroundColor Green
 Write-Host "    Press Ctrl+V in the chat to share your project status." -ForegroundColor Yellow
+

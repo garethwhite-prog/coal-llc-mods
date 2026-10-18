@@ -1,0 +1,63 @@
+﻿>>> 1. Inspecting working tile_map_chunk.hooks.gd from Lost Expedition...
+   extends Object
+   
+   func lvl_from_global_pos(chain: ModLoaderHookChain, pos: Vector2i) -> int:
+   	if Gvars.level == 101:
+   		var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
+   		if helper_script:
+   			var helper = helper_script.new()
+   			return helper.calculate_tier(pos)
+   	return chain.execute_next([pos])
+   
+   func generate_chunk(chain: ModLoaderHookChain, noise: Noise) -> void:
+   	chain.execute_next([noise])
+   	if Gvars.level == 101:
+   		var chunk = chain.reference_object
+   		if chunk:
+   			var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
+   			if helper_script:
+   				var helper = helper_script.new()
+   				helper.tag_uxo_tiles(chunk)
+   
+   func destroy_tile(chain: ModLoaderHookChain, idx: int, tile_properties: Dictionary) -> void:
+   	if Gvars.level == 101:
+   		var chunk = chain.reference_object
+   		if chunk:
+   			var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
+   			if helper_script:
+   				var helper = helper_script.new()
+   				helper.handle_tile_destroyed(chunk, idx, tile_properties)
+   	chain.execute_next([idx, tile_properties])
+   
+
+>>> 2. Writing compile-safe TectonicFaultlineHelper.gd...
+Updated: C:\Dev\coal-llc-mods\mods-unpacked\gareth-tectonic_faultline_mod\mods-unpacked\gareth-tectonic_faultline_mod\helpers\TectonicFaultlineHelper.gd
+
+>>> 3. Writing tile_map_chunk.hooks.gd (preloaded Helper, all 4 hook methods)...
+Updated: C:\Dev\coal-llc-mods\mods-unpacked\gareth-tectonic_faultline_mod\mods-unpacked\gareth-tectonic_faultline_mod\extensions\scenes\tilemaps\tile_map_chunk.hooks.gd
+
+>>> 4. Flushing mod-hooks.zip...
+>>> 5. Repackaging mod archive for Steam...
+Packed archive at: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods\gareth-tectonic_faultline_mod.zip
+>>> 6. Git staging, committing, and pushing...
+git : warning: in the working copy of 'context.txt', LF will be replaced by CRLF the next time Git touches it
+At C:\Dev\coal-llc-mods\ai_worker_script.ps1:313 char:1
++ git add -A
++ ~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[main 81f83f4] Fix compile error in TectonicFaultlineHelper, implement preloaded chunk hooks, and enable surface-depth pod spawning
+ 4 files changed, 177 insertions(+), 211 deletions(-)
+git : To https://github.com/garethwhite-prog/coal-llc-mods.git
+At C:\Dev\coal-llc-mods\ai_worker_script.ps1:315 char:1
++ git push origin main
++ ~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (To https://gith...al-llc-mods.git:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+   80e0143..81f83f4  main -> main
+
+Deploy complete! Launch Coal LLC to test.
+
+PS C:\Dev\coal-llc-mods> 
