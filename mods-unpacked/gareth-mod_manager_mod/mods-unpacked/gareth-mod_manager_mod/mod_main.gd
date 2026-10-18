@@ -4,6 +4,10 @@ const MOD_DIR := "gareth-mod_manager_mod"
 
 func _init() -> void:
 	var mod_dir_path: String = ModLoaderMod.get_unpacked_dir().path_join(MOD_DIR)
+		ModLoaderMod.install_script_hooks(
+		"res://scripts/Gvars.gd",
+		ext_dir.path_join("scripts/Gvars.hooks.gd")
+	)
 	ModLoaderMod.install_script_hooks(
 		"res://scripts/MainMenu.gd",
 		mod_dir_path.path_join("extensions/scripts/MainMenu.hooks.gd")

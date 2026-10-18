@@ -2,11 +2,15 @@
  M output.txt
 
 === RECENT COMMITS ===
+cba6ae1 Fix Living Canvas UI button ASCII rendering and add active image label feedback
+528da54 Fix Living Canvas UI button ASCII rendering and add active image label feedback
 5ebd979 Fix Living Canvas Difficulty enum compilation error and safe dialog invocation
-a04c07f Fix Living Canvas Difficulty enum compilation error and safe dialog invocation
-37549c9 Implement Map 103: The Living Canvas with Euclidean image-to-strata engine and in-game file picker
 
-=== SESSION ERRORS & WARNINGS (34 found) ===
+=== SESSION ERRORS & WARNINGS (29 found) ===
+ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
+SCRIPT ERROR: Parse Error: The variable type is being inferred from a Variant value, so it will be typed as Variant. (Warning treated as error.)
+ERROR: Failed to load script "res://mods-unpacked/der_floh-performance_mod/extensions/scenes/tilemaps/tile_map_chunk.hooks.gd" with error "Parse error".
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
 SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
 ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
 ERROR: No loader found for resource: res:// (expected type: )
@@ -17,23 +21,18 @@ SCRIPT ERROR: Trying to call an async function without "await".
 ERROR: No loader found for resource: res:// (expected type: )
 ERROR: Error loading resource: ''.
 SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
-SCRIPT ERROR: Trying to call an async function without "await".
-SCRIPT ERROR: Trying to call an async function without "await".
 ERROR: No loader found for resource: res:// (expected type: )
 ERROR: Error loading resource: ''.
 SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
 ERROR: No loader found for resource: res:// (expected type: )
 ERROR: Error loading resource: ''.
 SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
-ERROR: No loader found for resource: res:// (expected type: )
-ERROR: Error loading resource: ''.
-SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
 SCRIPT ERROR: Trying to call an async function without "await".
 SCRIPT ERROR: Trying to call an async function without "await".
 ERROR: No loader found for resource: res:// (expected type: )
 ERROR: Error loading resource: ''.
 SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
-ERROR: 61 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+ERROR: 60 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
 ERROR: 6 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
 ERROR: 4 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
 ERROR: 164 resources still in use at exit (run with --verbose for details).
@@ -49,8 +48,8 @@ INFO ModLoader: mod_load_order -> 22) gareth-tectonic_faultline_mod
 INFO ModLoader: Initializing -> gareth-tectonic_faultline_mod
 DEBUG ModLoader: Loading script from -> res://mods-unpacked/gareth-tectonic_faultline_mod/mod_main.gd
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Mod initializing...
-DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultline_mod:<Node#704240430449>
-  "gareth-tectonic_faultline_mod": "<Resource#-9223371950686992807>",
+DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultline_mod:<Node#703636450673>
+  "gareth-tectonic_faultline_mod": "<Resource#-9223371950535997863>",
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Custom Map Mod (ID 102) online!
 
 === LOG TAIL (LAST 30 LINES) ===
@@ -75,8 +74,8 @@ Day Count: 1
 Days Passed: 0
 WARNING: 18 RIDs of type "CanvasItem" were leaked.
    at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2679)
-ERROR: 61 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-WARNING: 109 RIDs of type "Texture" were leaked.
+ERROR: 60 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+WARNING: 108 RIDs of type "Texture" were leaked.
    at: finalize (servers/rendering/rendering_device.cpp:7130)
 ERROR: 6 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
 ERROR: 4 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.

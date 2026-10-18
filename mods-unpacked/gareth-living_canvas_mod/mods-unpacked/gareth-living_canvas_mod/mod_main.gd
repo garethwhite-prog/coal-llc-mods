@@ -9,7 +9,7 @@ func _init() -> void:
 
 func _ready() -> void:
 	var helper_script = load("res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd")
-	if helper_script:
+	if helper_script and helper_script.has_method("ensure_level_registered"):
 		helper_script.ensure_level_registered()
 	ModLoaderLog.info("The Living Canvas Custom Map (ID 103) online!", LOG_NAME)
 
@@ -24,4 +24,8 @@ func install_hooks() -> void:
 	ModLoaderMod.install_script_hooks(
 		"res://scenes/tilemaps/tile_map_chunk.gd",
 		ext_dir.path_join("scenes/tilemaps/tile_map_chunk.hooks.gd")
+	)
+	ModLoaderMod.install_script_hooks(
+		"res://scripts/Game.gd",
+		ext_dir.path_join("scripts/Game.hooks.gd")
 	)

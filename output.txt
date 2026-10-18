@@ -1,25 +1,254 @@
-﻿>>> 1. Patching LivingCanvasHelper.gd (changing Difficulty to HARD)...
-Patched: C:\Dev\coal-llc-mods\mods-unpacked\gareth-living_canvas_mod\mods-unpacked\gareth-living_canvas_mod\helpers\LivingCanvasHelper.gd
+﻿=== DIAGNOSTIC: resources_to_save & LEVEL TRANSITIONS ===
 
->>> 2. Hardening level_select.hooks.gd file dialog call...
-Patched: C:\Dev\coal-llc-mods\mods-unpacked\gareth-living_canvas_mod\mods-unpacked\gareth-living_canvas_mod\extensions\scenes\Interfaces\Menus\level_select.hooks.gd
+--- 1. occurrences of resources_to_save ---
+\scripts\Gvars.gd : Line 37 -> var resources_to_save = item_unlocks.all_items
+\scripts\Gvars.gd : Line 463 -> for res_to_save in resources_to_save:
+\scripts\Gvars.gd : Line 495 -> for _resource in resources_to_save:
 
->>> 3. Flushing stale mod-hooks.zip...
->>> 4. Repackaging gareth-living_canvas_mod.zip...
-Repacked: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods\gareth-living_canvas_mod.zip
+--- 2. TectonicFaultlineHelper.gd (Map 102 working reference) ---
+  1: class_name TectonicFaultlineHelper
+  2: extends RefCounted
+  3: 
+  4: const FAULTLINE_LEVEL_ID: int = 102
+  5: const CHUNK_SIZE: int = 16
+  6: 
+  7: static func is_faultline_level() -> bool:
+  8: 	if Gvars:
+  9: 		if "level" in Gvars and Gvars.level == FAULTLINE_LEVEL_ID:
+ 10: 			return true
+ 11: 		if "chosen_level" in Gvars and Gvars.chosen_level == FAULTLINE_LEVEL_ID:
+ 12: 			return true
+ 13: 		if "current_level" in Gvars and Gvars.current_level == FAULTLINE_LEVEL_ID:
+ 14: 			return true
+ 15: 	return false
+ 16: 
+ 17: static func get_elemental_tick_bonus() -> float:
+ 18: 	if Gvars and ("custom_passives" in Gvars) and (Gvars.custom_passives is Dictionary):
+ 19: 		return float(Gvars.custom_passives.get("elemental_tick_rate", 0.0))
+ 20: 	return 0.0
+ 21: 
+ 22: func ensure_level_registered() -> void:
+ 23: 	register_faultline_level()
+ 24: 
+ 25: static func register_faultline_level() -> void:
+ 26: 	if not Gvars:
+ 27: 		return
+ 28: 	
+ 29: 	if "level_manager" in Gvars and Gvars.level_manager and ("all_levels" in Gvars.level_manager):
+ 30: 		var lvl_mgr = Gvars.level_manager
+ 31: 		if not lvl_mgr.all_levels.has(FAULTLINE_LEVEL_ID):
+ 32: 			var custom_level = GameLevel.new()
+ 33: 			custom_level.level_name = "Tectonic Faultline"
+ 34: 			custom_level.level = FAULTLINE_LEVEL_ID
+ 35: 			custom_level.mining_scene_path = "res://scenes/Stages/MineRegion.tscn"
+ 36: 			custom_level.level_description = "Seismic faultline with superheated vents, magma fissures, and elemental chambers.\n\nElemental pods contain explosive fluids and geothermal updrafts."
+ 37: 			custom_level.level_difficulty = GameLevel.Difficulty.HARD
+ 38: 			custom_level.unlock_description = ""
+ 39: 			
+ 40: 			var preview_path = "res://mods-unpacked/gareth-tectonic_faultline_mod/assets/tectonic_preview.png"
+ 41: 			var bytes = FileAccess.get_file_as_bytes(preview_path)
+ 42: 			if bytes and bytes.size() > 0:
+ 43: 				var f_img = Image.new()
+ 44: 				if f_img.load_png_from_buffer(bytes) == OK:
+ 45: 					custom_level.level_image = ImageTexture.create_from_image(f_img)
+ 46: 			
+ 47: 			lvl_mgr.all_levels[FAULTLINE_LEVEL_ID] = {
+ 48: 				"level": custom_level,
+ 49: 				"is_unlocked": true
+ 50: 			}
+ 51: 	
+ 52: 	if "level_info" in Gvars and Gvars.level_info is Dictionary:
+ 53: 		if not Gvars.level_info.has(FAULTLINE_LEVEL_ID):
+ 54: 			Gvars.level_info[FAULTLINE_LEVEL_ID] = {
+ 55: 				"name": "Tectonic Faultline",
+ 56: 				"description": "Seismic faultline with superheated vents, magma fissures, and elemental chambers.",
+ 57: 				"depth": 1400,
+ 58: 				"cost": 0,
+ 59: 				"unlocked": true
+ 60: 			}
+ 61: 
+ 62: static func calculate_faultline_tier(pos: Vector2i) -> int:
+ 63: 	var y_tile: int = pos.y
+ 64: 	if y_tile < 0:
+ 65: 		return -2
+ 66: 	elif y_tile < 24:
+ 67: 		return 1
+ 68: 	elif y_tile < 48:
+ 69: 		return 2
+ 70: 	elif y_tile < 80:
+ 71: 		return 3
+ 72: 	elif y_tile < 120:
+ 73: 		return 4
+ 74: 	elif y_tile < 170:
+ 75: 		return 5
+ 76: 	elif y_tile < 230:
+ 77: 		return 6
+ 78: 	elif y_tile < 300:
+ 79: 		return 7
+ 80: 	else:
+ 81: 		return min(12, 8 + int((y_tile - 300) / 80))
+ 82: 
+ 83: static func pick_faultline_block(chunk: Node, global_cell: Vector2i, noise: FastNoiseLite) -> int:
+ 84: 	if global_cell.y <= 0:
+ 85: 		return chunk.Tiles.EMPTY
+ 86: 	
+ 87: 	var tier: int = calculate_faultline_tier(global_cell)
+ 88: 	if tier < 0:
+ 89: 		return chunk.Tiles.EMPTY
+ 90: 	
+ 91: 	var rift_noise: float = abs(noise.get_noise_2d(float(global_cell.x) * 4.5, float(global_cell.y) * 1.2))
+ 92: 	if rift_noise < 0.09 and global_cell.y > 10:
+ 93: 		return chunk.Tiles.EMPTY
+ 94: 	
+ 95: 	var fissure_noise: float = noise.get_noise_2d(float(global_cell.x) * 2.8 + 50.0, float(global_cell.y) * 2.8)
+ 96: 	if fissure_noise > 0.42 and global_cell.y > 18:
+ 97: 		return chunk.Tiles.HARD_FIRE
+ 98: 	
+ 99: 	var base_tile: int = chunk.chest_block_from_level(tier)
+100: 	if base_tile == chunk.Tiles.EMPTY:
+101: 		base_tile = chunk.Tiles.HARD_FIRE
+102: 	return base_tile
+103: 
+104: static func generate_faultline_strata(chunk: Node, noise: FastNoiseLite) -> void:
+105: 	if not ("tiles" in chunk) or not ("chunk_size" in chunk):
+106: 		return
+107: 	
+108: 	for x in range(chunk.chunk_size):
+109: 		for y in range(chunk.chunk_size):
+110: 			var local_pos = Vector2i(x, y)
+111: 			var global_posi: Vector2i = Vector2i(chunk.to_global(chunk.map_to_local(local_pos)) / 16.0)
+112: 			
+113: 			if global_posi.y > 3:
+114: 				var idx: int = chunk.pos_to_array(local_pos) if chunk.has_method("pos_to_array") else (x + y * chunk.chunk_size)
+115: 				if idx >= 0 and idx < chunk.tiles.size():
+116: 					if chunk.tiles[idx] != chunk.Tiles.EMPTY:
+117: 						var new_block = pick_faultline_block(chunk, global_posi, noise)
+118: 						chunk.tiles[idx] = new_block
+119: 						chunk.build_tile(idx)
+120: 
+121: static func spawn_magma_siphons(chunk: Node, current_locs: Array[Vector2i]) -> Array[Vector2i]:
+122: 	if "chunk_pos" in chunk and chunk.chunk_pos.y < 1:
+123: 		return current_locs
+124: 	
+125: 	var pods_to_spawn: int = 3
+126: 	var elements: Array[String] = ["fire", "water", "poison"]
+127: 	elements.shuffle()
+128: 	
+129: 	var width: int = 3
+130: 	var height: int = 3
+131: 	
+132: 	for p_idx in range(pods_to_spawn):
+133: 		var found_spot: bool = false
+134: 		var start_tile: Vector2i = Vector2i.ZERO
+135: 		
+136: 		for attempt in range(12):
+137: 			var candidate = Vector2i(
+138: 				randi_range(1, chunk.chunk_size - width - 1),
+139: 				randi_range(1, chunk.chunk_size - height - 1)
+140: 			)
+141: 			
+142: 			var overlaps: bool = false
+143: 			for ox in range(candidate.x - 1, candidate.x + width + 1):
+144: 				for oy in range(candidate.y - 1, candidate.y + height + 1):
+145: 					if Vector2i(ox, oy) in current_locs:
+146: 						overlaps = true
+147: 						break
+148: 				if overlaps:
+149: 					break
+150: 			
+151: 			if not overlaps:
+152: 				start_tile = candidate
+153: 				found_spot = true
+154: 				break
+155: 		
+156: 		if not found_spot:
+157: 			continue
+158: 		
+159: 		var local_start: Vector2 = chunk.map_to_local(start_tile)
+160: 		var world_start: Vector2 = chunk.to_global(local_start)
+161: 		var global_cell: Vector2i = Vector2i(world_start / 16.0)
+162: 		if global_cell.y < 10:
+163: 			continue
+164: 		
+165: 		var pod_tier: int = calculate_faultline_tier(global_cell)
+166: 		var wall_tier: int = min(max(1, pod_tier + 2), 12)
+167: 		var wall_tile: int = chunk.chest_block_from_level(wall_tier)
+168: 		if wall_tile == chunk.Tiles.EMPTY:
+169: 			wall_tile = chunk.Tiles.HARD_DARK if global_cell.y > 40 else chunk.Tiles.HARD_FIRE
+170: 		
+171: 		for x in range(start_tile.x - 1, start_tile.x + width + 1):
+172: 			for y in range(start_tile.y - 1, start_tile.y + height + 1):
+173: 				current_locs.append(Vector2i(x, y))
+174: 		
+175: 		for x in range(start_tile.x, start_tile.x + width):
+176: 			for y in range(start_tile.y, start_tile.y + height):
+177: 				var local_coord = Vector2i(x, y)
+178: 				var c_idx: int = chunk.pos_to_array(local_coord)
+179: 				var is_wall = (x == start_tile.x or x == start_tile.x + width - 1 or y == start_tile.y or y == start_tile.y + height - 1)
+180: 				
+181: 				if is_wall:
+182: 					chunk.tiles[c_idx] = wall_tile
+183: 					chunk.build_tile(c_idx)
+184: 				else:
+185: 					chunk.tiles[c_idx] = chunk.Tiles.EMPTY
+186: 					chunk.build_tile(c_idx)
+187: 		
+188: 		var SiphonScene = load("res://mods-unpacked/gareth-tectonic_faultline_mod/entities/MagmaSiphon.gd")
+189: 		if SiphonScene:
+190: 			var siphon = SiphonScene.new()
+191: 			var center_tile = Vector2i(start_tile.x + 1, start_tile.y + 1)
+192: 			siphon.position = chunk.map_to_local(center_tile)
+193: 			siphon.set_element(elements[p_idx % elements.size()])
+194: 			chunk.add_child(siphon)
+195: 	
+196: 	return current_locs
 
->>> 5. Git staging, committing, and pushing...
-[main 5ebd979] Fix Living Canvas Difficulty enum compilation error and safe dialog invocation
- 3 files changed, 4 insertions(+), 2 deletions(-)
-Enumerating objects: 20, done.
-Counting objects: 100% (20/20), done.
-Delta compression using up to 24 threads
-Compressing objects: 100% (10/10), done.
-Writing objects: 100% (11/11), 1.00 KiB | 514.00 KiB/s, done.
-Total 11 (delta 6), reused 0 (delta 0), pack-reused 0 (from 0)
-remote: Resolving deltas: 100% (6/6), completed with 6 local objects.
-To https://github.com/garethwhite-prog/coal-llc-mods.git
-   a04c07f..5ebd979  main -> main
+--- 3. Game.gd change_stage function ---
+  74: func change_stage(target: Gconsts.Stages, targetPosition: Vector2) -> void :
+  75:     get_tree().paused = true
+  76:     match target:
+  77:         0:
+  78:             target_stage = END_OF_DAY_OVERLAY
+  79:         1:
+  80:             target_stage = MAIN_MENU
+  81:         2:
+  82:             match Gvars.level:
+  83:                 Gconsts.Level.STANDARD:
+  84:                     target_stage = MINE_REGION
+  85:                 Gconsts.Level.SPARSE:
+  86:                     target_stage = MINE_REGION_SPARSE
+  87:                 Gconsts.Level.FUNNEL:
+  88:                     target_stage = MINE_REGION_FUNNEL
+  89:                 Gconsts.Level.TIGHT_FUNNEL:
+  90:                     target_stage = MINE_REGION_TIGHT_FUNNEL
+  91:                 Gconsts.Level.SKY_MINE:
+  92:                     target_stage = MINE_REGION_SKY_MINE
+  93:                 Gconsts.Level.SHALLOW:
+  94:                     target_stage = MINE_REGION_SHALLOW
+  95:                 Gconsts.Level.SPARSE_SKY_MINE:
+  96:                     target_stage = MINE_REGION_SKY_MINE_SPARSE
+  97:                 Gconsts.Level.STANDARD_TEST:
+  98:                     target_stage = MINE_REGION_TEST
+  99:         3:
+ 100:             target_stage = GAME_OVER
+ 101: 
+ 102:     self.visible = true
+ 103:     animation_player.play("transition")
+ 104:     await animation_player.animation_finished
+ 105: 
+ 106:     Gvars.PlayerSpawnPosition = targetPosition
+ 107: 
+ 108:     log_message("About to queue_free the current scene from the main scene, scene tree")
+ 109:     for n in main_scene.get_children():
+ 110:         n.queue_free()
+ 111:     log_message("Children removed, now instantiating the new target stage")
+ 112:     current_node = target_stage.instantiate()
+ 113:     log_message("Target stage instantiated, next adding to the main scene")
+ 114:     main_scene.add_child(current_node)
+ 115:     log_message("Target stage added to the main scene, now setting the current stage as the target stage")
+ 116:     current_stage = target_stage
+ 117:     log_message("Now unpausing the scene tree")
+ 118:     get_tree().paused = false
+ 119:     log_message("Scene tree unpaused successfully. Now playing transition out of load screen animation.")
 
-Fix deployed successfully! Launch Coal LLC to test.
-PS C:\Dev\coal-llc-mods> 
+--- 4. management_screen.gd Start Day handlers ---
