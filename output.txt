@@ -1,69 +1,115 @@
-﻿--- passive_order.gd (lines 70 to 135) ---
-  70: 	# Order
-  71: 	var passive_order = config.data.passive_order
-  72: 	var possible_passives := get_possible_passives_for_professions(player_profession)
-  73: 
-  74: 	var order_index := {}
-  75: 	for i in passive_order.size():
-  76: 		order_index[passive_order[i].effect] = i
-  77: 
-  78: 	possible_passives.sort_custom(func(a, b):
-  79: 		var a_in := order_index.has(a)
-  80: 		var b_in := order_index.has(b)
-  81: 
-  82: 		if a_in and b_in:
-  83: 			return order_index[a] < order_index[b]
-  84: 		elif a_in:
-  85: 			return true
-  86: 		elif b_in:
-  87: 			return false
-  88: 		else:
-  89: 			return a < b
-  90: 	)
-  91: 
-  92: 	for effect_name in possible_passives:
-  93: 		var passive_settings := {}
-  94: 		for passive in passive_order:
-  95: 			if passive.effect == effect_name:
-  96: 				passive_settings = passive
-  97: 
-  98: 		var passive_enabled = passive_settings.enabled if passive_settings else false
-  99: 		var passive_up_to = passive_settings.upTo if passive_settings else 0
- 100: 
- 101: 		var template_controls := template.get_children()
- 102: 		for control in template_controls:
- 103: 			var new_control := control.duplicate()
- 104: 
- 105: 			if new_control.name == "Enabled":
- 106: 				new_control.button_pressed = passive_enabled
- 107: 			elif new_control.name == "EffectName":
- 108: 				new_control.text = effect_name.replace("_", " ").capitalize()
- 109: 			elif new_control.name == "UpTo":
- 110: 				if passive_up_to > 0:
- 111: 					new_control.text = str(int(passive_up_to))
- 112: 				new_control.text_changed.connect(_on_up_to_text_changed.bind(new_control))
- 113: 			elif new_control.name == "ButtonUp":
- 114: 				new_control.pressed.connect(_on_button_up_pressed.bind(effect_name))
- 115: 			elif new_control.name == "ButtonDown":
- 116: 				new_control.pressed.connect(_on_button_down_pressed.bind(effect_name))
- 117: 
- 118: 			new_control.name += "$" + effect_name
- 119: 			grid.add_child(new_control)
- 120: 
- 121: 
- 122: func _on_button_up_pressed(effect_name: String) -> void:
- 123: 	move_controls(effect_name, true)
- 124: 
- 125: 
- 126: func _on_button_down_pressed(effect_name: String) -> void:
- 127: 	move_controls(effect_name, false)
- 128: 
- 129: 
- 130: func move_controls(effect_name: String, up: bool) -> void:
- 131: 	var child_offset := -template_children_count if up else template_children_count * 2
- 132: 	var control_offset := 0 if up else -1
- 133: 	var found_first := false
- 134: 
- 135: 	var control_idx: int = 0
+﻿=== MODS README.MD AUDIT ===
 
+[+] MODS WITH README.MD (46):
+  - Bouncing Ball Class [gareth-bouncing_ball_mod] (v1.1.0)
+      Locations: \gareth-bouncing_ball_mod\README.md; \gareth-bouncing_ball_mod\mods-unpacked\gareth-bouncing_ball_mod\README.md
+  - gareth-buyable_vacuums_mod [gareth-buyable_vacuums_mod] (v1.0.0)
+      Locations: \gareth-buyable_vacuums_mod\README.md; \gareth-buyable_vacuums_mod\mods-unpacked\gareth-buyable_vacuums_mod\README.md
+  - Chrono-Industrialist Class [gareth-chrono_industrialist_mod] (v1.1.0)
+      Locations: \gareth-chrono_industrialist_mod\README.md; \gareth-chrono_industrialist_mod\mods-unpacked\gareth-chrono_industrialist
+_mod\README.md
+  - Expanded Class Suite (9 Classes) [gareth-custom_classes_mod] (v1.0.0)
+      Locations: \gareth-custom_classes_mod\README.md; \gareth-custom_classes_mod\mods-unpacked\gareth-custom_classes_mod\README.md
+  - Debt Executioner Class [gareth-debt_executioner_mod] (v1.1.0)
+      Locations: \gareth-debt_executioner_mod\README.md; \gareth-debt_executioner_mod\mods-unpacked\gareth-debt_executioner_mod\README.
+md
+  - gareth-dual_multipliers_mod [gareth-dual_multipliers_mod] (v1.0.0)
+      Locations: \gareth-dual_multipliers_mod\README.md; \gareth-dual_multipliers_mod\mods-unpacked\gareth-dual_multipliers_mod\README.
+md
+  - gareth-elemental_transmutation_mod [gareth-elemental_transmutation_mod] (v1.1.0)
+      Locations: \gareth-elemental_transmutation_mod\README.md; \gareth-elemental_transmutation_mod\mods-unpacked\gareth-elemental_tran
+smutation_mod\README.md
+  - End-Game Staffs & Poison Guns [gareth-endgame_arsenal_mod] (v1.0.0)
+      Locations: \gareth-endgame_arsenal_mod\README.md; \gareth-endgame_arsenal_mod\mods-unpacked\gareth-endgame_arsenal_mod\README.md
+  - gareth-excavation_frenzy_mod [gareth-excavation_frenzy_mod] (v1.0.1)
+      Locations: \gareth-excavation_frenzy_mod\README.md; \gareth-excavation_frenzy_mod\mods-unpacked\gareth-excavation_frenzy_mod\READ
+ME.md
+  - Gravitational Dreadnought Class [gareth-grav_dreadnought_mod] (v1.1.0)
+      Locations: \gareth-grav_dreadnought_mod\README.md; \gareth-grav_dreadnought_mod\mods-unpacked\gareth-grav_dreadnought_mod\README.
+md
+  - gareth-grenade_mod [gareth-grenade_mod] (v1.0.0)
+      Locations: \gareth-grenade_mod\README.md; \gareth-grenade_mod\mods-unpacked\gareth-grenade_mod\README.md
+  - Heavy Demolition Bombs [gareth-heavy_bombs_mod] (v1.0.0)
+      Locations: \gareth-heavy_bombs_mod\README.md; \gareth-heavy_bombs_mod\mods-unpacked\gareth-heavy_bombs_mod\README.md
+  - Heavy Automated Turrets [gareth-heavy_turrets_mod] (v1.0.0)
+      Locations: \gareth-heavy_turrets_mod\README.md; \gareth-heavy_turrets_mod\mods-unpacked\gareth-heavy_turrets_mod\README.md
+  - gareth-hydrogen_bomb_mod [gareth-hydrogen_bomb_mod] (v2.0.0)
+      Locations: \gareth-hydrogen_bomb_mod\README.md; \gareth-hydrogen_bomb_mod\mods-unpacked\gareth-hydrogen_bomb_mod\README.md
+  - gareth-infini_platform_mod [gareth-infini_platform_mod] (v1.0.0)
+      Locations: \gareth-infini_platform_mod\README.md; \gareth-infini_platform_mod\mods-unpacked\gareth-infini_platform_mod\README.md
+  - Jedi Class [gareth-jedi_class_mod] (v1.1.0)
+      Locations: \gareth-jedi_class_mod\README.md; \gareth-jedi_class_mod\mods-unpacked\gareth-jedi_class_mod\README.md
+  - The Knight Class [gareth-knight_class_mod] (v1.0.0)
+      Locations: \gareth-knight_class_mod\README.md; \gareth-knight_class_mod\mods-unpacked\gareth-knight_class_mod\README.md
+  - High-Energy Laser Beam [gareth-laser_beam_mod] (v1.0.0)
+      Locations: \gareth-laser_beam_mod\README.md; \gareth-laser_beam_mod\mods-unpacked\gareth-laser_beam_mod\README.md
+  - gareth-leaderboard_mod [gareth-leaderboard_mod] (v2.0.0)
+      Locations: \gareth-leaderboard_mod\README.md; \gareth-leaderboard_mod\mods-unpacked\gareth-leaderboard_mod\README.md
+  - The Knight Class [gareth-lost_expedition_mod] (v1.0.0)
+      Locations: \gareth-lost_expedition_mod\README.md; \gareth-lost_expedition_mod\mods-unpacked\gareth-lost_expedition_mod\README.md
+  - gareth-martial_legends_mod [gareth-martial_legends_mod] (v1.0.0)
+      Locations: \gareth-martial_legends_mod\README.md; \gareth-martial_legends_mod\mods-unpacked\gareth-martial_legends_mod\README.md
+  - Mod Manager [gareth-mod_manager_mod] (v1.0.0)
+      Locations: \gareth-mod_manager_mod\README.md; \gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\README.md
+  - gareth-mod_settings_mod [gareth-mod_settings_mod] (v1.1.0)
+      Locations: \gareth-mod_settings_mod\README.md; \gareth-mod_settings_mod\mods-unpacked\gareth-mod_settings_mod\README.md
+  - Cosmic Collectors [gareth-more_collectors_mod] (v1.1.1)
+      Locations: \gareth-more_collectors_mod\README.md; \gareth-more_collectors_mod\mods-unpacked\gareth-more_collectors_mod\README.md
+  - gareth-more_drills_mod [gareth-more_drills_mod] (v1.0.0)
+      Locations: \gareth-more_drills_mod\README.md; \gareth-more_drills_mod\mods-unpacked\gareth-more_drills_mod\README.md
+  - Executive Miners [gareth-more_employees_mod] (v1.1.1)
+      Locations: \gareth-more_employees_mod\README.md; \gareth-more_employees_mod\mods-unpacked\gareth-more_employees_mod\README.md
+  - gareth-more_inventory_slots_mod [gareth-more_inventory_slots_mod] (v1.1.0)
+      Locations: \gareth-more_inventory_slots_mod\README.md; \gareth-more_inventory_slots_mod\mods-unpacked\gareth-more_inventory_slots
+_mod\README.md
+  - gareth-more_inventory_stacks_mod [gareth-more_inventory_stacks_mod] (v1.1.0)
+      Locations: \gareth-more_inventory_stacks_mod\README.md; \gareth-more_inventory_stacks_mod\mods-unpacked\gareth-more_inventory_sta
+cks_mod\README.md
+  - gareth-more_layer_shifts_mod [gareth-more_layer_shifts_mod] (v1.1.0)
+      Locations: \gareth-more_layer_shifts_mod\README.md; \gareth-more_layer_shifts_mod\mods-unpacked\gareth-more_layer_shifts_mod\READ
+ME.md
+  - gareth-more_mortars_mod [gareth-more_mortars_mod] (v1.0.0)
+      Locations: \gareth-more_mortars_mod\README.md; \gareth-more_mortars_mod\mods-unpacked\gareth-more_mortars_mod\README.md
+  - gareth-more_nukes_mod [gareth-more_nukes_mod] (v1.0.0)
+      Locations: \gareth-more_nukes_mod\README.md; \gareth-more_nukes_mod\mods-unpacked\gareth-more_nukes_mod\README.md
+  - gareth-more_vacuum_quests_mod [gareth-more_vacuum_quests_mod] (v1.1.0)
+      Locations: \gareth-more_vacuum_quests_mod\README.md; \gareth-more_vacuum_quests_mod\mods-unpacked\gareth-more_vacuum_quests_mod\R
+EADME.md
+  - gareth-multisave_mod [gareth-multisave_mod] (v2.2.0)
+      Locations: \gareth-multisave_mod\README.md; \gareth-multisave_mod\mods-unpacked\gareth-multisave_mod\README.md
+  - gareth-neutron_bomb_mod [gareth-neutron_bomb_mod] (v2.0.0)
+      Locations: \gareth-neutron_bomb_mod\README.md; \gareth-neutron_bomb_mod\mods-unpacked\gareth-neutron_bomb_mod\README.md
+  - gareth-plasma_raygun_mod [gareth-plasma_raygun_mod] (v1.0.0)
+      Locations: \gareth-plasma_raygun_mod\README.md; \gareth-plasma_raygun_mod\mods-unpacked\gareth-plasma_raygun_mod\README.md
+  - gareth-prospectors_beacon_mod [gareth-prospectors_beacon_mod] (v1.1.0)
+      Locations: \gareth-prospectors_beacon_mod\README.md; \gareth-prospectors_beacon_mod\mods-unpacked\gareth-prospectors_beacon_mod\R
+EADME.md
+  - gareth-seismic_hazards_mod [gareth-seismic_hazards_mod] (v1.1.0)
+      Locations: \gareth-seismic_hazards_mod\README.md; \gareth-seismic_hazards_mod\mods-unpacked\gareth-seismic_hazards_mod\README.md
+  - Rainbow Sinclairity Class [gareth-sinclairity_class_mod] (v1.1.1)
+      Locations: \gareth-sinclairity_class_mod\README.md; \gareth-sinclairity_class_mod\mods-unpacked\gareth-sinclairity_class_mod\READ
+ME.md
+  - gareth-tank_arsenal_mod [gareth-tank_arsenal_mod] (v1.1.0)
+      Locations: \gareth-tank_arsenal_mod\README.md; \gareth-tank_arsenal_mod\mods-unpacked\gareth-tank_arsenal_mod\README.md
+  - The Tectonic Fracker Class [gareth-tectonic_fracker_mod] (v1.2.0)
+      Locations: \gareth-tectonic_fracker_mod\README.md; \gareth-tectonic_fracker_mod\mods-unpacked\gareth-tectonic_fracker_mod\README.
+md
+  - Elemental Tick Upgrades [gareth-tick_upgrade_mod] (v1.4.0)
+      Locations: \gareth-tick_upgrade_mod\README.md; \gareth-tick_upgrade_mod\mods-unpacked\gareth-tick_upgrade_mod\README.md
+  - gareth-vacuum_depot_mod [gareth-vacuum_depot_mod] (v1.0.0)
+      Locations: \gareth-vacuum_depot_mod\README.md; \gareth-vacuum_depot_mod\mods-unpacked\gareth-vacuum_depot_mod\README.md
+  - Void Siphon Class [gareth-void_siphon_mod] (v1.1.1)
+      Locations: \gareth-void_siphon_mod\README.md; \gareth-void_siphon_mod\mods-unpacked\gareth-void_siphon_mod\README.md
+  - gareth-water_spirit_mod [gareth-water_spirit_mod] (v1.0.0)
+      Locations: \gareth-water_spirit_mod\README.md; \gareth-water_spirit_mod\mods-unpacked\gareth-water_spirit_mod\README.md
+  - gareth-weapon_stacker_mod [gareth-weapon_stacker_mod] (v1.1.1)
+      Locations: \gareth-weapon_stacker_mod\README.md; \gareth-weapon_stacker_mod\mods-unpacked\gareth-weapon_stacker_mod\README.md
+  - nanobotz-autopassivechooser [nanobotz-autopassivechooser] (v1.0.0)
+      Locations: \nanobotz-autopassivechooser\mods-unpacked\nanobotz-autopassivechooser\README.md
+
+[-] MODS MISSING README.MD (1):
+  - Tectonic Faultline [gareth-tectonic_faultline_mod] (v1.0.0)
+      Description: Custom subterranean faultline map with active magma strata and high-pressure magma siphons.
+
+Discovery complete! Output copied to clipboard.
 PS C:\Dev\coal-llc-mods> 

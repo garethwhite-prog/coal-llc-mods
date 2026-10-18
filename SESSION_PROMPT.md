@@ -119,32 +119,33 @@ Archetype weapons and explosives scale across 15 standard mineral tiers:
 ## 10. Tectonic Faultline (Map ID 102) & Elemental Systems Architecture
 
 ### Engine Contracts & Core Generation Rules
-- **Sky Stratum Code (`-2`)**: `lvl_from_global_pos(pos)` must return `-2` whenever `pos.y < 0` (tile grid coordinates). Returning `0` causes vanilla *Coal LLC* to classify the sky as Level 0 rock (`HARD_ORANGE` copper stone) and paint solid blocks across the clouds.
-- **Tile Coordinate Systems**: Coordinates passed into `lvl_from_global_pos(pos)` are raw tile row indices ($y < 0$ for sky, $y \ge 0$ for underground), not pixel values.
-- **Tile Cache & GPU Synchronization (`build_tile`)**: `TileMapChunk` does not update rendered blocks through standard Godot 4 `set_cell()` calls. Modifying rock layers or carving chambers requires setting `chunk.tiles[c_idx] = target_tile` followed immediately by `chunk.build_tile(c_idx)` to update the GPU render mesh and block metadata.
-- **Subterranean Vault Hooking (`generate_chests`)**: Multi-block chambers and pod vaults must be hooked in `generate_chests(chain, current_block_chest_locations)` rather than `generate_chunk`. This guarantees strata generation has completed and allows appending vault coordinates to `current_block_chest_locations` to prevent vanilla chests from spawning inside.
-- **ModLoader Virtual Zip Asset Loading**: Texture files packaged inside `.zip` archives cannot be reliably loaded using `ResourceLoader.load()`. Custom card previews and entity sprites must be loaded as raw bytes via `FileAccess.get_file_as_bytes()` into an `Image`, then converted via `ImageTexture.create_from_image()`, or drawn procedurally onto an `ImageTexture`.
+- Sky Stratum Code (-2): lvl_from_global_pos(pos) must return -2 whenever pos.y < 0 (tile grid coordinates). Returning 0 causes vanilla Coal LLC to classify the sky as Level 0 rock (HARD_ORANGE copper stone) and paint solid blocks across the clouds.
+- Tile Coordinate Systems: Coordinates passed into lvl_from_global_pos(pos) are raw tile row indices (y < 0 for sky, y >= 0 for underground), not pixel values.
+- Tile Cache & GPU Synchronization (build_tile): TileMapChunk does not update rendered blocks through standard Godot 4 set_cell() calls. Modifying rock layers or carving chambers requires setting chunk.tiles[c_idx] = target_tile followed immediately by chunk.build_tile(c_idx) to update the GPU render mesh and block metadata.
+- Subterranean Vault Hooking (generate_chests): Multi-block chambers and pod vaults must be hooked in generate_chests(chain, current_block_chest_locations) rather than generate_chunk. This guarantees strata generation has completed and allows appending vault coordinates to current_block_chest_locations to prevent vanilla chests from spawning inside.
+- ModLoader Virtual Zip Asset Loading: Texture files packaged inside .zip archives cannot be reliably loaded using ResourceLoader.load(). Custom card previews and entity sprites must be loaded as raw bytes via FileAccess.get_file_as_bytes() into an Image, then converted via ImageTexture.create_from_image(), or drawn procedurally onto an ImageTexture.
 
-### Elemental Pods (`MagmaSiphon.gd`)
-- **Visual Color Modulation**:
-  - **Magma (Fire)**: Modulated crimson red (`Color(1.4, 0.2, 0.2)`) with fiery ember particles and expanding blast rings.
-  - **Hydro Geyser (Water)**: Modulated electric azure (`Color(0.2, 0.55, 1.4)`) with blue spray droplets.
-  - **Toxic Acid (Poison)**: Modulated neon emerald (`Color(0.25, 1.3, 0.25)`) with corrosive drip cascades.
-- **Triple Spawn Density ($3\times$)**: `spawn_magma_siphons()` attempts three non-overlapping vault placements per subterranean chunk using a 1-tile clearance check against `current_block_chest_locations`.
-- **Interaction Contracts**:
-  - `[E]` Vent: Geyser updraft velocity ($y = -700$ to $-950$), scaled cash bounty, multi-wave fluid cascade, and `Bus.choose_passive` trigger.
+### Elemental Pods (MagmaSiphon.gd)
+- Visual Color Modulation:
+  - Magma (Fire): Modulated crimson red Color(1.4, 0.2, 0.2) with fiery ember particles and expanding blast rings.
+  - Hydro Geyser (Water): Modulated electric azure Color(0.2, 0.55, 1.4) with blue spray droplets.
+  - Toxic Acid (Poison): Modulated neon emerald Color(0.25, 1.3, 0.25) with corrosive drip cascades.
+- Triple Spawn Density (3x): spawn_magma_siphons() attempts three non-overlapping vault placements per subterranean chunk using a 1-tile clearance check against current_block_chest_locations.
+- Interaction Contracts:
+  - [E] Vent: Geyser updraft velocity (y = -700 to -950), scaled cash bounty, multi-wave fluid cascade, and Bus.choose_passive trigger.
   - Left-Click Rupture: High-radius core explosion, wider fluid splatter, and massive damage to surrounding strata.
 
 ### Passive Chooser & Chest Loot Injection
-- **Vanilla Inventory Gating**: In `choose_passive.gd`, `c1` and `c2` cards pull strictly from `choice_options` (built only from equipped weapon types in `PlayerInventory.tres`), while `c3` is locked to mobility stats. When holding a pickaxe, elemental damage perks are excluded and never roll.
-- **Map 102 Injection**: In `gareth-mod_manager_mod/extensions/scenes/Interfaces/in_game/choose_passive.hooks.gd`, when `Gvars.level == 102`, `fire_damage`, `wet_damage`, `poison_damage`, and `elemental_tick_rate` are injected directly into `choice_options` so bonus chests present elemental cards without requiring elemental weapons. Standard maps remain untouched.
-- **Built-in Vanilla Multipliers**:
-  - `fire_damage` (+5%): Directly scales burn DPS (`tile_map_chunk.gd:2428`).
-  - `poison_damage` (+5%): Directly scales poison DPS (`tile_map_chunk.gd:2378`).
-  - `wet_damage` (+1%): Multiplies all damage to saturated blocks by $2 \times (1 + \text{wet\_damage})$ (`tile_map_chunk.gd:2246`).
-- **Elemental Tick Rate Acceleration**: Vanilla tick intervals are fixed (`POISON_TICK_LENGTH = 6`, `BURN_TICK_LENGTH = 7`). In `tile_map_chunk.hooks.gd`, `apply_tile_effects` accumulates fractional bonuses from `elemental_tick_rate` to trigger extra calls to `poisons_loop()` and `burns_loop()`, accelerating damage-over-time block melting.
+- Vanilla Inventory Gating: In choose_passive.gd, c1 and c2 cards pull strictly from choice_options (built only from equipped weapon types in PlayerInventory.tres), while c3 is locked to mobility stats. When holding a pickaxe, elemental damage perks are excluded and never roll.
+- Map 102 Injection: In gareth-mod_manager_mod/extensions/scenes/Interfaces/in_game/choose_passive.hooks.gd, when Gvars.level == 102, fire_damage, wet_damage, poison_damage, and elemental_tick_rate are injected directly into choice_options so bonus chests present elemental cards without requiring elemental weapons. Standard maps remain untouched.
+- Built-in Vanilla Multipliers:
+  - fire_damage (+5%): Directly scales burn DPS (tile_map_chunk.gd:2428).
+  - poison_damage (+5%): Directly scales poison DPS (tile_map_chunk.gd:2378).
+  - wet_damage (+1%): Multiplies all damage to saturated blocks by 2 * (1 + wet_damage) (tile_map_chunk.gd:2246).
+- Elemental Tick Rate Acceleration: Vanilla tick intervals are fixed (POISON_TICK_LENGTH = 6, BURN_TICK_LENGTH = 7). In tile_map_chunk.hooks.gd, apply_tile_effects accumulates fractional bonuses from elemental_tick_rate to trigger extra calls to poisons_loop() and burns_loop(), accelerating damage-over-time block melting.
 
-### `nanobotz-autopassivechooser` Integration
-- **Settings UI Discovery**: `passive_order.gd:get_possible_passives_for_professions()` queries `_profession_effect()` per class. Non-elemental classes (like Internship) omit elemental perks from the UI list.
-- **UI Patch**: Appending `fire_damage`, `wet_damage`, `poison_damage`, and `elemental_tick_rate` to `get_possible_passives_for_professions()` ensures they appear in **Settings -> Passive Order** with limit inputs and priority controls for all professions.
-- **In-Game Auto-Pick Contract**: In `choose_passive.hooks.gd`, the auto-picker checks `passive.get("enabled", false)` and evaluates stat caps across both `Gvars.passives` and `Gvars.custom_passives` to prevent null-reference runtime exceptions.
+### nanobotz-autopassivechooser Integration
+- Settings UI Discovery: passive_order.gd:get_possible_passives_for_professions() queries _profession_effect() per class. Non-elemental classes (like Internship) omit elemental perks from the UI list.
+- UI Patch: Appending fire_damage, wet_damage, poison_damage, and elemental_tick_rate to get_possible_passives_for_professions() ensures they appear in Settings -> Passive Order with limit inputs and priority controls for all professions.
+- In-Game Auto-Pick Contract: In choose_passive.hooks.gd, the auto-picker checks passive.get("enabled", false) and evaluates stat caps across both Gvars.passives and Gvars.custom_passives to prevent null-reference runtime exceptions.
+
