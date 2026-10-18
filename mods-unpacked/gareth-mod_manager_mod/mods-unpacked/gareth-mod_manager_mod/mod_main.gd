@@ -22,7 +22,12 @@ func install_hooks() -> void:
 		"res://scripts/MainMenu.gd",
 		ext_dir.path_join("scripts/MainMenu.hooks.gd")
 	)
+		ModLoaderMod.install_script_hooks(
+		"res://scenes/Stages/management_screen.gd",
+		ext_dir.path_join("scenes/Stages/management_screen.hooks.gd")
+	)
 	ModLoaderMod.install_script_hooks(
 		"res://scripts/Gvars.gd",
 		ext_dir.path_join("scripts/Gvars.hooks.gd")
 	)
+

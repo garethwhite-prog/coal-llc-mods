@@ -1,27 +1,29 @@
-﻿>>> 1. Creating extensions/scripts/Game.hooks.gd...
->>> 2. Updating mod_main.gd to register Game.gd hook...
->>> 3. Patching mod manager or Gvars hook to safeguard reset_resources...
+﻿>>> 1. Repairing gareth-mod_manager_mod/mod_main.gd indentation...
+Repaired: C:\Dev\coal-llc-mods\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\mod_main.gd
 
->>> 4. Flushing mod-hooks.zip to trigger re-injection...
+>>> 2. Updating LivingCanvasHelper.gd to use native chunk.array_to_global_pos()...
+Updated: C:\Dev\coal-llc-mods\mods-unpacked\gareth-living_canvas_mod\mods-unpacked\gareth-living_canvas_mod\helpers\LivingCanvasHelper.gd
+
+>>> 3. Updating tile_map_chunk.hooks.gd...
+Updated: C:\Dev\coal-llc-mods\mods-unpacked\gareth-living_canvas_mod\mods-unpacked\gareth-living_canvas_mod\extensions\scenes\tilemaps\tile_map_chunk.hooks.gd
+
+>>> 4. Flushing mod-hooks.zip...
 >>> 5. Repackaging living_canvas_mod.zip and mod_manager_mod.zip...
 Repacked: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods\gareth-living_canvas_mod.zip
 Repacked: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods\gareth-mod_manager_mod.zip
 
->>> 6. Git staging and committing...
-warning: in the working copy of 'context.txt', LF will be replaced by CRLF the next time Git touches it
-[main 86ed6ce] Fix Map 103 stage transition into MineRegion and guard Gvars reset_resources null crash
- 7 files changed, 399 insertions(+), 121 deletions(-)
- create mode 100644 mods-unpacked/gareth-living_canvas_mod/mods-unpacked/gareth-living_canvas_mod/extensions/scripts/Game.hooks.gd
- create mode 100644 mods-unpacked/gareth-mod_manager_mod/mods-unpacked/gareth-mod_manager_mod/extensions/scripts/Gvars.hooks.gd
-Enumerating objects: 30, done.
-Counting objects: 100% (30/30), done.
+>>> 6. Git staging, committing, and pushing...
+[main e56d974] Fix Mod Manager indentation error and switch Living Canvas to native chunk.array_to_global_pos
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
 Delta compression using up to 24 threads
-Compressing objects: 100% (18/18), done.
-Writing objects: 100% (20/20), 8.35 KiB | 1.67 MiB/s, done.
-Total 20 (delta 6), reused 0 (delta 0), pack-reused 0 (from 0)
-remote: Resolving deltas: 100% (6/6), completed with 6 local objects.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 358 bytes | 358.00 KiB/s, done.
+Total 3 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
 To https://github.com/garethwhite-prog/coal-llc-mods.git
-   cba6ae1..86ed6ce  main -> main
+   42d2818..e56d974  main -> main
 
-Fix deployed successfully! Launch Coal LLC to test.
+All fixes applied! Launch Coal LLC to test.
 PS C:\Dev\coal-llc-mods> 

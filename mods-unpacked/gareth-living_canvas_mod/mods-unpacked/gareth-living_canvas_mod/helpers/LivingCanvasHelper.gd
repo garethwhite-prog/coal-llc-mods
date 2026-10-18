@@ -5,19 +5,21 @@ const CANVAS_LEVEL_ID: int = 103
 const TARGET_CANVAS_WIDTH: int = 96
 const CONFIG_PATH: String = "user://living_canvas_config.json"
 
+# Palette: Color -> Breakable BASIC_* Tile Enum ID
+# These tiles exist in TILE_PROPERTIES, have full destruction health, and distinct textures:
 const PALETTE: Dictionary = {
-	Color(0.85, 0.20, 0.15): 231, # HARD_FIRE
-	Color(0.70, 0.90, 0.98): 230, # HARD_ICE
-	Color(0.12, 0.12, 0.15): 232, # HARD_DARK
-	Color(0.20, 0.78, 0.25): 233, # HARD_GREEN
-	Color(0.92, 0.50, 0.12): 234, # HARD_ORANGE
-	Color(0.65, 0.20, 0.85): 235, # HARD_PURPLE
-	Color(0.12, 0.40, 0.15): 236, # HARD_DARKGREEN
-	Color(0.95, 0.85, 0.18): 237, # HARD_YELLOW
-	Color(0.40, 0.25, 0.15): 238, # HARD_DARKBROWN
-	Color(0.10, 0.25, 0.70): 239, # HARD_DARKBLUE
-	Color(0.50, 0.50, 0.52): 229, # HARD_STONE
-	Color(0.75, 0.55, 0.45): 228, # HARD_CLAY
+	Color(0.85, 0.20, 0.15): 75,  # BASIC_FIRE (Crimson / Lava / Red)
+	Color(0.70, 0.90, 0.98): 58,  # BASIC_ICE (Cyan / Snow / Sky)
+	Color(0.12, 0.12, 0.15): 92,  # BASIC_DARK (Obsidian / Black / Dark Rock)
+	Color(0.20, 0.78, 0.25): 109, # BASIC_GREEN (Bright Emerald / Grass)
+	Color(0.92, 0.50, 0.12): 126, # BASIC_ORANGE (Amber / Copper / Dirt)
+	Color(0.65, 0.20, 0.85): 143, # BASIC_PURPLE (Violet / Amethyst)
+	Color(0.12, 0.40, 0.15): 160, # BASIC_DARKGREEN (Deep Forest / Pine / Moss)
+	Color(0.95, 0.85, 0.18): 177, # BASIC_YELLOW (Gold / Sand / Sunlight)
+	Color(0.40, 0.25, 0.15): 194, # BASIC_DARKBROWN (Wood / Mud / Soil)
+	Color(0.10, 0.25, 0.70): 211, # BASIC_DARKBLUE (Water / Deep Ocean)
+	Color(0.50, 0.50, 0.52): 41,  # BASIC_STONE (Granite / Cobblestone)
+	Color(0.75, 0.55, 0.45): 24,  # BASIC_CLAY (Clay / Soft Terracotta)
 }
 
 static var cached_image: Image = null
@@ -143,9 +145,9 @@ static func _generate_fallback_canvas() -> Image:
 
 static func match_tile_from_color(col: Color) -> int:
 	if col.a < 0.2:
-		return 0
+		return 0 # Tiles.EMPTY
 
-	var best_tile: int = 229
+	var best_tile: int = 41 # Default BASIC_STONE
 	var min_dist: float = 999999.0
 
 	for p_col in PALETTE.keys():
@@ -181,7 +183,7 @@ static func paint_chunk_from_canvas(chunk: Node) -> void:
 			if abs(global_pos.x) > half_w + 3:
 				chunk.tiles[idx] = chunk.Tiles.BEDROCK
 			else:
-				chunk.tiles[idx] = chunk.Tiles.HARD_DARK
+				chunk.tiles[idx] = chunk.Tiles.BASIC_DARK
 			chunk.build_tile(idx)
 			continue
 
