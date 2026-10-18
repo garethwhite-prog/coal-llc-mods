@@ -58,12 +58,14 @@ $gfx.FillEllipse($podBrush, 130, 60, 20, 20)
 
 # Hazard stripes on header
 $stripeBrush = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(220, 50, 30))
-for ($s = -20; $s -lt $width + 20; $s += 24) {$pts = @(
+for ($s = -20; $s -lt $width + 20; $s += 24) {
+    $pts = @(
         New-Object System.Drawing.Point($s, 0),
         New-Object System.Drawing.Point($s + 12, 0),
         New-Object System.Drawing.Point($s + 2, 14),
-        New-Object System.Drawing.Point($s - 10, 14) )
-        $gfx.FillPolygon($stripeBrush,$pts)
+        New-Object System.Drawing.Point($s - 10, 14)
+    )
+    $gfx.FillPolygon($stripeBrush, $pts)
 }
 
 $gfx.Dispose()
