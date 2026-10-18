@@ -289,7 +289,7 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem
 foreach ($mTarget in @("gareth-living_canvas_mod", "gareth-mod_manager_mod")) {
     $mOuter = "$repo\mods-unpacked\$mTarget"
     $mZip   = "$steamMods\$mTarget.zip"
-    if (Test-Path $mZip) { Remove-Item -Path$mZip -Force }
+    if (Test-Path $mZip) { Remove-Item -Path $mZip -Force }
 
     $stream  = [System.IO.File]::Open($mZip, [System.IO.FileMode]::CreateNew)
     $archive = New-Object System.IO.Compression.ZipArchive($stream, [System.IO.Compression.ZipArchiveMode]::Create)
