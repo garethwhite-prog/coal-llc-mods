@@ -26,7 +26,9 @@ New-Item -ItemType Directory -Path "$innerDir\extensions\scripts" -Force | Out-N
 
 Write-Host ">>> 2. Generating custom trench preview asset..." -ForegroundColor Cyan
 Add-Type -AssemblyName System.Drawing
-$bmp = New-Object System.Drawing.Bitmap 240, 150$gfx = [System.Drawing.Graphics]::FromImage($bmp)$gfx.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::AntiAlias
+$bmp = New-Object System.Drawing.Bitmap 240, 150
+$gfx = [System.Drawing.Graphics]::FromImage($bmp)
+$gfx.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::AntiAlias
 
 # Deep ocean gradient
 $rect = New-Object System.Drawing.Rectangle 0, 0, 240, 150
