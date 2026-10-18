@@ -2,41 +2,43 @@
  M output.txt
 
 === RECENT COMMITS ===
+a754578 Implement 3x pod density, color-coded pods (Red/Blue/Green), -2 sky air return, and chunk.build_tile sync
+b1be40e Align Map 102 generation with LostExpedition contracts: -2 sky return, chunk.build_tile GPU sync, and generate_chests vault placement
 c49196f Fix generate_chunk noise forwarding and provide procedural image texture fallback
-81f83f4 Fix compile error in TectonicFaultlineHelper, implement preloaded chunk hooks, and enable surface-depth pod spawning
-80e0143 Fix sky block generation, add card preview texture, and resolve pos_to_array and tag_seismic_seams errors
 
-=== SESSION ERRORS & WARNINGS (27 found) ===
-ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
-SCRIPT ERROR: Parse Error: The variable type is being inferred from a Variant value, so it will be typed as Variant. (Warning treated as error.)
-ERROR: Failed to load script "res://mods-unpacked/der_floh-performance_mod/extensions/scenes/tilemaps/tile_map_chunk.hooks.gd" with error "Parse error".
-SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
-SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
-ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
-ERROR: No loader found for resource: res:// (expected type: )
-ERROR: Error loading resource: ''.
-SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
+=== SESSION ERRORS & WARNINGS (1533 found) ===
+SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
+SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
+SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
+SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
+SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
+SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
+SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
+SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
+SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
+SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
+SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
+SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
+SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
+SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
+SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
+SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
+SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
+SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
+SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
+SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
+SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
+SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
+SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
+SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
+SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
 SCRIPT ERROR: Trying to call an async function without "await".
-SCRIPT ERROR: Trying to call an async function without "await".
-ERROR: No loader found for resource: res:// (expected type: )
-ERROR: Error loading resource: ''.
-SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
-SCRIPT ERROR: Trying to call an async function without "await".
-SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: 60 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+ERROR: 64 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
 ERROR: 6 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
 ERROR: 4 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
 ERROR: 162 resources still in use at exit (run with --verbose for details).
 
-=== ACTIVE MOD LOG ENTRIES (13 found) ===
-	 - C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mods/gareth-tectonic_faultline_mod.zip
+=== ACTIVE MOD LOG ENTRIES (21 found) ===
 DEBUG ModLoader:File: Loading mod_manifest from -> C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mods/gareth-tectonic_faultline_mod.zip
 SUCCESS ModLoader: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mods/gareth-tectonic_faultline_mod.zip loaded.
 DEBUG ModLoader:Config: No config for mod id "gareth-tectonic_faultline_mod"
@@ -49,31 +51,39 @@ INFO gareth-tectonic_faultline_mod: Tectonic Faultline Mod initializing...
 DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultline_mod:<Node#702512377192>
   "gareth-tectonic_faultline_mod": "<Resource#-9223371951341304236>",
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Custom Map Mod (ID 102) online!
+INFO gareth-tectonic_faultline_mod: Elemental Pod vented (WATER)! Updraft + Scaled Bounty: $34098
+INFO gareth-tectonic_faultline_mod: Elemental Pod vented (POISON)! Updraft + Scaled Bounty: $49555
+INFO gareth-tectonic_faultline_mod: Elemental Pod vented (FIRE)! Updraft + Scaled Bounty: $34098
+INFO gareth-tectonic_faultline_mod: Elemental Pod vented (FIRE)! Updraft + Scaled Bounty: $92739
+INFO gareth-tectonic_faultline_mod: Elemental Pod vented (WATER)! Updraft + Scaled Bounty: $88934
+INFO gareth-tectonic_faultline_mod: Elemental Pod vented (POISON)! Updraft + Scaled Bounty: $67809
+INFO gareth-tectonic_faultline_mod: Elemental Pod vented (FIRE)! Updraft + Scaled Bounty: $92739
+INFO gareth-tectonic_faultline_mod: Elemental Pod vented (FIRE)! Updraft + Scaled Bounty: $85210
 
 === LOG TAIL (LAST 30 LINES) ===
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (-3.074874, 87.99371)!
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
+   at: destroy_tile (res://mods-unpacked/gareth-elemental_transmutation_mod/extensions/scenes/tilemaps/tile_map_chunk.hooks.gd:23)
+INFO gareth-elemental_transmutation_mod:Hook: [Transmutation] Burned tile destroyed at (56, 29)! Crystallized: +$35
+SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
+   at: destroy_tile (res://mods-unpacked/gareth-elemental_transmutation_mod/extensions/scenes/tilemaps/tile_map_chunk.hooks.gd:23)
+INFO gareth-elemental_transmutation_mod:Hook: [Transmutation] Burned tile destroyed at (56, 30)! Crystallized: +$35
+SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
+   at: destroy_tile (res://mods-unpacked/gareth-elemental_transmutation_mod/extensions/scenes/tilemaps/tile_map_chunk.hooks.gd:23)
 INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
 INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (-3.074874, 103.9875)!
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (861.4303, 287.6506)!
 INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-3.074874, 119.9956)
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-3.074874, 119.9956)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-3.074874, 119.9956)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-3.074874, 119.9956)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-3.074874, 119.9956)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-3.074874, 119.9956)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-3.074874, 119.9956)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-3.074874, 119.9956)
+end day
+SCRIPT ERROR: Trying to call an async function without "await".
+   at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+Day Count: 1
+Days Passed: 0
+INFO gareth-more_employees_mod: Workforce chart initialized cleanly.
+say_game_has_been_saved() function running
+finished turning on
 WARNING: 18 RIDs of type "CanvasItem" were leaked.
    at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2679)
-ERROR: 60 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-WARNING: 108 RIDs of type "Texture" were leaked.
+ERROR: 64 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+WARNING: 112 RIDs of type "Texture" were leaked.
    at: finalize (servers/rendering/rendering_device.cpp:7130)
 ERROR: 6 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
 ERROR: 4 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.

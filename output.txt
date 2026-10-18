@@ -1,32 +1,82 @@
-﻿>>> 1. Updating TectonicFaultlineHelper.gd with -2 sky code & build_tile...
-Updated: C:\Dev\coal-llc-mods\mods-unpacked\gareth-tectonic_faultline_mod\mods-unpacked\gareth-tectonic_faultline_mod\helpers\TectonicFaultlineHelper.gd
+﻿=== SEARCHING GIT HISTORY FOR ORIGINAL TICK UPGRADE CODE ===
+No commits matching POISON_TICK_LENGTH found.
+commit a7545787d801bb70261174369285fd736e54f41d
+Author: Gareth <gareth.white@live.co.uk>
+Date:   Sun Oct 18 09:58:05 2026 +0100
 
->>> 2. Updating tile_map_chunk.hooks.gd (matching LostExpedition hook pattern)...
-Updated: C:\Dev\coal-llc-mods\mods-unpacked\gareth-tectonic_faultline_mod\mods-unpacked\gareth-tectonic_faultline_mod\extensions\scenes\tilemaps\tile_map_chunk.hooks.gd
+    Implement 3x pod density, color-coded pods (Red/Blue/Green), -2 sky air return, and chunk.build_tile sync
 
->>> 3. Flushing mod-hooks.zip...
->>> 4. Repackaging mod archive for Steam...
-Packed archive at: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods\gareth-tectonic_faultline_mod.zip
->>> 5. Git staging, committing, and pushing...
-git : warning: in the working copy of 'context.txt', LF will be replaced by CRLF the next time Git touches it
-At C:\Dev\coal-llc-mods\ai_worker_script.ps1:278 char:1
-+ git add -A
-+ ~~~~~~~~~~
-    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
-    + FullyQualifiedErrorId : NativeCommandError
+diff --git a/ai_worker_script.ps1 b/ai_worker_script.ps1
+index 5e517a6..9a00a75 100644
+--- a/ai_worker_script.ps1
++++ b/ai_worker_script.ps1
+@@ -1,7 +1,7 @@
+ ï»¿cls
  
-warning: in the working copy of 'output.txt', LF will be replaced by CRLF the next time Git touches it
-[main b1be40e] Align Map 102 generation with LostExpedition contracts: -2 sky return, chunk.build_tile GPU sync, and generate_chests vault placement
- 5 files changed, 353 insertions(+), 298 deletions(-)
-git : To https://github.com/garethwhite-prog/coal-llc-mods.git
-At C:\Dev\coal-llc-mods\ai_worker_script.ps1:280 char:1
-+ git push origin main
-+ ~~~~~~~~~~~~~~~~~~~~
-    + CategoryInfo          : NotSpecified: (To https://gith...al-llc-mods.git:String) [], RemoteException
-    + FullyQualifiedErrorId : NativeCommandError
+ # ==============================================================================
+-# Coal LLC - Apply Discovered Sky (-2) & Vault build_tile Contracts
++# Coal LLC - 3x Pod Density & Distinct Element Colors (Red/Blue/Green)
+ # ==============================================================================
  
-   c49196f..b1be40e  main -> main
-
-Deploy complete! Launch Coal LLC to test.
-
-PS C:\Dev\coal-llc-mods> 
+ $repo       = "C:\Dev\coal-llc-mods"
+@@ -13,11 +13,370 @@ $innerDir   = "$outerDir\mods-unpacked\$modName"
+ $zipPath    = "$steamMods\$modName.zip"
+ $hookZip    = "$steamRoot\mod-hooks.zip"
+ $helperPath = "$innerDir\helpers\TectonicFaultlineHelper.gd"
+-$chunkHook  = "$innerDir\extensions\scenes\tilemaps\tile_map_chunk.hooks.gd"
++$siphonPath = "$innerDir\entities\MagmaSiphon.gd"
+ 
+ Set-Location $repo
+ 
+-Write-Host ">>> 1. Updating TectonicFaultlineHelper.gd with -2 sky code & build_tile..." -ForegroundColor Cyan
++Write-Host ">>> 1. Writing enhanced entities/MagmaSiphon.gd with vivid Red, Blue, and Green styling..." -ForegroundColor Cyan
++@'
++class_name MagmaSiphon
++extends Node2D
++
++enum ElementType { FIRE, WATER, POISON }
++
++var element_type: ElementType = ElementType.FIRE
++var in_range: bool = false
++var vented: bool = false
++var sprite: Sprite2D
++var prompt_label: Label
++var tex_active: Texture2D
++var tex_vented: Texture2D
++var cached_player: Node2D = null
++
++# Animated Shockwave Ring
++var fx_radius: float = 0.0
++var fx_alpha: float = 0.0
++var fx_color: Color = Color(1.0, 0.15, 0.15)
++
++func _ready() -> void:
++	z_index = 6
++	
++	var img_active = Image.load_from_file("res://mods-unpacked/gareth-tectonic_faultline_mod/assets/magma_siphon_active.png")
++	if img_active:
++		tex_active = ImageTexture.create_from_image(img_active)
++	
++	var img_vented = Image.load_from_file("res://mods-unpacked/gareth-tectonic_faultline_mod/assets/magma_siphon_vented.png")
++	if img_vented:
++		tex_vented = ImageTexture.create_from_image(img_vented)
++	
++	sprite = Sprite2D.new()
++	sprite.texture = tex_active
++	add_child(sprite)
++	
++	prompt_label = Label.new()
++	prompt_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
++	prompt_label.position = Vector2(-85, -28)
++	prompt_label.add_theme_font_size_override("font_size", 9)
++	prompt_label.add_theme_constant_override("outline_size", 3)
++	prompt_label.visible = false
++	add_child(prompt_label)
++	
++	_apply_visual_styling()
++
++func set_element(type_str: String) -> void:
++	match type_str.to_lower():
++		"water":
++			element_type = ElementType.WATER
++		"poison":

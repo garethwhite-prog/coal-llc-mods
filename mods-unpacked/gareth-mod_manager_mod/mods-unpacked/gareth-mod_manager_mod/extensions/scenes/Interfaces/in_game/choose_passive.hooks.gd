@@ -27,7 +27,8 @@ const CUSTOM_PASSIVES: Dictionary = {
 	"dread_impact_radius": 0.15,
 	"chrono_tick_rate": 0.10,
 	"chrono_shockwave_damage": 0.15,
-	"chrono_stasis_duration": 0.10
+	"chrono_stasis_duration": 0.10,
+	"elemental_tick_rate": 0.10
 }
 
 func _ready(chain: ModLoaderHookChain) -> void:
@@ -69,12 +70,25 @@ func _ready(chain: ModLoaderHookChain) -> void:
 	var choice_options: Array[String] = []
 	var leftover_options: Array = cp.x.duplicate()
 
+	# 1. Standard inventory-gated weapon passives
 	if player_inventory and player_inventory.items:
 		for inv_item in player_inventory.items:
 			if inv_item and inv_item.item:
 				for p in local_passive_map.get(inv_item.item.itemType, []):
 					if p in leftover_options and not (p in choice_options):
 						choice_options.append(p)
+
+	# 2. Tectonic Faultline Exclusive Injection (Map 102 only)
+	var is_faultline: bool = false
+	if Gvars:
+		if ("level" in Gvars and Gvars.level == 102) or ("chosen_level" in Gvars and Gvars.chosen_level == 102) or ("current_level" in Gvars and Gvars.current_level == 102):
+			is_faultline = true
+
+	if is_faultline:
+		var faultline_perks: Array[String] = ["fire_damage", "wet_damage", "poison_damage", "elemental_tick_rate"]
+		for fp in faultline_perks:
+			if fp in leftover_options and not (fp in choice_options):
+				choice_options.append(fp)
 
 	var choices: Array[String] = []
 	var c1: String = choice_options.pick_random() if choice_options.size() > 0 else leftover_options.pick_random()
@@ -143,17 +157,12 @@ func _handle_button_selection(chain: ModLoaderHookChain, idx: int) -> void:
 	else:
 		chain.execute_next([])
 
-func _apply_custom_stat(choice: String, delta_amount: float) -> void:
-	if not Gvars or not ("passives" in Gvars) or not Gvars.passives:
+func _apply_custom_stat(stat_name: String, amount: float) -> void:
+	if not Gvars:
 		return
-	var p = Gvars.passives
-	var current: float = 0.0
-	if p.has_meta(choice):
-		current = float(p.get_meta(choice))
-	elif choice in p:
-		current = float(p.get(choice))
-
-	var updated: float = current + delta_amount
-	p.set_meta(choice, updated)
-	p.set(choice, updated)
-	print("[CustomPassives] Applied ", choice, " +", delta_amount, " (Total: ", updated, ")")
+	if not ("custom_passives" in Gvars) or (Gvars.custom_passives == null):
+		Gvars.set("custom_passives", {})
+	if not Gvars.custom_passives.has(stat_name):
+		Gvars.custom_passives[stat_name] = 0.0
+	Gvars.custom_passives[stat_name] += amount
+	ModLoaderLog.info("[Passives] Applied %s +%.2f (Total: %.2f)" % [stat_name, amount, Gvars.custom_passives[stat_name]], "gareth-mod_manager_mod")

@@ -14,6 +14,11 @@ static func is_faultline_level() -> bool:
 			return true
 	return false
 
+static func get_elemental_tick_bonus() -> float:
+	if Gvars and ("custom_passives" in Gvars) and (Gvars.custom_passives is Dictionary):
+		return float(Gvars.custom_passives.get("elemental_tick_rate", 0.0))
+	return 0.0
+
 func ensure_level_registered() -> void:
 	register_faultline_level()
 
@@ -56,7 +61,6 @@ static func register_faultline_level() -> void:
 
 static func calculate_faultline_tier(pos: Vector2i) -> int:
 	var y_tile: int = pos.y
-	# Sky contract: return -2 for sky / surface air
 	if y_tile < 0:
 		return -2
 	elif y_tile < 24:
@@ -118,7 +122,6 @@ static func spawn_magma_siphons(chunk: Node, current_locs: Array[Vector2i]) -> A
 	if "chunk_pos" in chunk and chunk.chunk_pos.y < 1:
 		return current_locs
 	
-	# Tripled pod generation: attempt 3 vaults per subterranean chunk
 	var pods_to_spawn: int = 3
 	var elements: Array[String] = ["fire", "water", "poison"]
 	elements.shuffle()
@@ -130,7 +133,6 @@ static func spawn_magma_siphons(chunk: Node, current_locs: Array[Vector2i]) -> A
 		var found_spot: bool = false
 		var start_tile: Vector2i = Vector2i.ZERO
 		
-		# Attempt 12 random non-overlapping coordinates inside chunk
 		for attempt in range(12):
 			var candidate = Vector2i(
 				randi_range(1, chunk.chunk_size - width - 1),
@@ -160,19 +162,16 @@ static func spawn_magma_siphons(chunk: Node, current_locs: Array[Vector2i]) -> A
 		if global_cell.y < 10:
 			continue
 		
-		# Vault perimeter walls (+2 tier harder rock)
 		var pod_tier: int = calculate_faultline_tier(global_cell)
 		var wall_tier: int = min(max(1, pod_tier + 2), 12)
 		var wall_tile: int = chunk.chest_block_from_level(wall_tier)
 		if wall_tile == chunk.Tiles.EMPTY:
 			wall_tile = chunk.Tiles.HARD_DARK if global_cell.y > 40 else chunk.Tiles.HARD_FIRE
 		
-		# Reserve room footprint so chests and subsequent pods do not overlap
 		for x in range(start_tile.x - 1, start_tile.x + width + 1):
 			for y in range(start_tile.y - 1, start_tile.y + height + 1):
 				current_locs.append(Vector2i(x, y))
 		
-		# Carve vault into tiles array and sync to GPU render cache via build_tile
 		for x in range(start_tile.x, start_tile.x + width):
 			for y in range(start_tile.y, start_tile.y + height):
 				var local_coord = Vector2i(x, y)
@@ -186,7 +185,6 @@ static func spawn_magma_siphons(chunk: Node, current_locs: Array[Vector2i]) -> A
 					chunk.tiles[c_idx] = chunk.Tiles.EMPTY
 					chunk.build_tile(c_idx)
 		
-		# Spawn elemental pod entity inside hollowed vault center
 		var SiphonScene = load("res://mods-unpacked/gareth-tectonic_faultline_mod/entities/MagmaSiphon.gd")
 		if SiphonScene:
 			var siphon = SiphonScene.new()
