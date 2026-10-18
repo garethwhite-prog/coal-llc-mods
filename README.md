@@ -1,4 +1,4 @@
-﻿# Coal LLC Modding Suite
+# Coal LLC Modding Suite
 
 A complete, high-performance ecosystem of gameplay overhauls, custom subterranean maps, unique character classes, industrial workforce hierarchies, high-tier demolition options, and quality-of-life tools for **[Coal LLC](https://store.steampowered.com/app/3361510/Coal_LLC/)**, built on the **[Godot ModLoader 7.x](https://godotengine.org/asset-library/asset/4107)** hook architecture.
 
@@ -6,12 +6,13 @@ A complete, high-performance ecosystem of gameplay overhauls, custom subterranea
 
 ---
 
-## Complete Mod Directory (47 Mods)
+## Complete Mod Directory (48 mods)
 
 ### 1. Custom Maps & Subterranean Overhauls
 | Mod | ID | Type | Description |
 | :--- | :--- | :--- | :--- |
-| **Tectonic Faultline** | `gareth-tectonic_faultline_mod` | Map (ID 102) | Seismic rift featuring vertical chasms, active magma fissures, 3x density elemental pods (Fire, Water, Poison), and an elemental tick rate progression engine. |
+| **Tectonic Faultline** | `gareth-tectonic_faultline_mod` | Map (ID 102) | Seismic rift featuring vertical chasms, active magma fissures, 3x density elemental pods (Fire, Water, Poison), and an elemental tick rate progression engine. |
+| gareth-living_canvas_mod | Maps & Environments | The Living Canvas (Map 103) - Image-to-strata mosaic quarry with native file picker |
 | **The Lost Expedition** | `gareth-lost_expedition_mod` | Map (ID 101) | Subterranean cryo-abyss featuring ancient buried shelters, unexploded landmines (UXO), and survival extraction mechanics. |
 | **Seismic Hazards** | `gareth-seismic_hazards_mod` | World Gameplay | Simulates ceiling load pressure during aggressive deep excavation, triggering dynamic rock falls and cave-ins if structural pillars are removed. |
 
@@ -111,3 +112,4 @@ For developers writing extensions or custom classes, keep these Godot 4 engine c
 * **[Godot ModLoader Team](https://wiki.godotmodding.com/)** for the modding framework.
 * **[Der-Floh](https://github.com/Der-Floh/)** for foundational utility mods and hooks architecture.
 * **[nanobotz](https://github.com/NanobotZ)** for the original auto-passive chooser architecture.
+

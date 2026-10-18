@@ -1,4 +1,4 @@
-﻿# Coal LLC Modding Architecture & Session Knowledge Base (Updated October 2026)
+# Coal LLC Modding Architecture & Session Knowledge Base (Updated October 2026)
 
 ## 1. Directory Structure & Environment Paths
 - Local Git Repository: C:\Dev\coal-llc-mods
@@ -149,3 +149,11 @@ Archetype weapons and explosives scale across 15 standard mineral tiers:
 - UI Patch: Appending fire_damage, wet_damage, poison_damage, and elemental_tick_rate to get_possible_passives_for_professions() ensures they appear in Settings -> Passive Order with limit inputs and priority controls for all professions.
 - In-Game Auto-Pick Contract: In choose_passive.hooks.gd, the auto-picker checks passive.get("enabled", false) and evaluates stat caps across both Gvars.passives and Gvars.custom_passives to prevent null-reference runtime exceptions.
 
+
+### Map 103 - The Living Canvas (`gareth-living_canvas_mod`)
+* **Level ID**: `103` (Registered in `level_manager.all_levels` and `Gvars.level_info`).
+* **Stage Routing**: Hook `Game.gd:change_stage` on `target == 2` and `Gvars.level == 103` to load `res://scenes/Stages/MineRegion.tscn`.
+* **Subterranean Generation Hook**: Hook `tile_map_chunk.gd:generate_chunk`. Maintain `pos.y < 0` returning `-2` (sky stratum) in `lvl_from_global_pos`.
+* **Strata Mapping**: Map RGB pixels to valid breakable base blocks (`STRATA_BASES`) using Euclidean distance. Infuse 45% coal (`base + 1`), 25% ores (`base + 2..11`), and 30% base stone.
+* **Layout Geometry**: Keep rows 0�12 as vanilla surface buffer; generate 8-block-wide breakable side quarries at `abs(x) >= 48` before terminating with outer bedrock walls at `abs(x) >= 56`.
+* **Asset Loading**: Read image bytes via `FileAccess.get_file_as_bytes()` to bypass virtual zip boundaries; bundled default is `res://mods-unpacked/gareth-living_canvas_mod/assets/default_canvas.png`.
