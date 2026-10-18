@@ -2,7 +2,6 @@ class_name HydrothermalVent
 extends Node2D
 
 var steam_particles: CPUParticles2D
-var trigger_area: Area2D
 var launch_cooldown: float = 0.0
 
 func _ready() -> void:

@@ -9,8 +9,10 @@ func _init() -> void:
 
 func _ready() -> void:
 	var helper_script = load("res://mods-unpacked/gareth-abyssal_trench_mod/helpers/AbyssalTrenchHelper.gd")
-	if helper_script and helper_script.has_method("ensure_level_registered"):
-		helper_script.ensure_level_registered()
+	if helper_script:
+		var helper = helper_script.new()
+		if helper.has_method("ensure_level_registered"):
+			helper.ensure_level_registered()
 	ModLoaderLog.info("The Abyssal Trench Custom Map (ID 104) online!", LOG_NAME)
 
 func install_hooks() -> void:

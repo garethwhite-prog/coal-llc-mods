@@ -2,41 +2,23 @@
  M output.txt
 
 === RECENT COMMITS ===
-3257d14 Convert all C:/Dev images to baseline JPEG/PNG, fix GDScript 'in' string filter, and support live canvas switching without restart
-df2d36b Convert all C:/Dev images to baseline JPEG/PNG, fix GDScript 'in' string filter, and support live canvas switching without restart
-9f2ab03 Convert progressive JPEG example_4, support WebP/PNG buffers, and fix shop card filtering
+ff3ad96 Implement Map 104: The Abyssal Trench with hydrothermal black smoker geysers and twilight sapphire strata (49 mods)
+ef57b4e Implement Map 104: The Abyssal Trench with hydrothermal black smoker geysers and twilight sapphire strata (49 mods)
+fe4d8ca Implement Map 104: The Abyssal Trench with hydrothermal black smoker geysers and twilight sapphire strata (49 mods)
 
-=== SESSION ERRORS & WARNINGS (31 found) ===
+=== SESSION ERRORS & WARNINGS (12 found) ===
+ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
 SCRIPT ERROR: Parse Error: The variable type is being inferred from a Variant value, so it will be typed as Variant. (Warning treated as error.)
 ERROR: Failed to load script "res://mods-unpacked/der_floh-performance_mod/extensions/scenes/tilemaps/tile_map_chunk.hooks.gd" with error "Parse error".
 SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
 SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
+ERROR: Attempt to open script 'res://mods-unpacked/gareth-abyssal_trench_mod/helpers/AbyssalTrenchHelper.gd' resulted in error 'File not found'.
+ERROR: Failed loading resource: res://mods-unpacked/gareth-abyssal_trench_mod/helpers/AbyssalTrenchHelper.gd. Make sure resources have been imported by opening the project in the editor at least once.
 ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
-SCRIPT ERROR: Trying to call an async function without "await".
-SCRIPT ERROR: Trying to call an async function without "await".
-SCRIPT ERROR: Trying to call an async function without "await".
-SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-SCRIPT ERROR: Trying to call an async function without "await".
-SCRIPT ERROR: Trying to call an async function without "await".
-SCRIPT ERROR: Trying to call an async function without "await".
-SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-SCRIPT ERROR: Trying to call an async function without "await".
+ERROR: Attempt to open script 'res://mods-unpacked/gareth-abyssal_trench_mod/helpers/AbyssalTrenchHelper.gd' resulted in error 'File not found'.
+ERROR: Failed loading resource: res://mods-unpacked/gareth-abyssal_trench_mod/helpers/AbyssalTrenchHelper.gd. Make sure resources have been imported by opening the project in the editor at least once.
 ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-ERROR: 153 resources still in use at exit (run with --verbose for details).
+ERROR: 156 resources still in use at exit (run with --verbose for details).
 
 === ACTIVE MOD LOG ENTRIES (13 found) ===
 	 - C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mods/gareth-tectonic_faultline_mod.zip
@@ -45,42 +27,42 @@ SUCCESS ModLoader: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal L
 DEBUG ModLoader:Config: No config for mod id "gareth-tectonic_faultline_mod"
 DEBUG ModLoader:Dependency: Checking dependencies - mod_id: gareth-tectonic_faultline_mod optional dependencies: []
 DEBUG ModLoader:Dependency: Checking dependencies - mod_id: gareth-tectonic_faultline_mod required dependencies: []
-INFO ModLoader: mod_load_order -> 22) gareth-tectonic_faultline_mod
+INFO ModLoader: mod_load_order -> 23) gareth-tectonic_faultline_mod
 INFO ModLoader: Initializing -> gareth-tectonic_faultline_mod
 DEBUG ModLoader: Loading script from -> res://mods-unpacked/gareth-tectonic_faultline_mod/mod_main.gd
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Mod initializing...
-DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultline_mod:<Node#709709802865>
-  "gareth-tectonic_faultline_mod": "<Resource#-9223371950535997863>",
+DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultline_mod:<Node#735395720616>
+  "gareth-tectonic_faultline_mod": "<Resource#-9223371950032681378>",
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Custom Map Mod (ID 102) online!
 
 === LOG TAIL (LAST 30 LINES) ===
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (259.0747, 309.3328)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (142.3488, -69.01926)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-19.3143, -56.03572)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-19.3143, -56.03572)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-19.3143, -56.03572)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-19.3143, -56.03572)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-19.3143, -56.03572)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-19.3143, -56.03572)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-19.3143, -56.03572)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-19.3143, -56.03572)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-19.3143, -56.03572)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-19.3143, -56.03572)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-19.3143, -56.03572)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-19.3143, -56.03572)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-19.3143, -56.03572)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-19.3143, -56.03572)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-19.3143, -56.03572)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-19.3143, -56.03572)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-19.3143, -56.03572)
-SCRIPT ERROR: Trying to call an async function without "await".
-   at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+INFO gareth-grav_dreadnought_mod: 15 Gravitational Dreadnought Cannon tiers registered into equipment shop.
+INFO gareth-grav_dreadnought_mod: Gravitational Dreadnought Class (ID 108) registered cleanly.
+INFO gareth-grenade_mod: 15 Bouncing Grenades registered with color-coded textures.
+INFO gareth-heavy_bombs_mod: Heavy Demolition Bombs (Bunker Buster, Cryo-Cluster, Thermobaric) active.
+INFO gareth-heavy_turrets_mod: Heavy Automated Turrets mod active and registered into equipment shop.
+INFO gareth-hydrogen_bomb_mod: 15 Hydrogen Bombs registered with color-coded heavy casings.
+ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
+   at: _load (core/io/resource_loader.cpp:359)
+INFO gareth-jedi_class_mod: 15 Energy Saber tiers registered into equipment shop.
+INFO gareth-jedi_class_mod: Jedi Class (ID 102) registered cleanly.
+INFO gareth-laser_beam_mod: High-Energy Laser Beam weapon online and added to equipment shop.
+INFO gareth-leaderboard_mod: Leaderboard v2 auto-tracker and Main Menu button online.
+INFO gareth-living_canvas_mod: The Living Canvas Custom Map (ID 103) online!
+INFO gareth-lost_expedition_mod: Lost Expedition Custom Map Mod (ID 101) online!
+INFO gareth-martial_legends_mod: Martial Artist Legends expansion loaded cleanly.
+INFO ModLoader:ModHookPacker: Generating mod hooks .zip
+DEBUG ModLoader:ModHookPacker: Scripts requiring hooks: { "res://scenes/tilemaps/tile_map_manager.gd": ["load_chunks", "apply_tile_effects"], "res://scenes/equipment/electric_shock.gd": ["_physics_process"], "res://scenes/Interfaces/Menus/settings_2.gd": ["_ready"], "res://scenes/Interfaces/in_game/choose_passive.gd": ["_process", "_ready", "_on_button_pressed", "_on_button_2_pressed", "_on_button_3_pressed"], "res://scenes/tilemaps/tile_map_chunk.gd": ["destroy_tile", "adjust_level_bonus", "lvl_from_global_pos", "generate_chunk", "generate_chests", "apply_tile_effects", "damage_tile_idx"], "res://scripts/StateMachine/Player2/player_2.gd": ["_ready", "mine_action", "_physics_process"], "res://scripts/Chest.gd": ["pickup_item", "roll_loot"], "res://scenes/ManagersInScene/mortar_manager.gd": ["shoot_mortar"], "res://scripts/PauseMenu.gd": ["on_pressed_resume"], "res://scripts/MainMenu.gd": ["_ready", "on_profession_selected"], "res://scripts/Gvars.gd": ["reset_resources"], "res://scenes/Stages/management_screen.gd": ["load_equipment_shop"], "res://scenes/Interfaces/Management/employee_shop_tooltip.gd": ["_ready"], "res://resources/Employees/Scripts/employee_manager.gd": ["get_employee_level_from_enum", "purchase_employee_level"], "res://scenes/Interfaces/Management/organisation_chart_2.gd": ["_ready", "refresh_all_icons", "_draw"], "res://scenes/Interfaces/Management/employee_level_icon_2.gd": ["_ready", "position_tooltip"], "res://scripts/equipment_manager.gd": ["generate_vacuum_cleaner"], "res://scenes/NPCs/quest_scene_manager.gd": ["_ready", "refresh_all_quest_points"], "res://resources/Quests/quest_rewards/reward_vacuum.gd": ["reward"], "res://resources/professions/scripts/tanker.gd": ["_profession_effect"], "res://resources/EquipEffects/Scripts/tank.gd": ["start", "end"], "res://scenes/equipment/tank_bullet.gd": ["_ready", "attack_tile"], "res://scenes/Interfaces/Menus/level_select.gd": ["_ready"], "res://scripts/Game.gd": ["change_stage"], "res://scenes/equipment/vacuum_cleaner.gd": ["_physics_process"], "res://scripts/LootCollectorUFO.gd": ["_physics_process"], "res://resources/EquipEffects/Scripts/gun.gd": ["start", "end", "physics_process"], "res://resources/EquipEffects/Scripts/water_gun.gd": ["start", "end", "physics_process"], "res://scenes/equipment/boxing_gloves.gd": ["attack_tile"], "res://scenes/equipment/kick.gd": ["_process", "damage_tiles"], "res://resources/professions/scripts/martial_artist.gd": ["_profession_effect"] }
+INFO ModLoader:ModHookPacker: Scripts are already processed according to cache, skipping process.
 INFO gareth-multisave_mod: Career progression and hard modifier badges verified.
-INFO gareth-living_canvas_mod: Active image updated to: C:/Dev/example_3.jpg
+ERROR: Attempt to open script 'res://mods-unpacked/gareth-abyssal_trench_mod/helpers/AbyssalTrenchHelper.gd' resulted in error 'File not found'.
+   at: load_source_code (modules/gdscript/gdscript.cpp:1115)
+ERROR: Failed loading resource: res://mods-unpacked/gareth-abyssal_trench_mod/helpers/AbyssalTrenchHelper.gd. Make sure resources have been imported by opening the project in the editor at least once.
+   at: _load (core/io/resource_loader.cpp:343)
 ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
 WARNING: 88 RIDs of type "Texture" were leaked.
    at: finalize (servers/rendering/rendering_device.cpp:7130)
 WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
    at: cleanup (core/object/object.cpp:2378)
-ERROR: 153 resources still in use at exit (run with --verbose for details).
+ERROR: 156 resources still in use at exit (run with --verbose for details).
    at: clear (core/io/resource.cpp:614)
