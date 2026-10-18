@@ -1,28 +1,24 @@
-﻿>>> 1. Updating LivingCanvasHelper.gd with valid BASIC_* breakable tiles...
-Updated: C:\Dev\coal-llc-mods\mods-unpacked\gareth-living_canvas_mod\mods-unpacked\gareth-living_canvas_mod\helpers\LivingCanvasHelper.gd
-
->>> 2. Inspecting and patching management_screen.gd weapon filtering...
-Created management_screen hook: C:\Dev\coal-llc-mods\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\extensions\scenes\Stages\management_screen.hooks.gd
-Registered management_screen hook in mod_main.gd
-
->>> 3. Flushing mod-hooks.zip...
->>> 4. Repackaging living_canvas_mod.zip and mod_manager_mod.zip...
+﻿>>> 1. Rewriting gareth-mod_manager_mod/mod_main.gd with clean tabs...
+>>> 2. Updating LivingCanvasHelper.gd (12-row buffer & side quarries)...
+>>> 3. Updating tile_map_chunk.hooks.gd (canvas damage boost for starter tools)...
+>>> 4. Flushing mod-hooks.zip...
+>>> 5. Repackaging living_canvas_mod.zip and mod_manager_mod.zip...
 Repacked: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods\gareth-living_canvas_mod.zip
 Repacked: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods\gareth-mod_manager_mod.zip
 
->>> 5. Git staging and committing...
+>>> 6. Git staging, committing, and pushing...
 warning: in the working copy of 'context.txt', LF will be replaced by CRLF the next time Git touches it
-[main 04eaac4] Fix Living Canvas breakable block IDs and filter class weapons in equipment shop
- 6 files changed, 189 insertions(+), 234 deletions(-)
+[main 0b16957] Fix Mod Manager indentation, expand 12-row starter buffer, add side quarries, and balance canvas block damage
+ 6 files changed, 221 insertions(+), 183 deletions(-)
 Enumerating objects: 34, done.
 Counting objects: 100% (34/34), done.
 Delta compression using up to 24 threads
 Compressing objects: 100% (17/17), done.
-Writing objects: 100% (19/19), 5.31 KiB | 1.33 MiB/s, done.
-Total 19 (delta 8), reused 0 (delta 0), pack-reused 0 (from 0)
-remote: Resolving deltas: 100% (8/8), completed with 8 local objects.
+Writing objects: 100% (19/19), 5.59 KiB | 1.40 MiB/s, done.
+Total 19 (delta 9), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (9/9), completed with 9 local objects.
 To https://github.com/garethwhite-prog/coal-llc-mods.git
-   e56d974..04eaac4  main -> main
+   04eaac4..0b16957  main -> main
 
-Deployment complete! Launch Coal LLC to test.
+All fixes applied! Launch Coal LLC to test.
 PS C:\Dev\coal-llc-mods> 
