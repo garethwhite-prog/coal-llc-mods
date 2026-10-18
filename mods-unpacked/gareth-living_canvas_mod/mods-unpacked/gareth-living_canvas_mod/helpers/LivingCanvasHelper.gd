@@ -6,23 +6,19 @@ const TARGET_CANVAS_WIDTH: int = 96
 const CONFIG_PATH: String = "user://living_canvas_config.json"
 const BUFFER_SURFACE_ROWS: int = 12
 
-# Base Tile IDs for each stratum family:
-# Index +0 = BASIC (No drop)
-# Index +1 = COAL (Drops Coal)
-# Index +2..15 = Ores (Copper, Iron, Gems, Gold, Diamond, etc.)
 const STRATA_BASES: Dictionary = {
-	Color(0.85, 0.20, 0.15): 75,  # FIRE family (Ruby/Lava)
-	Color(0.70, 0.90, 0.98): 58,  # ICE family (Diamond/Sky)
-	Color(0.12, 0.12, 0.15): 92,  # DARK family (Onyx/Shadows)
-	Color(0.20, 0.78, 0.25): 109, # GREEN family (Emerald/Foliage)
-	Color(0.92, 0.50, 0.12): 126, # ORANGE family (Copper/Amber)
-	Color(0.65, 0.20, 0.85): 143, # PURPLE family (Amethyst)
-	Color(0.12, 0.40, 0.15): 160, # DARKGREEN family (Uranium/Pine)
-	Color(0.95, 0.85, 0.18): 177, # YELLOW family (Gold/Sunlight)
-	Color(0.40, 0.25, 0.15): 194, # DARKBROWN family (Wood/Mud)
-	Color(0.10, 0.25, 0.70): 211, # DARKBLUE family (Sapphire/Water)
-	Color(0.50, 0.50, 0.52): 41,  # STONE family (Silver/Granite)
-	Color(0.75, 0.55, 0.45): 24,  # CLAY family (Clay/Terracotta)
+	Color(0.85, 0.20, 0.15): 75,  # FIRE family
+	Color(0.70, 0.90, 0.98): 58,  # ICE family
+	Color(0.12, 0.12, 0.15): 92,  # DARK family
+	Color(0.20, 0.78, 0.25): 109, # GREEN family
+	Color(0.92, 0.50, 0.12): 126, # ORANGE family
+	Color(0.65, 0.20, 0.85): 143, # PURPLE family
+	Color(0.12, 0.40, 0.15): 160, # DARKGREEN family
+	Color(0.95, 0.85, 0.18): 177, # YELLOW family
+	Color(0.40, 0.25, 0.15): 194, # DARKBROWN family
+	Color(0.10, 0.25, 0.70): 211, # DARKBLUE family
+	Color(0.50, 0.50, 0.52): 41,  # STONE family
+	Color(0.75, 0.55, 0.45): 24,  # CLAY family
 }
 
 static var cached_image: Image = null
@@ -90,32 +86,58 @@ static func set_active_image(path: String) -> void:
 		file.store_string(JSON.stringify(cfg))
 	cached_image = null
 	get_or_load_canvas()
-	ModLoaderLog.info("Active image updated to: " + path, "gareth-living_canvas_mod")
+	ModLoaderLog.info("Active image set to: " + path, "gareth-living_canvas_mod")
+
+static func load_image_from_path(path: String) -> Image:
+	if not FileAccess.file_exists(path):
+		return null
+	var bytes = FileAccess.get_file_as_bytes(path)
+	if bytes.is_empty():
+		return null
+
+	var img = Image.new()
+	var err: Error = FAILED
+	var p_lower = path.to_lower()
+
+	if p_lower.ends_with(".png"):
+		err = img.load_png_from_buffer(bytes)
+	elif p_lower.ends_with(".webp"):
+		err = img.load_webp_from_buffer(bytes)
+	else:
+		err = img.load_jpg_from_buffer(bytes)
+		if err != OK:
+			err = img.load_png_from_buffer(bytes)
+
+	if err == OK:
+		ModLoaderLog.info("Successfully loaded image from: " + path, "gareth-living_canvas_mod")
+		return img
+	else:
+		ModLoaderLog.error("Failed to decode image (" + str(err) + "): " + path, "gareth-living_canvas_mod")
+		return null
 
 static func get_or_load_canvas() -> Image:
 	if cached_image != null:
 		return cached_image
 
-	var img: Image = Image.new()
-	var loaded: bool = false
+	var img: Image = null
 	var active_path = get_saved_image_path()
 
-	if active_path != "" and FileAccess.file_exists(active_path):
-		var bytes = FileAccess.get_file_as_bytes(active_path)
-		if bytes.size() > 0:
-			if active_path.to_lower().ends_with(".png"):
-				if img.load_png_from_buffer(bytes) == OK:
-					loaded = true
-			else:
-				if img.load_jpg_from_buffer(bytes) == OK:
-					loaded = true
+	# 1. Try user selected path
+	if active_path != "":
+		img = load_image_from_path(active_path)
 
-	if not loaded and FileAccess.file_exists("C:/Dev/example_1.jpg"):
-		var bytes = FileAccess.get_file_as_bytes("C:/Dev/example_1.jpg")
-		if bytes.size() > 0 and img.load_jpg_from_buffer(bytes) == OK:
-			loaded = true
+	# 2. Try clean PNG sibling if user selected a JPG that failed
+	if not img and active_path != "":
+		var alt_png = active_path.get_basename() + ".png"
+		if FileAccess.file_exists(alt_png):
+			img = load_image_from_path(alt_png)
 
-	if not loaded:
+	# 3. Default fallback if no valid user selection exists
+	if not img and FileAccess.file_exists("C:/Dev/example_1.jpg"):
+		img = load_image_from_path("C:/Dev/example_1.jpg")
+
+	# 4. Fallback procedural mosaic
+	if not img:
 		img = _generate_fallback_canvas()
 	else:
 		var orig_w = img.get_width()
@@ -148,9 +170,9 @@ static func _generate_fallback_canvas() -> Image:
 
 static func match_strata_base(col: Color) -> int:
 	if col.a < 0.2:
-		return 0 # Tiles.EMPTY
+		return 0
 
-	var best_base: int = 41 # Default STONE family
+	var best_base: int = 41
 	var min_dist: float = 999999.0
 
 	for p_col in STRATA_BASES.keys():
@@ -168,20 +190,15 @@ static func pick_ore_infused_tile(base_id: int, world_pos: Vector2i) -> int:
 	if base_id == 0:
 		return 0
 
-	# Deterministic hash so tile types are consistent per coordinate
 	var seed_val: int = abs(world_pos.x * 73856093 ^ world_pos.y * 19349663)
 	var roll: int = seed_val % 100
 
-	# 45% Chance: Coal Ore (Index +1)
+	# 45% Coal, 25% Ore, 30% Base
 	if roll < 45:
 		return base_id + 1
-
-	# 25% Chance: Precious Metal / Gem Ore matching this stratum
 	elif roll < 70:
-		var ore_offset = 2 + (seed_val % 10) # Offsets +2 to +11 (Iron, Gold, Ruby, Diamond, etc.)
+		var ore_offset = 2 + (seed_val % 10)
 		return base_id + min(ore_offset, 15)
-
-	# 30% Chance: Standard base stratum stone
 	return base_id
 
 static func paint_chunk_from_canvas(chunk: Node) -> void:
@@ -197,11 +214,9 @@ static func paint_chunk_from_canvas(chunk: Node) -> void:
 	for idx in range(chunk.tiles.size()):
 		var global_pos: Vector2i = Vector2i(chunk.array_to_global_pos(idx))
 
-		# 1. Surface Buffer (Rows 0 to 12): Retain standard ground and coal
 		if global_pos.y <= BUFFER_SURFACE_ROWS:
 			continue
 
-		# 2. Flanking Quarries (8 blocks wide on left & right): breakable coal/stone
 		var dist_from_center: int = abs(global_pos.x)
 		if dist_from_center >= half_w and dist_from_center < half_w + 8:
 			if (global_pos.x + global_pos.y) % 5 == 0:
@@ -211,13 +226,11 @@ static func paint_chunk_from_canvas(chunk: Node) -> void:
 			chunk.build_tile(idx)
 			continue
 
-		# 3. Outer boundary: Bedrock
 		if dist_from_center >= half_w + 8:
 			chunk.tiles[idx] = chunk.Tiles.BEDROCK
 			chunk.build_tile(idx)
 			continue
 
-		# 4. Canvas Interior: Sample pixel and assign coal/ore-bearing tile
 		var img_u: int = global_pos.x + half_w
 		var img_v: int = (global_pos.y - (BUFFER_SURFACE_ROWS + 1)) % cached_height
 		if img_v < 0:

@@ -1,7 +1,7 @@
-Clear-Host;
+﻿Clear-Host;
 
 # ==============================================================================
-# Coal LLC - Fix Living Canvas Ore Drops & Equipment Shop Filter
+# Coal LLC - Fix Progressive JPEG Loading & Equipment Shop Card Filtering
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
@@ -14,7 +14,31 @@ $mmInnerDir = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-m
 
 Set-Location $repo
 
-Write-Host ">>> 1. Updating LivingCanvasHelper.gd with Ore & Coal Infusion..." -ForegroundColor Cyan
+Write-Host ">>> 1. Converting C:\Dev\example_4.jpg into standard baseline JPEG and PNG..." -ForegroundColor Cyan
+Add-Type -AssemblyName System.Drawing
+
+$ex4Path = "C:\Dev\example_4.jpg"
+if (Test-Path $ex4Path) {
+    $srcImg = [System.Drawing.Image]::FromFile($ex4Path)
+    $bmpCopy = New-Object System.Drawing.Bitmap($srcImg)
+    $srcImg.Dispose()
+
+    # Save clean baseline PNG
+    $pngPath = "C:\Dev\example_4.png"
+    $bmpCopy.Save($pngPath, [System.Drawing.Imaging.ImageFormat]::Png)
+    Write-Host "Saved baseline PNG: $pngPath" -ForegroundColor Green
+
+    # Re-encode in-place as clean baseline JPEG
+    $jpegCodec = [System.Drawing.Imaging.ImageCodecInfo]::GetImageEncoders() | Where-Object { $_.MimeType -eq "image/jpeg" }
+    $encoderParams = New-Object System.Drawing.Imaging.EncoderParameters(1)
+    $encoderParams.Param[0] = New-Object System.Drawing.Imaging.EncoderParameter([System.Drawing.Imaging.Encoder]::Quality, [long]95)
+    
+    $bmpCopy.Save($ex4Path, $jpegCodec, $encoderParams)
+    $bmpCopy.Dispose()
+    Write-Host "Re-encoded baseline JPEG: $ex4Path" -ForegroundColor Green
+}
+
+Write-Host "`n>>> 2. Updating LivingCanvasHelper.gd (WebP/PNG/JPG support & no silent fallback)..." -ForegroundColor Cyan
 $lcHelperPath = "$lcInnerDir\helpers\LivingCanvasHelper.gd"
 
 @'
@@ -26,23 +50,19 @@ const TARGET_CANVAS_WIDTH: int = 96
 const CONFIG_PATH: String = "user://living_canvas_config.json"
 const BUFFER_SURFACE_ROWS: int = 12
 
-# Base Tile IDs for each stratum family:
-# Index +0 = BASIC (No drop)
-# Index +1 = COAL (Drops Coal)
-# Index +2..15 = Ores (Copper, Iron, Gems, Gold, Diamond, etc.)
 const STRATA_BASES: Dictionary = {
-	Color(0.85, 0.20, 0.15): 75,  # FIRE family (Ruby/Lava)
-	Color(0.70, 0.90, 0.98): 58,  # ICE family (Diamond/Sky)
-	Color(0.12, 0.12, 0.15): 92,  # DARK family (Onyx/Shadows)
-	Color(0.20, 0.78, 0.25): 109, # GREEN family (Emerald/Foliage)
-	Color(0.92, 0.50, 0.12): 126, # ORANGE family (Copper/Amber)
-	Color(0.65, 0.20, 0.85): 143, # PURPLE family (Amethyst)
-	Color(0.12, 0.40, 0.15): 160, # DARKGREEN family (Uranium/Pine)
-	Color(0.95, 0.85, 0.18): 177, # YELLOW family (Gold/Sunlight)
-	Color(0.40, 0.25, 0.15): 194, # DARKBROWN family (Wood/Mud)
-	Color(0.10, 0.25, 0.70): 211, # DARKBLUE family (Sapphire/Water)
-	Color(0.50, 0.50, 0.52): 41,  # STONE family (Silver/Granite)
-	Color(0.75, 0.55, 0.45): 24,  # CLAY family (Clay/Terracotta)
+	Color(0.85, 0.20, 0.15): 75,  # FIRE family
+	Color(0.70, 0.90, 0.98): 58,  # ICE family
+	Color(0.12, 0.12, 0.15): 92,  # DARK family
+	Color(0.20, 0.78, 0.25): 109, # GREEN family
+	Color(0.92, 0.50, 0.12): 126, # ORANGE family
+	Color(0.65, 0.20, 0.85): 143, # PURPLE family
+	Color(0.12, 0.40, 0.15): 160, # DARKGREEN family
+	Color(0.95, 0.85, 0.18): 177, # YELLOW family
+	Color(0.40, 0.25, 0.15): 194, # DARKBROWN family
+	Color(0.10, 0.25, 0.70): 211, # DARKBLUE family
+	Color(0.50, 0.50, 0.52): 41,  # STONE family
+	Color(0.75, 0.55, 0.45): 24,  # CLAY family
 }
 
 static var cached_image: Image = null
@@ -110,32 +130,58 @@ static func set_active_image(path: String) -> void:
 		file.store_string(JSON.stringify(cfg))
 	cached_image = null
 	get_or_load_canvas()
-	ModLoaderLog.info("Active image updated to: " + path, "gareth-living_canvas_mod")
+	ModLoaderLog.info("Active image set to: " + path, "gareth-living_canvas_mod")
+
+static func load_image_from_path(path: String) -> Image:
+	if not FileAccess.file_exists(path):
+		return null
+	var bytes = FileAccess.get_file_as_bytes(path)
+	if bytes.is_empty():
+		return null
+
+	var img = Image.new()
+	var err: Error = FAILED
+	var p_lower = path.to_lower()
+
+	if p_lower.ends_with(".png"):
+		err = img.load_png_from_buffer(bytes)
+	elif p_lower.ends_with(".webp"):
+		err = img.load_webp_from_buffer(bytes)
+	else:
+		err = img.load_jpg_from_buffer(bytes)
+		if err != OK:
+			err = img.load_png_from_buffer(bytes)
+
+	if err == OK:
+		ModLoaderLog.info("Successfully loaded image from: " + path, "gareth-living_canvas_mod")
+		return img
+	else:
+		ModLoaderLog.error("Failed to decode image (" + str(err) + "): " + path, "gareth-living_canvas_mod")
+		return null
 
 static func get_or_load_canvas() -> Image:
 	if cached_image != null:
 		return cached_image
 
-	var img: Image = Image.new()
-	var loaded: bool = false
+	var img: Image = null
 	var active_path = get_saved_image_path()
 
-	if active_path != "" and FileAccess.file_exists(active_path):
-		var bytes = FileAccess.get_file_as_bytes(active_path)
-		if bytes.size() > 0:
-			if active_path.to_lower().ends_with(".png"):
-				if img.load_png_from_buffer(bytes) == OK:
-					loaded = true
-			else:
-				if img.load_jpg_from_buffer(bytes) == OK:
-					loaded = true
+	# 1. Try user selected path
+	if active_path != "":
+		img = load_image_from_path(active_path)
 
-	if not loaded and FileAccess.file_exists("C:/Dev/example_1.jpg"):
-		var bytes = FileAccess.get_file_as_bytes("C:/Dev/example_1.jpg")
-		if bytes.size() > 0 and img.load_jpg_from_buffer(bytes) == OK:
-			loaded = true
+	# 2. Try clean PNG sibling if user selected a JPG that failed
+	if not img and active_path != "":
+		var alt_png = active_path.get_basename() + ".png"
+		if FileAccess.file_exists(alt_png):
+			img = load_image_from_path(alt_png)
 
-	if not loaded:
+	# 3. Default fallback if no valid user selection exists
+	if not img and FileAccess.file_exists("C:/Dev/example_1.jpg"):
+		img = load_image_from_path("C:/Dev/example_1.jpg")
+
+	# 4. Fallback procedural mosaic
+	if not img:
 		img = _generate_fallback_canvas()
 	else:
 		var orig_w = img.get_width()
@@ -168,9 +214,9 @@ static func _generate_fallback_canvas() -> Image:
 
 static func match_strata_base(col: Color) -> int:
 	if col.a < 0.2:
-		return 0 # Tiles.EMPTY
+		return 0
 
-	var best_base: int = 41 # Default STONE family
+	var best_base: int = 41
 	var min_dist: float = 999999.0
 
 	for p_col in STRATA_BASES.keys():
@@ -188,20 +234,15 @@ static func pick_ore_infused_tile(base_id: int, world_pos: Vector2i) -> int:
 	if base_id == 0:
 		return 0
 
-	# Deterministic hash so tile types are consistent per coordinate
 	var seed_val: int = abs(world_pos.x * 73856093 ^ world_pos.y * 19349663)
 	var roll: int = seed_val % 100
 
-	# 45% Chance: Coal Ore (Index +1)
+	# 45% Coal, 25% Ore, 30% Base
 	if roll < 45:
 		return base_id + 1
-
-	# 25% Chance: Precious Metal / Gem Ore matching this stratum
 	elif roll < 70:
-		var ore_offset = 2 + (seed_val % 10) # Offsets +2 to +11 (Iron, Gold, Ruby, Diamond, etc.)
+		var ore_offset = 2 + (seed_val % 10)
 		return base_id + min(ore_offset, 15)
-
-	# 30% Chance: Standard base stratum stone
 	return base_id
 
 static func paint_chunk_from_canvas(chunk: Node) -> void:
@@ -217,11 +258,9 @@ static func paint_chunk_from_canvas(chunk: Node) -> void:
 	for idx in range(chunk.tiles.size()):
 		var global_pos: Vector2i = Vector2i(chunk.array_to_global_pos(idx))
 
-		# 1. Surface Buffer (Rows 0 to 12): Retain standard ground and coal
 		if global_pos.y <= BUFFER_SURFACE_ROWS:
 			continue
 
-		# 2. Flanking Quarries (8 blocks wide on left & right): breakable coal/stone
 		var dist_from_center: int = abs(global_pos.x)
 		if dist_from_center >= half_w and dist_from_center < half_w + 8:
 			if (global_pos.x + global_pos.y) % 5 == 0:
@@ -231,13 +270,11 @@ static func paint_chunk_from_canvas(chunk: Node) -> void:
 			chunk.build_tile(idx)
 			continue
 
-		# 3. Outer boundary: Bedrock
 		if dist_from_center >= half_w + 8:
 			chunk.tiles[idx] = chunk.Tiles.BEDROCK
 			chunk.build_tile(idx)
 			continue
 
-		# 4. Canvas Interior: Sample pixel and assign coal/ore-bearing tile
 		var img_u: int = global_pos.x + half_w
 		var img_v: int = (global_pos.y - (BUFFER_SURFACE_ROWS + 1)) % cached_height
 		if img_v < 0:
@@ -250,9 +287,9 @@ static func paint_chunk_from_canvas(chunk: Node) -> void:
 			chunk.tiles[idx] = final_tile
 			chunk.build_tile(idx)
 '@ | Set-Content -Path $lcHelperPath -Encoding UTF8
-Write-Host "Updated LivingCanvasHelper.gd" -ForegroundColor Green
+Write-Host "Updated: $lcHelperPath" -ForegroundColor Green
 
-Write-Host "`n>>> 2. Rewriting management_screen.hooks.gd with working Callable filter..." -ForegroundColor Cyan
+Write-Host "`n>>> 3. Rewriting management_screen.hooks.gd (filtering equipment_items children)..." -ForegroundColor Cyan
 $mgmtHook = "$mmInnerDir\extensions\scenes\Stages\management_screen.hooks.gd"
 
 @'
@@ -262,32 +299,44 @@ func load_equipment_shop(chain: ModLoaderHookChain) -> void:
 	chain.execute_next([])
 	var screen = chain.reference_object
 	if screen:
-		Callable(self, "_filter_shop_cards").call_deferred(screen)
+		Callable(self, "_filter_cards").call_deferred(screen)
 
-func _filter_shop_cards(screen: Node) -> void:
+func _filter_cards(screen: Node) -> void:
+	if not is_instance_valid(screen):
+		return
+
 	var prof = Gvars.profession if ("profession" in Gvars and Gvars.profession) else null
 	var prof_name: String = prof.name if (prof and "name" in prof) else ""
 
 	if prof_name == "Internship" or prof_name == "":
-		if not is_instance_valid(screen):
-			return
+		var container = null
+		if "equipment_items" in screen and screen.equipment_items:
+			container = screen.equipment_items
+		else:
+			for c in screen.find_children("*", "GridContainer", true, false):
+				container = c
+				break
 
-		var tooltips = screen.find_children("*", "EmployeeShopTooltip", true, false)
-		for card in tooltips:
-			if "item" in card and card.item:
-				var item_name: String = card.item.itemName if ("itemName" in card.item) else ""
-				if item_name.contains("Optical Emitter") or item_name.contains("Tectonic Fracker") or item_name.contains("Broadsword") or item_name.contains("Energy Saber"):
+		if container:
+			for card in container.get_children():
+				var txt: String = ""
+				for lbl in card.find_children("*", "Label", true, false):
+					txt += " " + lbl.text
+				if "item" in card and card.item and "itemName" in card.item:
+					txt += " " + str(card.item.itemName)
+
+				if txt.contains("Optical Emitter") or txt.contains("Tectonic Fracker") or txt.contains("Broadsword") or txt.contains("Energy Saber"):
 					card.visible = false
 					card.process_mode = Node.PROCESS_MODE_DISABLED
 '@ | Set-Content -Path $mgmtHook -Encoding UTF8
-Write-Host "Updated management_screen.hooks.gd" -ForegroundColor Green
+Write-Host "Updated: $mgmtHook" -ForegroundColor Green
 
-Write-Host "`n>>> 3. Flushing mod-hooks.zip..." -ForegroundColor Cyan
+Write-Host "`n>>> 4. Flushing mod-hooks.zip..." -ForegroundColor Cyan
 if (Test-Path $hookZip) {
     Remove-Item -Path $hookZip -Force
 }
 
-Write-Host ">>> 4. Repackaging living_canvas_mod.zip and mod_manager_mod.zip..." -ForegroundColor Cyan
+Write-Host ">>> 5. Repackaging living_canvas_mod.zip and mod_manager_mod.zip..." -ForegroundColor Cyan
 Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
@@ -306,9 +355,9 @@ foreach ($mTarget in @("gareth-living_canvas_mod", "gareth-mod_manager_mod")) {
     Write-Host "Repacked: $mZip" -ForegroundColor Green
 }
 
-Write-Host "`n>>> 5. Git staging and committing..." -ForegroundColor Cyan
+Write-Host "`n>>> 6. Git staging and committing..." -ForegroundColor Cyan
 git add -A
-git commit -m "Implement ore and coal infusion for Living Canvas tiles and fix deferred shop filter"
+git commit -m "Convert progressive JPEG example_4, support WebP/PNG buffers, and fix shop card filtering"
 git push origin main
 
-Write-Host "`nPatch applied successfully! Launch Coal LLC to test." -ForegroundColor Green
+Write-Host "`nFixes deployed successfully! Launch Coal LLC to test." -ForegroundColor Green

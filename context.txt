@@ -2,39 +2,39 @@
  M output.txt
 
 === RECENT COMMITS ===
+3bda95e Implement ore and coal infusion for Living Canvas tiles and fix deferred shop filter
 a4d81ad Fix damage_tile_idx 2-parameter signature and apply deferred equipment shop filtering
 0b16957 Fix Mod Manager indentation, expand 12-row starter buffer, add side quarries, and balance canvas block damage
-04eaac4 Fix Living Canvas breakable block IDs and filter class weapons in equipment shop
 
-=== SESSION ERRORS & WARNINGS (45 found) ===
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-SCRIPT ERROR: Trying to call an async function without "await".
-ERROR: Error calling deferred method: 'Control(management_screen.gd)::_filter_class_weapons_living_canvas': Method not found.
-ERROR: Error calling deferred method: 'Control(management_screen.gd)::_filter_class_weapons_living_canvas': Method not found.
-ERROR: Error calling deferred method: 'Control(management_screen.gd)::_filter_class_weapons_living_canvas': Method not found.
-ERROR: Error calling deferred method: 'Control(management_screen.gd)::_filter_class_weapons_living_canvas': Method not found.
-ERROR: Error calling deferred method: 'Control(management_screen.gd)::_filter_class_weapons_living_canvas': Method not found.
-ERROR: Error calling deferred method: 'Control(management_screen.gd)::_filter_class_weapons_living_canvas': Method not found.
-ERROR: Error calling deferred method: 'Control(management_screen.gd)::_filter_class_weapons_living_canvas': Method not found.
-ERROR: Error calling deferred method: 'Control(management_screen.gd)::_filter_class_weapons_living_canvas': Method not found.
-ERROR: Error calling deferred method: 'Control(management_screen.gd)::_filter_class_weapons_living_canvas': Method not found.
-ERROR: Error calling deferred method: 'Control(management_screen.gd)::_filter_class_weapons_living_canvas': Method not found.
-ERROR: Error calling deferred method: 'Control(management_screen.gd)::_filter_class_weapons_living_canvas': Method not found.
-ERROR: Error calling deferred method: 'Control(management_screen.gd)::_filter_class_weapons_living_canvas': Method not found.
-SCRIPT ERROR: Trying to call an async function without "await".
-SCRIPT ERROR: Trying to call an async function without "await".
-SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-SCRIPT ERROR: Trying to call an async function without "await".
+=== SESSION ERRORS & WARNINGS (179 found) ===
+SCRIPT ERROR: Invalid access to property or key '222' on a base object of type 'Dictionary[int, Dictionary]'.
+SCRIPT ERROR: Invalid access to property or key '218' on a base object of type 'Dictionary[int, Dictionary]'.
+SCRIPT ERROR: Invalid access to property or key '217' on a base object of type 'Dictionary[int, Dictionary]'.
+SCRIPT ERROR: Invalid access to property or key '221' on a base object of type 'Dictionary[int, Dictionary]'.
+SCRIPT ERROR: Invalid access to property or key '222' on a base object of type 'Dictionary[int, Dictionary]'.
+SCRIPT ERROR: Invalid access to property or key '219' on a base object of type 'Dictionary[int, Dictionary]'.
+SCRIPT ERROR: Invalid access to property or key '218' on a base object of type 'Dictionary[int, Dictionary]'.
+SCRIPT ERROR: Invalid access to property or key '218' on a base object of type 'Dictionary[int, Dictionary]'.
+SCRIPT ERROR: Invalid access to property or key '221' on a base object of type 'Dictionary[int, Dictionary]'.
+SCRIPT ERROR: Invalid access to property or key '218' on a base object of type 'Dictionary[int, Dictionary]'.
+SCRIPT ERROR: Invalid access to property or key '218' on a base object of type 'Dictionary[int, Dictionary]'.
+SCRIPT ERROR: Invalid access to property or key '216' on a base object of type 'Dictionary[int, Dictionary]'.
+SCRIPT ERROR: Invalid access to property or key '218' on a base object of type 'Dictionary[int, Dictionary]'.
+SCRIPT ERROR: Invalid access to property or key '221' on a base object of type 'Dictionary[int, Dictionary]'.
+SCRIPT ERROR: Invalid access to property or key '216' on a base object of type 'Dictionary[int, Dictionary]'.
+SCRIPT ERROR: Invalid access to property or key '221' on a base object of type 'Dictionary[int, Dictionary]'.
+SCRIPT ERROR: Invalid access to property or key '221' on a base object of type 'Dictionary[int, Dictionary]'.
+SCRIPT ERROR: Invalid access to property or key '220' on a base object of type 'Dictionary[int, Dictionary]'.
+SCRIPT ERROR: Invalid access to property or key '220' on a base object of type 'Dictionary[int, Dictionary]'.
+SCRIPT ERROR: Invalid access to property or key '217' on a base object of type 'Dictionary[int, Dictionary]'.
+SCRIPT ERROR: Invalid access to property or key '218' on a base object of type 'Dictionary[int, Dictionary]'.
+SCRIPT ERROR: Invalid access to property or key '222' on a base object of type 'Dictionary[int, Dictionary]'.
+SCRIPT ERROR: Invalid access to property or key '218' on a base object of type 'Dictionary[int, Dictionary]'.
+SCRIPT ERROR: Invalid access to property or key '222' on a base object of type 'Dictionary[int, Dictionary]'.
+SCRIPT ERROR: Invalid access to property or key '221' on a base object of type 'Dictionary[int, Dictionary]'.
+SCRIPT ERROR: Invalid access to property or key '222' on a base object of type 'Dictionary[int, Dictionary]'.
+SCRIPT ERROR: Invalid access to property or key '222' on a base object of type 'Dictionary[int, Dictionary]'.
+SCRIPT ERROR: Invalid access to property or key '216' on a base object of type 'Dictionary[int, Dictionary]'.
 ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
 ERROR: 153 resources still in use at exit (run with --verbose for details).
 
@@ -54,29 +54,29 @@ DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultl
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Custom Map Mod (ID 102) online!
 
 === LOG TAIL (LAST 30 LINES) ===
-   at: start (scene/animation/tween.cpp:594)
-WARNING: Target object freed before starting, aborting Tweener.
-   at: start (scene/animation/tween.cpp:594)
-WARNING: Target object freed before starting, aborting Tweener.
-   at: start (scene/animation/tween.cpp:594)
-WARNING: Target object freed before starting, aborting Tweener.
-   at: start (scene/animation/tween.cpp:594)
-WARNING: Target object freed before starting, aborting Tweener.
-   at: start (scene/animation/tween.cpp:594)
-WARNING: Target object freed before starting, aborting Tweener.
-   at: start (scene/animation/tween.cpp:594)
-WARNING: Target object freed before starting, aborting Tweener.
-   at: start (scene/animation/tween.cpp:594)
-WARNING: Target object freed before starting, aborting Tweener.
-   at: start (scene/animation/tween.cpp:594)
-WARNING: Target object freed before starting, aborting Tweener.
-   at: start (scene/animation/tween.cpp:594)
-WARNING: Target object freed before starting, aborting Tweener.
-   at: start (scene/animation/tween.cpp:594)
-WARNING: Target object freed before starting, aborting Tweener.
-   at: start (scene/animation/tween.cpp:594)
-WARNING: Target object freed before starting, aborting Tweener.
-   at: start (scene/animation/tween.cpp:594)
+SCRIPT ERROR: Invalid access to property or key '220' on a base object of type 'Dictionary[int, Dictionary]'.
+   at: TileMapChunk.build_tile (res://scenes/tilemaps/tile_map_chunk.gd:1909)
+SCRIPT ERROR: Invalid access to property or key '220' on a base object of type 'Dictionary[int, Dictionary]'.
+   at: TileMapChunk.build_tile (res://scenes/tilemaps/tile_map_chunk.gd:1909)
+SCRIPT ERROR: Invalid access to property or key '217' on a base object of type 'Dictionary[int, Dictionary]'.
+   at: TileMapChunk.build_tile (res://scenes/tilemaps/tile_map_chunk.gd:1909)
+SCRIPT ERROR: Invalid access to property or key '218' on a base object of type 'Dictionary[int, Dictionary]'.
+   at: TileMapChunk.build_tile (res://scenes/tilemaps/tile_map_chunk.gd:1909)
+SCRIPT ERROR: Invalid access to property or key '222' on a base object of type 'Dictionary[int, Dictionary]'.
+   at: TileMapChunk.build_tile (res://scenes/tilemaps/tile_map_chunk.gd:1909)
+SCRIPT ERROR: Invalid access to property or key '218' on a base object of type 'Dictionary[int, Dictionary]'.
+   at: TileMapChunk.build_tile (res://scenes/tilemaps/tile_map_chunk.gd:1909)
+SCRIPT ERROR: Invalid access to property or key '222' on a base object of type 'Dictionary[int, Dictionary]'.
+   at: TileMapChunk.build_tile (res://scenes/tilemaps/tile_map_chunk.gd:1909)
+SCRIPT ERROR: Invalid access to property or key '221' on a base object of type 'Dictionary[int, Dictionary]'.
+   at: TileMapChunk.build_tile (res://scenes/tilemaps/tile_map_chunk.gd:1909)
+SCRIPT ERROR: Invalid access to property or key '222' on a base object of type 'Dictionary[int, Dictionary]'.
+   at: TileMapChunk.build_tile (res://scenes/tilemaps/tile_map_chunk.gd:1909)
+SCRIPT ERROR: Invalid access to property or key '222' on a base object of type 'Dictionary[int, Dictionary]'.
+   at: TileMapChunk.build_tile (res://scenes/tilemaps/tile_map_chunk.gd:1909)
+SCRIPT ERROR: Invalid access to property or key '216' on a base object of type 'Dictionary[int, Dictionary]'.
+   at: TileMapChunk.build_tile (res://scenes/tilemaps/tile_map_chunk.gd:1909)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (125.0091, -40.03485)
 ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
 WARNING: 88 RIDs of type "Texture" were leaked.
    at: finalize (servers/rendering/rendering_device.cpp:7130)

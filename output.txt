@@ -1,46 +1,27 @@
-﻿>>> 1. Inspecting damage_tile_idx signature in base game dump...
-Found in tile_map_chunk.gd:
-2237: func damage_tile_idx(idx: int, damage: float):
-2238:     var tile = tiles[idx]
-2239:     var tile_properties = TILE_PROPERTIES[tile]
-2240: 
-2241: 
-2242:     if tile_properties["breakable"]:
-2243:         if not damage_tiles.has(idx):
-2244:             damage_tiles.append(idx)
-2245:         if wet_tiles.has(idx):
-2246:             damage = (damage * 2 * (1 + Gvars.passives.wet_damage))
-2247:         add_damage_to_tile(idx, damage)
-2248: 
-2249: 
-2250: func add_damage_to_tile(idx: int, damage: float):
-2251:     tiles_health[idx] -= damage
-2252: 
+﻿>>> 1. Updating LivingCanvasHelper.gd with Ore & Coal Infusion...
+Updated LivingCanvasHelper.gd
 
->>> 2. Updating tile_map_chunk.hooks.gd with 2-parameter signature...
-Patched: C:\Dev\coal-llc-mods\mods-unpacked\gareth-living_canvas_mod\mods-unpacked\gareth-living_canvas_mod\extensions\scenes\tilemaps\tile_map_chunk.hooks.gd
+>>> 2. Rewriting management_screen.hooks.gd with working Callable filter...
+Updated management_screen.hooks.gd
 
->>> 3. Implementing deferred shop filter in management_screen.hooks.gd...
-Patched: C:\Dev\coal-llc-mods\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\extensions\scenes\Stages\management_screen.hooks.gd
-
->>> 4. Flushing mod-hooks.zip...
->>> 5. Repackaging living_canvas_mod.zip and mod_manager_mod.zip...
+>>> 3. Flushing mod-hooks.zip...
+>>> 4. Repackaging living_canvas_mod.zip and mod_manager_mod.zip...
 Repacked: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods\gareth-living_canvas_mod.zip
 Repacked: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods\gareth-mod_manager_mod.zip
 
->>> 6. Git staging and committing...
+>>> 5. Git staging and committing...
 warning: in the working copy of 'context.txt', LF will be replaced by CRLF the next time Git touches it
-[main a4d81ad] Fix damage_tile_idx 2-parameter signature and apply deferred equipment shop filtering
- 5 files changed, 112 insertions(+), 313 deletions(-)
-Enumerating objects: 34, done.
-Counting objects: 100% (34/34), done.
+[main 3bda95e] Implement ore and coal infusion for Living Canvas tiles and fix deferred shop filter
+ 5 files changed, 382 insertions(+), 146 deletions(-)
+Enumerating objects: 32, done.
+Counting objects: 100% (32/32), done.
 Delta compression using up to 24 threads
-Compressing objects: 100% (19/19), done.
-Writing objects: 100% (20/20), 4.19 KiB | 858.00 KiB/s, done.
-Total 20 (delta 8), reused 0 (delta 0), pack-reused 0 (from 0)
-remote: Resolving deltas: 100% (8/8), completed with 8 local objects.
+Compressing objects: 100% (16/16), done.
+Writing objects: 100% (18/18), 5.54 KiB | 1.11 MiB/s, done.
+Total 18 (delta 8), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (8/8), completed with 7 local objects.
 To https://github.com/garethwhite-prog/coal-llc-mods.git
-   0b16957..a4d81ad  main -> main
+   a4d81ad..3bda95e  main -> main
 
-Fix deployed successfully! Launch Coal LLC to test.
+Patch applied successfully! Launch Coal LLC to test.
 PS C:\Dev\coal-llc-mods> 
