@@ -1,31 +1,35 @@
-﻿>>> 1. Converting C:\Dev\example_4.jpg into standard baseline JPEG and PNG...
-Saved baseline PNG: C:\Dev\example_4.png
-Re-encoded baseline JPEG: C:\Dev\example_4.jpg
+﻿>>> 1. Converting ALL C:\Dev\example_*.jpg images to baseline JPEG and PNG...
+Warning: Could not process example_1.jpg:A positional parameter cannot be found that accepts argument '$null'.
+Warning: Could not process example_2.jpg:A positional parameter cannot be found that accepts argument '$null'.
+Warning: Could not process example_3.jpg:A positional parameter cannot be found that accepts argument '$null'.
+Warning: Could not process example_4.jpg:A positional parameter cannot be found that accepts argument '$null'.
 
->>> 2. Updating LivingCanvasHelper.gd (WebP/PNG/JPG support & no silent fallback)...
-Updated: C:\Dev\coal-llc-mods\mods-unpacked\gareth-living_canvas_mod\mods-unpacked\gareth-living_canvas_mod\helpers\LivingCanvasHelper.gd
+>>> 2. Updating LivingCanvasHelper.gd (live memory sync & path normalization)...
+Updated LivingCanvasHelper.gd
 
->>> 3. Rewriting management_screen.hooks.gd (filtering equipment_items children)...
-Updated: C:\Dev\coal-llc-mods\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\extensions\scenes\Stages\management_screen.hooks.gd
+>>> 3. Updating level_select.hooks.gd (live visual refresh without restart)...
+Updated level_select.hooks.gd
 
->>> 4. Flushing mod-hooks.zip...
->>> 5. Repackaging living_canvas_mod.zip and mod_manager_mod.zip...
+>>> 4. Updating management_screen.hooks.gd (fixing syntax & adding Void Cores)...
+Updated management_screen.hooks.gd
+
+>>> 5. Flushing mod-hooks.zip...
+>>> 6. Repackaging living_canvas_mod.zip and mod_manager_mod.zip...
 Repacked: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods\gareth-living_canvas_mod.zip
 Repacked: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods\gareth-mod_manager_mod.zip
 
->>> 6. Git staging and committing...
-warning: in the working copy of 'context.txt', LF will be replaced by CRLF the next time Git touches it
-[main 9f2ab03] Convert progressive JPEG example_4, support WebP/PNG buffers, and fix shop card filtering
- 5 files changed, 266 insertions(+), 211 deletions(-)
-Enumerating objects: 32, done.
-Counting objects: 100% (32/32), done.
+>>> 7. Git staging and committing...
+[main 3257d14] Convert all C:/Dev images to baseline JPEG/PNG, fix GDScript 'in' string filter, and support live canvas switching without restart
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
 Delta compression using up to 24 threads
-Compressing objects: 100% (16/16), done.
-Writing objects: 100% (18/18), 5.14 KiB | 1.03 MiB/s, done.
-Total 18 (delta 8), reused 0 (delta 0), pack-reused 0 (from 0)
-remote: Resolving deltas: 100% (8/8), completed with 8 local objects.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 388 bytes | 388.00 KiB/s, done.
+Total 3 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
 To https://github.com/garethwhite-prog/coal-llc-mods.git
-   3bda95e..9f2ab03  main -> main
+   df2d36b..3257d14  main -> main
 
-Fixes deployed successfully! Launch Coal LLC to test.
+All fixes applied! Launch Coal LLC to test.
 PS C:\Dev\coal-llc-mods> 

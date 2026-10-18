@@ -5,6 +5,7 @@ const CANVAS_LEVEL_ID: int = 103
 const TARGET_CANVAS_WIDTH: int = 96
 const CONFIG_PATH: String = "user://living_canvas_config.json"
 const BUFFER_SURFACE_ROWS: int = 12
+const BUNDLED_DEFAULT_PATH: String = "res://mods-unpacked/gareth-living_canvas_mod/assets/default_canvas.png"
 
 const STRATA_BASES: Dictionary = {
 	Color(0.85, 0.20, 0.15): 75,  # FIRE family
@@ -46,7 +47,7 @@ static func ensure_level_registered() -> void:
 			custom_level.level_name = "The Living Canvas"
 			custom_level.level = CANVAS_LEVEL_ID
 			custom_level.mining_scene_path = "res://scenes/Stages/MineRegion.tscn"
-			custom_level.level_description = "Subterranean strata sculpted directly from a real image or screenshot.\n\nMine your way through pixel-perfect mineral landscapes."
+			custom_level.level_description = "Subterranean strata sculpted directly from a real image or screenshot.\n\nDefault theme: 'Your Mum'. Mine through the beach mosaic or choose any custom image."
 			custom_level.level_difficulty = GameLevel.Difficulty.HARD
 			custom_level.unlock_description = ""
 
@@ -63,7 +64,7 @@ static func ensure_level_registered() -> void:
 		if not Gvars.level_info.has(CANVAS_LEVEL_ID):
 			Gvars.level_info[CANVAS_LEVEL_ID] = {
 				"name": "The Living Canvas",
-				"description": "Subterranean strata sculpted directly from real images or screenshots.",
+				"description": "Subterranean strata sculpted directly from real images or screenshots.\nDefault theme: 'Your Mum'.",
 				"depth": 1000,
 				"cost": 0,
 				"unlocked": true
@@ -87,8 +88,7 @@ static func set_active_image(path: String) -> void:
 		file.store_string(JSON.stringify(cfg))
 	cached_image = null
 	var new_img = get_or_load_canvas()
-	
-	# Instantly synchronize in-memory level registration
+
 	if new_img and Gvars and ("level_manager" in Gvars) and Gvars.level_manager:
 		var lvl_mgr = Gvars.level_manager
 		if "all_levels" in lvl_mgr and lvl_mgr.all_levels.has(CANVAS_LEVEL_ID):
@@ -129,24 +129,26 @@ static func get_or_load_canvas() -> Image:
 	var img: Image = null
 	var active_path = get_saved_image_path()
 
-	# 1. Try saved user path
+	# 1. User selected image
 	if active_path != "":
 		img = load_image_from_path(active_path)
-		# Sibling PNG fallback
 		if not img:
 			var alt_png = active_path.get_basename() + ".png"
 			if FileAccess.file_exists(alt_png):
 				img = load_image_from_path(alt_png)
 
-	# 2. Try example_4 or example_1 if no valid user selection exists
-	if not img and FileAccess.file_exists("C:/Dev/example_4.png"):
-		img = load_image_from_path("C:/Dev/example_4.png")
-	if not img and FileAccess.file_exists("C:/Dev/example_1.png"):
-		img = load_image_from_path("C:/Dev/example_1.png")
-	if not img and FileAccess.file_exists("C:/Dev/example_1.jpg"):
-		img = load_image_from_path("C:/Dev/example_1.jpg")
+	# 2. Bundled mod asset ("Your Mum" default)
+	if not img:
+		img = load_image_from_path(BUNDLED_DEFAULT_PATH)
 
-	# 3. Fallback procedural canvas
+	# 3. Local dev fallback to C:/Dev/example_3
+	if not img:
+		if FileAccess.file_exists("C:/Dev/example_3.png"):
+			img = load_image_from_path("C:/Dev/example_3.png")
+		elif FileAccess.file_exists("C:/Dev/example_3.jpg"):
+			img = load_image_from_path("C:/Dev/example_3.jpg")
+
+	# 4. Final procedural fallback
 	if not img:
 		img = _generate_fallback_canvas()
 	else:

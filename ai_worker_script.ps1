@@ -1,7 +1,7 @@
-﻿Clear-Host;
+Clear-Host;
 
 # ==============================================================================
-# Coal LLC - Universal Baseline Image Conversion & GDScript Filter Fix
+# Coal LLC - Package "Your Mum" Default Canvas & Bulletproof Shop Filter
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
@@ -9,39 +9,29 @@ $steamRoot  = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC"
 $steamMods  = "$steamRoot\mods"
 $hookZip    = "$steamRoot\mod-hooks.zip"
 
-$lcInnerDir = "$repo\mods-unpacked\gareth-living_canvas_mod\mods-unpacked\gareth-living_canvas_mod"
+$modName    = "gareth-living_canvas_mod"
+$outerDir   = "$repo\mods-unpacked\$modName"
+$innerDir   = "$outerDir\mods-unpacked\$modName"
 $mmInnerDir = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod"
 
 Set-Location $repo
 
-Write-Host ">>> 1. Converting ALL C:\Dev\example_*.jpg images to baseline JPEG and PNG..." -ForegroundColor Cyan
+Write-Host ">>> 1. Packaging example_3.jpg as default_canvas.png in mod assets..." -ForegroundColor Cyan
 Add-Type -AssemblyName System.Drawing
 
-$jpegCodec = [System.Drawing.Imaging.ImageCodecInfo]::GetImageEncoders() | Where-Object {$_.MimeType -eq "image/jpeg" }
-$encoderParams = New-Object System.Drawing.Imaging.EncoderParameters(1)
-$encoderParams.Param[0] = New-Object System.Drawing.Imaging.EncoderParameter([System.Drawing.Imaging.Encoder]::Quality, [long]95)
+$ex3Path = "C:\Dev\example_3.jpg"
+$destPngOuter = "$outerDir\assets\default_canvas.png"
+$destPngInner = "$innerDir\assets\default_canvas.png"
 
-$devImages = Get-ChildItem -Path "C:\Dev" -Filter "example_*.jpg"
-foreach ($imgFile in $devImages) {
-    try {
-        $srcImg = [System.Drawing.Image]::FromFile($imgFile.FullName)
-		$bmpCopy = New-Object System.Drawing.Bitmap($srcImg)$srcImg.Dispose()
-
-        # Save sibling PNG
-        $pngPath = [System.IO.Path]::ChangeExtension($imgFile.FullName, ".png")
-        $bmpCopy.Save($pngPath, [System.Drawing.Imaging.ImageFormat]::Png)
-
-        # Overwrite JPG as standard baseline JPEG
-        $bmpCopy.Save($imgFile.FullName, $jpegCodec, $encoderParams)
-		$bmpCopy.Dispose()
-        Write-Host "Processed: $($imgFile.Name) -> Baseline JPEG + PNG" -ForegroundColor Green
-    } catch {
-        Write-Host "Warning: Could not process $($imgFile.Name):$_" -ForegroundColor Yellow
-    }
+if (Test-Path $ex3Path) {$srcImg = [System.Drawing.Image]::FromFile($ex3Path)
+	$srcImg.Save($destPngInner, [System.Drawing.Imaging.ImageFormat]::Png)
+	$srcImg.Save($destPngOuter, [System.Drawing.Imaging.ImageFormat]::Png)
+	$srcImg.Dispose()
+    Write-Host "Packaged bundled mural: $destPngInner" -ForegroundColor Green
 }
 
-Write-Host "`n>>> 2. Updating LivingCanvasHelper.gd (live memory sync & path normalization)..." -ForegroundColor Cyan
-$lcHelperPath = "$lcInnerDir\helpers\LivingCanvasHelper.gd"
+Write-Host "`n>>> 2. Updating LivingCanvasHelper.gd with bundled default asset..." -ForegroundColor Cyan
+$lcHelperPath = "$innerDir\helpers\LivingCanvasHelper.gd"
 
 @'
 class_name LivingCanvasHelper
@@ -51,6 +41,7 @@ const CANVAS_LEVEL_ID: int = 103
 const TARGET_CANVAS_WIDTH: int = 96
 const CONFIG_PATH: String = "user://living_canvas_config.json"
 const BUFFER_SURFACE_ROWS: int = 12
+const BUNDLED_DEFAULT_PATH: String = "res://mods-unpacked/gareth-living_canvas_mod/assets/default_canvas.png"
 
 const STRATA_BASES: Dictionary = {
 	Color(0.85, 0.20, 0.15): 75,  # FIRE family
@@ -92,7 +83,7 @@ static func ensure_level_registered() -> void:
 			custom_level.level_name = "The Living Canvas"
 			custom_level.level = CANVAS_LEVEL_ID
 			custom_level.mining_scene_path = "res://scenes/Stages/MineRegion.tscn"
-			custom_level.level_description = "Subterranean strata sculpted directly from a real image or screenshot.\n\nMine your way through pixel-perfect mineral landscapes."
+			custom_level.level_description = "Subterranean strata sculpted directly from a real image or screenshot.\n\nDefault theme: 'Your Mum'. Mine through the beach mosaic or choose any custom image."
 			custom_level.level_difficulty = GameLevel.Difficulty.HARD
 			custom_level.unlock_description = ""
 
@@ -109,7 +100,7 @@ static func ensure_level_registered() -> void:
 		if not Gvars.level_info.has(CANVAS_LEVEL_ID):
 			Gvars.level_info[CANVAS_LEVEL_ID] = {
 				"name": "The Living Canvas",
-				"description": "Subterranean strata sculpted directly from real images or screenshots.",
+				"description": "Subterranean strata sculpted directly from real images or screenshots.\nDefault theme: 'Your Mum'.",
 				"depth": 1000,
 				"cost": 0,
 				"unlocked": true
@@ -133,8 +124,7 @@ static func set_active_image(path: String) -> void:
 		file.store_string(JSON.stringify(cfg))
 	cached_image = null
 	var new_img = get_or_load_canvas()
-	
-	# Instantly synchronize in-memory level registration
+
 	if new_img and Gvars and ("level_manager" in Gvars) and Gvars.level_manager:
 		var lvl_mgr = Gvars.level_manager
 		if "all_levels" in lvl_mgr and lvl_mgr.all_levels.has(CANVAS_LEVEL_ID):
@@ -175,24 +165,26 @@ static func get_or_load_canvas() -> Image:
 	var img: Image = null
 	var active_path = get_saved_image_path()
 
-	# 1. Try saved user path
+	# 1. User selected image
 	if active_path != "":
 		img = load_image_from_path(active_path)
-		# Sibling PNG fallback
 		if not img:
 			var alt_png = active_path.get_basename() + ".png"
 			if FileAccess.file_exists(alt_png):
 				img = load_image_from_path(alt_png)
 
-	# 2. Try example_4 or example_1 if no valid user selection exists
-	if not img and FileAccess.file_exists("C:/Dev/example_4.png"):
-		img = load_image_from_path("C:/Dev/example_4.png")
-	if not img and FileAccess.file_exists("C:/Dev/example_1.png"):
-		img = load_image_from_path("C:/Dev/example_1.png")
-	if not img and FileAccess.file_exists("C:/Dev/example_1.jpg"):
-		img = load_image_from_path("C:/Dev/example_1.jpg")
+	# 2. Bundled mod asset ("Your Mum" default)
+	if not img:
+		img = load_image_from_path(BUNDLED_DEFAULT_PATH)
 
-	# 3. Fallback procedural canvas
+	# 3. Local dev fallback to C:/Dev/example_3
+	if not img:
+		if FileAccess.file_exists("C:/Dev/example_3.png"):
+			img = load_image_from_path("C:/Dev/example_3.png")
+		elif FileAccess.file_exists("C:/Dev/example_3.jpg"):
+			img = load_image_from_path("C:/Dev/example_3.jpg")
+
+	# 4. Final procedural fallback
 	if not img:
 		img = _generate_fallback_canvas()
 	else:
@@ -299,10 +291,10 @@ static func paint_chunk_from_canvas(chunk: Node) -> void:
 			chunk.tiles[idx] = final_tile
 			chunk.build_tile(idx)
 '@ | Set-Content -Path $lcHelperPath -Encoding UTF8
-Write-Host "Updated LivingCanvasHelper.gd" -ForegroundColor Green
+Write-Host "Updated: $lcHelperPath" -ForegroundColor Green
 
-Write-Host "`n>>> 3. Updating level_select.hooks.gd (live visual refresh without restart)..." -ForegroundColor Cyan
-$lsHookPath = "$lcInnerDir\extensions\scenes\Interfaces\Menus\level_select.hooks.gd"
+Write-Host "`n>>> 3. Updating level_select.hooks.gd (default 'Your Mum' label)..." -ForegroundColor Cyan
+$lsHookPath = "$innerDir\extensions\scenes\Interfaces\Menus\level_select.hooks.gd"
 
 @'
 extends Object
@@ -327,17 +319,17 @@ func _ready(chain: ModLoaderHookChain) -> void:
 func _inject_canvas_button(ls: Control, card: Control) -> void:
 	var helper_script = load("res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd")
 	var active_path = helper_script.get_saved_image_path() if helper_script else ""
-	var initial_label = "[ Choose Image ]"
+	var initial_label = "[ Your Mum (Default) ]"
 	if active_path != "":
 		initial_label = "[ " + active_path.get_file() + " ]"
 
 	var btn = Button.new()
 	btn.text = initial_label
-	btn.custom_minimum_size = Vector2(140, 26)
+	btn.custom_minimum_size = Vector2(150, 26)
 	btn.add_theme_font_size_override("font_size", 9)
 	btn.focus_mode = Control.FOCUS_NONE
 	card.add_child(btn)
-	btn.position = Vector2(10, 180)
+	btn.position = Vector2(8, 180)
 
 	btn.pressed.connect(func():
 		var dialog = FileDialog.new()
@@ -367,9 +359,9 @@ func _inject_canvas_button(ls: Control, card: Control) -> void:
 		dialog.popup_centered(Vector2i(800, 500))
 	)
 '@ | Set-Content -Path $lsHookPath -Encoding UTF8
-Write-Host "Updated level_select.hooks.gd" -ForegroundColor Green
+Write-Host "Updated: $lsHookPath" -ForegroundColor Green
 
-Write-Host "`n>>> 4. Updating management_screen.hooks.gd (fixing syntax & adding Void Cores)..." -ForegroundColor Cyan
+Write-Host "`n>>> 4. Updating management_screen.hooks.gd (traversing all card labels)..." -ForegroundColor Cyan
 $mgmtHook = "$mmInnerDir\extensions\scenes\Stages\management_screen.hooks.gd"
 
 @'
@@ -385,49 +377,22 @@ func _filter_cards(screen: Node) -> void:
 	if not is_instance_valid(screen):
 		return
 
-	var prof = Gvars.profession if ("profession" in Gvars and Gvars.profession) else null
-	var prof_name: String = ""
-	if prof:
-		if "profession_name" in prof:
-			prof_name = str(prof.profession_name)
-		elif "title" in prof:
-			prof_name = str(prof.title)
-		elif "name" in prof:
-			prof_name = str(prof.name)
-
-	# When playing Internship or no custom class, hide all modded class weapons
-	if prof_name == "Internship" or prof_name == "" or prof_name.begins_with("@"):
-		var container = null
-		if "equipment_items" in screen and screen.equipment_items:
-			container = screen.equipment_items
-		else:
-			for c in screen.find_children("*", "GridContainer", true, false):
-				container = c
-				break
-
-		if container:
-			for card in container.get_children():
-				var txt: String = ""
-				for lbl in card.find_children("*", "Label", true, false):
-					txt += " " + lbl.text
-				if "item" in card and card.item and "itemName" in card.item:
-					txt += " " + str(card.item.itemName)
-
-				# Use GDScript 'in' operator to avoid .contains() parse errors
-				var is_mod_weapon: bool = (
-					("Tectonic Fracker" in txt) or
-					("Void Core" in txt) or
-					("Optical Emitter" in txt) or
-					("Broadsword" in txt) or
-					("Energy Saber" in txt) or
-					("Laser Beam" in txt)
-				)
-
-				if is_mod_weapon:
-					card.visible = false
-					card.process_mode = Node.PROCESS_MODE_DISABLED
+	var all_labels = screen.find_children("*", "Label", true, false)
+	for lbl in all_labels:
+		var txt = lbl.text
+		if ("Tectonic Fracker" in txt) or ("Void Core" in txt) or ("Optical Emitter" in txt) or ("Broadsword" in txt) or ("Energy Saber" in txt) or ("Laser Beam" in txt):
+			# Climb to the root card container and disable it
+			var card = lbl.get_parent()
+			while card and card != screen and card.get_parent() != screen:
+				if card.get_parent().name == "EquipmentItems" or card.get_parent() is GridContainer or card.get_parent() is BoxContainer:
+					break
+				card = card.get_parent()
+			
+			if card and card != screen:
+				card.visible = false
+				card.process_mode = Node.PROCESS_MODE_DISABLED
 '@ | Set-Content -Path $mgmtHook -Encoding UTF8
-Write-Host "Updated management_screen.hooks.gd" -ForegroundColor Green
+Write-Host "Updated: $mgmtHook" -ForegroundColor Green
 
 Write-Host "`n>>> 5. Flushing mod-hooks.zip..." -ForegroundColor Cyan
 if (Test-Path $hookZip) {
@@ -453,9 +418,9 @@ foreach ($mTarget in @("gareth-living_canvas_mod", "gareth-mod_manager_mod")) {
     Write-Host "Repacked: $mZip" -ForegroundColor Green
 }
 
-Write-Host "`n>>> 7. Git staging and committing..." -ForegroundColor Cyan
+Write-Host "`n>>> 7. Git staging, committing, and pushing..." -ForegroundColor Cyan
 git add -A
-git commit -m "Convert all C:/Dev images to baseline JPEG/PNG, fix GDScript 'in' string filter, and support live canvas switching without restart"
+git commit -m "Bundle 'Your Mum' default canvas in mod assets and implement robust card-level shop filtering"
 git push origin main
 
-Write-Host "`nAll fixes applied! Launch Coal LLC to test." -ForegroundColor Green
+Write-Host "`nDeployment complete! Launch Coal LLC to test." -ForegroundColor Green

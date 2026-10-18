@@ -20,17 +20,17 @@ func _ready(chain: ModLoaderHookChain) -> void:
 func _inject_canvas_button(ls: Control, card: Control) -> void:
 	var helper_script = load("res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd")
 	var active_path = helper_script.get_saved_image_path() if helper_script else ""
-	var initial_label = "[ Choose Image ]"
+	var initial_label = "[ Your Mum (Default) ]"
 	if active_path != "":
 		initial_label = "[ " + active_path.get_file() + " ]"
 
 	var btn = Button.new()
 	btn.text = initial_label
-	btn.custom_minimum_size = Vector2(140, 26)
+	btn.custom_minimum_size = Vector2(150, 26)
 	btn.add_theme_font_size_override("font_size", 9)
 	btn.focus_mode = Control.FOCUS_NONE
 	card.add_child(btn)
-	btn.position = Vector2(10, 180)
+	btn.position = Vector2(8, 180)
 
 	btn.pressed.connect(func():
 		var dialog = FileDialog.new()
