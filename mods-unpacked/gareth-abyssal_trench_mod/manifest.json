@@ -1,0 +1,18 @@
+{
+  "name": "abyssal_trench_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "Subterranean ocean trench featuring hydrothermal black smoker geysers, twilight sapphire strata, and abyssal basalt.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": [],
+  "extra": {
+    "godot": {
+      "display_name": "The Abyssal Trench",
+      "category": "Maps & Environments",
+      "authors": ["Gareth White"],
+      "tags": ["map", "abyss", "ocean", "trench", "geyser"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}

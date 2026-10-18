@@ -6,7 +6,7 @@ A complete, high-performance ecosystem of gameplay overhauls, custom subterranea
 
 ---
 
-## Complete Mod Directory (48 mods)
+## Complete Mod Directory (49 mods)
 
 ### 1. Custom Maps & Subterranean Overhauls
 | Mod | ID | Type | Description |
@@ -112,4 +112,5 @@ For developers writing extensions or custom classes, keep these Godot 4 engine c
 * **[Godot ModLoader Team](https://wiki.godotmodding.com/)** for the modding framework.
 * **[Der-Floh](https://github.com/Der-Floh/)** for foundational utility mods and hooks architecture.
 * **[nanobotz](https://github.com/NanobotZ)** for the original auto-passive chooser architecture.
+
 

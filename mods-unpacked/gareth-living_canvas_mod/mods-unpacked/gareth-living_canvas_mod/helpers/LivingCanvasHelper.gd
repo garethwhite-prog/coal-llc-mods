@@ -1,38 +1,17 @@
-class_name LivingCanvasHelper
+class_name AbyssalTrenchHelper
 extends RefCounted
 
-const CANVAS_LEVEL_ID: int = 103
-const TARGET_CANVAS_WIDTH: int = 96
-const CONFIG_PATH: String = "user://living_canvas_config.json"
+const TRENCH_LEVEL_ID: int = 104
+const PREVIEW_PATH: String = "res://mods-unpacked/gareth-abyssal_trench_mod/assets/abyssal_preview.png"
 const BUFFER_SURFACE_ROWS: int = 12
-const BUNDLED_DEFAULT_PATH: String = "res://mods-unpacked/gareth-living_canvas_mod/assets/default_canvas.png"
 
-const STRATA_BASES: Dictionary = {
-	Color(0.85, 0.20, 0.15): 75,  # FIRE family
-	Color(0.70, 0.90, 0.98): 58,  # ICE family
-	Color(0.12, 0.12, 0.15): 92,  # DARK family
-	Color(0.20, 0.78, 0.25): 109, # GREEN family
-	Color(0.92, 0.50, 0.12): 126, # ORANGE family
-	Color(0.65, 0.20, 0.85): 143, # PURPLE family
-	Color(0.12, 0.40, 0.15): 160, # DARKGREEN family
-	Color(0.95, 0.85, 0.18): 177, # YELLOW family
-	Color(0.40, 0.25, 0.15): 194, # DARKBROWN family
-	Color(0.10, 0.25, 0.70): 211, # DARKBLUE family
-	Color(0.50, 0.50, 0.52): 41,  # STONE family
-	Color(0.75, 0.55, 0.45): 24,  # CLAY family
-}
-
-static var cached_image: Image = null
-static var cached_width: int = 96
-static var cached_height: int = 49
-
-static func is_canvas_level() -> bool:
+static func is_abyssal_level() -> bool:
 	if Gvars:
-		if "level" in Gvars and Gvars.level == CANVAS_LEVEL_ID:
+		if "level" in Gvars and Gvars.level == TRENCH_LEVEL_ID:
 			return true
-		if "chosen_level" in Gvars and Gvars.chosen_level == CANVAS_LEVEL_ID:
+		if "chosen_level" in Gvars and Gvars.chosen_level == TRENCH_LEVEL_ID:
 			return true
-		if "current_level" in Gvars and Gvars.current_level == CANVAS_LEVEL_ID:
+		if "current_level" in Gvars and Gvars.current_level == TRENCH_LEVEL_ID:
 			return true
 	return false
 
@@ -42,215 +21,99 @@ static func ensure_level_registered() -> void:
 
 	if "level_manager" in Gvars and Gvars.level_manager and ("all_levels" in Gvars.level_manager):
 		var lvl_mgr = Gvars.level_manager
-		if not lvl_mgr.all_levels.has(CANVAS_LEVEL_ID):
+		if not lvl_mgr.all_levels.has(TRENCH_LEVEL_ID):
 			var custom_level = GameLevel.new()
-			custom_level.level_name = "The Living Canvas"
-			custom_level.level = CANVAS_LEVEL_ID
+			custom_level.level_name = "The Abyssal Trench"
+			custom_level.level = TRENCH_LEVEL_ID
 			custom_level.mining_scene_path = "res://scenes/Stages/MineRegion.tscn"
-			custom_level.level_description = "Subterranean strata sculpted directly from a real image or screenshot.\n\nDefault theme: 'Your Mum'. Mine through the beach mosaic or choose any custom image."
+			custom_level.level_description = "Subterranean ocean trench.\n\nDeep sapphire strata, submerged cavern pockets, and hydrothermal black smoker steam geysers."
 			custom_level.level_difficulty = GameLevel.Difficulty.HARD
 			custom_level.unlock_description = ""
 
-			var preview_tex = get_preview_texture()
-			if preview_tex:
-				custom_level.level_image = preview_tex
+			var bytes = FileAccess.get_file_as_bytes(PREVIEW_PATH)
+			if bytes.size() > 0:
+				var img = Image.new()
+				if img.load_png_from_buffer(bytes) == OK:
+					custom_level.level_image = ImageTexture.create_from_image(img)
 
-			lvl_mgr.all_levels[CANVAS_LEVEL_ID] = {
+			lvl_mgr.all_levels[TRENCH_LEVEL_ID] = {
 				"level": custom_level,
 				"is_unlocked": true
 			}
 
 	if "level_info" in Gvars and Gvars.level_info is Dictionary:
-		if not Gvars.level_info.has(CANVAS_LEVEL_ID):
-			Gvars.level_info[CANVAS_LEVEL_ID] = {
-				"name": "The Living Canvas",
-				"description": "Subterranean strata sculpted directly from real images or screenshots.\nDefault theme: 'Your Mum'.",
-				"depth": 1000,
+		if not Gvars.level_info.has(TRENCH_LEVEL_ID):
+			Gvars.level_info[TRENCH_LEVEL_ID] = {
+				"name": "The Abyssal Trench",
+				"description": "Subterranean ocean trench with hydrothermal vents and sapphire strata.",
+				"depth": 1500,
 				"cost": 0,
 				"unlocked": true
 			}
 
-static func get_saved_image_path() -> String:
-	if FileAccess.file_exists(CONFIG_PATH):
-		var file = FileAccess.open(CONFIG_PATH, FileAccess.READ)
-		if file:
-			var txt = file.get_as_text()
-			var json = JSON.new()
-			if json.parse(txt) == OK and json.data is Dictionary:
-				return str(json.data.get("image_path", "")).replace("\\", "/")
-	return ""
-
-static func set_active_image(path: String) -> void:
-	path = path.replace("\\", "/")
-	var cfg = {"image_path": path}
-	var file = FileAccess.open(CONFIG_PATH, FileAccess.WRITE)
-	if file:
-		file.store_string(JSON.stringify(cfg))
-	cached_image = null
-	var new_img = get_or_load_canvas()
-
-	if new_img and Gvars and ("level_manager" in Gvars) and Gvars.level_manager:
-		var lvl_mgr = Gvars.level_manager
-		if "all_levels" in lvl_mgr and lvl_mgr.all_levels.has(CANVAS_LEVEL_ID):
-			var new_tex = ImageTexture.create_from_image(new_img)
-			lvl_mgr.all_levels[CANVAS_LEVEL_ID]["level"].level_image = new_tex
-
-	ModLoaderLog.info("Active image updated to: " + path, "gareth-living_canvas_mod")
-
-static func load_image_from_path(path: String) -> Image:
-	path = path.replace("\\", "/")
-	if not FileAccess.file_exists(path):
-		return null
-	var bytes = FileAccess.get_file_as_bytes(path)
-	if bytes.is_empty():
-		return null
-
-	var img = Image.new()
-	var err: Error = FAILED
-	var p_lower = path.to_lower()
-
-	if p_lower.ends_with(".png"):
-		err = img.load_png_from_buffer(bytes)
-	elif p_lower.ends_with(".webp"):
-		err = img.load_webp_from_buffer(bytes)
-	else:
-		err = img.load_jpg_from_buffer(bytes)
-		if err != OK:
-			err = img.load_png_from_buffer(bytes)
-
-	if err == OK:
-		return img
-	return null
-
-static func get_or_load_canvas() -> Image:
-	if cached_image != null:
-		return cached_image
-
-	var img: Image = null
-	var active_path = get_saved_image_path()
-
-	# 1. User selected image
-	if active_path != "":
-		img = load_image_from_path(active_path)
-		if not img:
-			var alt_png = active_path.get_basename() + ".png"
-			if FileAccess.file_exists(alt_png):
-				img = load_image_from_path(alt_png)
-
-	# 2. Bundled mod asset ("Your Mum" default)
-	if not img:
-		img = load_image_from_path(BUNDLED_DEFAULT_PATH)
-
-	# 3. Local dev fallback to C:/Dev/example_3
-	if not img:
-		if FileAccess.file_exists("C:/Dev/example_3.png"):
-			img = load_image_from_path("C:/Dev/example_3.png")
-		elif FileAccess.file_exists("C:/Dev/example_3.jpg"):
-			img = load_image_from_path("C:/Dev/example_3.jpg")
-
-	# 4. Final procedural fallback
-	if not img:
-		img = _generate_fallback_canvas()
-	else:
-		var orig_w = img.get_width()
-		var orig_h = img.get_height()
-		var aspect = float(orig_w) / float(max(1, orig_h))
-		cached_width = TARGET_CANVAS_WIDTH
-		cached_height = max(16, int(round(float(cached_width) / aspect)))
-		img.resize(cached_width, cached_height, Image.INTERPOLATE_LANCZOS)
-
-	cached_image = img
-	return cached_image
-
-static func get_preview_texture() -> ImageTexture:
-	var img = get_or_load_canvas()
-	if img:
-		return ImageTexture.create_from_image(img)
-	return null
-
-static func _generate_fallback_canvas() -> Image:
-	var img = Image.create(TARGET_CANVAS_WIDTH, 48, false, Image.FORMAT_RGBA8)
-	cached_width = TARGET_CANVAS_WIDTH
-	cached_height = 48
-	for x in range(TARGET_CANVAS_WIDTH):
-		for y in range(48):
-			var r = sin(float(x) * 0.1) * 0.5 + 0.5
-			var g = cos(float(y) * 0.15) * 0.5 + 0.5
-			var b = sin(float(x + y) * 0.08) * 0.5 + 0.5
-			img.set_pixel(x, y, Color(r, g, b, 1.0))
-	return img
-
-static func match_strata_base(col: Color) -> int:
-	if col.a < 0.2:
-		return 0
-
-	var best_base: int = 41
-	var min_dist: float = 999999.0
-
-	for p_col in STRATA_BASES.keys():
-		var dr = col.r - p_col.r
-		var dg = col.g - p_col.g
-		var db = col.b - p_col.b
-		var dist = dr * dr + dg * dg + db * db
-		if dist < min_dist:
-			min_dist = dist
-			best_base = STRATA_BASES[p_col]
-
-	return best_base
-
-static func pick_ore_infused_tile(base_id: int, world_pos: Vector2i) -> int:
-	if base_id == 0:
-		return 0
-
-	var seed_val: int = abs(world_pos.x * 73856093 ^ world_pos.y * 19349663)
-	var roll: int = seed_val % 100
-
-	# 45% Coal, 25% Ore, 30% Base
-	if roll < 45:
-		return base_id + 1
-	elif roll < 70:
-		var ore_offset = 2 + (seed_val % 10)
-		return base_id + min(ore_offset, 15)
-	return base_id
-
-static func paint_chunk_from_canvas(chunk: Node) -> void:
+static func generate_abyssal_strata(chunk: Node, noise: Noise) -> void:
 	if not ("tiles" in chunk) or not chunk.has_method("array_to_global_pos"):
 		return
 
-	var img = get_or_load_canvas()
-	if not img:
-		return
-
-	var half_w: int = int(cached_width / 2.0)
+	var vent_spawned: bool = false
 
 	for idx in range(chunk.tiles.size()):
 		var global_pos: Vector2i = Vector2i(chunk.array_to_global_pos(idx))
 
+		# 1. Surface Shallows (Rows 0-12): Keep soft clay/starter coal intact
 		if global_pos.y <= BUFFER_SURFACE_ROWS:
 			continue
 
-		var dist_from_center: int = abs(global_pos.x)
-		if dist_from_center >= half_w and dist_from_center < half_w + 8:
-			if (global_pos.x + global_pos.y) % 5 == 0:
-				chunk.tiles[idx] = chunk.Tiles.COAL_STONE
+		var local_x = idx % chunk.chunk_size
+		var local_y = idx / chunk.chunk_size
+
+		# 2. Carve Submerged Trench Caverns using 2D noise
+		var cave_noise: float = abs(noise.get_noise_2d(float(global_pos.x) * 3.2, float(global_pos.y) * 1.8))
+		if cave_noise < 0.12 and global_pos.y > 18:
+			chunk.tiles[idx] = chunk.Tiles.EMPTY
+			chunk.build_tile(idx)
+
+			# Spawn Hydrothermal Black Smoker on cavern floor
+			if not vent_spawned and global_pos.y >= 28 and local_y < chunk.chunk_size - 2:
+				var below_idx = idx + chunk.chunk_size
+				if below_idx < chunk.tiles.size() and chunk.tiles[below_idx] != chunk.Tiles.EMPTY:
+					var VentScene = load("res://mods-unpacked/gareth-abyssal_trench_mod/entities/HydrothermalVent.gd")
+					if VentScene:
+						var vent = VentScene.new()
+						vent.position = chunk.map_to_local(Vector2i(local_x, local_y + 1))
+						chunk.add_child(vent)
+						vent_spawned = true
+			continue
+
+		# 3. Strata Distribution
+		var tile_to_set: int = chunk.Tiles.BASIC_DARKBLUE
+		var seed_val: int = abs(global_pos.x * 73856093 ^ global_pos.y * 19349663)
+		var roll: int = seed_val % 100
+
+		if global_pos.y <= 60:
+			# Twilight Zone: Dark Blue Stone & Sapphires / Moonstones
+			if roll < 38:
+				tile_to_set = 212 # COAL_DARKBLUE
+			elif roll < 56:
+				tile_to_set = 215 # SAPPHIRE_DARKBLUE
+			elif roll < 66:
+				tile_to_set = 225 # MOONSTONE_DARKBLUE
+			elif roll < 78:
+				tile_to_set = 213 # COPPER_DARKBLUE
 			else:
-				chunk.tiles[idx] = chunk.Tiles.BASIC_STONE
-			chunk.build_tile(idx)
-			continue
+				tile_to_set = 211 # BASIC_DARKBLUE
+		else:
+			# Hadal Trench: Volcanic Basalt, Onyx, Supercooled Ice Crystals
+			if roll < 35:
+				tile_to_set = 93  # COAL_DARK
+			elif roll < 54:
+				tile_to_set = 107 # ONYX_DARK
+			elif roll < 65:
+				tile_to_set = 68  # DIAMOND_ICE
+			elif roll < 78:
+				tile_to_set = 98  # GOLD_DARK
+			else:
+				tile_to_set = 92  # BASIC_DARK
 
-		if dist_from_center >= half_w + 8:
-			chunk.tiles[idx] = chunk.Tiles.BEDROCK
-			chunk.build_tile(idx)
-			continue
-
-		var img_u: int = global_pos.x + half_w
-		var img_v: int = (global_pos.y - (BUFFER_SURFACE_ROWS + 1)) % cached_height
-		if img_v < 0:
-			img_v += cached_height
-
-		if img_u >= 0 and img_u < cached_width and img_v >= 0 and img_v < cached_height:
-			var pixel_col: Color = img.get_pixel(img_u, img_v)
-			var base_id: int = match_strata_base(pixel_col)
-			var final_tile: int = pick_ore_infused_tile(base_id, global_pos)
-			chunk.tiles[idx] = final_tile
-			chunk.build_tile(idx)
+		chunk.tiles[idx] = tile_to_set
+		chunk.build_tile(idx)

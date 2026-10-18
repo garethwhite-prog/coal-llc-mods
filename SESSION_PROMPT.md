@@ -157,3 +157,14 @@ Archetype weapons and explosives scale across 15 standard mineral tiers:
 * **Strata Mapping**: Map RGB pixels to valid breakable base blocks (`STRATA_BASES`) using Euclidean distance. Infuse 45% coal (`base + 1`), 25% ores (`base + 2..11`), and 30% base stone.
 * **Layout Geometry**: Keep rows 0�12 as vanilla surface buffer; generate 8-block-wide breakable side quarries at `abs(x) >= 48` before terminating with outer bedrock walls at `abs(x) >= 56`.
 * **Asset Loading**: Read image bytes via `FileAccess.get_file_as_bytes()` to bypass virtual zip boundaries; bundled default is `res://mods-unpacked/gareth-living_canvas_mod/assets/default_canvas.png`.
+
+### Map 104 - The Abyssal Trench (`gareth-abyssal_trench_mod`)
+* **Level ID**: `104` (Registered in `level_manager.all_levels` and `Gvars.level_info`).
+* **Stage Routing**: Hook `Game.gd:change_stage` on `target == 2` and `Gvars.level == 104` to load `res://scenes/Stages/MineRegion.tscn`.
+* **Subterranean Generation Hook**: Hook `tile_map_chunk.gd:generate_chunk`. Maintain `pos.y < 0` returning `-2` in `lvl_from_global_pos`.
+* **Strata Mapping**:
+  * Rows 0�12: Vanilla soft clay/coal starter buffer.
+  * Rows 13�60 (Twilight Zone): `BASIC_DARKBLUE` (211), `COAL_DARKBLUE` (212), `SAPPHIRE_DARKBLUE` (215), `MOONSTONE_DARKBLUE` (225).
+  * Rows 61+ (Hadal Trench): `BASIC_DARK` (92), `COAL_DARK` (93), `ONYX_DARK` (107), `DIAMOND_ICE` (68).
+* **Entities**: `HydrothermalVent.gd` spawns in carved cavern floors; emits bubbling CPUParticles2D and launches miner upward (`velocity.y = -680.0`).
+* **Tool Balancing**: Upper trench blocks ($13 \le y \le 40$) receive $2.8\times$ damage in `damage_tile_idx`.
