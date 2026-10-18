@@ -1,7 +1,7 @@
 ﻿cls
 
 # ==============================================================================
-# Coal LLC - Restore Map 102 Tile Registration & Level Select Dictionaries
+# Coal LLC - Fix Level Select Menu Hook & Register Map 102 Card in all_levels
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
@@ -18,26 +18,13 @@ $hookPath   = "$innerDir\extensions\scenes\Interfaces\Menus\level_select.hooks.g
 
 Set-Location $repo
 
-Write-Host ">>> 1. Inspecting level_select.gd line 50-65 in _dump..." -ForegroundColor Cyan
-$lsPath = "$dumpRoot\scenes\Interfaces\Menus\level_select.gd"
-if (Test-Path $lsPath) {
-    $lines = Get-Content $lsPath
-    for ($i = 48; $i -le [Math]::Min($lines.Count - 1, 65); $i++) {
-        Write-Host ("{0,4}: {1}" -f ($i + 1), $lines[$i]) -ForegroundColor DarkGray
-    }
+Write-Host ">>> 1. Inspecting how Lost Expedition registers its level..." -ForegroundColor Cyan
+$leHelper = Get-ChildItem -Path "$repo\mods-unpacked\gareth-lost_expedition_mod" -Filter "LostExpeditionHelper.gd" -Recurse | Select-Object -First 1
+if ($leHelper) {
+    Get-Content $leHelper.FullName | Select-String -Pattern "func |all_levels|level_info|LEVEL" | ForEach-Object { Write-Host "   $_" -ForegroundColor DarkCyan }
 }
 
-Write-Host "`n>>> 2. Checking how Lost Expedition (Map 101) registers in level_select.hooks.gd..." -ForegroundColor Cyan
-$leHook = Get-ChildItem -Path "$repo\mods-unpacked\gareth-lost_expedition_mod" -Filter "level_select.hooks.gd" -Recurse | Select-Object -First 1
-if ($leHook) {
-    Get-Content $leHook.FullName | Write-Host -ForegroundColor DarkCyan
-}
-
-Write-Host "`n>>> 3. Extracting original TectonicFaultlineHelper.gd from 1c57c1d..." -ForegroundColor Cyan
-$origHelper = git show "1c57c1d:mods-unpacked/gareth-tectonic_faultline_mod/mods-unpacked/gareth-tectonic_faultline_mod/helpers/TectonicFaultlineHelper.gd"
-
-# Write out restored TectonicFaultlineHelper with full dictionary registration + new elemental pods
-Write-Host ">>> 4. Writing complete TectonicFaultlineHelper.gd..." -ForegroundColor Cyan
+Write-Host "`n>>> 2. Writing TectonicFaultlineHelper.gd with instance & static registration..." -ForegroundColor Cyan
 @'
 class_name TectonicFaultlineHelper
 extends RefCounted
@@ -52,11 +39,14 @@ static func is_faultline_level() -> bool:
 		return true
 	return false
 
-static func ensure_level_registered() -> void:
+# Instance method called by mod_main.gd: helper.ensure_level_registered()
+func ensure_level_registered() -> void:
+	TectonicFaultlineHelper.register_faultline_level()
+
+static func register_faultline_level() -> void:
 	if not Gvars:
 		return
 	
-	# 1. Level info metadata
 	if "level_info" in Gvars and Gvars.level_info is Dictionary:
 		if not Gvars.level_info.has(FAULTLINE_LEVEL_ID):
 			Gvars.level_info[FAULTLINE_LEVEL_ID] = {
@@ -67,12 +57,10 @@ static func ensure_level_registered() -> void:
 				"unlocked": true
 			}
 	
-	# 2. Level unlock state
 	if "level_unlocked" in Gvars and Gvars.level_unlocked is Dictionary:
 		if not Gvars.level_unlocked.has(FAULTLINE_LEVEL_ID):
 			Gvars.level_unlocked[FAULTLINE_LEVEL_ID] = true
 	
-	# 3. Highscore and stat trackers
 	if "level_highscores" in Gvars and Gvars.level_highscores is Dictionary:
 		if not Gvars.level_highscores.has(FAULTLINE_LEVEL_ID):
 			Gvars.level_highscores[FAULTLINE_LEVEL_ID] = 0
@@ -80,41 +68,6 @@ static func ensure_level_registered() -> void:
 	if "level_scores" in Gvars and Gvars.level_scores is Dictionary:
 		if not Gvars.level_scores.has(FAULTLINE_LEVEL_ID):
 			Gvars.level_scores[FAULTLINE_LEVEL_ID] = 0
-
-static func register_level_select_ui(level_select: Node) -> void:
-	ensure_level_registered()
-	if not level_select:
-		return
-	
-	# Load or construct preview texture for Map 102 card
-	var preview_tex: Texture2D = null
-	var preview_path = "res://mods-unpacked/gareth-tectonic_faultline_mod/assets/tectonic_preview.png"
-	if ResourceLoader.exists(preview_path):
-		preview_tex = load(preview_path)
-	elif ResourceLoader.exists("res://mods-unpacked/gareth-tectonic_faultline_mod/assets/magma_siphon_active.png"):
-		preview_tex = load("res://mods-unpacked/gareth-tectonic_faultline_mod/assets/magma_siphon_active.png")
-	
-	# Inject into LevelSelect instance dictionaries
-	if "level_images" in level_select and level_select.level_images is Dictionary:
-		if not level_select.level_images.has(FAULTLINE_LEVEL_ID):
-			level_select.level_images[FAULTLINE_LEVEL_ID] = preview_tex
-	
-	if "level_names" in level_select and level_select.level_names is Dictionary:
-		if not level_select.level_names.has(FAULTLINE_LEVEL_ID):
-			level_select.level_names[FAULTLINE_LEVEL_ID] = "Tectonic Faultline"
-	
-	if "level_descriptions" in level_select and level_select.level_descriptions is Dictionary:
-		if not level_select.level_descriptions.has(FAULTLINE_LEVEL_ID):
-			level_select.level_descriptions[FAULTLINE_LEVEL_ID] = "Seismic faultline with superheated vents, magma fissures, and elemental chambers.\n\nElemental pods contain explosive fluids and geothermal updrafts."
-	
-	if "level_scenes" in level_select and level_select.level_scenes is Dictionary:
-		if not level_select.level_scenes.has(FAULTLINE_LEVEL_ID):
-			if level_select.level_scenes.has(1):
-				level_select.level_scenes[FAULTLINE_LEVEL_ID] = level_select.level_scenes[1]
-	
-	if "level_depths" in level_select and level_select.level_depths is Dictionary:
-		if not level_select.level_depths.has(FAULTLINE_LEVEL_ID):
-			level_select.level_depths[FAULTLINE_LEVEL_ID] = 1400
 
 static func calculate_faultline_tier(global_cell: Vector2i) -> int:
 	var y_tile: int = abs(global_cell.y)
@@ -169,6 +122,7 @@ static func spawn_magma_siphons(chunk: Node, current_locs: Array[Vector2i]) -> A
 	if global_cell.y < 16:
 		return current_locs
 	
+	# Reinforced vault walls (+2 tier harder rock)
 	var pod_tier: int = calculate_faultline_tier(global_cell)
 	var wall_tier: int = min(pod_tier + 2, 12)
 	var wall_tile: int = chunk.chest_block_from_level(wall_tier)
@@ -219,32 +173,63 @@ static func spawn_magma_siphons(chunk: Node, current_locs: Array[Vector2i]) -> A
 '@ | Set-Content -Path $helperPath -Encoding UTF8
 Write-Host "Updated: $helperPath" -ForegroundColor Green
 
-Write-Host ">>> 5. Updating extensions/scenes/Interfaces/Menus/level_select.hooks.gd..." -ForegroundColor Cyan
+Write-Host "`n>>> 3. Writing level_select.hooks.gd with all_levels[102] registration..." -ForegroundColor Cyan
 @'
-class_name TectonicFaultlineLevelSelectHook
-extends RefCounted
+extends Object
 
 const FAULTLINE_LEVEL_ID: int = 102
 
-func _ready(level_select: LevelSelect, chain: ModLoaderHookChain) -> void:
-	var Helper = load("res://mods-unpacked/gareth-tectonic_faultline_mod/helpers/TectonicFaultlineHelper.gd")
-	if Helper and Helper.has_method("register_level_select_ui"):
-		Helper.register_level_select_ui(level_select)
+func _ready(chain: ModLoaderHookChain) -> void:
+	var helper_script = load("res://mods-unpacked/gareth-tectonic_faultline_mod/helpers/TectonicFaultlineHelper.gd")
+	if helper_script:
+		var helper = helper_script.new()
+		if helper.has_method("ensure_level_registered"):
+			helper.ensure_level_registered()
 	
-	if "LEVEL_ORDER" in level_select:
-		if not level_select.LEVEL_ORDER.has(FAULTLINE_LEVEL_ID):
-			level_select.LEVEL_ORDER.append(FAULTLINE_LEVEL_ID)
+	var ls = chain.reference_object
+	if ls:
+		# 1. Register entry 102 into all_levels dictionary so line 56 never crashes
+		if "all_levels" in ls and ls.all_levels is Dictionary:
+			if not ls.all_levels.has(FAULTLINE_LEVEL_ID):
+				var sample_level = null
+				for k in ls.all_levels.keys():
+					if ls.all_levels[k] is Dictionary and ls.all_levels[k].has("level"):
+						if ls.all_levels[k]["level"] != null:
+							sample_level = ls.all_levels[k]["level"]
+							break
+				
+				var new_lvl = sample_level.duplicate() if sample_level else null
+				if new_lvl:
+					if "level_name" in new_lvl:
+						new_lvl.level_name = "Tectonic Faultline"
+					if "level_description" in new_lvl:
+						new_lvl.level_description = "Seismic faultline with superheated vents, magma fissures, and elemental chambers.\n\nElemental pods contain explosive fluids and geothermal updrafts."
+					if "depth" in new_lvl:
+						new_lvl.depth = 1400
+					var preview_path = "res://mods-unpacked/gareth-tectonic_faultline_mod/assets/magma_siphon_active.png"
+					if ResourceLoader.exists(preview_path) and ("level_image" in new_lvl):
+						new_lvl.level_image = load(preview_path)
+				
+				ls.all_levels[FAULTLINE_LEVEL_ID] = {
+					"level": new_lvl,
+					"is_unlocked": true
+				}
+		
+		# 2. Append 102 to LEVEL_ORDER sequence
+		if "LEVEL_ORDER" in ls and ls.LEVEL_ORDER is Array:
+			if not ls.LEVEL_ORDER.has(FAULTLINE_LEVEL_ID):
+				ls.LEVEL_ORDER.append(FAULTLINE_LEVEL_ID)
 	
-	chain.execute_next()
+	chain.execute_next([])
 '@ | Set-Content -Path $hookPath -Encoding UTF8
 Write-Host "Updated: $hookPath" -ForegroundColor Green
 
-Write-Host ">>> 6. Flushing mod-hooks.zip..." -ForegroundColor Cyan
+Write-Host "`n>>> 4. Flushing mod-hooks.zip..." -ForegroundColor Cyan
 if (Test-Path $hookZip) {
     Remove-Item -Path $hookZip -Force
 }
 
-Write-Host ">>> 7. Repackaging mod archive for Steam..." -ForegroundColor Cyan
+Write-Host ">>> 5. Repackaging mod archive for Steam..." -ForegroundColor Cyan
 if (Test-Path $zipPath) {
     Remove-Item -Path $zipPath -Force
 }
@@ -252,7 +237,7 @@ Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
 $zipStream = [System.IO.File]::Open($zipPath, [System.IO.FileMode]::CreateNew)
-$archive   = New-Object System.IO.Compression.ZipArchive($zipStream, [System.IO.Compression.ZipArchiveMode]::Create)
+$archive   = New-Object System.IO.Compression.ZipArchive($zipStream, [System.IO.FileMode]::Create)
 $allFiles  = Get-ChildItem -Path $outerDir -Recurse -File
 
 foreach ($f in $allFiles) {
@@ -263,9 +248,9 @@ $archive.Dispose()
 $zipStream.Dispose()
 Write-Host "Packed archive at: $zipPath" -ForegroundColor Green
 
-Write-Host ">>> 8. Git staging, committing, and pushing..." -ForegroundColor Cyan
+Write-Host ">>> 6. Git staging, committing, and pushing..." -ForegroundColor Cyan
 git add -A
-git commit -m "Populate all LevelSelect instance dictionaries (images, names, descriptions, scenes) before chain.execute_next()"
+git commit -m "Populate ls.all_levels[102] in level_select.hooks.gd with 1-arg ModLoader hook signature"
 git push origin main
 
-Write-Host "`nDeploy complete! Launch Coal LLC to test Level Select." -ForegroundColor Green
+Write-Host "`nDeploy complete! Launch Coal LLC to test." -ForegroundColor Green

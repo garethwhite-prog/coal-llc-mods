@@ -11,11 +11,14 @@ static func is_faultline_level() -> bool:
 		return true
 	return false
 
-static func ensure_level_registered() -> void:
+# Instance method called by mod_main.gd: helper.ensure_level_registered()
+func ensure_level_registered() -> void:
+	TectonicFaultlineHelper.register_faultline_level()
+
+static func register_faultline_level() -> void:
 	if not Gvars:
 		return
 	
-	# 1. Level info metadata
 	if "level_info" in Gvars and Gvars.level_info is Dictionary:
 		if not Gvars.level_info.has(FAULTLINE_LEVEL_ID):
 			Gvars.level_info[FAULTLINE_LEVEL_ID] = {
@@ -26,12 +29,10 @@ static func ensure_level_registered() -> void:
 				"unlocked": true
 			}
 	
-	# 2. Level unlock state
 	if "level_unlocked" in Gvars and Gvars.level_unlocked is Dictionary:
 		if not Gvars.level_unlocked.has(FAULTLINE_LEVEL_ID):
 			Gvars.level_unlocked[FAULTLINE_LEVEL_ID] = true
 	
-	# 3. Highscore and stat trackers
 	if "level_highscores" in Gvars and Gvars.level_highscores is Dictionary:
 		if not Gvars.level_highscores.has(FAULTLINE_LEVEL_ID):
 			Gvars.level_highscores[FAULTLINE_LEVEL_ID] = 0
@@ -39,41 +40,6 @@ static func ensure_level_registered() -> void:
 	if "level_scores" in Gvars and Gvars.level_scores is Dictionary:
 		if not Gvars.level_scores.has(FAULTLINE_LEVEL_ID):
 			Gvars.level_scores[FAULTLINE_LEVEL_ID] = 0
-
-static func register_level_select_ui(level_select: Node) -> void:
-	ensure_level_registered()
-	if not level_select:
-		return
-	
-	# Load or construct preview texture for Map 102 card
-	var preview_tex: Texture2D = null
-	var preview_path = "res://mods-unpacked/gareth-tectonic_faultline_mod/assets/tectonic_preview.png"
-	if ResourceLoader.exists(preview_path):
-		preview_tex = load(preview_path)
-	elif ResourceLoader.exists("res://mods-unpacked/gareth-tectonic_faultline_mod/assets/magma_siphon_active.png"):
-		preview_tex = load("res://mods-unpacked/gareth-tectonic_faultline_mod/assets/magma_siphon_active.png")
-	
-	# Inject into LevelSelect instance dictionaries
-	if "level_images" in level_select and level_select.level_images is Dictionary:
-		if not level_select.level_images.has(FAULTLINE_LEVEL_ID):
-			level_select.level_images[FAULTLINE_LEVEL_ID] = preview_tex
-	
-	if "level_names" in level_select and level_select.level_names is Dictionary:
-		if not level_select.level_names.has(FAULTLINE_LEVEL_ID):
-			level_select.level_names[FAULTLINE_LEVEL_ID] = "Tectonic Faultline"
-	
-	if "level_descriptions" in level_select and level_select.level_descriptions is Dictionary:
-		if not level_select.level_descriptions.has(FAULTLINE_LEVEL_ID):
-			level_select.level_descriptions[FAULTLINE_LEVEL_ID] = "Seismic faultline with superheated vents, magma fissures, and elemental chambers.\n\nElemental pods contain explosive fluids and geothermal updrafts."
-	
-	if "level_scenes" in level_select and level_select.level_scenes is Dictionary:
-		if not level_select.level_scenes.has(FAULTLINE_LEVEL_ID):
-			if level_select.level_scenes.has(1):
-				level_select.level_scenes[FAULTLINE_LEVEL_ID] = level_select.level_scenes[1]
-	
-	if "level_depths" in level_select and level_select.level_depths is Dictionary:
-		if not level_select.level_depths.has(FAULTLINE_LEVEL_ID):
-			level_select.level_depths[FAULTLINE_LEVEL_ID] = 1400
 
 static func calculate_faultline_tier(global_cell: Vector2i) -> int:
 	var y_tile: int = abs(global_cell.y)
@@ -128,6 +94,7 @@ static func spawn_magma_siphons(chunk: Node, current_locs: Array[Vector2i]) -> A
 	if global_cell.y < 16:
 		return current_locs
 	
+	# Reinforced vault walls (+2 tier harder rock)
 	var pod_tier: int = calculate_faultline_tier(global_cell)
 	var wall_tier: int = min(pod_tier + 2, 12)
 	var wall_tile: int = chunk.chest_block_from_level(wall_tier)
