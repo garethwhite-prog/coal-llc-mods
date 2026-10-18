@@ -29,20 +29,18 @@ static func register_faultline_level() -> void:
 			custom_level.level_difficulty = GameLevel.Difficulty.HARD
 			custom_level.unlock_description = ""
 			
-			# Load preview texture via raw buffer to bypass Godot 4 zip filesystem restrictions
+			# Load preview texture directly from mod assets
 			var preview_path = "res://mods-unpacked/gareth-tectonic_faultline_mod/assets/tectonic_preview.png"
-			var bytes = FileAccess.get_file_as_bytes(preview_path)
-			if bytes and bytes.size() > 0:
-				var img = Image.new()
-				if img.load_png_from_buffer(bytes) == OK:
+			if ResourceLoader.exists(preview_path):
+				var img = Image.load_from_file(preview_path)
+				if img:
 					custom_level.level_image = ImageTexture.create_from_image(img)
 			
 			if not custom_level.level_image:
 				var fallback_path = "res://mods-unpacked/gareth-tectonic_faultline_mod/assets/magma_siphon_active.png"
-				var fbytes = FileAccess.get_file_as_bytes(fallback_path)
-				if fbytes and fbytes.size() > 0:
-					var fimg = Image.new()
-					if fimg.load_png_from_buffer(fbytes) == OK:
+				if ResourceLoader.exists(fallback_path):
+					var fimg = Image.load_from_file(fallback_path)
+					if fimg:
 						custom_level.level_image = ImageTexture.create_from_image(fimg)
 			
 			lvl_mgr.all_levels[FAULTLINE_LEVEL_ID] = {
@@ -94,18 +92,15 @@ static func calculate_faultline_tier(global_cell: Vector2i) -> int:
 		return min(12, 8 + int((y_tile - 300) / 80))
 
 static func pick_faultline_block(chunk: Node, global_cell: Vector2i, noise: FastNoiseLite) -> int:
-	# Sky and surface must remain empty air
 	if global_cell.y <= 0:
 		return chunk.Tiles.EMPTY
 	
 	var tier: int = calculate_faultline_tier(global_cell)
 	
-	# Primary vertical chasm slicing through strata
 	var rift_noise: float = abs(noise.get_noise_2d(float(global_cell.x) * 4.5, float(global_cell.y) * 1.2))
 	if rift_noise < 0.09 and global_cell.y > 10:
 		return chunk.Tiles.EMPTY
 	
-	# Secondary magma fissures
 	var fissure_noise: float = noise.get_noise_2d(float(global_cell.x) * 2.8 + 50.0, float(global_cell.y) * 2.8)
 	if fissure_noise > 0.42 and global_cell.y > 18:
 		return chunk.Tiles.HARD_FIRE
@@ -119,10 +114,11 @@ static func tag_seismic_seams(_chunk: Node) -> void:
 	pass
 
 static func spawn_magma_siphons(chunk: Node, current_locs: Array[Vector2i]) -> Array[Vector2i]:
-	if randf() > 0.65:
+	# 75% spawn chance per eligible chunk so pods are plentiful
+	if randf() > 0.75:
 		return current_locs
 	
-	if "chunk_pos" in chunk and chunk.chunk_pos.y < 1:
+	if "chunk_pos" in chunk and chunk.chunk_pos.y < 0:
 		return current_locs
 	
 	var width: int = 3
@@ -133,7 +129,8 @@ static func spawn_magma_siphons(chunk: Node, current_locs: Array[Vector2i]) -> A
 	)
 	
 	var global_cell: Vector2i = Vector2i(chunk.to_global(chunk.map_to_local(start_tile)) / 16.0)
-	if global_cell.y < 16:
+	# Allow pods anywhere below surface dirt (y >= 6)
+	if global_cell.y < 6:
 		return current_locs
 	
 	# Vault perimeter walls (+2 tier harder rock)
@@ -164,7 +161,9 @@ static func spawn_magma_siphons(chunk: Node, current_locs: Array[Vector2i]) -> A
 		for y in range(start_tile.y, start_tile.y + height):
 			var local_coord: Vector2i = Vector2i(x, y)
 			var idx: int = -1
-			if chunk.has_method("pos_to_array"):
+			if chunk.has_method("local_pos_to_array"):
+				idx = chunk.local_pos_to_array(local_coord)
+			elif chunk.has_method("pos_to_array"):
 				idx = chunk.pos_to_array(local_coord)
 			else:
 				idx = local_coord.x + local_coord.y * chunk.chunk_size
