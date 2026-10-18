@@ -20,8 +20,11 @@ func damage_tile_idx(chain: ModLoaderHookChain, idx: int, damage: float) -> void
 	var helper_script = load("res://mods-unpacked/gareth-abyssal_trench_mod/helpers/AbyssalTrenchHelper.gd")
 	if helper_script and helper_script.is_abyssal_level():
 		var chunk = chain.reference_object
-		if chunk and chunk.has_method("array_to_global_pos"):
-			var global_pos: Vector2i = Vector2i(chunk.array_to_global_pos(idx))
-			if global_pos.y > 12 and global_pos.y <= 40:
-				damage *= 2.8
+		if chunk and ("TILE_PROPERTIES" in chunk) and ("tiles" in chunk):
+			if idx >= 0 and idx < chunk.tiles.size():
+				var t_id = chunk.tiles[idx]
+				if chunk.TILE_PROPERTIES.has(t_id) and chunk.TILE_PROPERTIES[t_id].has("health"):
+					var max_hp = float(chunk.TILE_PROPERTIES[t_id]["health"])
+					# Guarantee every trench block breaks in 2-3 swings with starter pickaxe
+					damage = max(damage, max_hp * 0.40)
 	chain.execute_next([idx, damage])

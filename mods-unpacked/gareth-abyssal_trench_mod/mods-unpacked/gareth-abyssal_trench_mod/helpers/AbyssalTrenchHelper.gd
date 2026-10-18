@@ -63,21 +63,21 @@ static func generate_abyssal_strata(chunk: Node, noise: Noise) -> void:
 	for idx in range(chunk.tiles.size()):
 		var global_pos: Vector2i = Vector2i(chunk.array_to_global_pos(idx))
 
-		# 1. Surface buffer (Rows 0-12): Keep soft clay/coal starter ground intact
+		# 1. Surface Shallows (Rows 0-12): Keep soft clay/starter coal intact
 		if global_pos.y <= BUFFER_SURFACE_ROWS:
 			continue
 
 		var local_x = idx % chunk.chunk_size
 		var local_y = idx / chunk.chunk_size
 
-		# 2. Carve Submerged Trench Caverns using 2D noise
-		var cave_noise: float = abs(noise.get_noise_2d(float(global_pos.x) * 3.2, float(global_pos.y) * 1.8))
-		if cave_noise < 0.12 and global_pos.y > 18:
+		# 2. Submerged Ocean Trench Caverns (Smooth organic voids)
+		var cave_noise: float = abs(noise.get_noise_2d(float(global_pos.x) * 1.8, float(global_pos.y) * 1.4))
+		if cave_noise < 0.11 and global_pos.y > 16:
 			chunk.tiles[idx] = chunk.Tiles.EMPTY
 			chunk.build_tile(idx)
 
 			# Spawn Hydrothermal Black Smoker on cavern floor
-			if not vent_spawned and global_pos.y >= 28 and local_y < chunk.chunk_size - 2:
+			if not vent_spawned and global_pos.y >= 24 and local_y < chunk.chunk_size - 2:
 				var below_idx = idx + chunk.chunk_size
 				if below_idx < chunk.tiles.size() and chunk.tiles[below_idx] != chunk.Tiles.EMPTY:
 					var VentScene = load("res://mods-unpacked/gareth-abyssal_trench_mod/entities/HydrothermalVent.gd")
@@ -88,32 +88,32 @@ static func generate_abyssal_strata(chunk: Node, noise: Noise) -> void:
 						vent_spawned = true
 			continue
 
-		# 3. Strata Distribution
-		var tile_to_set: int = chunk.Tiles.BASIC_DARKBLUE
-		var seed_val: int = abs(global_pos.x * 73856093 ^ global_pos.y * 19349663)
-		var roll: int = seed_val % 100
+		# 3. Continuous Geological Veins via 2D Noise
+		var tile_to_set: int = 211 # Default BASIC_DARKBLUE bedrock
+		var vein_noise: float = noise.get_noise_2d(float(global_pos.x) * 3.5, float(global_pos.y) * 3.5)
+		var gem_noise: float  = noise.get_noise_2d(float(global_pos.x) * 5.0 + 80.0, float(global_pos.y) * 5.0 + 40.0)
 
 		if global_pos.y <= 60:
-			# Twilight Zone: Dark Blue Stone & Sapphires / Moonstones
-			if roll < 38:
-				tile_to_set = 212 # COAL_DARKBLUE
-			elif roll < 56:
-				tile_to_set = 215 # SAPPHIRE_DARKBLUE
-			elif roll < 66:
-				tile_to_set = 225 # MOONSTONE_DARKBLUE
-			elif roll < 78:
-				tile_to_set = 213 # COPPER_DARKBLUE
+			# Twilight Zone (Rows 13-60): Sapphire, Moonstone, and Abyssal Coal
+			if vein_noise > 0.15:
+				tile_to_set = 212 # COAL_DARKBLUE (Dense coal seams for quota)
+			elif gem_noise > 0.32:
+				tile_to_set = 215 # SAPPHIRE_DARKBLUE (Lucrative gemstone ribbons)
+			elif gem_noise < -0.38:
+				tile_to_set = 225 # MOONSTONE_DARKBLUE (Luminescent moonstones)
+			elif vein_noise < -0.25:
+				tile_to_set = 213 # COPPER_DARKBLUE (Copper ore veins)
 			else:
-				tile_to_set = 211 # BASIC_DARKBLUE
+				tile_to_set = 211 # BASIC_DARKBLUE (Ocean bedrock)
 		else:
-			# Hadal Trench: Volcanic Basalt, Onyx, Supercooled Ice Crystals
-			if roll < 35:
+			# Hadal Trench (Rows 61+): Basalt, Onyx, and Diamond Crystals
+			if vein_noise > 0.12:
 				tile_to_set = 93  # COAL_DARK
-			elif roll < 54:
+			elif gem_noise > 0.30:
 				tile_to_set = 107 # ONYX_DARK
-			elif roll < 65:
-				tile_to_set = 68  # DIAMOND_ICE
-			elif roll < 78:
+			elif gem_noise < -0.32:
+				tile_to_set = 68  # DIAMOND_ICE (Supercooled crystals)
+			elif vein_noise < -0.28:
 				tile_to_set = 98  # GOLD_DARK
 			else:
 				tile_to_set = 92  # BASIC_DARK
