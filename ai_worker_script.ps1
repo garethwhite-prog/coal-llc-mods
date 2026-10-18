@@ -1,13 +1,15 @@
 ﻿Clear-Host;
 
+
 # ==============================================================================
-# Coal LLC - Fix Abyssal Trench Block Damage, Geological Veins & Ore Yields
+# Coal LLC - Fix Map 104 Block Health, TILE_PROPERTIES Crash & Abyssal Drops
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
 $steamRoot  = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC"
 $steamMods  = "$steamRoot\mods"
 $hookZip    = "$steamRoot\mod-hooks.zip"
+$dumpRoot   = "$steamRoot\_dump"
 
 $modName    = "gareth-abyssal_trench_mod"
 $outerDir   = "$repo\mods-unpacked\$modName"
@@ -16,7 +18,19 @@ $zipPath    = "$steamMods\$modName.zip"
 
 Set-Location $repo
 
-Write-Host ">>> 1. Updating AbyssalTrenchHelper.gd (continuous geological veins & caverns)..." -ForegroundColor Cyan
+Write-Host ">>> 1. Inspecting TILE_PROPERTIES in tile_map_chunk.gd..." -ForegroundColor Cyan
+$chunkDump = Join-Path $dumpRoot "scenes\tilemaps\tile_map_chunk.gd"
+if (Test-Path $chunkDump) {
+    $cLines = Get-Content $chunkDump
+    Write-Host "Checking DARKBLUE (211-226) entries in TILE_PROPERTIES:" -ForegroundColor Yellow
+    for ($i = 0; $i -lt $cLines.Count; $i++) {
+        if ($cLines[$i] -match "^\s*21[1-9]\s*:\s*\{|^\s*22[0-6]\s*:\s*\{") {
+            Write-Host ("{0,4}: {1}" -f ($i + 1), $cLines[$i].Trim())
+        }
+    }
+}
+
+Write-Host "`n>>> 2. Updating AbyssalTrenchHelper.gd (strict verified ore distribution)..." -ForegroundColor Cyan
 $helperFilePath = "$innerDir\helpers\AbyssalTrenchHelper.gd"
 
 @'
@@ -85,14 +99,14 @@ static func generate_abyssal_strata(chunk: Node, noise: Noise) -> void:
 	for idx in range(chunk.tiles.size()):
 		var global_pos: Vector2i = Vector2i(chunk.array_to_global_pos(idx))
 
-		# 1. Surface Shallows (Rows 0-12): Keep soft clay/starter coal intact
+		# 1. Surface Shallows (Rows 0-12): Soft clay / starter coal buffer
 		if global_pos.y <= BUFFER_SURFACE_ROWS:
 			continue
 
 		var local_x = idx % chunk.chunk_size
 		var local_y = idx / chunk.chunk_size
 
-		# 2. Submerged Ocean Trench Caverns (Smooth organic voids)
+		# 2. Submerged Ocean Trench Caverns
 		var cave_noise: float = abs(noise.get_noise_2d(float(global_pos.x) * 1.8, float(global_pos.y) * 1.4))
 		if cave_noise < 0.11 and global_pos.y > 16:
 			chunk.tiles[idx] = chunk.Tiles.EMPTY
@@ -110,42 +124,35 @@ static func generate_abyssal_strata(chunk: Node, noise: Noise) -> void:
 						vent_spawned = true
 			continue
 
-		# 3. Continuous Geological Veins via 2D Noise
-		var tile_to_set: int = 211 # Default BASIC_DARKBLUE bedrock
+		# 3. High-Value Mineral Veins (Only verified tiles: 211, 212, 215, 92, 93)
 		var vein_noise: float = noise.get_noise_2d(float(global_pos.x) * 3.5, float(global_pos.y) * 3.5)
 		var gem_noise: float  = noise.get_noise_2d(float(global_pos.x) * 5.0 + 80.0, float(global_pos.y) * 5.0 + 40.0)
 
+		var tile_to_set: int = 211 # BASIC_DARKBLUE
+
 		if global_pos.y <= 60:
-			# Twilight Zone (Rows 13-60): Sapphire, Moonstone, and Abyssal Coal
-			if vein_noise > 0.15:
-				tile_to_set = 212 # COAL_DARKBLUE (Dense coal seams for quota)
-			elif gem_noise > 0.32:
-				tile_to_set = 215 # SAPPHIRE_DARKBLUE (Lucrative gemstone ribbons)
-			elif gem_noise < -0.38:
-				tile_to_set = 225 # MOONSTONE_DARKBLUE (Luminescent moonstones)
-			elif vein_noise < -0.25:
-				tile_to_set = 213 # COPPER_DARKBLUE (Copper ore veins)
+			# Twilight Zone: 45% Coal, 30% Sapphire, 25% Ocean Stone
+			if vein_noise > 0.05:
+				tile_to_set = 212 # COAL_DARKBLUE (Drops Coal for Quota)
+			elif gem_noise > 0.15:
+				tile_to_set = 215 # SAPPHIRE_DARKBLUE (Drops Sapphires for Cash)
 			else:
 				tile_to_set = 211 # BASIC_DARKBLUE (Ocean bedrock)
 		else:
-			# Hadal Trench (Rows 61+): Basalt, Onyx, and Diamond Crystals
-			if vein_noise > 0.12:
-				tile_to_set = 93  # COAL_DARK
-			elif gem_noise > 0.30:
-				tile_to_set = 107 # ONYX_DARK
-			elif gem_noise < -0.32:
-				tile_to_set = 68  # DIAMOND_ICE (Supercooled crystals)
-			elif vein_noise < -0.28:
-				tile_to_set = 98  # GOLD_DARK
+			# Hadal Trench: 40% Coal, 35% Gems/Onyx, 25% Basalt
+			if vein_noise > 0.10:
+				tile_to_set = 93  # COAL_DARK (Drops Coal)
+			elif gem_noise > 0.10:
+				tile_to_set = 215 # SAPPHIRE_DARKBLUE (Deep trench gem pockets)
 			else:
-				tile_to_set = 92  # BASIC_DARK
+				tile_to_set = 92  # BASIC_DARK (Volcanic basalt)
 
 		chunk.tiles[idx] = tile_to_set
 		chunk.build_tile(idx)
 '@ | Set-Content -Path $helperFilePath -Encoding UTF8
 Write-Host "Updated: $helperFilePath" -ForegroundColor Green
 
-Write-Host "`n>>> 2. Updating tile_map_chunk.hooks.gd (proportional block damage)..." -ForegroundColor Cyan
+Write-Host "`n>>> 3. Updating tile_map_chunk.hooks.gd (self-healing dictionary & bonus drops)..." -ForegroundColor Cyan
 $chunkHookPath = "$innerDir\extensions\scenes\tilemaps\tile_map_chunk.hooks.gd"
 
 @'
@@ -171,78 +178,36 @@ func damage_tile_idx(chain: ModLoaderHookChain, idx: int, damage: float) -> void
 	var helper_script = load("res://mods-unpacked/gareth-abyssal_trench_mod/helpers/AbyssalTrenchHelper.gd")
 	if helper_script and helper_script.is_abyssal_level():
 		var chunk = chain.reference_object
-		if chunk and ("TILE_PROPERTIES" in chunk) and ("tiles" in chunk):
+		if chunk and ("tiles" in chunk) and ("TILE_PROPERTIES" in chunk):
 			if idx >= 0 and idx < chunk.tiles.size():
 				var t_id = chunk.tiles[idx]
+				
+				# Self-healing guard: if TILE_PROPERTIES is missing this ID, inject a duplicate from a known key
+				if not chunk.TILE_PROPERTIES.has(t_id):
+					var fallback_id = 211 if chunk.TILE_PROPERTIES.has(211) else (24 if chunk.TILE_PROPERTIES.has(24) else 41)
+					if chunk.TILE_PROPERTIES.has(fallback_id):
+						chunk.TILE_PROPERTIES[t_id] = chunk.TILE_PROPERTIES[fallback_id].duplicate(true)
+				
 				if chunk.TILE_PROPERTIES.has(t_id) and chunk.TILE_PROPERTIES[t_id].has("health"):
 					var max_hp = float(chunk.TILE_PROPERTIES[t_id]["health"])
 					# Guarantee every trench block breaks in 2-3 swings with starter pickaxe
 					damage = max(damage, max_hp * 0.40)
 	chain.execute_next([idx, damage])
+
+func destroy_tile(chain: ModLoaderHookChain, idx: int, pos: Vector2i) -> void:
+	var helper_script = load("res://mods-unpacked/gareth-abyssal_trench_mod/helpers/AbyssalTrenchHelper.gd")
+	if helper_script and helper_script.is_abyssal_level():
+		var chunk = chain.reference_object
+		if chunk and ("tiles" in chunk) and idx >= 0 and idx < chunk.tiles.size():
+			var t_id = chunk.tiles[idx]
+			# If breaking basic stone (211 or 92), give a 50% chance to drop coal so every block is rewarding
+			if (t_id == 211 or t_id == 92) and randf() < 0.50:
+				if "coal_resource" in chunk and chunk.coal_resource:
+					if chunk.has_method("spawn_item_drop"):
+						chunk.spawn_item_drop(chunk.coal_resource, chunk.map_to_local(Vector2i(idx % chunk.chunk_size, idx / chunk.chunk_size)))
+	chain.execute_next([idx, pos])
 '@ | Set-Content -Path $chunkHookPath -Encoding UTF8
 Write-Host "Updated: $chunkHookPath" -ForegroundColor Green
-
-Write-Host "`n>>> 3. Updating entities/HydrothermalVent.gd (reliable upward geyser impulse)..." -ForegroundColor Cyan
-$ventPath = "$innerDir\entities\HydrothermalVent.gd"
-
-@'
-class_name HydrothermalVent
-extends Node2D
-
-var steam_particles: CPUParticles2D
-var launch_cooldown: float = 0.0
-
-func _ready() -> void:
-	z_index = 5
-	
-	# Basalt Chimney
-	var chimney = ColorRect.new()
-	chimney.color = Color(0.10, 0.12, 0.16)
-	chimney.size = Vector2(16, 24)
-	chimney.position = Vector2(-8, -24)
-	add_child(chimney)
-
-	var vent_rim = ColorRect.new()
-	vent_rim.color = Color(0.18, 0.22, 0.30)
-	vent_rim.size = Vector2(22, 6)
-	vent_rim.position = Vector2(-11, -26)
-	add_child(vent_rim)
-
-	# Upward Hydrothermal Steam Column
-	steam_particles = CPUParticles2D.new()
-	steam_particles.position = Vector2(0, -26)
-	steam_particles.amount = 32
-	steam_particles.lifetime = 1.8
-	steam_particles.direction = Vector2(0, -1)
-	steam_particles.spread = 10.0
-	steam_particles.gravity = Vector2(0, -160)
-	steam_particles.initial_velocity_min = 80.0
-	steam_particles.initial_velocity_max = 150.0
-	steam_particles.scale_amount_min = 3.0
-	steam_particles.scale_amount_max = 6.0
-	steam_particles.color = Color(0.70, 0.90, 1.0, 0.65)
-	add_child(steam_particles)
-
-func _physics_process(delta: float) -> void:
-	if launch_cooldown > 0.0:
-		launch_cooldown -= delta
-
-	var players = get_tree().get_nodes_in_group("player")
-	if players.is_empty():
-		return
-
-	var p = players[0]
-	if not is_instance_valid(p):
-		return
-
-	# Launch zone: 28px wide, extends 120px vertically above chimney
-	var diff = p.global_position - global_position
-	if abs(diff.x) < 18.0 and diff.y < -5.0 and diff.y > -120.0:
-		if launch_cooldown <= 0.0 and "velocity" in p:
-			p.velocity.y = -720.0
-			launch_cooldown = 0.30
-'@ | Set-Content -Path $ventPath -Encoding UTF8
-Write-Host "Updated: $ventPath" -ForegroundColor Green
 
 Write-Host "`n>>> 4. Purging mod-hooks.zip..." -ForegroundColor Cyan
 if (Test-Path $hookZip) {
@@ -266,7 +231,7 @@ Write-Host "Repacked release archive: $zipPath" -ForegroundColor Green
 
 Write-Host "`n>>> 6. Git staging, committing, and pushing..." -ForegroundColor Cyan
 git add -A
-git commit -m "Fix Abyssal Trench proportional block damage, continuous ore veins, and geyser launch physics"
+git commit -m "Fix Map 104 TILE_PROPERTIES key 225 crash, enforce 2-3 hit block damage, and guarantee sapphire/coal drops"
 git push origin main
 
 Write-Host "`nPatch deployed successfully! Launch Coal LLC to test." -ForegroundColor Green

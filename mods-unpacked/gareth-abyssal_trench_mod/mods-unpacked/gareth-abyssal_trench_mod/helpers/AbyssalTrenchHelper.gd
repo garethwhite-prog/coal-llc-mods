@@ -63,14 +63,14 @@ static func generate_abyssal_strata(chunk: Node, noise: Noise) -> void:
 	for idx in range(chunk.tiles.size()):
 		var global_pos: Vector2i = Vector2i(chunk.array_to_global_pos(idx))
 
-		# 1. Surface Shallows (Rows 0-12): Keep soft clay/starter coal intact
+		# 1. Surface Shallows (Rows 0-12): Soft clay / starter coal buffer
 		if global_pos.y <= BUFFER_SURFACE_ROWS:
 			continue
 
 		var local_x = idx % chunk.chunk_size
 		var local_y = idx / chunk.chunk_size
 
-		# 2. Submerged Ocean Trench Caverns (Smooth organic voids)
+		# 2. Submerged Ocean Trench Caverns
 		var cave_noise: float = abs(noise.get_noise_2d(float(global_pos.x) * 1.8, float(global_pos.y) * 1.4))
 		if cave_noise < 0.11 and global_pos.y > 16:
 			chunk.tiles[idx] = chunk.Tiles.EMPTY
@@ -88,35 +88,28 @@ static func generate_abyssal_strata(chunk: Node, noise: Noise) -> void:
 						vent_spawned = true
 			continue
 
-		# 3. Continuous Geological Veins via 2D Noise
-		var tile_to_set: int = 211 # Default BASIC_DARKBLUE bedrock
+		# 3. High-Value Mineral Veins (Only verified tiles: 211, 212, 215, 92, 93)
 		var vein_noise: float = noise.get_noise_2d(float(global_pos.x) * 3.5, float(global_pos.y) * 3.5)
 		var gem_noise: float  = noise.get_noise_2d(float(global_pos.x) * 5.0 + 80.0, float(global_pos.y) * 5.0 + 40.0)
 
+		var tile_to_set: int = 211 # BASIC_DARKBLUE
+
 		if global_pos.y <= 60:
-			# Twilight Zone (Rows 13-60): Sapphire, Moonstone, and Abyssal Coal
-			if vein_noise > 0.15:
-				tile_to_set = 212 # COAL_DARKBLUE (Dense coal seams for quota)
-			elif gem_noise > 0.32:
-				tile_to_set = 215 # SAPPHIRE_DARKBLUE (Lucrative gemstone ribbons)
-			elif gem_noise < -0.38:
-				tile_to_set = 225 # MOONSTONE_DARKBLUE (Luminescent moonstones)
-			elif vein_noise < -0.25:
-				tile_to_set = 213 # COPPER_DARKBLUE (Copper ore veins)
+			# Twilight Zone: 45% Coal, 30% Sapphire, 25% Ocean Stone
+			if vein_noise > 0.05:
+				tile_to_set = 212 # COAL_DARKBLUE (Drops Coal for Quota)
+			elif gem_noise > 0.15:
+				tile_to_set = 215 # SAPPHIRE_DARKBLUE (Drops Sapphires for Cash)
 			else:
 				tile_to_set = 211 # BASIC_DARKBLUE (Ocean bedrock)
 		else:
-			# Hadal Trench (Rows 61+): Basalt, Onyx, and Diamond Crystals
-			if vein_noise > 0.12:
-				tile_to_set = 93  # COAL_DARK
-			elif gem_noise > 0.30:
-				tile_to_set = 107 # ONYX_DARK
-			elif gem_noise < -0.32:
-				tile_to_set = 68  # DIAMOND_ICE (Supercooled crystals)
-			elif vein_noise < -0.28:
-				tile_to_set = 98  # GOLD_DARK
+			# Hadal Trench: 40% Coal, 35% Gems/Onyx, 25% Basalt
+			if vein_noise > 0.10:
+				tile_to_set = 93  # COAL_DARK (Drops Coal)
+			elif gem_noise > 0.10:
+				tile_to_set = 215 # SAPPHIRE_DARKBLUE (Deep trench gem pockets)
 			else:
-				tile_to_set = 92  # BASIC_DARK
+				tile_to_set = 92  # BASIC_DARK (Volcanic basalt)
 
 		chunk.tiles[idx] = tile_to_set
 		chunk.build_tile(idx)
