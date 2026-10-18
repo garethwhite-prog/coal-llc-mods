@@ -44,7 +44,7 @@ $lavaGlow = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArg
 $lavaCore = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(255, 255, 180, 40))
 $lavaHot  = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(255, 255, 250, 190))
 
-for ($i = 0; $i -lt$height; $i++) {$cx = 140 + [int]([Math]::Sin($i * 0.08) * 22) + [int](($i - 75) * 0.45)
+for ($i = 0; $i -lt $height; $i++) {$cx = 140 + [int]([Math]::Sin($i * 0.08) * 22) + [int](($i - 75) * 0.45)
     $gfx.FillRectangle($lavaGlow, $cx - 18,$i, 36, 1)
     $gfx.FillRectangle($lavaCore, $cx - 8,$i, 16, 1)
     $gfx.FillRectangle($lavaHot,  $cx - 3,$i, 6, 1)
@@ -58,7 +58,7 @@ $gfx.FillEllipse($podBrush, 130, 60, 20, 20)
 
 # Hazard stripes on header
 $stripeBrush = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(220, 50, 30))
-for ($s = -20; $s -lt$width + 20; $s += 24) {$pts = @(
+for ($s = -20; $s -lt $width + 20; $s += 24) {$pts = @(
         New-Object System.Drawing.Point($s, 0),
         New-Object System.Drawing.Point($s + 12, 0),
         New-Object System.Drawing.Point($s + 2, 14),
