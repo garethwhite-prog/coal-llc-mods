@@ -20,7 +20,8 @@ Set-Location $repo
 Write-Host ">>> 1. Generating 280x150 volcanic preview graphic (tectonic_preview.png)..." -ForegroundColor Cyan
 Add-Type -AssemblyName System.Drawing
 
-$width  = 280$height = 150
+$width  = 280
+$height = 150
 $bmp    = New-Object System.Drawing.Bitmap($width, $height)
 $gfx    = [System.Drawing.Graphics]::FromImage($bmp)
 $gfx.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::None
