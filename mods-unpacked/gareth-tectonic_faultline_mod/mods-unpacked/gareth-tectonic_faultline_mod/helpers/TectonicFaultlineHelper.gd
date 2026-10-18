@@ -4,6 +4,19 @@ extends RefCounted
 const FAULTLINE_LEVEL_ID: int = 102
 const CHUNK_SIZE: int = 16
 
+static func ensure_level_registered() -> void:
+	if not Gvars:
+		return
+	if "level_info" in Gvars and Gvars.level_info is Dictionary:
+		if not Gvars.level_info.has(FAULTLINE_LEVEL_ID):
+			Gvars.level_info[FAULTLINE_LEVEL_ID] = {
+				"name": "Tectonic Faultline",
+				"description": "Seismic faultline with superheated vents, magma fissures, and elemental chambers.",
+				"depth": 1200,
+				"cost": 0,
+				"unlocked": true
+			}
+
 static func is_faultline_level() -> bool:
 	if Gvars and "chosen_level" in Gvars and Gvars.chosen_level == FAULTLINE_LEVEL_ID:
 		return true
@@ -117,3 +130,4 @@ static func spawn_magma_siphons(chunk: Node, current_locs: Array[Vector2i]) -> A
 		chunk.add_child(siphon)
 	
 	return current_locs
+
