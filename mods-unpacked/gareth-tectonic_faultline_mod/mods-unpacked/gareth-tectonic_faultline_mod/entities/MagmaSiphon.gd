@@ -15,7 +15,7 @@ var cached_player: Node2D = null
 # Animated Shockwave Ring
 var fx_radius: float = 0.0
 var fx_alpha: float = 0.0
-var fx_color: Color = Color(1.0, 0.6, 0.1)
+var fx_color: Color = Color(1.0, 0.15, 0.15)
 
 func _ready() -> void:
 	z_index = 6
@@ -36,7 +36,6 @@ func _ready() -> void:
 	prompt_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	prompt_label.position = Vector2(-85, -28)
 	prompt_label.add_theme_font_size_override("font_size", 9)
-	prompt_label.add_theme_override_colors()
 	prompt_label.add_theme_constant_override("outline_size", 3)
 	prompt_label.visible = false
 	add_child(prompt_label)
@@ -58,23 +57,26 @@ func _apply_visual_styling() -> void:
 		return
 	match element_type:
 		ElementType.WATER:
-			sprite.modulate = Color(0.35, 0.85, 1.0, 1.0)
-			fx_color = Color(0.2, 0.75, 1.0)
+			# Vivid Electric Blue
+			sprite.modulate = Color(0.2, 0.55, 1.4, 1.0)
+			fx_color = Color(0.2, 0.6, 1.0)
 			prompt_label.text = "[E] VENT GEYSER  |  [CLICK] RUPTURE"
-			prompt_label.add_theme_color_override("font_color", Color(0.4, 0.9, 1.0, 1.0))
-			prompt_label.add_theme_color_override("font_outline_color", Color(0.0, 0.2, 0.4, 1.0))
+			prompt_label.add_theme_color_override("font_color", Color(0.3, 0.75, 1.0, 1.0))
+			prompt_label.add_theme_color_override("font_outline_color", Color(0.0, 0.15, 0.4, 1.0))
 		ElementType.POISON:
-			sprite.modulate = Color(0.45, 1.0, 0.35, 1.0)
-			fx_color = Color(0.3, 0.95, 0.2)
+			# Vivid Toxic Green
+			sprite.modulate = Color(0.25, 1.3, 0.25, 1.0)
+			fx_color = Color(0.25, 0.95, 0.25)
 			prompt_label.text = "[E] VENT ACID  |  [CLICK] DISSOLVE"
-			prompt_label.add_theme_color_override("font_color", Color(0.6, 1.0, 0.3, 1.0))
-			prompt_label.add_theme_color_override("font_outline_color", Color(0.1, 0.3, 0.0, 1.0))
+			prompt_label.add_theme_color_override("font_color", Color(0.4, 1.0, 0.35, 1.0))
+			prompt_label.add_theme_color_override("font_outline_color", Color(0.05, 0.3, 0.05, 1.0))
 		_:
-			sprite.modulate = Color(1.0, 0.65, 0.2, 1.0)
-			fx_color = Color(1.0, 0.55, 0.1)
+			# Vivid Crimson Red (Magma)
+			sprite.modulate = Color(1.4, 0.2, 0.2, 1.0)
+			fx_color = Color(1.0, 0.15, 0.15)
 			prompt_label.text = "[E] VENT MAGMA  |  [CLICK] DETONATE"
-			prompt_label.add_theme_color_override("font_color", Color(1.0, 0.7, 0.1, 1.0))
-			prompt_label.add_theme_color_override("font_outline_color", Color(0.3, 0.1, 0.0, 1.0))
+			prompt_label.add_theme_color_override("font_color", Color(1.0, 0.35, 0.25, 1.0))
+			prompt_label.add_theme_color_override("font_outline_color", Color(0.35, 0.05, 0.05, 1.0))
 
 func _get_player() -> Node2D:
 	if cached_player and is_instance_valid(cached_player):
@@ -163,7 +165,7 @@ func vent_controlled(player: Node2D) -> void:
 	
 	_trigger_visual_eruption(false)
 	
-	# Updraft velocity (Water geyser has highest skyward thrust)
+	# Updraft velocity (Water geyser has highest skyward launch)
 	if player and ("velocity" in player):
 		match element_type:
 			ElementType.WATER:
@@ -181,11 +183,9 @@ func vent_controlled(player: Node2D) -> void:
 	
 	_spawn_loot(false)
 	
-	# Execute fluid cascade: radius 3.5, controlled demolition
 	var core_damage: float = 35000.0 * scale_mult
 	_start_fluid_cascade(3.5, core_damage, false)
 	
-	# Perk offer
 	var depth_mult: float = maxf(2.5, minf(8.0, 2.5 + abs(global_position.y) / 180.0))
 	if Bus and Bus.has_signal("choose_passive"):
 		Bus.choose_passive.emit(depth_mult)
@@ -211,11 +211,9 @@ func breach_volatile() -> void:
 	
 	_spawn_loot(true)
 	
-	# Execute massive volatile fluid cascade: radius 5.5, high demolition
 	var core_damage: float = 120000.0 * scale_mult
 	_start_fluid_cascade(5.5, core_damage, true)
 	
-	# Perk offer
 	var depth_mult: float = maxf(2.0, minf(6.5, 2.0 + abs(global_position.y) / 220.0))
 	if Bus and Bus.has_signal("choose_passive"):
 		Bus.choose_passive.emit(depth_mult)
@@ -233,7 +231,7 @@ func _start_fluid_cascade(radius: float, damage: float, is_breach: bool) -> void
 	var tm_mgr = _get_tile_map_manager()
 	var scale_mult = _get_scaling_multiplier()
 	
-	# Wave 1: Immediate explosive core shockwave (Global BombExplode + DamageTile)
+	# Wave 1: Immediate explosive core shockwave
 	if Bus and Bus.has_signal("BombExplode"):
 		Bus.BombExplode.emit(global_position, radius, damage)
 	
@@ -253,7 +251,7 @@ func _start_fluid_cascade(radius: float, damage: float, is_breach: bool) -> void
 				_apply_element_to_tile(tm_mgr, target_pos, damage * 0.6, scale_mult)
 	)
 	
-	# Wave 3: Gravitational downward drip & seep after 0.28s
+	# Wave 3: Downward gravitational drip & seep after 0.28s
 	get_tree().create_timer(0.28).timeout.connect(func():
 		var drip_depth = 6 if is_breach else 4
 		for dy in range(1, drip_depth + 1):
@@ -263,11 +261,9 @@ func _start_fluid_cascade(radius: float, damage: float, is_breach: bool) -> void
 	)
 
 func _apply_element_to_tile(tm_mgr: Node, pos: Vector2, dmg: float, scale_mult: float) -> void:
-	# 1. Direct block damage channel
 	if Bus and Bus.has_signal("DamageTile"):
 		Bus.DamageTile.emit(pos, dmg)
 	
-	# 2. Elemental status application & spread
 	if not tm_mgr:
 		return
 	
@@ -278,10 +274,8 @@ func _apply_element_to_tile(tm_mgr: Node, pos: Vector2, dmg: float, scale_mult: 
 			if tm_mgr.has_method("burn_tile"):
 				tm_mgr.burn_tile(pos, burn_dps, burn_ticks)
 		ElementType.WATER:
-			# Wetting doubles all incoming damage in the vanilla engine (2x + wet passives)
 			if tm_mgr.has_method("wet_tile"):
 				tm_mgr.wet_tile(pos)
-			# Immediate secondary erosion strike on softened rock
 			if Bus and Bus.has_signal("DamageTile"):
 				Bus.DamageTile.emit(pos, dmg * 0.5)
 		ElementType.POISON:
@@ -295,7 +289,6 @@ func _trigger_visual_eruption(is_explosion: bool) -> void:
 		sprite.texture = tex_vented
 	sprite.modulate = Color(0.25, 0.25, 0.3, 0.85)
 	
-	# Audio playback
 	var sfx_stream = load("res://assets/sound/sound effects/chestOpen.wav")
 	if sfx_stream:
 		var sfx = AudioStreamPlayer2D.new()
@@ -321,11 +314,11 @@ func _trigger_visual_eruption(is_explosion: bool) -> void:
 	
 	match element_type:
 		ElementType.WATER:
-			p_elem.color = Color(0.3, 0.8, 1.0, 0.9)
+			p_elem.color = Color(0.2, 0.6, 1.0, 0.95)
 		ElementType.POISON:
-			p_elem.color = Color(0.4, 1.0, 0.25, 0.9)
+			p_elem.color = Color(0.25, 0.95, 0.25, 0.95)
 		_:
-			p_elem.color = Color(1.0, 0.5, 0.05, 1.0)
+			p_elem.color = Color(1.0, 0.15, 0.15, 1.0)
 	add_child(p_elem)
 	
 	# Gravity Drip / Droplet Particles
@@ -345,7 +338,7 @@ func _trigger_visual_eruption(is_explosion: bool) -> void:
 	p_drip.color = p_elem.color
 	add_child(p_drip)
 	
-	# Animated Expanding Shockwave Ring
+	# Expanding Shockwave Ring
 	var tw = create_tween()
 	fx_radius = 8.0
 	fx_alpha = 1.0

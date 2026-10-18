@@ -56,7 +56,7 @@ static func register_faultline_level() -> void:
 
 static func calculate_faultline_tier(pos: Vector2i) -> int:
 	var y_tile: int = pos.y
-	# Contract Discovery: Vanilla returns -2 for sky / surface air
+	# Sky contract: return -2 for sky / surface air
 	if y_tile < 0:
 		return -2
 	elif y_tile < 24:
@@ -84,12 +84,10 @@ static func pick_faultline_block(chunk: Node, global_cell: Vector2i, noise: Fast
 	if tier < 0:
 		return chunk.Tiles.EMPTY
 	
-	# Primary vertical chasm slicing through strata
 	var rift_noise: float = abs(noise.get_noise_2d(float(global_cell.x) * 4.5, float(global_cell.y) * 1.2))
 	if rift_noise < 0.09 and global_cell.y > 10:
 		return chunk.Tiles.EMPTY
 	
-	# Secondary magma fissures
 	var fissure_noise: float = noise.get_noise_2d(float(global_cell.x) * 2.8 + 50.0, float(global_cell.y) * 2.8)
 	if fissure_noise > 0.42 and global_cell.y > 18:
 		return chunk.Tiles.HARD_FIRE
@@ -108,7 +106,6 @@ static func generate_faultline_strata(chunk: Node, noise: FastNoiseLite) -> void
 			var local_pos = Vector2i(x, y)
 			var global_posi: Vector2i = Vector2i(chunk.to_global(chunk.map_to_local(local_pos)) / 16.0)
 			
-			# Leave surface grass and top dirt intact (y <= 3)
 			if global_posi.y > 3:
 				var idx: int = chunk.pos_to_array(local_pos) if chunk.has_method("pos_to_array") else (x + y * chunk.chunk_size)
 				if idx >= 0 and idx < chunk.tiles.size():
@@ -118,73 +115,84 @@ static func generate_faultline_strata(chunk: Node, noise: FastNoiseLite) -> void
 						chunk.build_tile(idx)
 
 static func spawn_magma_siphons(chunk: Node, current_locs: Array[Vector2i]) -> Array[Vector2i]:
-	if randf() > 0.65:
-		return current_locs
-	
 	if "chunk_pos" in chunk and chunk.chunk_pos.y < 1:
 		return current_locs
 	
+	# Tripled pod generation: attempt 3 vaults per subterranean chunk
+	var pods_to_spawn: int = 3
+	var elements: Array[String] = ["fire", "water", "poison"]
+	elements.shuffle()
+	
 	var width: int = 3
 	var height: int = 3
-	var start_tile: Vector2i = Vector2i(
-		randi_range(0, chunk.chunk_size - width),
-		randi_range(0, chunk.chunk_size - height)
-	)
 	
-	var local_start: Vector2 = chunk.map_to_local(start_tile)
-	var world_start: Vector2 = chunk.to_global(local_start)
-	var global_cell: Vector2i = Vector2i(world_start / 16.0)
-	if global_cell.y < 10:
-		return current_locs
-	
-	# Vault perimeter walls (+2 tier harder rock)
-	var pod_tier: int = calculate_faultline_tier(global_cell)
-	var wall_tier: int = min(max(1, pod_tier + 2), 12)
-	var wall_tile: int = chunk.chest_block_from_level(wall_tier)
-	if wall_tile == chunk.Tiles.EMPTY:
-		wall_tile = chunk.Tiles.HARD_DARK if global_cell.y > 40 else chunk.Tiles.HARD_FIRE
-	
-	for n in range(5):
-		if start_tile in current_locs:
-			start_tile = Vector2i(
-				randi_range(0, chunk.chunk_size - width),
-				randi_range(0, chunk.chunk_size - height)
+	for p_idx in range(pods_to_spawn):
+		var found_spot: bool = false
+		var start_tile: Vector2i = Vector2i.ZERO
+		
+		# Attempt 12 random non-overlapping coordinates inside chunk
+		for attempt in range(12):
+			var candidate = Vector2i(
+				randi_range(1, chunk.chunk_size - width - 1),
+				randi_range(1, chunk.chunk_size - height - 1)
 			)
-	
-	# Reserve room tiles so chests do not spawn inside
-	for x in range(start_tile.x - width, start_tile.x + width):
-		for y in range(start_tile.y - height, start_tile.y + height):
-			current_locs.append(Vector2i(x, y))
-	
-	# Contract Discovery: Update tiles array AND rebuild via chunk.build_tile(c_idx)
-	for x in range(start_tile.x, start_tile.x + width):
-		for y in range(start_tile.y, start_tile.y + height):
-			var local_coord = Vector2i(x, y)
-			var c_idx: int = chunk.pos_to_array(local_coord)
-			var is_wall = (x == start_tile.x or x == start_tile.x + width - 1 or y == start_tile.y or y == start_tile.y + height - 1)
 			
-			if is_wall:
-				chunk.tiles[c_idx] = wall_tile
-				chunk.build_tile(c_idx)
-			else:
-				chunk.tiles[c_idx] = chunk.Tiles.EMPTY
-				chunk.build_tile(c_idx)
-	
-	# Spawn elemental pod entity inside hollowed vault center
-	var SiphonScene = load("res://mods-unpacked/gareth-tectonic_faultline_mod/entities/MagmaSiphon.gd")
-	if SiphonScene:
-		var siphon = SiphonScene.new()
-		var center_tile = Vector2i(start_tile.x + 1, start_tile.y + 1)
-		siphon.position = chunk.map_to_local(center_tile)
+			var overlaps: bool = false
+			for ox in range(candidate.x - 1, candidate.x + width + 1):
+				for oy in range(candidate.y - 1, candidate.y + height + 1):
+					if Vector2i(ox, oy) in current_locs:
+						overlaps = true
+						break
+				if overlaps:
+					break
+			
+			if not overlaps:
+				start_tile = candidate
+				found_spot = true
+				break
 		
-		var roll = randf()
-		if roll < 0.40:
-			siphon.set_element("fire")
-		elif roll < 0.70:
-			siphon.set_element("water")
-		else:
-			siphon.set_element("poison")
+		if not found_spot:
+			continue
 		
-		chunk.add_child(siphon)
+		var local_start: Vector2 = chunk.map_to_local(start_tile)
+		var world_start: Vector2 = chunk.to_global(local_start)
+		var global_cell: Vector2i = Vector2i(world_start / 16.0)
+		if global_cell.y < 10:
+			continue
+		
+		# Vault perimeter walls (+2 tier harder rock)
+		var pod_tier: int = calculate_faultline_tier(global_cell)
+		var wall_tier: int = min(max(1, pod_tier + 2), 12)
+		var wall_tile: int = chunk.chest_block_from_level(wall_tier)
+		if wall_tile == chunk.Tiles.EMPTY:
+			wall_tile = chunk.Tiles.HARD_DARK if global_cell.y > 40 else chunk.Tiles.HARD_FIRE
+		
+		# Reserve room footprint so chests and subsequent pods do not overlap
+		for x in range(start_tile.x - 1, start_tile.x + width + 1):
+			for y in range(start_tile.y - 1, start_tile.y + height + 1):
+				current_locs.append(Vector2i(x, y))
+		
+		# Carve vault into tiles array and sync to GPU render cache via build_tile
+		for x in range(start_tile.x, start_tile.x + width):
+			for y in range(start_tile.y, start_tile.y + height):
+				var local_coord = Vector2i(x, y)
+				var c_idx: int = chunk.pos_to_array(local_coord)
+				var is_wall = (x == start_tile.x or x == start_tile.x + width - 1 or y == start_tile.y or y == start_tile.y + height - 1)
+				
+				if is_wall:
+					chunk.tiles[c_idx] = wall_tile
+					chunk.build_tile(c_idx)
+				else:
+					chunk.tiles[c_idx] = chunk.Tiles.EMPTY
+					chunk.build_tile(c_idx)
+		
+		# Spawn elemental pod entity inside hollowed vault center
+		var SiphonScene = load("res://mods-unpacked/gareth-tectonic_faultline_mod/entities/MagmaSiphon.gd")
+		if SiphonScene:
+			var siphon = SiphonScene.new()
+			var center_tile = Vector2i(start_tile.x + 1, start_tile.y + 1)
+			siphon.position = chunk.map_to_local(center_tile)
+			siphon.set_element(elements[p_idx % elements.size()])
+			chunk.add_child(siphon)
 	
 	return current_locs
