@@ -1,7 +1,7 @@
 Clear-Host;
 
 # ==============================================================================
-# Coal LLC - Fix Living Canvas Breakable Palette & Class Weapon Shop Filter
+# Coal LLC - Fix Mod Manager Indent & Implement Canvas Progression Balancing
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
@@ -9,14 +9,49 @@ $steamRoot  = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC"
 $steamMods  = "$steamRoot\mods"
 $hookZip    = "$steamRoot\mod-hooks.zip"
 
-$modName    = "gareth-living_canvas_mod"
-$outerDir   = "$repo\mods-unpacked\$modName"
-$innerDir   = "$outerDir\mods-unpacked\$modName"
-$lcHelper   = "$innerDir\helpers\LivingCanvasHelper.gd"
+$lcInnerDir = "$repo\mods-unpacked\gareth-living_canvas_mod\mods-unpacked\gareth-living_canvas_mod"
+$mmInnerDir = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod"
 
 Set-Location $repo
 
-Write-Host ">>> 1. Updating LivingCanvasHelper.gd with valid BASIC_* breakable tiles..." -ForegroundColor Cyan
+Write-Host ">>> 1. Rewriting gareth-mod_manager_mod/mod_main.gd with clean tabs..." -ForegroundColor Cyan
+@'
+extends Node
+
+const MOD_ID := "gareth-mod_manager_mod"
+const LOG_NAME := "gareth-mod_manager_mod"
+
+func _init() -> void:
+	ModLoaderLog.info("Universal Mod Manager initializing...", LOG_NAME)
+	install_hooks()
+
+func _ready() -> void:
+	ModLoaderLog.info("Universal Mod Manager active with full Class, Shop & Input gating.", LOG_NAME)
+
+func install_hooks() -> void:
+	var unpacked_dir = ModLoaderMod.get_unpacked_dir().path_join(MOD_ID)
+	var ext_dir = unpacked_dir.path_join("extensions")
+
+	ModLoaderMod.install_script_hooks(
+		"res://scenes/Interfaces/in_game/choose_passive.gd",
+		ext_dir.path_join("scenes/Interfaces/in_game/choose_passive.hooks.gd")
+	)
+	ModLoaderMod.install_script_hooks(
+		"res://scripts/MainMenu.gd",
+		ext_dir.path_join("scripts/MainMenu.hooks.gd")
+	)
+	ModLoaderMod.install_script_hooks(
+		"res://scripts/Gvars.gd",
+		ext_dir.path_join("scripts/Gvars.hooks.gd")
+	)
+	ModLoaderMod.install_script_hooks(
+		"res://scenes/Stages/management_screen.gd",
+		ext_dir.path_join("scenes/Stages/management_screen.hooks.gd")
+	)
+'@ | Set-Content -Path "$mmInnerDir\mod_main.gd" -Encoding UTF8
+
+Write-Host ">>> 2. Updating LivingCanvasHelper.gd (12-row buffer & side quarries)..." -ForegroundColor Cyan
+$lcHelperPath = "$lcInnerDir\helpers\LivingCanvasHelper.gd"
 
 @'
 class_name LivingCanvasHelper
@@ -25,22 +60,21 @@ extends RefCounted
 const CANVAS_LEVEL_ID: int = 103
 const TARGET_CANVAS_WIDTH: int = 96
 const CONFIG_PATH: String = "user://living_canvas_config.json"
+const BUFFER_SURFACE_ROWS: int = 12
 
-# Palette: Color -> Breakable BASIC_* Tile Enum ID
-# These tiles exist in TILE_PROPERTIES, have full destruction health, and distinct textures:
 const PALETTE: Dictionary = {
-	Color(0.85, 0.20, 0.15): 75,  # BASIC_FIRE (Crimson / Lava / Red)
-	Color(0.70, 0.90, 0.98): 58,  # BASIC_ICE (Cyan / Snow / Sky)
-	Color(0.12, 0.12, 0.15): 92,  # BASIC_DARK (Obsidian / Black / Dark Rock)
-	Color(0.20, 0.78, 0.25): 109, # BASIC_GREEN (Bright Emerald / Grass)
-	Color(0.92, 0.50, 0.12): 126, # BASIC_ORANGE (Amber / Copper / Dirt)
-	Color(0.65, 0.20, 0.85): 143, # BASIC_PURPLE (Violet / Amethyst)
-	Color(0.12, 0.40, 0.15): 160, # BASIC_DARKGREEN (Deep Forest / Pine / Moss)
-	Color(0.95, 0.85, 0.18): 177, # BASIC_YELLOW (Gold / Sand / Sunlight)
-	Color(0.40, 0.25, 0.15): 194, # BASIC_DARKBROWN (Wood / Mud / Soil)
-	Color(0.10, 0.25, 0.70): 211, # BASIC_DARKBLUE (Water / Deep Ocean)
-	Color(0.50, 0.50, 0.52): 41,  # BASIC_STONE (Granite / Cobblestone)
-	Color(0.75, 0.55, 0.45): 24,  # BASIC_CLAY (Clay / Soft Terracotta)
+	Color(0.85, 0.20, 0.15): 75,  # BASIC_FIRE
+	Color(0.70, 0.90, 0.98): 58,  # BASIC_ICE
+	Color(0.12, 0.12, 0.15): 92,  # BASIC_DARK
+	Color(0.20, 0.78, 0.25): 109, # BASIC_GREEN
+	Color(0.92, 0.50, 0.12): 126, # BASIC_ORANGE
+	Color(0.65, 0.20, 0.85): 143, # BASIC_PURPLE
+	Color(0.12, 0.40, 0.15): 160, # BASIC_DARKGREEN
+	Color(0.95, 0.85, 0.18): 177, # BASIC_YELLOW
+	Color(0.40, 0.25, 0.15): 194, # BASIC_DARKBROWN
+	Color(0.10, 0.25, 0.70): 211, # BASIC_DARKBLUE
+	Color(0.50, 0.50, 0.52): 41,  # BASIC_STONE
+	Color(0.75, 0.55, 0.45): 24,  # BASIC_CLAY
 }
 
 static var cached_image: Image = null
@@ -166,9 +200,9 @@ static func _generate_fallback_canvas() -> Image:
 
 static func match_tile_from_color(col: Color) -> int:
 	if col.a < 0.2:
-		return 0 # Tiles.EMPTY
+		return 0
 
-	var best_tile: int = 41 # Default BASIC_STONE
+	var best_tile: int = 41
 	var min_dist: float = 999999.0
 
 	for p_col in PALETTE.keys():
@@ -195,22 +229,29 @@ static func paint_chunk_from_canvas(chunk: Node) -> void:
 	for idx in range(chunk.tiles.size()):
 		var global_pos: Vector2i = Vector2i(chunk.array_to_global_pos(idx))
 
-		# Retain surface layer (first 4 tile rows: 0, 1, 2, 3)
-		if global_pos.y <= 3:
+		# 1. Surface buffer (Rows 0 to 12): keep vanilla clay, coal, and starter stone
+		if global_pos.y <= BUFFER_SURFACE_ROWS:
 			continue
 
-		# Outside horizontal canvas boundary: bedrock framing
-		if global_pos.x < -half_w or global_pos.x >= half_w:
-			if abs(global_pos.x) > half_w + 3:
-				chunk.tiles[idx] = chunk.Tiles.BEDROCK
+		# 2. Side quarries: 8 blocks wide on left & right flanks (breakable stone & ore)
+		var dist_from_center: int = abs(global_pos.x)
+		if dist_from_center >= half_w and dist_from_center < half_w + 8:
+			if (global_pos.x + global_pos.y) % 7 == 0:
+				chunk.tiles[idx] = chunk.Tiles.COAL_STONE
 			else:
-				chunk.tiles[idx] = chunk.Tiles.BASIC_DARK
+				chunk.tiles[idx] = chunk.Tiles.BASIC_STONE
 			chunk.build_tile(idx)
 			continue
 
-		# Inside canvas: sample downsampled image coordinates
+		# 3. Outer boundary: Bedrock wall
+		if dist_from_center >= half_w + 8:
+			chunk.tiles[idx] = chunk.Tiles.BEDROCK
+			chunk.build_tile(idx)
+			continue
+
+		# 4. Canvas interior: sample image
 		var img_u: int = global_pos.x + half_w
-		var img_v: int = (global_pos.y - 4) % cached_height
+		var img_v: int = (global_pos.y - (BUFFER_SURFACE_ROWS + 1)) % cached_height
 		if img_v < 0:
 			img_v += cached_height
 
@@ -219,71 +260,55 @@ static func paint_chunk_from_canvas(chunk: Node) -> void:
 			var tile_id: int = match_tile_from_color(pixel_col)
 			chunk.tiles[idx] = tile_id
 			chunk.build_tile(idx)
-'@ | Set-Content -Path $lcHelper -Encoding UTF8
-Write-Host "Updated: $lcHelper" -ForegroundColor Green
+'@ | Set-Content -Path $lcHelperPath -Encoding UTF8
 
-Write-Host "`n>>> 2. Inspecting and patching management_screen.gd weapon filtering..." -ForegroundColor Cyan
-$mgmtHook = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\extensions\scenes\Stages\management_screen.hooks.gd"
-if (-not (Test-Path (Split-Path $mgmtHook))) {
-    New-Item -ItemType Directory -Path (Split-Path $mgmtHook) -Force | Out-Null
-}
+Write-Host ">>> 3. Updating tile_map_chunk.hooks.gd (canvas damage boost for starter tools)..." -ForegroundColor Cyan
+$chunkHookPath = "$lcInnerDir\extensions\scenes\tilemaps\tile_map_chunk.hooks.gd"
 
 @'
 extends Object
 
-func load_equipment_shop(chain: ModLoaderHookChain) -> void:
-	chain.execute_next([])
-	
-	# After loading shop, filter out weapons that do not belong to current profession
-	var screen = chain.reference_object
-	if screen and "equipment_items" in screen and screen.equipment_items:
-		var prof = Gvars.profession if ("profession" in Gvars and Gvars.profession) else null
-		var prof_name = prof.name if (prof and "name" in prof) else ""
-		
-		# For Internship, hide custom class weapons like Optical Emitter and Tectonic Fracker
-		if prof_name == "Internship" or prof_name == "":
-			for item_card in screen.equipment_items.get_children():
-				if "item" in item_card and item_card.item:
-					var i_name = item_card.item.itemName if "itemName" in item_card.item else ""
-					if i_name.contains("Optical Emitter") or i_name.contains("Tectonic Fracker") or i_name.contains("Broadsword"):
-						item_card.visible = false
-'@ | Set-Content -Path $mgmtHook -Encoding UTF8
-Write-Host "Created management_screen hook: $mgmtHook" -ForegroundColor Green
+func lvl_from_global_pos(chain: ModLoaderHookChain, pos: Vector2i) -> int:
+	var helper_script = load("res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd")
+	if helper_script and helper_script.is_canvas_level():
+		if pos.y < 0:
+			return -2
+		return 1
+	return chain.execute_next([pos])
 
-# Ensure gareth-mod_manager_mod installs the management_screen hook
-$mmMainPath = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\mod_main.gd"
-if (Test-Path $mmMainPath) {
-    $mmMain = Get-Content $mmMainPath -Raw
-    if ($mmMain -notmatch "management_screen\.hooks\.gd") {
-        $hookBlock = @'
-	ModLoaderMod.install_script_hooks(
-		"res://scenes/Stages/management_screen.gd",
-		ext_dir.path_join("scenes/Stages/management_screen.hooks.gd")
-	)
-	ModLoaderMod.install_script_hooks(
-		"res://scripts/Gvars.gd"
-'@
-        $mmMain = $mmMain -replace 'ModLoaderMod\.install_script_hooks\(\s*"res://scripts/Gvars\.gd"', $hookBlock
-        Set-Content -Path $mmMainPath -Value $mmMain -Encoding UTF8
-        Write-Host "Registered management_screen hook in mod_main.gd" -ForegroundColor Green
-    }
-}
+func generate_chunk(chain: ModLoaderHookChain, noise: Noise) -> void:
+	chain.execute_next([noise])
+	var helper_script = load("res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd")
+	if helper_script and helper_script.is_canvas_level():
+		var chunk = chain.reference_object
+		if chunk:
+			helper_script.paint_chunk_from_canvas(chunk)
 
-Write-Host "`n>>> 3. Flushing mod-hooks.zip..." -ForegroundColor Cyan
+func damage_tile_idx(chain: ModLoaderHookChain, idx: int, damage: float, damage_type: int) -> void:
+	var helper_script = load("res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd")
+	if helper_script and helper_script.is_canvas_level():
+		var chunk = chain.reference_object
+		if chunk and chunk.has_method("array_to_global_pos"):
+			var global_pos: Vector2i = Vector2i(chunk.array_to_global_pos(idx))
+			# Apply damage multiplier to early canvas blocks so starter pickaxe can carve them
+			if global_pos.y > 12 and global_pos.y < 35:
+				damage *= 3.5
+	chain.execute_next([idx, damage, damage_type])
+'@ | Set-Content -Path $chunkHookPath -Encoding UTF8
+
+Write-Host ">>> 4. Flushing mod-hooks.zip..." -ForegroundColor Cyan
 if (Test-Path $hookZip) {
     Remove-Item -Path $hookZip -Force
 }
 
-Write-Host ">>> 4. Repackaging living_canvas_mod.zip and mod_manager_mod.zip..." -ForegroundColor Cyan
+Write-Host ">>> 5. Repackaging living_canvas_mod.zip and mod_manager_mod.zip..." -ForegroundColor Cyan
 Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
 foreach ($mTarget in @("gareth-living_canvas_mod", "gareth-mod_manager_mod")) {
     $mOuter = "$repo\mods-unpacked\$mTarget"
     $mZip   = "$steamMods\$mTarget.zip"
-    if (Test-Path $mZip) { 
-        Remove-Item -Path $mZip -Force 
-    }
+    if (Test-Path $mZip) { Remove-Item -Path $mZip -Force }
 
     $stream  = [System.IO.File]::Open($mZip, [System.IO.FileMode]::CreateNew)
     $archive = New-Object System.IO.Compression.ZipArchive($stream, [System.IO.Compression.ZipArchiveMode]::Create)
@@ -295,9 +320,9 @@ foreach ($mTarget in @("gareth-living_canvas_mod", "gareth-mod_manager_mod")) {
     Write-Host "Repacked: $mZip" -ForegroundColor Green
 }
 
-Write-Host "`n>>> 5. Git staging and committing..." -ForegroundColor Cyan
+Write-Host "`n>>> 6. Git staging, committing, and pushing..." -ForegroundColor Cyan
 git add -A
-git commit -m "Fix Living Canvas breakable block IDs and filter class weapons in equipment shop"
+git commit -m "Fix Mod Manager indentation, expand 12-row starter buffer, add side quarries, and balance canvas block damage"
 git push origin main
 
-Write-Host "`nDeployment complete! Launch Coal LLC to test." -ForegroundColor Green
+Write-Host "`nAll fixes applied! Launch Coal LLC to test." -ForegroundColor Green

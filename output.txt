@@ -1,29 +1,28 @@
-﻿>>> 1. Repairing gareth-mod_manager_mod/mod_main.gd indentation...
-Repaired: C:\Dev\coal-llc-mods\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\mod_main.gd
-
->>> 2. Updating LivingCanvasHelper.gd to use native chunk.array_to_global_pos()...
+﻿>>> 1. Updating LivingCanvasHelper.gd with valid BASIC_* breakable tiles...
 Updated: C:\Dev\coal-llc-mods\mods-unpacked\gareth-living_canvas_mod\mods-unpacked\gareth-living_canvas_mod\helpers\LivingCanvasHelper.gd
 
->>> 3. Updating tile_map_chunk.hooks.gd...
-Updated: C:\Dev\coal-llc-mods\mods-unpacked\gareth-living_canvas_mod\mods-unpacked\gareth-living_canvas_mod\extensions\scenes\tilemaps\tile_map_chunk.hooks.gd
+>>> 2. Inspecting and patching management_screen.gd weapon filtering...
+Created management_screen hook: C:\Dev\coal-llc-mods\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\extensions\scenes\Stages\management_screen.hooks.gd
+Registered management_screen hook in mod_main.gd
 
->>> 4. Flushing mod-hooks.zip...
->>> 5. Repackaging living_canvas_mod.zip and mod_manager_mod.zip...
+>>> 3. Flushing mod-hooks.zip...
+>>> 4. Repackaging living_canvas_mod.zip and mod_manager_mod.zip...
 Repacked: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods\gareth-living_canvas_mod.zip
 Repacked: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods\gareth-mod_manager_mod.zip
 
->>> 6. Git staging, committing, and pushing...
-[main e56d974] Fix Mod Manager indentation error and switch Living Canvas to native chunk.array_to_global_pos
- 1 file changed, 1 insertion(+), 1 deletion(-)
-Enumerating objects: 5, done.
-Counting objects: 100% (5/5), done.
+>>> 5. Git staging and committing...
+warning: in the working copy of 'context.txt', LF will be replaced by CRLF the next time Git touches it
+[main 04eaac4] Fix Living Canvas breakable block IDs and filter class weapons in equipment shop
+ 6 files changed, 189 insertions(+), 234 deletions(-)
+Enumerating objects: 34, done.
+Counting objects: 100% (34/34), done.
 Delta compression using up to 24 threads
-Compressing objects: 100% (3/3), done.
-Writing objects: 100% (3/3), 358 bytes | 358.00 KiB/s, done.
-Total 3 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
-remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+Compressing objects: 100% (17/17), done.
+Writing objects: 100% (19/19), 5.31 KiB | 1.33 MiB/s, done.
+Total 19 (delta 8), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (8/8), completed with 8 local objects.
 To https://github.com/garethwhite-prog/coal-llc-mods.git
-   42d2818..e56d974  main -> main
+   e56d974..04eaac4  main -> main
 
-All fixes applied! Launch Coal LLC to test.
+Deployment complete! Launch Coal LLC to test.
 PS C:\Dev\coal-llc-mods> 

@@ -1,43 +1,41 @@
 ﻿=== GIT STATUS ===
- M context.txt
  M output.txt
 
 === RECENT COMMITS ===
+04eaac4 Fix Living Canvas breakable block IDs and filter class weapons in equipment shop
 e56d974 Fix Mod Manager indentation error and switch Living Canvas to native chunk.array_to_global_pos
 42d2818 Fix Mod Manager indentation error and switch Living Canvas to native chunk.array_to_global_pos
-86ed6ce Fix Map 103 stage transition into MineRegion and guard Gvars reset_resources null crash
 
-=== SESSION ERRORS & WARNINGS (9599 found) ===
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
+=== SESSION ERRORS & WARNINGS (29 found) ===
+ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
+SCRIPT ERROR: Parse Error: The variable type is being inferred from a Variant value, so it will be typed as Variant. (Warning treated as error.)
+ERROR: Failed to load script "res://mods-unpacked/der_floh-performance_mod/extensions/scenes/tilemaps/tile_map_chunk.hooks.gd" with error "Parse error".
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+SCRIPT ERROR: Parse Error: Expected statement, found "Indent" instead.
+ERROR: Failed to load script "res://mods-unpacked/gareth-mod_manager_mod/mod_main.gd" with error "Parse error".
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
+ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
+ERROR: No loader found for resource: res:// (expected type: )
+ERROR: Error loading resource: ''.
+SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Trying to call an async function without "await".
+ERROR: No loader found for resource: res:// (expected type: )
+ERROR: Error loading resource: ''.
+SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
 SCRIPT ERROR: Trying to call an async function without "await".
 ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-ERROR: 152 resources still in use at exit (run with --verbose for details).
+ERROR: 149 resources still in use at exit (run with --verbose for details).
 
 === ACTIVE MOD LOG ENTRIES (13 found) ===
 	 - C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mods/gareth-tectonic_faultline_mod.zip
@@ -50,29 +48,29 @@ INFO ModLoader: mod_load_order -> 22) gareth-tectonic_faultline_mod
 INFO ModLoader: Initializing -> gareth-tectonic_faultline_mod
 DEBUG ModLoader: Loading script from -> res://mods-unpacked/gareth-tectonic_faultline_mod/mod_main.gd
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Mod initializing...
-DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultline_mod:<Node#709525253489>
+DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultline_mod:<Node#702998916465>
   "gareth-tectonic_faultline_mod": "<Resource#-9223371950686992807>",
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Custom Map Mod (ID 102) online!
 
 === LOG TAIL (LAST 30 LINES) ===
-   at: TileMapChunk.damage_tile_idx (res://scenes/tilemaps/tile_map_chunk.gd:2239)
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-   at: TileMapChunk.damage_tile_idx (res://scenes/tilemaps/tile_map_chunk.gd:2239)
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-   at: TileMapChunk.damage_tile_idx (res://scenes/tilemaps/tile_map_chunk.gd:2239)
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-   at: TileMapChunk.damage_tile_idx (res://scenes/tilemaps/tile_map_chunk.gd:2239)
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-   at: TileMapChunk.damage_tile_idx (res://scenes/tilemaps/tile_map_chunk.gd:2239)
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-   at: TileMapChunk.damage_tile_idx (res://scenes/tilemaps/tile_map_chunk.gd:2239)
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-   at: TileMapChunk.damage_tile_idx (res://scenes/tilemaps/tile_map_chunk.gd:2239)
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-   at: TileMapChunk.damage_tile_idx (res://scenes/tilemaps/tile_map_chunk.gd:2239)
-SCRIPT ERROR: Invalid access to property or key '230' on a base object of type 'Dictionary[int, Dictionary]'.
-   at: TileMapChunk.get_tile_step_noise (res://scenes/tilemaps/tile_map_chunk.gd:2544)
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (-828.6552, 55.96518)!
 INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (-828.6552, 55.96518)!
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (-828.6552, 55.96518)!
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-828.6552, 55.96518)
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-516.9979, 55.96518)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-516.9979, 55.96518)
 end day
 SCRIPT ERROR: Trying to call an async function without "await".
    at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
@@ -83,5 +81,5 @@ WARNING: 88 RIDs of type "Texture" were leaked.
    at: finalize (servers/rendering/rendering_device.cpp:7130)
 WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
    at: cleanup (core/object/object.cpp:2378)
-ERROR: 152 resources still in use at exit (run with --verbose for details).
+ERROR: 149 resources still in use at exit (run with --verbose for details).
    at: clear (core/io/resource.cpp:614)

@@ -4,22 +4,21 @@ extends RefCounted
 const CANVAS_LEVEL_ID: int = 103
 const TARGET_CANVAS_WIDTH: int = 96
 const CONFIG_PATH: String = "user://living_canvas_config.json"
+const BUFFER_SURFACE_ROWS: int = 12
 
-# Palette: Color -> Breakable BASIC_* Tile Enum ID
-# These tiles exist in TILE_PROPERTIES, have full destruction health, and distinct textures:
 const PALETTE: Dictionary = {
-	Color(0.85, 0.20, 0.15): 75,  # BASIC_FIRE (Crimson / Lava / Red)
-	Color(0.70, 0.90, 0.98): 58,  # BASIC_ICE (Cyan / Snow / Sky)
-	Color(0.12, 0.12, 0.15): 92,  # BASIC_DARK (Obsidian / Black / Dark Rock)
-	Color(0.20, 0.78, 0.25): 109, # BASIC_GREEN (Bright Emerald / Grass)
-	Color(0.92, 0.50, 0.12): 126, # BASIC_ORANGE (Amber / Copper / Dirt)
-	Color(0.65, 0.20, 0.85): 143, # BASIC_PURPLE (Violet / Amethyst)
-	Color(0.12, 0.40, 0.15): 160, # BASIC_DARKGREEN (Deep Forest / Pine / Moss)
-	Color(0.95, 0.85, 0.18): 177, # BASIC_YELLOW (Gold / Sand / Sunlight)
-	Color(0.40, 0.25, 0.15): 194, # BASIC_DARKBROWN (Wood / Mud / Soil)
-	Color(0.10, 0.25, 0.70): 211, # BASIC_DARKBLUE (Water / Deep Ocean)
-	Color(0.50, 0.50, 0.52): 41,  # BASIC_STONE (Granite / Cobblestone)
-	Color(0.75, 0.55, 0.45): 24,  # BASIC_CLAY (Clay / Soft Terracotta)
+	Color(0.85, 0.20, 0.15): 75,  # BASIC_FIRE
+	Color(0.70, 0.90, 0.98): 58,  # BASIC_ICE
+	Color(0.12, 0.12, 0.15): 92,  # BASIC_DARK
+	Color(0.20, 0.78, 0.25): 109, # BASIC_GREEN
+	Color(0.92, 0.50, 0.12): 126, # BASIC_ORANGE
+	Color(0.65, 0.20, 0.85): 143, # BASIC_PURPLE
+	Color(0.12, 0.40, 0.15): 160, # BASIC_DARKGREEN
+	Color(0.95, 0.85, 0.18): 177, # BASIC_YELLOW
+	Color(0.40, 0.25, 0.15): 194, # BASIC_DARKBROWN
+	Color(0.10, 0.25, 0.70): 211, # BASIC_DARKBLUE
+	Color(0.50, 0.50, 0.52): 41,  # BASIC_STONE
+	Color(0.75, 0.55, 0.45): 24,  # BASIC_CLAY
 }
 
 static var cached_image: Image = null
@@ -145,9 +144,9 @@ static func _generate_fallback_canvas() -> Image:
 
 static func match_tile_from_color(col: Color) -> int:
 	if col.a < 0.2:
-		return 0 # Tiles.EMPTY
+		return 0
 
-	var best_tile: int = 41 # Default BASIC_STONE
+	var best_tile: int = 41
 	var min_dist: float = 999999.0
 
 	for p_col in PALETTE.keys():
@@ -174,22 +173,29 @@ static func paint_chunk_from_canvas(chunk: Node) -> void:
 	for idx in range(chunk.tiles.size()):
 		var global_pos: Vector2i = Vector2i(chunk.array_to_global_pos(idx))
 
-		# Retain surface layer (first 4 tile rows: 0, 1, 2, 3)
-		if global_pos.y <= 3:
+		# 1. Surface buffer (Rows 0 to 12): keep vanilla clay, coal, and starter stone
+		if global_pos.y <= BUFFER_SURFACE_ROWS:
 			continue
 
-		# Outside horizontal canvas boundary: bedrock framing
-		if global_pos.x < -half_w or global_pos.x >= half_w:
-			if abs(global_pos.x) > half_w + 3:
-				chunk.tiles[idx] = chunk.Tiles.BEDROCK
+		# 2. Side quarries: 8 blocks wide on left & right flanks (breakable stone & ore)
+		var dist_from_center: int = abs(global_pos.x)
+		if dist_from_center >= half_w and dist_from_center < half_w + 8:
+			if (global_pos.x + global_pos.y) % 7 == 0:
+				chunk.tiles[idx] = chunk.Tiles.COAL_STONE
 			else:
-				chunk.tiles[idx] = chunk.Tiles.BASIC_DARK
+				chunk.tiles[idx] = chunk.Tiles.BASIC_STONE
 			chunk.build_tile(idx)
 			continue
 
-		# Inside canvas: sample downsampled image coordinates
+		# 3. Outer boundary: Bedrock wall
+		if dist_from_center >= half_w + 8:
+			chunk.tiles[idx] = chunk.Tiles.BEDROCK
+			chunk.build_tile(idx)
+			continue
+
+		# 4. Canvas interior: sample image
 		var img_u: int = global_pos.x + half_w
-		var img_v: int = (global_pos.y - 4) % cached_height
+		var img_v: int = (global_pos.y - (BUFFER_SURFACE_ROWS + 1)) % cached_height
 		if img_v < 0:
 			img_v += cached_height
 
