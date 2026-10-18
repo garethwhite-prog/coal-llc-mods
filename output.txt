@@ -1,35 +1,33 @@
-﻿>>> 1. Converting ALL C:\Dev\example_*.jpg images to baseline JPEG and PNG...
-Warning: Could not process example_1.jpg:A positional parameter cannot be found that accepts argument '$null'.
-Warning: Could not process example_2.jpg:A positional parameter cannot be found that accepts argument '$null'.
-Warning: Could not process example_3.jpg:A positional parameter cannot be found that accepts argument '$null'.
-Warning: Could not process example_4.jpg:A positional parameter cannot be found that accepts argument '$null'.
+﻿>>> 1. Packaging example_3.jpg as default_canvas.png in mod assets...
+Packaged bundled mural: C:\Dev\coal-llc-mods\mods-unpacked\gareth-living_canvas_mod\mods-unpacked\gareth-living_canvas_mod\assets\default_canvas.png
 
->>> 2. Updating LivingCanvasHelper.gd (live memory sync & path normalization)...
-Updated LivingCanvasHelper.gd
+>>> 2. Updating LivingCanvasHelper.gd with bundled default asset...
+Updated: C:\Dev\coal-llc-mods\mods-unpacked\gareth-living_canvas_mod\mods-unpacked\gareth-living_canvas_mod\helpers\LivingCanvasHelper.gd
 
->>> 3. Updating level_select.hooks.gd (live visual refresh without restart)...
-Updated level_select.hooks.gd
+>>> 3. Updating level_select.hooks.gd (default 'Your Mum' label)...
+Updated: C:\Dev\coal-llc-mods\mods-unpacked\gareth-living_canvas_mod\mods-unpacked\gareth-living_canvas_mod\extensions\scenes\Interfaces\Menus\level_select.hooks.gd
 
->>> 4. Updating management_screen.hooks.gd (fixing syntax & adding Void Cores)...
-Updated management_screen.hooks.gd
+>>> 4. Updating management_screen.hooks.gd (traversing all card labels)...
+Updated: C:\Dev\coal-llc-mods\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\extensions\scenes\Stages\management_screen.hooks.gd
 
 >>> 5. Flushing mod-hooks.zip...
 >>> 6. Repackaging living_canvas_mod.zip and mod_manager_mod.zip...
 Repacked: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods\gareth-living_canvas_mod.zip
 Repacked: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods\gareth-mod_manager_mod.zip
 
->>> 7. Git staging and committing...
-[main 3257d14] Convert all C:/Dev images to baseline JPEG/PNG, fix GDScript 'in' string filter, and support live canvas switching without restart
- 1 file changed, 2 insertions(+), 1 deletion(-)
-Enumerating objects: 5, done.
-Counting objects: 100% (5/5), done.
+>>> 7. Git staging, committing, and pushing...
+[main a57545f] Bundle 'Your Mum' default canvas in mod assets and implement robust card-level shop filtering
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 mods-unpacked/gareth-living_canvas_mod/assets/default_canvas.png
+Enumerating objects: 9, done.
+Counting objects: 100% (9/9), done.
 Delta compression using up to 24 threads
-Compressing objects: 100% (3/3), done.
-Writing objects: 100% (3/3), 388 bytes | 388.00 KiB/s, done.
-Total 3 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
+Compressing objects: 100% (5/5), done.
+Writing objects: 100% (6/6), 1.46 MiB | 1.66 MiB/s, done.
+Total 6 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
 remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
 To https://github.com/garethwhite-prog/coal-llc-mods.git
-   df2d36b..3257d14  main -> main
+   db04126..a57545f  main -> main
 
-All fixes applied! Launch Coal LLC to test.
+Deployment complete! Launch Coal LLC to test.
 PS C:\Dev\coal-llc-mods> 

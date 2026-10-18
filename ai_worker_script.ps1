@@ -1,426 +1,52 @@
-Clear-Host;
+﻿Clear-Host;
 
 # ==============================================================================
-# Coal LLC - Package "Your Mum" Default Canvas & Bulletproof Shop Filter
+# Coal LLC - Synchronize Master Documentation & Log Map 103 (Living Canvas)
 # ==============================================================================
 
-$repo       = "C:\Dev\coal-llc-mods"
-$steamRoot  = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC"
-$steamMods  = "$steamRoot\mods"
-$hookZip    = "$steamRoot\mod-hooks.zip"
-
-$modName    = "gareth-living_canvas_mod"
-$outerDir   = "$repo\mods-unpacked\$modName"
-$innerDir   = "$outerDir\mods-unpacked\$modName"
-$mmInnerDir = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod"
+$repo        = "C:\Dev\coal-llc-mods"
+$promptPath  = "$repo\SESSION_PROMPT.md"
+$readmePath  = "$repo\README.md"
 
 Set-Location $repo
 
-Write-Host ">>> 1. Packaging example_3.jpg as default_canvas.png in mod assets..." -ForegroundColor Cyan
-Add-Type -AssemblyName System.Drawing
+Write-Host ">>> 1. Appending Map 103 contracts to SESSION_PROMPT.md..." -ForegroundColor Cyan
+$promptContent = Get-Content -Path$promptPath -Raw
 
-$ex3Path = "C:\Dev\example_3.jpg"
-$destPngOuter = "$outerDir\assets\default_canvas.png"
-$destPngInner = "$innerDir\assets\default_canvas.png"
+if ($promptContent -notmatch "Map 103 - The Living Canvas") {
+    $map103Doc = @'
 
-if (Test-Path $ex3Path) {$srcImg = [System.Drawing.Image]::FromFile($ex3Path)
-	$srcImg.Save($destPngInner, [System.Drawing.Imaging.ImageFormat]::Png)
-	$srcImg.Save($destPngOuter, [System.Drawing.Imaging.ImageFormat]::Png)
-	$srcImg.Dispose()
-    Write-Host "Packaged bundled mural: $destPngInner" -ForegroundColor Green
+### Map 103 - The Living Canvas (`gareth-living_canvas_mod`)
+* **Level ID**: `103` (Registered in `level_manager.all_levels` and `Gvars.level_info`).
+* **Stage Routing**: Hook `Game.gd:change_stage` on `target == 2` and `Gvars.level == 103` to load `res://scenes/Stages/MineRegion.tscn`.
+* **Subterranean Generation Hook**: Hook `tile_map_chunk.gd:generate_chunk`. Maintain `pos.y < 0` returning `-2` (sky stratum) in `lvl_from_global_pos`.
+* **Strata Mapping**: Map RGB pixels to valid breakable base blocks (`STRATA_BASES`) using Euclidean distance. Infuse 45% coal (`base + 1`), 25% ores (`base + 2..11`), and 30% base stone.
+* **Layout Geometry**: Keep rows 0–12 as vanilla surface buffer; generate 8-block-wide breakable side quarries at `abs(x) >= 48` before terminating with outer bedrock walls at `abs(x) >= 56`.
+* **Asset Loading**: Read image bytes via `FileAccess.get_file_as_bytes()` to bypass virtual zip boundaries; bundled default is `res://mods-unpacked/gareth-living_canvas_mod/assets/default_canvas.png`.
+'@
+    $promptContent +=$map103Doc
+    # Update mod count to 48
+    $promptContent =$promptContent -replace '47 mods', '48 mods'
+    $promptContent =$promptContent -replace '47-mod', '48-mod'
+    Set-Content -Path $promptPath -Value$promptContent -Encoding UTF8
+    Write-Host "Updated: $promptPath" -ForegroundColor Green
 }
 
-Write-Host "`n>>> 2. Updating LivingCanvasHelper.gd with bundled default asset..." -ForegroundColor Cyan
-$lcHelperPath = "$innerDir\helpers\LivingCanvasHelper.gd"
+Write-Host "`n>>> 2. Updating root README.md to 48 mods..." -ForegroundColor Cyan
+$readmeContent = Get-Content -Path $readmePath -Raw
+$readmeContent = $readmeContent -replace '47 mods', '48 mods'
+$readmeContent = $readmeContent -replace '47-mod', '48-mod'
 
-@'
-class_name LivingCanvasHelper
-extends RefCounted
-
-const CANVAS_LEVEL_ID: int = 103
-const TARGET_CANVAS_WIDTH: int = 96
-const CONFIG_PATH: String = "user://living_canvas_config.json"
-const BUFFER_SURFACE_ROWS: int = 12
-const BUNDLED_DEFAULT_PATH: String = "res://mods-unpacked/gareth-living_canvas_mod/assets/default_canvas.png"
-
-const STRATA_BASES: Dictionary = {
-	Color(0.85, 0.20, 0.15): 75,  # FIRE family
-	Color(0.70, 0.90, 0.98): 58,  # ICE family
-	Color(0.12, 0.12, 0.15): 92,  # DARK family
-	Color(0.20, 0.78, 0.25): 109, # GREEN family
-	Color(0.92, 0.50, 0.12): 126, # ORANGE family
-	Color(0.65, 0.20, 0.85): 143, # PURPLE family
-	Color(0.12, 0.40, 0.15): 160, # DARKGREEN family
-	Color(0.95, 0.85, 0.18): 177, # YELLOW family
-	Color(0.40, 0.25, 0.15): 194, # DARKBROWN family
-	Color(0.10, 0.25, 0.70): 211, # DARKBLUE family
-	Color(0.50, 0.50, 0.52): 41,  # STONE family
-	Color(0.75, 0.55, 0.45): 24,  # CLAY family
+if ($readmeContent -notmatch "gareth-living_canvas_mod") {
+    $tableEntry = "| `gareth-living_canvas_mod` | Maps & Environments | The Living Canvas (Map 103) - Image-to-strata mosaic quarry with native file picker |"
+    $readmeContent = $readmeContent -replace '(\| `gareth-tectonic_faultline_mod`.*)', "`$1`r`n$tableEntry"
+    Set-Content -Path $readmePath -Value$readmeContent -Encoding UTF8
+    Write-Host "Updated: $readmePath" -ForegroundColor Green
 }
 
-static var cached_image: Image = null
-static var cached_width: int = 96
-static var cached_height: int = 49
-
-static func is_canvas_level() -> bool:
-	if Gvars:
-		if "level" in Gvars and Gvars.level == CANVAS_LEVEL_ID:
-			return true
-		if "chosen_level" in Gvars and Gvars.chosen_level == CANVAS_LEVEL_ID:
-			return true
-		if "current_level" in Gvars and Gvars.current_level == CANVAS_LEVEL_ID:
-			return true
-	return false
-
-static func ensure_level_registered() -> void:
-	if not Gvars:
-		return
-
-	if "level_manager" in Gvars and Gvars.level_manager and ("all_levels" in Gvars.level_manager):
-		var lvl_mgr = Gvars.level_manager
-		if not lvl_mgr.all_levels.has(CANVAS_LEVEL_ID):
-			var custom_level = GameLevel.new()
-			custom_level.level_name = "The Living Canvas"
-			custom_level.level = CANVAS_LEVEL_ID
-			custom_level.mining_scene_path = "res://scenes/Stages/MineRegion.tscn"
-			custom_level.level_description = "Subterranean strata sculpted directly from a real image or screenshot.\n\nDefault theme: 'Your Mum'. Mine through the beach mosaic or choose any custom image."
-			custom_level.level_difficulty = GameLevel.Difficulty.HARD
-			custom_level.unlock_description = ""
-
-			var preview_tex = get_preview_texture()
-			if preview_tex:
-				custom_level.level_image = preview_tex
-
-			lvl_mgr.all_levels[CANVAS_LEVEL_ID] = {
-				"level": custom_level,
-				"is_unlocked": true
-			}
-
-	if "level_info" in Gvars and Gvars.level_info is Dictionary:
-		if not Gvars.level_info.has(CANVAS_LEVEL_ID):
-			Gvars.level_info[CANVAS_LEVEL_ID] = {
-				"name": "The Living Canvas",
-				"description": "Subterranean strata sculpted directly from real images or screenshots.\nDefault theme: 'Your Mum'.",
-				"depth": 1000,
-				"cost": 0,
-				"unlocked": true
-			}
-
-static func get_saved_image_path() -> String:
-	if FileAccess.file_exists(CONFIG_PATH):
-		var file = FileAccess.open(CONFIG_PATH, FileAccess.READ)
-		if file:
-			var txt = file.get_as_text()
-			var json = JSON.new()
-			if json.parse(txt) == OK and json.data is Dictionary:
-				return str(json.data.get("image_path", "")).replace("\\", "/")
-	return ""
-
-static func set_active_image(path: String) -> void:
-	path = path.replace("\\", "/")
-	var cfg = {"image_path": path}
-	var file = FileAccess.open(CONFIG_PATH, FileAccess.WRITE)
-	if file:
-		file.store_string(JSON.stringify(cfg))
-	cached_image = null
-	var new_img = get_or_load_canvas()
-
-	if new_img and Gvars and ("level_manager" in Gvars) and Gvars.level_manager:
-		var lvl_mgr = Gvars.level_manager
-		if "all_levels" in lvl_mgr and lvl_mgr.all_levels.has(CANVAS_LEVEL_ID):
-			var new_tex = ImageTexture.create_from_image(new_img)
-			lvl_mgr.all_levels[CANVAS_LEVEL_ID]["level"].level_image = new_tex
-
-	ModLoaderLog.info("Active image updated to: " + path, "gareth-living_canvas_mod")
-
-static func load_image_from_path(path: String) -> Image:
-	path = path.replace("\\", "/")
-	if not FileAccess.file_exists(path):
-		return null
-	var bytes = FileAccess.get_file_as_bytes(path)
-	if bytes.is_empty():
-		return null
-
-	var img = Image.new()
-	var err: Error = FAILED
-	var p_lower = path.to_lower()
-
-	if p_lower.ends_with(".png"):
-		err = img.load_png_from_buffer(bytes)
-	elif p_lower.ends_with(".webp"):
-		err = img.load_webp_from_buffer(bytes)
-	else:
-		err = img.load_jpg_from_buffer(bytes)
-		if err != OK:
-			err = img.load_png_from_buffer(bytes)
-
-	if err == OK:
-		return img
-	return null
-
-static func get_or_load_canvas() -> Image:
-	if cached_image != null:
-		return cached_image
-
-	var img: Image = null
-	var active_path = get_saved_image_path()
-
-	# 1. User selected image
-	if active_path != "":
-		img = load_image_from_path(active_path)
-		if not img:
-			var alt_png = active_path.get_basename() + ".png"
-			if FileAccess.file_exists(alt_png):
-				img = load_image_from_path(alt_png)
-
-	# 2. Bundled mod asset ("Your Mum" default)
-	if not img:
-		img = load_image_from_path(BUNDLED_DEFAULT_PATH)
-
-	# 3. Local dev fallback to C:/Dev/example_3
-	if not img:
-		if FileAccess.file_exists("C:/Dev/example_3.png"):
-			img = load_image_from_path("C:/Dev/example_3.png")
-		elif FileAccess.file_exists("C:/Dev/example_3.jpg"):
-			img = load_image_from_path("C:/Dev/example_3.jpg")
-
-	# 4. Final procedural fallback
-	if not img:
-		img = _generate_fallback_canvas()
-	else:
-		var orig_w = img.get_width()
-		var orig_h = img.get_height()
-		var aspect = float(orig_w) / float(max(1, orig_h))
-		cached_width = TARGET_CANVAS_WIDTH
-		cached_height = max(16, int(round(float(cached_width) / aspect)))
-		img.resize(cached_width, cached_height, Image.INTERPOLATE_LANCZOS)
-
-	cached_image = img
-	return cached_image
-
-static func get_preview_texture() -> ImageTexture:
-	var img = get_or_load_canvas()
-	if img:
-		return ImageTexture.create_from_image(img)
-	return null
-
-static func _generate_fallback_canvas() -> Image:
-	var img = Image.create(TARGET_CANVAS_WIDTH, 48, false, Image.FORMAT_RGBA8)
-	cached_width = TARGET_CANVAS_WIDTH
-	cached_height = 48
-	for x in range(TARGET_CANVAS_WIDTH):
-		for y in range(48):
-			var r = sin(float(x) * 0.1) * 0.5 + 0.5
-			var g = cos(float(y) * 0.15) * 0.5 + 0.5
-			var b = sin(float(x + y) * 0.08) * 0.5 + 0.5
-			img.set_pixel(x, y, Color(r, g, b, 1.0))
-	return img
-
-static func match_strata_base(col: Color) -> int:
-	if col.a < 0.2:
-		return 0
-
-	var best_base: int = 41
-	var min_dist: float = 999999.0
-
-	for p_col in STRATA_BASES.keys():
-		var dr = col.r - p_col.r
-		var dg = col.g - p_col.g
-		var db = col.b - p_col.b
-		var dist = dr * dr + dg * dg + db * db
-		if dist < min_dist:
-			min_dist = dist
-			best_base = STRATA_BASES[p_col]
-
-	return best_base
-
-static func pick_ore_infused_tile(base_id: int, world_pos: Vector2i) -> int:
-	if base_id == 0:
-		return 0
-
-	var seed_val: int = abs(world_pos.x * 73856093 ^ world_pos.y * 19349663)
-	var roll: int = seed_val % 100
-
-	# 45% Coal, 25% Ore, 30% Base
-	if roll < 45:
-		return base_id + 1
-	elif roll < 70:
-		var ore_offset = 2 + (seed_val % 10)
-		return base_id + min(ore_offset, 15)
-	return base_id
-
-static func paint_chunk_from_canvas(chunk: Node) -> void:
-	if not ("tiles" in chunk) or not chunk.has_method("array_to_global_pos"):
-		return
-
-	var img = get_or_load_canvas()
-	if not img:
-		return
-
-	var half_w: int = int(cached_width / 2.0)
-
-	for idx in range(chunk.tiles.size()):
-		var global_pos: Vector2i = Vector2i(chunk.array_to_global_pos(idx))
-
-		if global_pos.y <= BUFFER_SURFACE_ROWS:
-			continue
-
-		var dist_from_center: int = abs(global_pos.x)
-		if dist_from_center >= half_w and dist_from_center < half_w + 8:
-			if (global_pos.x + global_pos.y) % 5 == 0:
-				chunk.tiles[idx] = chunk.Tiles.COAL_STONE
-			else:
-				chunk.tiles[idx] = chunk.Tiles.BASIC_STONE
-			chunk.build_tile(idx)
-			continue
-
-		if dist_from_center >= half_w + 8:
-			chunk.tiles[idx] = chunk.Tiles.BEDROCK
-			chunk.build_tile(idx)
-			continue
-
-		var img_u: int = global_pos.x + half_w
-		var img_v: int = (global_pos.y - (BUFFER_SURFACE_ROWS + 1)) % cached_height
-		if img_v < 0:
-			img_v += cached_height
-
-		if img_u >= 0 and img_u < cached_width and img_v >= 0 and img_v < cached_height:
-			var pixel_col: Color = img.get_pixel(img_u, img_v)
-			var base_id: int = match_strata_base(pixel_col)
-			var final_tile: int = pick_ore_infused_tile(base_id, global_pos)
-			chunk.tiles[idx] = final_tile
-			chunk.build_tile(idx)
-'@ | Set-Content -Path $lcHelperPath -Encoding UTF8
-Write-Host "Updated: $lcHelperPath" -ForegroundColor Green
-
-Write-Host "`n>>> 3. Updating level_select.hooks.gd (default 'Your Mum' label)..." -ForegroundColor Cyan
-$lsHookPath = "$innerDir\extensions\scenes\Interfaces\Menus\level_select.hooks.gd"
-
-@'
-extends Object
-
-func _ready(chain: ModLoaderHookChain) -> void:
-	var helper_script = load("res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd")
-	if helper_script and helper_script.has_method("ensure_level_registered"):
-		helper_script.ensure_level_registered()
-		var ls = chain.reference_object
-		if ls and ("LEVEL_ORDER" in ls):
-			if not ls.LEVEL_ORDER.has(helper_script.CANVAS_LEVEL_ID):
-				ls.LEVEL_ORDER.append(helper_script.CANVAS_LEVEL_ID)
-
-	chain.execute_next([])
-
-	var ls = chain.reference_object
-	if ls and "levels" in ls and ls.levels:
-		for card in ls.levels.get_children():
-			if "game_level" in card and card.game_level and card.game_level.level == 103:
-				_inject_canvas_button(ls, card)
-
-func _inject_canvas_button(ls: Control, card: Control) -> void:
-	var helper_script = load("res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd")
-	var active_path = helper_script.get_saved_image_path() if helper_script else ""
-	var initial_label = "[ Your Mum (Default) ]"
-	if active_path != "":
-		initial_label = "[ " + active_path.get_file() + " ]"
-
-	var btn = Button.new()
-	btn.text = initial_label
-	btn.custom_minimum_size = Vector2(150, 26)
-	btn.add_theme_font_size_override("font_size", 9)
-	btn.focus_mode = Control.FOCUS_NONE
-	card.add_child(btn)
-	btn.position = Vector2(8, 180)
-
-	btn.pressed.connect(func():
-		var dialog = FileDialog.new()
-		dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
-		dialog.access = FileDialog.ACCESS_FILESYSTEM
-		dialog.filters = PackedStringArray(["*.jpg, *.jpeg, *.png, *.webp ; Image Files"])
-		dialog.current_dir = "C:/Dev"
-		dialog.title = "Select Image for The Living Canvas"
-		if "use_native_dialog" in dialog:
-			dialog.set("use_native_dialog", true)
-
-		dialog.file_selected.connect(func(path: String):
-			path = path.replace("\\", "/")
-			if helper_script and helper_script.has_method("set_active_image"):
-				helper_script.set_active_image(path)
-				btn.text = "[ " + path.get_file() + " ]"
-				
-				var new_tex = helper_script.get_preview_texture()
-				if new_tex:
-					card.game_level.level_image = new_tex
-					for child in card.find_children("*", "TextureRect", true, false):
-						if child.name != "Lock":
-							child.texture = new_tex
-		)
-
-		ls.add_child(dialog)
-		dialog.popup_centered(Vector2i(800, 500))
-	)
-'@ | Set-Content -Path $lsHookPath -Encoding UTF8
-Write-Host "Updated: $lsHookPath" -ForegroundColor Green
-
-Write-Host "`n>>> 4. Updating management_screen.hooks.gd (traversing all card labels)..." -ForegroundColor Cyan
-$mgmtHook = "$mmInnerDir\extensions\scenes\Stages\management_screen.hooks.gd"
-
-@'
-extends Object
-
-func load_equipment_shop(chain: ModLoaderHookChain) -> void:
-	chain.execute_next([])
-	var screen = chain.reference_object
-	if screen:
-		Callable(self, "_filter_cards").call_deferred(screen)
-
-func _filter_cards(screen: Node) -> void:
-	if not is_instance_valid(screen):
-		return
-
-	var all_labels = screen.find_children("*", "Label", true, false)
-	for lbl in all_labels:
-		var txt = lbl.text
-		if ("Tectonic Fracker" in txt) or ("Void Core" in txt) or ("Optical Emitter" in txt) or ("Broadsword" in txt) or ("Energy Saber" in txt) or ("Laser Beam" in txt):
-			# Climb to the root card container and disable it
-			var card = lbl.get_parent()
-			while card and card != screen and card.get_parent() != screen:
-				if card.get_parent().name == "EquipmentItems" or card.get_parent() is GridContainer or card.get_parent() is BoxContainer:
-					break
-				card = card.get_parent()
-			
-			if card and card != screen:
-				card.visible = false
-				card.process_mode = Node.PROCESS_MODE_DISABLED
-'@ | Set-Content -Path $mgmtHook -Encoding UTF8
-Write-Host "Updated: $mgmtHook" -ForegroundColor Green
-
-Write-Host "`n>>> 5. Flushing mod-hooks.zip..." -ForegroundColor Cyan
-if (Test-Path $hookZip) {
-    Remove-Item -Path $hookZip -Force
-}
-
-Write-Host ">>> 6. Repackaging living_canvas_mod.zip and mod_manager_mod.zip..." -ForegroundColor Cyan
-Add-Type -AssemblyName System.IO.Compression
-Add-Type -AssemblyName System.IO.Compression.FileSystem
-
-foreach ($mTarget in @("gareth-living_canvas_mod", "gareth-mod_manager_mod")) {
-    $mOuter = "$repo\mods-unpacked\$mTarget"
-    $mZip   = "$steamMods\$mTarget.zip"
-    if (Test-Path $mZip) { Remove-Item -Path $mZip -Force }
-
-    $stream  = [System.IO.File]::Open($mZip, [System.IO.FileMode]::CreateNew)
-    $archive = New-Object System.IO.Compression.ZipArchive($stream, [System.IO.Compression.ZipArchiveMode]::Create)
-    foreach ($f in (Get-ChildItem -Path $mOuter -Recurse -File)) {$entryName = $f.FullName.Substring($mOuter.Length + 1).Replace("\", "/")
-        [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $f.FullName, $entryName) | Out-Null
-    }
-    $archive.Dispose()
-	$stream.Dispose()
-    Write-Host "Repacked: $mZip" -ForegroundColor Green
-}
-
-Write-Host "`n>>> 7. Git staging, committing, and pushing..." -ForegroundColor Cyan
+Write-Host "`n>>> 3. Git staging, committing, and pushing..." -ForegroundColor Cyan
 git add -A
-git commit -m "Bundle 'Your Mum' default canvas in mod assets and implement robust card-level shop filtering"
+git commit -m "Finalize Map 103 (The Living Canvas): update master README and SESSION_PROMPT to 48 mods"
 git push origin main
 
-Write-Host "`nDeployment complete! Launch Coal LLC to test." -ForegroundColor Green
+Write-Host "`nMaster documentation fully synchronized and pushed!" -ForegroundColor Green
