@@ -1,82 +1,69 @@
-﻿=== SEARCHING GIT HISTORY FOR ORIGINAL TICK UPGRADE CODE ===
-No commits matching POISON_TICK_LENGTH found.
-commit a7545787d801bb70261174369285fd736e54f41d
-Author: Gareth <gareth.white@live.co.uk>
-Date:   Sun Oct 18 09:58:05 2026 +0100
+﻿--- passive_order.gd (lines 70 to 135) ---
+  70: 	# Order
+  71: 	var passive_order = config.data.passive_order
+  72: 	var possible_passives := get_possible_passives_for_professions(player_profession)
+  73: 
+  74: 	var order_index := {}
+  75: 	for i in passive_order.size():
+  76: 		order_index[passive_order[i].effect] = i
+  77: 
+  78: 	possible_passives.sort_custom(func(a, b):
+  79: 		var a_in := order_index.has(a)
+  80: 		var b_in := order_index.has(b)
+  81: 
+  82: 		if a_in and b_in:
+  83: 			return order_index[a] < order_index[b]
+  84: 		elif a_in:
+  85: 			return true
+  86: 		elif b_in:
+  87: 			return false
+  88: 		else:
+  89: 			return a < b
+  90: 	)
+  91: 
+  92: 	for effect_name in possible_passives:
+  93: 		var passive_settings := {}
+  94: 		for passive in passive_order:
+  95: 			if passive.effect == effect_name:
+  96: 				passive_settings = passive
+  97: 
+  98: 		var passive_enabled = passive_settings.enabled if passive_settings else false
+  99: 		var passive_up_to = passive_settings.upTo if passive_settings else 0
+ 100: 
+ 101: 		var template_controls := template.get_children()
+ 102: 		for control in template_controls:
+ 103: 			var new_control := control.duplicate()
+ 104: 
+ 105: 			if new_control.name == "Enabled":
+ 106: 				new_control.button_pressed = passive_enabled
+ 107: 			elif new_control.name == "EffectName":
+ 108: 				new_control.text = effect_name.replace("_", " ").capitalize()
+ 109: 			elif new_control.name == "UpTo":
+ 110: 				if passive_up_to > 0:
+ 111: 					new_control.text = str(int(passive_up_to))
+ 112: 				new_control.text_changed.connect(_on_up_to_text_changed.bind(new_control))
+ 113: 			elif new_control.name == "ButtonUp":
+ 114: 				new_control.pressed.connect(_on_button_up_pressed.bind(effect_name))
+ 115: 			elif new_control.name == "ButtonDown":
+ 116: 				new_control.pressed.connect(_on_button_down_pressed.bind(effect_name))
+ 117: 
+ 118: 			new_control.name += "$" + effect_name
+ 119: 			grid.add_child(new_control)
+ 120: 
+ 121: 
+ 122: func _on_button_up_pressed(effect_name: String) -> void:
+ 123: 	move_controls(effect_name, true)
+ 124: 
+ 125: 
+ 126: func _on_button_down_pressed(effect_name: String) -> void:
+ 127: 	move_controls(effect_name, false)
+ 128: 
+ 129: 
+ 130: func move_controls(effect_name: String, up: bool) -> void:
+ 131: 	var child_offset := -template_children_count if up else template_children_count * 2
+ 132: 	var control_offset := 0 if up else -1
+ 133: 	var found_first := false
+ 134: 
+ 135: 	var control_idx: int = 0
 
-    Implement 3x pod density, color-coded pods (Red/Blue/Green), -2 sky air return, and chunk.build_tile sync
-
-diff --git a/ai_worker_script.ps1 b/ai_worker_script.ps1
-index 5e517a6..9a00a75 100644
---- a/ai_worker_script.ps1
-+++ b/ai_worker_script.ps1
-@@ -1,7 +1,7 @@
- ï»¿cls
- 
- # ==============================================================================
--# Coal LLC - Apply Discovered Sky (-2) & Vault build_tile Contracts
-+# Coal LLC - 3x Pod Density & Distinct Element Colors (Red/Blue/Green)
- # ==============================================================================
- 
- $repo       = "C:\Dev\coal-llc-mods"
-@@ -13,11 +13,370 @@ $innerDir   = "$outerDir\mods-unpacked\$modName"
- $zipPath    = "$steamMods\$modName.zip"
- $hookZip    = "$steamRoot\mod-hooks.zip"
- $helperPath = "$innerDir\helpers\TectonicFaultlineHelper.gd"
--$chunkHook  = "$innerDir\extensions\scenes\tilemaps\tile_map_chunk.hooks.gd"
-+$siphonPath = "$innerDir\entities\MagmaSiphon.gd"
- 
- Set-Location $repo
- 
--Write-Host ">>> 1. Updating TectonicFaultlineHelper.gd with -2 sky code & build_tile..." -ForegroundColor Cyan
-+Write-Host ">>> 1. Writing enhanced entities/MagmaSiphon.gd with vivid Red, Blue, and Green styling..." -ForegroundColor Cyan
-+@'
-+class_name MagmaSiphon
-+extends Node2D
-+
-+enum ElementType { FIRE, WATER, POISON }
-+
-+var element_type: ElementType = ElementType.FIRE
-+var in_range: bool = false
-+var vented: bool = false
-+var sprite: Sprite2D
-+var prompt_label: Label
-+var tex_active: Texture2D
-+var tex_vented: Texture2D
-+var cached_player: Node2D = null
-+
-+# Animated Shockwave Ring
-+var fx_radius: float = 0.0
-+var fx_alpha: float = 0.0
-+var fx_color: Color = Color(1.0, 0.15, 0.15)
-+
-+func _ready() -> void:
-+	z_index = 6
-+	
-+	var img_active = Image.load_from_file("res://mods-unpacked/gareth-tectonic_faultline_mod/assets/magma_siphon_active.png")
-+	if img_active:
-+		tex_active = ImageTexture.create_from_image(img_active)
-+	
-+	var img_vented = Image.load_from_file("res://mods-unpacked/gareth-tectonic_faultline_mod/assets/magma_siphon_vented.png")
-+	if img_vented:
-+		tex_vented = ImageTexture.create_from_image(img_vented)
-+	
-+	sprite = Sprite2D.new()
-+	sprite.texture = tex_active
-+	add_child(sprite)
-+	
-+	prompt_label = Label.new()
-+	prompt_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-+	prompt_label.position = Vector2(-85, -28)
-+	prompt_label.add_theme_font_size_override("font_size", 9)
-+	prompt_label.add_theme_constant_override("outline_size", 3)
-+	prompt_label.visible = false
-+	add_child(prompt_label)
-+	
-+	_apply_visual_styling()
-+
-+func set_element(type_str: String) -> void:
-+	match type_str.to_lower():
-+		"water":
-+			element_type = ElementType.WATER
-+		"poison":
+PS C:\Dev\coal-llc-mods> 

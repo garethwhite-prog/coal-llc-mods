@@ -1,0 +1,69 @@
+{
+	"name": "autopassivechooser",
+	"namespace": "nanobotz",
+	"version_number": "1.0.0",
+	"description": "Automatically open chests and choose passives",
+	"website_url": "https://github.com/NanobotZ/CoalLLC-AutoPassiveChooser",
+	"dependencies": [],
+	"extra": {
+		"godot": {
+			"authors": [
+				"NanobotZ"
+			],
+			"tags": [
+				"gameplay"
+			],
+			"description_rich": "",
+			"optional_dependencies": [],
+			"load_before": [],
+			"incompatibilities": [],
+			"compatible_mod_loader_version": [
+				"7.0.1"
+			],
+			"compatible_game_version": [
+				"1.4.1.1"
+			],
+			"config_schema": {
+				"title": "Config",
+				"description": "Config for this Mod",
+				"type": "object",
+				"properties": {
+					"passive_order": {
+						"title": "Passive order",
+						"type": "array",
+						"items": {
+							"type": "object",
+							"properties": {
+								"enabled": { "type": "boolean" },
+								"effect": { "type": "string" },
+								"upTo": { "type": "number" }
+							}
+						},
+						"default": [
+							{
+								"enabled": true,
+								"effect": "player_jump_velocity",
+								"upTo": 100
+							},
+							{
+								"enabled": true,
+								"effect": "player_sprint_speed",
+								"upTo": 300
+							}
+						]
+					},
+					"reroll_if_no_matches": {
+						"title": "Select cash if no matches",
+						"type": "boolean",
+						"default": false
+					},
+					"skip_weapon_pickups": {
+						"title": "Skip weapon pickups",
+						"type": "boolean",
+						"default": false
+					}
+				}
+			}
+		}
+	}
+}
