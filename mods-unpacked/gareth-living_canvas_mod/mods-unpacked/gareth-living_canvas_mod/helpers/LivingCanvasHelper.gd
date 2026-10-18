@@ -6,19 +6,23 @@ const TARGET_CANVAS_WIDTH: int = 96
 const CONFIG_PATH: String = "user://living_canvas_config.json"
 const BUFFER_SURFACE_ROWS: int = 12
 
-const PALETTE: Dictionary = {
-	Color(0.85, 0.20, 0.15): 75,  # BASIC_FIRE
-	Color(0.70, 0.90, 0.98): 58,  # BASIC_ICE
-	Color(0.12, 0.12, 0.15): 92,  # BASIC_DARK
-	Color(0.20, 0.78, 0.25): 109, # BASIC_GREEN
-	Color(0.92, 0.50, 0.12): 126, # BASIC_ORANGE
-	Color(0.65, 0.20, 0.85): 143, # BASIC_PURPLE
-	Color(0.12, 0.40, 0.15): 160, # BASIC_DARKGREEN
-	Color(0.95, 0.85, 0.18): 177, # BASIC_YELLOW
-	Color(0.40, 0.25, 0.15): 194, # BASIC_DARKBROWN
-	Color(0.10, 0.25, 0.70): 211, # BASIC_DARKBLUE
-	Color(0.50, 0.50, 0.52): 41,  # BASIC_STONE
-	Color(0.75, 0.55, 0.45): 24,  # BASIC_CLAY
+# Base Tile IDs for each stratum family:
+# Index +0 = BASIC (No drop)
+# Index +1 = COAL (Drops Coal)
+# Index +2..15 = Ores (Copper, Iron, Gems, Gold, Diamond, etc.)
+const STRATA_BASES: Dictionary = {
+	Color(0.85, 0.20, 0.15): 75,  # FIRE family (Ruby/Lava)
+	Color(0.70, 0.90, 0.98): 58,  # ICE family (Diamond/Sky)
+	Color(0.12, 0.12, 0.15): 92,  # DARK family (Onyx/Shadows)
+	Color(0.20, 0.78, 0.25): 109, # GREEN family (Emerald/Foliage)
+	Color(0.92, 0.50, 0.12): 126, # ORANGE family (Copper/Amber)
+	Color(0.65, 0.20, 0.85): 143, # PURPLE family (Amethyst)
+	Color(0.12, 0.40, 0.15): 160, # DARKGREEN family (Uranium/Pine)
+	Color(0.95, 0.85, 0.18): 177, # YELLOW family (Gold/Sunlight)
+	Color(0.40, 0.25, 0.15): 194, # DARKBROWN family (Wood/Mud)
+	Color(0.10, 0.25, 0.70): 211, # DARKBLUE family (Sapphire/Water)
+	Color(0.50, 0.50, 0.52): 41,  # STONE family (Silver/Granite)
+	Color(0.75, 0.55, 0.45): 24,  # CLAY family (Clay/Terracotta)
 }
 
 static var cached_image: Image = null
@@ -142,23 +146,43 @@ static func _generate_fallback_canvas() -> Image:
 			img.set_pixel(x, y, Color(r, g, b, 1.0))
 	return img
 
-static func match_tile_from_color(col: Color) -> int:
+static func match_strata_base(col: Color) -> int:
 	if col.a < 0.2:
-		return 0
+		return 0 # Tiles.EMPTY
 
-	var best_tile: int = 41
+	var best_base: int = 41 # Default STONE family
 	var min_dist: float = 999999.0
 
-	for p_col in PALETTE.keys():
+	for p_col in STRATA_BASES.keys():
 		var dr = col.r - p_col.r
 		var dg = col.g - p_col.g
 		var db = col.b - p_col.b
 		var dist = dr * dr + dg * dg + db * db
 		if dist < min_dist:
 			min_dist = dist
-			best_tile = PALETTE[p_col]
+			best_base = STRATA_BASES[p_col]
 
-	return best_tile
+	return best_base
+
+static func pick_ore_infused_tile(base_id: int, world_pos: Vector2i) -> int:
+	if base_id == 0:
+		return 0
+
+	# Deterministic hash so tile types are consistent per coordinate
+	var seed_val: int = abs(world_pos.x * 73856093 ^ world_pos.y * 19349663)
+	var roll: int = seed_val % 100
+
+	# 45% Chance: Coal Ore (Index +1)
+	if roll < 45:
+		return base_id + 1
+
+	# 25% Chance: Precious Metal / Gem Ore matching this stratum
+	elif roll < 70:
+		var ore_offset = 2 + (seed_val % 10) # Offsets +2 to +11 (Iron, Gold, Ruby, Diamond, etc.)
+		return base_id + min(ore_offset, 15)
+
+	# 30% Chance: Standard base stratum stone
+	return base_id
 
 static func paint_chunk_from_canvas(chunk: Node) -> void:
 	if not ("tiles" in chunk) or not chunk.has_method("array_to_global_pos"):
@@ -173,27 +197,27 @@ static func paint_chunk_from_canvas(chunk: Node) -> void:
 	for idx in range(chunk.tiles.size()):
 		var global_pos: Vector2i = Vector2i(chunk.array_to_global_pos(idx))
 
-		# 1. Surface buffer (Rows 0 to 12): keep vanilla clay, coal, and starter stone
+		# 1. Surface Buffer (Rows 0 to 12): Retain standard ground and coal
 		if global_pos.y <= BUFFER_SURFACE_ROWS:
 			continue
 
-		# 2. Side quarries: 8 blocks wide on left & right flanks (breakable stone & ore)
+		# 2. Flanking Quarries (8 blocks wide on left & right): breakable coal/stone
 		var dist_from_center: int = abs(global_pos.x)
 		if dist_from_center >= half_w and dist_from_center < half_w + 8:
-			if (global_pos.x + global_pos.y) % 7 == 0:
+			if (global_pos.x + global_pos.y) % 5 == 0:
 				chunk.tiles[idx] = chunk.Tiles.COAL_STONE
 			else:
 				chunk.tiles[idx] = chunk.Tiles.BASIC_STONE
 			chunk.build_tile(idx)
 			continue
 
-		# 3. Outer boundary: Bedrock wall
+		# 3. Outer boundary: Bedrock
 		if dist_from_center >= half_w + 8:
 			chunk.tiles[idx] = chunk.Tiles.BEDROCK
 			chunk.build_tile(idx)
 			continue
 
-		# 4. Canvas interior: sample image
+		# 4. Canvas Interior: Sample pixel and assign coal/ore-bearing tile
 		var img_u: int = global_pos.x + half_w
 		var img_v: int = (global_pos.y - (BUFFER_SURFACE_ROWS + 1)) % cached_height
 		if img_v < 0:
@@ -201,6 +225,7 @@ static func paint_chunk_from_canvas(chunk: Node) -> void:
 
 		if img_u >= 0 and img_u < cached_width and img_v >= 0 and img_v < cached_height:
 			var pixel_col: Color = img.get_pixel(img_u, img_v)
-			var tile_id: int = match_tile_from_color(pixel_col)
-			chunk.tiles[idx] = tile_id
+			var base_id: int = match_strata_base(pixel_col)
+			var final_tile: int = pick_ore_infused_tile(base_id, global_pos)
+			chunk.tiles[idx] = final_tile
 			chunk.build_tile(idx)

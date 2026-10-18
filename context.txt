@@ -2,18 +2,28 @@
  M output.txt
 
 === RECENT COMMITS ===
+a4d81ad Fix damage_tile_idx 2-parameter signature and apply deferred equipment shop filtering
 0b16957 Fix Mod Manager indentation, expand 12-row starter buffer, add side quarries, and balance canvas block damage
 04eaac4 Fix Living Canvas breakable block IDs and filter class weapons in equipment shop
-e56d974 Fix Mod Manager indentation error and switch Living Canvas to native chunk.array_to_global_pos
 
-=== SESSION ERRORS & WARNINGS (20 found) ===
-ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
-SCRIPT ERROR: Parse Error: The variable type is being inferred from a Variant value, so it will be typed as Variant. (Warning treated as error.)
-ERROR: Failed to load script "res://mods-unpacked/der_floh-performance_mod/extensions/scenes/tilemaps/tile_map_chunk.hooks.gd" with error "Parse error".
-SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
-SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
-ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
+=== SESSION ERRORS & WARNINGS (45 found) ===
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
 SCRIPT ERROR: Trying to call an async function without "await".
+ERROR: Error calling deferred method: 'Control(management_screen.gd)::_filter_class_weapons_living_canvas': Method not found.
+ERROR: Error calling deferred method: 'Control(management_screen.gd)::_filter_class_weapons_living_canvas': Method not found.
+ERROR: Error calling deferred method: 'Control(management_screen.gd)::_filter_class_weapons_living_canvas': Method not found.
+ERROR: Error calling deferred method: 'Control(management_screen.gd)::_filter_class_weapons_living_canvas': Method not found.
+ERROR: Error calling deferred method: 'Control(management_screen.gd)::_filter_class_weapons_living_canvas': Method not found.
+ERROR: Error calling deferred method: 'Control(management_screen.gd)::_filter_class_weapons_living_canvas': Method not found.
+ERROR: Error calling deferred method: 'Control(management_screen.gd)::_filter_class_weapons_living_canvas': Method not found.
+ERROR: Error calling deferred method: 'Control(management_screen.gd)::_filter_class_weapons_living_canvas': Method not found.
+ERROR: Error calling deferred method: 'Control(management_screen.gd)::_filter_class_weapons_living_canvas': Method not found.
+ERROR: Error calling deferred method: 'Control(management_screen.gd)::_filter_class_weapons_living_canvas': Method not found.
+ERROR: Error calling deferred method: 'Control(management_screen.gd)::_filter_class_weapons_living_canvas': Method not found.
+ERROR: Error calling deferred method: 'Control(management_screen.gd)::_filter_class_weapons_living_canvas': Method not found.
 SCRIPT ERROR: Trying to call an async function without "await".
 SCRIPT ERROR: Trying to call an async function without "await".
 SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
@@ -44,29 +54,29 @@ DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultl
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Custom Map Mod (ID 102) online!
 
 === LOG TAIL (LAST 30 LINES) ===
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (198.417, -8.034821)!
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (198.417, -8.034821)
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (198.417, -8.034821)!
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (198.417, -8.034821)!
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
-SCRIPT ERROR: Trying to call an async function without "await".
-   at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
-INFO gareth-multisave_mod: Career progression and hard modifier badges verified.
+   at: start (scene/animation/tween.cpp:594)
+WARNING: Target object freed before starting, aborting Tweener.
+   at: start (scene/animation/tween.cpp:594)
+WARNING: Target object freed before starting, aborting Tweener.
+   at: start (scene/animation/tween.cpp:594)
+WARNING: Target object freed before starting, aborting Tweener.
+   at: start (scene/animation/tween.cpp:594)
+WARNING: Target object freed before starting, aborting Tweener.
+   at: start (scene/animation/tween.cpp:594)
+WARNING: Target object freed before starting, aborting Tweener.
+   at: start (scene/animation/tween.cpp:594)
+WARNING: Target object freed before starting, aborting Tweener.
+   at: start (scene/animation/tween.cpp:594)
+WARNING: Target object freed before starting, aborting Tweener.
+   at: start (scene/animation/tween.cpp:594)
+WARNING: Target object freed before starting, aborting Tweener.
+   at: start (scene/animation/tween.cpp:594)
+WARNING: Target object freed before starting, aborting Tweener.
+   at: start (scene/animation/tween.cpp:594)
+WARNING: Target object freed before starting, aborting Tweener.
+   at: start (scene/animation/tween.cpp:594)
+WARNING: Target object freed before starting, aborting Tweener.
+   at: start (scene/animation/tween.cpp:594)
 ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
 WARNING: 88 RIDs of type "Texture" were leaked.
    at: finalize (servers/rendering/rendering_device.cpp:7130)
