@@ -18,7 +18,8 @@ Write-Host ">>> 1. Converting ALL C:\Dev\example_*.jpg images to baseline JPEG a
 Add-Type -AssemblyName System.Drawing
 
 $jpegCodec = [System.Drawing.Imaging.ImageCodecInfo]::GetImageEncoders() | Where-Object {$_.MimeType -eq "image/jpeg" }
-$encoderParams = New-Object System.Drawing.Imaging.EncoderParameters(1)$encoderParams.Param[0] = New-Object System.Drawing.Imaging.EncoderParameter([System.Drawing.Imaging.Encoder]::Quality, [long]95)
+$encoderParams = New-Object System.Drawing.Imaging.EncoderParameters(1)
+$encoderParams.Param[0] = New-Object System.Drawing.Imaging.EncoderParameter([System.Drawing.Imaging.Encoder]::Quality, [long]95)
 
 $devImages = Get-ChildItem -Path "C:\Dev" -Filter "example_*.jpg"
 foreach ($imgFile in $devImages) {
