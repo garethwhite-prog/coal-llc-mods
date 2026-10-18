@@ -5,8 +5,9 @@ $outputFile = [System.IO.Path]::Combine($repoRoot, "context.txt")
 
 $sb = New-Object System.Text.StringBuilder
 [void]$sb.AppendLine("=== GIT STATUS ===")
-Push-Location $repoRoot$gitStatus = git status --short
-foreach ($line in$gitStatus) { [void]$sb.AppendLine($line) }
+Push-Location $repoRoot
+$gitStatus = git status --short
+foreach ($line in $gitStatus) { [void]$sb.AppendLine($line) }
 
 [void]$sb.AppendLine("`n=== RECENT COMMITS ===")
 $gitLog = git log -n 3 --oneline
@@ -30,7 +31,7 @@ if (Test-Path $logPath) {
     }
 
     # 2. Capture all log entries matching the mod currently being modified
-    $activeModLines = $allLogLines \vert{} Where-Object {$_ -match "tectonic_faultline" }
+    $activeModLines = $allLogLines | Where-Object {$_ -match "tectonic_faultline" }
     [void]$sb.AppendLine("`n=== ACTIVE MOD LOG ENTRIES ($($activeModLines.Count) found) ===")
     if ($activeModLines.Count -gt 0) {
         foreach ($line in ($activeModLines | Select-Object -Last 20)) { [void]$sb.AppendLine($line) }
@@ -41,7 +42,7 @@ if (Test-Path $logPath) {
     # 3. Trailing log context
     [void]$sb.AppendLine("`n=== LOG TAIL (LAST 30 LINES) ===")
     $tailLines =$allLogLines | Select-Object -Last 30
-    foreach ($line in$tailLines) { [void]$sb.AppendLine($line) }
+    foreach ($line in $tailLines) { [void]$sb.AppendLine($line) }
 }
 
 [System.IO.File]::WriteAllText($outputFile,$sb.ToString(), [System.Text.Encoding]::UTF8)

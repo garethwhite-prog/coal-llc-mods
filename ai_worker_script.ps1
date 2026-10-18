@@ -1,7 +1,7 @@
 ﻿cls
 
 # ==============================================================================
-# Coal LLC - Upgrade Dump-Context & Fix Tectonic Faultline Level Registration
+# Coal LLC - Fix Tectonic Vaults, Sky Inversion & Card Preview Texture
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
@@ -13,66 +13,71 @@ $innerDir   = "$outerDir\mods-unpacked\$modName"
 $zipPath    = "$steamMods\$modName.zip"
 $hookZip    = "$steamRoot\mod-hooks.zip"
 $helperPath = "$innerDir\helpers\TectonicFaultlineHelper.gd"
-$hookPath   = "$innerDir\extensions\scenes\Interfaces\Menus\level_select.hooks.gd"
+$chunkHook  = "$innerDir\extensions\scenes\tilemaps\tile_map_chunk.hooks.gd"
 
 Set-Location $repo
 
-Write-Host ">>> 1. Upgrading Dump-Context.ps1 with error/warning and active mod extraction..." -ForegroundColor Cyan
-@'
-cls
-$repoRoot = "C:\Dev\coal-llc-mods"
-$appDataGodot = [System.IO.Path]::Combine($env:APPDATA, "Godot\app_userdata\Coal LLC")
-$outputFile = [System.IO.Path]::Combine($repoRoot, "context.txt")
+Write-Host ">>> 1. Generating 280x150 volcanic preview graphic (tectonic_preview.png)..." -ForegroundColor Cyan
+Add-Type -AssemblyName System.Drawing
 
-$sb = New-Object System.Text.StringBuilder
-[void]$sb.AppendLine("=== GIT STATUS ===")
-Push-Location $repoRoot$gitStatus = git status --short
-foreach ($line in$gitStatus) { [void]$sb.AppendLine($line) }
+$width  = 280$height = 150
+$bmp    = New-Object System.Drawing.Bitmap($width, $height)
+$gfx    = [System.Drawing.Graphics]::FromImage($bmp)
+$gfx.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::None
 
-[void]$sb.AppendLine("`n=== RECENT COMMITS ===")
-$gitLog = git log -n 3 --oneline
-foreach ($line in $gitLog) { [void]$sb.AppendLine($line) }
-Pop-Location
+# Base dark obsidian background
+$bgBrush = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(26, 22, 28))
+$gfx.FillRectangle($bgBrush, 0, 0, $width,$height)
 
-$logPath = [System.IO.Path]::Combine($appDataGodot, "logs\godot.log")
-if (Test-Path $logPath) {
-    $allLogLines = Get-Content $logPath
-    
-    # 1. Capture every error, crash, and warning across the whole session
-    $errorLines = $allLogLines | Where-Object { 
-        $_ -match "(SCRIPT ERROR|ERROR:|Compile Error|Parse Error|Failed to load script|Invalid call|Invalid access)" 
+# Basalt block grid texture
+$rockBrush1 = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(44, 36, 46))
+$rockBrush2 = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(34, 28, 36))
+for ($x = 0; $x -lt $width; $x += 16) {
+    for ($y = 0; $y -lt$height; $y += 16) {$b = if (($x +$y) % 32 -eq 0) { $rockBrush1 } else {$rockBrush2 }
+        $gfx.FillRectangle($b, $x + 1,$y + 1, 14, 14)
     }
-    
-    [void]$sb.AppendLine("`n=== SESSION ERRORS & WARNINGS ($($errorLines.Count) found) ===")
-    if ($errorLines.Count -gt 0) {
-        foreach ($line in ($errorLines | Select-Object -Last 30)) { [void]$sb.AppendLine($line) }
-    } else {
-        [void]$sb.AppendLine("None detected.")
-    }
-
-    # 2. Capture all log entries matching the mod currently being modified
-    $activeModLines = $allLogLines \vert{} Where-Object {$_ -match "tectonic_faultline" }
-    [void]$sb.AppendLine("`n=== ACTIVE MOD LOG ENTRIES ($($activeModLines.Count) found) ===")
-    if ($activeModLines.Count -gt 0) {
-        foreach ($line in ($activeModLines | Select-Object -Last 20)) { [void]$sb.AppendLine($line) }
-    } else {
-        [void]$sb.AppendLine("None detected.")
-    }
-
-    # 3. Trailing log context
-    [void]$sb.AppendLine("`n=== LOG TAIL (LAST 30 LINES) ===")
-    $tailLines =$allLogLines | Select-Object -Last 30
-    foreach ($line in$tailLines) { [void]$sb.AppendLine($line) }
 }
 
-[System.IO.File]::WriteAllText($outputFile,$sb.ToString(), [System.Text.Encoding]::UTF8)
-Set-Clipboard -Value $sb.ToString()
-Write-Host "[+] Enhanced context collected in context.txt AND copied to clipboard!" -ForegroundColor Green
-Write-Host "    Press Ctrl+V in the chat to share your project status." -ForegroundColor Yellow
-'@ | Set-Content -Path "$repo\Dump-Context.ps1" -Encoding UTF8
-Write-Host "Updated: $repo\Dump-Context.ps1" -ForegroundColor Green
+# Diagonal volcanic faultline chasm
+$lavaGlow = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(180, 240, 70, 10))
+$lavaCore = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(255, 255, 180, 40))
+$lavaHot  = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(255, 255, 250, 190))
 
-Write-Host "`n>>> 2. Rewriting TectonicFaultlineHelper.gd (clean compilation, GameLevel registration)..." -ForegroundColor Cyan
+for ($i = 0; $i -lt$height; $i++) {$cx = 140 + [int]([Math]::Sin($i * 0.08) * 22) + [int](($i - 75) * 0.45)
+    $gfx.FillRectangle($lavaGlow, $cx - 18,$i, 36, 1)
+    $gfx.FillRectangle($lavaCore, $cx - 8,$i, 16, 1)
+    $gfx.FillRectangle($lavaHot,  $cx - 3,$i, 6, 1)
+}
+
+# Geothermal Pod Icon in center
+$podBrush = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(255, 140, 20))
+$podGlow  = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(200, 255, 200, 50))
+$gfx.FillEllipse($podGlow, 126, 56, 28, 28)
+$gfx.FillEllipse($podBrush, 130, 60, 20, 20)
+
+# Hazard stripes on header
+$stripeBrush = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(220, 50, 30))
+for ($s = -20; $s -lt$width + 20; $s += 24) {$pts = @(
+        New-Object System.Drawing.Point($s, 0),
+        New-Object System.Drawing.Point($s + 12, 0),
+        New-Object System.Drawing.Point($s + 2, 14),
+        New-Object System.Drawing.Point($s - 10, 14) )
+        $gfx.FillPolygon($stripeBrush,$pts)
+}
+
+$gfx.Dispose()
+
+$assetDirOuter = "$outerDir\mods-unpacked\$modName\assets"
+$assetDirInner = "$innerDir\assets"
+if (!(Test-Path $assetDirOuter)) { New-Item -ItemType Directory -Path$assetDirOuter -Force | Out-Null }
+if (!(Test-Path $assetDirInner)) { New-Item -ItemType Directory -Path$assetDirInner -Force | Out-Null }
+
+$bmp.Save("$assetDirOuter\tectonic_preview.png", [System.Drawing.Imaging.ImageFormat]::Png)
+$bmp.Save("$assetDirInner\tectonic_preview.png", [System.Drawing.Imaging.ImageFormat]::Png)
+$bmp.Dispose()
+Write-Host "Created tectonic_preview.png" -ForegroundColor Green
+
+Write-Host "`n>>> 2. Writing TectonicFaultlineHelper.gd (sky clamped, pos_to_array, tag_seismic_seams)..." -ForegroundColor Cyan
 @'
 class_name TectonicFaultlineHelper
 extends RefCounted
@@ -94,7 +99,6 @@ static func register_faultline_level() -> void:
 	if not Gvars:
 		return
 	
-	# Register into Gvars.level_manager.all_levels (the primary source of truth for level_select.gd)
 	if "level_manager" in Gvars and Gvars.level_manager and ("all_levels" in Gvars.level_manager):
 		var lvl_mgr = Gvars.level_manager
 		if not lvl_mgr.all_levels.has(FAULTLINE_LEVEL_ID):
@@ -106,18 +110,27 @@ static func register_faultline_level() -> void:
 			custom_level.level_difficulty = GameLevel.Difficulty.HARD
 			custom_level.unlock_description = ""
 			
-			var preview_path = "res://mods-unpacked/gareth-tectonic_faultline_mod/assets/magma_siphon_active.png"
-			if ResourceLoader.exists(preview_path):
-				var img = Image.load_from_file(preview_path)
-				if img:
+			# Load preview texture via raw buffer to bypass Godot 4 zip filesystem restrictions
+			var preview_path = "res://mods-unpacked/gareth-tectonic_faultline_mod/assets/tectonic_preview.png"
+			var bytes = FileAccess.get_file_as_bytes(preview_path)
+			if bytes and bytes.size() > 0:
+				var img = Image.new()
+				if img.load_png_from_buffer(bytes) == OK:
 					custom_level.level_image = ImageTexture.create_from_image(img)
+			
+			if not custom_level.level_image:
+				var fallback_path = "res://mods-unpacked/gareth-tectonic_faultline_mod/assets/magma_siphon_active.png"
+				var fbytes = FileAccess.get_file_as_bytes(fallback_path)
+				if fbytes and fbytes.size() > 0:
+					var fimg = Image.new()
+					if fimg.load_png_from_buffer(fbytes) == OK:
+						custom_level.level_image = ImageTexture.create_from_image(fimg)
 			
 			lvl_mgr.all_levels[FAULTLINE_LEVEL_ID] = {
 				"level": custom_level,
 				"is_unlocked": true
 			}
 	
-	# Metadata backups in Gvars
 	if "level_info" in Gvars and Gvars.level_info is Dictionary:
 		if not Gvars.level_info.has(FAULTLINE_LEVEL_ID):
 			Gvars.level_info[FAULTLINE_LEVEL_ID] = {
@@ -141,8 +154,10 @@ static func register_faultline_level() -> void:
 			Gvars.level_scores[FAULTLINE_LEVEL_ID] = 0
 
 static func calculate_faultline_tier(global_cell: Vector2i) -> int:
-	var y_tile: int = abs(global_cell.y)
-	if y_tile < 24:
+	var y_tile: int = global_cell.y
+	if y_tile <= 0:
+		return 0
+	elif y_tile < 24:
 		return 1
 	elif y_tile < 48:
 		return 2
@@ -160,12 +175,18 @@ static func calculate_faultline_tier(global_cell: Vector2i) -> int:
 		return min(12, 8 + int((y_tile - 300) / 80))
 
 static func pick_faultline_block(chunk: Node, global_cell: Vector2i, noise: FastNoiseLite) -> int:
+	# Sky and surface must remain empty air
+	if global_cell.y <= 0:
+		return chunk.Tiles.EMPTY
+	
 	var tier: int = calculate_faultline_tier(global_cell)
 	
+	# Primary vertical chasm slicing through strata
 	var rift_noise: float = abs(noise.get_noise_2d(float(global_cell.x) * 4.5, float(global_cell.y) * 1.2))
 	if rift_noise < 0.09 and global_cell.y > 10:
 		return chunk.Tiles.EMPTY
 	
+	# Secondary magma fissures
 	var fissure_noise: float = noise.get_noise_2d(float(global_cell.x) * 2.8 + 50.0, float(global_cell.y) * 2.8)
 	if fissure_noise > 0.42 and global_cell.y > 18:
 		return chunk.Tiles.HARD_FIRE
@@ -175,8 +196,11 @@ static func pick_faultline_block(chunk: Node, global_cell: Vector2i, noise: Fast
 		base_tile = chunk.Tiles.HARD_FIRE
 	return base_tile
 
+static func tag_seismic_seams(_chunk: Node) -> void:
+	pass
+
 static func spawn_magma_siphons(chunk: Node, current_locs: Array[Vector2i]) -> Array[Vector2i]:
-	if randf() > 0.60:
+	if randf() > 0.65:
 		return current_locs
 	
 	if "chunk_pos" in chunk and chunk.chunk_pos.y < 1:
@@ -193,7 +217,7 @@ static func spawn_magma_siphons(chunk: Node, current_locs: Array[Vector2i]) -> A
 	if global_cell.y < 16:
 		return current_locs
 	
-	# Reinforced vault walls (+2 tier harder rock)
+	# Vault perimeter walls (+2 tier harder rock)
 	var pod_tier: int = calculate_faultline_tier(global_cell)
 	var wall_tier: int = min(pod_tier + 2, 12)
 	var wall_tile: int = chunk.chest_block_from_level(wall_tier)
@@ -216,14 +240,23 @@ static func spawn_magma_siphons(chunk: Node, current_locs: Array[Vector2i]) -> A
 		for y in range(start_tile.y - height, start_tile.y + height):
 			current_locs.append(Vector2i(x, y))
 	
+	# Carve 3x3 vault and build outer perimeter walls
 	for x in range(start_tile.x, start_tile.x + width):
 		for y in range(start_tile.y, start_tile.y + height):
 			var local_coord: Vector2i = Vector2i(x, y)
-			if x == start_tile.x or x == start_tile.x + width - 1 or y == start_tile.y or y == start_tile.y + height - 1:
-				chunk.tiles[chunk.coord_to_array(local_coord)] = wall_tile
+			var idx: int = -1
+			if chunk.has_method("pos_to_array"):
+				idx = chunk.pos_to_array(local_coord)
 			else:
-				chunk.tiles[chunk.coord_to_array(local_coord)] = chunk.Tiles.EMPTY
+				idx = local_coord.x + local_coord.y * chunk.chunk_size
+			
+			if idx >= 0 and idx < chunk.tiles.size():
+				if x == start_tile.x or x == start_tile.x + width - 1 or y == start_tile.y or y == start_tile.y + height - 1:
+					chunk.tiles[idx] = wall_tile
+				else:
+					chunk.tiles[idx] = chunk.Tiles.EMPTY
 	
+	# Spawn elemental pod entity inside chamber
 	var SiphonScene = load("res://mods-unpacked/gareth-tectonic_faultline_mod/entities/MagmaSiphon.gd")
 	if SiphonScene:
 		var siphon = SiphonScene.new()
@@ -244,22 +277,53 @@ static func spawn_magma_siphons(chunk: Node, current_locs: Array[Vector2i]) -> A
 '@ | Set-Content -Path $helperPath -Encoding UTF8
 Write-Host "Updated: $helperPath" -ForegroundColor Green
 
-Write-Host "`n>>> 3. Rewriting level_select.hooks.gd (matching LostExpedition pattern)..." -ForegroundColor Cyan
+Write-Host "`n>>> 3. Writing tile_map_chunk.hooks.gd (sky guard, safe hook pass-through)..." -ForegroundColor Cyan
 @'
 extends Object
 
-func _ready(chain: ModLoaderHookChain) -> void:
-	var helper_script = load("res://mods-unpacked/gareth-tectonic_faultline_mod/helpers/TectonicFaultlineHelper.gd")
-	if helper_script:
-		var helper = helper_script.new()
-		helper.ensure_level_registered()
-		var ls = chain.reference_object
-		if ls and ("LEVEL_ORDER" in ls):
-			if not ls.LEVEL_ORDER.has(helper.FAULTLINE_LEVEL_ID):
-				ls.LEVEL_ORDER.append(helper.FAULTLINE_LEVEL_ID)
-	chain.execute_next([])
-'@ | Set-Content -Path $hookPath -Encoding UTF8
-Write-Host "Updated: $hookPath" -ForegroundColor Green
+func generate_chunk(chunk: TileMapChunk, chain: ModLoaderHookChain) -> void:
+	# If this is not Tectonic Faultline, pass through cleanly
+	if not TectonicFaultlineHelper.is_faultline_level():
+		chain.execute_next([chunk])
+		return
+	
+	# Sky chunks above the surface should remain empty
+	if "chunk_pos" in chunk and chunk.chunk_pos.y < 0:
+		chain.execute_next([chunk])
+		return
+	
+	chain.execute_next([chunk])
+	
+	# Replace subterranean matrix with seismic faultline strata
+	if "chunk_pos" in chunk and chunk.chunk_pos.y >= 0:
+		var noise = FastNoiseLite.new()
+		noise.seed = Gvars.map_seed if "map_seed" in Gvars else 1337
+		noise.frequency = 0.035
+		
+		for x in range(chunk.chunk_size):
+			for y in range(chunk.chunk_size):
+				var local_pos = Vector2i(x, y)
+				var global_posi: Vector2i = Vector2i(chunk.to_global(chunk.map_to_local(local_pos)) / 16.0)
+				
+				# Only replace underground tiles
+				if global_posi.y > 0:
+					var idx = chunk.pos_to_array(local_pos) if chunk.has_method("pos_to_array") else (x + y * chunk.chunk_size)
+					if idx >= 0 and idx < chunk.tiles.size():
+						if chunk.tiles[idx] != chunk.Tiles.EMPTY:
+							chunk.tiles[idx] = TectonicFaultlineHelper.pick_faultline_block(chunk, global_posi, noise)
+		
+		TectonicFaultlineHelper.tag_seismic_seams(chunk)
+
+func generate_chests(chunk: TileMapChunk, current_locs: Array[Vector2i], chain: ModLoaderHookChain) -> void:
+	if not TectonicFaultlineHelper.is_faultline_level():
+		chain.execute_next([chunk, current_locs])
+		return
+	
+	# Spawn fortified vaults and elemental pods
+	current_locs = TectonicFaultlineHelper.spawn_magma_siphons(chunk, current_locs)
+	chain.execute_next([chunk, current_locs])
+'@ | Set-Content -Path $chunkHook -Encoding UTF8
+Write-Host "Updated: $chunkHook" -ForegroundColor Green
 
 Write-Host "`n>>> 4. Flushing mod-hooks.zip..." -ForegroundColor Cyan
 if (Test-Path $hookZip) {
@@ -287,7 +351,7 @@ Write-Host "Packed archive at: $zipPath" -ForegroundColor Green
 
 Write-Host ">>> 6. Git staging, committing, and pushing..." -ForegroundColor Cyan
 git add -A
-git commit -m "Upgrade Dump-Context.ps1 log parser and fix Tectonic Faultline level registration"
+git commit -m "Fix sky block generation, add card preview texture, and resolve pos_to_array and tag_seismic_seams errors"
 git push origin main
 
 Write-Host "`nDeploy complete! Launch Coal LLC to test." -ForegroundColor Green
