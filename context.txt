@@ -1,58 +1,58 @@
 ﻿=== GIT STATUS ===
 
 === RECENT COMMITS ===
-1c57c1d Fix tile_map_chunk hook signature: pass noise to generate_chunk and tile_properties to destroy_tile
-f587cbf Append FAULTLINE_LEVEL_ID (102) to LEVEL_ORDER in level_select.hooks.gd
-725ee94 Populate full extra.godot dictionary in manifest.json for ModLoader validation
+72227a4 Restore ensure_level_registered() in TectonicFaultlineHelper to fix level select freeze
+fd03604 Implement 3 elemental pods (Fire/Water/Poison), reinforced vault walls, and cascading fluid drip with depth scaling
+26fe4f7 Implement triple-channel demolition pipeline (BombExplode, DamageTile, chunk.damage_tile) on Magma Siphon
 
 === ENGINE LOG (LAST 50 LINES) ===
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
-ERROR: <Tween#-9223343385564131152>: started with no Tweeners.
-   at: step (scene/animation/tween.cpp:355)
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
-ERROR: <Tween#-9223343377175524879>: started with no Tweeners.
-   at: step (scene/animation/tween.cpp:355)
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
-ERROR: <Tween#-9223343368820426598>: started with no Tweeners.
-   at: step (scene/animation/tween.cpp:355)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (131.0026, 87.99948)
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (115.0, 87.99948)!
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (35.00007, 87.99948)!
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (-44.99993, 87.99948)!
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (-124.9998, 87.99948)!
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-126.6665, 87.99948)
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (-172.9252, 87.93378)!
-INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Speed +20.0%
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
-ERROR: <Tween#-9223343066427884953>: started with no Tweeners.
-   at: step (scene/animation/tween.cpp:355)
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (-166.2585, 109.6004)!
-INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Damage +20.0%
-inventory count = 26,016
-max inventory = 26,016
+INFO gareth-weapon_stacker_mod:Main: Weapon Stacker Mod active and ready!
+INFO gareth-void_siphon_mod: 15 Void Siphon Core tiers registered into equipment shop.
+INFO gareth-void_siphon_mod: Void Siphon Class (ID 105) registered cleanly.
+INFO gareth-water_spirit_mod: 15 Water Spirit Fairy tiers loaded with custom textures.
+INFO der_floh-effect_spread_mod:Main: Effect Spread Mod ready. radius=3, inherit_ticks=true, fresh_ticks=3, debug_logging=false
+INFO der_floh-no_holes_mod:Main: Ready! debug_logging=false
+INFO der_floh-ore_value_mod:Main: Ready! debug_logging=false
+INFO der_floh-passive_drop_mod:Main: Ready! debug_logging=false
+INFO gareth-bouncing_ball_mod: 15 Bouncing Ball tiers registered into equipment shop.
+INFO gareth-bouncing_ball_mod: Bouncing Ball Class (ID 103) registered cleanly.
+INFO gareth-chrono_industrialist_mod: 15 Chrono-Industrialist Harvester tiers registered into equipment shop.
+INFO gareth-chrono_industrialist_mod: Chrono-Industrialist Class (ID 107) registered cleanly.
+INFO gareth-debt_executioner_mod: 15 Debt Executioner Minigun tiers registered into equipment shop.
+INFO gareth-debt_executioner_mod: Debt Executioner Class (ID 106) registered cleanly.
+INFO gareth-dual_multipliers_mod: Dual-Multiplier Scaling Expansion initialized.
+INFO gareth-elemental_transmutation_mod:Main: Ready and active in scene!
+INFO gareth-endgame_arsenal_mod: End-game Magic Staffs (12-15) and Poison Guns (1-15) registered into shop.
+INFO gareth-excavation_frenzy_mod:Main: Ready and active in scene!
+INFO gareth-grav_dreadnought_mod: 15 Gravitational Dreadnought Cannon tiers registered into equipment shop.
+INFO gareth-grav_dreadnought_mod: Gravitational Dreadnought Class (ID 108) registered cleanly.
+INFO gareth-grenade_mod: 15 Bouncing Grenades registered with color-coded textures.
+INFO gareth-heavy_bombs_mod: Heavy Demolition Bombs (Bunker Buster, Cryo-Cluster, Thermobaric) active.
+INFO gareth-heavy_turrets_mod: Heavy Automated Turrets mod active and registered into equipment shop.
+INFO gareth-hydrogen_bomb_mod: 15 Hydrogen Bombs registered with color-coded heavy casings.
+ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
+   at: _load (core/io/resource_loader.cpp:359)
+INFO gareth-jedi_class_mod: 15 Energy Saber tiers registered into equipment shop.
+INFO gareth-jedi_class_mod: Jedi Class (ID 102) registered cleanly.
+INFO gareth-laser_beam_mod: High-Energy Laser Beam weapon online and added to equipment shop.
+INFO gareth-leaderboard_mod: Leaderboard v2 auto-tracker and Main Menu button online.
+INFO gareth-lost_expedition_mod: Lost Expedition Custom Map Mod (ID 101) online!
+INFO gareth-martial_legends_mod: Martial Artist Legends expansion loaded cleanly.
+INFO gareth-mod_manager_mod: Universal Mod Manager active with full Class, Shop & Input gating.
+INFO ModLoader:ModHookPacker: Generating mod hooks .zip
+DEBUG ModLoader:ModHookPacker: Scripts requiring hooks: { "res://scenes/tilemaps/tile_map_manager.gd": ["load_chunks", "apply_tile_effects"], "res://scenes/equipment/electric_shock.gd": ["_physics_process"], "res://scripts/StateMachine/Player2/player_2.gd": ["mine_action", "_ready", "_physics_process"], "res://scenes/Interfaces/Menus/settings_2.gd": ["_ready"], "res://scenes/Interfaces/in_game/choose_passive.gd": ["_process", "_ready", "_on_button_pressed", "_on_button_2_pressed", "_on_button_3_pressed"], "res://scenes/tilemaps/tile_map_chunk.gd": ["destroy_tile", "adjust_level_bonus", "lvl_from_global_pos", "generate_chunk", "generate_chests"], "res://scripts/Chest.gd": ["pickup_item", "roll_loot"], "res://scenes/ManagersInScene/mortar_manager.gd": ["shoot_mortar"], "res://scripts/PauseMenu.gd": ["on_pressed_resume", "_ready"], "res://scenes/Interfaces/Management/employee_shop_tooltip.gd": ["_ready"], "res://resources/Employees/Scripts/employee_manager.gd": ["get_employee_level_from_enum", "purchase_employee_level"], "res://scenes/Interfaces/Management/organisation_chart_2.gd": ["_ready", "refresh_all_icons", "_draw"], "res://scenes/Interfaces/Management/employee_level_icon_2.gd": ["_ready", "position_tooltip"], "res://scripts/equipment_manager.gd": ["generate_vacuum_cleaner"], "res://scenes/NPCs/quest_scene_manager.gd": ["_ready", "refresh_all_quest_points"], "res://resources/Quests/quest_rewards/reward_vacuum.gd": ["reward"], "res://scripts/MainMenu.gd": ["_ready", "on_profession_selected"], "res://resources/professions/scripts/tanker.gd": ["_profession_effect"], "res://scenes/Stages/management_screen.gd": ["load_equipment_shop", "_ready", "refresh_cash"], "res://resources/EquipEffects/Scripts/tank.gd": ["start", "end"], "res://scenes/equipment/tank_bullet.gd": ["_ready", "attack_tile"], "res://scenes/Interfaces/Menus/level_select.gd": ["_ready"], "res://scripts/Game.gd": ["change_stage"], "res://scenes/equipment/vacuum_cleaner.gd": ["_physics_process"], "res://scripts/LootCollectorUFO.gd": ["_physics_process"], "res://resources/EquipEffects/Scripts/gun.gd": ["start", "end", "physics_process"], "res://resources/EquipEffects/Scripts/water_gun.gd": ["start", "end", "physics_process"], "res://scenes/equipment/boxing_gloves.gd": ["attack_tile"], "res://scenes/equipment/kick.gd": ["_process", "damage_tiles"], "res://resources/professions/scripts/martial_artist.gd": ["_profession_effect"], "res://scenes/Interfaces/Menus/profession_select.gd": ["_ready"] }
+INFO ModLoader:ModHookPacker: Scripts are already processed according to cache, skipping process.
+INFO gareth-multisave_mod: Career progression and hard modifier badges verified.
+SCRIPT ERROR: Invalid access to property or key '102' on a base object of type 'Dictionary'.
+   at: LevelSelect.vanilla_2127856305__ready (res://scenes/Interfaces/Menus/level_select.gd:56)
+WARNING: 31 RIDs of type "CanvasItem" were leaked.
+   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2679)
+ERROR: 63 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+WARNING: 117 RIDs of type "Texture" were leaked.
+   at: finalize (servers/rendering/rendering_device.cpp:7130)
+ERROR: 15 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+ERROR: 4 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2378)
+ERROR: 172 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:614)
