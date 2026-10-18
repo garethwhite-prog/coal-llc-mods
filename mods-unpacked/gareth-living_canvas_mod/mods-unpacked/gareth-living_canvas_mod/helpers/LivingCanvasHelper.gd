@@ -5,20 +5,19 @@ const CANVAS_LEVEL_ID: int = 103
 const TARGET_CANVAS_WIDTH: int = 96
 const CONFIG_PATH: String = "user://living_canvas_config.json"
 
-# Palette: Color -> Tile Enum ID
 const PALETTE: Dictionary = {
-	Color(0.85, 0.20, 0.15): 231, # HARD_FIRE (Red / Lava / Netherrack)
-	Color(0.70, 0.90, 0.98): 230, # HARD_ICE (Cyan / Snow / Sky)
-	Color(0.12, 0.12, 0.15): 232, # HARD_DARK (Black / Obsidian / Deep Shadows)
-	Color(0.20, 0.78, 0.25): 233, # HARD_GREEN (Bright Emerald / Grass / Leaves)
-	Color(0.92, 0.50, 0.12): 234, # HARD_ORANGE (Amber / Dirt / Copper)
-	Color(0.65, 0.20, 0.85): 235, # HARD_PURPLE (Violet / Portal)
-	Color(0.12, 0.40, 0.15): 236, # HARD_DARKGREEN (Deep Forest / Pine / Spruce)
-	Color(0.95, 0.85, 0.18): 237, # HARD_YELLOW (Gold / Sand / Sunlight)
-	Color(0.40, 0.25, 0.15): 238, # HARD_DARKBROWN (Wood / Mud / Bark)
-	Color(0.10, 0.25, 0.70): 239, # HARD_DARKBLUE (Water / Deep Ocean)
-	Color(0.50, 0.50, 0.52): 229, # HARD_STONE (Stone / Cobblestone)
-	Color(0.75, 0.55, 0.45): 228, # HARD_CLAY (Clay / Terracotta)
+	Color(0.85, 0.20, 0.15): 231, # HARD_FIRE
+	Color(0.70, 0.90, 0.98): 230, # HARD_ICE
+	Color(0.12, 0.12, 0.15): 232, # HARD_DARK
+	Color(0.20, 0.78, 0.25): 233, # HARD_GREEN
+	Color(0.92, 0.50, 0.12): 234, # HARD_ORANGE
+	Color(0.65, 0.20, 0.85): 235, # HARD_PURPLE
+	Color(0.12, 0.40, 0.15): 236, # HARD_DARKGREEN
+	Color(0.95, 0.85, 0.18): 237, # HARD_YELLOW
+	Color(0.40, 0.25, 0.15): 238, # HARD_DARKBROWN
+	Color(0.10, 0.25, 0.70): 239, # HARD_DARKBLUE
+	Color(0.50, 0.50, 0.52): 229, # HARD_STONE
+	Color(0.75, 0.55, 0.45): 228, # HARD_CLAY
 }
 
 static var cached_image: Image = null
@@ -96,7 +95,6 @@ static func get_or_load_canvas() -> Image:
 	var loaded: bool = false
 	var active_path = get_saved_image_path()
 
-	# 1. Load user selected image from config
 	if active_path != "" and FileAccess.file_exists(active_path):
 		var bytes = FileAccess.get_file_as_bytes(active_path)
 		if bytes.size() > 0:
@@ -107,13 +105,11 @@ static func get_or_load_canvas() -> Image:
 				if img.load_jpg_from_buffer(bytes) == OK:
 					loaded = true
 
-	# 2. Default fallback to C:/Dev/example_1.jpg if present
 	if not loaded and FileAccess.file_exists("C:/Dev/example_1.jpg"):
 		var bytes = FileAccess.get_file_as_bytes("C:/Dev/example_1.jpg")
 		if bytes.size() > 0 and img.load_jpg_from_buffer(bytes) == OK:
 			loaded = true
 
-	# 3. Fallback procedural mosaic if no files found
 	if not loaded:
 		img = _generate_fallback_canvas()
 	else:
@@ -147,9 +143,9 @@ static func _generate_fallback_canvas() -> Image:
 
 static func match_tile_from_color(col: Color) -> int:
 	if col.a < 0.2:
-		return 0 # Tiles.EMPTY
+		return 0
 
-	var best_tile: int = 229 # Default HARD_STONE
+	var best_tile: int = 229
 	var min_dist: float = 999999.0
 
 	for p_col in PALETTE.keys():
@@ -164,46 +160,39 @@ static func match_tile_from_color(col: Color) -> int:
 	return best_tile
 
 static func paint_chunk_from_canvas(chunk: Node) -> void:
-	if not ("tiles" in chunk) or not ("chunk_size" in chunk):
+	if not ("tiles" in chunk) or not chunk.has_method("array_to_global_pos"):
 		return
 
 	var img = get_or_load_canvas()
 	if not img:
 		return
 
-	var half_w = int(cached_width / 2.0)
+	var half_w: int = int(cached_width / 2.0)
 
-	for x in range(chunk.chunk_size):
-		for y in range(chunk.chunk_size):
-			var local_pos = Vector2i(x, y)
-			var global_pos: Vector2i = Vector2i(chunk.to_global(chunk.map_to_local(local_pos)) / 16.0)
+	for idx in range(chunk.tiles.size()):
+		var global_pos: Vector2i = Vector2i(chunk.array_to_global_pos(idx))
 
-			# Keep top rows intact for spawn grass and player foothold
-			if global_pos.y <= 3:
-				continue
+		# Retain surface layer (first 4 tile rows: 0, 1, 2, 3)
+		if global_pos.y <= 3:
+			continue
 
-			var idx: int = chunk.pos_to_array(local_pos) if chunk.has_method("pos_to_array") else (x + y * chunk.chunk_size)
-			if idx < 0 or idx >= chunk.tiles.size():
-				continue
+		# Outside horizontal canvas boundary: bedrock framing
+		if global_pos.x < -half_w or global_pos.x >= half_w:
+			if abs(global_pos.x) > half_w + 3:
+				chunk.tiles[idx] = chunk.Tiles.BEDROCK
+			else:
+				chunk.tiles[idx] = chunk.Tiles.HARD_DARK
+			chunk.build_tile(idx)
+			continue
 
-			# Outside canvas horizontal width: generate framing bedrock or dark slate
-			if global_pos.x < -half_w or global_pos.x >= half_w:
-				if abs(global_pos.x) > half_w + 3:
-					chunk.tiles[idx] = chunk.Tiles.BEDROCK
-				else:
-					chunk.tiles[idx] = chunk.Tiles.HARD_DARK
-				chunk.build_tile(idx)
-				continue
+		# Inside canvas: sample downsampled image coordinates
+		var img_u: int = global_pos.x + half_w
+		var img_v: int = (global_pos.y - 4) % cached_height
+		if img_v < 0:
+			img_v += cached_height
 
-			# Inside canvas area: sample downsampled image coordinates
-			var img_u = global_pos.x + half_w
-			var img_v = (global_pos.y - 4) % cached_height
-			if img_v < 0:
-				img_v += cached_height
-
-			if img_u >= 0 and img_u < cached_width and img_v >= 0 and img_v < cached_height:
-				var pixel_col = img.get_pixel(img_u, img_v)
-				var tile_id = match_tile_from_color(pixel_col)
-				chunk.tiles[idx] = tile_id
-				chunk.build_tile(idx)
-
+		if img_u >= 0 and img_u < cached_width and img_v >= 0 and img_v < cached_height:
+			var pixel_col: Color = img.get_pixel(img_u, img_v)
+			var tile_id: int = match_tile_from_color(pixel_col)
+			chunk.tiles[idx] = tile_id
+			chunk.build_tile(idx)
