@@ -1,4 +1,5 @@
-﻿cls
+﻿Clear-Host
+
 $repoRoot = "C:\Dev\coal-llc-mods"
 $appDataGodot = [System.IO.Path]::Combine($env:APPDATA, "Godot\app_userdata\Coal LLC")
 $outputFile = [System.IO.Path]::Combine($repoRoot, "context.txt")

@@ -1,117 +1,39 @@
-﻿=== DISCOVERY: TEST IMAGES & LEVEL SELECT UI ===
+﻿>>> 1. Creating directory structure for gareth-living_canvas_mod...
+>>> 2. Writing manifest.json...
+>>> 3. Writing mod_main.gd...
+>>> 4. Writing helpers/LivingCanvasHelper.gd...
+>>> 5. Writing extensions/.../level_select.hooks.gd...
+>>> 6. Writing extensions/.../tile_map_chunk.hooks.gd...
+>>> 7. Writing README.md for gareth-living_canvas_mod...
 
---- 1. C:\Dev Image File Analysis ---
-File: example_1.jpg
-  Size: 386.16 KB
-  Resolution: 1920 x 984 pixels
-  Aspect Ratio: 1.951
-File: example_2.jpg
-  Size: 201.37 KB
-  Resolution: 1920 x 980 pixels
-  Aspect Ratio: 1.959
+>>> 8. Flushing mod-hooks.zip...
+>>> 9. Packaging gareth-living_canvas_mod.zip for Steam...
+Packed archive: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods\gareth-living_canvas_mod.zip
 
---- 2. scenes\Interfaces\Menus\level_select.gd: UI Nodes & Select Handlers ---
-   1: class_name LevelSelect
-   2: extends Control
-   3: 
-   4: signal go_back
-   5: 
-   6: const LEVEL_INFO = preload("res://scenes/Interfaces/Menus/level_info.tscn")
-   7: 
-   8: var LEVEL_ORDER: Array = [
-   9:     Gconsts.Level.STANDARD, 
-  10:     Gconsts.Level.FUNNEL, 
-  11:     Gconsts.Level.SKY_MINE, 
-  12:     Gconsts.Level.SHALLOW, 
-  13:     Gconsts.Level.TIGHT_FUNNEL, 
-  14:     Gconsts.Level.SPARSE, 
-  15:     Gconsts.Level.SPARSE_SKY_MINE, 
-  16: 
-  17: ]
-  18: 
-  19: @onready var levels: HBoxContainer = %Levels
-  20: 
-  21: var level_manager: LevelManager
-  22: var profession_selected: Profession
-  23: var mode_selected: Gconsts.Mode
-  24: var hard_modifier: HardModifier
-  25: var last_focus: Control
-  26: 
-  27: func _ready() -> void :
-  28:     if Gconsts.DEBUG:
-  29:         LEVEL_ORDER.append(Gconsts.Level.STANDARD_TEST)
-  30: 
-  31:     level_manager = Gvars.level_manager
-  32:     var all_levels = level_manager.all_levels
-  33: 
-  34:     for level in all_levels.keys():
-  35:         if all_levels[level]["is_unlocked"] == true:
-  36:             match level:
-  37:                 Gconsts.Level.SPARSE:
-  38:                     SteamWorks.trigger_achievement(SteamWorks.Achievements.UNLOCK_MAP_SPARSE)
-  39:                 Gconsts.Level.SKY_MINE:
-  40:                     SteamWorks.trigger_achievement(SteamWorks.Achievements.UNLOCK_MAP_SKY_MINE)
-  41:                 Gconsts.Level.FUNNEL:
-  42:                     SteamWorks.trigger_achievement(SteamWorks.Achievements.UNLOCK_MAP_FUNNEL)
-  43:                 Gconsts.Level.TIGHT_FUNNEL:
-  44:                     SteamWorks.trigger_achievement(SteamWorks.Achievements.UNLOCK_MAP_TIGHT_FUNNEL)
-  45:                 Gconsts.Level.SPARSE_SKY_MINE:
-  46:                     SteamWorks.trigger_achievement(SteamWorks.Achievements.UNLOCK_MAP_SPARSE_SKY_MINE)
-  47:                 Gconsts.Level.SHALLOW:
-  48:                     SteamWorks.trigger_achievement(SteamWorks.Achievements.UNLOCK_MAP_SHALLOW_MINE)
-  49: 
-  50: 
-  51:     for level in levels.get_children():
-  52:         level.queue_free()
-  53: 
-  54:     for level_key in LEVEL_ORDER:
-  55:         var instance = LEVEL_INFO.instantiate()
-  56:         instance.game_level = all_levels[level_key]["level"]
-  57:         instance.mode_selected = mode_selected
-  58:         instance.profession_selected = profession_selected
-  59:         instance.is_unlocked = all_levels[level_key]["is_unlocked"]
-  60:         instance.level_clicked.connect(on_level_clicked)
-  61:         levels.add_child(instance)
-  62: 
-  63:     var all_level_info = levels.get_children()
-  64: 
-  65:     for i in all_level_info.size():
-  66:         all_level_info[i].focus_next = all_level_info[(i + 1) % all_level_info.size()].get_path()
-  67:         all_level_info[i].focus_neighbor_right = all_level_info[(i + 1) % all_level_info.size()].get_path()
-  68:         all_level_info[i].focus_previous = all_level_info[(i - 1) % all_level_info.size()].get_path()
-  69:         all_level_info[i].focus_neighbor_left = all_level_info[(i - 1) % all_level_info.size()].get_path()
-  70:         all_level_info[i].focus_neighbor_top = all_level_info[i].get_path()
-  71:         all_level_info[i].focus_neighbor_bottom = all_level_info[i].get_path()
-  72: 
-  73:     enter_focus()
-  74: 
-  75: 
-  76: func _input(event: InputEvent) -> void :
-  77:     if Input.is_action_just_pressed("menu") or Input.is_action_just_pressed("ui_go_back"):
-  78:         go_back.emit(mode_selected)
-  79: 
-  80: 
-  81: func on_level_clicked(_level: Gconsts.Level):
-  82:     Bus.NewGame.emit(_level, profession_selected, mode_selected, hard_modifier)
-  83:     Game.change_stage(Gconsts.Stages._END_OF_DAY_OVERLAY, Vector2(51, -80))
-  84: 
-  85: 
-  86: func enter_focus():
-  87:     if last_focus != null:
-  88:         last_focus.grab_focus.call_deferred()
-  89:     else:
-  90:         levels.get_child(0).grab_focus.call_deferred()
+>>> 10. Staging, committing, and pushing to GitHub...
+warning: in the working copy of 'SESSION_PROMPT.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.vscode/tasks.json', LF will be replaced by CRLF the next time Git touches it
+[main 37549c9] Implement Map 103: The Living Canvas with Euclidean image-to-strata engine and in-game file picker
+ 12 files changed, 929 insertions(+), 354 deletions(-)
+ create mode 100644 .vscode/sanitize.ps1
+ create mode 100644 .vscode/tasks.json
+ create mode 100644 mods-unpacked/gareth-living_canvas_mod/README.md
+ create mode 100644 mods-unpacked/gareth-living_canvas_mod/manifest.json
+ create mode 100644 mods-unpacked/gareth-living_canvas_mod/mods-unpacked/gareth-living_canvas_mod/README.md
+ create mode 100644 mods-unpacked/gareth-living_canvas_mod/mods-unpacked/gareth-living_canvas_mod/extensions/scenes/Interfaces/Menus/level_select.hooks.gd
+ create mode 100644 mods-unpacked/gareth-living_canvas_mod/mods-unpacked/gareth-living_canvas_mod/extensions/scenes/tilemaps/tile_map_chunk.hooks.gd
+ create mode 100644 mods-unpacked/gareth-living_canvas_mod/mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd
+ create mode 100644 mods-unpacked/gareth-living_canvas_mod/mods-unpacked/gareth-living_canvas_mod/manifest.json
+ create mode 100644 mods-unpacked/gareth-living_canvas_mod/mods-unpacked/gareth-living_canvas_mod/mod_main.gd
+Enumerating objects: 27, done.
+Counting objects: 100% (27/27), done.
+Delta compression using up to 24 threads
+Compressing objects: 100% (19/19), done.
+Writing objects: 100% (23/23), 14.18 KiB | 2.36 MiB/s, done.
+Total 23 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To https://github.com/garethwhite-prog/coal-llc-mods.git
+   fb7a3aa..37549c9  main -> main
 
---- 3. Tectonic Faultline's existing level_select.hooks.gd ---
-   1: extends Object
-   2: 
-   3: func _ready(chain: ModLoaderHookChain) -> void:
-   4: 	var helper_script = load("res://mods-unpacked/gareth-tectonic_faultline_mod/helpers/TectonicFaultlineHelper.gd")
-   5: 	if helper_script:
-   6: 		var helper = helper_script.new()
-   7: 		helper.ensure_level_registered()
-   8: 		var ls = chain.reference_object
-   9: 		if ls and ("LEVEL_ORDER" in ls):
-  10: 			if not ls.LEVEL_ORDER.has(helper.FAULTLINE_LEVEL_ID):
-  11: 				ls.LEVEL_ORDER.append(helper.FAULTLINE_LEVEL_ID)
-  12: 	chain.execute_next([])
+Deployment complete! Launch Coal LLC to test The Living Canvas.
+PS C:\Dev\coal-llc-mods> 
