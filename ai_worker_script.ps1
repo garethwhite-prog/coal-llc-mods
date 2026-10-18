@@ -20,7 +20,8 @@ Set-Location $repo
 
 Write-Host ">>> 1. Inspecting Gvars.gd around line 499 to isolate itemBuyPrice null..." -ForegroundColor Cyan
 $gvarsPath = Join-Path $dumpRoot "scripts\Gvars.gd"
-if (Test-Path $gvarsPath) {$lines = Get-Content $gvarsPath$start = [Math]::Max(0, 485)
+if (Test-Path $gvarsPath) {$lines = Get-Content $gvarsPath
+    $start = [Math]::Max(0, 485)
     $end   = [Math]::Min($lines.Count - 1, 515)
     Write-Host "--- Gvars.gd (Lines $($start + 1) to $($end + 1)) ---" -ForegroundColor Yellow
     for ($i = $start; $i -le $end; $i++) {
