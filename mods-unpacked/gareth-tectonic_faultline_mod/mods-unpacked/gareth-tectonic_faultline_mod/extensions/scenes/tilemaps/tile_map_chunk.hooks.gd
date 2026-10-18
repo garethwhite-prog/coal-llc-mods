@@ -1,28 +1,33 @@
 ﻿extends Object
 
-const HelperScript = preload("res://mods-unpacked/gareth-tectonic_faultline_mod/helpers/TectonicFaultlineHelper.gd")
-
 func lvl_from_global_pos(chain: ModLoaderHookChain, pos: Vector2i) -> int:
-	if HelperScript.is_faultline_level():
-		return HelperScript.calculate_faultline_tier(pos)
+	if Gvars.level == 102:
+		var helper_script = load("res://mods-unpacked/gareth-tectonic_faultline_mod/helpers/TectonicFaultlineHelper.gd")
+		if helper_script:
+			return helper_script.calculate_faultline_tier(pos)
 	return chain.execute_next([pos])
 
 func generate_chunk(chain: ModLoaderHookChain, noise: Noise) -> void:
-	# 1. Let vanilla execute completely with noise argument to populate chunk.tiles
 	chain.execute_next([noise])
-	
-	# 2. If Tectonic Faultline, sculpt strata and spawn elemental vaults
-	if HelperScript.is_faultline_level():
+	if Gvars.level == 102:
 		var chunk = chain.reference_object
 		if chunk and "chunk_pos" in chunk and chunk.chunk_pos.y >= 0:
-			var fnl = FastNoiseLite.new()
-			fnl.seed = Gvars.map_seed if ("map_seed" in Gvars) else 1337
-			fnl.frequency = 0.035
-			HelperScript.generate_faultline_strata(chunk, fnl)
-			HelperScript.spawn_magma_siphons(chunk)
+			var helper_script = load("res://mods-unpacked/gareth-tectonic_faultline_mod/helpers/TectonicFaultlineHelper.gd")
+			if helper_script:
+				var fnl = FastNoiseLite.new()
+				fnl.seed = Gvars.map_seed if ("map_seed" in Gvars) else 1337
+				fnl.frequency = 0.035
+				helper_script.generate_faultline_strata(chunk, fnl)
 
-func generate_chests(chain: ModLoaderHookChain, current_locs: Array[Vector2i]) -> Array[Vector2i]:
-	return chain.execute_next([current_locs])
+func generate_chests(chain: ModLoaderHookChain, current_block_chest_locations: Array[Vector2i]) -> Array[Vector2i]:
+	var locs: Array[Vector2i] = chain.execute_next([current_block_chest_locations])
+	if Gvars.level == 102:
+		var chunk = chain.reference_object
+		if chunk:
+			var helper_script = load("res://mods-unpacked/gareth-tectonic_faultline_mod/helpers/TectonicFaultlineHelper.gd")
+			if helper_script:
+				locs = helper_script.spawn_magma_siphons(chunk, locs)
+	return locs
 
 func destroy_tile(chain: ModLoaderHookChain, idx: int, tile_properties: Dictionary) -> void:
 	chain.execute_next([idx, tile_properties])

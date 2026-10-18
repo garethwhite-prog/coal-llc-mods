@@ -1,63 +1,136 @@
-﻿>>> 1. Inspecting working tile_map_chunk.hooks.gd from Lost Expedition...
-   extends Object
-   
-   func lvl_from_global_pos(chain: ModLoaderHookChain, pos: Vector2i) -> int:
-   	if Gvars.level == 101:
-   		var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
-   		if helper_script:
-   			var helper = helper_script.new()
-   			return helper.calculate_tier(pos)
-   	return chain.execute_next([pos])
-   
-   func generate_chunk(chain: ModLoaderHookChain, noise: Noise) -> void:
-   	chain.execute_next([noise])
-   	if Gvars.level == 101:
-   		var chunk = chain.reference_object
-   		if chunk:
-   			var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
-   			if helper_script:
-   				var helper = helper_script.new()
-   				helper.tag_uxo_tiles(chunk)
-   
-   func destroy_tile(chain: ModLoaderHookChain, idx: int, tile_properties: Dictionary) -> void:
-   	if Gvars.level == 101:
-   		var chunk = chain.reference_object
-   		if chunk:
-   			var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
-   			if helper_script:
-   				var helper = helper_script.new()
-   				helper.handle_tile_destroyed(chunk, idx, tile_properties)
-   	chain.execute_next([idx, tile_properties])
-   
+﻿=== DISCOVERY: TILEMAP CONTRACTS & LOST EXPEDITION ===
 
->>> 2. Writing compile-safe TectonicFaultlineHelper.gd...
-Updated: C:\Dev\coal-llc-mods\mods-unpacked\gareth-tectonic_faultline_mod\mods-unpacked\gareth-tectonic_faultline_mod\helpers\TectonicFaultlineHelper.gd
+--- 1. tile_map_chunk.gd (lvl_from_global_pos_STANDARD) ---
+2556: 
+2557: func lvl_from_global_pos_STANDARD(pos: Vector2i) -> int:
+2558:     var x = pos.x
+2559:     var y = pos.y
+2560:     if y < 0:
+2561:         return -2
+2562:     elif y + 5.0 * cos((x / 20.0) + randf()) < 10:
+2563:         return 0
+2564:     elif y + 6.0 * cos((x / 20.0) + randf()) < 30:
+2565:         return 1
+2566:     elif y + 6.0 * cos((x / 20.0) + randf()) < 35:
+2567:         return 2
+2568:     elif y + 6.0 * cos((x / 20.0) + randf()) < 40:
+2569:         return 3
+2570:     elif y + 6.0 * cos((x / 20.0) + randf()) < 65:
+2571:         return 4
+2572:     elif y + 6.0 * cos((x / 20.0) + randf()) < 70:
+2573:         return 5
+2574:     elif y + 6.0 * cos((x / 20.0) + randf()) < 80:
+2575:         return 6
+2576:     elif y + 6.0 * cos((x / 20.0) + randf()) < 110:
+2577:         return 7
+2578:     elif y + 6.0 * cos((x / 20.0) + randf()) < 115:
+2579:         return 8
+2580:     elif y + 6.0 * cos((x / 20.0) + randf()) < 120:
+2581:         return 9
+2582:     elif y + 6.0 * cos((x / 20.0) + randf()) < 135:
+2583:         return 10
+2584:     elif y + 6.0 * cos((x / 20.0) + randf()) < 300:
+2585:         return 11
+2586:     elif y + 6.0 * cos((x / 20.0) + randf()) < 450:
+2587:         return 12
+2588:     elif y + 6.0 * cos((x / 20.0) + randf()) < 600:
+2589:         return 13
+2590:     elif y + 6.0 * cos((x / 20.0) + randf()) < 750:
+2591:         return 14
+2592:     elif y + 6.0 * cos((x / 20.0) + randf()) < 900:
 
->>> 3. Writing tile_map_chunk.hooks.gd (preloaded Helper, all 4 hook methods)...
-Updated: C:\Dev\coal-llc-mods\mods-unpacked\gareth-tectonic_faultline_mod\mods-unpacked\gareth-tectonic_faultline_mod\extensions\scenes\tilemaps\tile_map_chunk.hooks.gd
+--- 2. LostExpeditionHelper.gd (calculate_tier) ---
+  28: 
+  29: func calculate_tier(pos: Vector2i) -> int:
+  30: 	var depth: float = float(pos.y)
+  31: 	if depth < 0.0:
+  32: 		return -2
+  33: 	
+  34: 	var wave: float = sin(float(pos.x) * 0.12) * 5.0
+  35: 	var effective_y: float = depth + wave
+  36: 	
+  37: 	if effective_y < 12.0:
+  38: 		return 0
+  39: 	elif effective_y < 35.0:
+  40: 		return 1
+  41: 	elif effective_y < 70.0:
+  42: 		return 2
+  43: 	elif effective_y < 120.0:
+  44: 		return 3
+  45: 	elif effective_y < 200.0:
+  46: 		return 4
+  47: 	elif effective_y < 300.0:
+  48: 		return 5
+  49: 	elif effective_y < 450.0:
+  50: 		return 6
+  51: 	elif effective_y < 600.0:
+  52: 		return 7
+  53: 	elif effective_y < 750.0:
+  54: 		return 8
+  55: 	elif effective_y < 900.0:
+  56: 		return 9
+  57: 	elif effective_y < 1050.0:
+  58: 		return 10
+  59: 	elif effective_y < 1200.0:
 
->>> 4. Flushing mod-hooks.zip...
->>> 5. Repackaging mod archive for Steam...
-Packed archive at: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods\gareth-tectonic_faultline_mod.zip
->>> 6. Git staging, committing, and pushing...
-git : warning: in the working copy of 'context.txt', LF will be replaced by CRLF the next time Git touches it
-At C:\Dev\coal-llc-mods\ai_worker_script.ps1:313 char:1
-+ git add -A
-+ ~~~~~~~~~~
-    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
-    + FullyQualifiedErrorId : NativeCommandError
- 
-[main 81f83f4] Fix compile error in TectonicFaultlineHelper, implement preloaded chunk hooks, and enable surface-depth pod spawning
- 4 files changed, 177 insertions(+), 211 deletions(-)
-git : To https://github.com/garethwhite-prog/coal-llc-mods.git
-At C:\Dev\coal-llc-mods\ai_worker_script.ps1:315 char:1
-+ git push origin main
-+ ~~~~~~~~~~~~~~~~~~~~
-    + CategoryInfo          : NotSpecified: (To https://gith...al-llc-mods.git:String) [], RemoteException
-    + FullyQualifiedErrorId : NativeCommandError
- 
-   80e0143..81f83f4  main -> main
+--- 3. LostExpeditionHelper.gd (spawn_cryo_pods) ---
+  99: 
+ 100: func spawn_cryo_pods(chunk: Node, current_locs: Array[Vector2i]) -> Array[Vector2i]:
+ 101: 	if randf() > 0.60:
+ 102: 		return current_locs
+ 103: 	
+ 104: 	# Strict: Surface chunks (y <= 0) must never contain subterranean vaults
+ 105: 	if "chunk_pos" in chunk and chunk.chunk_pos.y < 1:
+ 106: 		return current_locs
+ 107: 	
+ 108: 	var width: int = 3
+ 109: 	var height: int = 3
+ 110: 	var start_tile: Vector2i = Vector2i(
+ 111: 		randi_range(0, chunk.chunk_size - width),
+ 112: 		randi_range(0, chunk.chunk_size - height)
+ 113: 	)
+ 114: 	
+ 115: 	var local_start: Vector2 = chunk.map_to_local(start_tile)
+ 116: 	var world_start: Vector2 = chunk.to_global(local_start)
+ 117: 	var global_cell: Vector2i = Vector2i(world_start / 16.0)
+ 118: 	if global_cell.y < 16:
+ 119: 		return current_locs
+ 120: 	
+ 121: 	# Vault walls dynamically match the hardness of the surrounding stratum
+ 122: 	var pod_tier: int = calculate_tier(global_cell)
+ 123: 	var wall_tile: int = chunk.chest_block_from_level(pod_tier)
+ 124: 	if wall_tile == chunk.Tiles.EMPTY:
+ 125: 		wall_tile = chunk.Tiles.HARD_CLAY
+ 126: 	
+ 127: 	for n in range(5):
+ 128: 		if start_tile in current_locs:
+ 129: 			start_tile = Vector2i(
+ 130: 				randi_range(0, chunk.chunk_size - width),
+ 131: 				randi_range(0, chunk.chunk_size - height)
+ 132: 			)
+ 133: 	
+ 134: 	for x in range(start_tile.x - width, start_tile.x + width):
+ 135: 		for y in range(start_tile.y - height, start_tile.y + height):
+ 136: 			current_locs.append(Vector2i(x, y))
+ 137: 	
+ 138: 	for x in range(start_tile.x, start_tile.x + width):
+ 139: 		for y in range(start_tile.y, start_tile.y + height):
+ 140: 			var c_idx: int = chunk.pos_to_array(Vector2i(x, y))
+ 141: 			if (x == start_tile.x + 1) and (y == start_tile.y + 1):
+ 142: 				chunk.tiles[c_idx] = chunk.Tiles.EMPTY
+ 143: 				chunk.build_tile(c_idx)
+ 144: 				var pod_script = load("res://mods-unpacked/gareth-lost_expedition_mod/entities/CryoPod.gd")
+ 145: 				if pod_script:
 
-Deploy complete! Launch Coal LLC to test.
-
-PS C:\Dev\coal-llc-mods> 
+--- 4. level_select.gd (on_level_clicked) ---
+  80: 
+  81: func on_level_clicked(_level: Gconsts.Level):
+  82:     Bus.NewGame.emit(_level, profession_selected, mode_selected, hard_modifier)
+  83:     Game.change_stage(Gconsts.Stages._END_OF_DAY_OVERLAY, Vector2(51, -80))
+  84: 
+  85: 
+  86: func enter_focus():
+  87:     if last_focus != null:
+  88:         last_focus.grab_focus.call_deferred()
+  89:     else:
+  90:         levels.get_child(0).grab_focus.call_deferred()
