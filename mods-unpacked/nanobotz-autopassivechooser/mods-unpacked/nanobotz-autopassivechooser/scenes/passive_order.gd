@@ -1,4 +1,4 @@
-﻿class_name PassiveOrder
+class_name PassiveOrder
 extends Control
 
 var NanobotzAutoPassiveChooserMod = load("res://mods-unpacked/nanobotz-autopassivechooser/mod_main.gd")
@@ -79,7 +79,7 @@ func prepare_grid_and_reroll() -> void:
 	reroll_check.button_pressed = config.data.reroll_if_no_matches
 
 	# Order
-	var passive_order = config.data.passive_order
+	if not config.data.has("passive_order"): config.data["passive_order"] = []`n	var passive_order = config.data["passive_order"]
 	var possible_passives := get_possible_passives_for_professions(player_profession)
 
 	var order_index := {}
@@ -194,7 +194,7 @@ func _on_confirm_pressed() -> void:
 	config.data.reroll_if_no_matches = reroll_check.button_pressed
 
 	# Order
-	var passive_order = config.data.passive_order
+	if not config.data.has("passive_order"): config.data["passive_order"] = []`n	var passive_order = config.data["passive_order"]
 
 	passive_order.clear()
 	var prev_effect := ""
@@ -231,5 +231,6 @@ func _on_confirm_pressed() -> void:
 func _on_cancel_pressed() -> void:
 	# queue_free()
 	pass
+
 
 
