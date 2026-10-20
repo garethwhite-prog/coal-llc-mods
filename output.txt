@@ -1,30 +1,91 @@
 ﻿>>> 1. Terminating running Coal LLC / Godot processes...
 
->>> 2. Populating valid gunslinger.json in AppData...
-Populated: C:\Users\garet\AppData\Roaming\Godot\app_userdata\Coal LLC\mod_configs\NanobotZ-AutoPassiveChooser\gunslinger.json
+>>> 2. Resetting nanobotz-autopassivechooser to clean Git state...
+Reset nanobotz-autopassivechooser to commit 6a8eb85
 
->>> 3. Patching choose_passive.hooks.gd with defensive key access...
-Patched: C:\Dev\coal-llc-mods\mods-unpacked\nanobotz-autopassivechooser\mods-unpacked\nanobotz-autopassivechooser\extensions\scenes\Interfaces\in_game\choose_passive.hooks.gd
+>>> 3. Ensuring valid gunslinger.json in AppData...
+Verified config at: C:\Users\garet\AppData\Roaming\Godot\app_userdata\Coal LLC\mod_configs\NanobotZ-AutoPassiveChooser\gunslinger.json
 
->>> 4. Patching passive_order.gd to handle empty configs...
-Patched: C:\Dev\coal-llc-mods\mods-unpacked\nanobotz-autopassivechooser\mods-unpacked\nanobotz-autopassivechooser\scenes\passive_order.gd
+>>> 4. Patching passive_order.gd cleanly without syntax errors...
+Successfully patched: C:\Dev\coal-llc-mods\mods-unpacked\nanobotz-autopassivechooser\mods-unpacked\nanobotz-autopassivechooser\scenes\passive_order.gd
 
->>> 5. Repackaging NanobotZ-AutoPassiveChooser.zip...
+>>> 5. Patching choose_passive.hooks.gd with safe dictionary getter...
+Successfully patched: C:\Dev\coal-llc-mods\mods-unpacked\nanobotz-autopassivechooser\mods-unpacked\nanobotz-autopassivechooser\extensions\scenes\Interfaces\in_game\choose_passive.hooks.gd
+
+>>> 6. Inspecting get_possible_passives_for_professions in passive_order.gd...
+
+
+func get_possible_passives_for_professions(profession_name: String) -> Array:
+        var passives: Array = []
+        for profession_idx in Gvars.get("profession_manager").get("all_professions"):
+                var profession = Gvars.get("profession_manager").get("all_professions")[profession_idx]
+                if profession_name.to_lower() == profession.profession.profession_name.to_lower():
+                        var data = {"unlocked_passives": []}
+                        data = profession.profession._profession_effect(data)
+                        passives = data["unlocked_passives"].duplicate()
+                        break
+
+        if passives.is_empty():
+                passives = ChoosePassive.ALL_PASSIVES.keys().duplicate()
+
+        # Ensure elemental & tick rate bonuses are always configurable
+        var extras: Array = ["fire_damage", "wet_damage", "poison_damage", "elemental_tick_rate"]
+        for ep in extras:
+                if not passives.has(ep):
+                        passives.append(ep)
+
+        return passives
+
+
+func prepare_grid_and_reroll() -> void:
+        template_children_count = grid.columns
+
+        var config = NanobotzAutoPassiveChooserMod.get_or_create_config(player_profession)
+
+        # Skip weapon pickups
+        skip_weapons_check.button_pressed = config.data.skip_weapon_pickups
+
+        # Reroll
+        reroll_check.button_pressed = config.data.reroll_if_no_matches
+
+        # Order
+        if not config.data.has("passive_order"):
+                config.data["passive_order"] = []
+        var passive_order = config.data["passive_order"]
+        var possible_passives := get_possible_passives_for_professions(player_profession)
+
+        var order_index := {}
+        for i in passive_order.size():
+                order_index[passive_order[i].effect] = i
+
+        possible_passives.sort_custom(func(a, b):
+                var a_in := order_index.has(a)
+                var b_in := order_index.has(b)
+
+                if a_in and b_in:
+                        return order_index[a] < order_index[b]
+                elif a_in:
+                        return true
+                elif b_in:
+                        return false
+                else:
+
+>>> 7. Repackaging NanobotZ-AutoPassiveChooser.zip...
 Repacked release archive: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods\NanobotZ-AutoPassiveChooser.zip
 
->>> 6. Git staging, committing, and pushing...
+>>> 8. Git staging, committing, and pushing...
 warning: in the working copy of 'context.txt', LF will be replaced by CRLF the next time Git touches it
-[main 4546ca8] Fix Gunslinger passive order empty config crash and add safe dictionary fallbacks
- 5 files changed, 1045 insertions(+), 162 deletions(-)
+[main e5dbc5a] Cleanly patch passive_order and choose_passive against missing config keys without parse errors
+ 5 files changed, 106 insertions(+), 963 deletions(-)
 Enumerating objects: 30, done.
 Counting objects: 100% (30/30), done.
 Delta compression using up to 24 threads
 Compressing objects: 100% (16/16), done.
-Writing objects: 100% (16/16), 7.66 KiB | 1.91 MiB/s, done.
-Total 16 (delta 5), reused 0 (delta 0), pack-reused 0 (from 0)
-remote: Resolving deltas: 100% (5/5), completed with 5 local objects.
+Writing objects: 100% (16/16), 3.85 KiB | 984.00 KiB/s, done.
+Total 16 (delta 7), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (7/7), completed with 7 local objects.
 To https://github.com/garethwhite-prog/coal-llc-mods.git
-   6a8eb85..4546ca8  main -> main
+   4546ca8..e5dbc5a  main -> main
 
-Deployed! Launch Coal LLC to test Settings -> Passive Order.
+Patch deployed cleanly! Launch Coal LLC to test the Settings menu.
 PS C:\Dev\coal-llc-mods> 
