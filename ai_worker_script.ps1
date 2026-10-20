@@ -1,4 +1,4 @@
-﻿Clear-Host;
+Clear-Host;
 
 # ==============================================================================
 # Coal LLC - Fix Custom Map Selection & Restore TileMapChunk Hooks
@@ -95,7 +95,7 @@ if (Test-Path $hookZip) {
 }
 
 Write-Host "`n>>> 5. Repackaging $modName.zip..." -ForegroundColor Cyan
-if (Test-Path $zipPath) { Remove-Item -Path$zipPath -Force }
+if (Test-Path $zipPath) { Remove-Item -Path $zipPath -Force }
 
 Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
