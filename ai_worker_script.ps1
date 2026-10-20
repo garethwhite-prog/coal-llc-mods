@@ -1,7 +1,7 @@
 ﻿Clear-Host;
 
 # ==============================================================================
-# Coal LLC - Fix Global destroy_tile Hook Signature Across All Mods
+# Coal LLC - Fix Custom Map Selection & Restore TileMapChunk Hooks
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
@@ -16,19 +16,23 @@ $zipPath    = "$steamMods\$modName.zip"
 
 Set-Location $repo
 
-Write-Host ">>> 1. Terminating any running Coal LLC / Godot processes..." -ForegroundColor Cyan
+Write-Host ">>> 1. Terminating running Coal LLC / Godot processes..." -ForegroundColor Cyan
 Get-Process -Name "Coal LLC*", "godot*" -ErrorAction SilentlyContinue | Stop-Process -Force
 Start-Sleep -Milliseconds 600
 
-Write-Host ">>> 2. Scanning all mods for destroy_tile signatures..." -ForegroundColor Cyan
-Get-ChildItem -Path "$repo\mods-unpacked" -Filter "*tile_map_chunk.hooks.gd" -Recurse | ForEach-Object {
-    $content = Get-Content $_.FullName -Raw
-    if ($content -match "func\s+destroy_tile") {
-        Write-Host "  Found in: $($_.FullName.Replace($repo, ''))" -ForegroundColor Yellow
-    }
+Write-Host "`n>>> 2. Quarantining third-party mods causing parse aborts..." -ForegroundColor Cyan
+$brokenThirdParty = "$steamMods\der_floh-performance_mod.zip"
+if (Test-Path $brokenThirdParty) {
+    Rename-Item -Path $brokenThirdParty -NewName "der_floh-performance_mod.zip.disabled" -Force
+    Write-Host "Disabled: der_floh-performance_mod.zip (variant type parse failure)" -ForegroundColor Yellow
+}
+$unpackedThirdParty = "$steamRoot\mods-unpacked\der_floh-performance_mod"
+if (Test-Path $unpackedThirdParty) {
+    Rename-Item -Path $unpackedThirdParty -NewName "der_floh-performance_mod.disabled" -Force
+    Write-Host "Disabled: unpacked der_floh-performance_mod directory" -ForegroundColor Yellow
 }
 
-Write-Host "`n>>> 3. Patching gareth-abyssal_trench_mod tile_map_chunk.hooks.gd..." -ForegroundColor Cyan
+Write-Host "`n>>> 3. Correcting tile_map_chunk.hooks.gd in $modName..." -ForegroundColor Cyan
 $chunkHookPath = "$innerDir\extensions\scenes\tilemaps\tile_map_chunk.hooks.gd"
 
 @'
@@ -61,12 +65,12 @@ func damage_tile_idx(chain: ModLoaderHookChain, idx: int, damage: float) -> void
 					var fallback_id = 211 if chunk.TILE_PROPERTIES.has(211) else (24 if chunk.TILE_PROPERTIES.has(24) else 41)
 					if chunk.TILE_PROPERTIES.has(fallback_id):
 						chunk.TILE_PROPERTIES[t_id] = chunk.TILE_PROPERTIES[fallback_id].duplicate(true)
-		# Guaranteed damage floor for Abyssal Trench so starter pickaxe carves in 1-2 hits
+		# Enforce starter pickaxe damage floor for Hadal stone carving
 		damage = max(damage * 6.0, 35.0)
 
 	chain.execute_next([idx, damage])
 
-func destroy_tile(chain: ModLoaderHookChain, idx: int) -> void:
+func destroy_tile(chain: ModLoaderHookChain, idx: int, tile_properties: Dictionary) -> void:
 	var helper_script = load("res://mods-unpacked/gareth-abyssal_trench_mod/helpers/AbyssalTrenchHelper.gd")
 	if helper_script and helper_script.is_abyssal_level():
 		var chunk = chain.reference_object
@@ -79,19 +83,19 @@ func destroy_tile(chain: ModLoaderHookChain, idx: int) -> void:
 						var local_coords = Vector2i(idx % chunk.chunk_size, idx / chunk.chunk_size)
 						chunk.spawn_item_drop(chunk.coal_resource, chunk.map_to_local(local_coords))
 
-	# Strictly pass single idx parameter matching vanilla destroy_tile(idx) signature
-	chain.execute_next([idx])
+	# Strictly preserve 2-argument signature: (idx: int, tile_properties: Dictionary)
+	chain.execute_next([idx, tile_properties])
 '@ | Set-Content -Path $chunkHookPath -Encoding UTF8
-Write-Host "Updated: $chunkHookPath" -ForegroundColor Green
+Write-Host "Updated hook file: $chunkHookPath" -ForegroundColor Green
 
-Write-Host "`n>>> 4. Purging mod-hooks.zip to force clean rebuild..." -ForegroundColor Cyan
+Write-Host "`n>>> 4. Purging mod-hooks.zip to trigger clean rebuild..." -ForegroundColor Cyan
 if (Test-Path $hookZip) {
     Remove-Item -Path $hookZip -Force
-    Write-Host "Deleted: $hookZip" -ForegroundColor Green
+    Write-Host "Removed stale mod-hooks.zip" -ForegroundColor Green
 }
 
-Write-Host ">>> 5. Repackaging gareth-abyssal_trench_mod.zip..." -ForegroundColor Cyan
-if (Test-Path $zipPath) { Remove-Item -Path $zipPath -Force }
+Write-Host "`n>>> 5. Repackaging $modName.zip..." -ForegroundColor Cyan
+if (Test-Path $zipPath) { Remove-Item -Path$zipPath -Force }
 
 Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -107,7 +111,7 @@ Write-Host "Repacked release archive: $zipPath" -ForegroundColor Green
 
 Write-Host "`n>>> 6. Git staging, committing, and pushing..." -ForegroundColor Cyan
 git add -A
-git commit -m "Fix destroy_tile hook signature in gareth-abyssal_trench_mod so blocks break normally game-wide"
+git commit -m "Restore 2-arg destroy_tile hook signature and isolate incompatible third-party hooks"
 git push origin main
 
-Write-Host "`nPatch deployed successfully! Launch Coal LLC to test." -ForegroundColor Green
+Write-Host "`nEnvironment patched successfully! Launch Coal LLC to verify level selection." -ForegroundColor Green

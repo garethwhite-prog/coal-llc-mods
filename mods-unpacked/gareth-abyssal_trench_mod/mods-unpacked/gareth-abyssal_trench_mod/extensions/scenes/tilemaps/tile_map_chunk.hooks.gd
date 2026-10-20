@@ -27,12 +27,12 @@ func damage_tile_idx(chain: ModLoaderHookChain, idx: int, damage: float) -> void
 					var fallback_id = 211 if chunk.TILE_PROPERTIES.has(211) else (24 if chunk.TILE_PROPERTIES.has(24) else 41)
 					if chunk.TILE_PROPERTIES.has(fallback_id):
 						chunk.TILE_PROPERTIES[t_id] = chunk.TILE_PROPERTIES[fallback_id].duplicate(true)
-		# Guaranteed damage floor for Abyssal Trench so starter pickaxe carves in 1-2 hits
+		# Enforce starter pickaxe damage floor for Hadal stone carving
 		damage = max(damage * 6.0, 35.0)
 
 	chain.execute_next([idx, damage])
 
-func destroy_tile(chain: ModLoaderHookChain, idx: int) -> void:
+func destroy_tile(chain: ModLoaderHookChain, idx: int, tile_properties: Dictionary) -> void:
 	var helper_script = load("res://mods-unpacked/gareth-abyssal_trench_mod/helpers/AbyssalTrenchHelper.gd")
 	if helper_script and helper_script.is_abyssal_level():
 		var chunk = chain.reference_object
@@ -45,5 +45,5 @@ func destroy_tile(chain: ModLoaderHookChain, idx: int) -> void:
 						var local_coords = Vector2i(idx % chunk.chunk_size, idx / chunk.chunk_size)
 						chunk.spawn_item_drop(chunk.coal_resource, chunk.map_to_local(local_coords))
 
-	# Strictly pass single idx parameter matching vanilla destroy_tile(idx) signature
-	chain.execute_next([idx])
+	# Strictly preserve 2-argument signature: (idx: int, tile_properties: Dictionary)
+	chain.execute_next([idx, tile_properties])

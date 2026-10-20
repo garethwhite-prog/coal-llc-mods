@@ -1,44 +1,23 @@
 ﻿=== GIT STATUS ===
- M ai_worker_script.ps1
- M context.txt
  M output.txt
 
 === RECENT COMMITS ===
+adc3111 Fix destroy_tile hook signature in gareth-abyssal_trench_mod so blocks break normally game-wide
 0757869 Fix Map 104 TILE_PROPERTIES key 225 crash, enforce 2-3 hit block damage, and guarantee sapphire/coal drops
 5627939 Fix Abyssal Trench proportional block damage, continuous ore veins, and geyser launch physics
-c31bed7 Fix AbyssalTrenchHelper file path and carousel registration for Map 104
 
-=== SESSION ERRORS & WARNINGS (44 found) ===
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-SCRIPT ERROR: Trying to call an async function without "await".
-SCRIPT ERROR: Trying to call an async function without "await".
-SCRIPT ERROR: Trying to call an async function without "await".
-SCRIPT ERROR: Trying to call an async function without "await".
-SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-SCRIPT ERROR: Trying to call an async function without "await".
-SCRIPT ERROR: Trying to call an async function without "await".
-SCRIPT ERROR: Trying to call an async function without "await".
-SCRIPT ERROR: Trying to call an async function without "await".
-SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-SCRIPT ERROR: Trying to call an async function without "await".
-ERROR: 46 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-ERROR: 165 resources still in use at exit (run with --verbose for details).
+=== SESSION ERRORS & WARNINGS (11 found) ===
+ERROR: Parameter "zfile" is null.
+ERROR: Failed loading hooks pack from: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mod-hooks.zip
+ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
+SCRIPT ERROR: Parse Error: The variable type is being inferred from a Variant value, so it will be typed as Variant. (Warning treated as error.)
+ERROR: Failed to load script "res://mods-unpacked/der_floh-performance_mod/extensions/scenes/tilemaps/tile_map_chunk.hooks.gd" with error "Parse error".
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
+ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
+ERROR: Error (1) writing to hooks zip, consider deleting this file: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mod-hooks.zip
+ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+ERROR: 156 resources still in use at exit (run with --verbose for details).
 
 === ACTIVE MOD LOG ENTRIES (13 found) ===
 	 - C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mods/gareth-tectonic_faultline_mod.zip
@@ -51,38 +30,38 @@ INFO ModLoader: mod_load_order -> 23) gareth-tectonic_faultline_mod
 INFO ModLoader: Initializing -> gareth-tectonic_faultline_mod
 DEBUG ModLoader: Loading script from -> res://mods-unpacked/gareth-tectonic_faultline_mod/mod_main.gd
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Mod initializing...
-DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultline_mod:<Node#735546715560>
-  "gareth-tectonic_faultline_mod": "<Resource#-9223371949881686434>",
+DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultline_mod:<Node#724456975783>
+  "gareth-tectonic_faultline_mod": "<Resource#-9223371949965572515>",
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Custom Map Mod (ID 102) online!
 
 === LOG TAIL (LAST 30 LINES) ===
-SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-   at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
-Time to generate level = 0.20700001716614s
-spawning employees
-ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
-employee_enum = NOTHING
-employees all successfully instantiated
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-   at: connect (core/object/object.cpp:1451)
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-   at: connect (core/object/object.cpp:1451)
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-   at: connect (core/object/object.cpp:1451)
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-   at: connect (core/object/object.cpp:1451)
-Mine region ready
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-40.0, -57.0)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (256.7444, -8.043279)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (235.0811, -8.067853)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (235.0811, -8.067852)
-SCRIPT ERROR: Trying to call an async function without "await".
-   at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+Reading PCK archive... [=====================         ] 71%
+Reading PCK archive... [======================        ] 76%
+Reading PCK archive... [========================      ] 81%
+Reading PCK archive... [=========================     ] 86%
+Reading PCK archive... [===========================   ] 91%
+Reading PCK archive... [============================  ] 95%
+Reading PCK archive... [==============================] 100%
+Reading PCK archive... [==============================] 100%
+Verified 3884 files, no errors detected!
+
+Extracting files... [==============================] 100%
+Extracting files... [==============================] 100%
+Extracted 31 files, no errors detected!
+Extraction operation complete in 00m00s
+Log file written to: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/addons/mod_loader/decomp/gdre_export.log
+Please include this file when reporting issues!
+
+INFO ModLoader:ModHookPacker: Injecting decompiled scripts before hooking: ["res://scenes/tilemaps/tile_map_manager.gd", "res://scenes/equipment/electric_shock.gd", "res://scenes/Interfaces/Menus/settings_2.gd", "res://scenes/Interfaces/in_game/choose_passive.gd", "res://scenes/tilemaps/tile_map_chunk.gd", "res://scripts/StateMachine/Player2/player_2.gd", "res://scripts/Chest.gd", "res://scenes/ManagersInScene/mortar_manager.gd", "res://scripts/PauseMenu.gd", "res://scripts/MainMenu.gd", "res://scripts/Gvars.gd", "res://scenes/Stages/management_screen.gd", "res://scenes/Interfaces/Management/employee_shop_tooltip.gd", "res://resources/Employees/Scripts/employee_manager.gd", "res://scenes/Interfaces/Management/organisation_chart_2.gd", "res://scenes/Interfaces/Management/employee_level_icon_2.gd", "res://scripts/equipment_manager.gd", "res://scenes/NPCs/quest_scene_manager.gd", "res://resources/Quests/quest_rewards/reward_vacuum.gd", "res://resources/professions/scripts/tanker.gd", "res://resources/EquipEffects/Scripts/tank.gd", "res://scenes/equipment/tank_bullet.gd", "res://scenes/Interfaces/Menus/level_select.gd", "res://scripts/Game.gd", "res://scenes/equipment/vacuum_cleaner.gd", "res://scripts/LootCollectorUFO.gd", "res://resources/EquipEffects/Scripts/gun.gd", "res://resources/EquipEffects/Scripts/water_gun.gd", "res://scenes/equipment/boxing_gloves.gd", "res://scenes/equipment/kick.gd", "res://resources/professions/scripts/martial_artist.gd"]
+INFO ModLoader:ModHookPacker: Generating mod hooks .zip
+ERROR ModLoader:ModHookPacker: Error (1) writing to hooks zip, consider deleting this file: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mod-hooks.zip
+ERROR: Error (1) writing to hooks zip, consider deleting this file: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mod-hooks.zip
+   at: push_error (core/variant/variant_utility.cpp:1098)
 INFO gareth-multisave_mod: Career progression and hard modifier badges verified.
-ERROR: 46 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-WARNING: 92 RIDs of type "Texture" were leaked.
+ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+WARNING: 88 RIDs of type "Texture" were leaked.
    at: finalize (servers/rendering/rendering_device.cpp:7130)
 WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
    at: cleanup (core/object/object.cpp:2378)
-ERROR: 165 resources still in use at exit (run with --verbose for details).
+ERROR: 156 resources still in use at exit (run with --verbose for details).
    at: clear (core/io/resource.cpp:614)
