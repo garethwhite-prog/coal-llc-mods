@@ -1,28 +1,88 @@
-﻿>>> 1. Updating AbyssalTrenchHelper.gd (continuous geological veins & caverns)...
-Updated: C:\Dev\coal-llc-mods\mods-unpacked\gareth-abyssal_trench_mod\mods-unpacked\gareth-abyssal_trench_mod\helpers\AbyssalTrenchHelper.gd
+﻿=== GIT STATUS ===
+ M ai_worker_script.ps1
+ M context.txt
+ M output.txt
 
->>> 2. Updating tile_map_chunk.hooks.gd (proportional block damage)...
-Updated: C:\Dev\coal-llc-mods\mods-unpacked\gareth-abyssal_trench_mod\mods-unpacked\gareth-abyssal_trench_mod\extensions\scenes\tilemaps\tile_map_chunk.hooks.gd
+=== RECENT COMMITS ===
+0757869 Fix Map 104 TILE_PROPERTIES key 225 crash, enforce 2-3 hit block damage, and guarantee sapphire/coal drops
+5627939 Fix Abyssal Trench proportional block damage, continuous ore veins, and geyser launch physics
+c31bed7 Fix AbyssalTrenchHelper file path and carousel registration for Map 104
 
->>> 3. Updating entities/HydrothermalVent.gd (reliable upward geyser impulse)...
-Updated: C:\Dev\coal-llc-mods\mods-unpacked\gareth-abyssal_trench_mod\mods-unpacked\gareth-abyssal_trench_mod\entities\HydrothermalVent.gd
+=== SESSION ERRORS & WARNINGS (44 found) ===
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+SCRIPT ERROR: Trying to call an async function without "await".
+ERROR: 46 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+ERROR: 165 resources still in use at exit (run with --verbose for details).
 
->>> 4. Purging mod-hooks.zip...
->>> 5. Repackaging gareth-abyssal_trench_mod.zip...
-Repacked release archive: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods\gareth-abyssal_trench_mod.zip
+=== ACTIVE MOD LOG ENTRIES (13 found) ===
+	 - C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mods/gareth-tectonic_faultline_mod.zip
+DEBUG ModLoader:File: Loading mod_manifest from -> C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mods/gareth-tectonic_faultline_mod.zip
+SUCCESS ModLoader: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mods/gareth-tectonic_faultline_mod.zip loaded.
+DEBUG ModLoader:Config: No config for mod id "gareth-tectonic_faultline_mod"
+DEBUG ModLoader:Dependency: Checking dependencies - mod_id: gareth-tectonic_faultline_mod optional dependencies: []
+DEBUG ModLoader:Dependency: Checking dependencies - mod_id: gareth-tectonic_faultline_mod required dependencies: []
+INFO ModLoader: mod_load_order -> 23) gareth-tectonic_faultline_mod
+INFO ModLoader: Initializing -> gareth-tectonic_faultline_mod
+DEBUG ModLoader: Loading script from -> res://mods-unpacked/gareth-tectonic_faultline_mod/mod_main.gd
+INFO gareth-tectonic_faultline_mod: Tectonic Faultline Mod initializing...
+DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultline_mod:<Node#735546715560>
+  "gareth-tectonic_faultline_mod": "<Resource#-9223371949881686434>",
+INFO gareth-tectonic_faultline_mod: Tectonic Faultline Custom Map Mod (ID 102) online!
 
->>> 6. Git staging, committing, and pushing...
-[main 5627939] Fix Abyssal Trench proportional block damage, continuous ore veins, and geyser launch physics
- 5 files changed, 170 insertions(+), 313 deletions(-)
-Enumerating objects: 30, done.
-Counting objects: 100% (30/30), done.
-Delta compression using up to 24 threads
-Compressing objects: 100% (15/15), done.
-Writing objects: 100% (16/16), 4.19 KiB | 1.40 MiB/s, done.
-Total 16 (delta 8), reused 0 (delta 0), pack-reused 0 (from 0)
-remote: Resolving deltas: 100% (8/8), completed with 8 local objects.
-To https://github.com/garethwhite-prog/coal-llc-mods.git
-   c31bed7..5627939  main -> main
-
-Patch deployed successfully! Launch Coal LLC to test.
-PS C:\Dev\coal-llc-mods> 
+=== LOG TAIL (LAST 30 LINES) ===
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+   at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+Time to generate level = 0.20700001716614s
+spawning employees
+ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+employee_enum = NOTHING
+employees all successfully instantiated
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+   at: connect (core/object/object.cpp:1451)
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+   at: connect (core/object/object.cpp:1451)
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+   at: connect (core/object/object.cpp:1451)
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+   at: connect (core/object/object.cpp:1451)
+Mine region ready
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-40.0, -57.0)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (256.7444, -8.043279)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (235.0811, -8.067853)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (235.0811, -8.067852)
+SCRIPT ERROR: Trying to call an async function without "await".
+   at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+INFO gareth-multisave_mod: Career progression and hard modifier badges verified.
+ERROR: 46 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+WARNING: 92 RIDs of type "Texture" were leaked.
+   at: finalize (servers/rendering/rendering_device.cpp:7130)
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2378)
+ERROR: 165 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:614)

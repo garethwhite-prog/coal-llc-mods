@@ -1,42 +1,44 @@
 ﻿=== GIT STATUS ===
+ M ai_worker_script.ps1
+ M context.txt
  M output.txt
 
 === RECENT COMMITS ===
+0757869 Fix Map 104 TILE_PROPERTIES key 225 crash, enforce 2-3 hit block damage, and guarantee sapphire/coal drops
 5627939 Fix Abyssal Trench proportional block damage, continuous ore veins, and geyser launch physics
 c31bed7 Fix AbyssalTrenchHelper file path and carousel registration for Map 104
-ff3ad96 Implement Map 104: The Abyssal Trench with hydrothermal black smoker geysers and twilight sapphire strata (49 mods)
 
-=== SESSION ERRORS & WARNINGS (835 found) ===
-SCRIPT ERROR: Invalid access to property or key '225' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '225' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '225' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '225' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '225' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '225' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '225' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '225' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '225' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '225' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '225' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '225' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '225' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '225' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '225' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '225' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '225' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '225' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '225' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '225' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '225' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '225' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '225' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '225' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '225' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '225' on a base object of type 'Dictionary[int, Dictionary]'.
-SCRIPT ERROR: Invalid access to property or key '225' on a base object of type 'Dictionary[int, Dictionary]'.
+=== SESSION ERRORS & WARNINGS (44 found) ===
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
 SCRIPT ERROR: Trying to call an async function without "await".
-ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-ERROR: 156 resources still in use at exit (run with --verbose for details).
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+SCRIPT ERROR: Trying to call an async function without "await".
+ERROR: 46 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+ERROR: 165 resources still in use at exit (run with --verbose for details).
 
 === ACTIVE MOD LOG ENTRIES (13 found) ===
 	 - C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mods/gareth-tectonic_faultline_mod.zip
@@ -49,38 +51,38 @@ INFO ModLoader: mod_load_order -> 23) gareth-tectonic_faultline_mod
 INFO ModLoader: Initializing -> gareth-tectonic_faultline_mod
 DEBUG ModLoader: Loading script from -> res://mods-unpacked/gareth-tectonic_faultline_mod/mod_main.gd
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Mod initializing...
-DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultline_mod:<Node#735395720616>
-  "gareth-tectonic_faultline_mod": "<Resource#-9223371950032681378>",
+DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultline_mod:<Node#735546715560>
+  "gareth-tectonic_faultline_mod": "<Resource#-9223371949881686434>",
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Custom Map Mod (ID 102) online!
 
 === LOG TAIL (LAST 30 LINES) ===
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (47.20337, 212.0099)!
-SCRIPT ERROR: Invalid access to property or key '225' on a base object of type 'Dictionary[int, Dictionary]'.
-   at: TileMapChunk.vanilla_4261571105_damage_tile_idx (res://scenes/tilemaps/tile_map_chunk.gd:2239)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (31.25735, 161.3027)
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (156.9253, 99.40588)
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (200.5497, 7.993285)
-end day
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+   at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+Time to generate level = 0.20700001716614s
+spawning employees
+ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+employee_enum = NOTHING
+employees all successfully instantiated
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+   at: connect (core/object/object.cpp:1451)
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+   at: connect (core/object/object.cpp:1451)
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+   at: connect (core/object/object.cpp:1451)
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+   at: connect (core/object/object.cpp:1451)
+Mine region ready
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-40.0, -57.0)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (256.7444, -8.043279)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (235.0811, -8.067853)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (235.0811, -8.067852)
 SCRIPT ERROR: Trying to call an async function without "await".
    at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
-Day Count: 1
-Days Passed: 0
-INFO gareth-more_employees_mod: Workforce chart initialized cleanly.
-say_game_has_been_saved() function running
-ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-WARNING: 88 RIDs of type "Texture" were leaked.
+INFO gareth-multisave_mod: Career progression and hard modifier badges verified.
+ERROR: 46 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+WARNING: 92 RIDs of type "Texture" were leaked.
    at: finalize (servers/rendering/rendering_device.cpp:7130)
 WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
    at: cleanup (core/object/object.cpp:2378)
-ERROR: 156 resources still in use at exit (run with --verbose for details).
+ERROR: 165 resources still in use at exit (run with --verbose for details).
    at: clear (core/io/resource.cpp:614)
