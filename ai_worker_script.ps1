@@ -1,7 +1,7 @@
 ﻿Clear-Host;
 
 # ==============================================================================
-# Coal LLC - Fix Gunslinger Passive Order & Safeguard Mod Configs
+# Coal LLC - Restore passive_order.gd & Fix Gunslinger Configuration
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
@@ -19,7 +19,11 @@ Write-Host ">>> 1. Terminating running Coal LLC / Godot processes..." -Foregroun
 Get-Process -Name "Coal LLC*", "godot*" -ErrorAction SilentlyContinue | Stop-Process -Force
 Start-Sleep -Milliseconds 600
 
-Write-Host "`n>>> 2. Populating valid gunslinger.json in AppData..." -ForegroundColor Cyan
+Write-Host "`n>>> 2. Resetting nanobotz-autopassivechooser to clean Git state..." -ForegroundColor Cyan
+git checkout 6a8eb85 -- "mods-unpacked/$modName"
+Write-Host "Reset nanobotz-autopassivechooser to commit 6a8eb85" -ForegroundColor Green
+
+Write-Host "`n>>> 3. Ensuring valid gunslinger.json in AppData..." -ForegroundColor Cyan
 $gunslingerConfigPath = "$appData\mod_configs\NanobotZ-AutoPassiveChooser\gunslinger.json"
 $gunslingerJson = @'
 {
@@ -74,33 +78,42 @@ $gunslingerJson = @'
 	"skip_weapon_pickups": false
 }
 '@
-
 Set-Content -Path $gunslingerConfigPath -Value $gunslingerJson -Encoding UTF8
-Write-Host "Populated: $gunslingerConfigPath" -ForegroundColor Green
+Write-Host "Verified config at: $gunslingerConfigPath" -ForegroundColor Green
 
-Write-Host "`n>>> 3. Patching choose_passive.hooks.gd with defensive key access..." -ForegroundColor Cyan
-$choosePassiveHook = "$innerDir\extensions\scenes\Interfaces\in_game\choose_passive.hooks.gd"
-if (Test-Path $choosePassiveHook) {
-    $code = Get-Content -Path $choosePassiveHook -Raw
-    # Replace unsafe direct dot access with safe dictionary get
-    $code = $code -replace 'var passive_order = config\.data\.passive_order', 'var passive_order = config.data.get("passive_order", []) if config and ("data" in config) and config.data is Dictionary else []'
-    Set-Content -Path $choosePassiveHook -Value $code -Encoding UTF8
-    Write-Host "Patched: $choosePassiveHook" -ForegroundColor Green
-}
-
-Write-Host "`n>>> 4. Patching passive_order.gd to handle empty configs..." -ForegroundColor Cyan
+Write-Host "`n>>> 4. Patching passive_order.gd cleanly without syntax errors..." -ForegroundColor Cyan
 $passiveOrderScript = "$innerDir\scenes\passive_order.gd"
-if (Test-Path $passiveOrderScript) {
-    $code = Get-Content -Path $passiveOrderScript -Raw
-    # Ensure config.data.passive_order is defensively initialized if missing
-    $pattern = 'var passive_order = config\.data\.passive_order'
-    $replacement = 'if not config.data.has("passive_order"): config.data["passive_order"] = []`n	var passive_order = config.data["passive_order"]'
-    $code = $code -replace $pattern, $replacement
-    Set-Content -Path $passiveOrderScript -Value $code -Encoding UTF8
-    Write-Host "Patched: $passiveOrderScript" -ForegroundColor Green
-}
+$poContent = [System.IO.File]::ReadAllText($passiveOrderScript)
 
-Write-Host "`n>>> 5. Repackaging NanobotZ-AutoPassiveChooser.zip..." -ForegroundColor Cyan
+# Clean replacement with tab indentation and no regex backtick issues
+$oldSnippet = "`tvar passive_order = config.data.passive_order"
+$newSnippet = @"
+	if not config.data.has("passive_order"):
+		config.data["passive_order"] = []
+	var passive_order = config.data["passive_order"]
+"@
+
+$poContent = $poContent.Replace($oldSnippet,$newSnippet)
+[System.IO.File]::WriteAllText($passiveOrderScript,$poContent, [System.Text.Encoding]::UTF8)
+Write-Host "Successfully patched: $passiveOrderScript" -ForegroundColor Green
+
+Write-Host "`n>>> 5. Patching choose_passive.hooks.gd with safe dictionary getter..." -ForegroundColor Cyan
+$choosePassiveHook = "$innerDir\extensions\scenes\Interfaces\in_game\choose_passive.hooks.gd"
+$cpContent = [System.IO.File]::ReadAllText($choosePassiveHook)
+
+$oldHookSnippet = "`tvar passive_order = config.data.passive_order"
+$newHookSnippet = @"
+	var passive_order = config.data.get("passive_order", []) if (config and "data" in config and config.data is Dictionary) else []
+"@
+
+$cpContent = $cpContent.Replace($oldHookSnippet,$newHookSnippet)
+[System.IO.File]::WriteAllText($choosePassiveHook,$cpContent, [System.Text.Encoding]::UTF8)
+Write-Host "Successfully patched: $choosePassiveHook" -ForegroundColor Green
+
+Write-Host "`n>>> 6. Inspecting get_possible_passives_for_professions in passive_order.gd..." -ForegroundColor Cyan
+Get-Content $passiveOrderScript | Select-Object -Index (45..100) | ForEach-Object { Write-Host $_ }
+
+Write-Host "`n>>> 7. Repackaging NanobotZ-AutoPassiveChooser.zip..." -ForegroundColor Cyan
 if (Test-Path $zipPath) { Remove-Item -Path $zipPath -Force }
 
 Add-Type -AssemblyName System.IO.Compression
@@ -115,9 +128,9 @@ $archive.Dispose()
 $stream.Dispose()
 Write-Host "Repacked release archive: $zipPath" -ForegroundColor Green
 
-Write-Host "`n>>> 6. Git staging, committing, and pushing..." -ForegroundColor Cyan
+Write-Host "`n>>> 8. Git staging, committing, and pushing..." -ForegroundColor Cyan
 git add -A
-git commit -m "Fix Gunslinger passive order empty config crash and add safe dictionary fallbacks"
+git commit -m "Cleanly patch passive_order and choose_passive against missing config keys without parse errors"
 git push origin main
 
-Write-Host "`nDeployed! Launch Coal LLC to test Settings -> Passive Order." -ForegroundColor Green
+Write-Host "`nPatch deployed cleanly! Launch Coal LLC to test the Settings menu." -ForegroundColor Green

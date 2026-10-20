@@ -2,28 +2,16 @@
  M output.txt
 
 === RECENT COMMITS ===
+4546ca8 Fix Gunslinger passive order empty config crash and add safe dictionary fallbacks
 6a8eb85 Restore 2-arg destroy_tile hook signature and isolate incompatible third-party hooks
 bb48209 Restore 2-arg destroy_tile hook signature and isolate incompatible third-party hooks
-adc3111 Fix destroy_tile hook signature in gareth-abyssal_trench_mod so blocks break normally game-wide
 
-=== SESSION ERRORS & WARNINGS (1016 found) ===
-SCRIPT ERROR: Invalid access to property or key 'passive_order' on a base object of type 'Dictionary'.
-SCRIPT ERROR: Invalid access to property or key 'passive_order' on a base object of type 'Dictionary'.
-SCRIPT ERROR: Invalid access to property or key 'passive_order' on a base object of type 'Dictionary'.
-SCRIPT ERROR: Invalid access to property or key 'passive_order' on a base object of type 'Dictionary'.
-SCRIPT ERROR: Invalid access to property or key 'passive_order' on a base object of type 'Dictionary'.
-SCRIPT ERROR: Invalid access to property or key 'passive_order' on a base object of type 'Dictionary'.
-SCRIPT ERROR: Invalid access to property or key 'passive_order' on a base object of type 'Dictionary'.
-SCRIPT ERROR: Invalid access to property or key 'passive_order' on a base object of type 'Dictionary'.
-SCRIPT ERROR: Invalid access to property or key 'passive_order' on a base object of type 'Dictionary'.
-SCRIPT ERROR: Invalid access to property or key 'passive_order' on a base object of type 'Dictionary'.
-SCRIPT ERROR: Invalid access to property or key 'passive_order' on a base object of type 'Dictionary'.
-SCRIPT ERROR: Invalid access to property or key 'passive_order' on a base object of type 'Dictionary'.
-SCRIPT ERROR: Invalid access to property or key 'passive_order' on a base object of type 'Dictionary'.
-SCRIPT ERROR: Invalid access to property or key 'passive_order' on a base object of type 'Dictionary'.
-SCRIPT ERROR: Invalid access to property or key 'passive_order' on a base object of type 'Dictionary'.
-SCRIPT ERROR: Trying to call an async function without "await".
-SCRIPT ERROR: Trying to call an async function without "await".
+=== SESSION ERRORS & WARNINGS (18 found) ===
+ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
+SCRIPT ERROR: Parse Error: Expected end of statement after expression, found "`" instead.
+ERROR: Failed to load script "res://mods-unpacked/nanobotz-autopassivechooser/scenes/passive_order.gd" with error "Parse error".
+SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
+ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
 SCRIPT ERROR: Trying to call an async function without "await".
 SCRIPT ERROR: Trying to call an async function without "await".
 SCRIPT ERROR: Trying to call an async function without "await".
@@ -35,8 +23,8 @@ ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(
 ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
 ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
 ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-SCRIPT ERROR: Trying to call an async function without "await".
-SCRIPT ERROR: Trying to call an async function without "await".
+ERROR: 45 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+ERROR: 159 resources still in use at exit (run with --verbose for details).
 
 === ACTIVE MOD LOG ENTRIES (13 found) ===
 	 - C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mods/gareth-tectonic_faultline_mod.zip
@@ -45,35 +33,28 @@ SUCCESS ModLoader: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal L
 DEBUG ModLoader:Config: No config for mod id "gareth-tectonic_faultline_mod"
 DEBUG ModLoader:Dependency: Checking dependencies - mod_id: gareth-tectonic_faultline_mod optional dependencies: []
 DEBUG ModLoader:Dependency: Checking dependencies - mod_id: gareth-tectonic_faultline_mod required dependencies: []
-INFO ModLoader: mod_load_order -> 21) gareth-tectonic_faultline_mod
+INFO ModLoader: mod_load_order -> 22) gareth-tectonic_faultline_mod
 INFO ModLoader: Initializing -> gareth-tectonic_faultline_mod
 DEBUG ModLoader: Loading script from -> res://mods-unpacked/gareth-tectonic_faultline_mod/mod_main.gd
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Mod initializing...
-DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultline_mod:<Node#724641525108>
-  "gareth-tectonic_faultline_mod": "<Resource#-9223371950754101671>",
+DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultline_mod:<Node#727845973384>
+  "gareth-tectonic_faultline_mod": "<Resource#-9223371949965572514>",
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Custom Map Mod (ID 102) online!
 
 === LOG TAIL (LAST 30 LINES) ===
+ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+employee_enum = NOTHING
+employees all successfully instantiated
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+   at: connect (core/object/object.cpp:1451)
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+   at: connect (core/object/object.cpp:1451)
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+   at: connect (core/object/object.cpp:1451)
 ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
    at: connect (core/object/object.cpp:1451)
 Mine region ready
 INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-40.0, -57.0)
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (166.747, 7.965181)
-INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Damage +5.0%
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
-INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (166.747, 7.965181)!
-SCRIPT ERROR: Trying to call an async function without "await".
-   at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
-SCRIPT ERROR: Trying to call an async function without "await".
-   at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
-INFO gareth-multisave_mod: Career progression and hard modifier badges verified.
-INFO gareth-multisave_mod: Career progression and hard modifier badges verified.
-WARNING: Target object freed before starting, aborting Tweener.
-   at: start (scene/animation/tween.cpp:594)
 INFO nanobotz-autopassivechooser:SettingsHook: Passive Order tab added to settings menu.
 INFO der_floh-effect_spread_mod:SettingsHook: Effect Spread tab added to settings menu.
 INFO der_floh-game_limits_mod:Tab: Max mortars set to 200
@@ -84,3 +65,10 @@ INFO der_floh-game_limits_mod:Tab: Max electric visual arcs set to 200
 INFO der_floh-game_limits_mod:SettingsHook: Game Limits tab added to settings menu.
 INFO der_floh-ore_value_mod:SettingsHook: Ore Value tab added to settings menu.
 INFO der_floh-passive_drop_mod:SettingsHook: Passive Drop tab added to settings menu.
+ERROR: 45 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+WARNING: 90 RIDs of type "Texture" were leaked.
+   at: finalize (servers/rendering/rendering_device.cpp:7130)
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2378)
+ERROR: 159 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:614)
