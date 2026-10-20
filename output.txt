@@ -1,91 +1,62 @@
-﻿>>> 1. Terminating running Coal LLC / Godot processes...
+﻿=== 1. Contents of C:\Dev\coal-llc-mods\InventoryWindow.gd ===
+  extends GridContainer
+  
+  @export var in_game: bool = true
+  @export var totalSlots: int = 40
+  
+  const INVENTORY_SLOT = preload("res://scenes/Interfaces/Inventory/inventory_slot_b.tscn")
+  var inventory: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
+  
+  
+  func _ready() -> void :
+      inventory.connect("inventory_changed", on_inventory_changed)
+      load_inventory()
+  
+  func on_inventory_changed():
+      load_inventory()
+  
+  func load_inventory():
+      var n = 0
+      var slots = get_children()
+      for item in inventory.items:
+          if n < slots.size():
+              slots[n].inventoryItem = item
+              slots[n].in_game = in_game
+          else:
+              var instance = INVENTORY_SLOT.instantiate()
+              instance.location = instance.Location.WINDOW
+              instance.connect("update_inventory_from_ui", save_inventory)
+              add_child(instance)
+              instance.inventoryItem = item
+              instance.in_game = in_game
+          n += 1
+  
+  func save_inventory():
+      var n = 0
+      for slot in get_children():
+          inventory.items[n] = slot.inventoryItem
+          n += 1
+      inventory.addToInventory(load("res://resources/Items/Coal.tres"), 0)
+      Bus.inventory_changed.emit()
 
->>> 2. Resetting nanobotz-autopassivechooser to clean Git state...
-Reset nanobotz-autopassivechooser to commit 6a8eb85
+=== 2. Contents of C:\Dev\coal-llc-mods\item_filter_container.gd ===
+  extends ScrollContainer
+  
+  
+  func _ready() -> void :
+      if Gvars.bonus_equipment_manager.item_filter:
+          visible = true
+      else:
+          visible = false
 
->>> 3. Ensuring valid gunslinger.json in AppData...
-Verified config at: C:\Users\garet\AppData\Roaming\Godot\app_userdata\Coal LLC\mod_configs\NanobotZ-AutoPassiveChooser\gunslinger.json
+=== 3. Converting Inventory.scn to Inventory.tscn in repo root ===
 
->>> 4. Patching passive_order.gd cleanly without syntax errors...
-Successfully patched: C:\Dev\coal-llc-mods\mods-unpacked\nanobotz-autopassivechooser\mods-unpacked\nanobotz-autopassivechooser\scenes\passive_order.gd
+=== 4. Checking Converted Scene Text ===
+Godot Engine v4.6.beta.gh.54dc7e77e (2025-12-26 21:04:28 UTC) - https://godotengine.org
 
->>> 5. Patching choose_passive.hooks.gd with safe dictionary getter...
-Successfully patched: C:\Dev\coal-llc-mods\mods-unpacked\nanobotz-autopassivechooser\mods-unpacked\nanobotz-autopassivechooser\extensions\scenes\Interfaces\in_game\choose_passive.hooks.gd
-
->>> 6. Inspecting get_possible_passives_for_professions in passive_order.gd...
-
-
-func get_possible_passives_for_professions(profession_name: String) -> Array:
-        var passives: Array = []
-        for profession_idx in Gvars.get("profession_manager").get("all_professions"):
-                var profession = Gvars.get("profession_manager").get("all_professions")[profession_idx]
-                if profession_name.to_lower() == profession.profession.profession_name.to_lower():
-                        var data = {"unlocked_passives": []}
-                        data = profession.profession._profession_effect(data)
-                        passives = data["unlocked_passives"].duplicate()
-                        break
-
-        if passives.is_empty():
-                passives = ChoosePassive.ALL_PASSIVES.keys().duplicate()
-
-        # Ensure elemental & tick rate bonuses are always configurable
-        var extras: Array = ["fire_damage", "wet_damage", "poison_damage", "elemental_tick_rate"]
-        for ep in extras:
-                if not passives.has(ep):
-                        passives.append(ep)
-
-        return passives
-
-
-func prepare_grid_and_reroll() -> void:
-        template_children_count = grid.columns
-
-        var config = NanobotzAutoPassiveChooserMod.get_or_create_config(player_profession)
-
-        # Skip weapon pickups
-        skip_weapons_check.button_pressed = config.data.skip_weapon_pickups
-
-        # Reroll
-        reroll_check.button_pressed = config.data.reroll_if_no_matches
-
-        # Order
-        if not config.data.has("passive_order"):
-                config.data["passive_order"] = []
-        var passive_order = config.data["passive_order"]
-        var possible_passives := get_possible_passives_for_professions(player_profession)
-
-        var order_index := {}
-        for i in passive_order.size():
-                order_index[passive_order[i].effect] = i
-
-        possible_passives.sort_custom(func(a, b):
-                var a_in := order_index.has(a)
-                var b_in := order_index.has(b)
-
-                if a_in and b_in:
-                        return order_index[a] < order_index[b]
-                elif a_in:
-                        return true
-                elif b_in:
-                        return false
-                else:
-
->>> 7. Repackaging NanobotZ-AutoPassiveChooser.zip...
-Repacked release archive: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods\NanobotZ-AutoPassiveChooser.zip
-
->>> 8. Git staging, committing, and pushing...
-warning: in the working copy of 'context.txt', LF will be replaced by CRLF the next time Git touches it
-[main e5dbc5a] Cleanly patch passive_order and choose_passive against missing config keys without parse errors
- 5 files changed, 106 insertions(+), 963 deletions(-)
-Enumerating objects: 30, done.
-Counting objects: 100% (30/30), done.
-Delta compression using up to 24 threads
-Compressing objects: 100% (16/16), done.
-Writing objects: 100% (16/16), 3.85 KiB | 984.00 KiB/s, done.
-Total 16 (delta 7), reused 0 (delta 0), pack-reused 0 (from 0)
-remote: Resolving deltas: 100% (7/7), completed with 7 local objects.
-To https://github.com/garethwhite-prog/coal-llc-mods.git
-   4546ca8..e5dbc5a  main -> main
-
-Patch deployed cleanly! Launch Coal LLC to test the Settings menu.
-PS C:\Dev\coal-llc-mods> 
+PS C:\Dev\coal-llc-mods> --headless--headlessERROR: Cannot open file ' C:/Dev/coal-llc-mods/extracted_inventory/export-a7a9f4d2bb472d5ac3d63356b9741448-Inventory.scn'.
+   at: ResourceFormatLoaderCompatBinary::custom_load (modules\gdsdecomp\compat\resource_compat_binary.cpp:2925)
+ERROR: Failed to load  C:/Dev/coal-llc-mods/extracted_inventory/export-a7a9f4d2bb472d5ac3d63356b9741448-Inventory.scn
+   at: ResourceCompatLoader::to_text (modules\gdsdecomp\compat\resource_loader_compat.cpp:435)
+Error: failed to convert files to text:
+ C:/Dev/coal-llc-mods/extracted_inventory/export-a7a9f4d2bb472d5ac3d63356b9741448-Inventory.scn

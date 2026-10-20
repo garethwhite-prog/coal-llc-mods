@@ -1,5 +1,11 @@
 extends Node
 
+func _init() -> void:
+	ModLoaderMod.install_script_hooks(
+		"res://scenes/Interfaces/InventoryWindow.gd",
+		"res://mods-unpacked/gareth-more_inventory_slots_mod/extensions/scenes/Interfaces/InventoryWindow.hooks.gd"
+	)
+
 func _ready() -> void:
 	var item_unlocks = load("res://resources/unlockable_items/scripts/item_unlocks.tres")
 	if not item_unlocks:

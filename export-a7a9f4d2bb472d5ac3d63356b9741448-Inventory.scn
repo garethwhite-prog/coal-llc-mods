@@ -1,0 +1,39 @@
+[gd_resource type="PackedScene" load_steps=13 format=3]
+
+[ext_resource type="Texture2D" uid="uid://dwp36lq83itvm" path="res://assets/Backpack.png" id="1"]
+[ext_resource type="StyleBox" uid="uid://cv6l3n4ps2tna" path="res://resources_UI/DisabledStyleBox.tres" id="2"]
+[ext_resource type="Script" uid="uid://d3u8qvqk246ax" path="res://scenes/Interfaces/drop_item.gd" id="3"]
+[ext_resource type="StyleBox" uid="uid://c6gxksc4wmpgr" path="res://resources_UI/NormalStyleBox.tres" id="4"]
+[ext_resource type="Script" uid="uid://cg05t3gx487dr" path="res://scenes/Interfaces/effects_toggle.gd" id="5"]
+[ext_resource type="Texture2D" uid="uid://w1ivctoi84ua" path="res://assets/32x32ItemFrame.png" id="6"]
+[ext_resource type="PackedScene" uid="uid://bnsqjw0svi065" path="res://scenes/Interfaces/InventoryWindow.tscn" id="7"]
+[ext_resource type="PackedScene" uid="uid://dgsij1o4y8sko" path="res://scenes/Interfaces/Management/passive_bonuses.tscn" id="8"]
+[ext_resource type="Script" uid="uid://dej6rtfgr2586" path="res://scenes/Interfaces/item_filter_container.gd" id="9"]
+[ext_resource type="PackedScene" uid="uid://ddhche7jo650o" path="res://scenes/Interfaces/in_game/item_filter_settings.tscn" id="10"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_x3vi2"]
+allow_unpress = true
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qm312"]
+texture = ExtResource("6")
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 5.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[resource]
+_bundled = {
+"conn_count": 4,
+"conns": PackedInt32Array(11, 10, 50, 49, 2, 0, 0, 12, 10, 50, 51, 2, 0, 0, 13, 10, 50, 52, 2, 0, 0, 21, 21, 54, 53, 2, 0, 0),
+"editable_instances": [],
+"names": PackedStringArray("Inventory", "modulate", "layout_mode", "anchors_preset", "anchor_right", "anchor_bottom", "grow_horizontal", "grow_vertical", "Control", "MarginContainer", "theme_override_constants/margin_left", "theme_override_constants/margin_top", "theme_override_constants/margin_right", "theme_override_constants/margin_bottom", "HBoxContainer", "LeftColumn", "size_flags_horizontal", "size_flags_stretch_ratio", "VBoxContainer", "PlayerSprite", "texture", "expand_mode", "TextureRect", "DropItem", "theme_override_styles/panel", "script", "PanelContainer", "mouse_filter", "theme_override_font_sizes/normal_font_size", "bbcode_enabled", "text", "fit_content", "RichTextLabel", "size_flags_vertical", "EffectsToggle", "JetpackButton", "button_group", "CheckButton", "WingsButton", "HoverboardButton", "RightColumn", "InventoryWholeWindow", "InventoryWindow", "ScrollContainer", "follow_focus", "horizontal_scroll_mode", "PassiveBonuses", "item_filter_container", "ItemFilterSettings", "_on_jetpack_button_toggled", "toggled", "_on_wings_button_toggled", "_on_hoverboard_button_toggled", "_on_visibility_changed", "visibility_changed"),
+"node_count": 24,
+"node_paths": [],
+"nodes": PackedInt32Array(-1, -1, 8, 0, -1, 7, 1, 0, 2, 1, 3, 2, 4, 3, 5, 3, 6, 4, 7, 4, 0, 0, 0, 9, 9, -1, 10, 2, 5, 3, 2, 4, 3, 5, 3, 6, 4, 7, 4, 10, 6, 11, 6, 12, 6, 13, 6, 0, 1, 0, 14, 14, -1, 1, 2, 4, 0, 2, 0, 9, 15, -1, 3, 2, 4, 16, 1, 17, 7, 0, 3, 0, 18, 18, -1, 3, 2, 4, 16, 1, 17, 7, 0, 4, 0, 9, 9, -1, 5, 2, 4, 10, 8, 11, 8, 12, 8, 13, 8, 0, 5, 0, 22, 19, -1, 3, 2, 4, 20, 9, 21, 10, 0, 4, 0, 26, 23, -1, 3, 2, 4, 24, 11, 25, 12, 0, 7, 0, 32, 22, -1, 6, 2, 4, 27, 4, 28, 13, 29, 14, 30, 15, 31, 14, 0, 4, 0, 26, 26, -1, 3, 2, 4, 33, 1, 24, 16, 0, 9, 0, 18, 34, -1, 2, 2, 4, 25, 17, 0, 10, 0, 37, 35, -1, 3, 2, 4, 36, 18, 30, 19, 0, 10, 0, 37, 38, -1, 3, 2, 4, 36, 18, 30, 20, 0, 10, 0, 37, 39, -1, 3, 2, 4, 36, 18, 30, 21, 0, 2, 0, 9, 40, -1, 5, 2, 4, 16, 1, 10, 6, 11, 6, 12, 6, 0, 14, 0, 26, 26, -1, 2, 2, 4, 24, 22, 0, 15, 0, 9, 9, -1, 5, 2, 4, 10, 23, 11, 23, 12, 23, 13, 23, 0, 16, 0, 18, 41, -1, 1, 2, 4, 0, 17, 0, 2147483647, 42, 24, 2, 2, 4, 33, 5, 0, 17, 0, 14, 14, -1, 2, 2, 4, 33, 1, 0, 19, 0, 43, 43, -1, 5, 2, 4, 16, 1, 33, 1, 44, 14, 45, 25, 0, 20, 0, 2147483647, 46, 26, 1, 2, 4, 0, 19, 0, 43, 47, -1, 5, 2, 4, 33, 1, 44, 14, 45, 25, 25, 27, 0, 22, 0, 2147483647, 48, 28, 3, 2, 4, 16, 29, 33, 1, 0),
+"variants": [Color(1, 1, 1, 0.862745), 3, 15, 1.0, 2, 1, 30, 0.3, 60, ExtResource("1"), 5, ExtResource("2"), ExtResource("3"), 32, true, "
+[center]CTRL + Left-Click to Drop an Item
+ ", ExtResource("4"), ExtResource("5"), SubResource("ButtonGroup_x3vi2"), "Jetpack", "Wings", "Hoverboard", SubResource("StyleBoxTexture_qm312"), 10, ExtResource("7"), 0, ExtResource("8"), ExtResource("9"), ExtResource("10"), 6],
+"version": 3
+}
