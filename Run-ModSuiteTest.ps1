@@ -1,4 +1,5 @@
-cls;
+Clear-Host;
+
 Write-Host "==========================================" -ForegroundColor Cyan;
 Write-Host "COAL LLC MOD SUITE - AUTOMATED TEST RUNNER" -ForegroundColor Cyan;
 Write-Host "==========================================" -ForegroundColor Cyan;

@@ -1,29 +1,12 @@
-﻿>>> 1. Creating mod directories...
->>> 2. Writing manifest.json...
->>> 3. Writing mod_main.gd...
->>> 4. Writing parallelized tile_map_chunk.hooks.gd...
-Created: C:\Dev\coal-llc-mods\mods-unpacked\gareth-hardware_booster_mod\mods-unpacked\gareth-hardware_booster_mod\extensions\scenes\tilemaps\tile_map_chunk.hooks.gd
+﻿==========================================
+COAL LLC MOD SUITE - AUTOMATED TEST RUNNER
+==========================================
+  -> Deployed gareth-mod_manager_mod
+  -> Deployed gareth-knight_class_mod
+  -> Deployed gareth-dual_multipliers_mod
+  -> Deployed gareth-elemental_transmutation_mod
 
->>> 5. Removing locked mod-hooks.zip...
->>> 6. Repackaging gareth-hardware_booster_mod.zip...
-Packed release archive: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods\gareth-hardware_booster_mod.zip
+Mods deployed cleanly with forward slashes.
+Launch Coal LLC to test, or press any key to audit godot.log...
 
->>> 7. Git staging and committing...
-[main f334e72] Add gareth-hardware_booster_mod for parallel chunk noise dispatch via WorkerThreadPool
- 6 files changed, 262 insertions(+), 235 deletions(-)
- create mode 100644 mods-unpacked/gareth-hardware_booster_mod/manifest.json
- create mode 100644 mods-unpacked/gareth-hardware_booster_mod/mods-unpacked/gareth-hardware_booster_mod/extensions/scenes/tilemaps/tile_map_chunk.hooks.gd
- create mode 100644 mods-unpacked/gareth-hardware_booster_mod/mods-unpacked/gareth-hardware_booster_mod/manifest.json
- create mode 100644 mods-unpacked/gareth-hardware_booster_mod/mods-unpacked/gareth-hardware_booster_mod/mod_main.gd
-Enumerating objects: 18, done.
-Counting objects: 100% (18/18), done.
-Delta compression using up to 24 threads
-Compressing objects: 100% (12/12), done.
-Writing objects: 100% (14/14), 5.50 KiB | 1.37 MiB/s, done.
-Total 14 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
-remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
-To https://github.com/garethwhite-prog/coal-llc-mods.git
-   4c94d39..f334e72  main -> main
 
-Deployment complete! Launch Coal LLC to test.
-PS C:\Dev\coal-llc-mods> 

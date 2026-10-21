@@ -1,169 +1,39 @@
 extends Object
 
-const CUSTOM_PASSIVES: Dictionary = {
-	"sword_damage": 0.10,
-	"sword_speed": 0.10,
-	"sword_range": 0.15,
-	"fracker_pulse_damage": 0.10,
-	"fracker_seam_resonance": 0.15,
-	"fracker_fire_rate": 0.10,
-	"ball_blast_damage": 0.10,
-	"ball_blast_radius": 0.15,
-	"ball_fire_rate": 0.10,
-	"exec_damage": 0.10,
-	"exec_fire_rate": 0.10,
-	"exec_bounty": 0.15,
-	"jedi_saber_damage": 0.10,
-	"jedi_swing_rate": 0.10,
-	"jedi_cleave_reach": 0.15,
-	"sinclair_melt_damage": 0.10,
-	"sinclair_beam_width": 0.15,
-	"sinclair_spectrum_ticks": 0.10,
-	"void_implosion_damage": 0.10,
-	"void_pull_radius": 0.15,
-	"void_event_horizon": 0.10,
-	"dread_shell_damage": 0.10,
-	"dread_fire_rate": 0.10,
-	"dread_impact_radius": 0.15,
-	"chrono_tick_rate": 0.10,
-	"chrono_shockwave_damage": 0.15,
-	"chrono_stasis_duration": 0.10,
-	"elemental_tick_rate": 0.10
-}
+func _process(chain: ModLoaderHookChain, delta: float) -> void:
+	chain.execute_next([delta])
 
 func _ready(chain: ModLoaderHookChain) -> void:
-	var cp = chain.reference_object as ChoosePassive
-	if not cp:
-		chain.execute_next([])
-		return
-
-	cp.process_mode = Node.PROCESS_MODE_ALWAYS
-	cp.get_tree().paused = true
-	cp.live = true
-
-	var local_passive_map: Dictionary = cp.PASSIVE_MAP.duplicate(true)
-	local_passive_map["sword"] = ["sword_damage", "sword_speed", "sword_range"]
-	local_passive_map["fracker"] = ["fracker_pulse_damage", "fracker_seam_resonance", "fracker_fire_rate"]
-	local_passive_map["bouncing_ball"] = ["ball_blast_damage", "ball_blast_radius", "ball_fire_rate"]
-	local_passive_map["debt_executioner"] = ["exec_damage", "exec_fire_rate", "exec_bounty"]
-	local_passive_map["jedi_saber"] = ["jedi_saber_damage", "jedi_swing_rate", "jedi_cleave_reach"]
-	local_passive_map["sinclair_prism"] = ["sinclair_melt_damage", "sinclair_beam_width", "sinclair_spectrum_ticks"]
-	local_passive_map["void_core"] = ["void_implosion_damage", "void_pull_radius", "void_event_horizon"]
-	local_passive_map["dread_cannon"] = ["dread_shell_damage", "dread_fire_rate", "dread_impact_radius"]
-	local_passive_map["chrono_drill"] = ["chrono_tick_rate", "chrono_shockwave_damage", "chrono_stasis_duration"]
-
-	var data := {"unlocked_passives": []}
-	if Gvars and Gvars.profession:
-		data = Gvars.profession._profession_effect(data)
-
-	var all_keys: Array = cp.ALL_PASSIVES.keys().duplicate()
-	for k in CUSTOM_PASSIVES.keys():
-		if not all_keys.has(k):
-			all_keys.append(k)
-
-	for up in data.get("unlocked_passives", []):
-		if not all_keys.has(up):
-			all_keys.append(up)
-	cp.x = all_keys
-
-	var player_inventory: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
-	var choice_options: Array[String] = []
-	var leftover_options: Array = cp.x.duplicate()
-
-	# 1. Standard inventory-gated weapon passives
-	if player_inventory and player_inventory.items:
-		for inv_item in player_inventory.items:
-			if inv_item and inv_item.item:
-				for p in local_passive_map.get(inv_item.item.itemType, []):
-					if p in leftover_options and not (p in choice_options):
-						choice_options.append(p)
-
-	# 2. Tectonic Faultline Exclusive Injection (Map 102 only)
-	var is_faultline: bool = false
-	if Gvars:
-		if ("level" in Gvars and Gvars.level == 102) or ("chosen_level" in Gvars and Gvars.chosen_level == 102) or ("current_level" in Gvars and Gvars.current_level == 102):
-			is_faultline = true
-
-	if is_faultline:
-		var faultline_perks: Array[String] = ["fire_damage", "wet_damage", "poison_damage", "elemental_tick_rate"]
-		for fp in faultline_perks:
-			if fp in leftover_options and not (fp in choice_options):
-				choice_options.append(fp)
-
-	var choices: Array[String] = []
-	var c1: String = choice_options.pick_random() if choice_options.size() > 0 else leftover_options.pick_random()
-	choices.append(c1)
-	choice_options.erase(c1)
-	leftover_options.erase(c1)
-
-	var c2: String = choice_options.pick_random() if choice_options.size() > 0 else leftover_options.pick_random()
-	choices.append(c2)
-	choice_options.erase(c2)
-	leftover_options.erase(c2)
-
-	var mob_opts: Array = ["player_sprint_speed", "player_jump_velocity", "player_climb_speed"]
-	var valid_mob: Array = []
-	for m in mob_opts:
-		if leftover_options.has(m):
-			valid_mob.append(m)
-	var c3: String = valid_mob.pick_random() if valid_mob.size() > 0 else leftover_options.pick_random()
-	choices.append(c3)
-
-	cp.choose_between = choices
-	cp.choose_between.shuffle()
-
-	var buttons = [cp.button, cp.button_2, cp.button_3]
-	for i in range(3):
-		var p_key: String = cp.choose_between[i]
-		var base_rate: float = 0.05
-		if CUSTOM_PASSIVES.has(p_key):
-			base_rate = CUSTOM_PASSIVES[p_key]
-		elif cp.ALL_PASSIVES.has(p_key):
-			base_rate = cp.ALL_PASSIVES[p_key]
-		buttons[i].text = "Increase " + p_key.replace("_", " ").capitalize() + " +" + str(cp.multiplier * (base_rate * 100)) + "%"
-
-	var reroll_btn = cp.get_node_or_null("%Reroll")
-	if not reroll_btn and "reroll" in cp:
-		reroll_btn = cp.reroll
-	if reroll_btn and not reroll_btn.pressed.is_connected(cp._on_reroll_pressed):
-		reroll_btn.pressed.connect(cp._on_reroll_pressed)
+	chain.execute_next([])
 
 func _on_button_pressed(chain: ModLoaderHookChain) -> void:
-	_handle_button_selection(chain, 0)
+	_handle_selection(chain, 0)
 
 func _on_button_2_pressed(chain: ModLoaderHookChain) -> void:
-	_handle_button_selection(chain, 1)
+	_handle_selection(chain, 1)
 
 func _on_button_3_pressed(chain: ModLoaderHookChain) -> void:
-	_handle_button_selection(chain, 2)
+	_handle_selection(chain, 2)
 
-func _handle_button_selection(chain: ModLoaderHookChain, idx: int) -> void:
-	var cp = chain.reference_object as ChoosePassive
-	if not cp or not cp.live:
-		return
-
-	if idx >= cp.choose_between.size():
+func _handle_selection(chain: ModLoaderHookChain, button_idx: int) -> void:
+	var screen = chain.reference_object
+	if not is_instance_valid(screen):
 		chain.execute_next([])
 		return
 
-	var choice: String = cp.choose_between[idx]
-	if CUSTOM_PASSIVES.has(choice):
-		cp.live = false
-		var base_rate: float = CUSTOM_PASSIVES[choice]
-		var delta_amount: float = cp.multiplier * base_rate
-		_apply_custom_stat(choice, delta_amount)
-		cp.get_tree().paused = false
-		cp.queue_free()
-	else:
-		chain.execute_next([])
+	if "options" in screen and button_idx < screen.options.size():
+		var chosen = screen.options[button_idx]
+		if chosen and ("stat_name" in chosen):
+			_apply_custom_stat(chosen.stat_name, chosen.get("value", 0.0))
 
-func _apply_custom_stat(stat_name: String, amount: float) -> void:
+	chain.execute_next([])
+
+func _apply_custom_stat(stat_name: String, val: float) -> void:
 	if not Gvars:
 		return
-	if not ("custom_passives" in Gvars) or (Gvars.custom_passives == null):
-		Gvars.set("custom_passives", {})
-	if not Gvars.custom_passives.has(stat_name):
-		if not ("custom_passives" in Gvars) or Gvars.custom_passives == null: Gvars.custom_passives = {}`r`n`t`tGvars.custom_passives[stat_name] = 0.0
-	if not ("custom_passives" in Gvars) or Gvars.custom_passives == null: Gvars.custom_passives = {}`r`n`t`tGvars.custom_passives[stat_name] += amount
-	ModLoaderLog.info("[Passives] Applied %s +%.2f (Total: %.2f)" % [stat_name, amount, if not ("custom_passives" in Gvars) or Gvars.custom_passives == null: Gvars.custom_passives = {}`r`n`t`tGvars.custom_passives[stat_name]], "gareth-mod_manager_mod")
+	if not ("custom_passives" in Gvars) or Gvars.custom_passives == null:
+		Gvars.custom_passives = {}
 
+	var passives = Gvars.custom_passives
+	if passives is Dictionary:
+		passives[stat_name] = passives.get(stat_name, 0.0) + val
