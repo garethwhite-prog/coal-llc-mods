@@ -1,0 +1,17 @@
+{
+  "name": "hardware_booster_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "Accelerates terrain generation and heavy calculations using Godot 4 WorkerThreadPool across multi-core CPUs.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": [],
+  "extra": {
+    "godot": {
+      "display_name": "Hardware Multi-Thread Booster",
+      "category": "Performance",
+      "authors": ["Gareth White"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}

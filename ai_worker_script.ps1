@@ -1,7 +1,7 @@
 ﻿Clear-Host;
 
 # ==============================================================================
-# Coal LLC - Add 4-Row ScrollContainer to gareth-more_inventory_slots_mod
+# Coal LLC - Deploy Hardware Acceleration & Multi-Threading Mod
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
@@ -9,201 +9,113 @@ $steamRoot  = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC"
 $steamMods  = "$steamRoot\mods"
 $hookZip    = "$steamRoot\mod-hooks.zip"
 
-$modName    = "gareth-more_inventory_slots_mod"
+$modName    = "gareth-hardware_booster_mod"
 $outerDir   = "$repo\mods-unpacked\$modName"
 $innerDir   = "$outerDir\mods-unpacked\$modName"
 $zipPath    = "$steamMods\$modName.zip"
 
 Set-Location $repo
 
-Write-Host ">>> 1. Terminating running Coal LLC / Godot processes..." -ForegroundColor Cyan
-Get-Process -Name "Coal LLC*", "godot*" -ErrorAction SilentlyContinue | Stop-Process -Force
-Start-Sleep -Milliseconds 600
+Write-Host ">>> 1. Creating mod directories..." -ForegroundColor Cyan
+New-Item -ItemType Directory -Path "$innerDir\extensions\scenes\tilemaps" -Force | Out-Null
 
-Write-Host "`n>>> 2. Creating directory structures..." -ForegroundColor Cyan
-$hooksDir  = "$innerDir\extensions\scenes\Interfaces"
-$helperDir = "$innerDir\helpers"
-if (-not (Test-Path $hooksDir))  { New-Item -ItemType Directory -Path $hooksDir -Force | Out-Null }
-if (-not (Test-Path $helperDir)) { New-Item -ItemType Directory -Path $helperDir -Force | Out-Null }
-
-Write-Host "`n>>> 3. Creating InventoryScrollHelper.gd..." -ForegroundColor Cyan
-$helperPath = "$helperDir\InventoryScrollHelper.gd"
+Write-Host ">>> 2. Writing manifest.json..." -ForegroundColor Cyan
 @'
-class_name InventoryScrollHelper
-extends RefCounted
+{
+  "name": "hardware_booster_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "Accelerates terrain generation and heavy calculations using Godot 4 WorkerThreadPool across multi-core CPUs.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": [],
+  "extra": {
+    "godot": {
+      "display_name": "Hardware Multi-Thread Booster",
+      "category": "Performance",
+      "authors": ["Gareth White"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}
+'@ | Set-Content -Path "$outerDir\manifest.json" -Encoding UTF8
+Copy-Item -Path "$outerDir\manifest.json" -Destination "$innerDir\manifest.json" -Force
 
-static func setup_scroll(window: GridContainer) -> void:
-	if not window or not is_instance_valid(window):
-		return
-	_apply_scroll_wrapper.call_deferred(window)
+Write-Host ">>> 3. Writing mod_main.gd..." -ForegroundColor Cyan
+@'
+extends Node
 
-static func update_scroll(window: GridContainer) -> void:
-	if not window or not is_instance_valid(window):
-		return
-	_adjust_scroll_size.call_deferred(window)
+const MOD_ID := "gareth-hardware_booster_mod"
+const LOG_NAME := "gareth-hardware_booster_mod"
 
-static func _apply_scroll_wrapper(window: GridContainer) -> void:
-	if not window or not is_instance_valid(window):
-		return
+func _init() -> void:
+	ModLoaderLog.info("Hardware Multi-Thread Booster initializing...", LOG_NAME)
+	install_hooks()
 
-	var parent = window.get_parent()
-	if not parent or not is_instance_valid(parent):
-		return
+func _ready() -> void:
+	var cpu_count = OS.get_processor_count()
+	ModLoaderLog.info("Hardware Multi-Thread Booster active! Detected " + str(cpu_count) + " logical CPU threads.", LOG_NAME)
 
-	if parent is ScrollContainer or parent.name == "InventoryScrollContainer":
-		_adjust_scroll_size(window)
-		return
+func install_hooks() -> void:
+	var unpacked_dir = ModLoaderMod.get_unpacked_dir().path_join(MOD_ID)
+	var ext_dir = unpacked_dir.path_join("extensions")
 
-	var idx = window.get_index()
-	var orig_owner = window.owner
+	ModLoaderMod.install_script_hooks(
+		"res://scenes/tilemaps/tile_map_chunk.gd",
+		ext_dir.path_join("scenes/tilemaps/tile_map_chunk.hooks.gd")
+	)
+'@ | Set-Content -Path "$innerDir\mod_main.gd" -Encoding UTF8
 
-	var scroll = ScrollContainer.new()
-	scroll.name = "InventoryScrollContainer"
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+Write-Host ">>> 4. Writing parallelized tile_map_chunk.hooks.gd..." -ForegroundColor Cyan
+$chunkHookPath = "$innerDir\extensions\scenes\tilemaps\tile_map_chunk.hooks.gd"
 
-	scroll.size_flags_horizontal = window.size_flags_horizontal
-	scroll.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-
-	var dims = _calculate_dimensions(window)
-	scroll.custom_minimum_size = dims
-
-	window.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	window.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
-
-	parent.remove_child(window)
-	parent.add_child(scroll)
-	parent.move_child(scroll, idx)
-	scroll.add_child(window)
-
-	if orig_owner:
-		scroll.owner = orig_owner
-		window.owner = orig_owner
-
-	_wire_slot_mouse_scroll(window, scroll)
-
-static func _adjust_scroll_size(window: GridContainer) -> void:
-	if not window or not is_instance_valid(window):
-		return
-	var scroll = window.get_parent() as ScrollContainer
-	if not scroll:
-		return
-	var dims = _calculate_dimensions(window)
-	scroll.custom_minimum_size = dims
-	_wire_slot_mouse_scroll(window, scroll)
-
-static func _calculate_dimensions(window: GridContainer) -> Vector2:
-	var slots = window.get_children()
-	var slot_w: float = 64.0
-	var slot_h: float = 64.0
-	var h_sep: float = window.get_theme_constant("h_separation")
-	var v_sep: float = window.get_theme_constant("v_separation")
-	if h_sep <= 0.0: h_sep = 6.0
-	if v_sep <= 0.0: v_sep = 6.0
-
-	if slots.size() > 0 and slots[0] is Control:
-		var s = slots[0] as Control
-		if s.size.x > 10.0: slot_w = s.size.x
-		elif s.custom_minimum_size.x > 10.0: slot_w = s.custom_minimum_size.x
-		if s.size.y > 10.0: slot_h = s.size.y
-		elif s.custom_minimum_size.y > 10.0: slot_h = s.custom_minimum_size.y
-
-	var total_w = (slot_w * 10.0) + (h_sep * 9.0) + 26.0
-	var max_h   = (slot_h * 4.0) + (v_sep * 3.0) + 4.0
-	return Vector2(total_w, max_h)
-
-static func _wire_slot_mouse_scroll(window: GridContainer, scroll: ScrollContainer) -> void:
-	for child in window.get_children():
-		if child is Control and not child.has_meta("scroll_wired"):
-			child.set_meta("scroll_wired", true)
-			child.gui_input.connect(func(event: InputEvent):
-				if event is InputEventMouseButton and event.is_pressed():
-					var v_bar = scroll.get_v_scroll_bar()
-					if not v_bar:
-						return
-					if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-						v_bar.value -= v_bar.page * 0.25
-					elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-						v_bar.value += v_bar.page * 0.25
-			)
-'@ | Set-Content -Path $helperPath -Encoding UTF8
-Write-Host "Created: $helperPath" -ForegroundColor Green
-
-Write-Host "`n>>> 4. Creating InventoryWindow.hooks.gd..." -ForegroundColor Cyan
-$hookPath = "$hooksDir\InventoryWindow.hooks.gd"
 @'
 extends Object
 
-func _ready(chain: ModLoaderHookChain) -> void:
-	chain.execute_next()
-	var window = chain.reference_object
-	var helper = load("res://mods-unpacked/gareth-more_inventory_slots_mod/helpers/InventoryScrollHelper.gd")
-	if helper:
-		helper.setup_scroll(window)
-
-func load_inventory(chain: ModLoaderHookChain) -> void:
-	chain.execute_next()
-	var window = chain.reference_object
-	var helper = load("res://mods-unpacked/gareth-more_inventory_slots_mod/helpers/InventoryScrollHelper.gd")
-	if helper:
-		helper.update_scroll(window)
-'@ | Set-Content -Path $hookPath -Encoding UTF8
-Write-Host "Created: $hookPath" -ForegroundColor Green
-
-Write-Host "`n>>> 5. Updating mod_main.gd to install script hook..." -ForegroundColor Cyan
-$modMainPath = "$innerDir\mod_main.gd"
-$modMainContent = @'
-extends Node
-
-func _init() -> void:
-	ModLoaderMod.install_script_hooks(
-		"res://scenes/Interfaces/InventoryWindow.gd",
-		"res://mods-unpacked/gareth-more_inventory_slots_mod/extensions/scenes/Interfaces/InventoryWindow.hooks.gd"
-	)
-
-func _ready() -> void:
-	var item_unlocks = load("res://resources/unlockable_items/scripts/item_unlocks.tres")
-	if not item_unlocks:
+func generate_chunk(chain: ModLoaderHookChain, noise: Noise) -> void:
+	var chunk = chain.reference_object
+	if not chunk or not ("tiles" in chunk) or not chunk.has_method("array_to_global_pos"):
+		chain.execute_next([noise])
 		return
 
-	var cleaned: Array[Item] = []
-	for it in item_unlocks.all_bonus_items:
-		if it and it.itemID.begins_with("AddInventorySlots") and not it.itemID in ["AddInventorySlots1", "AddInventorySlots2", "AddInventorySlots3"]:
-			continue
-		cleaned.append(it)
-	item_unlocks.all_bonus_items = cleaned
+	# If the chunk has a custom map active, allow the map chain to proceed normally
+	if Gvars and ("level" in Gvars) and Gvars.level >= 100:
+		chain.execute_next([noise])
+		return
 
-	var target_idx = -1
-	for i in range(item_unlocks.all_bonus_items.size()):
-		if item_unlocks.all_bonus_items[i] and item_unlocks.all_bonus_items[i].itemID == "AddInventorySlots3":
-			target_idx = i
-			break
+	# Multi-threaded standard chunk calculation across available CPU threads
+	var total_tiles = chunk.tiles.size()
+	var temp_tiles = chunk.tiles.duplicate()
 
-	var new_items: Array[Item] = []
-	for t in range(4, 11):
-		var it = load("res://mods-unpacked/gareth-more_inventory_slots_mod/items/add_inventory_slots_%d.tres" % t)
-		if it:
-			new_items.append(it)
-			if not it in item_unlocks.all_items:
-				item_unlocks.all_items.append(it)
+	var group_id = WorkerThreadPool.add_group_task(
+		func(i: int):
+			var pos = Vector2i(chunk.array_to_global_pos(i))
+			# Background thread noise sampling
+			var val = noise.get_noise_2d(float(pos.x), float(pos.y))
+			if val < -0.35 and pos.y > 6:
+				temp_tiles[i] = chunk.Tiles.EMPTY
+			elif val > 0.28:
+				temp_tiles[i] = chunk.Tiles.COAL_STONE
+		,
+		total_tiles,
+		32 # Process in batches of 32 tiles per thread task
+	)
 
-	if target_idx != -1:
-		for offset in range(new_items.size()):
-			item_unlocks.all_bonus_items.insert(target_idx + 1 + offset, new_items[offset])
-	else:
-		for it in new_items:
-			item_unlocks.all_bonus_items.append(it)
-'@
-Set-Content -Path $modMainPath -Value $modMainContent -Encoding UTF8
-Write-Host "Updated: $modMainPath" -ForegroundColor Green
+	# Await parallel background worker tasks
+	WorkerThreadPool.wait_for_group_task_completion(group_id)
 
-Write-Host "`n>>> 6. Purging mod-hooks.zip to instrument InventoryWindow.gd..." -ForegroundColor Cyan
+	# Commit completed thread data back to the chunk
+	chunk.tiles = temp_tiles
+	chain.execute_next([noise])
+'@ | Set-Content -Path $chunkHookPath -Encoding UTF8
+Write-Host "Created: $chunkHookPath" -ForegroundColor Green
+
+Write-Host "`n>>> 5. Removing locked mod-hooks.zip..." -ForegroundColor Cyan
 if (Test-Path $hookZip) {
     Remove-Item -Path $hookZip -Force
-    Write-Host "Deleted stale: $hookZip" -ForegroundColor Green
 }
 
-Write-Host "`n>>> 7. Repackaging $modName.zip..." -ForegroundColor Cyan
+Write-Host ">>> 6. Repackaging gareth-hardware_booster_mod.zip..." -ForegroundColor Cyan
 if (Test-Path $zipPath) { Remove-Item -Path $zipPath -Force }
 
 Add-Type -AssemblyName System.IO.Compression
@@ -216,11 +128,11 @@ foreach ($f in (Get-ChildItem -Path $outerDir -Recurse -File)) {$entryName = $f.
 }
 $archive.Dispose()
 $stream.Dispose()
-Write-Host "Repacked: $zipPath" -ForegroundColor Green
+Write-Host "Packed release archive: $zipPath" -ForegroundColor Green
 
-Write-Host "`n>>> 8. Git staging, committing, and pushing..." -ForegroundColor Cyan
+Write-Host "`n>>> 7. Git staging and committing..." -ForegroundColor Cyan
 git add -A
-git commit -m "Constrain inventory slots to 4 visible rows with ScrollContainer and mouse wheel scrolling in more_inventory_slots_mod"
+git commit -m "Add gareth-hardware_booster_mod for parallel chunk noise dispatch via WorkerThreadPool"
 git push origin main
 
-Write-Host "`nDeployment complete! Launch Coal LLC to test inventory scrolling." -ForegroundColor Green
+Write-Host "`nDeployment complete! Launch Coal LLC to test." -ForegroundColor Green
