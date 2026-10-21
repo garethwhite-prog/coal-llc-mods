@@ -1,4 +1,4 @@
-﻿extends Object
+extends Object
 
 const CUSTOM_PASSIVES: Dictionary = {
 	"sword_damage": 0.10,
@@ -163,6 +163,7 @@ func _apply_custom_stat(stat_name: String, amount: float) -> void:
 	if not ("custom_passives" in Gvars) or (Gvars.custom_passives == null):
 		Gvars.set("custom_passives", {})
 	if not Gvars.custom_passives.has(stat_name):
-		Gvars.custom_passives[stat_name] = 0.0
-	Gvars.custom_passives[stat_name] += amount
-	ModLoaderLog.info("[Passives] Applied %s +%.2f (Total: %.2f)" % [stat_name, amount, Gvars.custom_passives[stat_name]], "gareth-mod_manager_mod")
+		if not ("custom_passives" in Gvars) or Gvars.custom_passives == null: Gvars.custom_passives = {}`r`n`t`tGvars.custom_passives[stat_name] = 0.0
+	if not ("custom_passives" in Gvars) or Gvars.custom_passives == null: Gvars.custom_passives = {}`r`n`t`tGvars.custom_passives[stat_name] += amount
+	ModLoaderLog.info("[Passives] Applied %s +%.2f (Total: %.2f)" % [stat_name, amount, if not ("custom_passives" in Gvars) or Gvars.custom_passives == null: Gvars.custom_passives = {}`r`n`t`tGvars.custom_passives[stat_name]], "gareth-mod_manager_mod")
+

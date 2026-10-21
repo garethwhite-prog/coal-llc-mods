@@ -1,85 +1,29 @@
-﻿>>> 1. Terminating running Coal LLC / Godot processes...
+﻿>>> 1. Creating mod directories...
+>>> 2. Writing manifest.json...
+>>> 3. Writing mod_main.gd...
+>>> 4. Writing parallelized tile_map_chunk.hooks.gd...
+Created: C:\Dev\coal-llc-mods\mods-unpacked\gareth-hardware_booster_mod\mods-unpacked\gareth-hardware_booster_mod\extensions\scenes\tilemaps\tile_map_chunk.hooks.gd
 
->>> 2. Creating directory structures...
+>>> 5. Removing locked mod-hooks.zip...
+>>> 6. Repackaging gareth-hardware_booster_mod.zip...
+Packed release archive: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods\gareth-hardware_booster_mod.zip
 
->>> 3. Creating InventoryScrollHelper.gd...
-Created: C:\Dev\coal-llc-mods\mods-unpacked\gareth-more_inventory_slots_mod\mods-unpacked\gareth-more_inventory_slots_mod\helpers\InventoryScrollHelper.gd
-
->>> 4. Creating InventoryWindow.hooks.gd...
-Created: C:\Dev\coal-llc-mods\mods-unpacked\gareth-more_inventory_slots_mod\mods-unpacked\gareth-more_inventory_slots_mod\extensions\scenes\Interfaces\InventoryWindow.hooks.gd
-
->>> 5. Updating mod_main.gd to install script hook...
-Updated: C:\Dev\coal-llc-mods\mods-unpacked\gareth-more_inventory_slots_mod\mods-unpacked\gareth-more_inventory_slots_mod\mod_main.gd
-
->>> 6. Purging mod-hooks.zip to instrument InventoryWindow.gd...
-Deleted stale: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mod-hooks.zip
-
->>> 7. Repackaging gareth-more_inventory_slots_mod.zip...
-Repacked: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods\gareth-more_inventory_slots_mod.zip
-
->>> 8. Git staging, committing, and pushing...
-warning: in the working copy of 'InventorySlot.gd', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'InventoryToolbar.gd', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'InventoryWindow.gd', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'export-a7a9f4d2bb472d5ac3d63356b9741448-Inventory.scn', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'extracted_inventory/Inventory.tscn.remap', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'extracted_inventory/InventoryItem.tscn.remap', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'extracted_inventory/InventorySlot.gd.remap', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'extracted_inventory/InventorySlot.tscn.remap', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'extracted_inventory/InventoryToolbar.gd.remap', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'extracted_inventory/InventoryToolbar.tscn.remap', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'extracted_inventory/InventoryWindow.gd.remap', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'extracted_inventory/InventoryWindow.tscn.remap', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'extracted_inventory/inventory_slot_b.gd.remap', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'extracted_inventory/inventory_slot_b.tscn.remap', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'extracted_inventory/item_filter_container.gd.remap', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'inventory_slot_b.gd', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'item_filter_container.gd', LF will be replaced by CRLF the next time Git touches it
-[main 4c94d39] Constrain inventory slots to 4 visible rows with ScrollContainer and mouse wheel scrolling in more_inventory_slots_mod
- 36 files changed, 871 insertions(+), 108 deletions(-)
- create mode 100644 InventorySlot.gd
- create mode 100644 InventoryToolbar.gd
- create mode 100644 InventoryWindow.gd
- create mode 100644 export-a7a9f4d2bb472d5ac3d63356b9741448-Inventory.scn
- create mode 100644 extracted_inventory/Inventory.tscn.remap
- create mode 100644 extracted_inventory/InventoryItem.tscn.remap
- create mode 100644 extracted_inventory/InventorySlot.gd.remap
- create mode 100644 extracted_inventory/InventorySlot.gdc
- create mode 100644 extracted_inventory/InventorySlot.tscn.remap
- create mode 100644 extracted_inventory/InventoryToolbar.gd.remap
- create mode 100644 extracted_inventory/InventoryToolbar.gdc
- create mode 100644 extracted_inventory/InventoryToolbar.tscn.remap
- create mode 100644 extracted_inventory/InventoryWindow.gd.remap
- create mode 100644 extracted_inventory/InventoryWindow.gdc
- create mode 100644 extracted_inventory/InventoryWindow.tscn.remap
- create mode 100644 extracted_inventory/export-1a16f043166345aef5630ef41e0baf94-InventoryWindow.scn
- create mode 100644 extracted_inventory/export-39250e673c4ff7e6cb8acbbe0ae30083-TooltipInventory.scn
- create mode 100644 extracted_inventory/export-3a43b9cb8ad47afad1e006a711bcd31d-ChestInventory.scn
- create mode 100644 extracted_inventory/export-3ab5329afe11acf494f80210a492f77b-InventoryItemCard.scn
- create mode 100644 extracted_inventory/export-3e1e230ca5661f20bf6f6120a4ae6759-InventoryItem.scn
- create mode 100644 extracted_inventory/export-831aff916e3a65d5b9c5aa20882a040a-InventorySlot.scn
- create mode 100644 extracted_inventory/export-8383e66c8e5767bcf40080ba8eed5762-InventoryToolbar.scn
- create mode 100644 extracted_inventory/export-a7a9f4d2bb472d5ac3d63356b9741448-Inventory.scn
- create mode 100644 extracted_inventory/export-d4e67f0b5d82736d851445b1e1280c3f-inventory_slot_b.scn
- create mode 100644 extracted_inventory/inventory_slot_b.gd.remap
- create mode 100644 extracted_inventory/inventory_slot_b.gdc
- create mode 100644 extracted_inventory/inventory_slot_b.tscn.remap
- create mode 100644 extracted_inventory/item_filter_container.gd.remap
- create mode 100644 extracted_inventory/item_filter_container.gdc
- create mode 100644 inventory_slot_b.gd
- create mode 100644 item_filter_container.gd
- create mode 100644 mods-unpacked/gareth-more_inventory_slots_mod/mods-unpacked/gareth-more_inventory_slots_mod/extensions/scenes/Interfaces/InventoryWindow.hooks.gd
- create mode 100644 mods-unpacked/gareth-more_inventory_slots_mod/mods-unpacked/gareth-more_inventory_slots_mod/helpers/InventoryScrollHelper.gd
-Enumerating objects: 54, done.
-Counting objects: 100% (54/54), done.
+>>> 7. Git staging and committing...
+[main f334e72] Add gareth-hardware_booster_mod for parallel chunk noise dispatch via WorkerThreadPool
+ 6 files changed, 262 insertions(+), 235 deletions(-)
+ create mode 100644 mods-unpacked/gareth-hardware_booster_mod/manifest.json
+ create mode 100644 mods-unpacked/gareth-hardware_booster_mod/mods-unpacked/gareth-hardware_booster_mod/extensions/scenes/tilemaps/tile_map_chunk.hooks.gd
+ create mode 100644 mods-unpacked/gareth-hardware_booster_mod/mods-unpacked/gareth-hardware_booster_mod/manifest.json
+ create mode 100644 mods-unpacked/gareth-hardware_booster_mod/mods-unpacked/gareth-hardware_booster_mod/mod_main.gd
+Enumerating objects: 18, done.
+Counting objects: 100% (18/18), done.
 Delta compression using up to 24 threads
-Compressing objects: 100% (45/45), done.
-Writing objects: 100% (47/47), 31.63 KiB | 2.43 MiB/s, done.
-Total 47 (delta 6), reused 0 (delta 0), pack-reused 0 (from 0)
-remote: Resolving deltas: 100% (6/6), completed with 3 local objects.
+Compressing objects: 100% (12/12), done.
+Writing objects: 100% (14/14), 5.50 KiB | 1.37 MiB/s, done.
+Total 14 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
 To https://github.com/garethwhite-prog/coal-llc-mods.git
-   8988f62..4c94d39  main -> main
+   4c94d39..f334e72  main -> main
 
-Deployment complete! Launch Coal LLC to test inventory scrolling.
-PS C:\Dev\coal-llc-mods> --headless--headless
-fwd-i-search: __
+Deployment complete! Launch Coal LLC to test.
+PS C:\Dev\coal-llc-mods> 
