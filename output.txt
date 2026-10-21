@@ -1,12 +1,142 @@
-﻿==========================================
-COAL LLC MOD SUITE - AUTOMATED TEST RUNNER
-==========================================
-  -> Deployed gareth-mod_manager_mod
-  -> Deployed gareth-knight_class_mod
-  -> Deployed gareth-dual_multipliers_mod
-  -> Deployed gareth-elemental_transmutation_mod
+﻿PS C:\Dev\coal-llc-mods> 
+PS C:\Dev\coal-llc-mods> # ==============================================================================
+PS C:\Dev\coal-llc-mods> # Coal LLC - Trace Print Spam Source & Full Camera.gd Analysis
+PS C:\Dev\coal-llc-mods> # ==============================================================================
+PS C:\Dev\coal-llc-mods> 
+PS C:\Dev\coal-llc-mods> $repo       = "C:\Dev\coal-llc-mods"
+PS C:\Dev\coal-llc-mods> $steamRoot  = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC"
+PS C:\Dev\coal-llc-mods> $steamMods  = "$steamRoot\mods"
+PS C:\Dev\coal-llc-mods> $dumpRoot   = "$steamRoot\_dump"
+PS C:\Dev\coal-llc-mods> 
+PS C:\Dev\coal-llc-mods> Write-Host ">>> 1. Hunting 'inventory count =' across all mod ZIP archives..." -ForegroundColor Cyan
+>>> 1. Hunting 'inventory count =' across all mod ZIP archives...
+PS C:\Dev\coal-llc-mods> Add-Type -AssemblyName System.IO.Compression.FileSystem
+PS C:\Dev\coal-llc-mods> 
+PS C:\Dev\coal-llc-mods> $zipFiles = Get-ChildItem -Path $steamMods -Filter "*.zip"
+PS C:\Dev\coal-llc-mods> foreach ($z in $zipFiles) {
+>>     try {
+>>         $zip = [System.IO.Compression.ZipFile]::OpenRead($z.FullName)
+>>         foreach ($entry in $zip.Entries) {
+>>             if ($entry.Name.EndsWith(".gd")) {
+>>                 $stream = $entry.Open()
+>>                 $reader = New-Object System.IO.StreamReader($stream)
+>>                 $text   = $reader.ReadToEnd()
+>>                 $reader.Dispose()
+>> $stream.Dispose()
+>> 
+>>                 if ($text -match 'inventory count') {
+>>                     Write-Host "  [FOUND IN ZIP] $($z.Name) -> $($entry.FullName)" -ForegroundColor Red
+>>                     $text -split "`r?`n" | Select-String "inventory count|max inventory" | ForEach-Object {
+>>                         Write-Host "    Line: $_" -ForegroundColor Yellow
+>>                     }
+>>                 }
+>>             }
+>>         }
+>>         $zip.Dispose()
+>>     } catch {
+>>         Write-Warning "Could not read $($z.Name):$_"
+>>     }
+>> }
+PS C:\Dev\coal-llc-mods> 
+PS C:\Dev\coal-llc-mods> Write-Host "`n>>> 2. Hunting 'inventory count =' in vanilla decompiled dump..." -ForegroundColor Cyan
 
-Mods deployed cleanly with forward slashes.
-Launch Coal LLC to test, or press any key to audit godot.log...
+>>> 2. Hunting 'inventory count =' in vanilla decompiled dump...
+PS C:\Dev\coal-llc-mods> if (Test-Path $dumpRoot) {
+>>     $vanillaMatches = Get-ChildItem -Path $dumpRoot -Recurse -Filter "*.gd" | Select-String -Pattern "inventory count"
+>>     if ($vanillaMatches) {
+>>         foreach ($m in $vanillaMatches) {
+>>             Write-Host "  [FOUND IN BASE GAME] $($m.Path.Replace($dumpRoot, '')) : Line $($m.LineNumber)" -ForegroundColor Red
+>>             Write-Host "    $($m.Line.Trim())" -ForegroundColor Yellow
+>>         }
+>>     } else {
+>>         Write-Host "  Not found in base dump scripts." -ForegroundColor Green
+>>     }
+>> }
+  [FOUND IN BASE GAME] \scripts\LootCollectorUFO.gd : Line 126
+    print("inventory count = " + Gconsts.add_comma_to_float_no_dp(inventory.inventoryCount))
+PS C:\Dev\coal-llc-mods> 
+PS C:\Dev\coal-llc-mods> Write-Host "`n>>> 3. Dumping full Camera.gd script..." -ForegroundColor Cyan
 
+>>> 3. Dumping full Camera.gd script...
+PS C:\Dev\coal-llc-mods> $cameraFile = Get-ChildItem -Path $dumpRoot -Recurse -Filter "*Camera*.gd" | Select-Object -First 1
+PS C:\Dev\coal-llc-mods> if ($cameraFile) {
+>>     Write-Host "--- Full contents of $($cameraFile.FullName.Replace($dumpRoot, '')) ---" -ForegroundColor Yellow
+>>     $lines = Get-Content $cameraFile.FullName
+>>     for ($i = 0; $i -lt $lines.Count; $i++) {
+>>         Write-Host ("{0,3}: {1}" -f ($i + 1), $lines[$i])
+>>     }
+>> }
+--- Full contents of \scripts\Camera.gd ---
+  1: extends Camera2D
+  2: class_name CustomCamera2D
+  3: 
+  4: var free_move = false
+  5: 
+  6: 
+  7: 
+  8: 
+  9: 
+ 10: 
+ 11: 
+ 12: @onready var TargetNode: Node2D = get_node("../Player")
+ 13: 
+ 14: func _ready() -> void :
+ 15:     var target_pos = TargetNode.get_position()
+ 16:     set_position(target_pos)
+ 17: 
+ 18: 
+ 19: func _unhandled_input(event: InputEvent) -> void :
+ 20:     if event is InputEventPanGesture:
+ 21:         Gvars.settings.zoom_level += event.delta.y
+ 22:     elif event.is_action_pressed("zoomIn"):
+ 23:         Gvars.settings.zoom_level += 0.25
+ 24:     elif event.is_action_pressed("zoomOut"):
+ 25:         Gvars.settings.zoom_level -= 0.25
+ 26: 
+ 27: 
+ 28: func _process(_delta) -> void :
+ 29:     if position_smoothing_enabled != Gvars.settings.camera_smoothing_on:
+ 30:         position_smoothing_enabled = Gvars.settings.camera_smoothing_on
+ 31: 
+ 32:     if free_move == false:
+ 33:         var target_pos = TargetNode.global_position
+ 34:         set_position(target_pos)
+ 35: 
+ 36:         if Input.is_action_pressed("sprint"):
+ 37:             position_smoothing_speed = Gvars.settings.camera_smoothing + 1.5
+ 38:         else:
+ 39:             position_smoothing_speed = Gvars.settings.camera_smoothing
+ 40:         zoom = Vector2(Gvars.settings.zoom_level, Gvars.settings.zoom_level)
+ 41:     else:
+ 42:         position.x = move_toward(
+ 43:             position.x, 
+ 44:             position.x + 100 * Input.get_axis("moveLeft", "moveRight"), 
+ 45:             1)
+ 46: 
+ 47:         position.y = move_toward(
+ 48:             position.y, 
+ 49:             position.y + 100 * Input.get_axis("moveUp", "moveDown"), 
+ 50:             1)
+ 51:         zoom = Vector2(Gvars.settings.zoom_level, Gvars.settings.zoom_level)
+PS C:\Dev\coal-llc-mods> 
+PS C:\Dev\coal-llc-mods> Write-Host "`n>>> 4. Inspecting InputMap bindings for zoomIn / zoomOut..." -ForegroundColor Cyan
 
+>>> 4. Inspecting InputMap bindings for zoomIn / zoomOut...
+PS C:\Dev\coal-llc-mods> $projFile = Get-ChildItem -Path $dumpRoot -Recurse -Filter "project.godot" | Select-Object -First 1
+PS C:\Dev\coal-llc-mods> if ($projFile) {
+>>     $projLines = Get-Content $projFile.FullName
+>>     $inInput = $false
+>>     foreach ($line in $projLines) {
+>>         if ($line -match '^\[input\]') { $inInput = $true }
+>>         elseif ($line -match '^\[' -and $inInput) { $inInput = $false }
+>>         if ($inInput -and ($line -match 'zoomIn|zoomOut')) {
+>>             Write-Host "  $line" -ForegroundColor Green
+>>         }
+>>     }
+>> }
+  zoomIn={
+  zoomOut={
+PS C:\Dev\coal-llc-mods> 
+PS C:\Dev\coal-llc-mods> Write-Host "`nScan complete. Review the outputs above." -ForegroundColor Cyan
+
+Scan complete. Review the outputs a

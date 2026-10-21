@@ -1,163 +1,107 @@
 ﻿Clear-Host;
 
 # ==============================================================================
-# Coal LLC - Silence I/O Print Spam, Fix Parse Errors & Inspect Camera Zoom
+# Coal LLC - Fix Mouse Wheel Zoom & Inspect LootCollectorUFO Method
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
 $steamRoot  = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC"
 $steamMods  = "$steamRoot\mods"
-$hookZip    = "$steamRoot\mod-hooks.zip"
 $dumpRoot   = "$steamRoot\_dump"
+$hookZip    = "$steamRoot\mod-hooks.zip"
 
-$hbInner    = "$repo\mods-unpacked\gareth-hardware_booster_mod\mods-unpacked\gareth-hardware_booster_mod"
-$mmInner    = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod"
+$mmMain     = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\mod_main.gd"
 
 Set-Location $repo
 
-Write-Host ">>> 1. Terminating any running Coal LLC / Godot processes..." -ForegroundColor Cyan
-# Get-Process -Name "Coal LLC*", "godot*" -ErrorAction SilentlyContinue | Stop-Process -Force
-# Start-Sleep -Milliseconds 600
+Write-Host ">>> 1. Terminating running Coal LLC / Godot processes..." -ForegroundColor Cyan
+Get-Process -Name "Coal LLC*", "godot*" -ErrorAction SilentlyContinue | Stop-Process -Force
+Start-Sleep -Milliseconds 600
 
-Write-Host ">>> 2. Silencing 'inventory count =' print spam across all mods..." -ForegroundColor Cyan
-$allModScripts = Get-ChildItem -Path "$repo\mods-unpacked" -Recurse -Filter "*.gd"
-foreach ($script in $allModScripts) {
-    $code = Get-Content $script.FullName -Raw
-    if ($code -match 'inventory count\s*=') {
-        Write-Host "  Found spam print in: $($script.FullName.Replace($repo, ''))" -ForegroundColor Yellow
-        $fixedCode = $code -replace '(?m)^\s*print\s*\(\s*["'']inventory count\s*=\s*["''].*?\)', '# silenced inventory count print'
-        $fixedCode = $fixedCode -replace '(?m)^\s*print\s*\(\s*["'']max inventory\s*=\s*["''].*?\)', '# silenced max inventory print'
-        Set-Content -Path $script.FullName -Value $fixedCode -Encoding UTF8
-        Write-Host "  Silenced print loop in $($script.Name)" -ForegroundColor Green
+Write-Host "`n>>> 2. Inspecting enclosing function around line 126 of LootCollectorUFO.gd..." -ForegroundColor Cyan
+$ufoPath = "$dumpRoot\scripts\LootCollectorUFO.gd"
+if (Test-Path $ufoPath) {$ufoLines = Get-Content $ufoPath$start = [Math]::Max(0, 110)
+    $end   = [Math]::Min($ufoLines.Count - 1, 140)
+    for ($i = $start; $i -le $end; $i++) {
+        $prefix = if ($i -eq 125) { ">>>" } else { "   " }
+        Write-Host ("{0} {1,3}: {2}" -f $prefix, ($i + 1), $ufoLines[$i])
     }
 }
 
-Write-Host "`n>>> 3. Writing clean choose_passive.hooks.gd (no backticks)..." -ForegroundColor Cyan
-$passiveHookPath = "$mmInner\extensions\scenes\Interfaces\in_game\choose_passive.hooks.gd"
-@'
-extends Object
+Write-Host "`n>>> 3. Injecting high-priority _input zoom handler into mod_manager mod_main.gd..." -ForegroundColor Cyan
+$mmContent = Get-Content $mmMain -Raw
 
-func _process(chain: ModLoaderHookChain, delta: float) -> void:
-	chain.execute_next([delta])
+# Remove any previous zoom handler if present
+$mmContent = $mmContent -replace '(?ms)# === GLOBAL CAMERA ZOOM INTERCEPTOR ===.*# === END GLOBAL CAMERA ZOOM ===\r?\n?', ''
 
-func _ready(chain: ModLoaderHookChain) -> void:
-	chain.execute_next([])
+$zoomHandler = @'
 
-func _on_button_pressed(chain: ModLoaderHookChain) -> void:
-	_handle_selection(chain, 0)
-
-func _on_button_2_pressed(chain: ModLoaderHookChain) -> void:
-	_handle_selection(chain, 1)
-
-func _on_button_3_pressed(chain: ModLoaderHookChain) -> void:
-	_handle_selection(chain, 2)
-
-func _handle_selection(chain: ModLoaderHookChain, button_idx: int) -> void:
-	var screen = chain.reference_object
-	if not is_instance_valid(screen):
-		chain.execute_next([])
+# === GLOBAL CAMERA ZOOM INTERCEPTOR ===
+func _input(event: InputEvent) -> void:
+	if not Gvars or not ("settings" in Gvars) or not Gvars.settings:
 		return
 
-	if "options" in screen and button_idx < screen.options.size():
-		var chosen = screen.options[button_idx]
-		if chosen and ("stat_name" in chosen):
-			_apply_custom_stat(chosen.stat_name, chosen.get("value", 0.0))
+	var handled = false
+	if event is InputEventMouseButton and event.is_pressed():
+		# MOUSE_BUTTON_WHEEL_DOWN = 5 (Zoom OUT -> see more of mine)
+		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			Gvars.settings.zoom_level = clamp(Gvars.settings.zoom_level - 0.2, 0.25, 4.0)
+			handled = true
+		# MOUSE_BUTTON_WHEEL_UP = 4 (Zoom IN -> see player closer)
+		elif event.button_index == MOUSE_BUTTON_WHEEL_UP:
+			Gvars.settings.zoom_level = clamp(Gvars.settings.zoom_level + 0.2, 0.25, 4.0)
+			handled = true
 
-	chain.execute_next([])
+	elif event is InputEventKey and event.is_pressed() and not event.is_echo():
+		# Hotkeys: '-' or '[' to zoom out; '=' or ']' to zoom in; '0' or 'Z' to reset to 1.0
+		if event.keycode == KEY_MINUS or event.keycode == KEY_BRACKETLEFT:
+			Gvars.settings.zoom_level = clamp(Gvars.settings.zoom_level - 0.25, 0.25, 4.0)
+			handled = true
+		elif event.keycode == KEY_EQUAL or event.keycode == KEY_BRACKETRIGHT:
+			Gvars.settings.zoom_level = clamp(Gvars.settings.zoom_level + 0.25, 0.25, 4.0)
+			handled = true
+		elif event.keycode == KEY_0:
+			Gvars.settings.zoom_level = 1.0
+			handled = true
 
-func _apply_custom_stat(stat_name: String, val: float) -> void:
-	if not Gvars:
-		return
-	if not ("custom_passives" in Gvars) or Gvars.custom_passives == null:
-		Gvars.custom_passives = {}
+	if handled:
+		var cam = get_viewport().get_camera_2d()
+		if is_instance_valid(cam):
+			cam.zoom = Vector2(Gvars.settings.zoom_level, Gvars.settings.zoom_level)
+# === END GLOBAL CAMERA ZOOM ===
+'@
 
-	var passives = Gvars.custom_passives
-	if passives is Dictionary:
-		passives[stat_name] = passives.get(stat_name, 0.0) + val
-'@ | Set-Content -Path $passiveHookPath -Encoding UTF8
-Write-Host "Updated: $passiveHookPath" -ForegroundColor Green
+$mmContent = $mmContent + $zoomHandler
+Set-Content -Path $mmMain -Value $mmContent -Encoding UTF8
+Write-Host "Injected top-level zoom handler into $mmMain" -ForegroundColor Green
 
-Write-Host "`n>>> 4. Writing compile-safe hardware_booster_mod hook..." -ForegroundColor Cyan
-$chunkHookPath = "$hbInner\extensions\scenes\tilemaps\tile_map_chunk.hooks.gd"
-@'
-extends Object
-
-func generate_chunk(chain: ModLoaderHookChain, noise: Noise) -> void:
-	var chunk = chain.reference_object
-	if not chunk or not ("tiles" in chunk) or not chunk.has_method("array_to_global_pos"):
-		chain.execute_next([noise])
-		return
-
-	if Gvars and ("level" in Gvars) and Gvars.level >= 100:
-		chain.execute_next([noise])
-		return
-
-	var total_tiles: int = chunk.tiles.size()
-	var temp_tiles = chunk.tiles.duplicate()
-
-	var worker_task = Callable(self, "_calc_tile_worker").bind(chunk, noise, temp_tiles)
-	var group_id = WorkerThreadPool.add_group_task(worker_task, total_tiles, 32)
-	WorkerThreadPool.wait_for_group_task_completion(group_id)
-
-	chunk.tiles = temp_tiles
-	chain.execute_next([noise])
-
-func _calc_tile_worker(i: int, chunk: Node, noise: Noise, temp_tiles: Array) -> void:
-	var pos = Vector2i(chunk.array_to_global_pos(i))
-	var val = noise.get_noise_2d(float(pos.x), float(pos.y))
-	if val < -0.35 and pos.y > 6:
-		temp_tiles[i] = chunk.Tiles.EMPTY
-	elif val > 0.28:
-		temp_tiles[i] = chunk.Tiles.COAL_STONE
-'@ | Set-Content -Path $chunkHookPath -Encoding UTF8
-Write-Host "Updated: $chunkHookPath" -ForegroundColor Green
-
-Write-Host "`n>>> 5. Inspecting CameraMain zoom handling in base dump..." -ForegroundColor Cyan
-$cameraFiles = Get-ChildItem -Path $dumpRoot -Recurse -Filter "*Camera*.gd"
-foreach ($cam in $cameraFiles) {
-    Write-Host "--- Scanning $($cam.Name) for zoom logic ---" -ForegroundColor Yellow
-    $lines = Get-Content $cam.FullName
-    for ($i = 0; $i -lt $lines.Count; $i++) {
-        if ($lines[$i] -match "zoom|wheel|zoom_in|zoom_out") {
-            $start = [Math]::Max(0, $i - 1)
-            $end = [Math]::Min($lines.Count - 1, $i + 3)
-            for ($k = $start; $k -le $end; $k++) {
-                Write-Host ("{0,4}: {1}" -f ($k + 1), $lines[$k])
-            }
-        }
-    }
-}
-
-Write-Host "`n>>> 6. Purging mod-hooks.zip..." -ForegroundColor Cyan
+Write-Host "`n>>> 4. Purging mod-hooks.zip..." -ForegroundColor Cyan
 if (Test-Path $hookZip) {
     Remove-Item -Path $hookZip -Force
     Write-Host "Removed: $hookZip" -ForegroundColor Green
 }
 
-Write-Host ">>> 7. Repackaging modified mods..." -ForegroundColor Cyan
+Write-Host ">>> 5. Repackaging gareth-mod_manager_mod..." -ForegroundColor Cyan
 Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
-foreach ($m in @("gareth-hardware_booster_mod", "gareth-mod_manager_mod", "gareth-more_inventory_stacks_mod", "gareth-more_inventory_slots_mod")) {
-    $src = "$repo\mods-unpacked\$m"
-    if (Test-Path $src) {
-        $zip = "$steamMods\$m.zip"
-        if (Test-Path $zip) { Remove-Item -Path $zip -Force }
+$m   = "gareth-mod_manager_mod"
+$src = "$repo\mods-unpacked\$m"
+$zip = "$steamMods\$m.zip"
+if (Test-Path $zip) { Remove-Item -Path $zip -Force }
 
-        $stream  = [System.IO.File]::Open($zip, [System.IO.FileMode]::CreateNew)
-        $archive = New-Object System.IO.Compression.ZipArchive($stream, [System.IO.Compression.ZipArchiveMode]::Create)
-        foreach ($f in (Get-ChildItem -Path $src -Recurse -File)) {$entryName = $f.FullName.Substring($src.Length + 1).Replace("\", "/")
-            [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $f.FullName, $entryName) | Out-Null
-        }
-        $archive.Dispose()
-		$stream.Dispose()
-        Write-Host "Repacked: $zip" -ForegroundColor Green
-    }
+$stream  = [System.IO.File]::Open($zip, [System.IO.FileMode]::CreateNew)
+$archive = New-Object System.IO.Compression.ZipArchive($stream, [System.IO.Compression.ZipArchiveMode]::Create)
+foreach ($f in (Get-ChildItem -Path $src -Recurse -File)) {$entryName = $f.FullName.Substring($src.Length + 1).Replace("\", "/")
+    [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $f.FullName, $entryName) | Out-Null
 }
+$archive.Dispose()
+$stream.Dispose()
+Write-Host "Repacked: $zip" -ForegroundColor Green
 
-Write-Host "`n>>> 8. Git staging and committing..." -ForegroundColor Cyan
+Write-Host "`n>>> 6. Git commit and push..." -ForegroundColor Cyan
 git add -A
-git commit -m "Silence inventory print spam and clean choose_passive / hardware booster hooks"
+git commit -m "Add global input zoom interceptor and hotkeys"
 git push origin main
 
-Write-Host "`nReady to test! Launch Coal LLC and check the console output from Section 5." -ForegroundColor Green
+Write-Host "`nDone! Review Section 2 output above to see the LootCollectorUFO method." -ForegroundColor Green
