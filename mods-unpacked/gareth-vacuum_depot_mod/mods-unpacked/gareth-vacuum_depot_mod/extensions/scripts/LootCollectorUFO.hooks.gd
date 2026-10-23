@@ -1,8 +1,5 @@
 extends Object
 
-func _physics_process(chain: ModLoaderHookChain, delta: float) -> void:
-	chain.execute_next([delta])
-
 func check_inventory_count(chain: ModLoaderHookChain) -> void:
 	var ufo = chain.reference_object
 	if not is_instance_valid(ufo) or not ("inventory" in ufo) or not ("maxInventoryCount" in ufo):
@@ -13,8 +10,8 @@ func check_inventory_count(chain: ModLoaderHookChain) -> void:
 		ufo.StateLabel.text = Gconsts.add_comma_to_float_no_dp(ufo.maxInventoryCount)
 
 	var capacity_mult: float = 1.0
-	if Gvars and ("passives" in Gvars) and Gvars.passives is Dictionary:
-		capacity_mult += Gvars.passives.get("employee_collector_capacity", 0.0)
+	if Gvars and ("passives" in Gvars) and Gvars.passives:
+		capacity_mult += Gvars.passives.employee_collector_capacity
 
 	var max_cap: float = float(ufo.maxInventoryCount) * capacity_mult
 	if float(ufo.inventory.inventoryCount) >= max_cap:
