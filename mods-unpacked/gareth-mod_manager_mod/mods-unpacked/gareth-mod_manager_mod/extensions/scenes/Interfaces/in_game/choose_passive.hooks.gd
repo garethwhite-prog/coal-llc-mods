@@ -1,39 +1,53 @@
 extends Object
 
+const ALL_CUSTOM_PASSIVES: Array[String] = [
+	"jedi_saber_damage",
+	"jedi_swing_rate",
+	"jedi_cleave_reach",
+	"jedi_reflection_chance",
+	"knight_shield_block",
+	"knight_armor_plating",
+	"sinclairity_beam_width",
+	"sinclairity_refraction",
+	"tank_cannon_damage",
+	"tank_blast_radius",
+	"tectonic_quake_reach",
+	"void_siphon_potency",
+	"chrono_drill_haste",
+	"sprint_speed"
+]
+
 func _process(chain: ModLoaderHookChain, delta: float) -> void:
+	_ensure_passives(chain.reference_object)
 	chain.execute_next([delta])
 
 func _ready(chain: ModLoaderHookChain) -> void:
+	_ensure_passives(chain.reference_object)
 	chain.execute_next([])
 
 func _on_button_pressed(chain: ModLoaderHookChain) -> void:
-	_handle_selection(chain, 0)
-
-func _on_button_2_pressed(chain: ModLoaderHookChain) -> void:
-	_handle_selection(chain, 1)
-
-func _on_button_3_pressed(chain: ModLoaderHookChain) -> void:
-	_handle_selection(chain, 2)
-
-func _handle_selection(chain: ModLoaderHookChain, button_idx: int) -> void:
-	var screen = chain.reference_object
-	if not is_instance_valid(screen):
-		chain.execute_next([])
-		return
-
-	if "options" in screen and button_idx < screen.options.size():
-		var chosen = screen.options[button_idx]
-		if chosen and ("stat_name" in chosen):
-			_apply_custom_stat(chosen.stat_name, chosen.get("value", 0.0))
-
+	_ensure_passives(chain.reference_object)
 	chain.execute_next([])
 
-func _apply_custom_stat(stat_name: String, val: float) -> void:
-	if not Gvars:
-		return
-	if not ("custom_passives" in Gvars) or Gvars.custom_passives == null:
-		Gvars.custom_passives = {}
+func _on_button_2_pressed(chain: ModLoaderHookChain) -> void:
+	_ensure_passives(chain.reference_object)
+	chain.execute_next([])
 
-	var passives = Gvars.custom_passives
-	if passives is Dictionary:
-		passives[stat_name] = passives.get(stat_name, 0.0) + val
+func _on_button_3_pressed(chain: ModLoaderHookChain) -> void:
+	_ensure_passives(chain.reference_object)
+	chain.execute_next([])
+
+func _ensure_passives(screen: Node) -> void:
+	if not Gvars or not ("passives" in Gvars) or not (Gvars.passives is Dictionary):
+		return
+
+	for key in ALL_CUSTOM_PASSIVES:
+		if not Gvars.passives.has(key):
+			Gvars.passives[key] = 0.0
+
+	if is_instance_valid(screen) and ("options" in screen) and screen.options is Array:
+		for opt in screen.options:
+			if opt and ("stat_name" in opt) and opt.stat_name != "":
+				var sname: String = str(opt.stat_name)
+				if not Gvars.passives.has(sname):
+					Gvars.passives[sname] = 0.0
