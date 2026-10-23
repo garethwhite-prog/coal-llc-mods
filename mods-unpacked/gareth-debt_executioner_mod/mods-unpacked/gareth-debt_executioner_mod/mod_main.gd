@@ -1,4 +1,4 @@
-﻿extends Node
+extends Node
 
 const MOD_DIR := "gareth-debt_executioner_mod"
 
@@ -74,8 +74,6 @@ func _register_weapon_tiers() -> void:
 		if item_unlocks:
 			if not (item in item_unlocks.all_equipment_items):
 				item_unlocks.all_equipment_items.append(item)
-			if not (item in item_unlocks.all_items):
-				item_unlocks.all_items.append(item)
 
 	if all_debt_items.size() > 0:
 		starter_weapon = all_debt_items[0]

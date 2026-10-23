@@ -55,7 +55,6 @@ func _handle_button_click(chain: ModLoaderHookChain, button_idx: int) -> void:
 		chain.execute_next([])
 		return
 
-	# Handle custom class passive
 	screen.live = false
 	var base_val: float = CUSTOM_PASSIVE_DEFAULTS.get(stat_name, 0.05)
 	var add_amount: float = screen.multiplier * base_val

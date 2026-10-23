@@ -1,136 +1,127 @@
 ﻿=================================================================
->>> Checking how all custom weapons read their passive stats...
+>>> 1. Inspecting jedi_class_mod/mod_main.gd lines 70-85...
 =================================================================
---- \mods-unpacked\gareth-bouncing_ball_mod\mods-unpacked\gareth-bouncing_ball_mod\scripts\bouncing_ball_equip.gd ---
-   60: 
-   61: func _get_passive_stat(stat_name: String) -> float:
-   62:  if not Gvars or not ("passives" in Gvars) or not Gvars.passives:
-   63:          return 0.0
-   64:  var p = Gvars.passives
-   65:  if p.has_meta(stat_name):
-   66:          return float(p.get_meta(stat_name))
-   67:  if stat_name in p:
-   68:          return float(p.get(stat_name))
-   69:  return 0.0
-   70: 
-   71: func _throw_bouncing_ball(player) -> void:
---- \mods-unpacked\gareth-chrono_industrialist_mod\mods-unpacked\gareth-chrono_industrialist_mod\scripts\chrono_industrialist_equip.gd ---
-   67: 
-   68: func _get_passive_stat(stat_name: String) -> float:
-   69:  if not Gvars or not ("passives" in Gvars) or not Gvars.passives:
-   70:          return 0.0
-   71:  var p = Gvars.passives
-   72:  if p.has_meta(stat_name):
-   73:          return float(p.get_meta(stat_name))
-   74:  if stat_name in p:
-   75:          return float(p.get(stat_name))
-   76:  return 0.0
-   77: 
-   78: func _execute_chrono_strike(player) -> void:
---- \mods-unpacked\gareth-custom_classes_mod\mods-unpacked\gareth-custom_classes_mod\scripts\knight_sword_equip.gd ---
-   23:  var p_pos := player.global_position
-   24:  var base_dmg: float = 65.0 * (1.0 + (Gvars.passives.axe_damage if Gvars and "passives" in Gvars else 0.0))
-   25: 
-   26:  # 180-degree frontal cleave cone
-   27:  var tilemap = player.tilemap
-   28:  if tilemap:
-   29:          for angle_deg in [-60, -30, 0, 30, 60]:
-   30:                  var test_dir = dir.rotated(deg_to_rad(angle_deg))
-   31:                  for dist in [16, 32, 48]:
-   32:                          var t_pos = p_pos + test_dir * dist
-   33:                          var m_pos = tilemap.local_to_map(t_pos)
-   34:                          if tilemap.is_tile_collision(m_pos):
---- \mods-unpacked\gareth-debt_executioner_mod\mods-unpacked\gareth-debt_executioner_mod\scripts\debt_executioner_equip.gd ---
-   70: 
-   71: func _get_passive_stat(stat_name: String) -> float:
-   72:  if not Gvars or not ("passives" in Gvars) or not Gvars.passives:
-   73:          return 0.0
-   74:  var p = Gvars.passives
-   75:  if p.has_meta(stat_name):
-   76:          return float(p.get_meta(stat_name))
-   77:  if stat_name in p:
-   78:          return float(p.get(stat_name))
-   79:  return 0.0
-   80: 
-   81: func _discharge_minigun(player) -> void:
---- \mods-unpacked\gareth-grav_dreadnought_mod\mods-unpacked\gareth-grav_dreadnought_mod\scripts\grav_dreadnought_equip.gd ---
-   80: 
-   81: func _get_passive_stat(stat_name: String) -> float:
-   82:  if not Gvars or not ("passives" in Gvars) or not Gvars.passives:
-   83:          return 0.0
-   84:  var p = Gvars.passives
-   85:  if p.has_meta(stat_name):
-   86:          return float(p.get_meta(stat_name))
-   87:  if stat_name in p:
-   88:          return float(p.get(stat_name))
-   89:  return 0.0
-   90: 
-   91: func _spawn_orbital_shell(player) -> void:
---- \mods-unpacked\gareth-jedi_class_mod\mods-unpacked\gareth-jedi_class_mod\scripts\jedi_saber_equip.gd ---
-   68: 
-   69: func _get_passive_stat(stat_name: String) -> float:
-   70:  if not Gvars or not ("passives" in Gvars) or not Gvars.passives:
-   71:          return 0.0
-   72:  var p = Gvars.passives
-   73:  if p.has_meta(stat_name):
-   74:          return float(p.get_meta(stat_name))
-   75:  if stat_name in p:
-   76:          return float(p.get(stat_name))
-   77:  return 0.0
-   78: 
-   79: func _execute_saber_cleave(player) -> void:
---- \mods-unpacked\gareth-knight_class_mod\mods-unpacked\gareth-knight_class_mod\scripts\knight_sword_equip.gd ---
-   67: 
-   68: func _get_passive_stat(stat_name: String) -> float:
-   69:  if not Gvars or not ("passives" in Gvars) or not Gvars.passives:
-   70:          return 0.0
-   71:  var p = Gvars.passives
-   72:  if p.has_meta(stat_name):
-   73:          return float(p.get_meta(stat_name))
-   74:  if stat_name in p:
-   75:          return float(p.get(stat_name))
-   76:  return 0.0
-   77: 
-   78: func _cleave_attack(player) -> void:
---- \mods-unpacked\gareth-sinclairity_class_mod\mods-unpacked\gareth-sinclairity_class_mod\scripts\sinclairity_equip.gd ---
-   79: 
-   80: func _get_passive_stat(stat_name: String) -> float:
-   81:  if not Gvars or not ("passives" in Gvars) or not Gvars.passives:
-   82:          return 0.0
-   83:  var p = Gvars.passives
-   84:  if p.has_meta(stat_name):
-   85:          return float(p.get_meta(stat_name))
-   86:  if stat_name in p:
-   87:          return float(p.get(stat_name))
-   88:  return 0.0
-   89: 
-   90: func _process_prismatic_beam(player, delta) -> void:
---- \mods-unpacked\gareth-tectonic_fracker_mod\mods-unpacked\gareth-tectonic_fracker_mod\scripts\tectonic_fracker_equip.gd ---
-   66: 
-   67: func _get_passive_stat(stat_name: String) -> float:
-   68:  if not Gvars or not ("passives" in Gvars) or not Gvars.passives:
-   69:          return 0.0
-   70:  var p = Gvars.passives
-   71:  if p.has_meta(stat_name):
-   72:          return float(p.get_meta(stat_name))
-   73:  if stat_name in p:
-   74:          return float(p.get(stat_name))
-   75:  return 0.0
-   76: 
-   77: func _fire_seismic_pulse(player) -> void:
---- \mods-unpacked\gareth-void_siphon_mod\mods-unpacked\gareth-void_siphon_mod\scripts\void_siphon_equip.gd ---
-   62: 
-   63: func _get_passive_stat(stat_name: String) -> float:
-   64:  if not Gvars or not ("passives" in Gvars) or not Gvars.passives:
-   65:          return 0.0
-   66:  var p = Gvars.passives
-   67:  if p.has_meta(stat_name):
-   68:          return float(p.get_meta(stat_name))
-   69:  if stat_name in p:
-   70:          return float(p.get(stat_name))
-   71:  return 0.0
-   72: 
-   73: func _trigger_singularity_implosion(player) -> void:
+ 69:            item.itemSellPrice = t["price"] * 0.5
+ 70:            item.itemUnlocked = true
+ 71:            item.itemType = "jedi_saber"
+ 72: 
+ 73:            all_saber_items.append(item)
+ 74: 
+ 75:            if item_unlocks:
+ 76:                    if not (item in item_unlocks.all_equipment_items):
+ 77:                            item_unlocks.all_equipment_items.append(item)
+ 78: 
+ 79:    if all_saber_items.size() > 0:
+ 80:            starter_weapon = all_saber_items[0]
+ 81: 
+ 82:    ModLoaderLog.info("15 Energy Saber tiers registered into equipment shop.", MOD_DIR)
+ 83: 
+ 84: func _register_profession() -> void:
+ 85:    if not Gvars or not ("profession_manager" in Gvars) or not Gvars.profession_manager:
+ 86:            return
+ 87:    var pm = Gvars.profession_manager
+ 88:    var prof_script = load("res://mods-unpacked/gareth-jedi_class_mod/scripts/jedi_profession.gd")
+ 89:    var p = prof_script.new()
 
-Discovery Phase 6 complete. Zero files modified.
+=================================================================
+>>> 2. Searching ALL mods for any reference to 'all_items'...
+=================================================================
+  \mods-unpacked\gareth-bouncing_ball_mod\mods-unpacked\gareth-bouncing_ball_mod\mod_main.gd:6 -> var all_ball_items: Array = []
+  \mods-unpacked\gareth-bouncing_ball_mod\mods-unpacked\gareth-bouncing_ball_mod\mod_main.gd:72 -> all_ball_items.append(item)
+  \mods-unpacked\gareth-bouncing_ball_mod\mods-unpacked\gareth-bouncing_ball_mod\mod_main.gd:77 -> if not (item in item_unlocks.all_items):
+  \mods-unpacked\gareth-bouncing_ball_mod\mods-unpacked\gareth-bouncing_ball_mod\mod_main.gd:78 -> item_unlocks.all_items.append(item)
+  \mods-unpacked\gareth-bouncing_ball_mod\mods-unpacked\gareth-bouncing_ball_mod\mod_main.gd:80 -> if all_ball_items.size() > 0:
+  \mods-unpacked\gareth-bouncing_ball_mod\mods-unpacked\gareth-bouncing_ball_mod\mod_main.gd:81 -> starter_weapon = all_ball_items[0]
+  \mods-unpacked\gareth-buyable_vacuums_mod\mods-unpacked\gareth-buyable_vacuums_mod\mod_main.gd:24 -> if not v in item_unlocks.all_items:
+  \mods-unpacked\gareth-buyable_vacuums_mod\mods-unpacked\gareth-buyable_vacuums_mod\mod_main.gd:25 -> item_unlocks.all_items.append(v)
+  \mods-unpacked\gareth-buyable_vacuums_mod\mods-unpacked\gareth-buyable_vacuums_mod\mod_main.gd:39 -> if not item in item_unlocks.all_items:
+  \mods-unpacked\gareth-buyable_vacuums_mod\mods-unpacked\gareth-buyable_vacuums_mod\mod_main.gd:40 -> item_unlocks.all_items.append(item)
+  \mods-unpacked\gareth-chrono_industrialist_mod\mods-unpacked\gareth-chrono_industrialist_mod\mod_main.gd:77 -> if not (item in item_unlocks.all_items):
+  \mods-unpacked\gareth-chrono_industrialist_mod\mods-unpacked\gareth-chrono_industrialist_mod\mod_main.gd:78 -> item_unlocks.all_items.append(item)
+  \mods-unpacked\gareth-debt_executioner_mod\mods-unpacked\gareth-debt_executioner_mod\mod_main.gd:77 -> if not (item in item_unlocks.all_items):
+  \mods-unpacked\gareth-debt_executioner_mod\mods-unpacked\gareth-debt_executioner_mod\mod_main.gd:78 -> item_unlocks.all_items.append(item)
+  \mods-unpacked\gareth-endgame_arsenal_mod\mods-unpacked\gareth-endgame_arsenal_mod\mod_main.gd:27 -> if staff_res and not (staff_res in item_unlocks.all_items):
+  \mods-unpacked\gareth-endgame_arsenal_mod\mods-unpacked\gareth-endgame_arsenal_mod\mod_main.gd:28 -> item_unlocks.all_items.append(staff_res)
+  \mods-unpacked\gareth-endgame_arsenal_mod\mods-unpacked\gareth-endgame_arsenal_mod\mod_main.gd:36 -> if gun_res and not (gun_res in item_unlocks.all_items):
+  \mods-unpacked\gareth-endgame_arsenal_mod\mods-unpacked\gareth-endgame_arsenal_mod\mod_main.gd:37 -> item_unlocks.all_items.append(gun_res)
+  \mods-unpacked\gareth-grav_dreadnought_mod\mods-unpacked\gareth-grav_dreadnought_mod\mod_main.gd:77 -> if not (item in item_unlocks.all_items):
+  \mods-unpacked\gareth-grav_dreadnought_mod\mods-unpacked\gareth-grav_dreadnought_mod\mod_main.gd:78 -> item_unlocks.all_items.append(item)
+  \mods-unpacked\gareth-grenade_mod\mods-unpacked\gareth-grenade_mod\mod_main.gd:27 -> if item and not (item in item_unlocks.all_items):
+  \mods-unpacked\gareth-grenade_mod\mods-unpacked\gareth-grenade_mod\mod_main.gd:28 -> item_unlocks.all_items.append(item)
+  \mods-unpacked\gareth-heavy_turrets_mod\mods-unpacked\gareth-heavy_turrets_mod\mod_main.gd:9 -> if item and not (item in item_unlocks.all_items):
+  \mods-unpacked\gareth-heavy_turrets_mod\mods-unpacked\gareth-heavy_turrets_mod\mod_main.gd:10 -> item_unlocks.all_items.append(item)
+  \mods-unpacked\gareth-hydrogen_bomb_mod\mods-unpacked\gareth-hydrogen_bomb_mod\mod_main.gd:27 -> if item and not (item in item_unlocks.all_items):
+  \mods-unpacked\gareth-hydrogen_bomb_mod\mods-unpacked\gareth-hydrogen_bomb_mod\mod_main.gd:28 -> item_unlocks.all_items.append(item)
+  \mods-unpacked\gareth-infini_platform_mod\mods-unpacked\gareth-infini_platform_mod\mod_main.gd:18 -> if not item in item_unlocks.all_items:
+  \mods-unpacked\gareth-infini_platform_mod\mods-unpacked\gareth-infini_platform_mod\mod_main.gd:19 -> item_unlocks.all_items.append(item)
+  \mods-unpacked\gareth-knight_class_mod\mods-unpacked\gareth-knight_class_mod\mod_main.gd:16 -> if res and not (res in item_unlocks.all_items):
+  \mods-unpacked\gareth-knight_class_mod\mods-unpacked\gareth-knight_class_mod\mod_main.gd:17 -> item_unlocks.all_items.append(res)
+  \mods-unpacked\gareth-laser_beam_mod\mods-unpacked\gareth-laser_beam_mod\mod_main.gd:9 -> if item and not (item in item_unlocks.all_items):
+  \mods-unpacked\gareth-laser_beam_mod\mods-unpacked\gareth-laser_beam_mod\mod_main.gd:10 -> item_unlocks.all_items.append(item)
+  \mods-unpacked\gareth-martial_legends_mod\mods-unpacked\gareth-martial_legends_mod\mod_main.gd:35 -> if not item in item_unlocks.all_items:
+  \mods-unpacked\gareth-martial_legends_mod\mods-unpacked\gareth-martial_legends_mod\mod_main.gd:36 -> item_unlocks.all_items.append(item)
+  \mods-unpacked\gareth-more_drills_mod\mods-unpacked\gareth-more_drills_mod\mod_main.gd:19 -> if not it in item_unlocks.all_items:
+  \mods-unpacked\gareth-more_drills_mod\mods-unpacked\gareth-more_drills_mod\mod_main.gd:20 -> item_unlocks.all_items.append(it)
+  \mods-unpacked\gareth-more_inventory_slots_mod\mods-unpacked\gareth-more_inventory_slots_mod\mod_main.gd:32 -> if not it in item_unlocks.all_items:
+  \mods-unpacked\gareth-more_inventory_slots_mod\mods-unpacked\gareth-more_inventory_slots_mod\mod_main.gd:33 -> item_unlocks.all_items.append(it)
+  \mods-unpacked\gareth-more_inventory_stacks_mod\mods-unpacked\gareth-more_inventory_stacks_mod\mod_main.gd:26 -> if not it in item_unlocks.all_items:
+  \mods-unpacked\gareth-more_inventory_stacks_mod\mods-unpacked\gareth-more_inventory_stacks_mod\mod_main.gd:27 -> item_unlocks.all_items.append(it)
+  \mods-unpacked\gareth-more_layer_shifts_mod\mods-unpacked\gareth-more_layer_shifts_mod\mod_main.gd:22 -> if not item in item_unlocks.all_items:
+  \mods-unpacked\gareth-more_layer_shifts_mod\mods-unpacked\gareth-more_layer_shifts_mod\mod_main.gd:23 -> item_unlocks.all_items.append(item)
+  \mods-unpacked\gareth-more_mortars_mod\mods-unpacked\gareth-more_mortars_mod\mod_main.gd:19 -> if not it in item_unlocks.all_items:
+  \mods-unpacked\gareth-more_mortars_mod\mods-unpacked\gareth-more_mortars_mod\mod_main.gd:20 -> item_unlocks.all_items.append(it)
+  \mods-unpacked\gareth-more_nukes_mod\mods-unpacked\gareth-more_nukes_mod\mod_main.gd:27 -> if item and not (item in item_unlocks.all_items):
+  \mods-unpacked\gareth-more_nukes_mod\mods-unpacked\gareth-more_nukes_mod\mod_main.gd:28 -> item_unlocks.all_items.append(item)
+  \mods-unpacked\gareth-more_vacuum_quests_mod\mods-unpacked\gareth-more_vacuum_quests_mod\mod_main.gd:30 -> if not item in item_unlocks.all_items:
+  \mods-unpacked\gareth-more_vacuum_quests_mod\mods-unpacked\gareth-more_vacuum_quests_mod\mod_main.gd:31 -> item_unlocks.all_items.append(item)
+  \mods-unpacked\gareth-neutron_bomb_mod\mods-unpacked\gareth-neutron_bomb_mod\mod_main.gd:27 -> if item and not (item in item_unlocks.all_items):
+  \mods-unpacked\gareth-neutron_bomb_mod\mods-unpacked\gareth-neutron_bomb_mod\mod_main.gd:28 -> item_unlocks.all_items.append(item)
+  \mods-unpacked\gareth-sinclairity_class_mod\mods-unpacked\gareth-sinclairity_class_mod\mod_main.gd:77 -> if not (item in item_unlocks.all_items):
+  \mods-unpacked\gareth-sinclairity_class_mod\mods-unpacked\gareth-sinclairity_class_mod\mod_main.gd:78 -> item_unlocks.all_items.append(item)
+  \mods-unpacked\gareth-tank_arsenal_mod\mods-unpacked\gareth-tank_arsenal_mod\tank_state.gd:64 -> if it and not it in item_unlocks.all_items:
+  \mods-unpacked\gareth-tank_arsenal_mod\mods-unpacked\gareth-tank_arsenal_mod\tank_state.gd:65 -> item_unlocks.all_items.append(it)
+  \mods-unpacked\gareth-tectonic_fracker_mod\mods-unpacked\gareth-tectonic_fracker_mod\mod_main.gd:77 -> if not (item in item_unlocks.all_items):
+  \mods-unpacked\gareth-tectonic_fracker_mod\mods-unpacked\gareth-tectonic_fracker_mod\mod_main.gd:78 -> item_unlocks.all_items.append(item)
+  \mods-unpacked\gareth-void_siphon_mod\mods-unpacked\gareth-void_siphon_mod\mod_main.gd:77 -> if not (item in item_unlocks.all_items):
+  \mods-unpacked\gareth-void_siphon_mod\mods-unpacked\gareth-void_siphon_mod\mod_main.gd:78 -> item_unlocks.all_items.append(item)
+  \mods-unpacked\gareth-water_spirit_mod\mods-unpacked\gareth-water_spirit_mod\mod_main.gd:27 -> if item and not (item in item_unlocks.all_items):
+  \mods-unpacked\gareth-water_spirit_mod\mods-unpacked\gareth-water_spirit_mod\mod_main.gd:28 -> item_unlocks.all_items.append(item)
+
+=================================================================
+>>> 3. Inspecting original mod_manager mod_main.gd from Git history...
+=================================================================
+   extends Node
+   
+   const MOD_ID := "gareth-mod_manager_mod"
+   const LOG_NAME := "gareth-mod_manager_mod"
+   
+   func _init() -> void:
+        ModLoaderLog.info("Universal Mod Manager initializing...", LOG_NAME)
+        install_hooks()
+   
+   func _ready() -> void:
+        ModLoaderLog.info("Universal Mod Manager active with full Class, Shop & Input gating.", LOG_NAME)
+   
+   func install_hooks() -> void:
+        var unpacked_dir = ModLoaderMod.get_unpacked_dir().path_join(MOD_ID)
+        var ext_dir = unpacked_dir.path_join("extensions")
+   
+        ModLoaderMod.install_script_hooks(
+                "res://scenes/Interfaces/in_game/choose_passive.gd",
+                ext_dir.path_join("scenes/Interfaces/in_game/choose_passive.hooks.gd")
+        )
+        ModLoaderMod.install_script_hooks(
+                "res://scripts/MainMenu.gd",
+                ext_dir.path_join("scripts/MainMenu.hooks.gd")
+        )
+        ModLoaderMod.install_script_hooks(
+                "res://scripts/Gvars.gd",
+                ext_dir.path_join("scripts/Gvars.hooks.gd")
+        )
+        ModLoaderMod.install_script_hooks(
+                "res://scenes/Stages/management_screen.gd",
+                ext_dir.path_join("scenes/Stages/management_screen.hooks.gd")
+        )
+
+Discovery Phase 8 complete. No files were modified.
 PS C:\Dev\coal-llc-mods> 

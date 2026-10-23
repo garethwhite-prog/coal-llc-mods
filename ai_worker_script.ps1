@@ -1,6 +1,7 @@
 ﻿Clear-Host
+
 # ==============================================================================
-# Coal LLC - Complete Validated Fix (Jedi Passives, Gvars Crash, UFO Log Spam)
+# Coal LLC - Verified Production Fix (Jedi Passives, Gvars Crash, Camera Zoom)
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
@@ -9,9 +10,6 @@ $steamMods  = "$steamRoot\mods"
 $hookZip    = "$steamRoot\mod-hooks.zip"
 
 $mmInner    = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod"
-$jediInner  = "$repo\mods-unpacked\gareth-jedi_class_mod\mods-unpacked\gareth-jedi_class_mod"
-$vdInner    = "$repo\mods-unpacked\gareth-vacuum_depot_mod\mods-unpacked\gareth-vacuum_depot_mod"
-$hbInner    = "$repo\mods-unpacked\gareth-hardware_booster_mod\mods-unpacked\gareth-hardware_booster_mod"
 
 Set-Location $repo
 
@@ -19,15 +17,28 @@ Write-Host ">>> 1. Terminating running Coal LLC / Godot processes..." -Foregroun
 Get-Process -Name "Coal LLC*", "godot*" -ErrorAction SilentlyContinue | Stop-Process -Force
 Start-Sleep -Milliseconds 600
 
-Write-Host "`n>>> 2. Fixing line 499 startup crash in jedi_class_mod mod_main.gd..." -ForegroundColor Cyan
-$jediMainPath = "$jediInner\mod_main.gd"
-$jediCode = Get-Content -Path $jediMainPath -Raw
-# Remove the lines appending dynamic items to item_unlocks.all_items (which pollutes resources_to_save)
-$jediCode = $jediCode -replace '(?m)^\s*if not \(item in item_unlocks\.all_items\):\r?\n\s*item_unlocks\.all_items\.append\(item\)\r?\n?', ''
-Set-Content -Path $jediMainPath -Value $jediCode -Encoding UTF8
-Write-Host "Fixed: $jediMainPath" -ForegroundColor Green
+Write-Host "`n>>> 2. Removing dynamic item pollution from all 7 class mods..." -ForegroundColor Cyan
+$dynamicMods = @(
+    "gareth-bouncing_ball_mod",
+    "gareth-chrono_industrialist_mod",
+    "gareth-debt_executioner_mod",
+    "gareth-grav_dreadnought_mod",
+    "gareth-sinclairity_class_mod",
+    "gareth-tectonic_fracker_mod",
+    "gareth-void_siphon_mod"
+)
 
-Write-Host "`n>>> 3. Writing crash-proof choose_passive.hooks.gd in mod_manager..." -ForegroundColor Cyan
+foreach ($dm in $dynamicMods) {
+    $mainPath = "$repo\mods-unpacked\$dm\mods-unpacked\$dm\mod_main.gd"
+    if (Test-Path $mainPath) {
+        $content = Get-Content $mainPath -Raw
+        $content = $content -replace '(?m)^\s*if not \(item in item_unlocks\.all_items\):\r?\n\s*item_unlocks\.all_items\.append\(item\)\r?\n?', ''
+        Set-Content -Path $mainPath -Value $content -Encoding UTF8
+        Write-Host "  Cleaned: $dm" -ForegroundColor Green
+    }
+}
+
+Write-Host "`n>>> 3. Writing crash-proof choose_passive.hooks.gd..." -ForegroundColor Cyan
 $passiveHookPath = "$mmInner\extensions\scenes\Interfaces\in_game\choose_passive.hooks.gd"
 
 @'
@@ -88,7 +99,6 @@ func _handle_button_click(chain: ModLoaderHookChain, button_idx: int) -> void:
 		chain.execute_next([])
 		return
 
-	# Handle custom class passive
 	screen.live = false
 	var base_val: float = CUSTOM_PASSIVE_DEFAULTS.get(stat_name, 0.05)
 	var add_amount: float = screen.multiplier * base_val
@@ -112,42 +122,24 @@ func _handle_button_click(chain: ModLoaderHookChain, button_idx: int) -> void:
 '@ | Set-Content -Path $passiveHookPath -Encoding UTF8
 Write-Host "Written: $passiveHookPath" -ForegroundColor Green
 
-Write-Host "`n>>> 4. Writing compile-safe, silent UFO check_inventory_count hook..." -ForegroundColor Cyan
-# Clean out any old Gvars.hooks.gd that failed compilation
+Write-Host "`n>>> 4. Writing Gvars.hooks.gd to safeguard reset_resources line 499..." -ForegroundColor Cyan
 $gvarsHookPath = "$mmInner\extensions\scripts\Gvars.hooks.gd"
-if (Test-Path $gvarsHookPath) { Remove-Item -Path $gvarsHookPath -Force }
-
-$ufoHookPath = "$vdInner\extensions\scripts\LootCollectorUFO.hooks.gd"
 @'
 extends Object
 
-func check_inventory_count(chain: ModLoaderHookChain) -> void:
-	var ufo = chain.reference_object
-	if not is_instance_valid(ufo) or not ("inventory" in ufo) or not ("maxInventoryCount" in ufo):
-		chain.execute_next([])
-		return
+func reset_resources(chain: ModLoaderHookChain) -> void:
+	var gvars = chain.reference_object
+	if is_instance_valid(gvars) and ("resources_to_save" in gvars) and (gvars.resources_to_save is Array):
+		var clean_res: Array = []
+		for r in gvars.resources_to_save:
+			if is_instance_valid(r) and ("resource_path" in r) and str(r.resource_path) != "":
+				clean_res.append(r)
+		gvars.resources_to_save = clean_res
+	chain.execute_next([])
+'@ | Set-Content -Path $gvarsHookPath -Encoding UTF8
+Write-Host "Written: $gvarsHookPath" -ForegroundColor Green
 
-	if "StateLabel" in ufo and is_instance_valid(ufo.StateLabel):
-		ufo.StateLabel.text = Gconsts.add_comma_to_float_no_dp(ufo.maxInventoryCount)
-
-	var capacity_mult: float = 1.0
-	if Gvars and ("passives" in Gvars) and Gvars.passives:
-		capacity_mult += Gvars.passives.employee_collector_capacity
-
-	var max_cap: float = float(ufo.maxInventoryCount) * capacity_mult
-	if float(ufo.inventory.inventoryCount) >= max_cap:
-		ufo.set_deferred("monitorable", false)
-		if "States" in ufo and ("RETURNING_TO_BASE" in ufo.States):
-			ufo.state = ufo.States.RETURNING_TO_BASE
-		if "baseCoords" in ufo and "models" in ufo and is_instance_valid(ufo.models):
-			if ufo.baseCoords.x < ufo.global_position.x:
-				ufo.models.scale.x = -1
-			else:
-				ufo.models.scale.x = 1
-'@ | Set-Content -Path $ufoHookPath -Encoding UTF8
-Write-Host "Written: $ufoHookPath" -ForegroundColor Green
-
-Write-Host "`n>>> 5. Writing Camera.hooks.gd for smooth zoom in mod_manager..." -ForegroundColor Cyan
+Write-Host "`n>>> 5. Writing Camera.hooks.gd for smooth zoom..." -ForegroundColor Cyan
 $camHookPath = "$mmInner\extensions\scripts\Camera.hooks.gd"
 @'
 extends Object
@@ -171,20 +163,47 @@ func _process(chain: ModLoaderHookChain, delta: float) -> void:
 '@ | Set-Content -Path $camHookPath -Encoding UTF8
 Write-Host "Written: $camHookPath" -ForegroundColor Green
 
-Write-Host "`n>>> 6. Ensuring mod_main.gd in mod_manager is clean and error-free..." -ForegroundColor Cyan
+Write-Host "`n>>> 6. Wiring explicit hook installation in mod_manager mod_main.gd..." -ForegroundColor Cyan
 $mmMainPath = "$mmInner\mod_main.gd"
 @'
 extends Node
 
-const MOD_DIR = "gareth-mod_manager_mod"
+const MOD_ID := "gareth-mod_manager_mod"
+const LOG_NAME := "gareth-mod_manager_mod"
 
 func _init() -> void:
-	pass
+	ModLoaderLog.info("Universal Mod Manager initializing...", LOG_NAME)
+	install_hooks()
 
 func _ready() -> void:
-	print("INFO gareth-mod_manager_mod: Universal Mod Manager active with full Class, Shop & Input gating.")
+	ModLoaderLog.info("Universal Mod Manager active with full Class, Shop & Input gating.", LOG_NAME)
+
+func install_hooks() -> void:
+	var unpacked_dir = ModLoaderMod.get_unpacked_dir().path_join(MOD_ID)
+	var ext_dir = unpacked_dir.path_join("extensions")
+
+	ModLoaderMod.install_script_hooks(
+		"res://scenes/Interfaces/in_game/choose_passive.gd",
+		ext_dir.path_join("scenes/Interfaces/in_game/choose_passive.hooks.gd")
+	)
+	ModLoaderMod.install_script_hooks(
+		"res://scripts/MainMenu.gd",
+		ext_dir.path_join("scripts/MainMenu.hooks.gd")
+	)
+	ModLoaderMod.install_script_hooks(
+		"res://scripts/Gvars.gd",
+		ext_dir.path_join("scripts/Gvars.hooks.gd")
+	)
+	ModLoaderMod.install_script_hooks(
+		"res://scenes/Stages/management_screen.gd",
+		ext_dir.path_join("scenes/Stages/management_screen.hooks.gd")
+	)
+	ModLoaderMod.install_script_hooks(
+		"res://scripts/Camera.gd",
+		ext_dir.path_join("scripts/Camera.hooks.gd")
+	)
 '@ | Set-Content -Path $mmMainPath -Encoding UTF8
-Write-Host "Cleaned: $mmMainPath" -ForegroundColor Green
+Write-Host "Written: $mmMainPath" -ForegroundColor Green
 
 Write-Host "`n>>> 7. Purging mod-hooks.zip..." -ForegroundColor Cyan
 if (Test-Path $hookZip) {
@@ -192,11 +211,12 @@ if (Test-Path $hookZip) {
 	Write-Host "Removed: $hookZip" -ForegroundColor Green
 }
 
-Write-Host "`n>>> 8. Repackaging modified mods..." -ForegroundColor Cyan
+Write-Host "`n>>> 8. Repackaging updated mods..." -ForegroundColor Cyan
 Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
-foreach ($m in @("gareth-mod_manager_mod", "gareth-jedi_class_mod", "gareth-vacuum_depot_mod")) {
+$modsToPack = @("gareth-mod_manager_mod", "gareth-jedi_class_mod") + $dynamicMods
+foreach ($m in $modsToPack) {
 	$src = "$repo\mods-unpacked\$m"
 	$zip = "$steamMods\$m.zip"
 	if (Test-Path $zip) { Remove-Item -Path $zip -Force }
@@ -209,12 +229,12 @@ foreach ($m in @("gareth-mod_manager_mod", "gareth-jedi_class_mod", "gareth-vacu
 	}
 	$archive.Dispose()
 	$stream.Dispose()
-	Write-Host "Repacked: $zip" -ForegroundColor Green
+	Write-Host "  Repacked: $m.zip" -ForegroundColor Green
 }
 
 Write-Host "`n>>> 9. Git commit and push..." -ForegroundColor Cyan
 git add -A
-git commit -m "Fix Jedi passives crash, resolve line 499 startup error, and hook camera zoom"
+git commit -m "Fix Jedi passives crash, resolve line 499 startup error across class mods, and register Camera hooks"
 git push origin main
 
-Write-Host "`nDeployment finished. Launch Coal LLC to verify!" -ForegroundColor Green
+Write-Host "`nDeployment complete. Launch Coal LLC to test." -ForegroundColor Green
