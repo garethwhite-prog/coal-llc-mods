@@ -1,142 +1,135 @@
 ﻿PS C:\Dev\coal-llc-mods> 
 PS C:\Dev\coal-llc-mods> # ==============================================================================
-PS C:\Dev\coal-llc-mods> # Coal LLC - Trace Print Spam Source & Full Camera.gd Analysis
+PS C:\Dev\coal-llc-mods> # Coal LLC - Fix Mouse Wheel Zoom & Inspect LootCollectorUFO Method
 PS C:\Dev\coal-llc-mods> # ==============================================================================
 PS C:\Dev\coal-llc-mods> 
 PS C:\Dev\coal-llc-mods> $repo       = "C:\Dev\coal-llc-mods"
 PS C:\Dev\coal-llc-mods> $steamRoot  = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC"
 PS C:\Dev\coal-llc-mods> $steamMods  = "$steamRoot\mods"
 PS C:\Dev\coal-llc-mods> $dumpRoot   = "$steamRoot\_dump"
+PS C:\Dev\coal-llc-mods> $hookZip    = "$steamRoot\mod-hooks.zip"
 PS C:\Dev\coal-llc-mods> 
-PS C:\Dev\coal-llc-mods> Write-Host ">>> 1. Hunting 'inventory count =' across all mod ZIP archives..." -ForegroundColor Cyan
->>> 1. Hunting 'inventory count =' across all mod ZIP archives...
+PS C:\Dev\coal-llc-mods> $mmMain     = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\mod_main.gd"
+PS C:\Dev\coal-llc-mods> 
+PS C:\Dev\coal-llc-mods> Set-Location $repo
+PS C:\Dev\coal-llc-mods> 
+PS C:\Dev\coal-llc-mods> Write-Host ">>> 1. Terminating running Coal LLC / Godot processes..." -ForegroundColor Cyan
+>>> 1. Terminating running Coal LLC / Godot processes...
+PS C:\Dev\coal-llc-mods> Get-Process -Name "Coal LLC*", "godot*" -ErrorAction SilentlyContinue | Stop-Process -Force
+PS C:\Dev\coal-llc-mods> Start-Sleep -Milliseconds 600
+PS C:\Dev\coal-llc-mods> 
+PS C:\Dev\coal-llc-mods> Write-Host "`n>>> 2. Inspecting enclosing function around line 126 of LootCollectorUFO.gd..." -ForegroundColor Cyan
+
+>>> 2. Inspecting enclosing function around line 126 of LootCollectorUFO.gd...
+PS C:\Dev\coal-llc-mods> $ufoPath = "$dumpRoot\scripts\LootCollectorUFO.gd"
+PS C:\Dev\coal-llc-mods> if (Test-Path $ufoPath) {$ufoLines = Get-Content $ufoPath$start = [Math]::Max(0, 110)
+>>     $end   = [Math]::Min($ufoLines.Count - 1, 140)
+>>     for ($i = $start; $i -le $end; $i++) {
+>>         $prefix = if ($i -eq 125) { ">>>" } else { "   " }
+>>         Write-Host ("{0} {1,3}: {2}" -f $prefix, ($i + 1), $ufoLines[$i])
+>>     }
+>> }
+Get-Content: A positional parameter cannot be found that accepts argument '='.
+PS C:\Dev\coal-llc-mods> 
+PS C:\Dev\coal-llc-mods> Write-Host "`n>>> 3. Injecting high-priority _input zoom handler into mod_manager mod_main.gd..." -ForegroundColor Cyan
+
+>>> 3. Injecting high-priority _input zoom handler into mod_manager mod_main.gd...
+PS C:\Dev\coal-llc-mods> $mmContent = Get-Content $mmMain -Raw
+PS C:\Dev\coal-llc-mods> 
+PS C:\Dev\coal-llc-mods> # Remove any previous zoom handler if present
+PS C:\Dev\coal-llc-mods> $mmContent = $mmContent -replace '(?ms)# === GLOBAL CAMERA ZOOM INTERCEPTOR ===.*# === END GLOBAL CAMERA ZOOM ===\r?\n?', ''
+PS C:\Dev\coal-llc-mods> 
+PS C:\Dev\coal-llc-mods> $zoomHandler = @'
+>> 
+>> # === GLOBAL CAMERA ZOOM INTERCEPTOR ===
+>> func _input(event: InputEvent) -> void:
+>> if not Gvars or not ("settings" in Gvars) or not Gvars.settings:
+>> return
+>> 
+>> var handled = false
+>> if event is InputEventMouseButton and event.is_pressed():
+>> # MOUSE_BUTTON_WHEEL_DOWN = 5 (Zoom OUT -> see more of mine)
+>> if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+>> Gvars.settings.zoom_level = clamp(Gvars.settings.zoom_level - 0.2, 0.25, 4.0)
+>> handled = true
+>> # MOUSE_BUTTON_WHEEL_UP = 4 (Zoom IN -> see player closer)
+>> elif event.button_index == MOUSE_BUTTON_WHEEL_UP:
+>> Gvars.settings.zoom_level = clamp(Gvars.settings.zoom_level + 0.2, 0.25, 4.0)
+>> handled = true
+>> 
+>> elif event is InputEventKey and event.is_pressed() and not event.is_echo():
+>> # Hotkeys: '-' or '[' to zoom out; '=' or ']' to zoom in; '0' or 'Z' to reset to 1.0
+>> if event.keycode == KEY_MINUS or event.keycode == KEY_BRACKETLEFT:
+>> Gvars.settings.zoom_level = clamp(Gvars.settings.zoom_level - 0.25, 0.25, 4.0)
+>> handled = true
+>> elif event.keycode == KEY_EQUAL or event.keycode == KEY_BRACKETRIGHT:
+>> Gvars.settings.zoom_level = clamp(Gvars.settings.zoom_level + 0.25, 0.25, 4.0)
+>> handled = true
+>> elif event.keycode == KEY_0:
+>> Gvars.settings.zoom_level = 1.0
+>> handled = true
+>> 
+>> if handled:
+>> var cam = get_viewport().get_camera_2d()
+>> if is_instance_valid(cam):
+>> cam.zoom = Vector2(Gvars.settings.zoom_level, Gvars.settings.zoom_level)
+>> # === END GLOBAL CAMERA ZOOM ===
+>> '@
+PS C:\Dev\coal-llc-mods> 
+PS C:\Dev\coal-llc-mods> $mmContent = $mmContent + $zoomHandler
+PS C:\Dev\coal-llc-mods> Set-Content -Path $mmMain -Value $mmContent -Encoding UTF8
+PS C:\Dev\coal-llc-mods> Write-Host "Injected top-level zoom handler into $mmMain" -ForegroundColor Green
+Injected top-level zoom handler into C:\Dev\coal-llc-mods\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\mod_main.gd
+PS C:\Dev\coal-llc-mods> 
+PS C:\Dev\coal-llc-mods> Write-Host "`n>>> 4. Purging mod-hooks.zip..." -ForegroundColor Cyan
+
+>>> 4. Purging mod-hooks.zip...
+PS C:\Dev\coal-llc-mods> if (Test-Path $hookZip) {
+>>     Remove-Item -Path $hookZip -Force
+>>     Write-Host "Removed: $hookZip" -ForegroundColor Green
+>> }
+Removed: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mod-hooks.zip
+PS C:\Dev\coal-llc-mods> 
+PS C:\Dev\coal-llc-mods> Write-Host ">>> 5. Repackaging gareth-mod_manager_mod..." -ForegroundColor Cyan
+>>> 5. Repackaging gareth-mod_manager_mod...
+PS C:\Dev\coal-llc-mods> Add-Type -AssemblyName System.IO.Compression
 PS C:\Dev\coal-llc-mods> Add-Type -AssemblyName System.IO.Compression.FileSystem
 PS C:\Dev\coal-llc-mods> 
-PS C:\Dev\coal-llc-mods> $zipFiles = Get-ChildItem -Path $steamMods -Filter "*.zip"
-PS C:\Dev\coal-llc-mods> foreach ($z in $zipFiles) {
->>     try {
->>         $zip = [System.IO.Compression.ZipFile]::OpenRead($z.FullName)
->>         foreach ($entry in $zip.Entries) {
->>             if ($entry.Name.EndsWith(".gd")) {
->>                 $stream = $entry.Open()
->>                 $reader = New-Object System.IO.StreamReader($stream)
->>                 $text   = $reader.ReadToEnd()
->>                 $reader.Dispose()
->> $stream.Dispose()
->> 
->>                 if ($text -match 'inventory count') {
->>                     Write-Host "  [FOUND IN ZIP] $($z.Name) -> $($entry.FullName)" -ForegroundColor Red
->>                     $text -split "`r?`n" | Select-String "inventory count|max inventory" | ForEach-Object {
->>                         Write-Host "    Line: $_" -ForegroundColor Yellow
->>                     }
->>                 }
->>             }
->>         }
->>         $zip.Dispose()
->>     } catch {
->>         Write-Warning "Could not read $($z.Name):$_"
->>     }
->> }
+PS C:\Dev\coal-llc-mods> $m   = "gareth-mod_manager_mod"
+PS C:\Dev\coal-llc-mods> $src = "$repo\mods-unpacked\$m"
+PS C:\Dev\coal-llc-mods> $zip = "$steamMods\$m.zip"
+PS C:\Dev\coal-llc-mods> if (Test-Path $zip) { Remove-Item -Path $zip -Force }
 PS C:\Dev\coal-llc-mods> 
-PS C:\Dev\coal-llc-mods> Write-Host "`n>>> 2. Hunting 'inventory count =' in vanilla decompiled dump..." -ForegroundColor Cyan
-
->>> 2. Hunting 'inventory count =' in vanilla decompiled dump...
-PS C:\Dev\coal-llc-mods> if (Test-Path $dumpRoot) {
->>     $vanillaMatches = Get-ChildItem -Path $dumpRoot -Recurse -Filter "*.gd" | Select-String -Pattern "inventory count"
->>     if ($vanillaMatches) {
->>         foreach ($m in $vanillaMatches) {
->>             Write-Host "  [FOUND IN BASE GAME] $($m.Path.Replace($dumpRoot, '')) : Line $($m.LineNumber)" -ForegroundColor Red
->>             Write-Host "    $($m.Line.Trim())" -ForegroundColor Yellow
->>         }
->>     } else {
->>         Write-Host "  Not found in base dump scripts." -ForegroundColor Green
->>     }
+PS C:\Dev\coal-llc-mods> $stream  = [System.IO.File]::Open($zip, [System.IO.FileMode]::CreateNew)
+PS C:\Dev\coal-llc-mods> $archive = New-Object System.IO.Compression.ZipArchive($stream, [System.IO.Compression.ZipArchiveMode]::Create)
+PS C:\Dev\coal-llc-mods> foreach ($f in (Get-ChildItem -Path $src -Recurse -File)) {$entryName = $f.FullName.Substring($src.Length + 1).Replace("\", "/")
+>>     [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $f.FullName, $entryName) | Out-Null
 >> }
-  [FOUND IN BASE GAME] \scripts\LootCollectorUFO.gd : Line 126
-    print("inventory count = " + Gconsts.add_comma_to_float_no_dp(inventory.inventoryCount))
+PS C:\Dev\coal-llc-mods> $archive.Dispose()
+PS C:\Dev\coal-llc-mods> $stream.Dispose()
+PS C:\Dev\coal-llc-mods> Write-Host "Repacked: $zip" -ForegroundColor Green
+Repacked: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods\gareth-mod_manager_mod.zip
 PS C:\Dev\coal-llc-mods> 
-PS C:\Dev\coal-llc-mods> Write-Host "`n>>> 3. Dumping full Camera.gd script..." -ForegroundColor Cyan
+PS C:\Dev\coal-llc-mods> Write-Host "`n>>> 6. Git commit and push..." -ForegroundColor Cyan
 
->>> 3. Dumping full Camera.gd script...
-PS C:\Dev\coal-llc-mods> $cameraFile = Get-ChildItem -Path $dumpRoot -Recurse -Filter "*Camera*.gd" | Select-Object -First 1
-PS C:\Dev\coal-llc-mods> if ($cameraFile) {
->>     Write-Host "--- Full contents of $($cameraFile.FullName.Replace($dumpRoot, '')) ---" -ForegroundColor Yellow
->>     $lines = Get-Content $cameraFile.FullName
->>     for ($i = 0; $i -lt $lines.Count; $i++) {
->>         Write-Host ("{0,3}: {1}" -f ($i + 1), $lines[$i])
->>     }
->> }
---- Full contents of \scripts\Camera.gd ---
-  1: extends Camera2D
-  2: class_name CustomCamera2D
-  3: 
-  4: var free_move = false
-  5: 
-  6: 
-  7: 
-  8: 
-  9: 
- 10: 
- 11: 
- 12: @onready var TargetNode: Node2D = get_node("../Player")
- 13: 
- 14: func _ready() -> void :
- 15:     var target_pos = TargetNode.get_position()
- 16:     set_position(target_pos)
- 17: 
- 18: 
- 19: func _unhandled_input(event: InputEvent) -> void :
- 20:     if event is InputEventPanGesture:
- 21:         Gvars.settings.zoom_level += event.delta.y
- 22:     elif event.is_action_pressed("zoomIn"):
- 23:         Gvars.settings.zoom_level += 0.25
- 24:     elif event.is_action_pressed("zoomOut"):
- 25:         Gvars.settings.zoom_level -= 0.25
- 26: 
- 27: 
- 28: func _process(_delta) -> void :
- 29:     if position_smoothing_enabled != Gvars.settings.camera_smoothing_on:
- 30:         position_smoothing_enabled = Gvars.settings.camera_smoothing_on
- 31: 
- 32:     if free_move == false:
- 33:         var target_pos = TargetNode.global_position
- 34:         set_position(target_pos)
- 35: 
- 36:         if Input.is_action_pressed("sprint"):
- 37:             position_smoothing_speed = Gvars.settings.camera_smoothing + 1.5
- 38:         else:
- 39:             position_smoothing_speed = Gvars.settings.camera_smoothing
- 40:         zoom = Vector2(Gvars.settings.zoom_level, Gvars.settings.zoom_level)
- 41:     else:
- 42:         position.x = move_toward(
- 43:             position.x, 
- 44:             position.x + 100 * Input.get_axis("moveLeft", "moveRight"), 
- 45:             1)
- 46: 
- 47:         position.y = move_toward(
- 48:             position.y, 
- 49:             position.y + 100 * Input.get_axis("moveUp", "moveDown"), 
- 50:             1)
- 51:         zoom = Vector2(Gvars.settings.zoom_level, Gvars.settings.zoom_level)
+>>> 6. Git commit and push...
+PS C:\Dev\coal-llc-mods> git add -A
+warning: in the working copy of 'mods-unpacked/gareth-mod_manager_mod/mods-unpacked/gareth-mod_manager_mod/mod_main.gd', LF will be replaced by CRLF the next time Git touches it
+PS C:\Dev\coal-llc-mods> git commit -m "Add global input zoom interceptor and hotkeys"
+[main 6639ca9] Add global input zoom interceptor and hotkeys
+ 3 files changed, 246 insertions(+), 138 deletions(-)
+PS C:\Dev\coal-llc-mods> git push origin main
+Enumerating objects: 16, done.
+Counting objects: 100% (16/16), done.
+Delta compression using up to 24 threads
+Compressing objects: 100% (8/8), done.
+Writing objects: 100% (9/9), 5.13 KiB | 2.56 MiB/s, done.
+Total 9 (delta 3), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (3/3), completed with 3 local objects.
+To https://github.com/garethwhite-prog/coal-llc-mods.git
+   9f4ab43..6639ca9  main -> main
 PS C:\Dev\coal-llc-mods> 
-PS C:\Dev\coal-llc-mods> Write-Host "`n>>> 4. Inspecting InputMap bindings for zoomIn / zoomOut..." -ForegroundColor Cyan
+PS C:\Dev\coal-llc-mods> Write-Host "`nDone! Review Section 2 output above to see the LootCollectorUFO method." -ForegroundColor Green
 
->>> 4. Inspecting InputMap bindings for zoomIn / zoomOut...
-PS C:\Dev\coal-llc-mods> $projFile = Get-ChildItem -Path $dumpRoot -Recurse -Filter "project.godot" | Select-Object -First 1
-PS C:\Dev\coal-llc-mods> if ($projFile) {
->>     $projLines = Get-Content $projFile.FullName
->>     $inInput = $false
->>     foreach ($line in $projLines) {
->>         if ($line -match '^\[input\]') { $inInput = $true }
->>         elseif ($line -match '^\[' -and $inInput) { $inInput = $false }
->>         if ($inInput -and ($line -match 'zoomIn|zoomOut')) {
->>             Write-Host "  $line" -ForegroundColor Green
->>         }
->>     }
->> }
-  zoomIn={
-  zoomOut={
+Done! Review Section 2 output above to see the LootCollectorUFO method.
 PS C:\Dev\coal-llc-mods> 
-PS C:\Dev\coal-llc-mods> Write-Host "`nScan complete. Review the outputs above." -ForegroundColor Cyan
-
-Scan complete. Review the outputs a
