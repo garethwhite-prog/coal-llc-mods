@@ -21,6 +21,10 @@ func _profession_effect(data: Dictionary) -> Dictionary:
 			"sword_damage",
 			"sword_speed",
 			"sword_range",
+			"employee_miner_speed",
+			"employee_miner_damage",
+			"employee_collector_speed",
+			"employee_collector_capacity",
 			"player_sprint_speed",
 			"player_jump_velocity",
 			"player_climb_speed"

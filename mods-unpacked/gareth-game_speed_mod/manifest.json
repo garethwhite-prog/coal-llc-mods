@@ -1,0 +1,17 @@
+{
+  "name": "game_speed_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "Adjust game simulation speed (0.5x, 0.75x, 1.0x, 1.5x, 2.0x) via on-screen HUD or hotkeys ([ / ]), plus emergency day finish (F8).",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": [],
+  "extra": {
+    "godot": {
+      "display_name": "Game Speed & Shift Finisher",
+      "category": "Quality of Life",
+      "authors": ["Gareth White"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}
