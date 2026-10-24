@@ -1,43 +1,44 @@
 ﻿=== GIT STATUS ===
-M  Dump-Context.ps1
+ M ai_worker_script.ps1
+ M context.txt
  M output.txt
 
 === RECENT COMMITS ===
+8751218 Fix search/sort UI API, register passive bonuses hook, resolve line 499 reset crash, programmatic water spirits, and complete chest variance manifest
+2a9d219 Reverted accidental overwrite of Dump-Context.ps1
 11fd523 Part 4: Implement chest tier variance, class weapon seeding, booby-traps, and update SESSION_PROMPT/README documentation
-981a639 Part 3: Add equipment shop search/sort filter bar and expand passive effects panel for worker & weapon stats
-7e6c6b8 Part 2: Programmatic Knight sword progression (tiers 12-15) and Water Spirit fairy icons & companion visuals
 
-=== SESSION ERRORS & WARNINGS (126 found) ===
-ERROR: No loader found for resource: res:// (expected type: )
-Error: itemPath not found for KnightSword_04_sapphire
-ERROR: No loader found for resource: res:// (expected type: )
-Error: itemPath not found for KnightSword_05_emerald
-ERROR: No loader found for resource: res:// (expected type: )
-Error: itemPath not found for KnightSword_06_silver
-ERROR: No loader found for resource: res:// (expected type: )
-Error: itemPath not found for KnightSword_07_amethyst
-ERROR: No loader found for resource: res:// (expected type: )
-Error: itemPath not found for KnightSword_08_gold
-ERROR: No loader found for resource: res:// (expected type: )
-Error: itemPath not found for KnightSword_09_ruby
-ERROR: No loader found for resource: res:// (expected type: )
-Error: itemPath not found for KnightSword_10_diamond
-ERROR: No loader found for resource: res:// (expected type: )
-Error: itemPath not found for KnightSword_11_pinkdiamond
-ERROR: No loader found for resource: res:// (expected type: )
-Error: itemPath not found for KnightSword_12_spinel
-ERROR: No loader found for resource: res:// (expected type: )
-Error: itemPath not found for KnightSword_13_uranium
-ERROR: No loader found for resource: res:// (expected type: )
-Error: itemPath not found for KnightSword_14_moonstone
-ERROR: No loader found for resource: res:// (expected type: )
-Error: itemPath not found for KnightSword_15_onyx
+=== SESSION ERRORS & WARNINGS (36 found) ===
 SCRIPT ERROR: Trying to call an async function without "await".
-SCRIPT ERROR: Invalid access to property or key 'theme_override_constants' on a base object of type 'HBoxContainer'.
-SCRIPT ERROR: Invalid access to property or key 'theme_override_constants' on a base object of type 'HBoxContainer'.
-SCRIPT ERROR: Invalid access to property or key 'theme_override_constants' on a base object of type 'HBoxContainer'.
-ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-ERROR: 157 resources still in use at exit (run with --verbose for details).
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: <Tween#-9223355948628684154>: started with no Tweeners.
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: <Tween#-9223330909774659348>: started with no Tweeners.
+SCRIPT ERROR: Trying to call an async function without "await".
+ERROR: 30 RID allocations of type 'N10RendererRD12LightStorage11ShadowAtlasE' were leaked at exit.
+ERROR: 30 RID allocations of type 'N10RendererRD14TextureStorage12RenderTargetE' were leaked at exit.
+ERROR: 140 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+ERROR: 30 RID allocations of type 'N16RendererViewport8ViewportE' were leaked at exit.
+ERROR: 920 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+ERROR: 4 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
+ERROR: 171 resources still in use at exit (run with --verbose for details).
 
 === ACTIVE MOD LOG ENTRIES (13 found) ===
 	 - C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mods/gareth-tectonic_faultline_mod.zip
@@ -46,42 +47,42 @@ SUCCESS ModLoader: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal L
 DEBUG ModLoader:Config: No config for mod id "gareth-tectonic_faultline_mod"
 DEBUG ModLoader:Dependency: Checking dependencies - mod_id: gareth-tectonic_faultline_mod optional dependencies: []
 DEBUG ModLoader:Dependency: Checking dependencies - mod_id: gareth-tectonic_faultline_mod required dependencies: []
-INFO ModLoader: mod_load_order -> 22) gareth-tectonic_faultline_mod
+INFO ModLoader: mod_load_order -> 23) gareth-tectonic_faultline_mod
 INFO ModLoader: Initializing -> gareth-tectonic_faultline_mod
 DEBUG ModLoader: Loading script from -> res://mods-unpacked/gareth-tectonic_faultline_mod/mod_main.gd
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Mod initializing...
-DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultline_mod:<Node#713937661353>
-  "gareth-tectonic_faultline_mod": "<Resource#-9223371948975716761>",
+DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultline_mod:<Node#832049262643>
+  "gareth-tectonic_faultline_mod": "<Resource#-9223371948807944600>",
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Custom Map Mod (ID 102) online!
 
 === LOG TAIL (LAST 30 LINES) ===
-Error: itemPath not found for KnightSword_13_uranium
-ERROR: No loader found for resource: res:// (expected type: )
-   at: _load (core/io/resource_loader.cpp:359)
-Error: itemPath not found for KnightSword_14_moonstone
-ERROR: No loader found for resource: res:// (expected type: )
-   at: _load (core/io/resource_loader.cpp:359)
-Error: itemPath not found for KnightSword_15_onyx
+INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Sword Damage +15.0%
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-310.8454, -190.4042)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-217.408, -690.5294)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-228.333, -520.3168)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-146.207, -56.07494)
+INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Sword Speed +20.0%
+end day
 SCRIPT ERROR: Trying to call an async function without "await".
    at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
-Day Count: 1
+Day Count: 2
 Days Passed: 1
 INFO gareth-more_employees_mod: Workforce chart initialized cleanly.
-SCRIPT ERROR: Invalid access to property or key 'theme_override_constants' on a base object of type 'HBoxContainer'.
-   at: _ensure_search_and_sort_bar (res://mods-unpacked/gareth-mod_manager_mod/extensions/scenes/Stages/management_screen.hooks.gd:35)
 say_game_has_been_saved() function running
-SCRIPT ERROR: Invalid access to property or key 'theme_override_constants' on a base object of type 'HBoxContainer'.
-   at: _ensure_search_and_sort_bar (res://mods-unpacked/gareth-mod_manager_mod/extensions/scenes/Stages/management_screen.hooks.gd:35)
 finished turning on
-SCRIPT ERROR: Invalid access to property or key 'theme_override_constants' on a base object of type 'HBoxContainer'.
-   at: _ensure_search_and_sort_bar (res://mods-unpacked/gareth-mod_manager_mod/extensions/scenes/Stages/management_screen.hooks.gd:35)
-finished turning off
-WARNING: 11 RIDs of type "CanvasItem" were leaked.
+WARNING: 30 RIDs of type "Canvas" were leaked.
    at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2679)
-ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-WARNING: 88 RIDs of type "Texture" were leaked.
+WARNING: 230 RIDs of type "CanvasItem" were leaked.
+   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2679)
+ERROR: 30 RID allocations of type 'N10RendererRD12LightStorage11ShadowAtlasE' were leaked at exit.
+ERROR: 30 RID allocations of type 'N10RendererRD14TextureStorage12RenderTargetE' were leaked at exit.
+ERROR: 140 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+ERROR: 30 RID allocations of type 'N16RendererViewport8ViewportE' were leaked at exit.
+WARNING: 262 RIDs of type "Texture" were leaked.
    at: finalize (servers/rendering/rendering_device.cpp:7130)
+ERROR: 920 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+ERROR: 4 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
 WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
    at: cleanup (core/object/object.cpp:2378)
-ERROR: 157 resources still in use at exit (run with --verbose for details).
+ERROR: 171 resources still in use at exit (run with --verbose for details).
    at: clear (core/io/resource.cpp:614)

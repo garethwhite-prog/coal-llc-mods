@@ -1,54 +1,78 @@
-﻿=================================================================
->>> 1. Inspecting Gvars.hooks.gd diff in commit 643f070...
-=================================================================
-commit 643f0703436db0d872742ec75e5f6519e5b0651b
-Author: Gareth <gareth.white@live.co.uk>
-Date:   Fri Oct 23 21:38:28 2026 +0100
+﻿class_name WaterSpiritNode
+extends Node2D
 
-    Fix Jedi passives crash, resolve line 499 startup error across class mods, and register Camera hooks
+var orbit_radius: float = 48.0
+var rotation_speed: float = 12.0
+var brush_radius: int = 1
 
-diff --git a/mods-unpacked/gareth-mod_manager_mod/mods-unpacked/gareth-mod_manager_mod/extensions/scripts/Gvars.hooks.gd b/mods-unpacked/gareth-mod_manager_mod/mods-unpacked/gareth-mod_manager_mod/extensions/scripts/Gvars.hooks.gd
-new file mode 100644
-index 0000000..1fdeeef
---- /dev/null
-+++ b/mods-unpacked/gareth-mod_manager_mod/mods-unpacked/gareth-mod_manager_mod/extensions/scripts/Gvars.hooks.gd
-@@ -0,0 +1,11 @@
-+extends Object
-+
-+func reset_resources(chain: ModLoaderHookChain) -> void:
-+       var gvars = chain.reference_object
-+       if is_instance_valid(gvars) and ("resources_to_save" in gvars) and (gvars.resources_to_save is Array):
-+               var clean_res: Array = []
-+               for r in gvars.resources_to_save:
-+                       if is_instance_valid(r) and ("resource_path" in r) and str(r.resource_path) != "":
-+                               clean_res.append(r)
-+               gvars.resources_to_save = clean_res
-+       chain.execute_next([])
+var tilemap = null
+var player = null
+var current_rotation: float = 0.0
 
-=================================================================
->>> 2. Inspecting how other class mods handle mod_main.gd items...
-=================================================================
-                        if not (item in item_unlocks.all_equipment_items):
-                                item_unlocks.all_equipment_items.append(item)
+var centre: Node2D
+var orb: Sprite2D
+var trail: Sprite2D
 
-=================================================================
->>> 3. Inspecting water_spirit_15_onyx.tres ExtResource entries...
-=================================================================
-   [gd_resource type="Resource" script_class="Item" load_steps=8 format=3]
-   
-   [ext_resource type="Script" path="res://resources/BuyEffects/Scripts/AddToInventory.gd" id="1"]
-   [ext_resource type="Texture2D" path="res://assets/Equipment/kicks/kick_04_sapphire.png" id="2"]
-   [ext_resource type="Script" path="res://mods-unpacked/gareth-water_spirit_mod/scripts/water_spirit_equip.gd" id="3"]
-   [ext_resource type="Script" path="res://resources/PickupEffects/Scripts/PickupToInventory.gd" id="4"]
-   [ext_resource type="AudioStream" path="res://assets/sound/sound effects/pickup.wav" id="5"]
-   [ext_resource type="Script" path="res://resources/Items/Scripts/Item.gd" id="6"]
-   
-   [sub_resource type="Resource" id="Resource_buy"]
-   script = ExtResource("1")
-   
-   [sub_resource type="Resource" id="Resource_equip"]
-   script = ExtResource("3")
-   orbit_radius = 220.0
+func _ready() -> void:
+        z_index = 50
 
-Discovery Phase 29 complete. Zero files modified.
-PS C:\Dev\coal-llc-mods> 
+        centre = Node2D.new()
+        centre.name = "Centre"
+        add_child(centre)
+
+        var orb_texture = load("res://assets/Equipment/kicks/kick_04_sapphire.png")
+
+        orb = Sprite2D.new()
+        orb.name = "Orb"
+        orb.texture = orb_texture
+        orb.modulate = Color(0.2, 0.85, 1.0, 1.0)
+        orb.scale = Vector2(1.5, 1.5)
+        orb.position = Vector2(orbit_radius, 0.0)
+        centre.add_child(orb)
+
+        trail = Sprite2D.new()
+        trail.name = "Trail"
+        trail.texture = orb_texture
+        trail.modulate = Color(0.1, 0.6, 1.0, 0.5)
+        trail.scale = Vector2(1.0, 1.0)
+        trail.position = Vector2(orbit_radius * 0.95, -12.0)
+        centre.add_child(trail)
+
+        _resolve_tilemap()
+
+func _resolve_tilemap() -> void:
+        if player and ("tilemap" in player) and player.tilemap:
+                tilemap = player.tilemap
+                return
+        var tree = get_tree()
+        if tree:
+                var p = tree.get_first_node_in_group("player")
+                if p and ("tilemap" in p) and p.tilemap:
+                        tilemap = p.tilemap
+                        return
+                if Game and ("current_node" in Game) and Game.current_node:
+                        if "tilemap" in Game.current_node and Game.current_node.tilemap:
+                                tilemap = Game.current_node.tilemap
+
+func _physics_process(delta: float) -> void:
+        current_rotation += rotation_speed * delta
+        if centre:
+                centre.rotation = current_rotation
+
+        if not tilemap:
+                _resolve_tilemap()
+                if not tilemap:
+                        return
+
+        if orb:
+                var orb_pos: Vector2 = orb.global_position
+                if tilemap.has_method("local_to_map") and tilemap.has_method("wet_tile_coords"):
+                        var center_tile: Vector2i = tilemap.local_to_map(orb_pos)
+                        for dx in range(-brush_radius, brush_radius + 1):
+                                for dy in range(-brush_radius, brush_radius + 1):
+                                        if (dx * dx + dy * dy) <= (brush_radius * brush_radius):
+                                                tilemap.wet_tile_coords(center_tile + Vector2i(dx
+, dy))
+                elif tilemap.has_method("wet_tile"):
+                        tilemap.wet_tile(orb_pos)
+(END)

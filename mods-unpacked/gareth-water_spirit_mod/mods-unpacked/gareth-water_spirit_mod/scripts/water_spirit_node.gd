@@ -45,6 +45,16 @@ func _ready() -> void:
 func _resolve_tilemap() -> void:
 	if player and ("tilemap" in player) and player.tilemap:
 		tilemap = player.tilemap
+		return
+	var tree = get_tree()
+	if tree:
+		var p = tree.get_first_node_in_group("player")
+		if p and ("tilemap" in p) and p.tilemap:
+			tilemap = p.tilemap
+			return
+		if Game and ("current_node" in Game) and Game.current_node:
+			if "tilemap" in Game.current_node and Game.current_node.tilemap:
+				tilemap = Game.current_node.tilemap
 
 func _physics_process(delta: float) -> void:
 	current_rotation += rotation_speed * delta
@@ -57,10 +67,12 @@ func _physics_process(delta: float) -> void:
 			return
 
 	if orb:
-		var tip_pos: Vector2 = orb.global_position
-		var map_pos: Vector2i = tilemap.local_to_map(tilemap.to_local(tip_pos))
-		for dx in range(-brush_radius, brush_radius + 1):
-			for dy in range(-brush_radius, brush_radius + 1):
-				var cell = map_pos + Vector2i(dx, dy)
-				if tilemap.has_method("damageTileCoords"):
-					tilemap.damageTileCoords(cell, 25.0)
+		var orb_pos: Vector2 = orb.global_position
+		if tilemap.has_method("local_to_map") and tilemap.has_method("wet_tile_coords"):
+			var center_tile: Vector2i = tilemap.local_to_map(orb_pos)
+			for dx in range(-brush_radius, brush_radius + 1):
+				for dy in range(-brush_radius, brush_radius + 1):
+					if (dx * dx + dy * dy) <= (brush_radius * brush_radius):
+						tilemap.wet_tile_coords(center_tile + Vector2i(dx, dy))
+		elif tilemap.has_method("wet_tile"):
+			tilemap.wet_tile(orb_pos)
