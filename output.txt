@@ -1,9 +1,20 @@
-﻿class_name WaterSpiritNode
+﻿>>> 1. Terminating running Coal LLC / Godot instances...
+PS C:\Dev\coal-llc-mods> 
+PS C:\Dev\coal-llc-mods> 
+# ------------------------------------------------------------------------------
+# 2. RESTORE ORIGINAL WET_TILE_COORDS LOGIC WITH FAIRY TEXTURE SUPPORT
+# ------------------------------------------------------------------------------
+Write-Host "`n>>> 2. Updating water_spirit_node.gd to restore wet_tile_coords..." -ForegroundColor Cyan
+$wsNodePath = "$repo\mods-unpacked\gareth-water_spirit_mod\mods-unpacked\gareth-water_spirit_mod\scripts\water_spirit_node.gd"
+
+@'
+class_name WaterSpiritNode
 extends Node2D
 
 var orbit_radius: float = 48.0
 var rotation_speed: float = 12.0
 var brush_radius: int = 1
+var fairy_texture: Texture2D = null
 
 var tilemap = null
 var player = null
@@ -20,20 +31,21 @@ func _ready() -> void:
         centre.name = "Centre"
         add_child(centre)
 
-        var orb_texture = load("res://assets/Equipment/kicks/kick_04_sapphire.png")
+        var use_texture = fairy_texture
+        if not use_texture:
+                use_texture = load("res://assets/Equipment/kicks/kick_04_sapphire.png")
 
         orb = Sprite2D.new()
         orb.name = "Orb"
-        orb.texture = orb_texture
-        orb.modulate = Color(0.2, 0.85, 1.0, 1.0)
+        orb.texture = use_texture
         orb.scale = Vector2(1.5, 1.5)
         orb.position = Vector2(orbit_radius, 0.0)
         centre.add_child(orb)
 
         trail = Sprite2D.new()
         trail.name = "Trail"
-        trail.texture = orb_texture
-        trail.modulate = Color(0.1, 0.6, 1.0, 0.5)
+        trail.texture = use_texture
+        trail.modulate = Color(0.1, 0.6, 1.0, 0.4)
         trail.scale = Vector2(1.0, 1.0)
         trail.position = Vector2(orbit_radius * 0.95, -12.0)
         centre.add_child(trail)
@@ -71,8 +83,63 @@ func _physics_process(delta: float) -> void:
                         for dx in range(-brush_radius, brush_radius + 1):
                                 for dy in range(-brush_radius, brush_radius + 1):
                                         if (dx * dx + dy * dy) <= (brush_radius * brush_radius):
-                                                tilemap.wet_tile_coords(center_tile + Vector2i(dx
-, dy))
+                                                tilemap.wet_tile_coords(center_tile + Vector2i(dx, dy))
                 elif tilemap.has_method("wet_tile"):
                         tilemap.wet_tile(orb_pos)
-(END)
+'@ | Set-Content -Path $wsNodePath -Encoding UTF8
+Write-Host "  Updated: water_spirit_node.gd (wetting mechanics restored)" -ForegroundColor Green
+
+
+>>> 2. Updating water_spirit_node.gd to restore wet_tile_coords...
+  Updated: water_spirit_node.gd (wetting mechanics restored)
+PS C:\Dev\coal-llc-mods> 
+PS C:\Dev\coal-llc-mods> 
+# ------------------------------------------------------------------------------
+# 3. REPACKAGE GARETH-WATER_SPIRIT_MOD.ZIP
+# ------------------------------------------------------------------------------
+Write-Host "`n>>> 3. Repackaging gareth-water_spirit_mod.zip..." -ForegroundColor Cyan
+Add-Type -AssemblyName System.IO.Compression.FileSystem
+
+$src = "$repo\mods-unpacked\gareth-water_spirit_mod"
+$zip = "$steamMods\gareth-water_spirit_mod.zip"
+if (Test-Path $zip) { Remove-Item -Path $zip -Force }
+
+$stream  = [System.IO.File]::Open($zip, [System.IO.FileMode]::CreateNew)
+$archive = New-Object System.IO.Compression.ZipArchive($stream, [System.IO.Compression.ZipArchiveMode]::Create)
+foreach ($f in (Get-ChildItem -Path $src -Recurse -File)) {
+        $entryName = $f.FullName.Substring($src.Length + 1).Replace("\", "/")
+        [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $f.FullName, $entryName) | Out-Null
+}
+$archive.Dispose()
+$stream.Dispose()
+Write-Host "  Repacked: gareth-water_spirit_mod.zip" -ForegroundColor Green
+
+# ------------------------------------------------------------------------------
+# 4. GIT STAGING, COMMIT & PUSH
+# ------------------------------------------------------------------------------
+Write-Host "`n>>> 4. Staging, committing and pushing to GitHub..." -ForegroundColor Cyan
+git add -A
+git commit -m "Restore original wet_tile_coords and tilemap resolution fallbacks on WaterSpiritNode"
+git push origin main
+
+Write-Host "`nWater Spirit wetting logic restored successfully!" -ForegroundColor Green
+
+>>> 3. Repackaging gareth-water_spirit_mod.zip...
+  Repacked: gareth-water_spirit_mod.zip
+
+>>> 4. Staging, committing and pushing to GitHub...
+warning: in the working copy of 'context.txt', LF will be replaced by CRLF the next time Git touches it
+[main 3d347b6] Restore original wet_tile_coords and tilemap resolution fallbacks on WaterSpiritNode
+ 4 files changed, 250 insertions(+), 687 deletions(-)
+Enumerating objects: 20, done.
+Counting objects: 100% (20/20), done.
+Delta compression using up to 24 threads
+Compressing objects: 100% (11/11), done.
+Writing objects: 100% (11/11), 5.50 KiB | 1.83 MiB/s, done.
+Total 11 (delta 5), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (5/5), completed with 5 local objects.
+To https://github.com/garethwhite-prog/coal-llc-mods.git
+   8751218..3d347b6  main -> main
+
+Water Spirit wetting logic restored successfully!
+PS C:\Dev\coal-llc-mods> 

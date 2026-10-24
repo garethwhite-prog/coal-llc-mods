@@ -1,6 +1,6 @@
 extends Object
 
-const PASSIVE_RES_PATH := "res://resources/Items/power_ups/PassiveUpgrade.tres"
+const MOD_DIR := "gareth-chest_variance_mod"
 
 func roll_loot(chain: ModLoaderHookChain) -> void:
 	var chest = chain.reference_object
@@ -10,6 +10,7 @@ func roll_loot(chain: ModLoaderHookChain) -> void:
 
 	# 3% chance of a booby-trap explosion
 	if randf() < 0.03:
+		ModLoaderLog.info("[Chest Variance] *** BOOBY TRAP DETONATED *** at %s" % str(chest.global_position), MOD_DIR)
 		_trigger_trap_explosion(chest)
 		return
 
@@ -41,6 +42,7 @@ func roll_loot(chain: ModLoaderHookChain) -> void:
 				chest.loot.itemPickupEffect.multiplier = float(effective_level ** 2)
 
 	# Seed custom class weapons into power-up scroll drops
+	var custom_weapon_seeded := false
 	var item_unlocks = load("res://resources/unlockable_items/scripts/item_unlocks.tres")
 	if item_unlocks and is_instance_valid(chest.loot) and chest.loot.itemType == "scroll":
 		var candidates: Array = []
@@ -50,6 +52,16 @@ func roll_loot(chain: ModLoaderHookChain) -> void:
 		if candidates.size() > 0 and randf() < 0.35:
 			var custom_weapon = candidates.pick_random()
 			chest.loot = chest.generate_power_up_scroll_for_item(custom_weapon)
+			custom_weapon_seeded = true
+
+	var loot_name: String = chest.loot.itemName if is_instance_valid(chest.loot) else "Unknown"
+	ModLoaderLog.info("[Chest Variance] Stratum Tier: %d -> Rolled Tier: %d (Shift: %+d) | Loot: %s%s" % [
+		original_level,
+		effective_level,
+		tier_shift,
+		loot_name,
+		" [CUSTOM WEAPON SCROLL]" if custom_weapon_seeded else ""
+	], MOD_DIR)
 
 	chest.loot_level = original_level
 
