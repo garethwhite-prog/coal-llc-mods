@@ -7,6 +7,8 @@ var toast_label: Label
 var queue_label: Label
 
 var search_box: LineEdit
+var sort_dropdown: OptionButton
+var chk_affordable: CheckBox
 var item_grid: GridContainer
 var cash_label: Label
 
@@ -26,28 +28,53 @@ func _load_catalog() -> void:
 			if is_instance_valid(it):
 				all_shop_items.append(it)
 
+	# Include all bonus slots, stack expansions, and vacuums
+	var extra_paths = [
+		"res://resources/Items/BonusEffects/add_inventory_slots_1.tres",
+		"res://resources/Items/BonusEffects/add_inventory_slots_2.tres",
+		"res://resources/Items/BonusEffects/add_inventory_slots_3.tres",
+		"res://mods-unpacked/gareth-more_inventory_slots_mod/items/add_inventory_slots_4.tres",
+		"res://mods-unpacked/gareth-more_inventory_slots_mod/items/add_inventory_slots_5.tres",
+		"res://mods-unpacked/gareth-more_inventory_slots_mod/items/add_inventory_slots_6.tres",
+		"res://mods-unpacked/gareth-more_inventory_slots_mod/items/add_inventory_slots_10.tres",
+		"res://resources/Items/BonusEffects/add_inventory_stacks_1.tres",
+		"res://resources/Items/BonusEffects/add_inventory_stacks_2.tres",
+		"res://resources/Items/BonusEffects/add_inventory_stacks_3.tres",
+		"res://resources/Items/BonusEffects/bonus_equipment/vacuum_cleaner_1.tres",
+		"res://resources/Items/BonusEffects/bonus_equipment/vacuum_cleaner_2.tres",
+		"res://resources/Items/BonusEffects/bonus_equipment/vacuum_cleaner_3.tres",
+		"res://mods-unpacked/gareth-buyable_vacuums_mod/items/vacuum_cleaner_5.tres",
+		"res://mods-unpacked/gareth-buyable_vacuums_mod/items/vacuum_cleaner_8.tres"
+	]
+	for ep in extra_paths:
+		if ResourceLoader.exists(ep):
+			var res = load(ep)
+			if res and not res in all_shop_items:
+				all_shop_items.append(res)
+
 func _build_ui() -> void:
 	canvas = CanvasLayer.new()
 	canvas.name = "AmazonDeliveryCanvas"
 	canvas.layer = 96
 	add_child(canvas)
 
-	# 1. Top-Right HUD Button
+	# Bottom-Right Docked HUD Button (above Speed Controls)
 	hud_btn = Button.new()
 	hud_btn.name = "AmazonHUDButton"
 	hud_btn.text = "📦 Amazon"
 	hud_btn.anchor_left = 1.0
 	hud_btn.anchor_right = 1.0
+	hud_btn.anchor_top = 1.0
+	hud_btn.anchor_bottom = 1.0
 	hud_btn.offset_left = -110.0
 	hud_btn.offset_right = -16.0
-	hud_btn.anchor_top = 1.0; hud_btn.anchor_bottom = 1.0; hud_btn.offset_top = -94.0
-	hud_btn.offset_bottom = -58.0
+	hud_btn.offset_top = -90.0
+	hud_btn.offset_bottom = -54.0
 	hud_btn.modulate = Color(1.0, 0.85, 0.3, 1.0)
 	hud_btn.tooltip_text = "Open Amazon Same-Day Emergency Delivery (Hotkey B)"
 	hud_btn.pressed.connect(toggle_store)
 	canvas.add_child(hud_btn)
 
-	# 2. Toast & Delivery Queue Notification Banner
 	queue_label = Label.new()
 	queue_label.anchor_left = 0.5
 	queue_label.anchor_right = 0.5
@@ -72,17 +99,17 @@ func _build_ui() -> void:
 	toast_label.visible = false
 	canvas.add_child(toast_label)
 
-	# 3. Amazon Store Window
+	# Enlarge Amazon Window (840x560)
 	store_window = PanelContainer.new()
 	store_window.name = "AmazonStoreWindow"
 	store_window.anchor_left = 0.5
 	store_window.anchor_right = 0.5
 	store_window.anchor_top = 0.5
 	store_window.anchor_bottom = 0.5
-	store_window.offset_left = -320.0
-	store_window.offset_right = 320.0
-	store_window.offset_top = -240.0
-	store_window.offset_bottom = 240.0
+	store_window.offset_left = -420.0
+	store_window.offset_right = 420.0
+	store_window.offset_top = -280.0
+	store_window.offset_bottom = 280.0
 	store_window.visible = false
 
 	var v_box = VBoxContainer.new()
@@ -106,25 +133,49 @@ func _build_ui() -> void:
 	cash_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	sub_bar.add_child(cash_label)
 
-	var btn_scrap_in_shop = Button.new()
-	btn_scrap_in_shop.text = "♻️ Quick-Scrap All Ores (50%)"
-	btn_scrap_in_shop.modulate = Color(0.4, 1.0, 0.6, 1.0)
-	btn_scrap_in_shop.pressed.connect(_quick_scrap_from_shop)
-	sub_bar.add_child(btn_scrap_in_shop)
+	var btn_scrap_all = Button.new()
+	btn_scrap_all.text = "♻️ Scrap All Ores (50%)"
+	btn_scrap_all.modulate = Color(0.4, 1.0, 0.6, 1.0)
+	btn_scrap_all.pressed.connect(_quick_scrap_from_shop)
+	sub_bar.add_child(btn_scrap_all)
+
+	var btn_scrap_gear = Button.new()
+	btn_scrap_gear.text = "♻️ Scrap Unwanted Gear (50%)"
+	btn_scrap_gear.modulate = Color(0.9, 0.6, 0.3, 1.0)
+	btn_scrap_gear.tooltip_text = "Sell redundant weapons, platforms, and bombs from inventory for 50% refund."
+	btn_scrap_gear.pressed.connect(_scrap_redundant_gear)
+	sub_bar.add_child(btn_scrap_gear)
 	v_box.add_child(sub_bar)
 
+	# Search, Sort & Affordable Controls
+	var filter_bar = HBoxContainer.new()
 	search_box = LineEdit.new()
-	search_box.placeholder_text = "Search platforms, ladders, tools, weapons..."
+	search_box.placeholder_text = "Search platforms, ladders, slots, stacks, vacuums, weapons..."
+	search_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	search_box.clear_button_enabled = true
-	search_box.text_changed.connect(func(_new_text): _render_catalog())
-	v_box.add_child(search_box)
+	search_box.text_changed.connect(func(_t): _render_catalog())
+	filter_bar.add_child(search_box)
+
+	sort_dropdown = OptionButton.new()
+	sort_dropdown.add_item("Sort: Default", 0)
+	sort_dropdown.add_item("Price: Low to High", 1)
+	sort_dropdown.add_item("Price: High to Low", 2)
+	sort_dropdown.add_item("Name: A to Z", 3)
+	sort_dropdown.item_selected.connect(func(_idx): _render_catalog())
+	filter_bar.add_child(sort_dropdown)
+
+	chk_affordable = CheckBox.new()
+	chk_affordable.text = "Affordable Only"
+	chk_affordable.toggled.connect(func(_t): _render_catalog())
+	filter_bar.add_child(chk_affordable)
+	v_box.add_child(filter_bar)
 
 	var scroll = ScrollContainer.new()
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 
 	item_grid = GridContainer.new()
-	item_grid.columns = 2
+	item_grid.columns = 3
 	item_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	item_grid.add_theme_constant_override("h_separation", 10)
 	item_grid.add_theme_constant_override("v_separation", 10)
@@ -136,16 +187,18 @@ func _build_ui() -> void:
 
 func _process(delta: float) -> void:
 	var tree = get_tree()
-	var in_game := false
+	var in_mining_shift := false
 	var player_node: Node2D = null
 	if tree and tree.root:
 		player_node = tree.root.find_child("Player", true, false)
-		in_game = is_instance_valid(player_node) and (Game and Gconsts and ("Stages" in Gconsts) and Game.stage == Gconsts.Stages._IN_GAME)
+		var tm = tree.root.find_child("TileMapManager", true, false)
+		var pause = tree.root.find_child("PauseMenu", true, false)
+		in_mining_shift = is_instance_valid(player_node) and is_instance_valid(tm) and (not is_instance_valid(pause) or not pause.visible)
 
 	if hud_btn:
-		hud_btn.visible = in_game
+		hud_btn.visible = in_mining_shift
 
-	if not in_game and store_window and store_window.visible:
+	if not in_mining_shift and store_window and store_window.visible:
 		store_window.visible = false
 
 	if is_instance_valid(cash_label) and Gvars:
@@ -155,23 +208,14 @@ func _process(delta: float) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
-		if event.keycode == KEY_B:
-			var tree = get_tree()
-			if tree and tree.root and tree.root.find_child("Player", true, false):
-				toggle_store()
+		if event.keycode == KEY_B and hud_btn.visible:
+			toggle_store()
 
 func toggle_store() -> void:
 	if not store_window:
 		return
 	store_window.visible = not store_window.visible
 	if store_window.visible:
-		if all_shop_items.is_empty():
-			_load_catalog()
-		_render_catalog()
-
-func open_store() -> void:
-	if store_window:
-		store_window.visible = true
 		if all_shop_items.is_empty():
 			_load_catalog()
 		_render_catalog()
@@ -183,7 +227,10 @@ func _render_catalog() -> void:
 		c.queue_free()
 
 	var q: String = search_box.text.strip_edges().to_lower()
+	var only_afford: bool = chk_affordable.button_pressed
+	var cur_cash: float = Gvars.CashCount if Gvars else 0.0
 
+	var filtered: Array = []
 	for it in all_shop_items:
 		if not is_instance_valid(it):
 			continue
@@ -192,16 +239,29 @@ func _render_catalog() -> void:
 		var desc: String = str(it.itemDescription).to_lower()
 		if not q.is_empty() and (not q in nm.to_lower() and not q in id_str and not q in desc):
 			continue
+		if only_afford and it.itemBuyPrice > cur_cash and it.itemBuyPrice > 0.0:
+			continue
+		filtered.append(it)
 
+	# Sorting
+	var sort_mode = sort_dropdown.selected
+	if sort_mode == 1:
+		filtered.sort_custom(func(a, b): return a.itemBuyPrice < b.itemBuyPrice)
+	elif sort_mode == 2:
+		filtered.sort_custom(func(a, b): return a.itemBuyPrice > b.itemBuyPrice)
+	elif sort_mode == 3:
+		filtered.sort_custom(func(a, b): return str(a.itemName).nocasecmp_to(str(b.itemName)) < 0)
+
+	for it in filtered:
 		var card = PanelContainer.new()
-		card.custom_minimum_size = Vector2(290, 68)
+		card.custom_minimum_size = Vector2(250, 68)
 
 		var hbox = HBoxContainer.new()
-		hbox.add_theme_constant_override("separation", 8)
+		hbox.add_theme_constant_override("separation", 6)
 
 		var tex = TextureRect.new()
 		tex.texture = it.itemTexture
-		tex.custom_minimum_size = Vector2(40, 40)
+		tex.custom_minimum_size = Vector2(36, 36)
 		tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		hbox.add_child(tex)
 
@@ -209,7 +269,7 @@ func _render_catalog() -> void:
 		info_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
 		var name_lbl = Label.new()
-		name_lbl.text = nm
+		name_lbl.text = it.itemName
 		name_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		info_box.add_child(name_lbl)
 
@@ -218,13 +278,12 @@ func _render_catalog() -> void:
 		price_lbl.text = "$%.2f" % (price_val / 100.0)
 		price_lbl.add_theme_color_override("font_color", Color(1.0, 0.85, 0.2, 1.0))
 		info_box.add_child(price_lbl)
-
 		hbox.add_child(info_box)
 
 		var btn_order = Button.new()
 		btn_order.text = "Order\n(10s)"
-		btn_order.custom_minimum_size = Vector2(64, 44)
-		var can_afford = (Gvars and Gvars.CashCount >= price_val)
+		btn_order.custom_minimum_size = Vector2(56, 40)
+		var can_afford = (cur_cash >= price_val or price_val <= 0.0)
 		btn_order.disabled = not can_afford
 		btn_order.pressed.connect(func(): _place_order(it))
 		hbox.add_child(btn_order)
@@ -233,15 +292,13 @@ func _render_catalog() -> void:
 		item_grid.add_child(card)
 
 func _place_order(it: Item) -> void:
-	if not Gvars or Gvars.CashCount < it.itemBuyPrice:
+	if not Gvars or (Gvars.CashCount < it.itemBuyPrice and it.itemBuyPrice > 0.0):
 		show_toast("❌ Insufficient funds in wallet!")
 		return
 
-	Gvars.CashCount -= it.itemBuyPrice
-	pending_orders.append({
-		"item": it,
-		"time_left": 10.0
-	})
+	if it.itemBuyPrice > 0.0:
+		Gvars.CashCount -= it.itemBuyPrice
+	pending_orders.append({ "item": it, "time_left": 10.0 })
 	show_toast("📦 Order placed for %s! Parachute delivery in 10s." % it.itemName)
 	_render_catalog()
 
@@ -278,36 +335,27 @@ func _spawn_parachute_crate(item: Item, player_node: Node2D) -> void:
 
 	var crate = Node2D.new()
 	crate.name = "AmazonDeliveryCrate"
-
 	var spawn_x: float = player_node.global_position.x if is_instance_valid(player_node) else 0.0
-	var spawn_y: float = -60.0
-	crate.global_position = Vector2(spawn_x, spawn_y)
+	crate.global_position = Vector2(spawn_x, -60.0)
 
 	var spr = Sprite2D.new()
 	spr.texture = item.itemTexture if is_instance_valid(item.itemTexture) else load("res://assets/Equipment/kicks/kick_04_sapphire.png")
 	spr.scale = Vector2(1.6, 1.6)
 	crate.add_child(spr)
-
 	tree.current_scene.add_child(crate)
 
 	var target_y = player_node.global_position.y if is_instance_valid(player_node) else 0.0
 	var tween = tree.create_tween()
-	var fall_time = 1.2
-	tween.tween_property(crate, "global_position:y", target_y, fall_time).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_property(crate, "global_position:y", target_y, 1.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	tween.tween_callback(func():
-		var inv: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
-		if inv:
-			inv.addToInventory(item, 1)
-			Bus.inventory_changed.emit()
-		show_toast("📦 DELIVERED! [%s] placed in inventory." % item.itemName)
-
-		var boom_audio = AudioStreamPlayer2D.new()
-		boom_audio.stream = load("res://assets/sound/sound effects/pickup.wav")
-		boom_audio.global_position = crate.global_position
-		tree.current_scene.add_child(boom_audio)
-		boom_audio.play()
-		boom_audio.finished.connect(boom_audio.queue_free)
-
+		if item.itemBuyEffect:
+			item.itemBuyEffect.buy_effect(item, 1)
+		else:
+			var inv: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
+			if inv:
+				inv.addToInventory(item, 1)
+		Bus.inventory_changed.emit()
+		show_toast("📦 DELIVERED! [%s] acquired." % item.itemName)
 		crate.queue_free()
 	)
 
@@ -315,24 +363,15 @@ func _quick_scrap_from_shop() -> void:
 	var inv: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
 	if not inv or not Gvars:
 		return
-
 	var total_cash: float = 0.0
 	var count_cleared: int = 0
 	var empty_res = load("res://resources/Items/Empty.tres")
-
 	for slot_item in inv.items:
 		if not is_instance_valid(slot_item) or not is_instance_valid(slot_item.item) or slot_item.count <= 0:
 			continue
 		var it = slot_item.item
-		var id_str = str(it.itemID).to_lower()
 		var type_str = str(it.itemType).to_lower()
-
-		var is_ore = (type_str in ["ore", "resource", "mineral", "material"] or 
-			"coal" in id_str or "copper" in id_str or "iron" in id_str or "sapphire" in id_str or 
-			"emerald" in id_str or "silver" in id_str or "amethyst" in id_str or "gold" in id_str or 
-			"ruby" in id_str or "diamond" in id_str or "spinel" in id_str or "uranium" in id_str)
-
-		if is_ore and type_str != "equipment" and type_str != "weapon":
+		if type_str in ["ore", "resource", "mineral", "material"]:
 			var val = it.itemSellPrice * 0.5 if it.itemSellPrice > 0.0 else 5.0
 			total_cash += val * slot_item.count
 			count_cleared += int(slot_item.count)
@@ -346,6 +385,35 @@ func _quick_scrap_from_shop() -> void:
 		show_toast("♻️ Scrapped %d ores for +$%.2f cash!" % [count_cleared, total_cash / 100.0])
 		_render_catalog()
 
+func _scrap_redundant_gear() -> void:
+	var inv: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
+	if not inv or not Gvars:
+		return
+	var total_refund: float = 0.0
+	var gear_count: int = 0
+	var empty_res = load("res://resources/Items/Empty.tres")
+	for slot_item in inv.items:
+		if not is_instance_valid(slot_item) or not is_instance_valid(slot_item.item) or slot_item.count <= 0:
+			continue
+		var it = slot_item.item
+		var type_str = str(it.itemType).to_lower()
+		if type_str in ["equipment", "weapon", "sword", "gun", "bomb", "turret"]:
+			var refund_val = it.itemBuyPrice * 0.5 if it.itemBuyPrice > 0.0 else (it.itemSellPrice * 0.5)
+			if refund_val > 0.0:
+				total_refund += refund_val * slot_item.count
+				gear_count += int(slot_item.count)
+				slot_item.count = 0
+				if empty_res:
+					slot_item.item = empty_res
+
+	if total_refund > 0.0:
+		Gvars.CashCount += total_refund
+		Bus.inventory_changed.emit()
+		show_toast("♻️ Scrapped %d gear items for +$%.2f cash refund!" % [gear_count, total_refund / 100.0])
+		_render_catalog()
+	else:
+		show_toast("ℹ️ No scrapable gear found in inventory.")
+
 func show_toast(msg: String) -> void:
 	if is_instance_valid(toast_label):
 		toast_label.text = msg
@@ -358,4 +426,3 @@ func show_toast(msg: String) -> void:
 				if is_instance_valid(toast_label):
 					toast_label.visible = false
 			)
-

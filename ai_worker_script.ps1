@@ -1,7 +1,7 @@
 ﻿Clear-Host
 
 # ==============================================================================
-# Coal LLC - Commit 1: Core Fixes, Regression Guard, & Stability
+# Coal LLC - Commit 2: Store & In-Level Economy Upgrades
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
@@ -16,389 +16,532 @@ Get-Process -Name "Coal LLC*", "godot*" -ErrorAction SilentlyContinue | Stop-Pro
 Start-Sleep -Milliseconds 400
 
 # ------------------------------------------------------------------------------
-# 2. RESTORE IS_MOD_ACTIVE_FOR_RUN IN MOD_REGISTRY.GD
+# 2. GUARANTEE 0g PURCHASE IN SHOP_ITEM_CARD.HOOKS.GD
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 2. Restoring is_mod_active_for_run in mod_registry.gd..." -ForegroundColor Cyan
-$regPath = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\scripts\mod_registry.gd"
+Write-Host "`n>>> 2. Writing shop_item_card.hooks.gd (0g purchase & affordability)..." -ForegroundColor Cyan
+$sicHookPath = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\extensions\scenes\Interfaces\Management\shop_item_card.hooks.gd"
 @'
-class_name ModRegistry
-extends RefCounted
+extends Object
 
-static func is_mod_active_for_run(mod_key: String) -> bool:
-	var ssm = Engine.get_main_loop().root.get_node_or_null("/root/SaveSlotManager")
-	if ssm and ssm.has_method("is_mod_active_for_run"):
-		return ssm.is_mod_active_for_run(mod_key)
-
-	var cfg_path := "user://gareth_mods_config.json"
-	if FileAccess.file_exists(cfg_path):
-		var f := FileAccess.open(cfg_path, FileAccess.READ)
-		if f:
-			var parsed = JSON.parse_string(f.get_as_text())
-			if parsed is Dictionary and parsed.has("mods"):
-				return bool(parsed["mods"].get(mod_key, true))
-	return true
-
-static func get_all_installed_mods() -> Array:
-	return get_all_mods()
-
-static func get_all_mods() -> Array:
-	var list: Array = []
-	var mod_data = ModLoader.get_mod_data_all()
-	for mod_id in mod_data.keys():
-		var data = mod_data[mod_id]
-		if not data or not ("manifest" in data) or not data.manifest:
-			continue
-		var m = data.manifest
-		var display_name: String = _format_display_name(m)
-		var desc: String = m.description if "description" in m else ""
-		var author: String = m.extra.godot.authors[0] if (m.has("extra") and m.extra.has("godot") and m.extra.godot.has("authors") and m.extra.godot.authors.size() > 0) else "Community"
-		var version: String = m.version_number if "version_number" in m else "1.0.0"
-		var cat: String = _determine_category(m)
-
-		list.append({
-			"id": mod_id,
-			"key": mod_id,
-			"name": display_name,
-			"description": desc,
-			"author": author,
-			"version": version,
-			"category": cat,
-			"is_active": data.is_active
-		})
-	return list
-
-static func _determine_category(m) -> String:
-	var id: String = str(m.name).to_lower()
-	var desc: String = str(m.description).to_lower()
-	if "class" in id or "profession" in id or "jedi" in id or "knight" in id or "sinclairity" in id:
-		return "Classes & Professions"
-	if "map" in id or "trench" in id or "faultline" in id or "canvas" in id or "expedition" in id:
-		return "Custom Maps & Strata"
-	if "weapon" in id or "bomb" in id or "laser" in id or "nuke" in id or "turret" in id or "mortar" in id or "grenade" in id or "arsenal" in id or "tank" in id or "strike" in id:
-		return "Weapons & Arsenal"
-	if "employee" in id or "collector" in id or "drill" in id or "vacuum" in id:
-		return "Employees & Automation"
-	if "speed" in id or "inventory" in id or "save" in id or "leaderboard" in id or "multisave" in id or "settings" in id or "scrap" in id or "delivery" in id:
-		return "Quality of Life"
-	if "hardware" in id or "limit" in id or "performance" in id or "booster" in id or "holes" in id:
-		return "Performance & System"
-	if "spirit" in id or "variance" in id or "upgrade" in id or "passive" in id or "order" in id or "beacon" in id:
-		return "Progression & Upgrades"
-	return "Community Add-Ons"
-
-static func _format_display_name(m) -> String:
-	if m.has("extra") and m.extra.has("godot") and m.extra.godot.has("display_name"):
-		return m.extra.godot.display_name
-	var raw: String = m.name.replace("_mod", "").replace("mod_", "").replace("-", " ").replace("_", " ")
-	return raw.capitalize()
-'@ | Set-Content -Path $regPath -Encoding UTF8
-Write-Host "  Restored: mod_registry.gd" -ForegroundColor Green
-
-# ------------------------------------------------------------------------------
-# 3. RE-ANCHOR HUD CONTROLLERS WITH ROBUST IN-MINE DETECTION
-# ------------------------------------------------------------------------------
-Write-Host "`n>>> 3. Updating speed_controller.gd with robust stage detection..." -ForegroundColor Cyan
-$scPath = "$repo\mods-unpacked\gareth-game_speed_mod\mods-unpacked\gareth-game_speed_mod\scripts\speed_controller.gd"
-@'
-extends Node
-
-const SPEEDS := [0.5, 0.75, 1.0, 1.5, 2.0]
-var speed_index: int = 2
-
-var canvas: CanvasLayer
-var panel: PanelContainer
-var lbl_speed: Label
-var btn_slower: Button
-var btn_faster: Button
-var btn_end_day: Button
-
-func _ready() -> void:
-	process_mode = Node.PROCESS_MODE_ALWAYS
-	_build_hud()
-
-func _build_hud() -> void:
-	canvas = CanvasLayer.new()
-	canvas.name = "SpeedControlHUD"
-	canvas.layer = 95
-	add_child(canvas)
-
-	panel = PanelContainer.new()
-	panel.anchor_left = 1.0
-	panel.anchor_right = 1.0
-	panel.anchor_top = 1.0
-	panel.anchor_bottom = 1.0
-	panel.offset_left = -264.0
-	panel.offset_right = -16.0
-	panel.offset_top = -48.0
-	panel.offset_bottom = -12.0
-
-	var hbox = HBoxContainer.new()
-	hbox.add_theme_constant_override("separation", 6)
-
-	btn_slower = Button.new()
-	btn_slower.text = "◀"
-	btn_slower.custom_minimum_size = Vector2(28, 24)
-	btn_slower.tooltip_text = "Slower [ [ ]"
-	btn_slower.pressed.connect(func(): _step_speed(-1))
-	hbox.add_child(btn_slower)
-
-	lbl_speed = Label.new()
-	lbl_speed.text = "1.00x"
-	lbl_speed.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	lbl_speed.custom_minimum_size = Vector2(48, 24)
-	hbox.add_child(lbl_speed)
-
-	btn_faster = Button.new()
-	btn_faster.text = "▶"
-	btn_faster.custom_minimum_size = Vector2(28, 24)
-	btn_faster.tooltip_text = "Faster [ ] ]"
-	btn_faster.pressed.connect(func(): _step_speed(1))
-	hbox.add_child(btn_faster)
-
-	var sep = VSeparator.new()
-	hbox.add_child(sep)
-
-	btn_end_day = Button.new()
-	btn_end_day.text = "End Day"
-	btn_end_day.custom_minimum_size = Vector2(70, 24)
-	btn_end_day.modulate = Color(1.0, 0.45, 0.45, 1.0)
-	btn_end_day.tooltip_text = "Finish Level / Emergency Exit [ F8 ]"
-	btn_end_day.pressed.connect(Callable(self, "_finish_level"))
-	hbox.add_child(btn_end_day)
-
-	panel.add_child(hbox)
-	canvas.add_child(panel)
-
-func _process(_delta: float) -> void:
-	var tree = get_tree()
-	var in_mining_shift := false
-	if tree and tree.root:
-		var p = tree.root.find_child("Player", true, false)
-		var tm = tree.root.find_child("TileMapManager", true, false)
-		var pause = tree.root.find_child("PauseMenu", true, false)
-		in_mining_shift = is_instance_valid(p) and is_instance_valid(tm) and (not is_instance_valid(pause) or not pause.visible)
-
-	if panel:
-		panel.visible = in_mining_shift
-
-	if not in_mining_shift and Engine.time_scale != 1.0:
-		Engine.time_scale = 1.0
-		speed_index = 2
-		_update_label()
-
-func _unhandled_input(event: InputEvent) -> void:
-	if not panel.visible:
+func refreshDetails(chain: ModLoaderHookChain) -> void:
+	chain.execute_next([])
+	var card = chain.reference_object
+	if not is_instance_valid(card) or not ("item" in card) or not card.item:
 		return
-	if event is InputEventKey and event.pressed and not event.echo:
-		if event.keycode == KEY_BRACKETLEFT:
-			_step_speed(-1)
-		elif event.keycode == KEY_BRACKETRIGHT:
-			_step_speed(1)
-		elif event.keycode == KEY_F8:
-			_finish_level()
 
-func _step_speed(dir: int) -> void:
-	speed_index = clampi(speed_index + dir, 0, SPEEDS.size() - 1)
-	Engine.time_scale = SPEEDS[speed_index]
-	_update_label()
+	# Enable zero-cost items at 0g cash
+	if card.purchaseable and (card.item.itemBuyPrice <= 0.0 or Gvars.CashCount >= card.item.itemBuyPrice):
+		if "purchase_button" in card and is_instance_valid(card.purchase_button):
+			card.purchase_button.disabled = false
 
-func _update_label() -> void:
-	if is_instance_valid(lbl_speed):
-		lbl_speed.text = "%.2fx" % SPEEDS[speed_index]
+	# "Show Only Affordable" filter toggle support
+	if Gvars and ("show_only_affordable" in Gvars) and Gvars.show_only_affordable:
+		if card.item.itemBuyPrice > Gvars.CashCount and card.item.itemBuyPrice > 0.0:
+			card.visible = false
 
-func _finish_level() -> void:
-	Engine.time_scale = 1.0
-	speed_index = 2
-	_update_label()
+func _on_purchase_button_gui_input(chain: ModLoaderHookChain, event: InputEvent) -> void:
+	var card = chain.reference_object
+	if not is_instance_valid(card) or not ("item" in card) or not card.item:
+		chain.execute_next([event])
+		return
 
-	if Game:
-		if Game.has_method("on_EndDay"):
-			Game.on_EndDay()
-		elif Game.has_method("change_stage") and Gconsts and ("Stages" in Gconsts):
-			Game.change_stage(Gconsts.Stages._END_OF_DAY_OVERLAY, Vector2.ZERO)
-'@ | Set-Content -Path $scPath -Encoding UTF8
+	if event.is_action_released("rightMouseClick"):
+		if card.purchaseable and (card.item.itemBuyPrice <= 0.0 or Gvars.CashCount >= card.item.itemBuyPrice):
+			card.purchase_custom_amount.global_position = card.global_position
+			var cost: float = float(card.item.itemBuyPrice)
+			if cost <= 0.0:
+				card.custom_amount.max_value = 1.0
+			else:
+				card.custom_amount.max_value = max(1.0, floor(Gvars.CashCount / cost))
+			card.custom_amount.assign_value(card.last_custom_value)
+			card.custom_amount.refresh_all()
+			card.custom_amount.visible = true
+			card.custom_amount.h_slider.grab_focus()
+			return
+
+	chain.execute_next([event])
+'@ | Set-Content -Path $sicHookPath -Encoding UTF8
 
 # ------------------------------------------------------------------------------
-# 4. PAUSE MENU: MOD MANAGER & LEADERBOARDS BUTTON INJECTION
+# 3. ADD "SHOW ONLY AFFORDABLE" FILTER TO MAIN EQUIPMENT SHOP
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 4. Updating PauseMenu.hooks.gd with Mod Manager & Leaderboards..." -ForegroundColor Cyan
-$pmHookPath = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\extensions\scripts\PauseMenu.hooks.gd"
+Write-Host "`n>>> 3. Adding affordable filter hook to equipment_shop..." -ForegroundColor Cyan
+$esHookDir = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\extensions\scenes\Interfaces\Management"
 @'
 extends Object
 
 func _ready(chain: ModLoaderHookChain) -> void:
 	chain.execute_next([])
-	var pause_menu = chain.reference_object
-	if not pause_menu:
+	var shop = chain.reference_object
+	if not is_instance_valid(shop):
 		return
 
-	var resume_btn = null
-	for child in pause_menu.find_children("*", "Button", true, false):
-		if child.text.to_lower().contains("resume"):
-			resume_btn = child
-			break
+	var bar = shop.find_child("HBoxContainer", true, false)
+	if not bar:
+		bar = shop.find_child("SortContainer", true, false)
 
-	if resume_btn and resume_btn.get_parent():
-		var parent_box = resume_btn.get_parent()
-		if not parent_box.has_node("PauseModManagerButton"):
-			var mod_btn := Button.new()
-			mod_btn.name = "PauseModManagerButton"
-			mod_btn.text = "Mod Manager"
-			mod_btn.custom_minimum_size = resume_btn.custom_minimum_size
-			mod_btn.size_flags_horizontal = resume_btn.size_flags_horizontal
-
-			var btn_font = resume_btn.get_theme_font("font")
-			if btn_font:
-				mod_btn.add_theme_font_override("font", btn_font)
-			var font_sz = resume_btn.get_theme_font_size("font_size")
-			if font_sz > 0:
-				mod_btn.add_theme_font_size_override("font_size", font_sz)
-
-			mod_btn.pressed.connect(func():
-				var view_script = load("res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd")
-				var view = view_script.new()
-				view.is_pre_run_mode = false
-				pause_menu.add_child(view)
-			)
-			parent_box.add_child(mod_btn)
-			var r_idx = resume_btn.get_index()
-			parent_box.move_child(mod_btn, r_idx + 1)
-
-		if not parent_box.has_node("PauseLeaderboardsButton"):
-			var lb_btn := Button.new()
-			lb_btn.name = "PauseLeaderboardsButton"
-			lb_btn.text = "Leaderboards"
-			lb_btn.custom_minimum_size = resume_btn.custom_minimum_size
-			lb_btn.size_flags_horizontal = resume_btn.size_flags_horizontal
-
-			var btn_font2 = resume_btn.get_theme_font("font")
-			if btn_font2:
-				lb_btn.add_theme_font_override("font", btn_font2)
-			var font_sz2 = resume_btn.get_theme_font_size("font_size")
-			if font_sz2 > 0:
-				lb_btn.add_theme_font_size_override("font_size", font_sz2)
-
-			lb_btn.pressed.connect(func():
-				var lb_script = load("res://mods-unpacked/gareth-leaderboard_mod/scripts/leaderboard_overlay.gd")
-				if lb_script:
-					var lb = lb_script.new()
-					pause_menu.add_child(lb)
-			)
-			parent_box.add_child(lb_btn)
-			var m_idx = parent_box.get_node("PauseModManagerButton").get_index()
-			parent_box.move_child(lb_btn, m_idx + 1)
-'@ | Set-Content -Path $pmHookPath -Encoding UTF8
+	if bar and not bar.has_node("CheckAffordable"):
+		var chk = CheckBox.new()
+		chk.name = "CheckAffordable"
+		chk.text = "Affordable Only"
+		chk.tooltip_text = "Hide items that exceed your current wallet balance."
+		chk.toggled.connect(func(pressed: bool):
+			Gvars.show_only_affordable = pressed
+			if shop.has_method("refresh_shop"):
+				shop.refresh_shop()
+			else:
+				for card in shop.find_children("*", "PanelContainer", true, false):
+					if card.has_method("refreshDetails"):
+						card.refreshDetails()
+		)
+		bar.add_child(chk)
+'@ | Set-Content -Path "$esHookDir\equipment_shop.hooks.gd" -Encoding UTF8
 
 # ------------------------------------------------------------------------------
-# 5. PERSIST KNOWLEDGE & REGRESSION GUARD
+# 4. EXPAND AMAZON SAME-DAY DELIVERY STORE
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 5. Persisting learnings to docs/KNOWN_REGRESSIONS_AND_MISTAKES.md..." -ForegroundColor Cyan
-$docRegPath = "$repo\docs\KNOWN_REGRESSIONS_AND_MISTAKES.md"
+Write-Host "`n>>> 4. Expanding amazon_delivery_manager.gd (Slots, Vacuums, Stacks, Scrapping)..." -ForegroundColor Cyan
+$amzScript = "$repo\mods-unpacked\gareth-scrap_and_delivery_mod\mods-unpacked\gareth-scrap_and_delivery_mod\scripts\amazon_delivery_manager.gd"
 @'
-# Known Regressions, Mistakes & Safeguards
+extends Node
 
-This dossier tracks identified defects, the underlying engine root-cause, and regression assertions enforced by automated test runners.
+var canvas: CanvasLayer
+var hud_btn: Button
+var store_window: PanelContainer
+var toast_label: Label
+var queue_label: Label
 
-## 1. ModRegistry Interface Contract
-- **Symptom**: 5,000+ physics errors (`Nonexistent function 'is_mod_active_for_run' in base 'GDScript'`), Knight class vanishing, blank Mod Manager.
-- **Root Cause**: Omitting `static func is_mod_active_for_run(mod_key: String) -> bool` from `mod_registry.gd`.
-- **Safeguard**: Static AST check in `tests/test_runner.ps1` enforcing `is_mod_active_for_run` existence.
+var search_box: LineEdit
+var sort_dropdown: OptionButton
+var chk_affordable: CheckBox
+var item_grid: GridContainer
+var cash_label: Label
 
-## 2. Block Hit / Damage Desync
-- **Symptom**: Blocks appear to take damage and instantly "heal" on the subsequent hit.
-- **Root Cause**: Physics frame termination due to unhandled GDScript exceptions in player or chunk hooks.
-- **Safeguard**: Zero-error runtime log validation and ensuring all chunk hooks call `chain.execute_next([idx, damage])`.
+var pending_orders: Array = []
+var all_shop_items: Array = []
 
-## 3. In-Game Stage Gating
-- **Symptom**: HUD widgets (Speed, Amazon) either permanently invisible or overlapping Main Menu / Class Select.
-- **Root Cause**: Assuming `Gconsts.Stages._IN_GAME` exists (vanilla enum uses `_MINE_REGION` = 2).
-- **Safeguard**: Dual detection via `Player` and `TileMapManager` existence, guarded against `PauseMenu`.
+func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	_load_catalog()
+	_build_ui()
 
-## 4. 0g Shop Item Division by Zero
-- **Symptom**: Free starter items lock purchase buttons and crash spinbox calculations ($0 / 0 \to \text{NaN}$).
-- **Root Cause**: `custom_amount.max_value = Gvars.CashCount / item.itemBuyPrice` unguarded.
-- **Safeguard**: Explicit `cost <= 0.0` guard ensuring instant zero-cost purchaseability.
-'@ | Set-Content -Path $docRegPath -Encoding UTF8
-Write-Host "  Documented: docs/KNOWN_REGRESSIONS_AND_MISTAKES.md" -ForegroundColor Green
+func _load_catalog() -> void:
+	all_shop_items = []
+	var item_unlocks = load("res://resources/unlockable_items/scripts/item_unlocks.tres")
+	if item_unlocks and ("all_equipment_items" in item_unlocks):
+		for it in item_unlocks.all_equipment_items:
+			if is_instance_valid(it):
+				all_shop_items.append(it)
+
+	# Include all bonus slots, stack expansions, and vacuums
+	var extra_paths = [
+		"res://resources/Items/BonusEffects/add_inventory_slots_1.tres",
+		"res://resources/Items/BonusEffects/add_inventory_slots_2.tres",
+		"res://resources/Items/BonusEffects/add_inventory_slots_3.tres",
+		"res://mods-unpacked/gareth-more_inventory_slots_mod/items/add_inventory_slots_4.tres",
+		"res://mods-unpacked/gareth-more_inventory_slots_mod/items/add_inventory_slots_5.tres",
+		"res://mods-unpacked/gareth-more_inventory_slots_mod/items/add_inventory_slots_6.tres",
+		"res://mods-unpacked/gareth-more_inventory_slots_mod/items/add_inventory_slots_10.tres",
+		"res://resources/Items/BonusEffects/add_inventory_stacks_1.tres",
+		"res://resources/Items/BonusEffects/add_inventory_stacks_2.tres",
+		"res://resources/Items/BonusEffects/add_inventory_stacks_3.tres",
+		"res://resources/Items/BonusEffects/bonus_equipment/vacuum_cleaner_1.tres",
+		"res://resources/Items/BonusEffects/bonus_equipment/vacuum_cleaner_2.tres",
+		"res://resources/Items/BonusEffects/bonus_equipment/vacuum_cleaner_3.tres",
+		"res://mods-unpacked/gareth-buyable_vacuums_mod/items/vacuum_cleaner_5.tres",
+		"res://mods-unpacked/gareth-buyable_vacuums_mod/items/vacuum_cleaner_8.tres"
+	]
+	for ep in extra_paths:
+		if ResourceLoader.exists(ep):
+			var res = load(ep)
+			if res and not res in all_shop_items:
+				all_shop_items.append(res)
+
+func _build_ui() -> void:
+	canvas = CanvasLayer.new()
+	canvas.name = "AmazonDeliveryCanvas"
+	canvas.layer = 96
+	add_child(canvas)
+
+	# Bottom-Right Docked HUD Button (above Speed Controls)
+	hud_btn = Button.new()
+	hud_btn.name = "AmazonHUDButton"
+	hud_btn.text = "📦 Amazon"
+	hud_btn.anchor_left = 1.0
+	hud_btn.anchor_right = 1.0
+	hud_btn.anchor_top = 1.0
+	hud_btn.anchor_bottom = 1.0
+	hud_btn.offset_left = -110.0
+	hud_btn.offset_right = -16.0
+	hud_btn.offset_top = -90.0
+	hud_btn.offset_bottom = -54.0
+	hud_btn.modulate = Color(1.0, 0.85, 0.3, 1.0)
+	hud_btn.tooltip_text = "Open Amazon Same-Day Emergency Delivery (Hotkey B)"
+	hud_btn.pressed.connect(toggle_store)
+	canvas.add_child(hud_btn)
+
+	queue_label = Label.new()
+	queue_label.anchor_left = 0.5
+	queue_label.anchor_right = 0.5
+	queue_label.offset_left = -250.0
+	queue_label.offset_right = 250.0
+	queue_label.offset_top = 60.0
+	queue_label.offset_bottom = 90.0
+	queue_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	queue_label.add_theme_color_override("font_color", Color(1.0, 0.9, 0.2, 1.0))
+	queue_label.visible = false
+	canvas.add_child(queue_label)
+
+	toast_label = Label.new()
+	toast_label.anchor_left = 0.5
+	toast_label.anchor_right = 0.5
+	toast_label.offset_left = -250.0
+	toast_label.offset_right = 250.0
+	toast_label.offset_top = 92.0
+	toast_label.offset_bottom = 122.0
+	toast_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	toast_label.add_theme_color_override("font_color", Color(0.4, 1.0, 0.5, 1.0))
+	toast_label.visible = false
+	canvas.add_child(toast_label)
+
+	# Enlarge Amazon Window (840x560)
+	store_window = PanelContainer.new()
+	store_window.name = "AmazonStoreWindow"
+	store_window.anchor_left = 0.5
+	store_window.anchor_right = 0.5
+	store_window.anchor_top = 0.5
+	store_window.anchor_bottom = 0.5
+	store_window.offset_left = -420.0
+	store_window.offset_right = 420.0
+	store_window.offset_top = -280.0
+	store_window.offset_bottom = 280.0
+	store_window.visible = false
+
+	var v_box = VBoxContainer.new()
+	v_box.add_theme_constant_override("separation", 8)
+
+	var header = HBoxContainer.new()
+	var title = Label.new()
+	title.text = "📦 AMAZON SAME-DAY EMERGENCY DELIVERY"
+	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title.add_theme_color_override("font_color", Color(1.0, 0.85, 0.2, 1.0))
+	header.add_child(title)
+
+	var btn_close = Button.new()
+	btn_close.text = "✖"
+	btn_close.pressed.connect(func(): store_window.visible = false)
+	header.add_child(btn_close)
+	v_box.add_child(header)
+
+	var sub_bar = HBoxContainer.new()
+	cash_label = Label.new()
+	cash_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	sub_bar.add_child(cash_label)
+
+	var btn_scrap_all = Button.new()
+	btn_scrap_all.text = "♻️ Scrap All Ores (50%)"
+	btn_scrap_all.modulate = Color(0.4, 1.0, 0.6, 1.0)
+	btn_scrap_all.pressed.connect(_quick_scrap_from_shop)
+	sub_bar.add_child(btn_scrap_all)
+
+	var btn_scrap_gear = Button.new()
+	btn_scrap_gear.text = "♻️ Scrap Unwanted Gear (50%)"
+	btn_scrap_gear.modulate = Color(0.9, 0.6, 0.3, 1.0)
+	btn_scrap_gear.tooltip_text = "Sell redundant weapons, platforms, and bombs from inventory for 50% refund."
+	btn_scrap_gear.pressed.connect(_scrap_redundant_gear)
+	sub_bar.add_child(btn_scrap_gear)
+	v_box.add_child(sub_bar)
+
+	# Search, Sort & Affordable Controls
+	var filter_bar = HBoxContainer.new()
+	search_box = LineEdit.new()
+	search_box.placeholder_text = "Search platforms, ladders, slots, stacks, vacuums, weapons..."
+	search_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	search_box.clear_button_enabled = true
+	search_box.text_changed.connect(func(_t): _render_catalog())
+	filter_bar.add_child(search_box)
+
+	sort_dropdown = OptionButton.new()
+	sort_dropdown.add_item("Sort: Default", 0)
+	sort_dropdown.add_item("Price: Low to High", 1)
+	sort_dropdown.add_item("Price: High to Low", 2)
+	sort_dropdown.add_item("Name: A to Z", 3)
+	sort_dropdown.item_selected.connect(func(_idx): _render_catalog())
+	filter_bar.add_child(sort_dropdown)
+
+	chk_affordable = CheckBox.new()
+	chk_affordable.text = "Affordable Only"
+	chk_affordable.toggled.connect(func(_t): _render_catalog())
+	filter_bar.add_child(chk_affordable)
+	v_box.add_child(filter_bar)
+
+	var scroll = ScrollContainer.new()
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+
+	item_grid = GridContainer.new()
+	item_grid.columns = 3
+	item_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	item_grid.add_theme_constant_override("h_separation", 10)
+	item_grid.add_theme_constant_override("v_separation", 10)
+	scroll.add_child(item_grid)
+	v_box.add_child(scroll)
+
+	store_window.add_child(v_box)
+	canvas.add_child(store_window)
+
+func _process(delta: float) -> void:
+	var tree = get_tree()
+	var in_mining_shift := false
+	var player_node: Node2D = null
+	if tree and tree.root:
+		player_node = tree.root.find_child("Player", true, false)
+		var tm = tree.root.find_child("TileMapManager", true, false)
+		var pause = tree.root.find_child("PauseMenu", true, false)
+		in_mining_shift = is_instance_valid(player_node) and is_instance_valid(tm) and (not is_instance_valid(pause) or not pause.visible)
+
+	if hud_btn:
+		hud_btn.visible = in_mining_shift
+
+	if not in_mining_shift and store_window and store_window.visible:
+		store_window.visible = false
+
+	if is_instance_valid(cash_label) and Gvars:
+		cash_label.text = "Wallet: $%.2f" % (Gvars.CashCount / 100.0)
+
+	_update_orders(delta, player_node)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_B and hud_btn.visible:
+			toggle_store()
+
+func toggle_store() -> void:
+	if not store_window:
+		return
+	store_window.visible = not store_window.visible
+	if store_window.visible:
+		if all_shop_items.is_empty():
+			_load_catalog()
+		_render_catalog()
+
+func _render_catalog() -> void:
+	if not item_grid:
+		return
+	for c in item_grid.get_children():
+		c.queue_free()
+
+	var q: String = search_box.text.strip_edges().to_lower()
+	var only_afford: bool = chk_affordable.button_pressed
+	var cur_cash: float = Gvars.CashCount if Gvars else 0.0
+
+	var filtered: Array = []
+	for it in all_shop_items:
+		if not is_instance_valid(it):
+			continue
+		var nm: String = str(it.itemName)
+		var id_str: String = str(it.itemID).to_lower()
+		var desc: String = str(it.itemDescription).to_lower()
+		if not q.is_empty() and (not q in nm.to_lower() and not q in id_str and not q in desc):
+			continue
+		if only_afford and it.itemBuyPrice > cur_cash and it.itemBuyPrice > 0.0:
+			continue
+		filtered.append(it)
+
+	# Sorting
+	var sort_mode = sort_dropdown.selected
+	if sort_mode == 1:
+		filtered.sort_custom(func(a, b): return a.itemBuyPrice < b.itemBuyPrice)
+	elif sort_mode == 2:
+		filtered.sort_custom(func(a, b): return a.itemBuyPrice > b.itemBuyPrice)
+	elif sort_mode == 3:
+		filtered.sort_custom(func(a, b): return str(a.itemName).nocasecmp_to(str(b.itemName)) < 0)
+
+	for it in filtered:
+		var card = PanelContainer.new()
+		card.custom_minimum_size = Vector2(250, 68)
+
+		var hbox = HBoxContainer.new()
+		hbox.add_theme_constant_override("separation", 6)
+
+		var tex = TextureRect.new()
+		tex.texture = it.itemTexture
+		tex.custom_minimum_size = Vector2(36, 36)
+		tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		hbox.add_child(tex)
+
+		var info_box = VBoxContainer.new()
+		info_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+
+		var name_lbl = Label.new()
+		name_lbl.text = it.itemName
+		name_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		info_box.add_child(name_lbl)
+
+		var price_val: float = it.itemBuyPrice
+		var price_lbl = Label.new()
+		price_lbl.text = "$%.2f" % (price_val / 100.0)
+		price_lbl.add_theme_color_override("font_color", Color(1.0, 0.85, 0.2, 1.0))
+		info_box.add_child(price_lbl)
+		hbox.add_child(info_box)
+
+		var btn_order = Button.new()
+		btn_order.text = "Order\n(10s)"
+		btn_order.custom_minimum_size = Vector2(56, 40)
+		var can_afford = (cur_cash >= price_val or price_val <= 0.0)
+		btn_order.disabled = not can_afford
+		btn_order.pressed.connect(func(): _place_order(it))
+		hbox.add_child(btn_order)
+
+		card.add_child(hbox)
+		item_grid.add_child(card)
+
+func _place_order(it: Item) -> void:
+	if not Gvars or (Gvars.CashCount < it.itemBuyPrice and it.itemBuyPrice > 0.0):
+		show_toast("❌ Insufficient funds in wallet!")
+		return
+
+	if it.itemBuyPrice > 0.0:
+		Gvars.CashCount -= it.itemBuyPrice
+	pending_orders.append({ "item": it, "time_left": 10.0 })
+	show_toast("📦 Order placed for %s! Parachute delivery in 10s." % it.itemName)
+	_render_catalog()
+
+func _update_orders(delta: float, player_node: Node2D) -> void:
+	if pending_orders.is_empty():
+		if queue_label and queue_label.visible:
+			queue_label.visible = false
+		return
+
+	queue_label.visible = true
+	var min_time: float = 999.0
+	var current_item_name: String = ""
+
+	var i = pending_orders.size() - 1
+	while i >= 0:
+		var order = pending_orders[i]
+		order["time_left"] -= delta
+		if order["time_left"] < min_time:
+			min_time = order["time_left"]
+			current_item_name = order["item"].itemName
+
+		if order["time_left"] <= 0.0:
+			_spawn_parachute_crate(order["item"], player_node)
+			pending_orders.remove_at(i)
+		i -= 1
+
+	if is_instance_valid(queue_label):
+		queue_label.text = "📦 Amazon Drone en route: [%s] arriving in %.1fs" % [current_item_name, max(0.0, min_time)]
+
+func _spawn_parachute_crate(item: Item, player_node: Node2D) -> void:
+	var tree = get_tree()
+	if not tree or not tree.current_scene:
+		return
+
+	var crate = Node2D.new()
+	crate.name = "AmazonDeliveryCrate"
+	var spawn_x: float = player_node.global_position.x if is_instance_valid(player_node) else 0.0
+	crate.global_position = Vector2(spawn_x, -60.0)
+
+	var spr = Sprite2D.new()
+	spr.texture = item.itemTexture if is_instance_valid(item.itemTexture) else load("res://assets/Equipment/kicks/kick_04_sapphire.png")
+	spr.scale = Vector2(1.6, 1.6)
+	crate.add_child(spr)
+	tree.current_scene.add_child(crate)
+
+	var target_y = player_node.global_position.y if is_instance_valid(player_node) else 0.0
+	var tween = tree.create_tween()
+	tween.tween_property(crate, "global_position:y", target_y, 1.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_callback(func():
+		if item.itemBuyEffect:
+			item.itemBuyEffect.buy_effect(item, 1)
+		else:
+			var inv: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
+			if inv:
+				inv.addToInventory(item, 1)
+		Bus.inventory_changed.emit()
+		show_toast("📦 DELIVERED! [%s] acquired." % item.itemName)
+		crate.queue_free()
+	)
+
+func _quick_scrap_from_shop() -> void:
+	var inv: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
+	if not inv or not Gvars:
+		return
+	var total_cash: float = 0.0
+	var count_cleared: int = 0
+	var empty_res = load("res://resources/Items/Empty.tres")
+	for slot_item in inv.items:
+		if not is_instance_valid(slot_item) or not is_instance_valid(slot_item.item) or slot_item.count <= 0:
+			continue
+		var it = slot_item.item
+		var type_str = str(it.itemType).to_lower()
+		if type_str in ["ore", "resource", "mineral", "material"]:
+			var val = it.itemSellPrice * 0.5 if it.itemSellPrice > 0.0 else 5.0
+			total_cash += val * slot_item.count
+			count_cleared += int(slot_item.count)
+			slot_item.count = 0
+			if empty_res:
+				slot_item.item = empty_res
+
+	if total_cash > 0.0:
+		Gvars.CashCount += total_cash
+		Bus.inventory_changed.emit()
+		show_toast("♻️ Scrapped %d ores for +$%.2f cash!" % [count_cleared, total_cash / 100.0])
+		_render_catalog()
+
+func _scrap_redundant_gear() -> void:
+	var inv: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
+	if not inv or not Gvars:
+		return
+	var total_refund: float = 0.0
+	var gear_count: int = 0
+	var empty_res = load("res://resources/Items/Empty.tres")
+	for slot_item in inv.items:
+		if not is_instance_valid(slot_item) or not is_instance_valid(slot_item.item) or slot_item.count <= 0:
+			continue
+		var it = slot_item.item
+		var type_str = str(it.itemType).to_lower()
+		if type_str in ["equipment", "weapon", "sword", "gun", "bomb", "turret"]:
+			var refund_val = it.itemBuyPrice * 0.5 if it.itemBuyPrice > 0.0 else (it.itemSellPrice * 0.5)
+			if refund_val > 0.0:
+				total_refund += refund_val * slot_item.count
+				gear_count += int(slot_item.count)
+				slot_item.count = 0
+				if empty_res:
+					slot_item.item = empty_res
+
+	if total_refund > 0.0:
+		Gvars.CashCount += total_refund
+		Bus.inventory_changed.emit()
+		show_toast("♻️ Scrapped %d gear items for +$%.2f cash refund!" % [gear_count, total_refund / 100.0])
+		_render_catalog()
+	else:
+		show_toast("ℹ️ No scrapable gear found in inventory.")
+
+func show_toast(msg: String) -> void:
+	if is_instance_valid(toast_label):
+		toast_label.text = msg
+		toast_label.visible = true
+		var tree = get_tree()
+		if tree:
+			var tw = tree.create_tween()
+			tw.tween_interval(3.0)
+			tw.tween_callback(func():
+				if is_instance_valid(toast_label):
+					toast_label.visible = false
+			)
+'@ | Set-Content -Path $amzScript -Encoding UTF8
 
 # ------------------------------------------------------------------------------
-# 6. EXPAND CI/CD TEST RUNNER
-# ------------------------------------------------------------------------------
-Write-Host "`n>>> 6. Expanding tests/test_runner.ps1 with regression assertions..." -ForegroundColor Cyan
-$trPath = "$repo\tests\test_runner.ps1"
-@'
-param (
-	[string]$RepoPath = "C:\Dev\coal-llc-mods"
-)
-
-Write-Host "=================================================================" -ForegroundColor Cyan
-Write-Host ">>> COAL LLC CI/CD: Automated Regression & Sanity Verification" -ForegroundColor Cyan
-Write-Host "=================================================================" -ForegroundColor Cyan
-
-$errors = 0
-$warnings = 0
-
-# Test 1: ModRegistry Contract
-$regFile = "$RepoPath\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\scripts\mod_registry.gd"
-if (Test-Path $regFile) {
-	$regText = Get-Content $regFile -Raw
-	if (-not $regText.Contains("func is_mod_active_for_run")) {
-		Write-Host "  [CRITICAL FAIL] mod_registry.gd is missing is_mod_active_for_run!" -ForegroundColor Red
-		$errors++
-	} else {
-		Write-Host "  [PASS] mod_registry.gd satisfies is_mod_active_for_run interface" -ForegroundColor Green
-	}
-}
-
-# Test 2: Manifest Schemas
-$manifests = Get-ChildItem -Path "$RepoPath\mods-unpacked" -Recurse -Filter "manifest.json"
-foreach ($m in $manifests) {
-	try {
-		$j = Get-Content $m.FullName -Raw | ConvertFrom-Json
-		if (-not $j.name -or -not $j.version_number) {
-			Write-Host "  [FAIL] Incomplete manifest at $($m.FullName)" -ForegroundColor Red
-			$errors++
-		}
-	} catch {
-		Write-Host "  [FAIL] JSON parse error: $($m.FullName)" -ForegroundColor Red
-		$errors++
-	}
-}
-
-# Test 3: Hook Signatures & Execute Next
-$hookScripts = Get-ChildItem -Path "$RepoPath\mods-unpacked" -Recurse -Filter "*.hooks.gd"
-foreach ($h in $hookScripts) {
-	$ht = Get-Content $h.FullName -Raw
-	if ($ht.Contains("chain: ModLoaderHookChain") -and -not $ht.Contains("chain.execute_next")) {
-		Write-Host "  [WARN] $($h.Name) has hook chain without chain.execute_next" -ForegroundColor Yellow
-		$warnings++
-	}
-}
-
-Write-Host "=================================================================" -ForegroundColor Cyan
-if ($errors -eq 0) {
-	Write-Host ">>> ALL REGRESSION CHECKS PASSED (Warnings: $warnings, Errors: 0)" -ForegroundColor Green
-	exit 0
-} else {
-	Write-Host ">>> CI/CD VERIFICATION FAILED (Errors: $errors)" -ForegroundColor Red
-	exit 1
-}
-'@ | Set-Content -Path $trPath -Encoding UTF8
-
-# Run automated tests
-& powershell -NoProfile -ExecutionPolicy Bypass -File $trPath -RepoPath $repo
-if ($LASTEXITCODE -ne 0) { exit 1 }
-
-# ------------------------------------------------------------------------------
-# 7. PURGE CACHE, REPACK & COMMIT
+# 5. REPACK & COMMIT
 # ------------------------------------------------------------------------------
 if (Test-Path $hookZip) { Remove-Item -Path $hookZip -Force }
 
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 $modsToRepack = @(
 	"gareth-mod_manager_mod",
-	"gareth-game_speed_mod",
-	"gareth-knight_class_mod"
+	"gareth-scrap_and_delivery_mod"
 )
 
 foreach ($m in $modsToRepack) {
@@ -418,6 +561,6 @@ foreach ($m in $modsToRepack) {
 }
 
 git add -A
-git commit -m "Commit 1: Restore is_mod_active_for_run, unbreak Knight registration and tile damage, add Pause Menu mod buttons, and enforce regression tests"
+git commit -m "Commit 2: Store upgrades (0g free purchase, Affordable Only filters, Amazon Slots/Vacuums/Stacks, and daytime gear scrapping)"
 git push origin main
-Write-Host "`nCommit 1 complete!" -ForegroundColor Green
+Write-Host "`nCommit 2 complete!" -ForegroundColor Green

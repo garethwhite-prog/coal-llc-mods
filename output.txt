@@ -1,269 +1,39 @@
-﻿=================================================================
->>> 1. Inspecting knight_class_mod mod_main.gd & registration...
-=================================================================
-   extends Node
-   
-   const MOD_DIR := "gareth-knight_class_mod"
-   
-   const TIER_DATA := [
-        { "id": "01_shoddy",      "name": "Shoddy Knight Sword",        "dmg": 70.0,      "price": 0.0,                    "sell": 0.0 },
-        { "id": "02_copper",      "name": "Copper Knight Sword",        "dmg": 140.0,     "price": 2500.0,                 "sell": 1250.0 },
-        { "id": "03_iron",        "name": "Iron Knight Sword",          "dmg": 280.0,     "price": 8500.0,                 "sell": 4250.0 },
-        { "id": "04_sapphire",    "name": "Sapphire Knight Sword",      "dmg": 560.0,     "price": 24000.0,                "sell": 12000.0 },
-        { "id": "05_emerald",     "name": "Emerald Knight Sword",       "dmg": 1100.0,    "price": 75000.0,                "sell": 37500.0 },
-        { "id": "06_silver",      "name": "Silver Knight Sword",        "dmg": 2200.0,    "price": 220000.0,               "sell": 110000.0 },
-        { "id": "07_amethyst",    "name": "Amethyst Knight Sword",      "dmg": 4400.0,    "price": 650000.0,               "sell": 325000.0 },
-        { "id": "08_gold",        "name": "Gold Knight Sword",          "dmg": 8800.0,    "price": 1800000.0,              "sell": 900000.0 },
-        { "id": "09_ruby",        "name": "Ruby Knight Sword",          "dmg": 17500.0,   "price": 5000000.0,              "sell": 2500000.0 },
-        { "id": "10_diamond",     "name": "Diamond Knight Sword",       "dmg": 35000.0,   "price": 15000000.0,             "sell": 7500000.0 },
-        { "id": "11_pinkdiamond", "name": "Pink Diamond Knight Sword",  "dmg": 70000.0,   "price": 45000000.0,             "sell": 22500000.0 },
-        { "id": "12_spinel",      "name": "Spinel Knight Sword",        "dmg": 140000.0,  "price": 650000000.0,            "sell": 325000000.0 },
-        { "id": "13_uranium",     "name": "Uranium Knight Sword",       "dmg": 280000.0,  "price": 6500000000000.0,        "sell": 3250000000000.0 },
-        { "id": "14_moonstone",   "name": "Moonstone Knight Sword",     "dmg": 560000.0,  "price": 660000000000000000.0,   "sell": 330000000000000000.0 },
-        { "id": "15_onyx",        "name": "Onyx Knight Sword",          "dmg": 1120000.0, "price": 60000000000000000000000000.0, "sell": 30000000000000000000000000.0 }
-   ]
-   
-   func _load_texture(path: String) -> Texture2D:
-        if ResourceLoader.exists(path):
-                return load(path)
-        if FileAccess.file_exists(path):
-                var buffer = FileAccess.get_file_as_bytes(path)
-                if buffer.size() > 0:
-                        var img = Image.new()
-                        if img.load_png_from_buffer(buffer) == OK:
-                                return ImageTexture.create_from_image(img)
-        return null
-   
-   func _ready() -> void:
-        var reg = load("res://mods-unpacked/gareth-mod_manager_mod/scripts/mod_registry.gd")
-        if reg and not reg.is_mod_active_for_run("knight_class"):
-                return
-   
-        var item_script = load("res://resources/Items/Scripts/Item.gd")
-        var buy_script = load("res://resources/BuyEffects/Scripts/AddToInventory.gd")
-        var pickup_script = load("res://resources/PickupEffects/Scripts/PickupToInventory.gd")
-        var equip_script = load("res://mods-unpacked/gareth-knight_class_mod/scripts/knight_sword_equip.gd")
-        var pickup_sound = load("res://assets/sound/sound effects/SwordThud.wav")
-        var item_unlocks = load("res://resources/unlockable_items/scripts/item_unlocks.tres")
-   
-        for t in TIER_DATA:
-                var item = item_script.new()
-                item.itemID = "KnightSword_" + t["id"]
-                item.itemName = t["name"]
-                item.itemDescription = "Broadsword (%d damage). Sweeps in a wide 180° frontal arc cleaving rock and ore." % int(t["dmg"])
-                item.itemType = "sword"
-                item.itemBuyPrice = t["price"]
-                item.itemSellPrice = t["sell"]
-                item.itemUnlocked = true
-                item.pickupSound = pickup_sound
-   
-                var res_path := "res://mods-unpacked/gareth-knight_class_mod/items/KnightSword_%s.tres" % t["id"]
-                item.resource_path = res_path
-                item.take_over_path(res_path)
-   
-                var tex_name = t["name"].replace(" Knight Sword", "").replace(" ", "")
-                var tex_path = "res://assets/Equipment/Sword-%s.png" % tex_name
-                if not ResourceLoader.exists(tex_path):
-                        tex_path = "res://mods-unpacked/gareth-knight_class_mod/textures/Sword-%s.png" % tex_name
-                item.itemTexture = _load_texture(tex_path)
-   
-                var equip = equip_script.new()
-                item.itemEquipEffect = equip
-                item.itemBuyEffect = buy_script.new()
-                item.itemPickupEffect = pickup_script.new()
-   
-                if item_unlocks:
-                        var already_registered := false
-                        for existing in item_unlocks.all_equipment_items:
-                                if existing and existing.itemID == item.itemID:
-                                        already_registered = true
-                                        break
-                        if not already_registered:
-                                item_unlocks.all_equipment_items.append(item)
-   
-        if not Gvars or not ("profession_manager" in Gvars) or not Gvars.profession_manager:
-                return
-   
-        var pm = Gvars.profession_manager
-        var prof_script = load("res://mods-unpacked/gareth-knight_class_mod/scripts/knight_profession.gd")
-        var p = prof_script.new()
-        p.profession_name = "Knight"
-        p.description = "Master of chivalric blade combat.\nStarts with a Shoddy Sword.\nAll 15 sword tiers, standalone weapons, and tools are purchasable."
-        p.image = _load_texture("res://assets/Equipment/Sword-Shoddy.png")
-   
-        pm.all_professions[101] = { "profession": p, "is_unlocked": true }
-        ModLoaderLog.info("15 Knight Sword tiers registered programmatically into shop.", MOD_DIR)
+﻿>>> 1. Terminating running Coal LLC / Godot processes...
 
-=================================================================
->>> 2. Inspecting abyssal_trench_mod tile_map_chunk.hooks.gd...
-=================================================================
-   extends Object
-   
-   func lvl_from_global_pos(chain: ModLoaderHookChain, pos: Vector2i) -> int:
-        var helper_script = load("res://mods-unpacked/gareth-abyssal_trench_mod/helpers/AbyssalTrenchHelper.gd")
-        if helper_script and helper_script.is_abyssal_level():
-                if pos.y < 0:
-                        return -2
-                return 1
-        return chain.execute_next([pos])
-   
-   func generate_chunk(chain: ModLoaderHookChain, noise: Noise) -> void:
-        chain.execute_next([noise])
-        var helper_script = load("res://mods-unpacked/gareth-abyssal_trench_mod/helpers/AbyssalTrenchHelper.gd")
-        if helper_script and helper_script.is_abyssal_level():
-                var chunk = chain.reference_object
-                if chunk:
-                        helper_script.generate_abyssal_strata(chunk, noise)
-   
-   func damage_tile_idx(chain: ModLoaderHookChain, idx: int, damage: float) -> void:
-        var helper_script = load("res://mods-unpacked/gareth-abyssal_trench_mod/helpers/AbyssalTrenchHelper.gd")
-        if helper_script and helper_script.is_abyssal_level():
-                var chunk = chain.reference_object
-                if chunk and ("tiles" in chunk) and ("TILE_PROPERTIES" in chunk):
-                        if idx >= 0 and idx < chunk.tiles.size():
-                                var t_id = chunk.tiles[idx]
-                                if not chunk.TILE_PROPERTIES.has(t_id):
-                                        var fallback_id = 211 if chunk.TILE_PROPERTIES.has(211) else (24 if chunk.TILE_PROPERTIES.has(24) else 41)
-                                        if chunk.TILE_PROPERTIES.has(fallback_id):
-                                                chunk.TILE_PROPERTIES[t_id] = chunk.TILE_PROPERTIES[fallback_id].duplicate(true)
-                # Enforce starter pickaxe damage floor for Hadal stone carving
-                damage = max(damage * 6.0, 35.0)
-   
-        chain.execute_next([idx, damage])
-   
-   func destroy_tile(chain: ModLoaderHookChain, idx: int, tile_properties: Dictionary) -> void:
-        var helper_script = load("res://mods-unpacked/gareth-abyssal_trench_mod/helpers/AbyssalTrenchHelper.gd")
-        if helper_script and helper_script.is_abyssal_level():
-                var chunk = chain.reference_object
-                if chunk and ("tiles" in chunk) and idx >= 0 and idx < chunk.tiles.size():
-                        var t_id = chunk.tiles[idx]
-                        # 50% bonus coal nugget drop for filler ocean stone
-                        if (t_id == 211 or t_id == 92) and randf() < 0.50:
-                                if "coal_resource" in chunk and chunk.coal_resource:
-                                        if chunk.has_method("spawn_item_drop"):
-                                                var local_coords = Vector2i(idx % chunk.chunk_size, idx / chunk.chunk_size)
-                                                chunk.spawn_item_drop(chunk.coal_resource, chunk.map_to_local(local_coords))
-   
-        # Strictly preserve 2-argument signature: (idx: int, tile_properties: Dictionary)
-        chain.execute_next([idx, tile_properties])
+>>> 2. Restoring is_mod_active_for_run in mod_registry.gd...
+  Restored: mod_registry.gd
 
-=================================================================
->>> 3. Inspecting water_spirit_01_shoddy.tres full text & buy effect...
-=================================================================
-   [gd_resource type="Resource" script_class="Item" load_steps=8 format=3]
-   
-   [ext_resource type="Script" path="res://resources/BuyEffects/Scripts/AddToInventory.gd" id="1"]
-   [ext_resource type="Texture2D" path="res://assets/Equipment/kicks/kick_04_sapphire.png" id="2"]
-   [ext_resource type="Script" path="res://mods-unpacked/gareth-water_spirit_mod/scripts/water_spirit_equip.gd" id="3"]
-   [ext_resource type="Script" path="res://resources/PickupEffects/Scripts/PickupToInventory.gd" id="4"]
-   [ext_resource type="AudioStream" path="res://assets/sound/sound effects/pickup.wav" id="5"]
-   [ext_resource type="Script" path="res://resources/Items/Scripts/Item.gd" id="6"]
-   
-   [sub_resource type="Resource" id="Resource_buy"]
-   script = ExtResource("1")
-   
-   [sub_resource type="Resource" id="Resource_equip"]
-   script = ExtResource("3")
-   orbit_radius = 28.0
-   rotation_speed = 8.0
-   brush_radius = 1
-   
-   [sub_resource type="Resource" id="Resource_pickup"]
-   script = ExtResource("4")
-   
-   [resource]
-   script = ExtResource("6")
-   itemID = "water_spirit_01_shoddy"
-   itemName = "Shoddy Water Spirit"
-   itemDescription = "Tier 01 orbital water familiar. Orbits at 1.8 tiles (28px) with a 1-tile wetting brush. Automatically saturates surrounding rock."
-   itemTexture = ExtResource("2")
-   itemEquipEffect = SubResource("Resource_equip")
-   itemPickupEffect = SubResource("Resource_pickup")
-   pickupSound = ExtResource("5")
-   itemBuyPrice = 2500.0
-   itemSellPrice = 1250.0
-   itemUnlocked = true
-   itemBuyEffect = SubResource("Resource_buy")
-   itemType = "water_spirit"
-   itemAnimatedTexture = null
-   effectTexture = null
+>>> 3. Updating speed_controller.gd with robust stage detection...
 
-=================================================================
->>> 4. Inspecting heavy_turret_entity.gd targeting & shooting...
-=================================================================
-    1: class_name HeavyTurretEntity
-    2: extends Node2D
-    3: 
-    4: var fire_timer: float = 0.0
-    5: const FIRE_INTERVAL: float = 0.35
-    6: const DETECTION_RANGE: float = 350.0
-    7: const DAMAGE: float = 40.0
-    8: 
-    9: var sprite: Sprite2D
-   10: var tilemap: TileMapManager
-   11: 
-   12: func _ready() -> void:
-   13:  sprite = Sprite2D.new()
-   14:  if ResourceLoader.exists("res://assets/Equipment/vehicles/tank_turret.png"):
-   15:          sprite.texture = load("res://assets/Equipment/vehicles/tank_turret.png")
-   16:  add_child(sprite)
-   17: 
-   18: func _physics_process(delta: float) -> void:
-   19:  fire_timer += delta
-   20:  if fire_timer >= FIRE_INTERVAL:
-   21:          fire_timer = 0.0
-   22:          _acquire_and_fire()
-   23: 
-   24: func _acquire_and_fire() -> void:
-   25:  if not tilemap and Game and Game.player:
-   26:          tilemap = Game.player.tilemap
-   27:  if not tilemap:
-   28:          return
-   29: 
-   30:  var center := tilemap.local_to_map(global_position)
-   31:  var best_target: Vector2i = Vector2i.ZERO
-   32:  var found: bool = false
-   33: 
-   34:  for r in range(1, 12):
-   35:          for dx in range(-r, r + 1):
-   36:                  for dy in range(-r, r + 1):
-   37:                          var check_pos := center + Vector2i(dx, dy)
-   38:                          if tilemap.is_tile_collision(check_pos):
-   39:                                  best_target = check_pos
-   40:                                  found = true
-   41:                                  break
-   42:                  if found:
-   43:                          break
-   44:          if found:
-   45:                  break
-   46: 
-   47:  if found:
-   48:          var target_world := tilemap.map_to_local(best_target)
-   49:          sprite.rotation = (target_world - global_position).angle()
-   50:          tilemap.damage_tile(best_target, DAMAGE)
+>>> 4. Updating PauseMenu.hooks.gd with Mod Manager & Leaderboards...
 
-=================================================================
->>> 5. Inspecting SaveSlotManager for per-save mod profiles...
-=================================================================
-Script: mod_main.gd
-Script: Gvars.hooks.gd
-Script: MainMenu.hooks.gd
-   Line 13: var slot_num: int = ssm.current_slot if ssm else 1
-   Line 38: ssm.current_slot = slot_id
-   Line 47: ssm.current_slot = slot_id
-Script: pre_run_mod_selector.gd
-   Line 187: var f := FileAccess.open(ssm.get_slot_config_path(ssm.current_slot), FileAccess.WRITE)
-Script: run_mutator_modal.gd
-   Line 69: var file := FileAccess.open(ssm.get_slot_config_path(ssm.current_slot), FileAccess.WRITE)
-Script: save_slot_modal.gd
-Script: save_slot_manager.gd
-   Line 7: var current_slot: int = 1
-   Line 91: var dst := FileAccess.open(get_slot_save_path(current_slot), FileAccess.WRITE)
-   Line 96: _generate_slot_meta(current_slot)
-   Line 99: var slot_path := get_slot_save_path(current_slot)
-   Line 120: if slot_id == current_slot and FileAccess.file_exists(VANILLA_SAVE_PATH):
-   Line 123: func is_mod_active_for_run(mod_key: String) -> bool:
-   Line 124: var path := get_slot_config_path(current_slot)
+>>> 5. Persisting learnings to docs/KNOWN_REGRESSIONS_AND_MISTAKES.md...
+  Documented: docs/KNOWN_REGRESSIONS_AND_MISTAKES.md
 
-Discovery Phase 45 complete. Zero files modified.
+>>> 6. Expanding tests/test_runner.ps1 with regression assertions...
+=================================================================
+>>> COAL LLC CI/CD: Automated Regression & Sanity Verification
+=================================================================
+  [PASS] mod_registry.gd satisfies is_mod_active_for_run interface
+=================================================================
+>>> ALL REGRESSION CHECKS PASSED (Warnings: 0, Errors: 0)
+  Repacked: gareth-mod_manager_mod.zip
+  Repacked: gareth-game_speed_mod.zip
+  Repacked: gareth-knight_class_mod.zip
+warning: in the working copy of 'context.txt', LF will be replaced by CRLF the next time Git touches it
+[main 9d722b3] Commit 1: Restore is_mod_active_for_run, unbreak Knight registration and tile damage, add Pause Menu mod buttons, and enforce regression tests
+ 9 files changed, 584 insertions(+), 766 deletions(-)
+ create mode 100644 docs/KNOWN_REGRESSIONS_AND_MISTAKES.md
+ create mode 100644 tests.txt
+Enumerating objects: 42, done.
+Counting objects: 100% (42/42), done.
+Delta compression using up to 24 threads
+Compressing objects: 100% (19/19), done.
+Writing objects: 100% (24/24), 11.33 KiB | 1.89 MiB/s, done.
+Total 24 (delta 10), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (10/10), completed with 9 local objects.
+To https://github.com/garethwhite-prog/coal-llc-mods.git
+   985f9be..9d722b3  main -> main
+
+Commit 1 complete!
 PS C:\Dev\coal-llc-mods> 
