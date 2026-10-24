@@ -92,12 +92,15 @@ func _populate_cards(content: VBoxContainer) -> void:
 	var saved_config := _load_existing_config()
 
 	var category_order := [
-		"Weapons & Explosives",
+		"Classes & Professions",
 		"Progression & Upgrades",
-		"Workforce & Automation",
-		"Hardcore Mutators",
+		"Custom Maps & Strata",
+		"Weapons & Arsenal",
+		"Employees & Automation",
+		"Quality of Life",
 		"Performance & System",
-		"Community Add-ons"
+		"Community Add-Ons",
+		"Other Mods"
 	]
 
 	var grouped: Dictionary = {}

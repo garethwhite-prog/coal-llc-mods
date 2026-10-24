@@ -1,82 +1,27 @@
-﻿=================================================================
->>> 1. Checking player node groups and tree name in player_2.gd...
-=================================================================
-   Line 1: class_name Player
+﻿>>> 1. Terminating running Coal LLC / Godot processes...
 
-=================================================================
->>> 2. Inspecting Mod Manager discovery & category filtering...
-=================================================================
-Found in mod_manager_view.gd:
-   Line 94: var category_order := [
-   Line 104: for cat in category_order:
-   Line 108: var c: String = m["category"]
-   Line 113: for cat in category_order:
-Found in mod_registry.gd:
-   Line 13: if not data or not ("manifest" in data) or not data.manifest:
-   Line 15: var m = data.manifest
-   Line 19: var cat: String = _determine_category(m)
-   Line 28: "category": cat,
-   Line 34: static func _format_display_name(manifest) -> String:
-   Line 35: var name_str: String = manifest.name
+>>> 2. Updating speed_controller.gd to detect Player reliably...
+  Updated: speed_controller.gd
 
-=================================================================
->>> 3. Inspecting Employee Miner range and pickup in employee_miner_2.gd...
-=================================================================
-   Line 6: MOVING_TO_TARGET,
-   Line 11: const SPEED: float = 50.0
-   Line 18: var target_pos: Vector2
-   Line 19: var target_mine: Vector2 = Vector2(0, -8)
-   Line 20: var SITE_POSITION: = Vector2(212 + randf_range(-16, 32), 0)
-   Line 22: var pickaxe_range: int = 3
-   Line 23: var search_range: int = 10
-   Line 70: States.MOVING_TO_TARGET:
-   Line 71: moving_to_target(delta)
-   Line 89: velocity.x = SPEED * direction
-   Line 113: func moving_to_target(delta):
-   Line 114: var direction = 1 if target_pos.x > position.x else -1
-   Line 115: velocity.x = SPEED * direction
-   Line 124: if abs(global_position.x - target_pos.x) < 16:
-   Line 147: if target_mine.x - position.x < 0:
+>>> 3. Updating mod_manager_view.gd to display all categories...
 
-=================================================================
->>> 4. Inspecting Collector UFO scan and collection radius...
-=================================================================
-     1: class_name LootCollector
-     2: extends Area2D
-    49: movement_vector = (target_pos - global_position).normalized() * moveSpeed * min(8, (1 + Gvars.passives.employee_collector_speed))
-    51: pass_point_positive = true if (target_pos.x - global_position.x) > 0 else false
-    52: y_pass_point_positive = true if (target_pos.y - global_position.y) > 0 else false
-    54: movement_vector = (baseCoords - global_position).normalized() * moveSpeed * min(8, (1 + Gvars.passives.employee_collector_speed))
-    59: var target_pos: Vector2 = Vector2(0, 0)
-    67: Bus.connect("collector_whistle_blown", on_collector_whistle_blown)
-   104: if (((target_pos.x - global_position.x) < 0) == pass_point_positive) or (((target_pos.y - global_position.y) < 0) == y_pass_point_positive):
-   105: global_position = target_pos
-   124: if (inventory.inventoryCount >= (maxInventoryCount * (1 + Gvars.passives.employee_collector_capacity))):
-   127: print("max inventory = " + Gconsts.add_comma_to_float_no_dp((maxInventoryCount * (1 + Gvars.passives.employee_collector_capacity))))
-   140: if target_pos.x < global_position.x:
-   147: if _count + inventory.inventoryCount >= (maxInventoryCount * (1 + Gvars.passives.employee_collector_capacity)):
-   148: return inventory.addToInventory(item, (maxInventoryCount * (1 + Gvars.passives.employee_collector_capacity)) - inventory.inventoryCount)
-   153: func on_ItemPickup(item, collectorId):
-   154: if collectorId == self:
-   166: func on_collector_whistle_blown():
+>>> 4. Repackaging modified mods...
+  Repacked: gareth-mod_manager_mod.zip
+  Repacked: gareth-game_speed_mod.zip
 
-=================================================================
->>> 5. Inspecting vanilla Airstrike / Plane mechanics...
-=================================================================
-Found: \.autoconverted\scenes\equipment\airstrike.gdc
-Found: \.godot\exported\133200997\export-c0a433241689a2e7e9593286fe35b47e-airstrike.scn
-Found: \scenes\equipment\airstrike.gd
-     Line 4: var damage: float = 100.0
-     Line 6: var bomb_rate: float = 0.05
-     Line 32: if t > bomb_rate:
-     Line 33: drop_bomb()
-     Line 34: t -= bomb_rate
-Found: \scenes\equipment\airstrike.gd.uid
-Found: \scenes\equipment\airstrike.tscn
+>>> 5. Staging, committing and pushing to GitHub...
+warning: in the working copy of 'context.txt', LF will be replaced by CRLF the next time Git touches it
+[main d185f51] Fix speed controller player detection and expand mod registry categories for all 56 mods
+ 4 files changed, 209 insertions(+), 295 deletions(-)
+Enumerating objects: 20, done.
+Counting objects: 100% (20/20), done.
+Delta compression using up to 24 threads
+Compressing objects: 100% (9/9), done.
+Writing objects: 100% (11/11), 4.66 KiB | 1.55 MiB/s, done.
+Total 11 (delta 5), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (5/5), completed with 5 local objects.
+To https://github.com/garethwhite-prog/coal-llc-mods.git
+   daff30b..d185f51  main -> main
 
-=================================================================
->>> 6. Inspecting Inventory selling and daytime shop access...
-=================================================================
-
-Discovery Phase 34 complete. Zero files modified.
+Fix deployed successfully!
 PS C:\Dev\coal-llc-mods> 
