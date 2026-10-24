@@ -88,7 +88,7 @@ func _ready() -> void:
 
 func _populate_cards(content: VBoxContainer) -> void:
 	var registry_script = load("res://mods-unpacked/gareth-mod_manager_mod/scripts/mod_registry.gd")
-	var mods: Array[Dictionary] = registry_script.get_all_installed_mods()
+	var mods: Array = registry_script.get_all_installed_mods()
 	var saved_config := _load_existing_config()
 
 	var category_order := [
@@ -202,4 +202,5 @@ func _on_confirm() -> void:
 
 	confirmed.emit()
 	queue_free()
+
 

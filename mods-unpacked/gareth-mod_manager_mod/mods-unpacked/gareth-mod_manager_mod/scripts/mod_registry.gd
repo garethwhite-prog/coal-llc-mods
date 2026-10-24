@@ -15,10 +15,11 @@ static func is_mod_active_for_run(mod_key: String) -> bool:
 				return bool(parsed["mods"].get(mod_key, true))
 	return true
 
-static func get_all_installed_mods() -> Array:
+static func get_all_installed_mods() -> Array[Dictionary]:
 	return get_all_mods()
 
-static func get_all_mods() -> Array:
+static func get_all_mods() -> Array[Dictionary]:
+	var list: Array[Dictionary] = []
 	var list: Array = []
 	var mod_dict: Dictionary = {}
 	if ModLoader and ("mod_data" in ModLoader) and ModLoader.mod_data is Dictionary:
@@ -72,3 +73,4 @@ static func _format_display_name(m) -> String:
 		return m.extra.godot.display_name
 	var raw: String = m.name.replace("_mod", "").replace("mod_", "").replace("-", " ").replace("_", " ")
 	return raw.capitalize()
+

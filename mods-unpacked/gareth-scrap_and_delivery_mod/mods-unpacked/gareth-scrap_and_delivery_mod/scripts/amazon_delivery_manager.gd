@@ -65,10 +65,10 @@ func _build_ui() -> void:
 	hud_btn.anchor_right = 1.0
 	hud_btn.anchor_top = 1.0
 	hud_btn.anchor_bottom = 1.0
-	hud_btn.offset_left = -264.0
-	hud_btn.offset_right = -170.0
-	hud_btn.offset_top = -48.0
-	hud_btn.offset_bottom = -12.0
+	hud_btn.offset_left = -110.0
+	hud_btn.offset_right = -16.0
+	hud_btn.offset_top = -88.0
+	hud_btn.offset_bottom = -54.0
 	hud_btn.modulate = Color(1.0, 0.85, 0.3, 1.0)
 	hud_btn.tooltip_text = "Open Amazon Same-Day Emergency Delivery (Hotkey B)"
 	hud_btn.pressed.connect(toggle_store)
@@ -371,12 +371,16 @@ func _quick_scrap_from_shop() -> void:
 	var total_cash: float = 0.0
 	var count_cleared: int = 0
 	var empty_res = load("res://resources/Items/Empty.tres")
-	for slot_item in inv.items:
+
+	for i in range(inv.items.size()):
+		var slot_item = inv.items[i]
 		if not is_instance_valid(slot_item) or not is_instance_valid(slot_item.item) or slot_item.count <= 0:
 			continue
 		var it = slot_item.item
 		var type_str = str(it.itemType).to_lower()
-		if type_str in ["ore", "resource", "mineral", "material"]:
+		var id_str = str(it.itemID).to_lower()
+		var is_ore = type_str in ["ore", "resource", "mineral", "material"] or "coal" in id_str or "copper" in id_str or "iron" in id_str
+		if is_ore and type_str != "equipment" and type_str != "weapon":
 			var val = it.itemSellPrice * 0.5 if it.itemSellPrice > 0.0 else 5.0
 			total_cash += val * slot_item.count
 			count_cleared += int(slot_item.count)
@@ -388,6 +392,8 @@ func _quick_scrap_from_shop() -> void:
 		if is_nan(Gvars.CashCount):
 			Gvars.CashCount = 0.0
 		Gvars.CashCount += total_cash
+		if inv.has_signal("inventory_changed"):
+			inv.emit_signal("inventory_changed")
 		Bus.inventory_changed.emit()
 		show_toast("♻️ Scrapped %d ores for +$%.2f cash!" % [count_cleared, total_cash / 100.0])
 		_render_catalog()
@@ -435,3 +441,4 @@ func show_toast(msg: String) -> void:
 				if is_instance_valid(toast_label):
 					toast_label.visible = false
 			)
+

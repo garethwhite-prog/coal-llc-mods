@@ -1,69 +1,15 @@
 ﻿=================================================================
->>> 1. Inspecting AddToInventory.gd in full...
+>>> 1. Inspecting Inventory.gd signals and removal methods...
 =================================================================
-   extends BuyEffect
-   
-   class_name AddToInventory
-   
-   
-   func buy_effect(shop_item: Item, count: int) -> void :
-   
-       var possible_count = get_max_count(shop_item.itemBuyPrice, count)
-   
-       if ((Gvars.CashCount - shop_item.itemBuyPrice) >= 0):
-           var inventory: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
-           var added = inventory.addToInventory(shop_item, possible_count)
-           if added != 0:
-               Gvars.CashCount -= shop_item.itemBuyPrice * added
-   
-   
-   func get_max_count(price: float, count: float) -> float:
-   
-       var _max = floor(Gvars.CashCount / price)
-       return min(_max, count)
+   Line 24: signal inventory_changed
+   Line 38: func addToInventory(item: Item, itemCount: float) -> float:
+   Line 81: func removeFromInventory(item: Item, itemCount: float) -> float:
 
 =================================================================
->>> 2. Inspecting ModLoader properties for mod data in mod_loader.gd...
+>>> 2. Finding SwordHit.wav reference in knight_class_mod...
 =================================================================
 
-=================================================================
->>> 3. Inspecting left-click purchase in shop_item_card.gd...
-=================================================================
-   91:         item_texture.modulate = Color(1, 1, 1, 1)
-   92: 
-   93:     custom_amount.cost_per_item = item.itemBuyPrice
-   94: 
-   95: 
-   96: 
-   97: func _on_purchase_button_pressed() -> void :
-   98:     if purchaseable and (Gvars.CashCount >= item.itemBuyPrice):
-   99: 
-  100:         item.itemBuyEffect.buy_effect(item, 1)
-  101:         refreshDetails()
-  102:         shop_button_pressed.emit()
-  103: 
-  104: 
-  105: func _on_purchase_button_gui_input(event: InputEvent) -> void :
-  106:     if purchaseable and (Gvars.CashCount >= item.itemBuyPrice):
-  107:         if event.is_action_released("rightMouseClick"):
-  108:             purchase_custom_amount.global_position = global_position
-  109:             @warning_ignore("integer_division")
-  110:             custom_amount.max_value = Gvars.CashCount / item.itemBuyPrice
-  111:             custom_amount.assign_value(last_custom_value)
-  112:             custom_amount.refresh_all()
-  113:             custom_amount.visible = true
-  114:             custom_amount.h_slider.grab_focus()
-  115: 
-  116: 
-  117: 
-  118: 
-  119: 
-  120: 
-  121: 
-  122: 
-  123: 
-  124: 
-  125: 
-
-Discovery Phase 46 complete. Zero files modified.
+Discovery Phase 47 complete. Zero files modified.
 PS C:\Dev\coal-llc-mods> 
+
+

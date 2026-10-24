@@ -4,6 +4,7 @@ const MOD_ID := "gareth-mod_manager_mod"
 const LOG_NAME := "gareth-mod_manager_mod"
 
 func _init() -> void:
+	ModLoaderMod.install_script_hooks("res://resources/BuyEffects/Scripts/AddToInventory.gd", "res://mods-unpacked/gareth-mod_manager_mod/extensions/resources/BuyEffects/Scripts/AddToInventory.hooks.gd")
 	ModLoaderMod.install_script_hooks("res://scenes/Interfaces/Management/shop_item_card.gd", "res://mods-unpacked/gareth-mod_manager_mod/extensions/scenes/Interfaces/Management/shop_item_card.hooks.gd")
 	ModLoaderLog.info("Universal Mod Manager initializing...", LOG_NAME)
 	install_hooks()
@@ -39,4 +40,5 @@ func install_hooks() -> void:
 		"res://scripts/Camera.gd",
 		ext_dir.path_join("scripts/Camera.hooks.gd")
 	)
+
 
