@@ -1,40 +1,39 @@
 ﻿=== GIT STATUS ===
- M ai_worker_script.ps1
  M output.txt
 
 === RECENT COMMITS ===
+daff30b Add knight worker passives, fix camera player viewport lock, and implement game speed & shift finisher mod
 b9f8c46 Fix chest_variance_mod hook registration and add live roll logging
 3d347b6 Restore original wet_tile_coords and tilemap resolution fallbacks on WaterSpiritNode
-8751218 Fix search/sort UI API, register passive bonuses hook, resolve line 499 reset crash, programmatic water spirits, and complete chest variance manifest
 
-=== SESSION ERRORS & WARNINGS (82 found) ===
-SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: <Tween#-9223242390800654524>: started with no Tweeners.
-ERROR: <Tween#-9223242390666420290>: started with no Tweeners.
-ERROR: <Tween#-9223242384727285826>: started with no Tweeners.
-ERROR: <Tween#-9223242384593084460>: started with no Tweeners.
-ERROR: <Tween#-9223242377613767963>: started with no Tweeners.
-ERROR: <Tween#-9223242377479547071>: started with no Tweeners.
-ERROR: <Tween#-9223242369040585067>: started with no Tweeners.
-ERROR: <Tween#-9223242368906375722>: started with no Tweeners.
-ERROR: <Tween#-9223242360668748930>: started with no Tweeners.
-ERROR: <Tween#-9223242360534554101>: started with no Tweeners.
-ERROR: <Tween#-9223242265223169088>: started with no Tweeners.
-ERROR: <Tween#-9223242265088976453>: started with no Tweeners.
-ERROR: <Tween#-9223222236230402071>: started with no Tweeners.
-ERROR: <Tween#-9223222156605739700>: started with no Tweeners.
-ERROR: <Tween#-9223222148636563817>: started with no Tweeners.
-ERROR: <Tween#-9223222073994734803>: started with no Tweeners.
-ERROR: <Tween#-9223214115319649101>: started with no Tweeners.
-ERROR: <Tween#-9223182765128641638>: started with no Tweeners.
-ERROR: <Tween#-9223182508017744316>: started with no Tweeners.
+=== SESSION ERRORS & WARNINGS (32 found) ===
+ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
 SCRIPT ERROR: Trying to call an async function without "await".
-ERROR: 64 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+SCRIPT ERROR: Invalid access to property or key 'itemPickupEffect' on a base object of type 'Nil'.
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Trying to call an async function without "await".
+ERROR: 66 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
 ERROR: 6 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
 ERROR: 4 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
 ERROR: 169 resources still in use at exit (run with --verbose for details).
@@ -50,34 +49,34 @@ INFO ModLoader: mod_load_order -> 23) gareth-tectonic_faultline_mod
 INFO ModLoader: Initializing -> gareth-tectonic_faultline_mod
 DEBUG ModLoader: Loading script from -> res://mods-unpacked/gareth-tectonic_faultline_mod/mod_main.gd
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Mod initializing...
-DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultline_mod:<Node#832200257587>
-  "gareth-tectonic_faultline_mod": "<Resource#-9223371948656949656>",
+DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultline_mod:<Node#833039118396>
+  "gareth-tectonic_faultline_mod": "<Resource#-9223371948019415443>",
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Custom Map Mod (ID 102) online!
 
 === LOG TAIL (LAST 30 LINES) ===
-INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Sword Damage +500.0%
-INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Sword Damage +500.0%
-INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Sword Range +405.0%
-INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Sword Damage +405.0%
+INFO nanobotz-autopassivechooser: Auto choosing option -1: Cash
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (124.9986, -1224.002)
+INFO nanobotz-autopassivechooser: Auto choosing option -1: Cash
+INFO nanobotz-autopassivechooser: Auto choosing option -1: Cash
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (172.9952, -1223.234)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (107.2853, -1123.266)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (61.0353, -56.07481)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (61.0353, -56.07481)
 end day
 SCRIPT ERROR: Trying to call an async function without "await".
    at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
-INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Sword Speed +405.0%
-INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Sword Range +405.0%
-INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Sword Range +405.0%
-INFO nanobotz-autopassivechooser: Auto choosing option -1: Cash
-INFO nanobotz-autopassivechooser: Auto choosing option -1: Cash
-Day Count: 6
-Days Passed: 5
-INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Sword Damage +405.0%
+Day Count: 2
+Days Passed: 1
 INFO gareth-more_employees_mod: Workforce chart initialized cleanly.
 say_game_has_been_saved() function running
 finished turning on
-finished turning off
+SCRIPT ERROR: Trying to call an async function without "await".
+   at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+INFO gareth-multisave_mod: Career progression and hard modifier badges verified.
 WARNING: 18 RIDs of type "CanvasItem" were leaked.
    at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2679)
-ERROR: 64 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-WARNING: 112 RIDs of type "Texture" were leaked.
+ERROR: 66 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+WARNING: 114 RIDs of type "Texture" were leaked.
    at: finalize (servers/rendering/rendering_device.cpp:7130)
 ERROR: 6 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
 ERROR: 4 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.

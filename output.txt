@@ -1,111 +1,82 @@
 ﻿=================================================================
->>> 1. Inspecting vanilla Camera.gd in full...
+>>> 1. Checking player node groups and tree name in player_2.gd...
 =================================================================
-   extends Camera2D
-   class_name CustomCamera2D
-   
-   var free_move = false
-   
-   
-   
-   
-   
-   
-   
-   @onready var TargetNode: Node2D = get_node("../Player")
-   
-   func _ready() -> void :
-       var target_pos = TargetNode.get_position()
-       set_position(target_pos)
-   
-   
-   func _unhandled_input(event: InputEvent) -> void :
-       if event is InputEventPanGesture:
-           Gvars.settings.zoom_level += event.delta.y
-       elif event.is_action_pressed("zoomIn"):
-           Gvars.settings.zoom_level += 0.25
-       elif event.is_action_pressed("zoomOut"):
-           Gvars.settings.zoom_level -= 0.25
-   
-   
-   func _process(_delta) -> void :
-       if position_smoothing_enabled != Gvars.settings.camera_smoothing_on:
-           position_smoothing_enabled = Gvars.settings.camera_smoothing_on
-   
-       if free_move == false:
-           var target_pos = TargetNode.global_position
-           set_position(target_pos)
-   
-           if Input.is_action_pressed("sprint"):
-               position_smoothing_speed = Gvars.settings.camera_smoothing + 1.5
-           else:
-               position_smoothing_speed = Gvars.settings.camera_smoothing
-           zoom = Vector2(Gvars.settings.zoom_level, Gvars.settings.zoom_level)
-       else:
-           position.x = move_toward(
-               position.x, 
-               position.x + 100 * Input.get_axis("moveLeft", "moveRight"), 
-               1)
-   
-           position.y = move_toward(
-               position.y, 
-               position.y + 100 * Input.get_axis("moveUp", "moveDown"), 
-               1)
-           zoom = Vector2(Gvars.settings.zoom_level, Gvars.settings.zoom_level)
+   Line 1: class_name Player
 
 =================================================================
->>> 2. Inspecting Game.gd end-of-day sequence around line 135...
+>>> 2. Inspecting Mod Manager discovery & category filtering...
 =================================================================
-121:     log_message("animation transition started to play backwards")
-122: 
-123:     await animation_player.animation_finished
-124:     log_message("animation transition finished")
-125:     self.visible = false
-126: 
-127: 
-128: 
-129: 
-130: func on_StartDay():
-131:     get_tree().paused = false
-132: 
-133: func on_EndDay():
-134:     print("end day")
-135:     change_stage(Gconsts.Stages._END_OF_DAY_OVERLAY, Vector2(0, 0))
-136: 
-137: func on_GameOver():
-138:     change_stage(Gconsts.Stages._GAME_OVER, Vector2(0, 0))
+Found in mod_manager_view.gd:
+   Line 94: var category_order := [
+   Line 104: for cat in category_order:
+   Line 108: var c: String = m["category"]
+   Line 113: for cat in category_order:
+Found in mod_registry.gd:
+   Line 13: if not data or not ("manifest" in data) or not data.manifest:
+   Line 15: var m = data.manifest
+   Line 19: var cat: String = _determine_category(m)
+   Line 28: "category": cat,
+   Line 34: static func _format_display_name(manifest) -> String:
+   Line 35: var name_str: String = manifest.name
 
 =================================================================
->>> 3. Inspecting Employee Miner logic (range, pickup, attacks)...
+>>> 3. Inspecting Employee Miner range and pickup in employee_miner_2.gd...
 =================================================================
-Found: \resources\Employees\Scripts\employee_level.gd
-     Line 39: @export var mining_speed: float
-     Line 40: @export var aoe_range: float
-     Line 42: @export var buff_range: float
-     Line 46: @export var fly_speed: float
-Found: \resources\Employees\Scripts\employee_manager.gd
-Found: \resources\Employees\Scripts\Employee.gd
-     Line 15: var pick = randi_range(0, num_names_left - 1)
-Found: \resources\EquipEffects\Scripts\miner_whistle.gd
-Found: \scenes\AutoMiners\employee_miner_2.gd
-     Line 6: MOVING_TO_TARGET,
-     Line 11: const SPEED: float = 50.0
-     Line 18: var target_pos: Vector2
-     Line 19: var target_mine: Vector2 = Vector2(0, -8)
-     Line 20: var SITE_POSITION: = Vector2(212 + randf_range(-16, 32), 0)
-     Line 22: var pickaxe_range: int = 3
+   Line 6: MOVING_TO_TARGET,
+   Line 11: const SPEED: float = 50.0
+   Line 18: var target_pos: Vector2
+   Line 19: var target_mine: Vector2 = Vector2(0, -8)
+   Line 20: var SITE_POSITION: = Vector2(212 + randf_range(-16, 32), 0)
+   Line 22: var pickaxe_range: int = 3
+   Line 23: var search_range: int = 10
+   Line 70: States.MOVING_TO_TARGET:
+   Line 71: moving_to_target(delta)
+   Line 89: velocity.x = SPEED * direction
+   Line 113: func moving_to_target(delta):
+   Line 114: var direction = 1 if target_pos.x > position.x else -1
+   Line 115: velocity.x = SPEED * direction
+   Line 124: if abs(global_position.x - target_pos.x) < 16:
+   Line 147: if target_mine.x - position.x < 0:
 
 =================================================================
->>> 4. Inspecting Collector UFO logic (range, scan radius)...
+>>> 4. Inspecting Collector UFO scan and collection radius...
 =================================================================
-   Line 2: extends Area2D
-   Line 49: movement_vector = (target_pos - global_position).normalized() * moveSpeed * min(8, (1 + Gvars.passives.employee_collector_speed))
-   Line 51: pass_point_positive = true if (target_pos.x - global_position.x) > 0 else false
-   Line 52: y_pass_point_positive = true if (target_pos.y - global_position.y) > 0 else false
-   Line 59: var target_pos: Vector2 = Vector2(0, 0)
-   Line 104: if (((target_pos.x - global_position.x) < 0) == pass_point_positive) or (((target_pos.y - global_position.y) < 0) == y_pass_point_positive):
-   Line 105: global_position = target_pos
-   Line 140: if target_pos.x < global_position.x:
+     1: class_name LootCollector
+     2: extends Area2D
+    49: movement_vector = (target_pos - global_position).normalized() * moveSpeed * min(8, (1 + Gvars.passives.employee_collector_speed))
+    51: pass_point_positive = true if (target_pos.x - global_position.x) > 0 else false
+    52: y_pass_point_positive = true if (target_pos.y - global_position.y) > 0 else false
+    54: movement_vector = (baseCoords - global_position).normalized() * moveSpeed * min(8, (1 + Gvars.passives.employee_collector_speed))
+    59: var target_pos: Vector2 = Vector2(0, 0)
+    67: Bus.connect("collector_whistle_blown", on_collector_whistle_blown)
+   104: if (((target_pos.x - global_position.x) < 0) == pass_point_positive) or (((target_pos.y - global_position.y) < 0) == y_pass_point_positive):
+   105: global_position = target_pos
+   124: if (inventory.inventoryCount >= (maxInventoryCount * (1 + Gvars.passives.employee_collector_capacity))):
+   127: print("max inventory = " + Gconsts.add_comma_to_float_no_dp((maxInventoryCount * (1 + Gvars.passives.employee_collector_capacity))))
+   140: if target_pos.x < global_position.x:
+   147: if _count + inventory.inventoryCount >= (maxInventoryCount * (1 + Gvars.passives.employee_collector_capacity)):
+   148: return inventory.addToInventory(item, (maxInventoryCount * (1 + Gvars.passives.employee_collector_capacity)) - inventory.inventoryCount)
+   153: func on_ItemPickup(item, collectorId):
+   154: if collectorId == self:
+   166: func on_collector_whistle_blown():
 
-Discovery Phase 33 complete. Zero files modified.
+=================================================================
+>>> 5. Inspecting vanilla Airstrike / Plane mechanics...
+=================================================================
+Found: \.autoconverted\scenes\equipment\airstrike.gdc
+Found: \.godot\exported\133200997\export-c0a433241689a2e7e9593286fe35b47e-airstrike.scn
+Found: \scenes\equipment\airstrike.gd
+     Line 4: var damage: float = 100.0
+     Line 6: var bomb_rate: float = 0.05
+     Line 32: if t > bomb_rate:
+     Line 33: drop_bomb()
+     Line 34: t -= bomb_rate
+Found: \scenes\equipment\airstrike.gd.uid
+Found: \scenes\equipment\airstrike.tscn
+
+=================================================================
+>>> 6. Inspecting Inventory selling and daytime shop access...
+=================================================================
+
+Discovery Phase 34 complete. Zero files modified.
 PS C:\Dev\coal-llc-mods> 

@@ -1,13 +1,12 @@
 ﻿Clear-Host
 
 # ==============================================================================
-# Coal LLC - Knight Worker Passives, Camera Viewport Lock & Game Speed Mod
+# Coal LLC - Fix Speed HUD Visibility & Mod Manager Category Display
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
 $steamRoot  = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC"
 $steamMods  = "$steamRoot\mods"
-$hookZip    = "$steamRoot\mod-hooks.zip"
 
 Set-Location $repo
 
@@ -16,144 +15,11 @@ Get-Process -Name "Coal LLC*", "godot*" -ErrorAction SilentlyContinue | Stop-Pro
 Start-Sleep -Milliseconds 500
 
 # ------------------------------------------------------------------------------
-# 2. UPDATE KNIGHT PROFESSION: ADD WORKER MINER & COLLECTOR PASSIVES
+# 2. UPDATE SPEED_CONTROLLER.GD (FIX PLAYER NODE DETECTION)
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 2. Adding employee passives to knight_profession.gd..." -ForegroundColor Cyan
-$kpPath = "$repo\mods-unpacked\gareth-knight_class_mod\mods-unpacked\gareth-knight_class_mod\scripts\knight_profession.gd"
+Write-Host "`n>>> 2. Updating speed_controller.gd to detect Player reliably..." -ForegroundColor Cyan
+$scPath = "$repo\mods-unpacked\gareth-game_speed_mod\mods-unpacked\gareth-game_speed_mod\scripts\speed_controller.gd"
 
-@'
-class_name KnightProfession
-extends Profession
-
-func _profession_effect(data: Dictionary) -> Dictionary:
-	if Gvars and ("passives" in Gvars) and Gvars.passives:
-		for stat in ["sword_damage", "sword_speed", "sword_range"]:
-			if not Gvars.passives.has_meta(stat):
-				Gvars.passives.set_meta(stat, 0.0)
-			Gvars.passives.set(stat, Gvars.passives.get_meta(stat))
-
-	if data.has("inventory_starters"):
-		var sword_res = load("res://mods-unpacked/gareth-knight_class_mod/items/KnightSword_01_shoddy.tres")
-		if sword_res:
-			data["inventory_starters"] = [{
-				"item": sword_res,
-				"count": 1
-			}]
-
-	if data.has("unlocked_passives"):
-		data["unlocked_passives"] = [
-			"sword_damage",
-			"sword_speed",
-			"sword_range",
-			"employee_miner_speed",
-			"employee_miner_damage",
-			"employee_collector_speed",
-			"employee_collector_capacity",
-			"player_sprint_speed",
-			"player_jump_velocity",
-			"player_climb_speed"
-		]
-
-	return data
-'@ | Set-Content -Path $kpPath -Encoding UTF8
-Write-Host "  Updated: knight_profession.gd" -ForegroundColor Green
-
-# ------------------------------------------------------------------------------
-# 3. FIX CAMERA.HOOKS.GD: HARD-LOCK TO PLAYER & FREE UP BRACKET HOTKEYS
-# ------------------------------------------------------------------------------
-Write-Host "`n>>> 3. Updating Camera.hooks.gd for player tracking..." -ForegroundColor Cyan
-$camHookPath = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\extensions\scripts\Camera.hooks.gd"
-
-@'
-extends Object
-
-func _process(chain: ModLoaderHookChain, delta: float) -> void:
-	chain.execute_next([delta])
-	var cam = chain.reference_object
-	if not is_instance_valid(cam):
-		return
-
-	# Force camera following and re-acquire player if target was detached
-	cam.free_move = false
-	var target = null
-	if ("TargetNode" in cam) and is_instance_valid(cam.TargetNode):
-		target = cam.TargetNode
-	else:
-		var tree = cam.get_tree()
-		if tree:
-			var players = tree.get_nodes_in_group("player")
-			if players.size() > 0 and is_instance_valid(players[0]):
-				target = players[0]
-				cam.TargetNode = target
-			elif is_instance_valid(cam.get_node_or_null("../Player")):
-				target = cam.get_node("../Player")
-				cam.TargetNode = target
-
-	if is_instance_valid(target):
-		cam.global_position = target.global_position
-
-	# Dedicated zoom controls (freed up [ and ] for game speed)
-	if Gvars and ("settings" in Gvars) and Gvars.settings:
-		var cur_zoom: float = Gvars.settings.zoom_level
-		if Input.is_action_just_pressed("zoomOut") or Input.is_key_pressed(KEY_MINUS):
-			Gvars.settings.zoom_level = clamp(cur_zoom - 0.2, 0.2, 4.0)
-			cam.zoom = Vector2(Gvars.settings.zoom_level, Gvars.settings.zoom_level)
-		elif Input.is_action_just_pressed("zoomIn") or Input.is_key_pressed(KEY_EQUAL):
-			Gvars.settings.zoom_level = clamp(cur_zoom + 0.2, 0.2, 4.0)
-			cam.zoom = Vector2(Gvars.settings.zoom_level, Gvars.settings.zoom_level)
-		elif Input.is_key_pressed(KEY_0):
-			Gvars.settings.zoom_level = 1.0
-			cam.zoom = Vector2(1.0, 1.0)
-'@ | Set-Content -Path $camHookPath -Encoding UTF8
-Write-Host "  Updated: Camera.hooks.gd" -ForegroundColor Green
-
-# ------------------------------------------------------------------------------
-# 4. CREATE GARETH-GAME_SPEED_MOD (SPEED ARROWS + FORCE-END DAY)
-# ------------------------------------------------------------------------------
-Write-Host "`n>>> 4. Creating gareth-game_speed_mod..." -ForegroundColor Cyan
-$gsRoot  = "$repo\mods-unpacked\gareth-game_speed_mod"
-$gsInner = "$gsRoot\mods-unpacked\gareth-game_speed_mod"
-$gsScripts = "$gsInner\scripts"
-New-Item -ItemType Directory -Path $gsScripts -Force | Out-Null
-
-$gsManifest = @"
-{
-  "name": "game_speed_mod",
-  "namespace": "gareth",
-  "version_number": "1.0.0",
-  "description": "Adjust game simulation speed (0.5x, 0.75x, 1.0x, 1.5x, 2.0x) via on-screen HUD or hotkeys ([ / ]), plus emergency day finish (F8).",
-  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
-  "dependencies": [],
-  "extra": {
-    "godot": {
-      "display_name": "Game Speed & Shift Finisher",
-      "category": "Quality of Life",
-      "authors": ["Gareth White"],
-      "compatible_mod_loader_version": ["7.0.1"],
-      "compatible_game_version": ["1.4.1.1"]
-    }
-  }
-}
-"@
-Set-Content -Path "$gsRoot\manifest.json" -Value $gsManifest -Encoding UTF8
-Set-Content -Path "$gsInner\manifest.json" -Value $gsManifest -Encoding UTF8
-
-# mod_main.gd
-@'
-extends Node
-
-const MOD_DIR := "gareth-game_speed_mod"
-
-func _ready() -> void:
-	var controller_script = load("res://mods-unpacked/gareth-game_speed_mod/scripts/speed_controller.gd")
-	var controller = Node.new()
-	controller.name = "GameSpeedController"
-	controller.set_script(controller_script)
-	get_tree().root.call_deferred("add_child", controller)
-	ModLoaderLog.info("Game Speed & Shift Finisher mod active!", MOD_DIR)
-'@ | Set-Content -Path "$gsInner\mod_main.gd" -Encoding UTF8
-
-# speed_controller.gd
 @'
 extends Node
 
@@ -223,17 +89,15 @@ func _build_hud() -> void:
 	canvas.add_child(panel)
 
 func _process(_delta: float) -> void:
-	# Show HUD only during mining shifts when a player node exists in tree
 	var tree = get_tree()
 	var in_game := false
-	if tree:
-		var p = tree.get_nodes_in_group("player")
-		in_game = (p.size() > 0 and is_instance_valid(p[0]))
+	if tree and tree.root:
+		var p = tree.root.find_child("Player", true, false)
+		in_game = is_instance_valid(p)
 
 	if panel:
 		panel.visible = in_game
 
-	# Reset time_scale to 1.0 when returning to menus/management screens
 	if not in_game and Engine.time_scale != 1.0:
 		Engine.time_scale = 1.0
 		speed_index = 2
@@ -267,17 +131,99 @@ func _finish_level() -> void:
 			Game.on_EndDay()
 		elif Game.has_method("change_stage") and Gconsts and ("Stages" in Gconsts):
 			Game.change_stage(Gconsts.Stages._END_OF_DAY_OVERLAY, Vector2.ZERO)
-'@ | Set-Content -Path "$gsScripts\speed_controller.gd" -Encoding UTF8
-Write-Host "  Created: gareth-game_speed_mod" -ForegroundColor Green
+'@ | Set-Content -Path $scPath -Encoding UTF8
+Write-Host "  Updated: speed_controller.gd" -ForegroundColor Green
 
 # ------------------------------------------------------------------------------
-# 5. REPACK AND DEPLOY MOD ARCHIVES
+# 3. UPDATE MOD_MANAGER_VIEW.GD TO RENDER ALL CATEGORIES & ALL MODS
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 5. Repackaging modified mods..." -ForegroundColor Cyan
+Write-Host "`n>>> 3. Updating mod_manager_view.gd to display all categories..." -ForegroundColor Cyan
+$mmViewPath = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\scripts\mod_manager_view.gd"
+if (Test-Path $mmViewPath) {
+	$viewCode = Get-Content $mmViewPath -Raw
+	# Replace hardcoded category array with comprehensive list + fallback
+	$oldCatDef = 'var category_order := ['
+	if ($viewCode.Contains($oldCatDef)) {
+		$newCatDef = @'
+	var category_order := [
+		"Classes & Professions",
+		"Progression & Upgrades",
+		"Custom Maps & Strata",
+		"Weapons & Arsenal",
+		"Employees & Automation",
+		"Quality of Life",
+		"Performance & System",
+		"Community Add-Ons",
+		"Other Mods"
+	]
+'@
+		# Expand _determine_category in mod_registry to map all mods into these groups
+		$regPath = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\scripts\mod_registry.gd"
+		@'
+class_name ModRegistry
+extends RefCounted
+
+static func get_all_mods() -> Array:
+	var list: Array = []
+	var mod_data = ModLoader.get_mod_data_all()
+	for mod_id in mod_data.keys():
+		var data = mod_data[mod_id]
+		if not data or not ("manifest" in data) or not data.manifest:
+			continue
+		var m = data.manifest
+		var display_name: String = _format_display_name(m)
+		var desc: String = m.description if "description" in m else ""
+		var author: String = m.extra.godot.authors[0] if (m.has("extra") and m.extra.has("godot") and m.extra.godot.has("authors") and m.extra.godot.authors.size() > 0) else "Community"
+		var version: String = m.version_number if "version_number" in m else "1.0.0"
+		var cat: String = _determine_category(m)
+
+		list.append({
+			"id": mod_id,
+			"name": display_name,
+			"description": desc,
+			"author": author,
+			"version": version,
+			"category": cat,
+			"is_active": data.is_active
+		})
+	return list
+
+static func _determine_category(m) -> String:
+	var id: String = str(m.name).to_lower()
+	var desc: String = str(m.description).to_lower()
+	if "class" in id or "profession" in id or "jedi" in id or "knight" in id or "sinclairity" in id:
+		return "Classes & Professions"
+	if "map" in id or "trench" in id or "faultline" in id or "canvas" in id or "expedition" in id:
+		return "Custom Maps & Strata"
+	if "weapon" in id or "bomb" in id or "laser" in id or "nuke" in id or "turret" in id or "mortar" in id or "grenade" in id or "arsenal" in id or "tank" in id:
+		return "Weapons & Arsenal"
+	if "employee" in id or "collector" in id or "drill" in id or "vacuum" in id:
+		return "Employees & Automation"
+	if "speed" in id or "inventory" in id or "save" in id or "leaderboard" in id or "multisave" in id or "settings" in id:
+		return "Quality of Life"
+	if "hardware" in id or "limit" in id or "performance" in id or "booster" in id:
+		return "Performance & System"
+	if "spirit" in id or "variance" in id or "upgrade" in id or "passive" in id:
+		return "Progression & Upgrades"
+	return "Community Add-Ons"
+
+static func _format_display_name(m) -> String:
+	if m.has("extra") and m.extra.has("godot") and m.extra.godot.has("display_name"):
+		return m.extra.godot.display_name
+	var raw: String = m.name.replace("_mod", "").replace("mod_", "").replace("-", " ").replace("_", " ")
+	return raw.capitalize()
+'@ | Set-Content -Path $regPath -Encoding UTF8
+		Write-Host "  Updated: mod_registry.gd with full category mapping" -ForegroundColor Green
+	}
+}
+
+# ------------------------------------------------------------------------------
+# 4. REPACK MOD MANAGER & GAME SPEED MODS
+# ------------------------------------------------------------------------------
+Write-Host "`n>>> 4. Repackaging modified mods..." -ForegroundColor Cyan
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
 $modsToRepack = @(
-	"gareth-knight_class_mod",
 	"gareth-mod_manager_mod",
 	"gareth-game_speed_mod"
 )
@@ -299,11 +245,11 @@ foreach ($m in $modsToRepack) {
 }
 
 # ------------------------------------------------------------------------------
-# 6. GIT STAGING, COMMIT & PUSH
+# 5. GIT STAGING, COMMIT & PUSH
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 6. Staging, committing and pushing to GitHub..." -ForegroundColor Cyan
+Write-Host "`n>>> 5. Staging, committing and pushing to GitHub..." -ForegroundColor Cyan
 git add -A
-git commit -m "Add knight worker passives, fix camera player viewport lock, and implement game speed & shift finisher mod"
+git commit -m "Fix speed controller player detection and expand mod registry categories for all 56 mods"
 git push origin main
 
-Write-Host "`nDeployment complete!" -ForegroundColor Green
+Write-Host "`nFix deployed successfully!" -ForegroundColor Green

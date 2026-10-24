@@ -66,17 +66,15 @@ func _build_hud() -> void:
 	canvas.add_child(panel)
 
 func _process(_delta: float) -> void:
-	# Show HUD only during mining shifts when a player node exists in tree
 	var tree = get_tree()
 	var in_game := false
-	if tree:
-		var p = tree.get_nodes_in_group("player")
-		in_game = (p.size() > 0 and is_instance_valid(p[0]))
+	if tree and tree.root:
+		var p = tree.root.find_child("Player", true, false)
+		in_game = is_instance_valid(p)
 
 	if panel:
 		panel.visible = in_game
 
-	# Reset time_scale to 1.0 when returning to menus/management screens
 	if not in_game and Engine.time_scale != 1.0:
 		Engine.time_scale = 1.0
 		speed_index = 2
