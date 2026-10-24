@@ -54,6 +54,10 @@ func _ready() -> void:
 		item.itemUnlocked = true
 		item.pickupSound = pickup_sound
 
+		var res_path := "res://mods-unpacked/gareth-knight_class_mod/items/KnightSword_%s.tres" % t["id"]
+		item.resource_path = res_path
+		item.take_over_path(res_path)
+
 		var tex_name = t["name"].replace(" Knight Sword", "").replace(" ", "")
 		var tex_path = "res://assets/Equipment/Sword-%s.png" % tex_name
 		if not ResourceLoader.exists(tex_path):
@@ -73,8 +77,6 @@ func _ready() -> void:
 					break
 			if not already_registered:
 				item_unlocks.all_equipment_items.append(item)
-			if not (item in item_unlocks.all_items):
-				item_unlocks.all_items.append(item)
 
 	if not Gvars or not ("profession_manager" in Gvars) or not Gvars.profession_manager:
 		return

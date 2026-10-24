@@ -32,7 +32,7 @@ func _ensure_search_and_sort_bar(screen: Node) -> void:
 
 	var bar = HBoxContainer.new()
 	bar.name = "EquipmentFilterBar"
-	bar.theme_override_constants.set("separation", 12)
+	bar.add_theme_constant_override("separation", 12)
 
 	var search = LineEdit.new()
 	search.name = "SearchInput"

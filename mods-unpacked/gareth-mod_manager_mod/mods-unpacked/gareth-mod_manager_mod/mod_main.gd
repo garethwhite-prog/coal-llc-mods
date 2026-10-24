@@ -19,6 +19,10 @@ func install_hooks() -> void:
 		ext_dir.path_join("scenes/Interfaces/in_game/choose_passive.hooks.gd")
 	)
 	ModLoaderMod.install_script_hooks(
+		"res://scenes/Interfaces/Management/passive_bonuses.gd",
+		ext_dir.path_join("scenes/Interfaces/Management/passive_bonuses.hooks.gd")
+	)
+	ModLoaderMod.install_script_hooks(
 		"res://scripts/MainMenu.gd",
 		ext_dir.path_join("scripts/MainMenu.hooks.gd")
 	)
