@@ -1,0 +1,9 @@
+{
+  "name": "auto_ladder_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "Automatically deploys ladders in the exact center column of the mine (or sky) when blocks are mined.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": ["gareth-mod_manager_mod"],
+  "extra": { "godot": { "display_name": "Center-Column Auto Ladder", "category": "Quality of Life", "authors": ["Gareth White"], "compatible_mod_loader_version": ["7.0.1"] } }
+}

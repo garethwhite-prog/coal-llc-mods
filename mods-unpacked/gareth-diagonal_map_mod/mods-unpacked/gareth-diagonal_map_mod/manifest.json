@@ -1,0 +1,9 @@
+{
+  "name": "diagonal_map_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "45-degree rotated diagonal subterranean strata and Sky Mine variants.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": ["gareth-mod_manager_mod"],
+  "extra": { "godot": { "display_name": "Diagonal Seams Custom Map", "category": "Custom Maps & Strata", "authors": ["Gareth White"], "compatible_mod_loader_version": ["7.0.1"] } }
+}

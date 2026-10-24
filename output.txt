@@ -63,3 +63,25 @@ To https://github.com/garethwhite-prog/coal-llc-mods.git
 Commit 2 complete!
 PS C:\Dev\coal-llc-mods> 
 
+>>> 1. Terminating running Coal LLC / Godot processes...
+
+>>> 2. Writing mod_store_client.gd...
+
+>>> 3. Writing save_profile_sync.gd (mods_repository <-> mods)...
+  Repacked: gareth-mod_manager_mod.zip
+[main 8d8121a] Commit 3: Mod Store multi-repo aggregation (garethwhite-prog + Der-Floh), dual-folder staging (mods_repository), and per-save mod profile isolation
+ 4 files changed, 223 insertions(+), 523 deletions(-)
+ create mode 100644 mods-unpacked/gareth-mod_manager_mod/mods-unpacked/gareth-mod_manager_mod/scripts/mod_store_client.gd
+ create mode 100644 mods-unpacked/gareth-mod_manager_mod/mods-unpacked/gareth-mod_manager_mod/scripts/save_profile_sync.gd
+Enumerating objects: 18, done.
+Counting objects: 100% (18/18), done.
+Delta compression using up to 24 threads
+Compressing objects: 100% (10/10), done.
+Writing objects: 100% (11/11), 4.84 KiB | 1.61 MiB/s, done.
+Total 11 (delta 4), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (4/4), completed with 4 local objects.
+To https://github.com/garethwhite-prog/coal-llc-mods.git
+   36d7bac..8d8121a  main -> main
+
+Commit 3 complete!
+PS C:\Dev\coal-llc-mods> 
