@@ -30,6 +30,7 @@ A complete, high-performance ecosystem of gameplay overhauls, custom subterranea
 | **The Tectonic Fracker** | `gareth-tectonic_fracker_mod` | Seismic Class | Emits directional acoustic pulse waves along rock faultlines, shattering brittle seams across entire strata. |
 | **Bouncing Ball Class**| `gareth-bouncing_ball_mod` | Physics Class | Deploys hyper-elastic kinetic spheres that rebound off walls, pulverizing dense deposits through velocity accumulation. |
 | **Martial Legends** | `gareth-martial_legends_mod` | Unarmed Class | Replaces tools with rapid-fire martial arts strikes, scaling punch and roundhouse kick velocities into shockwave bursts. |
+| **Chest Tier Variance** | gareth-chest_variance_mod | Mechanics | Roguelite chest rolls with +/- 2 tier variance, custom class weapon seeding, and booby-trap explosions. |
 | **Water Spirit** | `gareth-water_spirit_mod` | Elemental Class | Manipulates high-pressure hydraulic torrents, priming subterranean walls with continuous wet multipliers. |
 
 ### 3. Demolition & Heavy Weaponry
@@ -112,6 +113,7 @@ For developers writing extensions or custom classes, keep these Godot 4 engine c
 * **[Godot ModLoader Team](https://wiki.godotmodding.com/)** for the modding framework.
 * **[Der-Floh](https://github.com/Der-Floh/)** for foundational utility mods and hooks architecture.
 * **[nanobotz](https://github.com/NanobotZ)** for the original auto-passive chooser architecture.
+
 
 
 

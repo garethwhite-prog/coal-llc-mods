@@ -78,3 +78,35 @@ To https://github.com/garethwhite-prog/coal-llc-mods.git
 
 Part 2 deployment complete!
 PS C:\Dev\coal-llc-mods> 
+
+--------
+
+>>> 1. Terminating running Coal LLC / Godot instances...
+
+>>> 2. Installing PassiveBonuses expansion hook...
+  Created: passive_bonuses.hooks.gd
+
+>>> 3. Updating management_screen.hooks.gd with Search and Sort...
+  Updated: management_screen.hooks.gd
+
+>>> 4. Purging mod-hooks.zip...
+
+>>> 5. Repackaging gareth-mod_manager_mod...
+  Repacked: gareth-mod_manager_mod.zip
+
+>>> 6. Staging, committing and pushing Part 3 to GitHub...
+[main 981a639] Part 3: Add equipment shop search/sort filter bar and expand passive effects panel for worker & weapon stats
+ 4 files changed, 431 insertions(+), 357 deletions(-)
+ create mode 100644 mods-unpacked/gareth-mod_manager_mod/mods-unpacked/gareth-mod_manager_mod/extensions/scenes/Interfaces/Management/passive_bonuses.hooks.gd
+Enumerating objects: 26, done.
+Counting objects: 100% (26/26), done.
+Delta compression using up to 24 threads
+Compressing objects: 100% (14/14), done.
+Writing objects: 100% (15/15), 6.35 KiB | 1.59 MiB/s, done.
+Total 15 (delta 4), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (4/4), completed with 3 local objects.
+To https://github.com/garethwhite-prog/coal-llc-mods.git
+   7e6c6b8..981a639  main -> main
+
+Part 3 deployment complete!
+PS C:\Dev\coal-llc-mods> 

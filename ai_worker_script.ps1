@@ -1,14 +1,13 @@
 ﻿Clear-Host
 
 # ==============================================================================
-# Coal LLC - Part 3: Equipment Shop Search/Sort & Passive Effects Expansion
+# Coal LLC - Part 4: Chest Tier Variance Mod & Documentation (COLLISION-FREE)
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
 $steamRoot  = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC"
 $steamMods  = "$steamRoot\mods"
 $hookZip    = "$steamRoot\mod-hooks.zip"
-$mmInner    = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod"
 
 Set-Location $repo
 
@@ -17,250 +16,223 @@ Get-Process -Name "Coal LLC*", "godot*" -ErrorAction SilentlyContinue | Stop-Pro
 Start-Sleep -Milliseconds 600
 
 # ------------------------------------------------------------------------------
-# 2. INSTALL PASSIVE EFFECTS EXPANSION HOOK
+# 2. CREATE GARETH-CHEST_VARIANCE_MOD
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 2. Installing PassiveBonuses expansion hook..." -ForegroundColor Cyan
-$pbHookDir = "$mmInner\extensions\scenes\Interfaces\Management"
-if (-not (Test-Path $pbHookDir)) { New-Item -ItemType Directory -Path $pbHookDir -Force | Out-Null }
-$pbHookPath = "$pbHookDir\passive_bonuses.hooks.gd"
+Write-Host "`n>>> 2. Creating gareth-chest_variance_mod..." -ForegroundColor Cyan
+$cvRoot  = "$repo\mods-unpacked\gareth-chest_variance_mod"
+$cvInner = "$cvRoot\mods-unpacked\gareth-chest_variance_mod"
+$cvExt   = "$cvInner\extensions\scripts"
+New-Item -ItemType Directory -Path $cvExt -Force | Out-Null
 
+# Dual Manifests
+$cvManifest = @"
+{
+  "name": "chest_variance_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "Dynamic chest tier variance, weighted class weapon seeding, and dangerous booby-trap explosions.",
+  "website_url": "[https://github.com/garethwhite-prog/coal-llc-mods](https://github.com/garethwhite-prog/coal-llc-mods)",
+  "dependencies": [],
+  "extra": {
+    "godot": {
+      "compatible_game_version": ["1.0.0"]
+    }
+  }
+}
+"@
+Set-Content -Path "$cvRoot\manifest.json" -Value $cvManifest -Encoding UTF8
+Set-Content -Path "$cvInner\manifest.json" -Value $cvManifest -Encoding UTF8
+
+# Dual READMEs
+$cvReadme = @"
+# Chest Tier Variance & Trap Explosions Mod
+
+Introduces roguelite risk/reward dynamics to subterranean chests in Coal LLC:
+- **Tier Variance:** Opening a chest rolls a weighted tier shift (+/- 1 tier: 15% chance; +/- 2 tiers: 5% jackpot/dud chance).
+- **Class Weapon Seeding:** Injects custom class weapons (Knight Broadswords, Jedi Energy Sabers, custom tanks) into the power-up scroll pool.
+- **Bonus Percentage Scaling:** Passive upgrade scrolls dynamically scale their bonus percentages to match the shifted tier level.
+- **Booby-Trap Explosions:** 3% chance a chest triggers a kinetic shockwave upon opening, shattering nearby rock.
+"@
+Set-Content -Path "$cvRoot\README.md" -Value $cvReadme -Encoding UTF8
+Set-Content -Path "$cvInner\README.md" -Value $cvReadme -Encoding UTF8
+
+# mod_main.gd
+@'
+extends Node
+
+const MOD_DIR := "gareth-chest_variance_mod"
+
+func _init() -> void:
+	ModLoaderMod.install_script_extension("res://mods-unpacked/gareth-chest_variance_mod/extensions/scripts/Chest.hooks.gd")
+
+func _ready() -> void:
+	ModLoaderLog.info("Chest Variance, Class Seeding & Trap Mod active!", MOD_DIR)
+'@ | Set-Content -Path "$cvInner\mod_main.gd" -Encoding UTF8
+
+# Chest.hooks.gd
 @'
 extends Object
 
-func refresh(chain: ModLoaderHookChain) -> void:
+const PASSIVE_RES_PATH := "res://resources/Items/power_ups/PassiveUpgrade.tres"
+
+func roll_loot(chain: ModLoaderHookChain) -> void:
+	var chest = chain.reference_object
+	if not is_instance_valid(chest):
+		chain.execute_next([])
+		return
+
+	# 3% chance of a booby-trap explosion
+	if randf() < 0.03:
+		_trigger_trap_explosion(chest)
+		return
+
+	# Tier variance roll:
+	# -2 tiers: 5% | -1 tier: 15% | 0 (base): 60% | +1 tier: 15% | +2 tiers: 5%
+	var roll: float = randf()
+	var tier_shift: int = 0
+	if roll < 0.05:
+		tier_shift = -2
+	elif roll < 0.20:
+		tier_shift = -1
+	elif roll > 0.95:
+		tier_shift = 2
+	elif roll > 0.80:
+		tier_shift = 1
+
+	var original_level: int = chest.loot_level
+	var effective_level: int = clampi(original_level + tier_shift, 1, 15)
+	chest.loot_level = effective_level
+
 	chain.execute_next([])
-	var pb = chain.reference_object
-	if not is_instance_valid(pb) or not Gvars or not ("passives" in Gvars) or not Gvars.passives:
-		return
 
-	var p = Gvars.passives
+	# Scale passive upgrade multipliers to match effective tier
+	if is_instance_valid(chest.loot) and chest.loot.itemType == "passive_upgrade":
+		if chest.loot.itemPickupEffect and ("multiplier" in chest.loot.itemPickupEffect):
+			if effective_level <= 4:
+				chest.loot.itemPickupEffect.multiplier = float(effective_level)
+			else:
+				chest.loot.itemPickupEffect.multiplier = float(effective_level ** 2)
 
-	# Worker passives
-	var worker_stats = {
-		"Employee Miner Speed": p.employee_miner_speed,
-		"Employee Miner Damage": p.employee_miner_damage,
-		"Employee Collector Speed": p.employee_collector_speed,
-		"Employee Collector Capacity": p.employee_collector_capacity
-	}
-	for s_name in worker_stats.keys():
-		var val: float = float(worker_stats[s_name])
-		if val > 0.0:
-			var lbl = RichTextLabel.new()
-			lbl.text = "%s +%d%%" % [s_name, roundi(val * 100)]
-			lbl.fit_content = true
-			pb.add_child(lbl)
-
-	# Custom class weapon passives
-	for stat_key in ["sword_damage", "sword_speed", "sword_range", "jedi_saber_damage", "jedi_saber_speed"]:
-		var s_val: float = 0.0
-		if p.has_meta(stat_key):
-			s_val = float(p.get_meta(stat_key))
-		elif stat_key in p:
-			s_val = float(p.get(stat_key))
-
-		if s_val > 0.0:
-			var c_lbl = RichTextLabel.new()
-			c_lbl.text = "Increase %s +%d%%" % [stat_key.replace("_", " ").capitalize(), roundi(s_val * 100)]
-			c_lbl.fit_content = true
-			pb.add_child(c_lbl)
-'@ | Set-Content -Path $pbHookPath -Encoding UTF8
-Write-Host "  Created: passive_bonuses.hooks.gd" -ForegroundColor Green
-
-# ------------------------------------------------------------------------------
-# 3. INSTALL SEARCH BAR & REVERSIBLE SORTER IN MANAGEMENT SCREEN
-# ------------------------------------------------------------------------------
-Write-Host "`n>>> 3. Updating management_screen.hooks.gd with Search and Sort..." -ForegroundColor Cyan
-$mgmtHookDir = "$mmInner\extensions\scenes\Stages"
-if (-not (Test-Path $mgmtHookDir)) { New-Item -ItemType Directory -Path $mgmtHookDir -Force | Out-Null }
-$mgmtHookPath = "$mgmtHookDir\management_screen.hooks.gd"
-
-@'
-extends Object
-
-var search_input: LineEdit = null
-var sort_dropdown: OptionButton = null
-
-func load_equipment_shop(chain: ModLoaderHookChain) -> void:
-	var screen = chain.reference_object
-	if is_instance_valid(screen):
-		_ensure_search_and_sort_bar(screen)
-		_sort_equipment_catalog()
-	chain.execute_next([])
-	if is_instance_valid(screen):
-		Callable(self, "_apply_filter").call_deferred(screen)
-
-func _ensure_search_and_sort_bar(screen: Node) -> void:
-	if not is_instance_valid(screen):
-		return
-	var shop = screen.find_child("EquipmentShop", true, false)
-	if not shop:
-		return
-
-	var scroll = shop.get_parent()
-	var v_box = scroll.get_parent() if scroll else null
-	if not v_box:
-		return
-
-	if v_box.has_node("EquipmentFilterBar"):
-		var existing_bar = v_box.get_node("EquipmentFilterBar")
-		search_input = existing_bar.get_node_or_null("SearchInput")
-		sort_dropdown = existing_bar.get_node_or_null("SortOption")
-		return
-
-	var bar = HBoxContainer.new()
-	bar.name = "EquipmentFilterBar"
-	bar.theme_override_constants.set("separation", 12)
-
-	var search = LineEdit.new()
-	search.name = "SearchInput"
-	search.placeholder_text = "Search equipment by name or type..."
-	search.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	search.clear_button_enabled = true
-	search.text_changed.connect(func(_new_text): _apply_filter(screen))
-	bar.add_child(search)
-	search_input = search
-
-	var sort_btn = OptionButton.new()
-	sort_btn.name = "SortOption"
-	sort_btn.add_item("Sort: Tier (Default)", 0)
-	sort_btn.add_item("Sort: Price (Low to High)", 1)
-	sort_btn.add_item("Sort: Price (High to Low)", 2)
-	sort_btn.add_item("Sort: Alphabetical (A-Z)", 3)
-	sort_btn.item_selected.connect(func(_idx):
-		_sort_equipment_catalog()
-		if screen.has_method("load_equipment_shop"):
-			screen.load_equipment_shop()
-	)
-	bar.add_child(sort_btn)
-	sort_dropdown = sort_btn
-
-	v_box.add_child(bar)
-	v_box.move_child(bar, scroll.get_index())
-
-func _apply_filter(screen: Node) -> void:
-	if not is_instance_valid(screen) or not is_instance_valid(search_input):
-		return
-	var query: String = search_input.text.strip_edges().to_lower()
-	var shop = screen.find_child("EquipmentShop", true, false)
-	if not shop:
-		return
-
-	for card in shop.get_children():
-		if not is_instance_valid(card):
-			continue
-		if query.is_empty():
-			card.visible = true
-			continue
-		var matches := false
-		if "item" in card and card.item:
-			var nm: String = str(card.item.itemName).to_lower()
-			var id: String = str(card.item.itemID).to_lower()
-			var tp: String = str(card.item.itemType).to_lower()
-			var desc: String = str(card.item.itemDescription).to_lower()
-			if query in nm or query in id or query in tp or query in desc:
-				matches = true
-		card.visible = matches
-
-func _sort_equipment_catalog() -> void:
+	# Seed custom class weapons into power-up scroll drops
 	var item_unlocks = load("res://resources/unlockable_items/scripts/item_unlocks.tres")
-	if not item_unlocks or not ("all_equipment_items" in item_unlocks) or not (item_unlocks.all_equipment_items is Array):
+	if item_unlocks and is_instance_valid(chest.loot) and chest.loot.itemType == "scroll":
+		var candidates: Array = []
+		for it in item_unlocks.all_equipment_items:
+			if is_instance_valid(it) and it.itemType in ["sword", "jedi_saber", "tank_fire", "tank_poison", "tank_uranium"]:
+				candidates.append(it)
+		if candidates.size() > 0 and randf() < 0.35:
+			var custom_weapon = candidates.pick_random()
+			chest.loot = chest.generate_power_up_scroll_for_item(custom_weapon)
+
+	chest.loot_level = original_level
+
+func _trigger_trap_explosion(chest: Node2D) -> void:
+	chest.looted = true
+	chest.opened = true
+	if "sprite_empty" in chest and is_instance_valid(chest.sprite_empty):
+		chest.sprite_empty.visible = true
+	if "sprite_closed" in chest and is_instance_valid(chest.sprite_closed):
+		chest.sprite_closed.visible = false
+	if "sprite_open" in chest and is_instance_valid(chest.sprite_open):
+		chest.sprite_open.visible = false
+
+	var tree = chest.get_tree()
+	if not tree:
 		return
 
-	var original_list: Array = item_unlocks.all_equipment_items
-	if original_list.is_empty():
-		return
+	var tilemaps = tree.get_nodes_in_group("tilemap")
+	var tilemap = tilemaps[0] if tilemaps.size() > 0 else null
 
-	var mode: int = 0
-	if is_instance_valid(sort_dropdown):
-		mode = sort_dropdown.selected
+	var center_pos: Vector2 = chest.global_position
+	if tilemap and tilemap.has_method("damageTileCoords"):
+		var center_cell: Vector2i = tilemap.local_to_map(tilemap.to_local(center_pos))
+		for dx in range(-3, 4):
+			for dy in range(-3, 4):
+				if dx*dx + dy*dy <= 9:
+					var cell = center_cell + Vector2i(dx, dy)
+					tilemap.damageTileCoords(cell, 350.0)
 
-	var indexed_items: Array = []
-	for i in range(original_list.size()):
-		var it = original_list[i]
-		if is_instance_valid(it):
-			var rank: int = _get_tier_rank(it)
-			indexed_items.append({ "item": it, "rank": rank, "orig_idx": i })
-
-	match mode:
-		0: # Tier Default
-			indexed_items.sort_custom(func(a, b):
-				if a["rank"] != b["rank"]:
-					return a["rank"] < b["rank"]
-				return a["orig_idx"] < b["orig_idx"]
-			)
-		1: # Price Low to High
-			indexed_items.sort_custom(func(a, b):
-				var pa = float(a["item"].itemBuyPrice)
-				var pb = float(b["item"].itemBuyPrice)
-				if pa != pb:
-					return pa < pb
-				return a["orig_idx"] < b["orig_idx"]
-			)
-		2: # Price High to Low
-			indexed_items.sort_custom(func(a, b):
-				var pa = float(a["item"].itemBuyPrice)
-				var pb = float(b["item"].itemBuyPrice)
-				if pa != pb:
-					return pa > pb
-				return a["orig_idx"] < b["orig_idx"]
-			)
-		3: # Alphabetical
-			indexed_items.sort_custom(func(a, b):
-				var na = str(a["item"].itemName).to_lower()
-				var nb = str(b["item"].itemName).to_lower()
-				return na < nb
-			)
-
-	var sorted_list: Array[Item] = []
-	for entry in indexed_items:
-		sorted_list.append(entry["item"])
-
-	item_unlocks.all_equipment_items = sorted_list
-
-func _get_tier_rank(it: Item) -> int:
-	var id: String = str(it.itemID).to_lower()
-	var nm: String = str(it.itemName).to_lower()
-	var s: String = id + " " + nm
-
-	if "shoddy" in s: return 1
-	if "copper" in s: return 2
-	if "iron" in s: return 3
-	if "sapphire" in s: return 4
-	if "emerald" in s: return 5
-	if "silver" in s: return 6
-	if "amethyst" in s: return 7
-	if "gold" in s: return 8
-	if "ruby" in s: return 9
-	if "pinkdiamond" in s or "pink_diamond" in s or "pink diamond" in s: return 11
-	if "diamond" in s: return 10
-	if "spinel" in s: return 12
-	if "uranium" in s: return 13
-	if "moonstone" in s: return 14
-	if "onyx" in s: return 15
-
-	if ("ladder" in s or "platform" in s or "bomb" in s or "dynamite" in s or 
-		"mortar" in s or "drill" in s or "teleporter" in s or "whistle" in s or 
-		"gravity" in s or "water_staff" in s or "water_gun" in s):
-		return 0
-
-	return 16
-'@ | Set-Content -Path $mgmtHookPath -Encoding UTF8
-Write-Host "  Updated: management_screen.hooks.gd" -ForegroundColor Green
+	var boom_audio = AudioStreamPlayer2D.new()
+	boom_audio.stream = load("res://assets/sound/sound effects/box_1.wav")
+	boom_audio.global_position = center_pos
+	tree.current_scene.add_child(boom_audio)
+	boom_audio.play()
+	boom_audio.finished.connect(boom_audio.queue_free)
+'@ | Set-Content -Path "$cvExt\Chest.hooks.gd" -Encoding UTF8
+Write-Host "  Created: gareth-chest_variance_mod scripts" -ForegroundColor Green
 
 # ------------------------------------------------------------------------------
-# 4. PURGE HOOK CACHE & REPACK MOD MANAGER
+# 3. UPDATE SESSION_PROMPT.MD (COLLISION-FREE STRING BUILD)
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 4. Purging mod-hooks.zip..." -ForegroundColor Cyan
+Write-Host "`n>>> 3. Updating SESSION_PROMPT.md..." -ForegroundColor Cyan
+$sessPromptPath = "$repo\SESSION_PROMPT.md"
+if (Test-Path $sessPromptPath) {
+	$sessContent = Get-Content $sessPromptPath -Raw
+	if ($sessContent -notmatch "Custom Profession Persistence") {
+		$b3 = [char]96 + [char]96 + [char]96
+		$b1 = [char]96
+		$sessAdditions = @"
+
+## 4. Custom Profession Persistence & Serialization
+- Gvars ${b1}save_Gvars()${b1} hardcodes an iteration over ${b1}profession_manager.Professions.values()${b1}, which only contains base game enum IDs (0 to 11).
+- Custom classes with IDs >= 100 (e.g. Knight = 101, Jedi = 102) fail to serialize, falling back to Barbarian or leaving ${b1}Gvars.profession${b1} null on reload.
+- Always use a ${b1}save_Gvars${b1} and ${b1}load_Gvars${b1} post-hook in ${b1}gareth-mod_manager_mod${b1} to map custom IDs directly against ${b1}Gvars.profession_manager.all_professions${b1}.
+
+## 5. Virtual Filesystem Image Loading in Godot 4 Zips
+- Loose PNG textures packed inside ${b1}.zip${b1} archives fail ${b1}ResourceLoader.load()${b1} because Godot lacks pre-compiled ${b1}.png.import${b1} files.
+- ${b1}Image.load_from_file()${b1} also fails inside virtual mounts (${b1}res://${b1}).
+- Always decode PNGs via memory buffers:
+$b3
+var buffer = FileAccess.get_file_as_bytes(path)
+var img = Image.new()
+if img.load_png_from_buffer(buffer) == OK:
+    return ImageTexture.create_from_image(img)
+$b3
+
+## 6. Equipment Shop Search, Sorter & Passive Panel
+- Shop items are rendered in ${b1}%EquipmentShop${b1} as instances of ${b1}ShopItemCard${b1}.
+- Filters and sorters must be injected into the ${b1}VBoxContainer${b1} directly above the ${b1}ScrollContainer${b1}.
+- ${b1}PassiveBonuses.gd${b1} only iterates ${b1}ChoosePassive.ALL_PASSIVES${b1}. Worker and custom class weapon stats in ${b1}Gvars.passives${b1} must be appended in a post-hook on ${b1}PassiveBonuses:refresh()${b1}.
+
+## 7. Subterranean Chest Variance & Loot Seeding
+- ${b1}Chest.gd${b1} rolls loot via ${b1}roll_loot()${b1}.
+- Modifying ${b1}chest.loot_level${b1} before executing ${b1}chain.execute_next()${b1} shifts the rolled stratum tier (+/- 1 or +/- 2).
+- Custom class weapons and tanks can be seeded into ${b1}chest.loot${b1} by overriding ${b1}chest.loot${b1} when ${b1}chest.loot.itemType == "scroll"${b1}.
+"@
+		Add-Content -Path $sessPromptPath -Value $sessAdditions -Encoding UTF8
+		Write-Host "  Updated: SESSION_PROMPT.md" -ForegroundColor Green
+	}
+}
+
+# ------------------------------------------------------------------------------
+# 4. UPDATE ROOT README.MD
+# ------------------------------------------------------------------------------
+Write-Host "`n>>> 4. Updating root README.md..." -ForegroundColor Cyan
+$readmePath = "$repo\README.md"
+if (Test-Path $readmePath) {
+	$readmeContent = Get-Content $readmePath -Raw
+	if ($readmeContent -notmatch "chest_variance_mod") {
+		$newModRow = "| **Chest Tier Variance** | `gareth-chest_variance_mod` | Mechanics | Roguelite chest rolls with +/- 2 tier variance, custom class weapon seeding, and booby-trap explosions. |`n"
+		$readmeContent = $readmeContent.Replace("| **Water Spirit**", "$newModRow| **Water Spirit**")
+		Set-Content -Path $readmePath -Value $readmeContent -Encoding UTF8
+		Write-Host "  Updated: root README.md" -ForegroundColor Green
+	}
+}
+
+# ------------------------------------------------------------------------------
+# 5. PURGE HOOK CACHE & REPACK CHEST VARIANCE MOD
+# ------------------------------------------------------------------------------
+Write-Host "`n>>> 5. Purging mod-hooks.zip..." -ForegroundColor Cyan
 if (Test-Path $hookZip) {
 	Remove-Item -Path $hookZip -Force
 	Write-Host "  Removed: $hookZip" -ForegroundColor Green
 }
 
-Write-Host "`n>>> 5. Repackaging gareth-mod_manager_mod..." -ForegroundColor Cyan
+Write-Host "`n>>> 6. Repackaging gareth-chest_variance_mod..." -ForegroundColor Cyan
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
-$src = "$repo\mods-unpacked\gareth-mod_manager_mod"
-$zip = "$steamMods\gareth-mod_manager_mod.zip"
+$src = "$repo\mods-unpacked\gareth-chest_variance_mod"
+$zip = "$steamMods\gareth-chest_variance_mod.zip"
 if (Test-Path $zip) { Remove-Item -Path $zip -Force }
 
 $stream  = [System.IO.File]::Open($zip, [System.IO.FileMode]::CreateNew)
@@ -271,14 +243,14 @@ foreach ($f in (Get-ChildItem -Path $src -Recurse -File)) {
 }
 $archive.Dispose()
 $stream.Dispose()
-Write-Host "  Repacked: gareth-mod_manager_mod.zip" -ForegroundColor Green
+Write-Host "  Repacked: gareth-chest_variance_mod.zip" -ForegroundColor Green
 
 # ------------------------------------------------------------------------------
-# 5. GIT STAGING, COMMIT & PUSH
+# 6. GIT STAGING, COMMIT & PUSH
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 6. Staging, committing and pushing Part 3 to GitHub..." -ForegroundColor Cyan
+Write-Host "`n>>> 7. Staging, committing and pushing Part 4 to GitHub..." -ForegroundColor Cyan
 git add -A
-git commit -m "Part 3: Add equipment shop search/sort filter bar and expand passive effects panel for worker & weapon stats"
+git commit -m "Part 4: Implement chest tier variance, class weapon seeding, booby-traps, and update SESSION_PROMPT/README documentation"
 git push origin main
 
-Write-Host "`nPart 3 deployment complete!" -ForegroundColor Green
+Write-Host "`nPart 4 deployment complete! All 4 parts are now deployed." -ForegroundColor Green

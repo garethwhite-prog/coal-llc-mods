@@ -168,3 +168,29 @@ Archetype weapons and explosives scale across 15 standard mineral tiers:
   * Rows 61+ (Hadal Trench): `BASIC_DARK` (92), `COAL_DARK` (93), `ONYX_DARK` (107), `DIAMOND_ICE` (68).
 * **Entities**: `HydrothermalVent.gd` spawns in carved cavern floors; emits bubbling CPUParticles2D and launches miner upward (`velocity.y = -680.0`).
 * **Tool Balancing**: Upper trench blocks ($13 \le y \le 40$) receive $2.8\times$ damage in `damage_tile_idx`.
+
+## 4. Custom Profession Persistence & Serialization
+- Gvars `save_Gvars()` hardcodes an iteration over `profession_manager.Professions.values()`, which only contains base game enum IDs (0 to 11).
+- Custom classes with IDs >= 100 (e.g. Knight = 101, Jedi = 102) fail to serialize, falling back to Barbarian or leaving `Gvars.profession` null on reload.
+- Always use a `save_Gvars` and `load_Gvars` post-hook in `gareth-mod_manager_mod` to map custom IDs directly against `Gvars.profession_manager.all_professions`.
+
+## 5. Virtual Filesystem Image Loading in Godot 4 Zips
+- Loose PNG textures packed inside `.zip` archives fail `ResourceLoader.load()` because Godot lacks pre-compiled `.png.import` files.
+- `Image.load_from_file()` also fails inside virtual mounts (`res://`).
+- Always decode PNGs via memory buffers:
+```
+var buffer = FileAccess.get_file_as_bytes(path)
+var img = Image.new()
+if img.load_png_from_buffer(buffer) == OK:
+    return ImageTexture.create_from_image(img)
+```
+
+## 6. Equipment Shop Search, Sorter & Passive Panel
+- Shop items are rendered in `%EquipmentShop` as instances of `ShopItemCard`.
+- Filters and sorters must be injected into the `VBoxContainer` directly above the `ScrollContainer`.
+- `PassiveBonuses.gd` only iterates `ChoosePassive.ALL_PASSIVES`. Worker and custom class weapon stats in `Gvars.passives` must be appended in a post-hook on `PassiveBonuses:refresh()`.
+
+## 7. Subterranean Chest Variance & Loot Seeding
+- `Chest.gd` rolls loot via `roll_loot()`.
+- Modifying `chest.loot_level` before executing `chain.execute_next()` shifts the rolled stratum tier (+/- 1 or +/- 2).
+- Custom class weapons and tanks can be seeded into `chest.loot` by overriding `chest.loot` when `chest.loot.itemType == "scroll"`.

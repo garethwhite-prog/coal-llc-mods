@@ -1,0 +1,13 @@
+{
+  "name": "chest_variance_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "Dynamic chest tier variance, weighted class weapon seeding, and dangerous booby-trap explosions.",
+  "website_url": "[https://github.com/garethwhite-prog/coal-llc-mods](https://github.com/garethwhite-prog/coal-llc-mods)",
+  "dependencies": [],
+  "extra": {
+    "godot": {
+      "compatible_game_version": ["1.0.0"]
+    }
+  }
+}
