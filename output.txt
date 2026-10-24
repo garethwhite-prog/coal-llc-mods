@@ -32,3 +32,49 @@ PS C:\Dev\coal-llc-mods>
 
 --------
 
+>>> 1. Terminating running Coal LLC / Godot processes...
+
+>>> 2. Generating 16x16 elemental fairy sprites for Water Spirit tiers...
+  Generated: spirit_09_ruby.png
+  Generated: spirit_05_emerald.png
+  Generated: spirit_07_amethyst.png
+  Generated: spirit_14_moonstone.png
+  Generated: spirit_10_diamond.png
+  Generated: spirit_13_uranium.png
+  Generated: spirit_11_pinkdiamond.png
+  Generated: spirit_12_spinel.png
+  Generated: spirit_03_iron.png
+  Generated: spirit_06_silver.png
+  Generated: spirit_15_onyx.png
+  Generated: spirit_08_gold.png
+  Generated: spirit_04_sapphire.png
+  Generated: spirit_01_shoddy.png
+  Generated: spirit_02_copper.png
+
+>>> 3. Updating water_spirit_mod scripts...
+  Updated: water_spirit_mod scripts
+
+>>> 4. Updating knight_class_mod mod_main.gd to load all 15 tiers programmatically...
+  Updated: knight_class_mod mod_main.gd
+
+>>> 5. Purging mod-hooks.zip...
+
+>>> 6. Repackaging modified mods...
+  Repacked: gareth-knight_class_mod.zip
+  Repacked: gareth-water_spirit_mod.zip
+
+>>> 7. Staging, committing and pushing Part 2 to GitHub...
+[main 7e6c6b8] Part 2: Programmatic Knight sword progression (tiers 12-15) and Water Spirit fairy icons & companion visuals
+ 21 files changed, 472 insertions(+), 234 deletions(-)
+Enumerating objects: 59, done.
+Counting objects: 100% (59/59), done.
+Delta compression using up to 24 threads
+Compressing objects: 100% (32/32), done.
+Writing objects: 100% (32/32), 12.59 KiB | 1.57 MiB/s, done.
+Total 32 (delta 7), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (7/7), completed with 6 local objects.
+To https://github.com/garethwhite-prog/coal-llc-mods.git
+   155b8c9..7e6c6b8  main -> main
+
+Part 2 deployment complete!
+PS C:\Dev\coal-llc-mods> 
