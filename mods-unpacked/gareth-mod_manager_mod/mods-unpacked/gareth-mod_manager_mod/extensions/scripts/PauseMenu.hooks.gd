@@ -21,7 +21,6 @@ func _ready(chain: ModLoaderHookChain) -> void:
 			mod_btn.custom_minimum_size = resume_btn.custom_minimum_size
 			mod_btn.size_flags_horizontal = resume_btn.size_flags_horizontal
 
-			# Copy exact font, font size, and theme styling from resume button
 			var btn_font = resume_btn.get_theme_font("font")
 			if btn_font:
 				mod_btn.add_theme_font_override("font", btn_font)
@@ -38,3 +37,27 @@ func _ready(chain: ModLoaderHookChain) -> void:
 			parent_box.add_child(mod_btn)
 			var r_idx = resume_btn.get_index()
 			parent_box.move_child(mod_btn, r_idx + 1)
+
+		if not parent_box.has_node("PauseLeaderboardsButton"):
+			var lb_btn := Button.new()
+			lb_btn.name = "PauseLeaderboardsButton"
+			lb_btn.text = "Leaderboards"
+			lb_btn.custom_minimum_size = resume_btn.custom_minimum_size
+			lb_btn.size_flags_horizontal = resume_btn.size_flags_horizontal
+
+			var btn_font2 = resume_btn.get_theme_font("font")
+			if btn_font2:
+				lb_btn.add_theme_font_override("font", btn_font2)
+			var font_sz2 = resume_btn.get_theme_font_size("font_size")
+			if font_sz2 > 0:
+				lb_btn.add_theme_font_size_override("font_size", font_sz2)
+
+			lb_btn.pressed.connect(func():
+				var lb_script = load("res://mods-unpacked/gareth-leaderboard_mod/scripts/leaderboard_overlay.gd")
+				if lb_script:
+					var lb = lb_script.new()
+					pause_menu.add_child(lb)
+			)
+			parent_box.add_child(lb_btn)
+			var m_idx = parent_box.get_node("PauseModManagerButton").get_index()
+			parent_box.move_child(lb_btn, m_idx + 1)

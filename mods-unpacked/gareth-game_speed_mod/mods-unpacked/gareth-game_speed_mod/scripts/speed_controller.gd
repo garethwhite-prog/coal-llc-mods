@@ -21,22 +21,21 @@ func _build_hud() -> void:
 	add_child(canvas)
 
 	panel = PanelContainer.new()
-	# Anchor to Bottom-Right Corner
 	panel.anchor_left = 1.0
 	panel.anchor_right = 1.0
 	panel.anchor_top = 1.0
 	panel.anchor_bottom = 1.0
 	panel.offset_left = -264.0
 	panel.offset_right = -16.0
-	panel.offset_top = -52.0
-	panel.offset_bottom = -14.0
+	panel.offset_top = -48.0
+	panel.offset_bottom = -12.0
 
 	var hbox = HBoxContainer.new()
 	hbox.add_theme_constant_override("separation", 6)
 
 	btn_slower = Button.new()
 	btn_slower.text = "◀"
-	btn_slower.custom_minimum_size = Vector2(28, 26)
+	btn_slower.custom_minimum_size = Vector2(28, 24)
 	btn_slower.tooltip_text = "Slower [ [ ]"
 	btn_slower.pressed.connect(func(): _step_speed(-1))
 	hbox.add_child(btn_slower)
@@ -44,12 +43,12 @@ func _build_hud() -> void:
 	lbl_speed = Label.new()
 	lbl_speed.text = "1.00x"
 	lbl_speed.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	lbl_speed.custom_minimum_size = Vector2(50, 26)
+	lbl_speed.custom_minimum_size = Vector2(48, 24)
 	hbox.add_child(lbl_speed)
 
 	btn_faster = Button.new()
 	btn_faster.text = "▶"
-	btn_faster.custom_minimum_size = Vector2(28, 26)
+	btn_faster.custom_minimum_size = Vector2(28, 24)
 	btn_faster.tooltip_text = "Faster [ ] ]"
 	btn_faster.pressed.connect(func(): _step_speed(1))
 	hbox.add_child(btn_faster)
@@ -59,7 +58,7 @@ func _build_hud() -> void:
 
 	btn_end_day = Button.new()
 	btn_end_day.text = "End Day"
-	btn_end_day.custom_minimum_size = Vector2(72, 26)
+	btn_end_day.custom_minimum_size = Vector2(70, 24)
 	btn_end_day.modulate = Color(1.0, 0.45, 0.45, 1.0)
 	btn_end_day.tooltip_text = "Finish Level / Emergency Exit [ F8 ]"
 	btn_end_day.pressed.connect(Callable(self, "_finish_level"))
@@ -71,11 +70,11 @@ func _build_hud() -> void:
 func _process(_delta: float) -> void:
 	var tree = get_tree()
 	var in_mining_shift := false
-	if tree and tree.root and Game and Gconsts and ("Stages" in Gconsts):
-		# Strict stage check: Only visible during active mining run
-		if ("stage" in Game) and Game.stage == Gconsts.Stages._IN_GAME:
-			var p = tree.root.find_child("Player", true, false)
-			in_mining_shift = is_instance_valid(p)
+	if tree and tree.root:
+		var p = tree.root.find_child("Player", true, false)
+		var tm = tree.root.find_child("TileMapManager", true, false)
+		var pause = tree.root.find_child("PauseMenu", true, false)
+		in_mining_shift = is_instance_valid(p) and is_instance_valid(tm) and (not is_instance_valid(pause) or not pause.visible)
 
 	if panel:
 		panel.visible = in_mining_shift

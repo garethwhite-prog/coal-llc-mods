@@ -1,0 +1,25 @@
+=================================================================
+>>> COAL LLC CI/CD: Automated Static Analysis & Sanity Tests
+=================================================================
+>>> TEST 1: Validating 110 mod manifests...
+>>> TEST 2: Inspecting 196 GDScript files for syntax pitfalls...
+  [NOTICE] Hook function missing explicit -> void at tile_map_chunk.hooks.gd:3
+  [NOTICE] Hook function missing explicit -> void at profession.hooks.gd:3
+  [NOTICE] Hook function missing explicit -> void at tile_map_chunk.hooks.gd:3
+  [NOTICE] Hook function missing explicit -> void at tile_map_chunk.hooks.gd:3
+  [NOTICE] Hook function missing explicit -> void at tile_map_chunk.hooks.gd:31
+  [NOTICE] Hook function missing explicit -> void at martial_artist.hooks.gd:3
+  [NOTICE] Hook function missing explicit -> void at Gvars.hooks.gd:13
+  [NOTICE] Hook function missing explicit -> void at employee_manager.hooks.gd:17
+  [NOTICE] Hook function missing explicit -> void at employee_manager.hooks.gd:22
+  [NOTICE] Hook function missing explicit -> void at employee_manager.hooks.gd:17
+  [NOTICE] Hook function missing explicit -> void at employee_manager.hooks.gd:22
+  [NOTICE] Hook function missing explicit -> void at tile_map_chunk.hooks.gd:3
+  [NOTICE] Hook function missing explicit -> void at tanker.hooks.gd:3
+  [NOTICE] Hook function missing explicit -> void at tile_map_chunk.hooks.gd:3
+  [NOTICE] Hook function missing explicit -> void at tile_map_chunk.hooks.gd:22
+  [NOTICE] Hook function missing explicit -> void at tile_map_chunk.hooks.gd:4
+  [NOTICE] Hook function missing explicit -> void at Chest.hooks.gd:7
+=================================================================
+>>> ALL CI/CD SANITY CHECKS PASSED (Warnings: 0, Errors: 0)
+PS C:\Dev\coal-llc-mods> 

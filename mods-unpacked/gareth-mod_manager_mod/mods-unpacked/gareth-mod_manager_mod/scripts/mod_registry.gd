@@ -1,6 +1,20 @@
 class_name ModRegistry
 extends RefCounted
 
+static func is_mod_active_for_run(mod_key: String) -> bool:
+	var ssm = Engine.get_main_loop().root.get_node_or_null("/root/SaveSlotManager")
+	if ssm and ssm.has_method("is_mod_active_for_run"):
+		return ssm.is_mod_active_for_run(mod_key)
+
+	var cfg_path := "user://gareth_mods_config.json"
+	if FileAccess.file_exists(cfg_path):
+		var f := FileAccess.open(cfg_path, FileAccess.READ)
+		if f:
+			var parsed = JSON.parse_string(f.get_as_text())
+			if parsed is Dictionary and parsed.has("mods"):
+				return bool(parsed["mods"].get(mod_key, true))
+	return true
+
 static func get_all_installed_mods() -> Array:
 	return get_all_mods()
 
