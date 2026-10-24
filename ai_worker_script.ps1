@@ -1,7 +1,7 @@
 ﻿Clear-Host
 
 # ==============================================================================
-# Coal LLC - Deploy Mod 1: Employee Passives Mod (Miner Range, Pickup, Collector Range)
+# Coal LLC - Deploy Mod 2: Daytime Scrap & Amazon Same-Day Delivery Mod
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
@@ -16,29 +16,29 @@ Get-Process -Name "Coal LLC*", "godot*" -ErrorAction SilentlyContinue | Stop-Pro
 Start-Sleep -Milliseconds 500
 
 # ------------------------------------------------------------------------------
-# 2. CREATE GARETH-EMPLOYEE_PASSIVES_MOD
+# 2. CREATE GARETH-SCRAP_AND_DELIVERY_MOD STRUCTURE
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 2. Creating directory structure for gareth-employee_passives_mod..." -ForegroundColor Cyan
-$epRoot     = "$repo\mods-unpacked\gareth-employee_passives_mod"
-$epInner    = "$epRoot\mods-unpacked\gareth-employee_passives_mod"
-$epExtMiner = "$epInner\extensions\scenes\AutoMiners"
-$epExtScript= "$epInner\extensions\scripts"
+Write-Host "`n>>> 2. Creating directory structure for gareth-scrap_and_delivery_mod..." -ForegroundColor Cyan
+$sdRoot     = "$repo\mods-unpacked\gareth-scrap_and_delivery_mod"
+$sdInner    = "$sdRoot\mods-unpacked\gareth-scrap_and_delivery_mod"
+$sdExtInv   = "$sdInner\extensions\scenes\Interfaces"
+$sdScripts  = "$sdInner\scripts"
 
-New-Item -ItemType Directory -Path $epExtMiner -Force | Out-Null
-New-Item -ItemType Directory -Path $epExtScript -Force | Out-Null
+New-Item -ItemType Directory -Path $sdExtInv -Force | Out-Null
+New-Item -ItemType Directory -Path $sdScripts -Force | Out-Null
 
-$epManifest = @"
+$sdManifest = @"
 {
-  "name": "employee_passives_mod",
+  "name": "scrap_and_delivery_mod",
   "namespace": "gareth",
   "version_number": "1.0.0",
-  "description": "Expanded employee passives: Employee Miner Range, Employee Miner Pickup Speed, and Collector Range.",
+  "description": "Sell items during daytime shifts for 50% scrap value, and order same-day Amazon emergency supply drops with 10s delivery.",
   "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
   "dependencies": ["gareth-mod_manager_mod"],
   "extra": {
     "godot": {
-      "display_name": "Expanded Employee Passives",
-      "category": "Employees & Automation",
+      "display_name": "Daytime Scrap & Amazon Delivery",
+      "category": "Quality of Life",
       "authors": ["Gareth White"],
       "compatible_mod_loader_version": ["7.0.1"],
       "compatible_game_version": ["1.4.1.1"]
@@ -46,363 +46,504 @@ $epManifest = @"
   }
 }
 "@
-Set-Content -Path "$epRoot\manifest.json" -Value $epManifest -Encoding UTF8
-Set-Content -Path "$epInner\manifest.json" -Value $epManifest -Encoding UTF8
+Set-Content -Path "$sdRoot\manifest.json" -Value $sdManifest -Encoding UTF8
+Set-Content -Path "$sdInner\manifest.json" -Value $sdManifest -Encoding UTF8
 
-# mod_main.gd
+# ------------------------------------------------------------------------------
+# 3. MOD_MAIN.GD
+# ------------------------------------------------------------------------------
+Write-Host "`n>>> 3. Writing mod_main.gd..." -ForegroundColor Cyan
 @'
 extends Node
 
-const MOD_DIR := "gareth-employee_passives_mod"
+const MOD_DIR := "gareth-scrap_and_delivery_mod"
 
 func _init() -> void:
 	var unpacked_dir = ModLoaderMod.get_unpacked_dir().path_join(MOD_DIR)
 	var ext_dir = unpacked_dir.path_join("extensions")
 
 	ModLoaderMod.install_script_hooks(
-		"res://scenes/AutoMiners/employee_miner_2.gd",
-		ext_dir.path_join("scenes/AutoMiners/employee_miner_2.hooks.gd")
-	)
-	ModLoaderMod.install_script_hooks(
-		"res://scripts/LootCollectorUFO.gd",
-		ext_dir.path_join("scripts/LootCollectorUFO.hooks.gd")
-	)
-	ModLoaderMod.install_script_hooks(
-		"res://scripts/loot_drops.gd",
-		ext_dir.path_join("scripts/loot_drops.hooks.gd")
+		"res://scenes/Interfaces/InventoryWindow.gd",
+		ext_dir.path_join("scenes/Interfaces/InventoryWindow.hooks.gd")
 	)
 
 func _ready() -> void:
-	ModLoaderLog.info("Expanded Employee Passives Mod active (Miner Range, Miner Pickup Speed, Collector Range)!", MOD_DIR)
-'@ | Set-Content -Path "$epInner\mod_main.gd" -Encoding UTF8
-
-# employee_miner_2.hooks.gd
-@'
-extends Object
-
-func _physics_process(chain: ModLoaderHookChain, delta: float) -> void:
-	var miner = chain.reference_object
-	if is_instance_valid(miner):
-		var range_stat: float = _get_passive_stat("employee_miner_range")
-		var speed_stat: float = _get_passive_stat("employee_miner_pickup_speed")
-
-		if range_stat > 0.0:
-			miner.pickaxe_range = int(round(3.0 * (1.0 + range_stat)))
-			miner.search_range = int(round(10.0 * (1.0 + range_stat)))
-
-		if speed_stat > 0.0 and miner.state == miner.States.MOVING_TO_TARGET:
-			miner.velocity.x *= (1.0 + speed_stat)
-
-		if range_stat > 0.0 and miner.state == miner.States.MOVING_TO_TARGET:
-			var reach: float = 16.0 * (1.0 + range_stat)
-			if abs(miner.global_position.x - miner.target_pos.x) < reach:
-				miner.mining_animation_player.play("mining")
-				miner.state = miner.States.MINING
-
-		if speed_stat > 0.0:
-			_vacuum_nearby_loot(miner, 52.0 * (1.0 + range_stat), 260.0 * (1.0 + speed_stat), delta)
-
-	chain.execute_next([delta])
-
-func _vacuum_nearby_loot(miner: Node2D, radius: float, pull_speed: float, delta: float) -> void:
-	var tree = miner.get_tree()
-	if not tree or not tree.root:
-		return
-	var loot_mgr = tree.root.find_child("LootDrops", true, false)
-	if not loot_mgr:
-		return
-	var m_pos = miner.global_position
-	var r_sq = radius * radius
-	for child in loot_mgr.get_children():
-		if is_instance_valid(child) and ("global_position" in child):
-			var d_sq = m_pos.distance_squared_to(child.global_position)
-			if d_sq <= r_sq:
-				var dir = (m_pos - child.global_position).normalized()
-				child.global_position += dir * pull_speed * delta
-
-func _get_passive_stat(stat_name: String) -> float:
-	if not Gvars:
-		return 0.0
-	if ("custom_passives" in Gvars) and (Gvars.custom_passives is Dictionary) and Gvars.custom_passives.has(stat_name):
-		return float(Gvars.custom_passives[stat_name])
-	if ("passives" in Gvars) and Gvars.passives:
-		if Gvars.passives.has_meta(stat_name):
-			return float(Gvars.passives.get_meta(stat_name))
-		if stat_name in Gvars.passives:
-			return float(Gvars.passives.get(stat_name))
-	return 0.0
-'@ | Set-Content -Path "$epExtMiner\employee_miner_2.hooks.gd" -Encoding UTF8
-
-# LootCollectorUFO.hooks.gd
-@'
-extends Object
-
-func _physics_process(chain: ModLoaderHookChain, delta: float) -> void:
-	chain.execute_next([delta])
-	var ufo = chain.reference_object
-	if not is_instance_valid(ufo):
-		return
-
-	var range_stat: float = _get_passive_stat("collector_range")
-	if range_stat <= 0.0:
-		return
-
-	var magnet_radius: float = 64.0 * (1.0 + range_stat)
-	var pull_speed: float = 350.0 * (1.0 + range_stat * 0.5)
-	var tree = ufo.get_tree()
-	if not tree or not tree.root:
-		return
-	var loot_mgr = tree.root.find_child("LootDrops", true, false)
-	if not loot_mgr:
-		return
-
-	var u_pos = ufo.global_position
-	var r_sq = magnet_radius * magnet_radius
-	for child in loot_mgr.get_children():
-		if is_instance_valid(child) and ("global_position" in child):
-			var d_sq = u_pos.distance_squared_to(child.global_position)
-			if d_sq <= r_sq:
-				var dir = (u_pos - child.global_position).normalized()
-				child.global_position += dir * pull_speed * delta
-				if d_sq < 324.0:
-					if child.has_method("pickup"):
-						child.pickup(ufo)
-					elif ufo.has_method("on_ItemPickup") and ("pickupItem" in child):
-						ufo.on_ItemPickup(child.pickupItem, ufo)
-						child.queue_free()
-
-func _get_passive_stat(stat_name: String) -> float:
-	if not Gvars:
-		return 0.0
-	if ("custom_passives" in Gvars) and (Gvars.custom_passives is Dictionary) and Gvars.custom_passives.has(stat_name):
-		return float(Gvars.custom_passives[stat_name])
-	if ("passives" in Gvars) and Gvars.passives:
-		if Gvars.passives.has_meta(stat_name):
-			return float(Gvars.passives.get_meta(stat_name))
-		if stat_name in Gvars.passives:
-			return float(Gvars.passives.get(stat_name))
-	return 0.0
-'@ | Set-Content -Path "$epExtScript\LootCollectorUFO.hooks.gd" -Encoding UTF8
-
-# loot_drops.hooks.gd
-@'
-extends Object
-
-func find_loot(chain: ModLoaderHookChain, collector) -> void:
-	var ld = chain.reference_object
-	if is_instance_valid(ld):
-		var range_stat: float = _get_passive_stat("collector_range")
-		if range_stat > 0.0 and ("collector_sample_live_limit" in ld):
-			ld.collector_sample_live_limit = int(round(25.0 * (1.0 + range_stat)))
-	chain.execute_next([collector])
-
-func _get_passive_stat(stat_name: String) -> float:
-	if not Gvars:
-		return 0.0
-	if ("custom_passives" in Gvars) and (Gvars.custom_passives is Dictionary) and Gvars.custom_passives.has(stat_name):
-		return float(Gvars.custom_passives[stat_name])
-	if ("passives" in Gvars) and Gvars.passives:
-		if Gvars.passives.has_meta(stat_name):
-			return float(Gvars.passives.get_meta(stat_name))
-		if stat_name in Gvars.passives:
-			return float(Gvars.passives.get(stat_name))
-	return 0.0
-'@ | Set-Content -Path "$epExtScript\loot_drops.hooks.gd" -Encoding UTF8
-Write-Host "  Created: gareth-employee_passives_mod scripts and hooks" -ForegroundColor Green
+	var mgr_script = load("res://mods-unpacked/gareth-scrap_and_delivery_mod/scripts/amazon_delivery_manager.gd")
+	var mgr = Node.new()
+	mgr.name = "AmazonDeliveryManager"
+	mgr.set_script(mgr_script)
+	get_tree().root.call_deferred("add_child", mgr)
+	ModLoaderLog.info("Daytime Scrap & Amazon Delivery Mod active! (Hotkey B for Amazon, 50% Scrap enabled)", MOD_DIR)
+'@ | Set-Content -Path "$sdInner\mod_main.gd" -Encoding UTF8
 
 # ------------------------------------------------------------------------------
-# 3. UPDATE CHOOSE_PASSIVE.HOOKS.GD (ADD 3 PASSIVES TO DEFAULT DICTIONARY)
+# 4. INVENTORYWINDOW.HOOKS.GD (INJECT SCRAP BUTTONS & DROP RECYCLER)
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 3. Registering 3 new passives in choose_passive.hooks.gd..." -ForegroundColor Cyan
-$cpHookPath = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\extensions\scenes\Interfaces\in_game\choose_passive.hooks.gd"
+Write-Host "`n>>> 4. Writing InventoryWindow.hooks.gd..." -ForegroundColor Cyan
 @'
 extends Object
 
-const CUSTOM_PASSIVE_DEFAULTS: Dictionary = {
-	"ball_blast_damage": 0.05, "ball_blast_radius": 0.05, "ball_fire_rate": 0.05,
-	"chrono_tick_rate": 0.05, "chrono_shockwave_damage": 0.05, "chrono_stasis_duration": 0.05,
-	"exec_damage": 0.05, "exec_fire_rate": 0.05, "exec_bounty": 0.05,
-	"drill_speed": 0.05, "axe_speed": 0.05, "gun_rate": 0.05,
-	"dread_shell_damage": 0.05, "dread_fire_rate": 0.05, "dread_impact_radius": 0.05,
-	"jedi_saber_damage": 0.05, "jedi_swing_rate": 0.05, "jedi_cleave_reach": 0.05,
-	"sword_damage": 0.05, "sword_speed": 0.05, "sword_range": 0.05,
-	"employee_miner_range": 0.05, "employee_miner_pickup_speed": 0.05, "collector_range": 0.05,
-	"sinclair_melt_damage": 0.05, "sinclair_beam_width": 0.05, "sinclair_spectrum_ticks": 0.05,
-	"fracker_pulse_damage": 0.05, "fracker_seam_resonance": 0.05, "fracker_fire_rate": 0.05,
-	"void_implosion_damage": 0.05, "void_pull_radius": 0.05, "void_event_horizon": 0.05
-}
-
-func set_up_buttons(chain: ModLoaderHookChain) -> void:
-	var screen = chain.reference_object
-	if not is_instance_valid(screen) or not ("choose_between" in screen):
-		chain.execute_next([])
-		return
-
-	var buttons = [screen.button, screen.button_2, screen.button_3]
-	for i in range(0, min(3, screen.choose_between.size())):
-		var stat_name: String = str(screen.choose_between[i])
-		var base_val: float = 0.05
-		if screen.ALL_PASSIVES.has(stat_name):
-			base_val = screen.ALL_PASSIVES[stat_name]
-		elif CUSTOM_PASSIVE_DEFAULTS.has(stat_name):
-			base_val = CUSTOM_PASSIVE_DEFAULTS[stat_name]
-
-		var pct_str: String = str(screen.multiplier * (base_val * 100.0))
-		buttons[i].text = "Increase " + stat_name.replace("_", " ").capitalize() + " +" + pct_str + "%"
-
-func _on_button_pressed(chain: ModLoaderHookChain) -> void:
-	_handle_button_click(chain, 0)
-
-func _on_button_2_pressed(chain: ModLoaderHookChain) -> void:
-	_handle_button_click(chain, 1)
-
-func _on_button_3_pressed(chain: ModLoaderHookChain) -> void:
-	_handle_button_click(chain, 2)
-
-func _handle_button_click(chain: ModLoaderHookChain, button_idx: int) -> void:
-	var screen = chain.reference_object
-	if not is_instance_valid(screen) or not screen.live or not ("choose_between" in screen):
-		chain.execute_next([])
-		return
-
-	if button_idx >= screen.choose_between.size():
-		chain.execute_next([])
-		return
-
-	var stat_name: String = str(screen.choose_between[button_idx])
-	if screen.ALL_PASSIVES.has(stat_name):
-		chain.execute_next([])
-		return
-
-	screen.live = false
-	var base_val: float = CUSTOM_PASSIVE_DEFAULTS.get(stat_name, 0.05)
-	var add_amount: float = screen.multiplier * base_val
-
-	if Gvars and ("passives" in Gvars) and Gvars.passives:
-		var p: Resource = Gvars.passives
-		var cur_meta: float = 0.0
-		if p.has_meta(stat_name):
-			cur_meta = float(p.get_meta(stat_name))
-		p.set_meta(stat_name, cur_meta + add_amount)
-
-	if Gvars:
-		if not ("custom_passives" in Gvars) or Gvars.custom_passives == null:
-			Gvars.set("custom_passives", {})
-		var cp = Gvars.get("custom_passives")
-		if cp is Dictionary:
-			cp[stat_name] = cp.get(stat_name, 0.0) + add_amount
-
-	screen.get_tree().paused = false
-	screen.queue_free()
-'@ | Set-Content -Path $cpHookPath -Encoding UTF8
-
-# ------------------------------------------------------------------------------
-# 4. UPDATE PASSIVE_BONUSES.HOOKS.GD (ADD 3 PASSIVES TO BONUSES TAB DISPLAY)
-# ------------------------------------------------------------------------------
-Write-Host "`n>>> 4. Registering 3 new passives in passive_bonuses.hooks.gd..." -ForegroundColor Cyan
-$pbHookPath = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\extensions\scenes\Interfaces\Management\passive_bonuses.hooks.gd"
-@'
-extends Object
-
-func refresh(chain: ModLoaderHookChain) -> void:
+func load_inventory(chain: ModLoaderHookChain) -> void:
 	chain.execute_next([])
-	var pb = chain.reference_object
-	if not is_instance_valid(pb) or not Gvars or not ("passives" in Gvars) or not Gvars.passives:
+	var grid = chain.reference_object
+	if is_instance_valid(grid):
+		_inject_scrap_bar(grid)
+
+func _inject_scrap_bar(grid: GridContainer) -> void:
+	var parent = grid.get_parent()
+	if not parent or parent.has_node("DaytimeScrapBar"):
 		return
 
-	var p = Gvars.passives
+	var bar = HBoxContainer.new()
+	bar.name = "DaytimeScrapBar"
+	bar.add_theme_constant_override("separation", 10)
 
-	var worker_stats = {
-		"Employee Miner Speed": "employee_miner_speed",
-		"Employee Miner Damage": "employee_miner_damage",
-		"Employee Collector Speed": "employee_collector_speed",
-		"Employee Collector Capacity": "employee_collector_capacity"
-	}
-	for s_name in worker_stats.keys():
-		var prop: String = worker_stats[s_name]
-		if prop in p:
-			var val: float = float(p.get(prop))
-			if val > 0.0:
-				var lbl = RichTextLabel.new()
-				lbl.text = "Increase %s +%d%%" % [s_name, roundi(val * 100)]
-				lbl.fit_content = true
-				pb.add_child(lbl)
+	var btn_scrap_ores = Button.new()
+	btn_scrap_ores.text = "♻️ Scrap All Ores (50% Cash)"
+	btn_scrap_ores.tooltip_text = "Sell all raw ores from your inventory immediately for 50% value straight to your wallet."
+	btn_scrap_ores.modulate = Color(0.4, 1.0, 0.6, 1.0)
+	btn_scrap_ores.pressed.connect(func(): _scrap_all_ores(grid))
+	bar.add_child(btn_scrap_ores)
 
-	var custom_stats = [
-		"sword_damage", "sword_speed", "sword_range",
-		"employee_miner_range", "employee_miner_pickup_speed", "collector_range",
-		"jedi_saber_damage", "jedi_swing_rate", "jedi_cleave_reach",
-		"ball_blast_damage", "chrono_tick_rate", "exec_damage",
-		"fracker_pulse_damage", "void_implosion_damage", "sinclair_melt_damage"
-	]
+	var btn_open_amazon = Button.new()
+	btn_open_amazon.text = "📦 Open Amazon Store (B)"
+	btn_open_amazon.tooltip_text = "Order emergency platforms, ladders, and tools delivered by parachute in 10 seconds."
+	btn_open_amazon.modulate = Color(1.0, 0.85, 0.3, 1.0)
+	btn_open_amazon.pressed.connect(func():
+		var tree = grid.get_tree()
+		if tree and tree.root:
+			var mgr = tree.root.find_child("AmazonDeliveryManager", true, false)
+			if mgr and mgr.has_method("open_store"):
+				mgr.open_store()
+	)
+	bar.add_child(btn_open_amazon)
 
-	var cp_dict: Dictionary = {}
-	if ("custom_passives" in Gvars) and (Gvars.custom_passives is Dictionary):
-		cp_dict = Gvars.custom_passives
+	parent.add_child(bar)
+	parent.move_child(bar, grid.get_index())
 
-	for stat_key in custom_stats:
-		var s_val: float = 0.0
-		if cp_dict.has(stat_key):
-			s_val = float(cp_dict[stat_key])
-		elif p.has_meta(stat_key):
-			s_val = float(p.get_meta(stat_key))
-		elif stat_key in p:
-			s_val = float(p.get(stat_key))
+func _scrap_all_ores(grid: GridContainer) -> void:
+	if not Gvars or not ("inventory" in grid) or not grid.inventory:
+		return
 
-		if s_val > 0.0:
-			var c_lbl = RichTextLabel.new()
-			c_lbl.text = "Increase %s +%d%%" % [stat_key.replace("_", " ").capitalize(), roundi(s_val * 100)]
-			c_lbl.fit_content = true
-			pb.add_child(c_lbl)
-'@ | Set-Content -Path $pbHookPath -Encoding UTF8
+	var total_scrapped_cash: float = 0.0
+	var total_items_cleared: int = 0
+	var empty_res = load("res://resources/Items/Empty.tres")
+
+	for i in range(grid.inventory.items.size()):
+		var slot_item = grid.inventory.items[i]
+		if not is_instance_valid(slot_item) or not is_instance_valid(slot_item.item) or slot_item.count <= 0:
+			continue
+
+		var it = slot_item.item
+		var id_str = str(it.itemID).to_lower()
+		var type_str = str(it.itemType).to_lower()
+		var name_str = str(it.itemName).to_lower()
+
+		var is_ore = (type_str in ["ore", "resource", "mineral", "material"] or 
+			"coal" in id_str or "copper" in id_str or "iron" in id_str or "sapphire" in id_str or 
+			"emerald" in id_str or "silver" in id_str or "amethyst" in id_str or "gold" in id_str or 
+			"ruby" in id_str or "diamond" in id_str or "spinel" in id_str or "uranium" in id_str or 
+			"moonstone" in id_str or "onyx" in id_str)
+
+		if is_ore and type_str != "equipment" and type_str != "weapon":
+			var unit_val: float = 0.0
+			if it.itemSellPrice > 0.0:
+				unit_val = it.itemSellPrice * 0.5
+			elif it.itemBuyPrice > 0.0:
+				unit_val = it.itemBuyPrice * 0.25
+			else:
+				unit_val = 5.0
+
+			var stack_cash = unit_val * slot_item.count
+			total_scrapped_cash += stack_cash
+			total_items_cleared += int(slot_item.count)
+
+			slot_item.count = 0
+			if empty_res:
+				slot_item.item = empty_res
+
+	if total_scrapped_cash > 0.0:
+		Gvars.CashCount += total_scrapped_cash
+		grid.save_inventory()
+		grid.load_inventory()
+
+		var tree = grid.get_tree()
+		if tree and tree.root:
+			var mgr = tree.root.find_child("AmazonDeliveryManager", true, false)
+			if mgr and mgr.has_method("show_toast"):
+				mgr.show_toast("♻️ Scrapped %d ores for +$%.2f cash!" % [total_items_cleared, total_scrapped_cash / 100.0])
+'@ | Set-Content -Path "$sdExtInv\InventoryWindow.hooks.gd" -Encoding UTF8
 
 # ------------------------------------------------------------------------------
-# 5. UPDATE KNIGHT_PROFESSION.GD UNLOCKED_PASSIVES
+# 5. AMAZON_DELIVERY_MANAGER.GD (STORE, HUD, 10S TIMER, PARACHUTE CRATE)
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 5. Adding new employee passives to knight_profession.gd unlock pool..." -ForegroundColor Cyan
-$kpPath = "$repo\mods-unpacked\gareth-knight_class_mod\mods-unpacked\gareth-knight_class_mod\scripts\knight_profession.gd"
+Write-Host "`n>>> 5. Writing amazon_delivery_manager.gd..." -ForegroundColor Cyan
 @'
-class_name KnightProfession
-extends Profession
+extends Node
 
-func _profession_effect(data: Dictionary) -> Dictionary:
-	if Gvars and ("passives" in Gvars) and Gvars.passives:
-		for stat in ["sword_damage", "sword_speed", "sword_range"]:
-			if not Gvars.passives.has_meta(stat):
-				Gvars.passives.set_meta(stat, 0.0)
-			Gvars.passives.set(stat, Gvars.passives.get_meta(stat))
+var canvas: CanvasLayer
+var hud_btn: Button
+var store_window: PanelContainer
+var toast_label: Label
+var queue_label: Label
 
-	if data.has("inventory_starters"):
-		var sword_res = load("res://mods-unpacked/gareth-knight_class_mod/items/KnightSword_01_shoddy.tres")
-		if sword_res:
-			data["inventory_starters"] = [{
-				"item": sword_res,
-				"count": 1
-			}]
+var search_box: LineEdit
+var item_grid: GridContainer
+var cash_label: Label
 
-	if data.has("unlocked_passives"):
-		data["unlocked_passives"] = [
-			"sword_damage",
-			"sword_speed",
-			"sword_range",
-			"employee_miner_speed",
-			"employee_miner_damage",
-			"employee_miner_range",
-			"employee_miner_pickup_speed",
-			"employee_collector_speed",
-			"employee_collector_capacity",
-			"collector_range",
-			"player_sprint_speed",
-			"player_jump_velocity",
-			"player_climb_speed"
-		]
+var pending_orders: Array = []
+var all_shop_items: Array = []
 
-	return data
-'@ | Set-Content -Path $kpPath -Encoding UTF8
-Write-Host "  Updated: knight_profession.gd" -ForegroundColor Green
+func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	_load_catalog()
+	_build_ui()
+
+func _load_catalog() -> void:
+	all_shop_items = []
+	var item_unlocks = load("res://resources/unlockable_items/scripts/item_unlocks.tres")
+	if item_unlocks and ("all_equipment_items" in item_unlocks):
+		for it in item_unlocks.all_equipment_items:
+			if is_instance_valid(it):
+				all_shop_items.append(it)
+
+func _build_ui() -> void:
+	canvas = CanvasLayer.new()
+	canvas.name = "AmazonDeliveryCanvas"
+	canvas.layer = 96
+	add_child(canvas)
+
+	# 1. Top-Right HUD Button
+	hud_btn = Button.new()
+	hud_btn.name = "AmazonHUDButton"
+	hud_btn.text = "📦 Amazon"
+	hud_btn.anchor_left = 1.0
+	hud_btn.anchor_right = 1.0
+	hud_btn.offset_left = -348.0
+	hud_btn.offset_right = -268.0
+	hud_btn.offset_top = 16.0
+	hud_btn.offset_bottom = 54.0
+	hud_btn.modulate = Color(1.0, 0.85, 0.3, 1.0)
+	hud_btn.tooltip_text = "Open Amazon Same-Day Emergency Delivery (Hotkey B)"
+	hud_btn.pressed.connect(toggle_store)
+	canvas.add_child(hud_btn)
+
+	# 2. Toast & Delivery Queue Notification Banner
+	queue_label = Label.new()
+	queue_label.anchor_left = 0.5
+	queue_label.anchor_right = 0.5
+	queue_label.offset_left = -250.0
+	queue_label.offset_right = 250.0
+	queue_label.offset_top = 60.0
+	queue_label.offset_bottom = 90.0
+	queue_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	queue_label.add_theme_color_override("font_color", Color(1.0, 0.9, 0.2, 1.0))
+	queue_label.visible = false
+	canvas.add_child(queue_label)
+
+	toast_label = Label.new()
+	toast_label.anchor_left = 0.5
+	toast_label.anchor_right = 0.5
+	toast_label.offset_left = -250.0
+	toast_label.offset_right = 250.0
+	toast_label.offset_top = 92.0
+	toast_label.offset_bottom = 122.0
+	toast_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	toast_label.add_theme_color_override("font_color", Color(0.4, 1.0, 0.5, 1.0))
+	toast_label.visible = false
+	canvas.add_child(toast_label)
+
+	# 3. Amazon Store Window
+	store_window = PanelContainer.new()
+	store_window.name = "AmazonStoreWindow"
+	store_window.anchor_left = 0.5
+	store_window.anchor_right = 0.5
+	store_window.anchor_top = 0.5
+	store_window.anchor_bottom = 0.5
+	store_window.offset_left = -320.0
+	store_window.offset_right = 320.0
+	store_window.offset_top = -240.0
+	store_window.offset_bottom = 240.0
+	store_window.visible = false
+
+	var v_box = VBoxContainer.new()
+	v_box.add_theme_constant_override("separation", 8)
+
+	var header = HBoxContainer.new()
+	var title = Label.new()
+	title.text = "📦 AMAZON SAME-DAY EMERGENCY DELIVERY"
+	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title.add_theme_color_override("font_color", Color(1.0, 0.85, 0.2, 1.0))
+	header.add_child(title)
+
+	var btn_close = Button.new()
+	btn_close.text = "✖"
+	btn_close.pressed.connect(func(): store_window.visible = false)
+	header.add_child(btn_close)
+	v_box.add_child(header)
+
+	var sub_bar = HBoxContainer.new()
+	cash_label = Label.new()
+	cash_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	sub_bar.add_child(cash_label)
+
+	var btn_scrap_in_shop = Button.new()
+	btn_scrap_in_shop.text = "♻️ Quick-Scrap All Ores (50%)"
+	btn_scrap_in_shop.modulate = Color(0.4, 1.0, 0.6, 1.0)
+	btn_scrap_in_shop.pressed.connect(_quick_scrap_from_shop)
+	sub_bar.add_child(btn_scrap_in_shop)
+	v_box.add_child(sub_bar)
+
+	search_box = LineEdit.new()
+	search_box.placeholder_text = "Search platforms, ladders, tools, weapons..."
+	search_box.clear_button_enabled = true
+	search_box.text_changed.connect(func(_new_text): _render_catalog())
+	v_box.add_child(search_box)
+
+	var scroll = ScrollContainer.new()
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+
+	item_grid = GridContainer.new()
+	item_grid.columns = 2
+	item_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	item_grid.add_theme_constant_override("h_separation", 10)
+	item_grid.add_theme_constant_override("v_separation", 10)
+	scroll.add_child(item_grid)
+	v_box.add_child(scroll)
+
+	store_window.add_child(v_box)
+	canvas.add_child(store_window)
+
+func _process(delta: float) -> void:
+	var tree = get_tree()
+	var in_game := false
+	var player_node: Node2D = null
+	if tree and tree.root:
+		player_node = tree.root.find_child("Player", true, false)
+		in_game = is_instance_valid(player_node)
+
+	if hud_btn:
+		hud_btn.visible = in_game
+
+	if not in_game and store_window and store_window.visible:
+		store_window.visible = false
+
+	if is_instance_valid(cash_label) and Gvars:
+		cash_label.text = "Wallet: $%.2f" % (Gvars.CashCount / 100.0)
+
+	_update_orders(delta, player_node)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_B:
+			var tree = get_tree()
+			if tree and tree.root and tree.root.find_child("Player", true, false):
+				toggle_store()
+
+func toggle_store() -> void:
+	if not store_window:
+		return
+	store_window.visible = not store_window.visible
+	if store_window.visible:
+		if all_shop_items.is_empty():
+			_load_catalog()
+		_render_catalog()
+
+func open_store() -> void:
+	if store_window:
+		store_window.visible = true
+		if all_shop_items.is_empty():
+			_load_catalog()
+		_render_catalog()
+
+func _render_catalog() -> void:
+	if not item_grid:
+		return
+	for c in item_grid.get_children():
+		c.queue_free()
+
+	var q: String = search_box.text.strip_edges().to_lower()
+
+	for it in all_shop_items:
+		if not is_instance_valid(it):
+			continue
+		var nm: String = str(it.itemName)
+		var id_str: String = str(it.itemID).to_lower()
+		var desc: String = str(it.itemDescription).to_lower()
+		if not q.is_empty() and (not q in nm.to_lower() and not q in id_str and not q in desc):
+			continue
+
+		var card = PanelContainer.new()
+		card.custom_minimum_size = Vector2(290, 68)
+
+		var hbox = HBoxContainer.new()
+		hbox.add_theme_constant_override("separation", 8)
+
+		var tex = TextureRect.new()
+		tex.texture = it.itemTexture
+		tex.custom_minimum_size = Vector2(40, 40)
+		tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		hbox.add_child(tex)
+
+		var info_box = VBoxContainer.new()
+		info_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+
+		var name_lbl = Label.new()
+		name_lbl.text = nm
+		name_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		info_box.add_child(name_lbl)
+
+		var price_val: float = it.itemBuyPrice
+		var price_lbl = Label.new()
+		price_lbl.text = "$%.2f" % (price_val / 100.0)
+		price_lbl.add_theme_color_override("font_color", Color(1.0, 0.85, 0.2, 1.0))
+		info_box.add_child(price_lbl)
+
+		hbox.add_child(info_box)
+
+		var btn_order = Button.new()
+		btn_order.text = "Order\n(10s)"
+		btn_order.custom_minimum_size = Vector2(64, 44)
+		var can_afford = (Gvars and Gvars.CashCount >= price_val)
+		btn_order.disabled = not can_afford
+		btn_order.pressed.connect(func(): _place_order(it))
+		hbox.add_child(btn_order)
+
+		card.add_child(hbox)
+		item_grid.add_child(card)
+
+func _place_order(it: Item) -> void:
+	if not Gvars or Gvars.CashCount < it.itemBuyPrice:
+		show_toast("❌ Insufficient funds in wallet!")
+		return
+
+	Gvars.CashCount -= it.itemBuyPrice
+	pending_orders.append({
+		"item": it,
+		"time_left": 10.0
+	})
+	show_toast("📦 Order placed for %s! Parachute delivery in 10s." % it.itemName)
+	_render_catalog()
+
+func _update_orders(delta: float, player_node: Node2D) -> void:
+	if pending_orders.is_empty():
+		if queue_label and queue_label.visible:
+			queue_label.visible = false
+		return
+
+	queue_label.visible = true
+	var min_time: float = 999.0
+	var current_item_name: String = ""
+
+	var i = pending_orders.size() - 1
+	while i >= 0:
+		var order = pending_orders[i]
+		order["time_left"] -= delta
+		if order["time_left"] < min_time:
+			min_time = order["time_left"]
+			current_item_name = order["item"].itemName
+
+		if order["time_left"] <= 0.0:
+			_spawn_parachute_crate(order["item"], player_node)
+			pending_orders.remove_at(i)
+		i -= 1
+
+	if is_instance_valid(queue_label):
+		queue_label.text = "📦 Amazon Drone en route: [%s] arriving in %.1fs" % [current_item_name, max(0.0, min_time)]
+
+func _spawn_parachute_crate(item: Item, player_node: Node2D) -> void:
+	var tree = get_tree()
+	if not tree or not tree.current_scene:
+		return
+
+	var crate = Node2D.new()
+	crate.name = "AmazonDeliveryCrate"
+
+	var spawn_x: float = player_node.global_position.x if is_instance_valid(player_node) else 0.0
+	var spawn_y: float = -60.0
+	crate.global_position = Vector2(spawn_x, spawn_y)
+
+	var spr = Sprite2D.new()
+	spr.texture = item.itemTexture if is_instance_valid(item.itemTexture) else load("res://assets/Equipment/kicks/kick_04_sapphire.png")
+	spr.scale = Vector2(1.6, 1.6)
+	crate.add_child(spr)
+
+	tree.current_scene.add_child(crate)
+
+	var target_y = player_node.global_position.y if is_instance_valid(player_node) else 0.0
+	var tween = tree.create_tween()
+	var fall_time = 1.2
+	tween.tween_property(crate, "global_position:y", target_y, fall_time).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_callback(func():
+		var inv: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
+		if inv:
+			inv.addToInventory(item, 1)
+			Bus.inventory_changed.emit()
+		show_toast("📦 DELIVERED! [%s] placed in inventory." % item.itemName)
+
+		var boom_audio = AudioStreamPlayer2D.new()
+		boom_audio.stream = load("res://assets/sound/sound effects/pickup.wav")
+		boom_audio.global_position = crate.global_position
+		tree.current_scene.add_child(boom_audio)
+		boom_audio.play()
+		boom_audio.finished.connect(boom_audio.queue_free)
+
+		crate.queue_free()
+	)
+
+func _quick_scrap_from_shop() -> void:
+	var inv: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
+	if not inv or not Gvars:
+		return
+
+	var total_cash: float = 0.0
+	var count_cleared: int = 0
+	var empty_res = load("res://resources/Items/Empty.tres")
+
+	for slot_item in inv.items:
+		if not is_instance_valid(slot_item) or not is_instance_valid(slot_item.item) or slot_item.count <= 0:
+			continue
+		var it = slot_item.item
+		var id_str = str(it.itemID).to_lower()
+		var type_str = str(it.itemType).to_lower()
+
+		var is_ore = (type_str in ["ore", "resource", "mineral", "material"] or 
+			"coal" in id_str or "copper" in id_str or "iron" in id_str or "sapphire" in id_str or 
+			"emerald" in id_str or "silver" in id_str or "amethyst" in id_str or "gold" in id_str or 
+			"ruby" in id_str or "diamond" in id_str or "spinel" in id_str or "uranium" in id_str)
+
+		if is_ore and type_str != "equipment" and type_str != "weapon":
+			var val = it.itemSellPrice * 0.5 if it.itemSellPrice > 0.0 else 5.0
+			total_cash += val * slot_item.count
+			count_cleared += int(slot_item.count)
+			slot_item.count = 0
+			if empty_res:
+				slot_item.item = empty_res
+
+	if total_cash > 0.0:
+		Gvars.CashCount += total_cash
+		Bus.inventory_changed.emit()
+		show_toast("♻️ Scrapped %d ores for +$%.2f cash!" % [count_cleared, total_cash / 100.0])
+		_render_catalog()
+
+func show_toast(msg: String) -> void:
+	if is_instance_valid(toast_label):
+		toast_label.text = msg
+		toast_label.visible = true
+		var tree = get_tree()
+		if tree:
+			var tw = tree.create_tween()
+			tw.tween_interval(3.0)
+			tw.tween_callback(func():
+				if is_instance_valid(toast_label):
+					toast_label.visible = false
+			)
+'@ | Set-Content -Path "$sdScripts\amazon_delivery_manager.gd" -Encoding UTF8
+Write-Host "  Created: Daytime Scrap & Amazon Delivery scripts" -ForegroundColor Green
 
 # ------------------------------------------------------------------------------
-# 6. PURGE HOOK CACHE AND REPACKAGE MODS
+# 6. PURGE HOOK CACHE & REPACKAGE MOD ARCHIVE
 # ------------------------------------------------------------------------------
 Write-Host "`n>>> 6. Refreshing mod-hooks.zip..." -ForegroundColor Cyan
 if (Test-Path $hookZip) {
@@ -410,37 +551,29 @@ if (Test-Path $hookZip) {
 	Write-Host "  Purged old mod-hooks.zip" -ForegroundColor Green
 }
 
-Write-Host "`n>>> 7. Repackaging mod zips..." -ForegroundColor Cyan
+Write-Host "`n>>> 7. Repackaging gareth-scrap_and_delivery_mod.zip..." -ForegroundColor Cyan
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
-$modsToRepack = @(
-	"gareth-employee_passives_mod",
-	"gareth-mod_manager_mod",
-	"gareth-knight_class_mod"
-)
+$src = "$repo\mods-unpacked\gareth-scrap_and_delivery_mod"
+$zip = "$steamMods\gareth-scrap_and_delivery_mod.zip"
+if (Test-Path $zip) { Remove-Item -Path $zip -Force }
 
-foreach ($m in $modsToRepack) {
-	$src = "$repo\mods-unpacked\$m"
-	$zip = "$steamMods\$m.zip"
-	if (Test-Path $zip) { Remove-Item -Path $zip -Force }
-
-	$stream  = [System.IO.File]::Open($zip, [System.IO.FileMode]::CreateNew)
-	$archive = New-Object System.IO.Compression.ZipArchive($stream, [System.IO.Compression.ZipArchiveMode]::Create)
-	foreach ($f in (Get-ChildItem -Path $src -Recurse -File)) {
-		$entryName = $f.FullName.Substring($src.Length + 1).Replace("\", "/")
-		[System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $f.FullName, $entryName) | Out-Null
-	}
-	$archive.Dispose()
-	$stream.Dispose()
-	Write-Host "  Repacked: $m.zip" -ForegroundColor Green
+$stream  = [System.IO.File]::Open($zip, [System.IO.FileMode]::CreateNew)
+$archive = New-Object System.IO.Compression.ZipArchive($stream, [System.IO.Compression.ZipArchiveMode]::Create)
+foreach ($f in (Get-ChildItem -Path $src -Recurse -File)) {
+	$entryName = $f.FullName.Substring($src.Length + 1).Replace("\", "/")
+	[System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $f.FullName, $entryName) | Out-Null
 }
+$archive.Dispose()
+$stream.Dispose()
+Write-Host "  Repacked: gareth-scrap_and_delivery_mod.zip" -ForegroundColor Green
 
 # ------------------------------------------------------------------------------
-# 7. GIT STAGING, COMMIT & PUSH (DEDICATED MOD COMMIT)
+# 7. GIT STAGING, COMMIT & PUSH (DEDICATED MOD 2 COMMIT)
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 8. Staging, committing and pushing Mod 1 to GitHub..." -ForegroundColor Cyan
+Write-Host "`n>>> 8. Staging, committing and pushing Mod 2 to GitHub..." -ForegroundColor Cyan
 git add -A
-git commit -m "Part 5: Implement Employee Passives Mod (Miner Range, Miner Pickup Speed, Collector Range)"
+git commit -m "Part 6: Implement Daytime Scrap & Amazon Delivery Mod (gareth-scrap_and_delivery_mod)"
 git push origin main
 
-Write-Host "`nMod 1: Employee Passives Mod deployed and committed cleanly!" -ForegroundColor Green
+Write-Host "`nMod 2: Daytime Scrap & Amazon Delivery Mod deployed and committed cleanly!" -ForegroundColor Green

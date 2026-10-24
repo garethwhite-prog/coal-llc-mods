@@ -1,66 +1,58 @@
 ﻿=================================================================
->>> 1. Inspecting Bus.find_nearest_ore listener...
+>>> 1. Inspecting cash and currency in Gvars.gd...
 =================================================================
-  \scenes\AutoMiners\employee_miner_2.gd:151 -> Bus.find_nearest_ore.emit(self)
-  \scenes\AutoMiners\flying_miner.gd:52 -> Bus.find_nearest_ore.emit(self, false)
-  \scenes\AutoMiners\flying_miner.gd:76 -> Bus.find_nearest_ore.emit(self, true)
-  \scenes\AutoMiners\multi_miner_flying.gd:169 -> find_nearest_ore()
-  \scenes\AutoMiners\multi_miner_flying.gd:172 -> func find_nearest_ore():
-  \scenes\AutoMiners\multi_miner_flying.gd:229 -> find_nearest_ore()
-  \scenes\AutoMiners\multi_miner.gd:219 -> find_nearest_ore()
-  \scenes\AutoMiners\multi_miner.gd:222 -> func find_nearest_ore():
-  \scenes\AutoMiners\multi_miner.gd:308 -> find_nearest_ore()
-  \scripts\Bus.gd:241 -> signal find_nearest_ore(flying_miner: FlyingMiner)
-  \scripts\tile_map_layer_main.gd:68 -> Bus.connect("find_nearest_ore", on_find_nearest_ore)
-  \scripts\tile_map_layer_main.gd:378 -> func on_find_nearest_ore(miner: EmployeeMinerV2):
+   Line 46: var CashCount: float = 0.0
 
 =================================================================
->>> 2. Inspecting loot_drops.gd func find_loot (lines 140-175)...
+>>> 2. Inspecting how ore / item sell value is calculated...
 =================================================================
-139:     audio_idx = (audio_idx + 1) % AUDIO_STREAM_COUNT
-140: 
-141: 
-142: func find_loot(collector: LootCollector):
-143:     loots = loot_drops.get_children()
-144:     loot_count = len(loots)
-145:     Gvars.live_loot_count = loot_count
-146: 
-147:     if loots.is_empty():
-148:         collector.target_pos = collector.target_pos + (64 * Vector2(randf() - 0.5, randf() - 0.5))
-149:         collector.timer.start(3)
-150:         collector.state = collector.States.IDLE
-151: 
-152:         return
-153: 
-154:     loot_idx = (loot_idx + 1) % loot_count
-155:     var nearest = loots[loot_idx].global_position
-156:     var nearest_distance_squared = collector.global_position.distance_squared_to(nearest)
-157:     var limit = collector_sample_live_limit
-158:     for loot in loots:
-159:         if loot is not ItemPickup:
-160:             print("Error: child of loot_drops in loot_drops_manager is not an ItemPickup object")
-161:         if loot.pickupItem.itemType not in Gvars.STOCKPILABLE_ITEM_TYPES:
-162:             limit -= 1
-163:         else:
-164:             var test_dist_sqd = collector.global_position.distance_squared_to(loot.global_position)
-165:             if test_dist_sqd < nearest_distance_squared:
-166:                 nearest = loot.global_position
-167:                 nearest_distance_squared = test_dist_sqd
-168:             limit -= 1
-169:         if limit < 0:
-170:             collector.target_pos = nearest
-171:             collector.state = collector.States.MOVING_TO_LOOT
-172: 
-173:             return
-174:     collector.target_pos = nearest
-175:     collector.state = collector.States.MOVING_TO_LOOT
-176: 
+   \scripts\sellItem.gd:27 -> item_price.text = "$" + str(inventoryItem.item.itemSellPrice / 100.0)
+   \scripts\sellItem.gd:30 -> sellAllTotalPrice = inventoryItem.count * (inventoryItem.item.itemSellPrice - Gvars.DeliveryPrice)
+   \scripts\sellItem.gd:36 -> sellTotalPrice = num_to_sell.value * (inventoryItem.item.itemSellPrice - Gvars.DeliveryPrice)
 
 =================================================================
->>> 3. Inspecting where pickaxe_range is used in employee_miner_2.gd...
+>>> 3. Inspecting inventory slot click and drop logic...
 =================================================================
-  Line 22: var pickaxe_range: int = 3
-  Line 23: var search_range: int = 10
+Found slot script: \scenes\Interfaces\Inventory\inventory_slot_b.gd
+     7: enum Location{
+    17: @export var inventoryItem: InventoryItem:
+    19:         var old = inventoryItem
+    20:         inventoryItem = value
+    26:         updateInventoryItem()
+    33:                 Bus.itemEquipped.emit(inventoryItem.item)
+    36: @export var location: Location
+    54:                 Bus.itemEquipped.emit(inventoryItem.item)
+    57:     updateInventoryItem()
+    76:     return {"item": inventoryItem, "slot": self, "location": location}
+    79: func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
+    80:     return data.has("item") and (data["item"] is InventoryItem) and data.has("location") and (data["location"] == location)
+    83: func _drop_data(_at_position: Vector2, data: Variant) -> void :
+    86:         var temp = inventoryItem
+    89:         if inventoryItem.item.itemID == data["item"].item.itemID:
+    91:             var added = max(min(inventory.maxStack, inventoryItem.count + data["item"].count) - inventoryItem.count, 0)
+    92:             inventoryItem.count += added
+    93:             source_slot.inventoryItem.count -= added
+    94:             if source_slot.inventoryItem.count <= 0:
+    95:                 source_slot.inventoryItem.item = load("res://resources/Items/Empty.tres")
+    97:             inventoryItem = data["item"]
+    98:             source_slot.inventoryItem = temp
+   107:     preview_texture.texture = inventoryItem.item.itemTexture
 
-Discovery Phase 36 complete. Zero files modified.
+=================================================================
+>>> 4. Inspecting how items are spawned into the world (ItemPickup)...
+=================================================================
+Found pickup script: \scripts\ItemPickup.gd
+     Line 3: @export var pickupItem: Item
+     Line 21: sprite.texture = pickupItem.itemTexture
+     Line 23: pickup_sound.stream = pickupItem.pickupSound
+     Line 43: var added = body.inventory.addToInventory(pickupItem, 1)
+     Line 90: tween.tween_callback(Bus.ItemPickup.emit.bind(pickupItem, area))
+Found pickup script: \scripts\ItemPickup2.gd
+     Line 6: const MERGEABLE_LIVE_LOOT_COUNT: int = 200
+     Line 8: @export var pickupItem: Item
+     Line 9: @export var count: float = 1:
+     Line 12: count = value
+     Line 14: item_count_to_sprite(count)
+
+Discovery Phase 37 complete. Zero files modified.
 PS C:\Dev\coal-llc-mods> 
