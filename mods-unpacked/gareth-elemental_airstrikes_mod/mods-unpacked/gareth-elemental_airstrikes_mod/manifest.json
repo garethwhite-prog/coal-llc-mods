@@ -1,0 +1,17 @@
+{
+  "name": "elemental_airstrikes_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "Elemental Airstrike Triad: Dragon Strike (Fire), Water Bomber (Wetness), and Agent Orange Bomber (Poison).",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": ["gareth-mod_manager_mod"],
+  "extra": {
+    "godot": {
+      "display_name": "Elemental Airstrikes Triad",
+      "category": "Weapons & Arsenal",
+      "authors": ["Gareth White"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}

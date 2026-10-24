@@ -1,58 +1,48 @@
 ﻿=================================================================
->>> 1. Inspecting cash and currency in Gvars.gd...
+>>> 1. Inspecting jet_target_lock_on.gd in full...
 =================================================================
-   Line 46: var CashCount: float = 0.0
+   class_name JetTargetLockOn
+   extends Sprite2D
+   
+   
+   const AIRSTRIKE = preload("res://scenes/equipment/airstrike.tscn")
+   
+   var damage: float
+   var player: Player
+   
+   
+   
+   func _process(delta: float) -> void :
+       player.jet_cooldown -= delta
+       if player.jet_cooldown <= 0.0:
+           launch_airstrike()
+           player.jet_cooldown += player.JET_COOLDOWN_SECS / (1 + Gvars.passives.airstrike_rate)
+   
+   
+   func launch_airstrike():
+       var instance = AIRSTRIKE.instantiate()
+       instance.damage = damage * (1 + Gvars.passives.airstrike_damage)
+       add_sibling(instance)
+       instance.global_position = global_position
 
 =================================================================
->>> 2. Inspecting how ore / item sell value is calculated...
+>>> 2. Finding available dragon, plane, or creature sprites...
 =================================================================
-   \scripts\sellItem.gd:27 -> item_price.text = "$" + str(inventoryItem.item.itemSellPrice / 100.0)
-   \scripts\sellItem.gd:30 -> sellAllTotalPrice = inventoryItem.count * (inventoryItem.item.itemSellPrice - Gvars.DeliveryPrice)
-   \scripts\sellItem.gd:36 -> sellTotalPrice = num_to_sell.value * (inventoryItem.item.itemSellPrice - Gvars.DeliveryPrice)
+  \assets\Equipment\bombs
+  \assets\Equipment\bombs\big_bomb_sheet_blue.png
+  \assets\Equipment\bombs\big_bomb_sheet_blue.png.import
+  \assets\Equipment\bombs\big_bomb_sheet_red.png
+  \assets\Equipment\bombs\big_bomb_sheet_red.png.import
+  \assets\Equipment\bombs\big_bomb_sheet.png
+  \assets\Equipment\bombs\big_bomb_sheet.png.import
+  \assets\Equipment\bombs\bomb_sheet_blue.png
+  \assets\Equipment\bombs\bomb_sheet_blue.png.import
+  \assets\Equipment\bombs\bomb_sheet_red.png
+  \assets\Equipment\bombs\bomb_sheet_red.png.import
+  \assets\Equipment\bombs\bomb_sheet.png
+  \assets\Equipment\bombs\bomb_sheet.png.import
+  \assets\Equipment\guns\poison_guns
+  \assets\Equipment\guns\poison_guns\1_shoddy_poison_gun.png
 
-=================================================================
->>> 3. Inspecting inventory slot click and drop logic...
-=================================================================
-Found slot script: \scenes\Interfaces\Inventory\inventory_slot_b.gd
-     7: enum Location{
-    17: @export var inventoryItem: InventoryItem:
-    19:         var old = inventoryItem
-    20:         inventoryItem = value
-    26:         updateInventoryItem()
-    33:                 Bus.itemEquipped.emit(inventoryItem.item)
-    36: @export var location: Location
-    54:                 Bus.itemEquipped.emit(inventoryItem.item)
-    57:     updateInventoryItem()
-    76:     return {"item": inventoryItem, "slot": self, "location": location}
-    79: func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
-    80:     return data.has("item") and (data["item"] is InventoryItem) and data.has("location") and (data["location"] == location)
-    83: func _drop_data(_at_position: Vector2, data: Variant) -> void :
-    86:         var temp = inventoryItem
-    89:         if inventoryItem.item.itemID == data["item"].item.itemID:
-    91:             var added = max(min(inventory.maxStack, inventoryItem.count + data["item"].count) - inventoryItem.count, 0)
-    92:             inventoryItem.count += added
-    93:             source_slot.inventoryItem.count -= added
-    94:             if source_slot.inventoryItem.count <= 0:
-    95:                 source_slot.inventoryItem.item = load("res://resources/Items/Empty.tres")
-    97:             inventoryItem = data["item"]
-    98:             source_slot.inventoryItem = temp
-   107:     preview_texture.texture = inventoryItem.item.itemTexture
-
-=================================================================
->>> 4. Inspecting how items are spawned into the world (ItemPickup)...
-=================================================================
-Found pickup script: \scripts\ItemPickup.gd
-     Line 3: @export var pickupItem: Item
-     Line 21: sprite.texture = pickupItem.itemTexture
-     Line 23: pickup_sound.stream = pickupItem.pickupSound
-     Line 43: var added = body.inventory.addToInventory(pickupItem, 1)
-     Line 90: tween.tween_callback(Bus.ItemPickup.emit.bind(pickupItem, area))
-Found pickup script: \scripts\ItemPickup2.gd
-     Line 6: const MERGEABLE_LIVE_LOOT_COUNT: int = 200
-     Line 8: @export var pickupItem: Item
-     Line 9: @export var count: float = 1:
-     Line 12: count = value
-     Line 14: item_count_to_sprite(count)
-
-Discovery Phase 37 complete. Zero files modified.
+Discovery Phase 40 complete. Zero files modified.
 PS C:\Dev\coal-llc-mods> 
