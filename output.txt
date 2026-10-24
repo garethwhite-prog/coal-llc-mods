@@ -1,48 +1,529 @@
 ﻿=================================================================
->>> 1. Inspecting jet_target_lock_on.gd in full...
+>>> 1. Inspecting shop_item_card.gd for purchaseable assignment...
 =================================================================
-   class_name JetTargetLockOn
-   extends Sprite2D
-   
-   
-   const AIRSTRIKE = preload("res://scenes/equipment/airstrike.tscn")
-   
-   var damage: float
-   var player: Player
-   
-   
-   
-   func _process(delta: float) -> void :
-       player.jet_cooldown -= delta
-       if player.jet_cooldown <= 0.0:
-           launch_airstrike()
-           player.jet_cooldown += player.JET_COOLDOWN_SECS / (1 + Gvars.passives.airstrike_rate)
-   
-   
-   func launch_airstrike():
-       var instance = AIRSTRIKE.instantiate()
-       instance.damage = damage * (1 + Gvars.passives.airstrike_damage)
-       add_sibling(instance)
-       instance.global_position = global_position
+  Line 100: item.itemBuyEffect.buy_effect(item, 1)
+  Line 133: item.itemBuyEffect.buy_effect(item, amount)
 
 =================================================================
->>> 2. Finding available dragon, plane, or creature sprites...
+>>> 2. Inspecting Shoddy Water Sprite item resource definition...
 =================================================================
-  \assets\Equipment\bombs
-  \assets\Equipment\bombs\big_bomb_sheet_blue.png
-  \assets\Equipment\bombs\big_bomb_sheet_blue.png.import
-  \assets\Equipment\bombs\big_bomb_sheet_red.png
-  \assets\Equipment\bombs\big_bomb_sheet_red.png.import
-  \assets\Equipment\bombs\big_bomb_sheet.png
-  \assets\Equipment\bombs\big_bomb_sheet.png.import
-  \assets\Equipment\bombs\bomb_sheet_blue.png
-  \assets\Equipment\bombs\bomb_sheet_blue.png.import
-  \assets\Equipment\bombs\bomb_sheet_red.png
-  \assets\Equipment\bombs\bomb_sheet_red.png.import
-  \assets\Equipment\bombs\bomb_sheet.png
-  \assets\Equipment\bombs\bomb_sheet.png.import
-  \assets\Equipment\guns\poison_guns
-  \assets\Equipment\guns\poison_guns\1_shoddy_poison_gun.png
+Found: water_spirit_01_shoddy.tres
+   [gd_resource type="Resource" script_class="Item" load_steps=8 format=3]
+   
+   [ext_resource type="Script" path="res://resources/BuyEffects/Scripts/AddToInventory.gd" id="1"]
+   [ext_resource type="Texture2D" path="res://assets/Equipment/kicks/kick_04_sapphire.png" id="2"]
+   [ext_resource type="Script" path="res://mods-unpacked/gareth-water_spirit_mod/scripts/water_spirit_equip.gd" id="3"]
+   [ext_resource type="Script" path="res://resources/PickupEffects/Scripts/PickupToInventory.gd" id="4"]
+   [ext_resource type="AudioStream" path="res://assets/sound/sound effects/pickup.wav" id="5"]
+   [ext_resource type="Script" path="res://resources/Items/Scripts/Item.gd" id="6"]
+   
+   [sub_resource type="Resource" id="Resource_buy"]
+   script = ExtResource("1")
+   
+   [sub_resource type="Resource" id="Resource_equip"]
+   script = ExtResource("3")
+   orbit_radius = 28.0
+   rotation_speed = 8.0
+   brush_radius = 1
+   
+   [sub_resource type="Resource" id="Resource_pickup"]
+   script = ExtResource("4")
+   
+   [resource]
+   script = ExtResource("6")
+   itemID = "water_spirit_01_shoddy"
+   itemName = "Shoddy Water Spirit"
+Found: water_spirit_02_copper.tres
+   [gd_resource type="Resource" script_class="Item" load_steps=8 format=3]
+   
+   [ext_resource type="Script" path="res://resources/BuyEffects/Scripts/AddToInventory.gd" id="1"]
+   [ext_resource type="Texture2D" path="res://assets/Equipment/kicks/kick_04_sapphire.png" id="2"]
+   [ext_resource type="Script" path="res://mods-unpacked/gareth-water_spirit_mod/scripts/water_spirit_equip.gd" id="3"]
+   [ext_resource type="Script" path="res://resources/PickupEffects/Scripts/PickupToInventory.gd" id="4"]
+   [ext_resource type="AudioStream" path="res://assets/sound/sound effects/pickup.wav" id="5"]
+   [ext_resource type="Script" path="res://resources/Items/Scripts/Item.gd" id="6"]
+   
+   [sub_resource type="Resource" id="Resource_buy"]
+   script = ExtResource("1")
+   
+   [sub_resource type="Resource" id="Resource_equip"]
+   script = ExtResource("3")
+   orbit_radius = 36.0
+   rotation_speed = 9.0
+   brush_radius = 1
+   
+   [sub_resource type="Resource" id="Resource_pickup"]
+   script = ExtResource("4")
+   
+   [resource]
+   script = ExtResource("6")
+   itemID = "water_spirit_02_copper"
+   itemName = "Copper Water Spirit"
+Found: water_spirit_03_iron.tres
+   [gd_resource type="Resource" script_class="Item" load_steps=8 format=3]
+   
+   [ext_resource type="Script" path="res://resources/BuyEffects/Scripts/AddToInventory.gd" id="1"]
+   [ext_resource type="Texture2D" path="res://assets/Equipment/kicks/kick_04_sapphire.png" id="2"]
+   [ext_resource type="Script" path="res://mods-unpacked/gareth-water_spirit_mod/scripts/water_spirit_equip.gd" id="3"]
+   [ext_resource type="Script" path="res://resources/PickupEffects/Scripts/PickupToInventory.gd" id="4"]
+   [ext_resource type="AudioStream" path="res://assets/sound/sound effects/pickup.wav" id="5"]
+   [ext_resource type="Script" path="res://resources/Items/Scripts/Item.gd" id="6"]
+   
+   [sub_resource type="Resource" id="Resource_buy"]
+   script = ExtResource("1")
+   
+   [sub_resource type="Resource" id="Resource_equip"]
+   script = ExtResource("3")
+   orbit_radius = 44.0
+   rotation_speed = 10.0
+   brush_radius = 1
+   
+   [sub_resource type="Resource" id="Resource_pickup"]
+   script = ExtResource("4")
+   
+   [resource]
+   script = ExtResource("6")
+   itemID = "water_spirit_03_iron"
+   itemName = "Iron Water Spirit"
+Found: water_spirit_04_sapphire.tres
+   [gd_resource type="Resource" script_class="Item" load_steps=8 format=3]
+   
+   [ext_resource type="Script" path="res://resources/BuyEffects/Scripts/AddToInventory.gd" id="1"]
+   [ext_resource type="Texture2D" path="res://assets/Equipment/kicks/kick_04_sapphire.png" id="2"]
+   [ext_resource type="Script" path="res://mods-unpacked/gareth-water_spirit_mod/scripts/water_spirit_equip.gd" id="3"]
+   [ext_resource type="Script" path="res://resources/PickupEffects/Scripts/PickupToInventory.gd" id="4"]
+   [ext_resource type="AudioStream" path="res://assets/sound/sound effects/pickup.wav" id="5"]
+   [ext_resource type="Script" path="res://resources/Items/Scripts/Item.gd" id="6"]
+   
+   [sub_resource type="Resource" id="Resource_buy"]
+   script = ExtResource("1")
+   
+   [sub_resource type="Resource" id="Resource_equip"]
+   script = ExtResource("3")
+   orbit_radius = 52.0
+   rotation_speed = 11.0
+   brush_radius = 2
+   
+   [sub_resource type="Resource" id="Resource_pickup"]
+   script = ExtResource("4")
+   
+   [resource]
+   script = ExtResource("6")
+   itemID = "water_spirit_04_sapphire"
+   itemName = "Sapphire Water Spirit"
+Found: water_spirit_05_emerald.tres
+   [gd_resource type="Resource" script_class="Item" load_steps=8 format=3]
+   
+   [ext_resource type="Script" path="res://resources/BuyEffects/Scripts/AddToInventory.gd" id="1"]
+   [ext_resource type="Texture2D" path="res://assets/Equipment/kicks/kick_04_sapphire.png" id="2"]
+   [ext_resource type="Script" path="res://mods-unpacked/gareth-water_spirit_mod/scripts/water_spirit_equip.gd" id="3"]
+   [ext_resource type="Script" path="res://resources/PickupEffects/Scripts/PickupToInventory.gd" id="4"]
+   [ext_resource type="AudioStream" path="res://assets/sound/sound effects/pickup.wav" id="5"]
+   [ext_resource type="Script" path="res://resources/Items/Scripts/Item.gd" id="6"]
+   
+   [sub_resource type="Resource" id="Resource_buy"]
+   script = ExtResource("1")
+   
+   [sub_resource type="Resource" id="Resource_equip"]
+   script = ExtResource("3")
+   orbit_radius = 60.0
+   rotation_speed = 12.0
+   brush_radius = 2
+   
+   [sub_resource type="Resource" id="Resource_pickup"]
+   script = ExtResource("4")
+   
+   [resource]
+   script = ExtResource("6")
+   itemID = "water_spirit_05_emerald"
+   itemName = "Emerald Water Spirit"
+Found: water_spirit_06_silver.tres
+   [gd_resource type="Resource" script_class="Item" load_steps=8 format=3]
+   
+   [ext_resource type="Script" path="res://resources/BuyEffects/Scripts/AddToInventory.gd" id="1"]
+   [ext_resource type="Texture2D" path="res://assets/Equipment/kicks/kick_04_sapphire.png" id="2"]
+   [ext_resource type="Script" path="res://mods-unpacked/gareth-water_spirit_mod/scripts/water_spirit_equip.gd" id="3"]
+   [ext_resource type="Script" path="res://resources/PickupEffects/Scripts/PickupToInventory.gd" id="4"]
+   [ext_resource type="AudioStream" path="res://assets/sound/sound effects/pickup.wav" id="5"]
+   [ext_resource type="Script" path="res://resources/Items/Scripts/Item.gd" id="6"]
+   
+   [sub_resource type="Resource" id="Resource_buy"]
+   script = ExtResource("1")
+   
+   [sub_resource type="Resource" id="Resource_equip"]
+   script = ExtResource("3")
+   orbit_radius = 68.0
+   rotation_speed = 13.0
+   brush_radius = 2
+   
+   [sub_resource type="Resource" id="Resource_pickup"]
+   script = ExtResource("4")
+   
+   [resource]
+   script = ExtResource("6")
+   itemID = "water_spirit_06_silver"
+   itemName = "Silver Water Spirit"
+Found: water_spirit_07_amethyst.tres
+   [gd_resource type="Resource" script_class="Item" load_steps=8 format=3]
+   
+   [ext_resource type="Script" path="res://resources/BuyEffects/Scripts/AddToInventory.gd" id="1"]
+   [ext_resource type="Texture2D" path="res://assets/Equipment/kicks/kick_04_sapphire.png" id="2"]
+   [ext_resource type="Script" path="res://mods-unpacked/gareth-water_spirit_mod/scripts/water_spirit_equip.gd" id="3"]
+   [ext_resource type="Script" path="res://resources/PickupEffects/Scripts/PickupToInventory.gd" id="4"]
+   [ext_resource type="AudioStream" path="res://assets/sound/sound effects/pickup.wav" id="5"]
+   [ext_resource type="Script" path="res://resources/Items/Scripts/Item.gd" id="6"]
+   
+   [sub_resource type="Resource" id="Resource_buy"]
+   script = ExtResource("1")
+   
+   [sub_resource type="Resource" id="Resource_equip"]
+   script = ExtResource("3")
+   orbit_radius = 76.0
+   rotation_speed = 14.0
+   brush_radius = 2
+   
+   [sub_resource type="Resource" id="Resource_pickup"]
+   script = ExtResource("4")
+   
+   [resource]
+   script = ExtResource("6")
+   itemID = "water_spirit_07_amethyst"
+   itemName = "Amethyst Water Spirit"
+Found: water_spirit_08_gold.tres
+   [gd_resource type="Resource" script_class="Item" load_steps=8 format=3]
+   
+   [ext_resource type="Script" path="res://resources/BuyEffects/Scripts/AddToInventory.gd" id="1"]
+   [ext_resource type="Texture2D" path="res://assets/Equipment/kicks/kick_04_sapphire.png" id="2"]
+   [ext_resource type="Script" path="res://mods-unpacked/gareth-water_spirit_mod/scripts/water_spirit_equip.gd" id="3"]
+   [ext_resource type="Script" path="res://resources/PickupEffects/Scripts/PickupToInventory.gd" id="4"]
+   [ext_resource type="AudioStream" path="res://assets/sound/sound effects/pickup.wav" id="5"]
+   [ext_resource type="Script" path="res://resources/Items/Scripts/Item.gd" id="6"]
+   
+   [sub_resource type="Resource" id="Resource_buy"]
+   script = ExtResource("1")
+   
+   [sub_resource type="Resource" id="Resource_equip"]
+   script = ExtResource("3")
+   orbit_radius = 88.0
+   rotation_speed = 15.0
+   brush_radius = 3
+   
+   [sub_resource type="Resource" id="Resource_pickup"]
+   script = ExtResource("4")
+   
+   [resource]
+   script = ExtResource("6")
+   itemID = "water_spirit_08_gold"
+   itemName = "Gold Water Spirit"
+Found: water_spirit_09_ruby.tres
+   [gd_resource type="Resource" script_class="Item" load_steps=8 format=3]
+   
+   [ext_resource type="Script" path="res://resources/BuyEffects/Scripts/AddToInventory.gd" id="1"]
+   [ext_resource type="Texture2D" path="res://assets/Equipment/kicks/kick_04_sapphire.png" id="2"]
+   [ext_resource type="Script" path="res://mods-unpacked/gareth-water_spirit_mod/scripts/water_spirit_equip.gd" id="3"]
+   [ext_resource type="Script" path="res://resources/PickupEffects/Scripts/PickupToInventory.gd" id="4"]
+   [ext_resource type="AudioStream" path="res://assets/sound/sound effects/pickup.wav" id="5"]
+   [ext_resource type="Script" path="res://resources/Items/Scripts/Item.gd" id="6"]
+   
+   [sub_resource type="Resource" id="Resource_buy"]
+   script = ExtResource("1")
+   
+   [sub_resource type="Resource" id="Resource_equip"]
+   script = ExtResource("3")
+   orbit_radius = 100.0
+   rotation_speed = 16.0
+   brush_radius = 3
+   
+   [sub_resource type="Resource" id="Resource_pickup"]
+   script = ExtResource("4")
+   
+   [resource]
+   script = ExtResource("6")
+   itemID = "water_spirit_09_ruby"
+   itemName = "Ruby Water Spirit"
+Found: water_spirit_10_diamond.tres
+   [gd_resource type="Resource" script_class="Item" load_steps=8 format=3]
+   
+   [ext_resource type="Script" path="res://resources/BuyEffects/Scripts/AddToInventory.gd" id="1"]
+   [ext_resource type="Texture2D" path="res://assets/Equipment/kicks/kick_04_sapphire.png" id="2"]
+   [ext_resource type="Script" path="res://mods-unpacked/gareth-water_spirit_mod/scripts/water_spirit_equip.gd" id="3"]
+   [ext_resource type="Script" path="res://resources/PickupEffects/Scripts/PickupToInventory.gd" id="4"]
+   [ext_resource type="AudioStream" path="res://assets/sound/sound effects/pickup.wav" id="5"]
+   [ext_resource type="Script" path="res://resources/Items/Scripts/Item.gd" id="6"]
+   
+   [sub_resource type="Resource" id="Resource_buy"]
+   script = ExtResource("1")
+   
+   [sub_resource type="Resource" id="Resource_equip"]
+   script = ExtResource("3")
+   orbit_radius = 116.0
+   rotation_speed = 17.0
+   brush_radius = 3
+   
+   [sub_resource type="Resource" id="Resource_pickup"]
+   script = ExtResource("4")
+   
+   [resource]
+   script = ExtResource("6")
+   itemID = "water_spirit_10_diamond"
+   itemName = "Diamond Water Spirit"
+Found: water_spirit_11_pinkdiamond.tres
+   [gd_resource type="Resource" script_class="Item" load_steps=8 format=3]
+   
+   [ext_resource type="Script" path="res://resources/BuyEffects/Scripts/AddToInventory.gd" id="1"]
+   [ext_resource type="Texture2D" path="res://assets/Equipment/kicks/kick_04_sapphire.png" id="2"]
+   [ext_resource type="Script" path="res://mods-unpacked/gareth-water_spirit_mod/scripts/water_spirit_equip.gd" id="3"]
+   [ext_resource type="Script" path="res://resources/PickupEffects/Scripts/PickupToInventory.gd" id="4"]
+   [ext_resource type="AudioStream" path="res://assets/sound/sound effects/pickup.wav" id="5"]
+   [ext_resource type="Script" path="res://resources/Items/Scripts/Item.gd" id="6"]
+   
+   [sub_resource type="Resource" id="Resource_buy"]
+   script = ExtResource("1")
+   
+   [sub_resource type="Resource" id="Resource_equip"]
+   script = ExtResource("3")
+   orbit_radius = 132.0
+   rotation_speed = 18.0
+   brush_radius = 4
+   
+   [sub_resource type="Resource" id="Resource_pickup"]
+   script = ExtResource("4")
+   
+   [resource]
+   script = ExtResource("6")
+   itemID = "water_spirit_11_pinkdiamond"
+   itemName = "Pink Diamond Water Spirit"
+Found: water_spirit_12_spinel.tres
+   [gd_resource type="Resource" script_class="Item" load_steps=8 format=3]
+   
+   [ext_resource type="Script" path="res://resources/BuyEffects/Scripts/AddToInventory.gd" id="1"]
+   [ext_resource type="Texture2D" path="res://assets/Equipment/kicks/kick_04_sapphire.png" id="2"]
+   [ext_resource type="Script" path="res://mods-unpacked/gareth-water_spirit_mod/scripts/water_spirit_equip.gd" id="3"]
+   [ext_resource type="Script" path="res://resources/PickupEffects/Scripts/PickupToInventory.gd" id="4"]
+   [ext_resource type="AudioStream" path="res://assets/sound/sound effects/pickup.wav" id="5"]
+   [ext_resource type="Script" path="res://resources/Items/Scripts/Item.gd" id="6"]
+   
+   [sub_resource type="Resource" id="Resource_buy"]
+   script = ExtResource("1")
+   
+   [sub_resource type="Resource" id="Resource_equip"]
+   script = ExtResource("3")
+   orbit_radius = 150.0
+   rotation_speed = 19.0
+   brush_radius = 4
+   
+   [sub_resource type="Resource" id="Resource_pickup"]
+   script = ExtResource("4")
+   
+   [resource]
+   script = ExtResource("6")
+   itemID = "water_spirit_12_spinel"
+   itemName = "Spinel Water Spirit"
+Found: water_spirit_13_uranium.tres
+   [gd_resource type="Resource" script_class="Item" load_steps=8 format=3]
+   
+   [ext_resource type="Script" path="res://resources/BuyEffects/Scripts/AddToInventory.gd" id="1"]
+   [ext_resource type="Texture2D" path="res://assets/Equipment/kicks/kick_04_sapphire.png" id="2"]
+   [ext_resource type="Script" path="res://mods-unpacked/gareth-water_spirit_mod/scripts/water_spirit_equip.gd" id="3"]
+   [ext_resource type="Script" path="res://resources/PickupEffects/Scripts/PickupToInventory.gd" id="4"]
+   [ext_resource type="AudioStream" path="res://assets/sound/sound effects/pickup.wav" id="5"]
+   [ext_resource type="Script" path="res://resources/Items/Scripts/Item.gd" id="6"]
+   
+   [sub_resource type="Resource" id="Resource_buy"]
+   script = ExtResource("1")
+   
+   [sub_resource type="Resource" id="Resource_equip"]
+   script = ExtResource("3")
+   orbit_radius = 170.0
+   rotation_speed = 20.0
+   brush_radius = 4
+   
+   [sub_resource type="Resource" id="Resource_pickup"]
+   script = ExtResource("4")
+   
+   [resource]
+   script = ExtResource("6")
+   itemID = "water_spirit_13_uranium"
+   itemName = "Uranium Water Spirit"
+Found: water_spirit_14_moonstone.tres
+   [gd_resource type="Resource" script_class="Item" load_steps=8 format=3]
+   
+   [ext_resource type="Script" path="res://resources/BuyEffects/Scripts/AddToInventory.gd" id="1"]
+   [ext_resource type="Texture2D" path="res://assets/Equipment/kicks/kick_04_sapphire.png" id="2"]
+   [ext_resource type="Script" path="res://mods-unpacked/gareth-water_spirit_mod/scripts/water_spirit_equip.gd" id="3"]
+   [ext_resource type="Script" path="res://resources/PickupEffects/Scripts/PickupToInventory.gd" id="4"]
+   [ext_resource type="AudioStream" path="res://assets/sound/sound effects/pickup.wav" id="5"]
+   [ext_resource type="Script" path="res://resources/Items/Scripts/Item.gd" id="6"]
+   
+   [sub_resource type="Resource" id="Resource_buy"]
+   script = ExtResource("1")
+   
+   [sub_resource type="Resource" id="Resource_equip"]
+   script = ExtResource("3")
+   orbit_radius = 190.0
+   rotation_speed = 22.0
+   brush_radius = 5
+   
+   [sub_resource type="Resource" id="Resource_pickup"]
+   script = ExtResource("4")
+   
+   [resource]
+   script = ExtResource("6")
+   itemID = "water_spirit_14_moonstone"
+   itemName = "Moonstone Water Spirit"
+Found: water_spirit_15_onyx.tres
+   [gd_resource type="Resource" script_class="Item" load_steps=8 format=3]
+   
+   [ext_resource type="Script" path="res://resources/BuyEffects/Scripts/AddToInventory.gd" id="1"]
+   [ext_resource type="Texture2D" path="res://assets/Equipment/kicks/kick_04_sapphire.png" id="2"]
+   [ext_resource type="Script" path="res://mods-unpacked/gareth-water_spirit_mod/scripts/water_spirit_equip.gd" id="3"]
+   [ext_resource type="Script" path="res://resources/PickupEffects/Scripts/PickupToInventory.gd" id="4"]
+   [ext_resource type="AudioStream" path="res://assets/sound/sound effects/pickup.wav" id="5"]
+   [ext_resource type="Script" path="res://resources/Items/Scripts/Item.gd" id="6"]
+   
+   [sub_resource type="Resource" id="Resource_buy"]
+   script = ExtResource("1")
+   
+   [sub_resource type="Resource" id="Resource_equip"]
+   script = ExtResource("3")
+   orbit_radius = 220.0
+   rotation_speed = 24.0
+   brush_radius = 6
+   
+   [sub_resource type="Resource" id="Resource_pickup"]
+   script = ExtResource("4")
+   
+   [resource]
+   script = ExtResource("6")
+   itemID = "water_spirit_15_onyx"
+   itemName = "Onyx Water Spirit"
 
-Discovery Phase 40 complete. Zero files modified.
+=================================================================
+>>> 3. Inspecting get_all_installed_mods in mod_registry.gd...
+=================================================================
+    1: class_name ModRegistry
+    2: extends RefCounted
+    3: 
+    4: static func get_all_installed_mods() -> Array[Dictionary]:
+    5:  var result: Array[Dictionary] = []
+    6:  var root = Engine.get_main_loop().root
+    7:  var store = root.get_node_or_null("ModLoaderStore")
+    8:  if not store or not ("mod_data" in store):
+    9:          return result
+   10: 
+   11:  for mod_id in store.mod_data.keys():
+   12:          var data = store.mod_data[mod_id]
+   13:          if not data or not ("manifest" in data) or not data.manifest:
+   14:                  continue
+   15:          var m = data.manifest
+   16: 
+   17:          var clean_name: String = _format_display_name(m)
+   18:          var author: String = _format_author(m)
+   19:          var cat: String = _determine_category(m)
+   20: 
+   21:          result.append({
+   22:                  "id": mod_id,
+   23:                  "key": m.name.trim_suffix("_mod"),
+   24:                  "name": clean_name,
+   25:                  "author": author,
+   26:                  "version": m.version_number,
+   27:                  "description": m.description if m.description != "" else "Installed community mod package.",
+   28:                  "category": cat,
+   29:                  "is_core": (mod_id in ["gareth-mod_manager_mod", "gareth-multisave_mod"])
+   30:          })
+   31: 
+   32:  return result
+   33: 
+   34: static func _format_display_name(manifest) -> String:
+   35:  var name_str: String = manifest.name
+   36:  name_str = name_str.trim_suffix("_mod")
+   37:  var parts := name_str.split("_")
+   38:  var capitalized: Array[String] = []
+   39:  for p in parts:
+   40:          if p.length() > 0:
+   41:                  capitalized.append(p.capitalize())
+   42:  return " ".join(capitalized)
+   43: 
+   44: static func _format_author(manifest) -> String:
+   45:  if manifest.authors.size() > 0 and manifest.authors[0] != "":
+   46:          return manifest.authors[0]
+   47:  if manifest.mod_namespace != "":
+   48:          return manifest.mod_namespace
+   49:  return "Community"
+   50: 
+   51: static func _determine_category(manifest) -> String:
+   52:  var n: String = manifest.name.to_lower()
+   53:  var tags: PackedStringArray = manifest.tags
+   54: 
+   55:  for t in tags:
+   56:          var low := t.to_lower()
+   57:          if low in ["hardcore", "mutator", "hazard"]:
+   58:                  return "Hardcore Mutators"
+   59:          if low in ["weapon", "explosive", "combat", "gun"]:
+   60:                  return "Weapons & Explosives"
+   61:          if low in ["automation", "workforce", "employee", "collector"]:
+   62:                  return "Workforce & Automation"
+   63:          if low in ["progression", "inventory", "strata", "depth"]:
+   64:                  return "Progression & Upgrades"
+   65:          if low in ["performance", "limits", "system"]:
+
+=================================================================
+>>> 4. Inspecting Turret Mod entity targeting and firing logic...
+=================================================================
+   class_name HeavyTurretEntity
+   extends Node2D
+   
+   var fire_timer: float = 0.0
+   const FIRE_INTERVAL: float = 0.35
+   const DETECTION_RANGE: float = 350.0
+   const DAMAGE: float = 40.0
+   
+   var sprite: Sprite2D
+   var tilemap: TileMapManager
+   
+   func _ready() -> void:
+        sprite = Sprite2D.new()
+        if ResourceLoader.exists("res://assets/Equipment/vehicles/tank_turret.png"):
+                sprite.texture = load("res://assets/Equipment/vehicles/tank_turret.png")
+        add_child(sprite)
+   
+   func _physics_process(delta: float) -> void:
+        fire_timer += delta
+        if fire_timer >= FIRE_INTERVAL:
+                fire_timer = 0.0
+                _acquire_and_fire()
+   
+   func _acquire_and_fire() -> void:
+        if not tilemap and Game and Game.player:
+                tilemap = Game.player.tilemap
+        if not tilemap:
+                return
+   
+        var center := tilemap.local_to_map(global_position)
+        var best_target: Vector2i = Vector2i.ZERO
+        var found: bool = false
+   
+        for r in range(1, 12):
+                for dx in range(-r, r + 1):
+                        for dy in range(-r, r + 1):
+                                var check_pos := center + Vector2i(dx, dy)
+                                if tilemap.is_tile_collision(check_pos):
+                                        best_target = check_pos
+                                        found = true
+                                        break
+                        if found:
+                                break
+                if found:
+                        break
+   
+        if found:
+                var target_world := tilemap.map_to_local(best_target)
+                sprite.rotation = (target_world - global_position).angle()
+                tilemap.damage_tile(best_target, DAMAGE)
+
+=================================================================
+>>> 5. Inspecting tile_map_layer_main.gd for map boundaries & center...
+=================================================================
+
+Discovery Phase 43 complete. Zero files modified.
 PS C:\Dev\coal-llc-mods> 

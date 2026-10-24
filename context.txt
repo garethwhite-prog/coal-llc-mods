@@ -2,41 +2,41 @@
  M output.txt
 
 === RECENT COMMITS ===
-d185f51 Fix speed controller player detection and expand mod registry categories for all 56 mods
-daff30b Add knight worker passives, fix camera player viewport lock, and implement game speed & shift finisher mod
-b9f8c46 Fix chest_variance_mod hook registration and add live roll logging
+7090709 Part 7: Implement Elemental Airstrikes Triad Mod (Dragon Fire, Water Bomber, Agent Orange Poison)
+3793b9d Part 6: Implement Daytime Scrap & Amazon Delivery Mod (gareth-scrap_and_delivery_mod)
+6f9dffa Part 5: Implement Employee Passives Mod (Miner Range, Miner Pickup Speed, Collector Range)
 
-=== SESSION ERRORS & WARNINGS (54 found) ===
-ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: <Tween#-9223344105810016020>: started with no Tweeners.
-SCRIPT ERROR: Trying to call an async function without "await".
+=== SESSION ERRORS & WARNINGS (5106 found) ===
+SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
+SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
+SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
+SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
+SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
+SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
+SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
+SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
+ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+ERROR: Child is not a child of this node.
+SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
 SCRIPT ERROR: Trying to call an async function without "await".
 SCRIPT ERROR: Trying to call an async function without "await".
 SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
 SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
 SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
 SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+ERROR: Child is not a child of this node.
 ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
 ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
 ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
 ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-ERROR: <Tween#-9223291833692375598>: started with no Tweeners.
-ERROR: <Tween#-9223291818592942150>: started with no Tweeners.
-ERROR: <Tween#-9223291804416132263>: started with no Tweeners.
-ERROR: <Tween#-9223291787269878385>: started with no Tweeners.
-ERROR: <Tween#-9223291774888292615>: started with no Tweeners.
-ERROR: <Tween#-9223291760778655814>: started with no Tweeners.
-ERROR: <Tween#-9223291742071998414>: started with no Tweeners.
-ERROR: <Tween#-9223291678603853518>: started with no Tweeners.
-ERROR: <Tween#-9223291669795811592>: started with no Tweeners.
 SCRIPT ERROR: Trying to call an async function without "await".
-ERROR: 42 RID allocations of type 'N10RendererRD12LightStorage11ShadowAtlasE' were leaked at exit.
-ERROR: 42 RID allocations of type 'N10RendererRD14TextureStorage12RenderTargetE' were leaked at exit.
-ERROR: 167 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-ERROR: 42 RID allocations of type 'N16RendererViewport8ViewportE' were leaked at exit.
-ERROR: 1292 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
-ERROR: 4 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
-ERROR: 177 resources still in use at exit (run with --verbose for details).
+ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+ERROR: Child is not a child of this node.
+ERROR: 66 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+ERROR: 12 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
+ERROR: 174 resources still in use at exit (run with --verbose for details).
 
 === ACTIVE MOD LOG ENTRIES (13 found) ===
 	 - C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mods/gareth-tectonic_faultline_mod.zip
@@ -45,42 +45,42 @@ SUCCESS ModLoader: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal L
 DEBUG ModLoader:Config: No config for mod id "gareth-tectonic_faultline_mod"
 DEBUG ModLoader:Dependency: Checking dependencies - mod_id: gareth-tectonic_faultline_mod optional dependencies: []
 DEBUG ModLoader:Dependency: Checking dependencies - mod_id: gareth-tectonic_faultline_mod required dependencies: []
-INFO ModLoader: mod_load_order -> 23) gareth-tectonic_faultline_mod
+INFO ModLoader: mod_load_order -> 25) gareth-tectonic_faultline_mod
 INFO ModLoader: Initializing -> gareth-tectonic_faultline_mod
 DEBUG ModLoader: Loading script from -> res://mods-unpacked/gareth-tectonic_faultline_mod/mod_main.gd
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Mod initializing...
-DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultline_mod:<Node#833055895612>
-  "gareth-tectonic_faultline_mod": "<Resource#-9223371948002638227>",
+DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultline_mod:<Node#844212744312>
+  "gareth-tectonic_faultline_mod": "<Resource#-9223371946039703940>",
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Custom Map Mod (ID 102) online!
 
 === LOG TAIL (LAST 30 LINES) ===
-   at: step (scene/animation/tween.cpp:355)
-INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Sword Speed +15.0%
-ERROR: <Tween#-9223291678603853518>: started with no Tweeners.
-   at: step (scene/animation/tween.cpp:355)
-ERROR: <Tween#-9223291669795811592>: started with no Tweeners.
-   at: step (scene/animation/tween.cpp:355)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (1304.906, -56.05223)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (1304.906, -56.05223)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (1304.906, -56.05223)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (807.1577, -56.05228)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (259.9068, -56.05228)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (147.1561, -56.05228)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (138.9171, -56.05228)
 end day
 SCRIPT ERROR: Trying to call an async function without "await".
    at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
-Day Count: 3
-Days Passed: 2
+Day Count: 1
+Days Passed: 0
 INFO gareth-more_employees_mod: Workforce chart initialized cleanly.
+ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+   at: add_child (scene/main/node.cpp:1657)
+ERROR: Child is not a child of this node.
+   at: move_child (scene/main/node.cpp:465)
 say_game_has_been_saved() function running
 finished turning on
-WARNING: 42 RIDs of type "Canvas" were leaked.
+WARNING: 9 RIDs of type "CanvasItem" were leaked.
    at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2679)
-WARNING: 334 RIDs of type "CanvasItem" were leaked.
-   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2679)
-ERROR: 42 RID allocations of type 'N10RendererRD12LightStorage11ShadowAtlasE' were leaked at exit.
-ERROR: 42 RID allocations of type 'N10RendererRD14TextureStorage12RenderTargetE' were leaked at exit.
-ERROR: 167 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-ERROR: 42 RID allocations of type 'N16RendererViewport8ViewportE' were leaked at exit.
-WARNING: 316 RIDs of type "Texture" were leaked.
+ERROR: 66 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+WARNING: 116 RIDs of type "Texture" were leaked.
    at: finalize (servers/rendering/rendering_device.cpp:7130)
-ERROR: 1292 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
-ERROR: 4 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
+ERROR: 12 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
 WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
    at: cleanup (core/object/object.cpp:2378)
-ERROR: 177 resources still in use at exit (run with --verbose for details).
+ERROR: 174 resources still in use at exit (run with --verbose for details).
    at: clear (core/io/resource.cpp:614)

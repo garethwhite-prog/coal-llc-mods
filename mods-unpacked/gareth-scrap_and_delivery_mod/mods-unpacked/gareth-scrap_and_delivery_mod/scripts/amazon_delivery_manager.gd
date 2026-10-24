@@ -38,10 +38,10 @@ func _build_ui() -> void:
 	hud_btn.text = "📦 Amazon"
 	hud_btn.anchor_left = 1.0
 	hud_btn.anchor_right = 1.0
-	hud_btn.offset_left = -348.0
-	hud_btn.offset_right = -268.0
-	hud_btn.offset_top = 16.0
-	hud_btn.offset_bottom = 54.0
+	hud_btn.offset_left = -110.0
+	hud_btn.offset_right = -16.0
+	hud_btn.anchor_top = 1.0; hud_btn.anchor_bottom = 1.0; hud_btn.offset_top = -94.0
+	hud_btn.offset_bottom = -58.0
 	hud_btn.modulate = Color(1.0, 0.85, 0.3, 1.0)
 	hud_btn.tooltip_text = "Open Amazon Same-Day Emergency Delivery (Hotkey B)"
 	hud_btn.pressed.connect(toggle_store)
@@ -140,7 +140,7 @@ func _process(delta: float) -> void:
 	var player_node: Node2D = null
 	if tree and tree.root:
 		player_node = tree.root.find_child("Player", true, false)
-		in_game = is_instance_valid(player_node)
+		in_game = is_instance_valid(player_node) and (Game and Gconsts and ("Stages" in Gconsts) and Game.stage == Gconsts.Stages._IN_GAME)
 
 	if hud_btn:
 		hud_btn.visible = in_game
@@ -358,3 +358,4 @@ func show_toast(msg: String) -> void:
 				if is_instance_valid(toast_label):
 					toast_label.visible = false
 			)
+
