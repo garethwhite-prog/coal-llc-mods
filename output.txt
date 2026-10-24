@@ -37,3 +37,29 @@ To https://github.com/garethwhite-prog/coal-llc-mods.git
 
 Commit 1 complete!
 PS C:\Dev\coal-llc-mods> 
+
+>>> 1. Terminating running Coal LLC / Godot processes...
+
+>>> 2. Writing shop_item_card.hooks.gd (0g purchase & affordability)...
+
+>>> 3. Adding affordable filter hook to equipment_shop...
+
+>>> 4. Expanding amazon_delivery_manager.gd (Slots, Vacuums, Stacks, Scrapping)...
+  Repacked: gareth-mod_manager_mod.zip
+  Repacked: gareth-scrap_and_delivery_mod.zip
+[main 36d7bac] Commit 2: Store upgrades (0g free purchase, Affordable Only filters, Amazon Slots/Vacuums/Stacks, and daytime gear scrapping)
+ 5 files changed, 705 insertions(+), 683 deletions(-)
+ create mode 100644 mods-unpacked/gareth-mod_manager_mod/mods-unpacked/gareth-mod_manager_mod/extensions/scenes/Interfaces/Management/equipment_shop.hooks.gd
+Enumerating objects: 33, done.
+Counting objects: 100% (33/33), done.
+Delta compression using up to 24 threads
+Compressing objects: 100% (18/18), done.
+Writing objects: 100% (19/19), 7.33 KiB | 1.22 MiB/s, done.
+Total 19 (delta 6), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (6/6), completed with 5 local objects.
+To https://github.com/garethwhite-prog/coal-llc-mods.git
+   9d722b3..36d7bac  main -> main
+
+Commit 2 complete!
+PS C:\Dev\coal-llc-mods> 
+
