@@ -1,71 +1,34 @@
-﻿=================================================================
->>> 1. Locating ShopItemCard script & properties (case-insensitive)...
-=================================================================
-Found: \scenes\Interfaces\Management\shop_item_card.gd
-  1: class_name ShopItemCard
-  2: extends PanelContainer
-  3: 
-  4: signal shop_button_pressed()
-  5: 
-  6: 
-  7: 
-  8: 
-  9: 
- 10: const SHOP_ITEM_TOOLTIP = preload("res://scenes/Interfaces/Management/shop_item_tooltip.tscn")
- 11: 
- 12: @export var item: Item
- 13: 
- 14: @onready var item_texture: TextureRect = %ItemTexture
- 15: @onready var effect_texture: TextureRect = %EffectTexture
- 16: @onready var itemName: RichTextLabel = %Name
- 17: @onready var price: RichTextLabel = %Price
- 18: 
- 19: @onready var tooltip: Node2D = %tooltip
- 20: @onready var demo_locked_panel: PanelContainer = %DemoLockedPanel
- 21: @onready var purchase_button: UniversalButton = %PurchaseButton
- 22: @onready var custom_amount: CustomAmount = %CustomAmount
- 23: @onready var purchase_custom_amount: Control = %PurchaseCustomAmount
- 24: 
- 25: 
- 26: static var last_custom_value: int = 5
- 27: 
- 28: var contains_mouse: bool = false
- 29: var purchaseable: bool = true
- 30: var tooltip_instance: ShopItemTooltip
- 31: 
- 32: func _ready() -> void :
- 33:     purchase_custom_amount.top_level = true
- 34: 
- 35:     refreshDetails()
+﻿>>> 1. Terminating running Coal LLC / Godot instances...
 
-=================================================================
->>> 2. Finding explosion / detonation scripts across the entire dump...
-=================================================================
-  \scenes\AutoMiners\multi_miner_flying.gd:240 -> tilemap.damageTileCoords(tgt, employee_level.equipment.Strength * (1 + current_buff) * (attacks_per_tile) * (1 + Gvars.passives.employee_miner_damage))
-  \scenes\AutoMiners\multi_miner_flying.gd:244 -> tilemap.damageTileCoords(tile, employee_level.equipment.Strength * employee_level.aoe_damage * (attacks_per_tile) * (1 + Gvars.passives.employee_miner_damage))
-  \scenes\AutoMiners\multi_miner.gd:330 -> tilemap.damageTileCoords(tgt, damages[tgt])
-  \scenes\AutoMiners\multi_miner.gd:333 -> tilemap.damageTileCoords(tgt, base_damage)
-  \scenes\equipment\axe.gd:68 -> tilemap.damageTileCoords(tile, damage)
-  \scenes\equipment\battleaxe.gd:51 -> tilemap.damageTileCoords(tile, damage)
-  \scenes\equipment\boxing_gloves.gd:72 -> tilemap.damageTileCoords(_attack_tile, damage * (1 + Gvars.passives.punch_damage) * count)
-  \scenes\equipment\electric_shock.gd:57 -> tilemap.damageTileCoords(tile, _current_damage)
+>>> 2. Updating vacuum_depot LootCollectorUFO.hooks.gd...
+  Updated: LootCollectorUFO.hooks.gd
 
-=================================================================
->>> 3. Inspecting Chest.gd for global_position and tilemap access...
-=================================================================
-   Line 64: @onready var sprite_open: Sprite2D = $SpriteOpen
-   Line 65: @onready var sprite_closed: Sprite2D = $SpriteClosed
-   Line 66: @onready var sprite_empty: Sprite2D = $SpriteEmpty
-   Line 67: @onready var chest_open: AudioStreamPlayer = $ChestOpen
-   Line 68: @onready var pickup: AudioStreamPlayer = $Pickup
-   Line 69: @onready var god_rays: Sprite2D = %GodRays
-   Line 81: func _ready() -> void :
+>>> 3. Installing custom profession serializer in mod_manager Gvars.hooks.gd...
+  Updated: Gvars.hooks.gd
 
-=================================================================
->>> 4. Checking Gvars.hooks.gd registration in ModLoader...
-=================================================================
-Found existing Gvars hook: \mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\extensions\scripts\Gvars.hooks.gd
-Found existing Gvars hook: \mods-unpacked\gareth-multisave_mod\mods-unpacked\gareth-multisave_mod\extensions\scripts\Gvars.hooks.gd
+>>> 4. Purging mod-hooks.zip...
+  Removed: C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mod-hooks.zip
 
-Discovery Phase 24 complete. Zero files modified.
+>>> 5. Repackaging modified mods...
+  Repacked: gareth-vacuum_depot_mod.zip
+  Repacked: gareth-mod_manager_mod.zip
+
+>>> 6. Staging, committing and pushing Part 1 to GitHub...
+warning: in the working copy of 'context.txt', LF will be replaced by CRLF the next time Git touches it
+[main 155b8c9] Part 1: Fix custom profession save serialization and restore vacuum depot UFO redirection
+ 6 files changed, 371 insertions(+), 459 deletions(-)
+Enumerating objects: 32, done.
+Counting objects: 100% (32/32), done.
+Delta compression using up to 24 threads
+Compressing objects: 100% (18/18), done.
+Writing objects: 100% (19/19), 8.73 KiB | 1.75 MiB/s, done.
+Total 19 (delta 5), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (5/5), completed with 5 local objects.
+To https://github.com/garethwhite-prog/coal-llc-mods.git
+   1dc76d3..155b8c9  main -> main
+
+Part 1 deployment complete!
 PS C:\Dev\coal-llc-mods> 
+
+--------
+

@@ -1,6 +1,15 @@
-﻿extends Node
+extends Node
 
 const MOD_DIR := "gareth-water_spirit_mod"
+
+func _load_image_texture(path: String) -> Texture2D:
+	if FileAccess.file_exists(path):
+		var buffer = FileAccess.get_file_as_bytes(path)
+		if buffer.size() > 0:
+			var img = Image.new()
+			if img.load_png_from_buffer(buffer) == OK:
+				return ImageTexture.create_from_image(img)
+	return null
 
 func _ready() -> void:
 	var item_unlocks = load("res://resources/unlockable_items/scripts/item_unlocks.tres")
@@ -18,10 +27,9 @@ func _ready() -> void:
 		if ResourceLoader.exists(item_path):
 			var item = load(item_path)
 			var tex_path := "res://mods-unpacked/gareth-water_spirit_mod/textures/spirit_%s.png" % t
-			if FileAccess.file_exists(tex_path):
-				var img = Image.load_from_file(tex_path)
-				if img:
-					item.itemTexture = ImageTexture.create_from_image(img)
+			var custom_tex = _load_image_texture(tex_path)
+			if custom_tex and item:
+				item.itemTexture = custom_tex
 			if item and not (item in item_unlocks.all_equipment_items):
 				item_unlocks.all_equipment_items.append(item)
 			if item and not (item in item_unlocks.all_items):

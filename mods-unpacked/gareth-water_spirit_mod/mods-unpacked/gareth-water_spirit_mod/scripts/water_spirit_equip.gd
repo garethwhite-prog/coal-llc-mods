@@ -5,22 +5,21 @@ extends EquipEffect
 @export var rotation_speed: float = 12.0
 @export var brush_radius: int = 1
 
-func start(_player, _item):
-	pass
+var held_item_texture: Texture2D = null
+
+func start(_player, item):
+	if item and item.itemTexture:
+		held_item_texture = item.itemTexture
 
 func end(_player):
-	# Mirrors vanilla roundhouse kick: switching hotbar weapons leaves the active companion running
+	# Persistent companion pattern: hotbar swapping leaves the spirit node active
 	pass
 
 func physics_process(player, _delta):
 	if not player:
 		return
 
-	var toggle_pressed: bool = false
 	if Input.is_action_just_pressed("useItem") or Input.is_action_just_pressed("toggle_use_item"):
-		toggle_pressed = true
-
-	if toggle_pressed:
 		var existing = player.get_node_or_null("ActiveWaterSpirit")
 		if existing and is_instance_valid(existing):
 			existing.queue_free()
@@ -36,6 +35,7 @@ func _spawn_spirit(player) -> void:
 	spirit.rotation_speed = rotation_speed
 	spirit.brush_radius = brush_radius
 	spirit.player = player
+	spirit.fairy_texture = held_item_texture
 	if "tilemap" in player:
 		spirit.tilemap = player.tilemap
 
