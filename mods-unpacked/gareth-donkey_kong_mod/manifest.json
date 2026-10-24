@@ -4,6 +4,22 @@
   "version_number": "1.0.0",
   "description": "Surface gorilla hazard patrols ground level and tosses rolling barrels down mine pits. 5-second stun on impact.",
   "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
-  "dependencies": ["gareth-mod_manager_mod"],
-  "extra": { "godot": { "display_name": "Donkey Kong Surface Hazard", "category": "Weapons & Arsenal", "authors": ["Gareth White"], "compatible_mod_loader_version": ["7.0.1"] } }
+  "dependencies": [
+    "gareth-mod_manager_mod"
+  ],
+  "extra": {
+    "godot": {
+      "display_name": "Donkey Kong Surface Hazard",
+      "category": "Weapons & Arsenal",
+      "authors": [
+        "Gareth White"
+      ],
+      "compatible_mod_loader_version": [
+        "7.0.1"
+      ],
+      "compatible_game_version": [
+        "1.4.1.1"
+      ]
+    }
+  }
 }

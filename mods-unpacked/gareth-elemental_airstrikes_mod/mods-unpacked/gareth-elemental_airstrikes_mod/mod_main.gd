@@ -1,3 +1,4 @@
+const Textures = preload("res://mods-unpacked/gareth-elemental_airstrikes_mod/scripts/texture_factory.gd")
 extends Node
 
 const MOD_DIR := "gareth-elemental_airstrikes_mod"
@@ -24,7 +25,7 @@ func _register_elemental_items() -> void:
 	d_item.itemType = "equipment"
 	d_item.itemBuyPrice = 45000.0
 	d_item.itemSellPrice = 22500.0
-	d_item.itemTexture = ElementalAirstrikeTextures.create_dragon_texture()
+	d_item.itemTexture = Textures.create_dragon_texture()
 	item_unlocks.all_equipment_items.append(d_item)
 
 	var w_item = Item.new()
@@ -34,7 +35,7 @@ func _register_elemental_items() -> void:
 	w_item.itemType = "equipment"
 	w_item.itemBuyPrice = 35000.0
 	w_item.itemSellPrice = 17500.0
-	w_item.itemTexture = ElementalAirstrikeTextures.create_water_bomber_texture()
+	w_item.itemTexture = Textures.create_water_bomber_texture()
 	item_unlocks.all_equipment_items.append(w_item)
 
 	var p_item = Item.new()
@@ -44,5 +45,6 @@ func _register_elemental_items() -> void:
 	p_item.itemType = "equipment"
 	p_item.itemBuyPrice = 55000.0
 	p_item.itemSellPrice = 27500.0
-	p_item.itemTexture = ElementalAirstrikeTextures.create_agent_orange_texture()
+	p_item.itemTexture = Textures.create_agent_orange_texture()
 	item_unlocks.all_equipment_items.append(p_item)
+

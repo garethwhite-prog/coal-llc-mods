@@ -6,15 +6,44 @@ func refreshDetails(chain: ModLoaderHookChain) -> void:
 	if not is_instance_valid(card) or not ("item" in card) or not card.item:
 		return
 
-	# Enable zero-cost items at 0g cash
-	if card.purchaseable and (card.item.itemBuyPrice <= 0.0 or Gvars.CashCount >= card.item.itemBuyPrice):
+	# Sanitize NaN cash
+	if Gvars and is_nan(Gvars.CashCount):
+		Gvars.CashCount = 0.0
+
+	var cost: float = float(card.item.itemBuyPrice)
+	if card.purchaseable and (cost <= 0.0 or Gvars.CashCount >= cost):
 		if "purchase_button" in card and is_instance_valid(card.purchase_button):
 			card.purchase_button.disabled = false
 
-	# "Show Only Affordable" filter toggle support
 	if Gvars and ("show_only_affordable" in Gvars) and Gvars.show_only_affordable:
-		if card.item.itemBuyPrice > Gvars.CashCount and card.item.itemBuyPrice > 0.0:
+		if cost > Gvars.CashCount and cost > 0.0:
 			card.visible = false
+
+func _on_purchase_button_pressed(chain: ModLoaderHookChain) -> void:
+	var card = chain.reference_object
+	if not is_instance_valid(card) or not ("item" in card) or not card.item:
+		chain.execute_next([])
+		return
+
+	if Gvars and is_nan(Gvars.CashCount):
+		Gvars.CashCount = 0.0
+
+	var cost: float = float(card.item.itemBuyPrice)
+	if card.purchaseable and (cost <= 0.0 or Gvars.CashCount >= cost):
+		if card.item.itemBuyEffect:
+			card.item.itemBuyEffect.buy_effect(card.item, 1)
+		else:
+			var inv: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
+			if inv:
+				inv.addToInventory(card.item, 1)
+
+		if cost > 0.0:
+			Gvars.CashCount = max(0.0, Gvars.CashCount - cost)
+		card.refreshDetails()
+		card.shop_button_pressed.emit()
+		return
+
+	chain.execute_next([])
 
 func _on_purchase_button_gui_input(chain: ModLoaderHookChain, event: InputEvent) -> void:
 	var card = chain.reference_object
@@ -22,10 +51,13 @@ func _on_purchase_button_gui_input(chain: ModLoaderHookChain, event: InputEvent)
 		chain.execute_next([event])
 		return
 
+	if Gvars and is_nan(Gvars.CashCount):
+		Gvars.CashCount = 0.0
+
 	if event.is_action_released("rightMouseClick"):
-		if card.purchaseable and (card.item.itemBuyPrice <= 0.0 or Gvars.CashCount >= card.item.itemBuyPrice):
+		var cost: float = float(card.item.itemBuyPrice)
+		if card.purchaseable and (cost <= 0.0 or Gvars.CashCount >= cost):
 			card.purchase_custom_amount.global_position = card.global_position
-			var cost: float = float(card.item.itemBuyPrice)
 			if cost <= 0.0:
 				card.custom_amount.max_value = 1.0
 			else:

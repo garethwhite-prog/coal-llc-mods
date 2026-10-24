@@ -1,87 +1,69 @@
-﻿>>> 1. Terminating running Coal LLC / Godot processes...
-
->>> 2. Restoring is_mod_active_for_run in mod_registry.gd...
-  Restored: mod_registry.gd
-
->>> 3. Updating speed_controller.gd with robust stage detection...
-
->>> 4. Updating PauseMenu.hooks.gd with Mod Manager & Leaderboards...
-
->>> 5. Persisting learnings to docs/KNOWN_REGRESSIONS_AND_MISTAKES.md...
-  Documented: docs/KNOWN_REGRESSIONS_AND_MISTAKES.md
-
->>> 6. Expanding tests/test_runner.ps1 with regression assertions...
+﻿=================================================================
+>>> 1. Inspecting AddToInventory.gd in full...
 =================================================================
->>> COAL LLC CI/CD: Automated Regression & Sanity Verification
+   extends BuyEffect
+   
+   class_name AddToInventory
+   
+   
+   func buy_effect(shop_item: Item, count: int) -> void :
+   
+       var possible_count = get_max_count(shop_item.itemBuyPrice, count)
+   
+       if ((Gvars.CashCount - shop_item.itemBuyPrice) >= 0):
+           var inventory: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
+           var added = inventory.addToInventory(shop_item, possible_count)
+           if added != 0:
+               Gvars.CashCount -= shop_item.itemBuyPrice * added
+   
+   
+   func get_max_count(price: float, count: float) -> float:
+   
+       var _max = floor(Gvars.CashCount / price)
+       return min(_max, count)
+
 =================================================================
-  [PASS] mod_registry.gd satisfies is_mod_active_for_run interface
+>>> 2. Inspecting ModLoader properties for mod data in mod_loader.gd...
 =================================================================
->>> ALL REGRESSION CHECKS PASSED (Warnings: 0, Errors: 0)
-  Repacked: gareth-mod_manager_mod.zip
-  Repacked: gareth-game_speed_mod.zip
-  Repacked: gareth-knight_class_mod.zip
-warning: in the working copy of 'context.txt', LF will be replaced by CRLF the next time Git touches it
-[main 9d722b3] Commit 1: Restore is_mod_active_for_run, unbreak Knight registration and tile damage, add Pause Menu mod buttons, and enforce regression tests
- 9 files changed, 584 insertions(+), 766 deletions(-)
- create mode 100644 docs/KNOWN_REGRESSIONS_AND_MISTAKES.md
- create mode 100644 tests.txt
-Enumerating objects: 42, done.
-Counting objects: 100% (42/42), done.
-Delta compression using up to 24 threads
-Compressing objects: 100% (19/19), done.
-Writing objects: 100% (24/24), 11.33 KiB | 1.89 MiB/s, done.
-Total 24 (delta 10), reused 0 (delta 0), pack-reused 0 (from 0)
-remote: Resolving deltas: 100% (10/10), completed with 9 local objects.
-To https://github.com/garethwhite-prog/coal-llc-mods.git
-   985f9be..9d722b3  main -> main
 
-Commit 1 complete!
-PS C:\Dev\coal-llc-mods> 
+=================================================================
+>>> 3. Inspecting left-click purchase in shop_item_card.gd...
+=================================================================
+   91:         item_texture.modulate = Color(1, 1, 1, 1)
+   92: 
+   93:     custom_amount.cost_per_item = item.itemBuyPrice
+   94: 
+   95: 
+   96: 
+   97: func _on_purchase_button_pressed() -> void :
+   98:     if purchaseable and (Gvars.CashCount >= item.itemBuyPrice):
+   99: 
+  100:         item.itemBuyEffect.buy_effect(item, 1)
+  101:         refreshDetails()
+  102:         shop_button_pressed.emit()
+  103: 
+  104: 
+  105: func _on_purchase_button_gui_input(event: InputEvent) -> void :
+  106:     if purchaseable and (Gvars.CashCount >= item.itemBuyPrice):
+  107:         if event.is_action_released("rightMouseClick"):
+  108:             purchase_custom_amount.global_position = global_position
+  109:             @warning_ignore("integer_division")
+  110:             custom_amount.max_value = Gvars.CashCount / item.itemBuyPrice
+  111:             custom_amount.assign_value(last_custom_value)
+  112:             custom_amount.refresh_all()
+  113:             custom_amount.visible = true
+  114:             custom_amount.h_slider.grab_focus()
+  115: 
+  116: 
+  117: 
+  118: 
+  119: 
+  120: 
+  121: 
+  122: 
+  123: 
+  124: 
+  125: 
 
->>> 1. Terminating running Coal LLC / Godot processes...
-
->>> 2. Writing shop_item_card.hooks.gd (0g purchase & affordability)...
-
->>> 3. Adding affordable filter hook to equipment_shop...
-
->>> 4. Expanding amazon_delivery_manager.gd (Slots, Vacuums, Stacks, Scrapping)...
-  Repacked: gareth-mod_manager_mod.zip
-  Repacked: gareth-scrap_and_delivery_mod.zip
-[main 36d7bac] Commit 2: Store upgrades (0g free purchase, Affordable Only filters, Amazon Slots/Vacuums/Stacks, and daytime gear scrapping)
- 5 files changed, 705 insertions(+), 683 deletions(-)
- create mode 100644 mods-unpacked/gareth-mod_manager_mod/mods-unpacked/gareth-mod_manager_mod/extensions/scenes/Interfaces/Management/equipment_shop.hooks.gd
-Enumerating objects: 33, done.
-Counting objects: 100% (33/33), done.
-Delta compression using up to 24 threads
-Compressing objects: 100% (18/18), done.
-Writing objects: 100% (19/19), 7.33 KiB | 1.22 MiB/s, done.
-Total 19 (delta 6), reused 0 (delta 0), pack-reused 0 (from 0)
-remote: Resolving deltas: 100% (6/6), completed with 5 local objects.
-To https://github.com/garethwhite-prog/coal-llc-mods.git
-   9d722b3..36d7bac  main -> main
-
-Commit 2 complete!
-PS C:\Dev\coal-llc-mods> 
-
->>> 1. Terminating running Coal LLC / Godot processes...
-
->>> 2. Writing mod_store_client.gd...
-
->>> 3. Writing save_profile_sync.gd (mods_repository <-> mods)...
-  Repacked: gareth-mod_manager_mod.zip
-[main 8d8121a] Commit 3: Mod Store multi-repo aggregation (garethwhite-prog + Der-Floh), dual-folder staging (mods_repository), and per-save mod profile isolation
- 4 files changed, 223 insertions(+), 523 deletions(-)
- create mode 100644 mods-unpacked/gareth-mod_manager_mod/mods-unpacked/gareth-mod_manager_mod/scripts/mod_store_client.gd
- create mode 100644 mods-unpacked/gareth-mod_manager_mod/mods-unpacked/gareth-mod_manager_mod/scripts/save_profile_sync.gd
-Enumerating objects: 18, done.
-Counting objects: 100% (18/18), done.
-Delta compression using up to 24 threads
-Compressing objects: 100% (10/10), done.
-Writing objects: 100% (11/11), 4.84 KiB | 1.61 MiB/s, done.
-Total 11 (delta 4), reused 0 (delta 0), pack-reused 0 (from 0)
-remote: Resolving deltas: 100% (4/4), completed with 4 local objects.
-To https://github.com/garethwhite-prog/coal-llc-mods.git
-   36d7bac..8d8121a  main -> main
-
-Commit 3 complete!
+Discovery Phase 46 complete. Zero files modified.
 PS C:\Dev\coal-llc-mods> 

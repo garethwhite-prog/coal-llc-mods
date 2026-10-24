@@ -28,7 +28,6 @@ func _load_catalog() -> void:
 			if is_instance_valid(it):
 				all_shop_items.append(it)
 
-	# Include all bonus slots, stack expansions, and vacuums
 	var extra_paths = [
 		"res://resources/Items/BonusEffects/add_inventory_slots_1.tres",
 		"res://resources/Items/BonusEffects/add_inventory_slots_2.tres",
@@ -66,10 +65,10 @@ func _build_ui() -> void:
 	hud_btn.anchor_right = 1.0
 	hud_btn.anchor_top = 1.0
 	hud_btn.anchor_bottom = 1.0
-	hud_btn.offset_left = -110.0
-	hud_btn.offset_right = -16.0
-	hud_btn.offset_top = -90.0
-	hud_btn.offset_bottom = -54.0
+	hud_btn.offset_left = -264.0
+	hud_btn.offset_right = -170.0
+	hud_btn.offset_top = -48.0
+	hud_btn.offset_bottom = -12.0
 	hud_btn.modulate = Color(1.0, 0.85, 0.3, 1.0)
 	hud_btn.tooltip_text = "Open Amazon Same-Day Emergency Delivery (Hotkey B)"
 	hud_btn.pressed.connect(toggle_store)
@@ -99,7 +98,6 @@ func _build_ui() -> void:
 	toast_label.visible = false
 	canvas.add_child(toast_label)
 
-	# Enlarge Amazon Window (840x560)
 	store_window = PanelContainer.new()
 	store_window.name = "AmazonStoreWindow"
 	store_window.anchor_left = 0.5
@@ -147,7 +145,6 @@ func _build_ui() -> void:
 	sub_bar.add_child(btn_scrap_gear)
 	v_box.add_child(sub_bar)
 
-	# Search, Sort & Affordable Controls
 	var filter_bar = HBoxContainer.new()
 	search_box = LineEdit.new()
 	search_box.placeholder_text = "Search platforms, ladders, slots, stacks, vacuums, weapons..."
@@ -188,12 +185,19 @@ func _build_ui() -> void:
 func _process(delta: float) -> void:
 	var tree = get_tree()
 	var in_mining_shift := false
-	var player_node: Node2D = null
+	var player_char = null
 	if tree and tree.root:
-		player_node = tree.root.find_child("Player", true, false)
+		var players = tree.get_nodes_in_group("player")
+		if players.size() > 0 and players[0] is Node2D:
+			player_char = players[0]
+		else:
+			var candidate = tree.root.find_child("Player", true, false)
+			if candidate is Node2D:
+				player_char = candidate
+
 		var tm = tree.root.find_child("TileMapManager", true, false)
 		var pause = tree.root.find_child("PauseMenu", true, false)
-		in_mining_shift = is_instance_valid(player_node) and is_instance_valid(tm) and (not is_instance_valid(pause) or not pause.visible)
+		in_mining_shift = is_instance_valid(player_char) and is_instance_valid(tm) and (not is_instance_valid(pause) or not pause.visible)
 
 	if hud_btn:
 		hud_btn.visible = in_mining_shift
@@ -202,13 +206,15 @@ func _process(delta: float) -> void:
 		store_window.visible = false
 
 	if is_instance_valid(cash_label) and Gvars:
+		if is_nan(Gvars.CashCount):
+			Gvars.CashCount = 0.0
 		cash_label.text = "Wallet: $%.2f" % (Gvars.CashCount / 100.0)
 
-	_update_orders(delta, player_node)
+	_update_orders(delta, player_char)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
-		if event.keycode == KEY_B and hud_btn.visible:
+		if event.keycode == KEY_B and hud_btn and hud_btn.visible:
 			toggle_store()
 
 func toggle_store() -> void:
@@ -243,7 +249,6 @@ func _render_catalog() -> void:
 			continue
 		filtered.append(it)
 
-	# Sorting
 	var sort_mode = sort_dropdown.selected
 	if sort_mode == 1:
 		filtered.sort_custom(func(a, b): return a.itemBuyPrice < b.itemBuyPrice)
@@ -302,7 +307,7 @@ func _place_order(it: Item) -> void:
 	show_toast("📦 Order placed for %s! Parachute delivery in 10s." % it.itemName)
 	_render_catalog()
 
-func _update_orders(delta: float, player_node: Node2D) -> void:
+func _update_orders(delta: float, player_node) -> void:
 	if pending_orders.is_empty():
 		if queue_label and queue_label.visible:
 			queue_label.visible = false
@@ -328,14 +333,14 @@ func _update_orders(delta: float, player_node: Node2D) -> void:
 	if is_instance_valid(queue_label):
 		queue_label.text = "📦 Amazon Drone en route: [%s] arriving in %.1fs" % [current_item_name, max(0.0, min_time)]
 
-func _spawn_parachute_crate(item: Item, player_node: Node2D) -> void:
+func _spawn_parachute_crate(item: Item, player_node) -> void:
 	var tree = get_tree()
 	if not tree or not tree.current_scene:
 		return
 
 	var crate = Node2D.new()
 	crate.name = "AmazonDeliveryCrate"
-	var spawn_x: float = player_node.global_position.x if is_instance_valid(player_node) else 0.0
+	var spawn_x: float = player_node.global_position.x if (is_instance_valid(player_node) and ("global_position" in player_node)) else 0.0
 	crate.global_position = Vector2(spawn_x, -60.0)
 
 	var spr = Sprite2D.new()
@@ -344,7 +349,7 @@ func _spawn_parachute_crate(item: Item, player_node: Node2D) -> void:
 	crate.add_child(spr)
 	tree.current_scene.add_child(crate)
 
-	var target_y = player_node.global_position.y if is_instance_valid(player_node) else 0.0
+	var target_y = player_node.global_position.y if (is_instance_valid(player_node) and ("global_position" in player_node)) else 0.0
 	var tween = tree.create_tween()
 	tween.tween_property(crate, "global_position:y", target_y, 1.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	tween.tween_callback(func():
@@ -380,6 +385,8 @@ func _quick_scrap_from_shop() -> void:
 				slot_item.item = empty_res
 
 	if total_cash > 0.0:
+		if is_nan(Gvars.CashCount):
+			Gvars.CashCount = 0.0
 		Gvars.CashCount += total_cash
 		Bus.inventory_changed.emit()
 		show_toast("♻️ Scrapped %d ores for +$%.2f cash!" % [count_cleared, total_cash / 100.0])
@@ -407,6 +414,8 @@ func _scrap_redundant_gear() -> void:
 					slot_item.item = empty_res
 
 	if total_refund > 0.0:
+		if is_nan(Gvars.CashCount):
+			Gvars.CashCount = 0.0
 		Gvars.CashCount += total_refund
 		Bus.inventory_changed.emit()
 		show_toast("♻️ Scrapped %d gear items for +$%.2f cash refund!" % [gear_count, total_refund / 100.0])

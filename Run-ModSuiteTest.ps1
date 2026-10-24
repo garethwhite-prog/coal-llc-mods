@@ -76,3 +76,5 @@ if ([System.IO.File]::Exists($godotLog)) {
         for ($t = $start; $t -lt $telemetry.Count; $t++) { Write-Host $telemetry[$t] -ForegroundColor White; };
     };
 };
+
+./Reduce_Test_Output.ps1 -InputPath $godotLog -OutputPath ([System.IO.Path]::Combine($repoRoot, "tests_concise.txt"));

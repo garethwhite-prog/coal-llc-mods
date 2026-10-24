@@ -1,42 +1,44 @@
 ﻿=== GIT STATUS ===
+ M mods/gareth-dual_multipliers_mod.zip
+ M mods/gareth-elemental_transmutation_mod.zip
+ M mods/gareth-knight_class_mod.zip
+ M mods/gareth-mod_manager_mod.zip
  M output.txt
- M tests/test_runner.ps1
-?? tests.txt
 
 === RECENT COMMITS ===
-985f9be Architecture 2.0: CI/CD test runner, discovery archive, bottom-right HUD docking, 0g shop division guard, and pre-run mod population
-7090709 Part 7: Implement Elemental Airstrikes Triad Mod (Dragon Fire, Water Bomber, Agent Orange Poison)
-3793b9d Part 6: Implement Daytime Scrap & Amazon Delivery Mod (gareth-scrap_and_delivery_mod)
+82f922d Commit 4: Heavy Turret targeting fix, Collector Priority mod, Center Auto Ladder, Diagonal Map, Donkey Kong Surface Hazard, and Leaderboard Celebrations
+8d8121a Commit 3: Mod Store multi-repo aggregation (garethwhite-prog + Der-Floh), dual-folder staging (mods_repository), and per-save mod profile isolation
+36d7bac Commit 2: Store upgrades (0g free purchase, Affordable Only filters, Amazon Slots/Vacuums/Stacks, and daytime gear scrapping)
 
-=== SESSION ERRORS & WARNINGS (5024 found) ===
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+=== SESSION ERRORS & WARNINGS (10621 found) ===
+SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
+SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
+SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
+SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
+SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
+SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
+SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
+SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
+SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
+SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
+SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
+ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+ERROR: Child is not a child of this node.
+SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
 SCRIPT ERROR: Trying to call an async function without "await".
-ERROR: 61 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-ERROR: 8 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+ERROR: Child is not a child of this node.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: 62 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+ERROR: 16 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
 ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
 ERROR: 173 resources still in use at exit (run with --verbose for details).
 
@@ -51,36 +53,36 @@ INFO ModLoader: mod_load_order -> 25) gareth-tectonic_faultline_mod
 INFO ModLoader: Initializing -> gareth-tectonic_faultline_mod
 DEBUG ModLoader: Loading script from -> res://mods-unpacked/gareth-tectonic_faultline_mod/mod_main.gd
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Mod initializing...
-DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultline_mod:<Node#845185822843>
-  "gareth-tectonic_faultline_mod": "<Resource#-9223371946039703940>",
+DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultline_mod:<Node#848205721748>
+  "gareth-tectonic_faultline_mod": "<Resource#-9223371943758002548>",
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Custom Map Mod (ID 102) online!
 
 === LOG TAIL (LAST 30 LINES) ===
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-   at: _physics_process (res://mods-unpacked/gareth-plasma_raygun_mod/extensions/scripts/StateMachine/Player2/player_2.hooks.gd:10)
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-   at: _physics_process (res://mods-unpacked/gareth-plasma_raygun_mod/extensions/scripts/StateMachine/Player2/player_2.hooks.gd:10)
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-   at: _physics_process (res://mods-unpacked/gareth-plasma_raygun_mod/extensions/scripts/StateMachine/Player2/player_2.hooks.gd:10)
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-   at: _physics_process (res://mods-unpacked/gareth-plasma_raygun_mod/extensions/scripts/StateMachine/Player2/player_2.hooks.gd:10)
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-   at: _physics_process (res://mods-unpacked/gareth-plasma_raygun_mod/extensions/scripts/StateMachine/Player2/player_2.hooks.gd:10)
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-   at: _physics_process (res://mods-unpacked/gareth-plasma_raygun_mod/extensions/scripts/StateMachine/Player2/player_2.hooks.gd:10)
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-   at: _physics_process (res://mods-unpacked/gareth-plasma_raygun_mod/extensions/scripts/StateMachine/Player2/player_2.hooks.gd:10)
-end day
-SCRIPT ERROR: Trying to call an async function without "await".
-   at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
-Day Count: 1
-Days Passed: 0
-WARNING: 6 RIDs of type "CanvasItem" were leaked.
+INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Jump Velocity +20.0%
+INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Sword Range +10.0%
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (198.4257, 727.9969)
+INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Sprint Speed +10.0%
+INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Jump Velocity +20.0%
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (198.4257, 723.4185)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (198.4257, 999.9966)
+INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Employee Collector Capacity +6.0%
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (198.4257, 1079.99)
+INFO nanobotz-autopassivechooser:SettingsHook: Passive Order tab added to settings menu.
+INFO der_floh-effect_spread_mod:SettingsHook: Effect Spread tab added to settings menu.
+INFO der_floh-game_limits_mod:Tab: Max mortars set to 200
+INFO der_floh-game_limits_mod:Tab: Max employee draws set to 500
+INFO der_floh-game_limits_mod:Tab: Chunk load radius set to 1
+INFO der_floh-game_limits_mod:Tab: Max electric chain tiles set to 500
+INFO der_floh-game_limits_mod:Tab: Max electric visual arcs set to 200
+INFO der_floh-game_limits_mod:SettingsHook: Game Limits tab added to settings menu.
+INFO der_floh-ore_value_mod:SettingsHook: Ore Value tab added to settings menu.
+INFO der_floh-passive_drop_mod:SettingsHook: Passive Drop tab added to settings menu.
+WARNING: 12 RIDs of type "CanvasItem" were leaked.
    at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2679)
-ERROR: 61 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-WARNING: 110 RIDs of type "Texture" were leaked.
+ERROR: 62 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+WARNING: 111 RIDs of type "Texture" were leaked.
    at: finalize (servers/rendering/rendering_device.cpp:7130)
-ERROR: 8 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+ERROR: 16 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
 ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
 WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
    at: cleanup (core/object/object.cpp:2378)

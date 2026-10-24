@@ -20,15 +20,20 @@ static func get_all_installed_mods() -> Array:
 
 static func get_all_mods() -> Array:
 	var list: Array = []
-	var mod_data = ModLoader.get_mod_data_all()
-	for mod_id in mod_data.keys():
-		var data = mod_data[mod_id]
+	var mod_dict: Dictionary = {}
+	if ModLoader and ("mod_data" in ModLoader) and ModLoader.mod_data is Dictionary:
+		mod_dict = ModLoader.mod_data
+
+	for mod_id in mod_dict.keys():
+		var data = mod_dict[mod_id]
 		if not data or not ("manifest" in data) or not data.manifest:
 			continue
 		var m = data.manifest
 		var display_name: String = _format_display_name(m)
 		var desc: String = m.description if "description" in m else ""
-		var author: String = m.extra.godot.authors[0] if (m.has("extra") and m.extra.has("godot") and m.extra.godot.has("authors") and m.extra.godot.authors.size() > 0) else "Community"
+		var author: String = "Community"
+		if m.has("extra") and m.extra.has("godot") and m.extra.godot.has("authors") and m.extra.godot.authors.size() > 0:
+			author = m.extra.godot.authors[0]
 		var version: String = m.version_number if "version_number" in m else "1.0.0"
 		var cat: String = _determine_category(m)
 
@@ -40,13 +45,12 @@ static func get_all_mods() -> Array:
 			"author": author,
 			"version": version,
 			"category": cat,
-			"is_active": data.is_active
+			"is_active": data.is_active if "is_active" in data else true
 		})
 	return list
 
 static func _determine_category(m) -> String:
 	var id: String = str(m.name).to_lower()
-	var desc: String = str(m.description).to_lower()
 	if "class" in id or "profession" in id or "jedi" in id or "knight" in id or "sinclairity" in id:
 		return "Classes & Professions"
 	if "map" in id or "trench" in id or "faultline" in id or "canvas" in id or "expedition" in id:
@@ -55,7 +59,7 @@ static func _determine_category(m) -> String:
 		return "Weapons & Arsenal"
 	if "employee" in id or "collector" in id or "drill" in id or "vacuum" in id:
 		return "Employees & Automation"
-	if "speed" in id or "inventory" in id or "save" in id or "leaderboard" in id or "multisave" in id or "settings" in id or "scrap" in id or "delivery" in id:
+	if "speed" in id or "inventory" in id or "save" in id or "leaderboard" in id or "multisave" in id or "settings" in id or "scrap" in id or "delivery" in id or "ladder" in id:
 		return "Quality of Life"
 	if "hardware" in id or "limit" in id or "performance" in id or "booster" in id or "holes" in id:
 		return "Performance & System"
