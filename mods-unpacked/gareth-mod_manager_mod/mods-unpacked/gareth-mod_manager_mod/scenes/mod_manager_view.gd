@@ -202,3 +202,4 @@ func _on_confirm() -> void:
 
 	confirmed.emit()
 	queue_free()
+

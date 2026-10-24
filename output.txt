@@ -1,27 +1,19 @@
-﻿>>> 1. Terminating running Coal LLC / Godot processes...
-
->>> 2. Updating speed_controller.gd to detect Player reliably...
-  Updated: speed_controller.gd
-
->>> 3. Updating mod_manager_view.gd to display all categories...
-
->>> 4. Repackaging modified mods...
+﻿>>> Locating and patching mod_manager_view.gd...
+  Patched: \mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\scenes\mod_manager_view.gd
+>>> Repackaging gareth-mod_manager_mod.zip...
   Repacked: gareth-mod_manager_mod.zip
-  Repacked: gareth-game_speed_mod.zip
-
->>> 5. Staging, committing and pushing to GitHub...
 warning: in the working copy of 'context.txt', LF will be replaced by CRLF the next time Git touches it
-[main d185f51] Fix speed controller player detection and expand mod registry categories for all 56 mods
- 4 files changed, 209 insertions(+), 295 deletions(-)
+[main 07d9207] Update mod_manager_view.gd category_order to display all 56 installed mods
+ 4 files changed, 99 insertions(+), 350 deletions(-)
 Enumerating objects: 20, done.
 Counting objects: 100% (20/20), done.
 Delta compression using up to 24 threads
 Compressing objects: 100% (9/9), done.
-Writing objects: 100% (11/11), 4.66 KiB | 1.55 MiB/s, done.
-Total 11 (delta 5), reused 0 (delta 0), pack-reused 0 (from 0)
-remote: Resolving deltas: 100% (5/5), completed with 5 local objects.
+Writing objects: 100% (11/11), 2.92 KiB | 995.00 KiB/s, done.
+Total 11 (delta 6), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (6/6), completed with 6 local objects.
 To https://github.com/garethwhite-prog/coal-llc-mods.git
-   daff30b..d185f51  main -> main
-
-Fix deployed successfully!
+   d185f51..07d9207  main -> main
+Mod Manager category patch complete!
 PS C:\Dev\coal-llc-mods> 
+
