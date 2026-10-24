@@ -8,6 +8,7 @@ const CUSTOM_PASSIVE_DEFAULTS: Dictionary = {
 	"dread_shell_damage": 0.05, "dread_fire_rate": 0.05, "dread_impact_radius": 0.05,
 	"jedi_saber_damage": 0.05, "jedi_swing_rate": 0.05, "jedi_cleave_reach": 0.05,
 	"sword_damage": 0.05, "sword_speed": 0.05, "sword_range": 0.05,
+	"employee_miner_range": 0.05, "employee_miner_pickup_speed": 0.05, "collector_range": 0.05,
 	"sinclair_melt_damage": 0.05, "sinclair_beam_width": 0.05, "sinclair_spectrum_ticks": 0.05,
 	"fracker_pulse_damage": 0.05, "fracker_seam_resonance": 0.05, "fracker_fire_rate": 0.05,
 	"void_implosion_damage": 0.05, "void_pull_radius": 0.05, "void_event_horizon": 0.05

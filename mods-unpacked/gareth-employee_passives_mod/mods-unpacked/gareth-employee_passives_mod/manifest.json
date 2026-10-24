@@ -1,0 +1,17 @@
+{
+  "name": "employee_passives_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "Expanded employee passives: Employee Miner Range, Employee Miner Pickup Speed, and Collector Range.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": ["gareth-mod_manager_mod"],
+  "extra": {
+    "godot": {
+      "display_name": "Expanded Employee Passives",
+      "category": "Employees & Automation",
+      "authors": ["Gareth White"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}

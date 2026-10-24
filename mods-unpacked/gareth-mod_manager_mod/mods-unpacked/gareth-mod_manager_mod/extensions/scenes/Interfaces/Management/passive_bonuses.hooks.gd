@@ -8,7 +8,6 @@ func refresh(chain: ModLoaderHookChain) -> void:
 
 	var p = Gvars.passives
 
-	# 1. Worker passives
 	var worker_stats = {
 		"Employee Miner Speed": "employee_miner_speed",
 		"Employee Miner Damage": "employee_miner_damage",
@@ -25,9 +24,9 @@ func refresh(chain: ModLoaderHookChain) -> void:
 				lbl.fit_content = true
 				pb.add_child(lbl)
 
-	# 2. Custom class passives (Knight swords, Jedi sabers, etc.)
 	var custom_stats = [
 		"sword_damage", "sword_speed", "sword_range",
+		"employee_miner_range", "employee_miner_pickup_speed", "collector_range",
 		"jedi_saber_damage", "jedi_swing_rate", "jedi_cleave_reach",
 		"ball_blast_damage", "chrono_tick_rate", "exec_damage",
 		"fracker_pulse_damage", "void_implosion_damage", "sinclair_melt_damage"
