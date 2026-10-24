@@ -1,42 +1,44 @@
 ﻿=== GIT STATUS ===
+ M ai_worker_script.ps1
+ M context.txt
  M output.txt
 
 === RECENT COMMITS ===
-e5dbc5a Cleanly patch passive_order and choose_passive against missing config keys without parse errors
-4546ca8 Fix Gunslinger passive order empty config crash and add safe dictionary fallbacks
-6a8eb85 Restore 2-arg destroy_tile hook signature and isolate incompatible third-party hooks
+1dc76d3 Organize shop by tiers, expand Knight swords to Onyx, and enable Water Spirit autonomous loop
+643f070 Fix Jedi passives crash, resolve line 499 startup error across class mods, and register Camera hooks
+a7d0f80 Fix Jedi passives crash, resolve line 499 startup error, and hook camera zoom
 
-=== SESSION ERRORS & WARNINGS (2283 found) ===
-SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
-SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
-SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
-SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
-SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
-SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
-SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
-SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
-SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
-SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
-SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
-SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
-SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
-SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
-SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
-SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
-SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
-SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
-SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
-SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
-SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
-SCRIPT ERROR: Invalid access to property or key 'total_money_earned' on a base object of type 'Node (Gvars.gd)'.
+=== SESSION ERRORS & WARNINGS (79 found) ===
+SCRIPT ERROR: Attempt to call function '_profession_effect' in base 'null instance' on a null instance.
+SCRIPT ERROR: Attempt to call function '_profession_effect' in base 'null instance' on a null instance.
+SCRIPT ERROR: Attempt to call function '_profession_effect' in base 'null instance' on a null instance.
+SCRIPT ERROR: Attempt to call function '_profession_effect' in base 'null instance' on a null instance.
+SCRIPT ERROR: Attempt to call function '_profession_effect' in base 'null instance' on a null instance.
+SCRIPT ERROR: Attempt to call function '_profession_effect' in base 'null instance' on a null instance.
+SCRIPT ERROR: Attempt to call function '_profession_effect' in base 'null instance' on a null instance.
+SCRIPT ERROR: Attempt to call function '_profession_effect' in base 'null instance' on a null instance.
+SCRIPT ERROR: Attempt to call function '_profession_effect' in base 'null instance' on a null instance.
+SCRIPT ERROR: Attempt to call function '_profession_effect' in base 'null instance' on a null instance.
+SCRIPT ERROR: Attempt to call function '_profession_effect' in base 'null instance' on a null instance.
+SCRIPT ERROR: Attempt to call function '_profession_effect' in base 'null instance' on a null instance.
+SCRIPT ERROR: Attempt to call function '_profession_effect' in base 'null instance' on a null instance.
+SCRIPT ERROR: Attempt to call function '_profession_effect' in base 'null instance' on a null instance.
+SCRIPT ERROR: Attempt to call function '_profession_effect' in base 'null instance' on a null instance.
+SCRIPT ERROR: Attempt to call function '_profession_effect' in base 'null instance' on a null instance.
+SCRIPT ERROR: Attempt to call function '_profession_effect' in base 'null instance' on a null instance.
 SCRIPT ERROR: Trying to call an async function without "await".
-ERROR: 153 RID allocations of type 'N10RendererRD12LightStorage11ShadowAtlasE' were leaked at exit.
-ERROR: 153 RID allocations of type 'N10RendererRD14TextureStorage12RenderTargetE' were leaked at exit.
-ERROR: 388 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-ERROR: 153 RID allocations of type 'N16RendererViewport8ViewportE' were leaked at exit.
-ERROR: 4692 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
-ERROR: 4 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
-ERROR: 175 resources still in use at exit (run with --verbose for details).
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+SCRIPT ERROR: Trying to call an async function without "await".
 
 === ACTIVE MOD LOG ENTRIES (13 found) ===
 	 - C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mods/gareth-tectonic_faultline_mod.zip
@@ -49,38 +51,38 @@ INFO ModLoader: mod_load_order -> 22) gareth-tectonic_faultline_mod
 INFO ModLoader: Initializing -> gareth-tectonic_faultline_mod
 DEBUG ModLoader: Loading script from -> res://mods-unpacked/gareth-tectonic_faultline_mod/mod_main.gd
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Mod initializing...
-DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultline_mod:<Node#728600948104>
-  "gareth-tectonic_faultline_mod": "<Resource#-9223371949965572514>",
+DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultline_mod:<Node#713132354976>
+  "gareth-tectonic_faultline_mod": "<Resource#-9223371949462256029>",
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Custom Map Mod (ID 102) online!
 
 === LOG TAIL (LAST 30 LINES) ===
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (535.414, 1607.966)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (558.7651, 1015.671)
-inventory count = 640
-max inventory = 640
+INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Sword Range +5.0%
+INFO gareth-elemental_transmutation_mod:Hook: [Transmutation] Corroded tile destroyed at (152, -25)! Slag payout: +$15
+INFO gareth-elemental_transmutation_mod:Hook: [Transmutation] Corroded tile destroyed at (152, -24)! Slag payout: +$15
+INFO gareth-elemental_transmutation_mod:Hook: [Transmutation] Corroded tile destroyed at (152, -23)! Slag payout: +$15
+INFO gareth-elemental_transmutation_mod:Hook: [Transmutation] Corroded tile destroyed at (152, -22)! Slag payout: +$15
+INFO gareth-elemental_transmutation_mod:Hook: [Transmutation] Corroded tile destroyed at (153, -25)! Slag payout: +$15
+INFO gareth-elemental_transmutation_mod:Hook: [Transmutation] Corroded tile destroyed at (153, -24)! Slag payout: +$15
+INFO gareth-elemental_transmutation_mod:Hook: [Transmutation] Corroded tile destroyed at (153, -23)! Slag payout: +$15
+INFO gareth-elemental_transmutation_mod:Hook: [Transmutation] Corroded tile destroyed at (153, -22)! Slag payout: +$15
+INFO gareth-elemental_transmutation_mod:Hook: [Transmutation] Corroded tile destroyed at (153, -21)! Slag payout: +$15
+INFO gareth-elemental_transmutation_mod:Hook: [Transmutation] Corroded tile destroyed at (153, -20)! Slag payout: +$15
+INFO gareth-elemental_transmutation_mod:Hook: [Transmutation] Corroded tile destroyed at (153, -19)! Slag payout: +$15
+INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Sword Speed +5.0%
+INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Sword Damage +5.0%
+INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Sprint Speed +5.0%
+INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Sword Range +5.0%
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (162.4306, -56.05325)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-640.0729, -56.05325)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (46.17522, -56.0523)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (293.676, -56.0523)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (136.1743, -56.0523)
 end day
 SCRIPT ERROR: Trying to call an async function without "await".
    at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
-Day Count: 2
-Days Passed: 1
-WARNING: Target object freed before starting, aborting Tweener.
-   at: start (scene/animation/tween.cpp:594)
+Day Count: 1
+Days Passed: 0
 INFO gareth-more_employees_mod: Workforce chart initialized cleanly.
 say_game_has_been_saved() function running
 finished turning on
-WARNING: 153 RIDs of type "Canvas" were leaked.
-   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2679)
-WARNING: 1173 RIDs of type "CanvasItem" were leaked.
-   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2679)
-ERROR: 153 RID allocations of type 'N10RendererRD12LightStorage11ShadowAtlasE' were leaked at exit.
-ERROR: 153 RID allocations of type 'N10RendererRD14TextureStorage12RenderTargetE' were leaked at exit.
-ERROR: 388 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-ERROR: 153 RID allocations of type 'N16RendererViewport8ViewportE' were leaked at exit.
-WARNING: 758 RIDs of type "Texture" were leaked.
-   at: finalize (servers/rendering/rendering_device.cpp:7130)
-ERROR: 4692 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
-ERROR: 4 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
-WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
-   at: cleanup (core/object/object.cpp:2378)
-ERROR: 175 resources still in use at exit (run with --verbose for details).
-   at: clear (core/io/resource.cpp:614)
+finished turning off

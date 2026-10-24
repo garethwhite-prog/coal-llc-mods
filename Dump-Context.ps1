@@ -1,53 +1,68 @@
 ﻿Clear-Host
 
-$repoRoot = "C:\Dev\coal-llc-mods"
-$appDataGodot = [System.IO.Path]::Combine($env:APPDATA, "Godot\app_userdata\Coal LLC")
-$outputFile = [System.IO.Path]::Combine($repoRoot, "context.txt")
+# ==============================================================================
+# Coal LLC - Pure Read-Only Discovery Phase 15 (ZERO WRITES, ZERO COMMITS)
+# ==============================================================================
 
-$sb = New-Object System.Text.StringBuilder
-[void]$sb.AppendLine("=== GIT STATUS ===")
-Push-Location $repoRoot
-$gitStatus = git status --short
-foreach ($line in $gitStatus) { [void]$sb.AppendLine($line) }
+$repo      = "C:\Dev\coal-llc-mods"
+$steamRoot = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC"
+$dumpRoot  = "$steamRoot\_dump"
 
-[void]$sb.AppendLine("`n=== RECENT COMMITS ===")
-$gitLog = git log -n 3 --oneline
-foreach ($line in $gitLog) { [void]$sb.AppendLine($line) }
-Pop-Location
-
-$logPath = [System.IO.Path]::Combine($appDataGodot, "logs\godot.log")
-if (Test-Path $logPath) {
-    $allLogLines = Get-Content $logPath
-    
-    # 1. Capture every error, crash, and warning across the whole session
-    $errorLines = $allLogLines | Where-Object { 
-        $_ -match "(SCRIPT ERROR|ERROR:|Compile Error|Parse Error|Failed to load script|Invalid call|Invalid access)" 
-    }
-    
-    [void]$sb.AppendLine("`n=== SESSION ERRORS & WARNINGS ($($errorLines.Count) found) ===")
-    if ($errorLines.Count -gt 0) {
-        foreach ($line in ($errorLines | Select-Object -Last 30)) { [void]$sb.AppendLine($line) }
-    } else {
-        [void]$sb.AppendLine("None detected.")
-    }
-
-    # 2. Capture all log entries matching the mod currently being modified
-    $activeModLines = $allLogLines | Where-Object {$_ -match "tectonic_faultline" }
-    [void]$sb.AppendLine("`n=== ACTIVE MOD LOG ENTRIES ($($activeModLines.Count) found) ===")
-    if ($activeModLines.Count -gt 0) {
-        foreach ($line in ($activeModLines | Select-Object -Last 20)) { [void]$sb.AppendLine($line) }
-    } else {
-        [void]$sb.AppendLine("None detected.")
-    }
-
-    # 3. Trailing log context
-    [void]$sb.AppendLine("`n=== LOG TAIL (LAST 30 LINES) ===")
-    $tailLines =$allLogLines | Select-Object -Last 30
-    foreach ($line in $tailLines) { [void]$sb.AppendLine($line) }
+Write-Host "=================================================================" -ForegroundColor Cyan
+Write-Host ">>> 1. Retrieving initial Vacuum Depot implementation from Git history..." -ForegroundColor Cyan
+Write-Host "=================================================================" -ForegroundColor Cyan
+Set-Location $repo
+$vdCommits = git log --oneline -- "mods-unpacked/gareth-vacuum_depot_mod"
+Write-Host "Commits affecting vacuum_depot_mod:" -ForegroundColor Yellow
+$vdCommits | Select-Object -First 5 | ForEach-Object { Write-Host "   $_" }
+$firstVdCommit = ($vdCommits | Select-Object -Last 1).Split(" ")[0]
+if ($firstVdCommit) {
+    Write-Host "`nFull original LootCollectorUFO.hooks.gd from commit $firstVdCommit :" -ForegroundColor Green
+    git show "${firstVdCommit}:mods-unpacked/gareth-vacuum_depot_mod/mods-unpacked/gareth-vacuum_depot_mod/extensions/scripts/LootCollectorUFO.hooks.gd"
 }
 
-[System.IO.File]::WriteAllText($outputFile,$sb.ToString(), [System.Text.Encoding]::UTF8)
-Set-Clipboard -Value $sb.ToString()
-Write-Host "[+] Enhanced context collected in context.txt AND copied to clipboard!" -ForegroundColor Green
-Write-Host "    Press Ctrl+V in the chat to share your project status." -ForegroundColor Yellow
+Write-Host "`n=================================================================" -ForegroundColor Cyan
+Write-Host ">>> 2. Inspecting management_screen.gd Passive Effects panel (lines 200 to 320)..." -ForegroundColor Cyan
+Write-Host "=================================================================" -ForegroundColor Cyan
+$mgmtPath = "$dumpRoot\scenes\Stages\management_screen.gd"
+if (Test-Path $mgmtPath) {
+    $mLines = Get-Content $mgmtPath
+    $start = [Math]::Max(0, 200)
+    $end   = [Math]::Min($mLines.Count - 1, 330)
+    for ($i = $start; $i -le $end; $i++) {
+        Write-Host ("{0,3}: {1}" -f ($i + 1), $mLines[$i])
+    }
+}
 
+Write-Host "`n=================================================================" -ForegroundColor Cyan
+Write-Host ">>> 3. Inspecting profession saving/loading in Gvars.gd (lines 380 to 450)..." -ForegroundColor Cyan
+Write-Host "=================================================================" -ForegroundColor Cyan
+$gvarsPath = "$dumpRoot\scripts\Gvars.gd"
+if (Test-Path $gvarsPath) {
+    $gLines = Get-Content $gvarsPath
+    $startG = [Math]::Max(0, 375)
+    $endG   = [Math]::Min($gLines.Count - 1, 445)
+    for ($i = $startG; $i -le $endG; $i++) {
+        Write-Host ("{0,3}: {1}" -f ($i + 1), $gLines[$i])
+    }
+}
+
+Write-Host "`n=================================================================" -ForegroundColor Cyan
+Write-Host ">>> 4. Inspecting Equipment panel layout in management_screen.tscn..." -ForegroundColor Cyan
+Write-Host "=================================================================" -ForegroundColor Cyan
+$mgmtTscn = "$dumpRoot\scenes\Stages\management_screen.tscn"
+if (Test-Path $mgmtTscn) {
+    $tLines = Get-Content $mgmtTscn
+    for ($i = 0; $i -lt $tLines.Count; $i++) {
+        if ($tLines[$i] -match 'name="EquipmentItems"|name="Equipment"|name="PurchasedEquipment"|name="Bonus"') {
+            $s = [Math]::Max(0, $i - 1)
+            $e = [Math]::Min($tLines.Count - 1, $i + 10)
+            for ($k = $s; $k -le $e; $k++) {
+                Write-Host ("   {0,3}: {1}" -f ($k + 1), $tLines[$k])
+            }
+            Write-Host "   ---"
+        }
+    }
+}
+
+Write-Host "`nDiscovery Phase 15 complete. Zero files modified." -ForegroundColor Cyan
