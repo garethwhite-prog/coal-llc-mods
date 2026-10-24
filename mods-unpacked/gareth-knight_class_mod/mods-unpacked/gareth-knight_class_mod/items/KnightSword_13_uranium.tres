@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="Item" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://resources/BuyEffects/Scripts/AddToInventory.gd" id="1"]
+[ext_resource type="Texture2D" path="res://mods-unpacked/gareth-knight_class_mod/textures/Sword-Uranium.png" id="2"]
+[ext_resource type="Script" path="res://mods-unpacked/gareth-knight_class_mod/scripts/knight_sword_equip.gd" id="3"]
+[ext_resource type="Script" path="res://resources/PickupEffects/Scripts/PickupToInventory.gd" id="4"]
+[ext_resource type="AudioStream" path="res://assets/sound/sound effects/SwordThud.wav" id="5"]
+[ext_resource type="Script" path="res://resources/Items/Scripts/Item.gd" id="6"]
+
+[sub_resource type="Resource" id="Resource_buy"]
+script = ExtResource("1")
+
+[sub_resource type="Resource" id="Resource_equip"]
+script = ExtResource("3")
+
+[sub_resource type="Resource" id="Resource_pickup"]
+script = ExtResource("4")
+
+[resource]
+script = ExtResource("6")
+itemID = "KnightSword_13_uranium"
+itemName = "Uranium Knight Sword"
+itemDescription = "Broadsword (280000.0 damage). Sweeps in a wide 180° frontal arc cleaving rock and ore."
+itemTexture = ExtResource("2")
+itemEquipEffect = SubResource("Resource_equip")
+itemPickupEffect = SubResource("Resource_pickup")
+pickupSound = ExtResource("5")
+itemBuyPrice = 6500000000000
+itemSellPrice = 3250000000000
+itemUnlocked = true

@@ -7,14 +7,17 @@ func _ready() -> void:
 
 	var item_unlocks = load("res://resources/unlockable_items/scripts/item_unlocks.tres")
 	if item_unlocks:
-		for id_str in ["01_shoddy", "02_copper", "03_iron", "04_sapphire", "05_emerald", "06_silver", "07_amethyst", "08_gold", "09_ruby", "10_diamond", "11_pinkdiamond"]:
+		var all_tiers = [
+			"01_shoddy", "02_copper", "03_iron", "04_sapphire", "05_emerald",
+			"06_silver", "07_amethyst", "08_gold", "09_ruby", "10_diamond",
+			"11_pinkdiamond", "12_spinel", "13_uranium", "14_moonstone", "15_onyx"
+		]
+		for id_str in all_tiers:
 			var path := "res://mods-unpacked/gareth-knight_class_mod/items/KnightSword_%s.tres" % id_str
 			if ResourceLoader.exists(path):
 				var res = load(path)
 				if res and not (res in item_unlocks.all_equipment_items):
 					item_unlocks.all_equipment_items.append(res)
-				if res and not (res in item_unlocks.all_items):
-					item_unlocks.all_items.append(res)
 
 	if not Gvars or not ("profession_manager" in Gvars) or not Gvars.profession_manager:
 		return
@@ -23,9 +26,8 @@ func _ready() -> void:
 	var prof_script = load("res://mods-unpacked/gareth-knight_class_mod/scripts/knight_profession.gd")
 	var p = prof_script.new()
 	p.profession_name = "Knight"
-	p.description = "Master of chivalric blade combat.\nStarts with a Shoddy Sword.\nOnly swords, standalone mod weapons, and utilities are purchasable."
+	p.description = "Master of chivalric blade combat.\nStarts with a Shoddy Sword.\nAll 15 sword tiers, standalone mod weapons, and utilities are purchasable."
 	if ResourceLoader.exists("res://assets/Equipment/Sword-Shoddy.png"):
 		p.image = load("res://assets/Equipment/Sword-Shoddy.png")
 
 	pm.all_professions[101] = { "profession": p, "is_unlocked": true }
-	ModLoaderLog.info("Knight Class (ID 101) registered cleanly.", "gareth-knight_class_mod")
