@@ -1,42 +1,28 @@
 ﻿=== GIT STATUS ===
+ M Run-ModSuiteTest.ps1
+ M Run-Worker.ps1
+ M ai_worker_script.ps1
  M output.txt
+ M tests_concise.txt
 
 === RECENT COMMITS ===
-f707242 Fix: Cache mod activation status in plasma_raygun hook to eliminate physics error loop
-7426f6e Fix: Cache mod activation status in plasma_raygun hook to eliminate physics error loop
-02171aa Fix: Resolve AddToInventory NaN division, Mod Manager Array[Dictionary] type mismatch, elemental airstrikes compilation, Amazon HUD offset collision, and gorilla sprite
+1317d9f Workflow: Add Run-Worker auto-logger, safe log auditor in Run-ModSuiteTest, dock Air Wings HUD, and register all custom maps
+95802db Workflow: Add Run-Worker auto-logger, safe log auditor in Run-ModSuiteTest, dock Air Wings HUD, and register all custom maps
+d3e6883 Workflow: Add Run-Worker auto-logger, safe log auditor in Run-ModSuiteTest, dock Air Wings HUD, and register all custom maps
 
-=== SESSION ERRORS & WARNINGS (59 found) ===
+=== SESSION ERRORS & WARNINGS (12 found) ===
+ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
+SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
+ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
+SCRIPT ERROR: Parse Error: There is already a variable named "list" declared in this scope.
+ERROR: Failed to load script "res://mods-unpacked/gareth-mod_manager_mod/scripts/mod_registry.gd" with error "Parse error".
 SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-ERROR: 60 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-ERROR: 8 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
-ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
-ERROR: 177 resources still in use at exit (run with --verbose for details).
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_all_installed_mods' in base 'GDScript'.
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_all_installed_mods' in base 'GDScript'.
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_all_installed_mods' in base 'GDScript'.
+SCRIPT ERROR: Invalid access to property or key 'ABYSSAL_LEVEL_ID' on a base object of type 'RefCounted (AbyssalTrenchHelper)'.
+ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+ERROR: 169 resources still in use at exit (run with --verbose for details).
 
 === ACTIVE MOD LOG ENTRIES (13 found) ===
 	 - C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mods/gareth-tectonic_faultline_mod.zip
@@ -54,15 +40,19 @@ DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultl
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Custom Map Mod (ID 102) online!
 
 === LOG TAIL (LAST 30 LINES) ===
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-   at: destroy_tile (res://mods-unpacked/gareth-seismic_hazards_mod/extensions/scenes/tilemaps/tile_map_chunk.hooks.gd:5)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (197.558, -8.034912)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (197.558, -8.034912)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (197.558, -8.034912)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (197.558, -8.034912)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (197.558, -8.034912)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (197.558, -8.034912)
-INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (197.558, -8.034912)
+   at: _ready (res://mods-unpacked/gareth-knight_class_mod/mod_main.gd:36)
+INFO ModLoader:ModHookPacker: Generating mod hooks .zip
+DEBUG ModLoader:ModHookPacker: Scripts requiring hooks: { "res://resources/BuyEffects/Scripts/AddToInventory.gd": ["buy_effect", "get_max_count"], "res://scenes/Interfaces/Management/shop_item_card.gd": ["refreshDetails", "_on_purchase_button_pressed", "_on_purchase_button_gui_input"], "res://scenes/Interfaces/in_game/choose_passive.gd": ["set_up_buttons", "_on_button_pressed", "_on_button_2_pressed", "_on_button_3_pressed", "_process"], "res://scenes/Interfaces/Management/passive_bonuses.gd": ["refresh"], "res://scripts/MainMenu.gd": ["_ready", "on_profession_selected"], "res://scripts/Gvars.gd": ["reset_resources", "save_Gvars", "load_Gvars"], "res://scenes/Stages/management_screen.gd": ["load_equipment_shop"], "res://scripts/Camera.gd": ["_process"], "res://scripts/StateMachine/Player2/player_2.gd": ["mine_action", "_ready", "_physics_process"], "res://scenes/Interfaces/Menus/settings_2.gd": ["_ready"], "res://scenes/tilemaps/tile_map_chunk.gd": ["destroy_tile", "lvl_from_global_pos", "generate_chunk", "damage_tile_idx", "generate_chests", "adjust_level_bonus", "apply_tile_effects"], "res://scripts/Chest.gd": ["pickup_item", "roll_loot"], "res://scenes/Interfaces/Menus/level_select.gd": ["_ready"], "res://scripts/Game.gd": ["change_stage"], "res://scenes/equipment/boxing_gloves.gd": ["attack_tile"], "res://scenes/equipment/kick.gd": ["_process", "damage_tiles"], "res://resources/professions/scripts/martial_artist.gd": ["_profession_effect"], "res://scenes/Interfaces/Management/employee_shop_tooltip.gd": ["_ready"], "res://resources/Employees/Scripts/employee_manager.gd": ["get_employee_level_from_enum", "purchase_employee_level"], "res://scenes/Interfaces/Management/organisation_chart_2.gd": ["_ready", "refresh_all_icons", "_draw"], "res://scenes/Interfaces/Management/employee_level_icon_2.gd": ["_ready", "position_tooltip"], "res://scenes/Interfaces/InventoryWindow.gd": ["_ready", "load_inventory"], "res://scripts/equipment_manager.gd": ["generate_vacuum_cleaner"], "res://scenes/NPCs/quest_scene_manager.gd": ["_ready", "refresh_all_quest_points"], "res://resources/Quests/quest_rewards/reward_vacuum.gd": ["reward"], "res://resources/professions/scripts/tanker.gd": ["_profession_effect"], "res://resources/EquipEffects/Scripts/tank.gd": ["start", "end"], "res://scenes/equipment/tank_bullet.gd": ["_ready", "attack_tile"], "res://scenes/equipment/vacuum_cleaner.gd": ["_physics_process"], "res://scripts/LootCollectorUFO.gd": ["check_inventory_count", "_physics_process"], "res://resources/EquipEffects/Scripts/gun.gd": ["start", "end", "physics_process"], "res://resources/EquipEffects/Scripts/water_gun.gd": ["start", "end", "physics_process"], "res://scenes/ManagersInScene/mortar_manager.gd": ["shoot_mortar"], "res://scenes/tilemaps/tile_map_manager.gd": ["load_chunks"], "res://scripts/PauseMenu.gd": ["on_pressed_resume"], "res://scenes/equipment/electric_shock.gd": ["_physics_process"], "res://scripts/tile_map_layer_main.gd": ["damageTileCoords"], "res://scripts/loot_drops.gd": ["find_loot"], "res://scenes/AutoMiners/employee_miner_2.gd": ["_physics_process"] }
+INFO ModLoader:ModHookPacker: Scripts are already processed according to cache, skipping process.
+INFO gareth-multisave_mod: Career progression and hard modifier badges verified.
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_all_installed_mods' in base 'GDScript'.
+   at: ModManagerView._populate_cards (res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd:91)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_all_installed_mods' in base 'GDScript'.
+   at: ModManagerView._populate_cards (res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd:91)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_all_installed_mods' in base 'GDScript'.
+   at: ModManagerView._populate_cards (res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd:91)
+SCRIPT ERROR: Invalid access to property or key 'ABYSSAL_LEVEL_ID' on a base object of type 'RefCounted (AbyssalTrenchHelper)'.
+   at: _ready (res://mods-unpacked/gareth-abyssal_trench_mod/extensions/scenes/Interfaces/Menus/level_select.hooks.gd:11)
 INFO nanobotz-autopassivechooser:SettingsHook: Passive Order tab added to settings menu.
 INFO der_floh-effect_spread_mod:SettingsHook: Effect Spread tab added to settings menu.
 INFO der_floh-game_limits_mod:Tab: Max mortars set to 200
@@ -73,14 +63,10 @@ INFO der_floh-game_limits_mod:Tab: Max electric visual arcs set to 200
 INFO der_floh-game_limits_mod:SettingsHook: Game Limits tab added to settings menu.
 INFO der_floh-ore_value_mod:SettingsHook: Ore Value tab added to settings menu.
 INFO der_floh-passive_drop_mod:SettingsHook: Passive Drop tab added to settings menu.
-WARNING: 6 RIDs of type "CanvasItem" were leaked.
-   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2679)
-ERROR: 60 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-WARNING: 109 RIDs of type "Texture" were leaked.
+ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+WARNING: 88 RIDs of type "Texture" were leaked.
    at: finalize (servers/rendering/rendering_device.cpp:7130)
-ERROR: 8 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
-ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
 WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
    at: cleanup (core/object/object.cpp:2378)
-ERROR: 177 resources still in use at exit (run with --verbose for details).
+ERROR: 169 resources still in use at exit (run with --verbose for details).
    at: clear (core/io/resource.cpp:614)

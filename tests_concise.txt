@@ -1,15 +1,7 @@
-﻿ 990: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
-1060: SCRIPT ERROR: Parse Error: There is already a variable named "list" declared in this scope.
-1064: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+﻿ 991: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
+1061: SCRIPT ERROR: Parse Error: There is already a variable named "list" declared in this scope.
+1065: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
 [Repeated 3 times]
-  First: 1070: SCRIPT ERROR: Invalid call. Nonexistent function 'get_all_installed_mods' in base 'GDScript'.
-  Last:  1074: SCRIPT ERROR: Invalid call. Nonexistent function 'get_all_installed_mods' in base 'GDScript'.
-[Repeated 3 times]
-  First: 1076: SCRIPT ERROR: Trying to call an async function without "await".
-  Last:  1088: SCRIPT ERROR: Trying to call an async function without "await".
-[Repeated 4 times]
-  First: 1090: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-  Last:  1096: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-[Repeated 31 times]
-  First: 1118: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-  Last:  1178: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+  First: 1071: SCRIPT ERROR: Invalid call. Nonexistent function 'get_all_installed_mods' in base 'GDScript'.
+  Last:  1075: SCRIPT ERROR: Invalid call. Nonexistent function 'get_all_installed_mods' in base 'GDScript'.
+1077: SCRIPT ERROR: Invalid access to property or key 'ABYSSAL_LEVEL_ID' on a base object of type 'RefCounted (AbyssalTrenchHelper)'.
