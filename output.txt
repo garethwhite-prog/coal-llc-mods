@@ -12,4 +12,50 @@
 Discovery Phase 47 complete. Zero files modified.
 PS C:\Dev\coal-llc-mods> 
 
+>>> 1. Terminating running Coal LLC / Godot processes...
 
+>>> 2. Creating AddToInventory.hooks.gd (0g safety guard)...
+
+>>> 3. Resolving Array[Dictionary] type mismatch in mod_manager_view.gd...
+
+>>> 4. Fixing extends Node placement in elemental_airstrikes_mod...
+
+>>> 5. Updating amazon_delivery_manager.gd (HUD docking & inventory wipe)...
+
+>>> 6. Replacing boot placeholder with custom gorilla sprite in donkey_kong_mod...
+
+>>> 7. Pointing SwordHit.wav to SwordThud.wav in knight_class_mod...
+
+>>> 8. Ensuring hook installations in mod_manager_mod mod_main.gd...
+
+>>> 9. Running CI/CD validation...
+=================================================================
+>>> COAL LLC CI/CD: Automated Regression & Sanity Verification
+=================================================================
+  [PASS] mod_registry.gd satisfies is_mod_active_for_run interface
+=================================================================
+>>> ALL REGRESSION CHECKS PASSED (Warnings: 0, Errors: 0)
+
+>>> 10. Purging hook cache and repacking mod archives...
+  Repacked: gareth-mod_manager_mod.zip
+  Repacked: gareth-scrap_and_delivery_mod.zip
+  Repacked: gareth-elemental_airstrikes_mod.zip
+  Repacked: gareth-donkey_kong_mod.zip
+  Repacked: gareth-knight_class_mod.zip
+
+>>> 11. Staging, committing and pushing to GitHub...
+[main 02171aa] Fix: Resolve AddToInventory NaN division, Mod Manager Array[Dictionary] type mismatch, elemental airstrikes compilation, Amazon HUD offset collision, and gorilla sprite
+ 9 files changed, 316 insertions(+), 718 deletions(-)
+ create mode 100644 mods-unpacked/gareth-mod_manager_mod/mods-unpacked/gareth-mod_manager_mod/extensions/resources/BuyEffects/Scripts/AddToInventory.hooks.gd
+Enumerating objects: 51, done.
+Counting objects: 100% (51/51), done.
+Delta compression using up to 24 threads
+Compressing objects: 100% (27/27), done.
+Writing objects: 100% (32/32), 7.82 KiB | 1000.00 KiB/s, done.
+Total 32 (delta 10), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (10/10), completed with 10 local objects.
+To https://github.com/garethwhite-prog/coal-llc-mods.git
+   620f763..02171aa  main -> main
+
+All fixes deployed and committed cleanly!
+PS C:\Dev\coal-llc-mods> 

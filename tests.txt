@@ -1,1020 +1,1028 @@
-20244: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20246: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20248: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20250: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20252: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20254: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20256: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20258: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20260: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20262: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20264: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20266: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20268: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20270: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20272: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20274: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20276: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20278: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20280: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20282: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20284: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20286: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20288: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20290: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20292: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20294: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20296: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20298: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20300: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20302: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20304: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20306: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20308: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20310: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20312: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20314: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20316: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20318: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20320: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20322: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20324: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20326: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20328: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20330: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20332: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20334: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20336: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20338: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20340: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20342: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20344: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20346: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20348: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20350: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20352: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20354: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20356: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20358: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20360: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20362: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20364: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20366: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20368: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20370: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20372: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20374: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20376: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20378: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20380: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20382: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20384: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20386: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20388: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20390: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20392: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20394: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20396: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20398: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20400: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20402: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20404: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20406: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20408: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20410: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20412: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20414: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20416: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20418: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20420: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20422: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20424: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20426: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20428: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20430: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20432: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20434: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20436: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20438: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20440: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20442: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20444: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20446: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20448: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20450: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20452: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20454: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20456: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20458: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20460: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20462: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20464: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20466: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20468: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20470: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20472: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20474: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20476: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20478: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20480: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20482: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20484: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20486: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20488: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20490: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20492: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20494: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20496: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20498: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20500: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20502: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20504: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20506: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20508: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20510: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20512: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20514: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20516: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20518: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20520: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20522: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20524: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20526: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20528: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20530: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20532: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20534: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20536: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20538: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20540: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20542: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20544: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20546: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20548: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20550: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20552: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20554: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20556: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20558: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20560: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20562: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20564: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20566: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20568: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20570: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20572: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20574: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20576: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20578: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20580: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20582: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20584: SCRIPT ERROR: Trying to call an async function without "await".
-20586: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20588: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20590: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20592: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20594: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20596: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20598: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20600: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20602: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20604: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20606: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20608: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20610: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20612: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20614: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20616: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20618: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20620: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20622: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20624: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20626: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20628: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20630: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20632: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20634: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20636: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20638: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20640: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20642: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20644: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20646: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20648: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20650: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20652: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20654: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20656: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20665: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20667: SCRIPT ERROR: Trying to call an async function without "await".
-20670: SCRIPT ERROR: Trying to call an async function without "await".
-20672: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-20674: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-20676: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-20678: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-20748: SCRIPT ERROR: Trying to call an async function without "await".
-20753: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20755: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20757: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20759: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20761: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20763: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20765: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20767: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20769: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20771: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20773: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20775: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20777: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20779: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20781: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20783: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20785: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20787: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20789: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20791: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20793: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20795: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20797: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20799: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20801: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20803: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20805: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20807: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20809: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20811: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20813: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20815: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20817: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20819: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20821: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20823: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20825: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20827: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20829: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20831: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20833: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20835: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20837: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20839: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20841: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20843: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20845: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20847: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20849: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20851: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20853: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20855: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20857: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20859: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20861: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20863: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20865: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20867: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20869: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20871: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20873: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20875: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20877: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20879: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20881: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20883: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20885: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20887: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20889: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20891: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20893: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20895: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20897: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20899: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20901: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20903: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20905: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20907: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20909: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20911: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20913: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20915: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20917: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20919: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20921: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20923: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20925: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20927: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20929: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20931: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20933: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20935: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20937: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20939: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20941: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20943: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20945: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20947: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20949: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20951: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20953: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20955: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20957: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20959: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20961: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20963: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20965: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20967: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20969: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20971: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20973: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20975: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20977: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20979: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20981: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20983: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20985: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20987: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20989: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20991: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20993: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20995: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20997: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-20999: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21001: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21003: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21005: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21007: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21009: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21011: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21013: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21015: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21017: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21019: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21021: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21023: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21025: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21027: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21029: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21031: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21033: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21035: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21037: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21039: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21041: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21043: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21045: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21047: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21049: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21051: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21053: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21055: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21057: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21059: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21061: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21063: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21065: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21067: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21069: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21071: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21073: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21075: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21077: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21079: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21081: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21083: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21085: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21087: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21089: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21091: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21093: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21095: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21097: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21099: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21101: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21103: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21105: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21107: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21109: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21111: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21113: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21115: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21117: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21119: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21121: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21123: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21125: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21127: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21129: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21131: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21133: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21135: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21137: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21139: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21141: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21143: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21145: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21147: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21149: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21151: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21153: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21155: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21157: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21159: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21161: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21163: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21165: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21167: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21169: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21171: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21173: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21175: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21177: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21179: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21181: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21183: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21185: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21187: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21189: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21191: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21193: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21195: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21197: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21199: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21201: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21203: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21205: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21207: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21209: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21211: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21213: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21215: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21217: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21219: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21221: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21223: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21225: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21227: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21229: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21231: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21233: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21235: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21237: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21239: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21241: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21243: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21245: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21247: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21249: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21251: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21253: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21255: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21257: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21259: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21261: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21263: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21265: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21267: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21269: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21271: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21273: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21275: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21277: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21279: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21281: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21283: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21285: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21287: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21289: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21291: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21293: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21295: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21297: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21299: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21301: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21303: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21305: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21307: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21309: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21311: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21313: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21315: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21317: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21319: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21321: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21323: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21325: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21327: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21329: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21331: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21333: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21335: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21337: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21339: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21341: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21343: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21345: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21347: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21349: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21351: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21353: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21355: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21357: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21359: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21361: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21363: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21365: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21367: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21369: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21371: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21373: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21375: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21377: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21379: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21381: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21383: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21385: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21387: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21389: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21391: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21393: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21395: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21397: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21399: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21401: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21403: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21405: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21407: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21409: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21411: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21413: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21415: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21417: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21419: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21421: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21423: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21425: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21427: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21429: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21431: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21433: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21435: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21437: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21439: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21441: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21443: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21445: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21447: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21449: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21451: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21453: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21455: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21457: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21459: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21461: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21463: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21465: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21467: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21469: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21471: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21473: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21475: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21477: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21479: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21481: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21483: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21485: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21487: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21489: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21491: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21493: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21495: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21497: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21499: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21501: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21503: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21505: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21507: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21509: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21511: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21513: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21515: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21517: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21519: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21521: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21523: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21525: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21527: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21529: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21531: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21533: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21535: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21537: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21539: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21541: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21543: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21545: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21547: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21549: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21551: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21553: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21555: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21557: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21559: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21561: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21563: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21565: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21567: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21569: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21571: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21573: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21575: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21577: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21579: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21581: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21583: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21585: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21587: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21589: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21591: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21593: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21595: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21597: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21599: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21601: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21603: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21605: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21607: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21609: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21611: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21613: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21615: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21617: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21619: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21621: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21623: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21625: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21627: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21629: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21631: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21633: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21635: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21637: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21639: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21641: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21643: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21645: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21647: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21649: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21651: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21653: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21655: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21657: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21659: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21661: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21663: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21665: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21667: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21669: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21671: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21673: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21675: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21677: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21679: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21681: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21683: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21685: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21687: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21689: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21691: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21693: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21695: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21697: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21699: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21701: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21703: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21705: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21707: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21709: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21711: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21713: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21715: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21717: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21719: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21721: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21723: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21725: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21727: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21729: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21731: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21733: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21735: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21737: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21739: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21741: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21743: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21745: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21747: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21749: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21751: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21753: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21755: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21757: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21759: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21761: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21763: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21765: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21767: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21769: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21771: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21773: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21775: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21777: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21779: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21781: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21783: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21785: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21787: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21789: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21791: SCRIPT ERROR: Invalid call. Nonexistent function 'get_mod_data_all' in base 'Node (mod_loader.gd)'.
-21793: SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
-21795: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21797: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21799: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21801: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21803: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21805: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21807: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21809: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21811: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21813: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21815: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21817: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21819: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21821: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21823: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21825: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21827: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21829: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21831: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21833: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21835: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21837: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21839: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21841: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21843: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21845: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21847: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21849: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21851: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21853: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21855: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21857: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21859: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21861: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21863: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21865: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21867: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21869: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21871: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21873: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21875: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21877: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21879: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21881: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21883: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21885: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21887: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21889: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21891: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21893: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21895: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21897: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21899: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21901: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21903: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21905: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21907: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21909: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21911: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21913: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21915: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21917: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21919: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21921: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21923: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21925: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21927: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21929: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21931: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21933: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21935: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21937: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21939: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21941: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21943: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21945: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21947: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21949: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21951: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21953: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21955: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21957: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21959: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21961: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21963: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21965: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21967: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21969: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21971: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21973: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21975: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21977: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21979: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21981: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21983: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21985: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21987: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21989: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21991: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21993: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21995: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21997: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-21999: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22001: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22003: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22005: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22007: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22009: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22011: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22013: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22015: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22017: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22019: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22021: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22023: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22025: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22027: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22029: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22031: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22033: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22035: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22037: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22039: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22041: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22043: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22045: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22047: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22049: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22051: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22053: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22055: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22057: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22059: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22061: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22063: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22065: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22067: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22069: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22071: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22073: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22075: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22077: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22079: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22081: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22083: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22085: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22087: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22089: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22091: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22093: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22095: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22097: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22099: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22101: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22103: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22105: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22107: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22109: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22111: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22113: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22115: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22117: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22119: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22121: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22123: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22125: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22127: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22129: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22131: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22133: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22135: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22137: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22139: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22141: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22143: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22145: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22147: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22149: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22151: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22153: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22155: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22157: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22159: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22161: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22163: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22165: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22167: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22169: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22171: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22173: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22175: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22177: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22179: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22181: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22183: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22185: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22187: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22189: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22191: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22193: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22195: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22197: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22199: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22201: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22203: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22205: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22207: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22209: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22211: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22213: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22215: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22217: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22219: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22221: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22223: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22225: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22227: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22229: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22231: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22233: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22235: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22237: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22239: SCRIPT ERROR: Trying to call an async function without "await".
-22241: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22243: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22245: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22247: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22249: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22251: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22253: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22255: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22257: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22259: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22261: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22263: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22265: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22267: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22269: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22271: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22273: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22275: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22277: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22279: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22281: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22283: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22285: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22287: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22289: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22291: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22293: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22295: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22297: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22299: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22301: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22303: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22305: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22307: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22309: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22311: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22320: SCRIPT ERROR: Trying to assign value of type 'Control' to a variable of type 'Node2D'.
-22322: SCRIPT ERROR: Trying to call an async function without "await".
-22325: SCRIPT ERROR: Trying to call an async function without "await".
-22327: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-22329: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-22331: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-22333: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+3616: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3618: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3620: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3622: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3624: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3626: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3628: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3630: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3632: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3635: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3637: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3639: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3641: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3643: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3645: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3647: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3649: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3651: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3653: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3655: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3657: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3659: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3661: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3663: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3665: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3667: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3669: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3671: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3673: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3676: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3678: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3680: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3682: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3684: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3686: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3688: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3690: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3692: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3694: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3696: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3698: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3700: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3702: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3704: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3706: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3708: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3711: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3713: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3715: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3717: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3719: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3721: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3723: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3725: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3727: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3729: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3731: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3733: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3735: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3737: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3741: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3743: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3745: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3747: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3749: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3751: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3753: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3755: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3757: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3759: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3761: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3763: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3765: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3768: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3770: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3772: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3774: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3776: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3778: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3780: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3782: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3784: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3786: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3788: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3791: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3793: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3795: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3797: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3799: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3801: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3803: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3805: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3807: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3809: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3811: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3813: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3815: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3817: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3819: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3821: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3823: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3825: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3827: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3829: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3831: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3833: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3835: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3837: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3839: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3842: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3844: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3846: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3848: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3850: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3852: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3854: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3856: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3858: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3860: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3862: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3864: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3866: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3868: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3870: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3872: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3874: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3876: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3878: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3880: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3883: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3885: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3887: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3889: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3891: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3893: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3895: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3897: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3899: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3901: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3903: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3905: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3907: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3909: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3911: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3913: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3915: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3918: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3920: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3922: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3924: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3926: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3928: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3930: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3932: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3934: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3936: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3938: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3940: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3942: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3944: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3948: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3950: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3952: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3954: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3956: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3958: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3960: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3962: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3964: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3966: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3968: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3970: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3972: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3974: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3976: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3978: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3980: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3982: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3984: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3986: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3988: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3990: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3992: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3995: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3997: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+3999: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4001: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4003: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4005: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4007: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4009: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4011: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4013: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4015: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4017: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4019: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4021: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4023: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4025: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4027: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4029: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4031: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4033: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4035: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4037: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4039: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4041: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4043: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4046: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4048: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4050: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4052: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4054: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4056: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4058: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4060: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4062: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4064: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4066: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4068: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4070: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4072: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4074: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4076: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4078: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4080: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4082: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4084: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4087: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4089: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4091: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4093: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4095: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4097: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4099: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4101: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4103: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4105: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4107: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4109: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4111: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4113: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4115: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4117: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4119: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4122: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4124: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4126: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4128: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4130: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4132: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4134: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4136: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4138: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4140: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4142: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4144: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4146: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4148: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4152: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4154: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4156: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4158: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4160: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4162: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4164: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4166: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4168: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4170: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4172: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4174: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4176: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4178: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4180: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4182: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4184: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4186: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4188: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4190: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4192: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4194: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4196: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4199: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4201: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4203: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4205: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4207: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4209: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4211: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4213: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4215: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4217: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4219: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4221: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4223: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4225: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4227: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4229: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4231: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4233: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4235: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4237: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4239: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4241: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4243: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4245: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4247: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4250: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4252: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4254: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4256: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4259: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4261: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4263: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4265: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4267: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4269: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4271: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4273: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4275: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4277: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4279: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4281: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4283: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4285: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4287: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4289: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4292: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4294: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4296: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4298: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4300: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4302: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4304: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4306: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4308: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4310: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4312: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4314: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4316: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4318: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4320: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4322: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4324: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4327: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4329: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4331: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4333: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4335: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4337: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4339: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4341: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4343: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4345: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4347: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4349: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4351: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4353: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4357: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4359: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4361: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4363: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4365: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4367: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4369: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4371: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4373: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4375: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4377: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4379: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4381: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4383: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4385: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4387: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4389: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4391: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4393: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4395: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4397: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4399: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4401: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4404: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4406: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4408: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4410: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4412: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4414: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4416: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4418: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4420: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4422: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4424: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4426: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4428: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4430: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4432: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4434: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4436: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4438: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4440: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4442: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4444: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4446: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4448: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4450: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4453: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4455: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4457: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4460: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4462: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4464: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4466: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4468: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4470: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4472: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4474: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4476: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4478: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4480: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4482: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4484: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4486: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4488: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4490: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4492: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4494: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4496: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4498: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4500: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4502: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4505: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4507: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4509: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4511: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4513: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4515: SCRIPT ERROR: Parse Error: Identifier "ElementalAirstrikeTextures" not declared in the current scope.
+4519: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4521: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4523: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4525: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4527: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4529: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4531: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4533: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4535: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4537: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4539: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4541: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4543: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4545: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4547: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4549: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4551: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4553: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4555: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4557: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4559: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4561: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4563: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4565: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4567: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4569: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4571: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4573: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4575: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4577: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4579: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4581: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4583: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4585: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4587: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4589: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4591: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4593: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4595: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4597: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4599: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4601: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4603: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4605: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4607: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4609: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4611: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4613: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4615: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4617: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4619: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4621: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4623: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4625: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4627: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4629: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4631: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4633: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4635: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4637: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4639: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4641: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4643: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4645: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4647: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4649: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4651: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4653: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4655: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4657: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4659: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4661: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4663: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4665: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4667: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4669: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4671: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4673: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4675: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4677: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4679: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4681: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4683: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4685: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4687: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4689: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4691: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4693: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4695: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4697: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4699: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4701: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4703: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4705: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4707: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4709: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4711: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4713: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4715: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4717: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4719: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4721: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4723: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4725: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4727: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4729: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4731: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4733: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4735: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4737: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4739: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4741: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4743: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4745: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4747: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4749: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4751: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4753: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4755: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4757: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4759: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4761: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4763: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4765: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4767: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4769: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4771: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4773: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4775: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4777: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4779: SCRIPT ERROR: Parse Error: Identifier "ElementalAirstrikeTextures" not declared in the current scope.
+4783: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4785: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4787: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4789: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4791: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4793: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4795: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4797: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4799: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4801: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4803: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4805: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4807: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4809: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4811: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4813: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4815: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4817: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4819: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4821: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4823: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4825: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4827: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4829: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4831: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4833: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4835: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4837: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4839: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4841: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4843: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4845: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4847: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4849: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4851: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4853: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4855: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4857: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4859: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4861: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4863: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4865: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4867: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4869: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4871: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4873: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4875: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4877: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4879: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4881: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4883: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4885: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4887: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4889: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4891: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4893: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4895: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4897: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4899: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4901: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4903: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4905: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4907: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4909: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4911: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4913: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4915: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4917: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4919: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4921: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4923: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4925: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4927: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4929: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4931: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4933: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4935: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4937: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4939: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4941: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4943: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4945: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4947: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4949: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4951: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4953: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4955: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4957: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4959: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4961: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4963: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4965: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4967: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4969: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4971: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4973: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4975: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4977: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4979: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4981: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4983: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4985: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4987: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4989: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4991: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4993: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4995: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4997: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+4999: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5001: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5003: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5005: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5007: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5009: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5012: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5014: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5016: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5018: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5020: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5022: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5024: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5026: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5028: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5030: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5032: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5034: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5036: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5038: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5040: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5042: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5044: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5046: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5048: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5050: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5052: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5054: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5056: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5058: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5060: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5062: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5064: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5066: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5068: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5070: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5072: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5074: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5076: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5078: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5080: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5082: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5084: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5086: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5088: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5090: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5092: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5094: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5096: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5098: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5100: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5102: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5104: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5106: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5108: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5110: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5112: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5114: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5116: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5118: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5120: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5122: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5124: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5126: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5128: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5130: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5132: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5134: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5136: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5138: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5140: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5142: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5144: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5146: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5148: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5150: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5152: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5154: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5156: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5158: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5160: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5162: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5164: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5166: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5168: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5170: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5172: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5174: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5176: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5178: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5180: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5182: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5184: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5186: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5188: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5190: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5192: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5194: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5196: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5198: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5200: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5202: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5204: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5206: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5208: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5210: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5212: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5214: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5216: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5218: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5220: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5222: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5224: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5226: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5228: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5230: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5232: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5234: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5236: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5238: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5240: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5242: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5244: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5246: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5248: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5250: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5252: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5254: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5256: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5258: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5260: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5262: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5264: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5266: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5268: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5270: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5272: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5274: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5276: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5278: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5280: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5282: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5284: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5286: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5288: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5290: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5292: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5294: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5296: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5298: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5300: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5302: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5304: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5306: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5308: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5310: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5312: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5314: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5316: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5318: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5320: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5322: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5324: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5326: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5328: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5330: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5332: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5334: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5336: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5338: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5340: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5342: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5344: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5346: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5348: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5350: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5352: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5354: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5356: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5358: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5360: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5362: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5364: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5366: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5368: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5370: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5372: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5374: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5376: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5378: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5380: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5382: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5384: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5386: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5388: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5390: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5392: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5394: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5396: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5398: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5400: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5402: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5404: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5406: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5408: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5410: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5412: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5414: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5416: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5418: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5420: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5422: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5424: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5426: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5428: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5430: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5432: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5434: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5436: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5438: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5440: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5442: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5444: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5446: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5448: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5450: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5452: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5454: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5456: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5459: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5461: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5463: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5465: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5467: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5469: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5471: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5473: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5475: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5477: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5479: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5481: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5483: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5485: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5487: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5489: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5491: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5493: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5495: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5497: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5499: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5501: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5503: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5505: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5507: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5509: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5511: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5513: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5515: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5517: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5519: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5521: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5523: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5525: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5527: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5529: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5531: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5533: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5535: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5537: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5539: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5541: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5543: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5545: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5547: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5549: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5551: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5553: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5555: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5557: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5559: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5561: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5563: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5565: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5567: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5569: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5571: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5573: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5575: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5577: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5579: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5581: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5583: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5585: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5587: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5589: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5591: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5593: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5595: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5597: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5599: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5601: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5603: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5605: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5607: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5609: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5611: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5613: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5615: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5617: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5619: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5621: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5623: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5625: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5627: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5629: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5631: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5633: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5635: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5637: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5639: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5641: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5643: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5645: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5647: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5649: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5651: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5653: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5655: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5657: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5659: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5661: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5663: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5665: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5667: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5669: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5671: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5673: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5675: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5677: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5679: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5681: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5683: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5685: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5687: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5689: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+5691: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
 
 Telemetry Highlights (Last 15):
-22362: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Employee Collector Speed +2.0%
-22363: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Sprint Speed +5.0%
-22364: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Employee Collector Capacity +2.0%
-22365: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Sword Damage +5.0%
-22366: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Sprint Speed +10.0%
-22367: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Sprint Speed +10.0%
-22369: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Sword Range +10.0%
-22370: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Sword Speed +10.0%
-22371: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Jump Velocity +20.0%
-22373: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Jump Velocity +20.0%
-22376: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Jump Velocity +20.0%
-22377: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Sword Range +10.0%
-22379: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Sprint Speed +10.0%
-22380: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Jump Velocity +20.0%
-22383: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Employee Collector Capacity +6.0%
+2530: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Damage +5.0%
+2737: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Damage +5.0%
+3149: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Jump Velocity +10.0%
+3767: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Jump Velocity +10.0%
 PS C:\Dev\coal-llc-mods> 

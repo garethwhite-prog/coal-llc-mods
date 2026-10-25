@@ -77,4 +77,4 @@ if ([System.IO.File]::Exists($godotLog)) {
     };
 };
 
-./Reduce_Test_Output.ps1 -InputPath $godotLog -OutputPath ([System.IO.Path]::Combine($repoRoot, "tests_concise.txt"));
+# ./Reduce_Test_Output.ps1 -InputPath $godotLog -OutputPath ([System.IO.Path]::Combine($repoRoot, "tests_concise.txt"));
