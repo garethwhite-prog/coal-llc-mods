@@ -1,1 +1,149 @@
->>> 1. Terminating running Coal LLC / Godot processes...
+=================================================================
+>>> 1. Inspecting Stockpile.gd around line 59 in _dump...
+=================================================================
+   46:                 sprite.texture = COAL_STOCKPILE_LEVEL_ONE
+   47:             2:
+   48:                 sprite.texture = COAL_STOCKPILE_LEVEL_TWO
+   49:             3:
+   50:                 sprite.texture = COAL_STOCKPILE_LEVEL_THREE
+   51:             4:
+   52:                 sprite.texture = COAL_STOCKPILE_LEVEL_FOUR
+   53: 
+   54: 
+   55: 
+   56: 
+   57: func drop_off_coal():
+   58:     var tween = get_tree().create_tween()
+   59:     for invItem in player.inventory.items:
+   60:         if invItem.item.itemType in stockpilable_item_types:
+   61:             var item = invItem.item
+   62:             var added = inventory.addToInventory(invItem.item, invItem.count)
+   63:             player.inventory.removeFromInventory(invItem.item, added)
+   64:             sendItemToInventory(item, added, tween)
+   65: 
+   66: 
+   67: func sendItemToInventory(item: Item, added: int, tween: Tween):
+   68:     @warning_ignore("integer_division")
+   69:     for n in min((1 + int(added / 4)), 10):
+   70:         tween.tween_interval(0.0333)
+   71:         tween.tween_callback(launchFlyingItem.bind(item))
+   72: 
+   73: 
+   74: func launchFlyingItem(item: Item):
+   75:     var instance = FLYING_ITEM.instantiate()
+
+=================================================================
+>>> 2. Inspecting vanilla AddToInventory.gd in _dump...
+=================================================================
+   extends BuyEffect
+   
+   class_name AddToInventory
+   
+   
+   func buy_effect(shop_item: Item, count: int) -> void :
+   
+       var possible_count = get_max_count(shop_item.itemBuyPrice, count)
+   
+       if ((Gvars.CashCount - shop_item.itemBuyPrice) >= 0):
+           var inventory: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
+           var added = inventory.addToInventory(shop_item, possible_count)
+           if added != 0:
+               Gvars.CashCount -= shop_item.itemBuyPrice * added
+   
+   
+   func get_max_count(price: float, count: float) -> float:
+   
+       var _max = floor(Gvars.CashCount / price)
+       return min(_max, count)
+
+=================================================================
+>>> 3. Inspecting vanilla End Day button layout in MineRegion or in_game HUD...
+=================================================================
+File: MineRegion.tscn
+   > "speed": 12.0
+  }]
+  
+  [sub_resource type="AtlasTexture" id="AtlasTexture_if130"]
+  atlas = ExtResource("29")
+   > "speed": 2.0
+  }]
+  
+  [sub_resource type="Resource" id="Resource_26u2c"]
+  script = ExtResource("48")
+
+=================================================================
+>>> 4. Inspecting Collector Priority settings hook implementation...
+=================================================================
+Script: mod_main.gd
+   > const MOD_DIR := "gareth-collector_priority_mod"
+  func _init() -> void:
+   > 	ModLoaderMod.install_script_hooks("res://scripts/loot_drops.gd", "res://mods-unpacked/gareth-collector_priority_mod/extensions/scripts/loot_drops.hooks.gd")
+   > func _ready() -> void:
+   > 	ModLoaderLog.info("Collector Priority Mod active!", MOD_DIR)
+Script: loot_drops.hooks.gd
+   > 	# Check priority mode: 0 = Closest, 1 = Most Valuable First
+   > 	var priority_mode: int = 1
+   > 	if Gvars and ("collector_priority_mode" in Gvars):
+   > 		priority_mode = int(Gvars.collector_priority_mode)
+  
+   > 	if priority_mode == 0:
+  		chain.execute_next([collector])
+  		return
+  
+  	var loots = ld.loot_drops.get_children()
+
+=================================================================
+>>> 5. Inspecting level_select.hooks.gd across custom maps 101-105...
+=================================================================
+File: \mods-unpacked\gareth-abyssal_trench_mod\mods-unpacked\gareth-abyssal_trench_mod\extensions\scenes\Interfaces\Menus\level_select.hooks.gd
+   > 	var helper_script = load("res://mods-unpacked/gareth-abyssal_trench_mod/helpers/AbyssalTrenchHelper.gd")
+  	if helper_script:
+  		var helper = helper_script.new()
+   > 		if helper.has_method("ensure_level_registered"):
+   > 			helper.ensure_level_registered()
+  
+  	var ls = chain.reference_object
+   > 	if ls and ("LEVEL_ORDER" in ls):
+  		var tid: int = 104
+   > 		if not ls.LEVEL_ORDER.has(tid):
+   > 			ls.LEVEL_ORDER.append(tid)
+  
+  	chain.execute_next([])
+File: \mods-unpacked\gareth-diagonal_map_mod\mods-unpacked\gareth-diagonal_map_mod\extensions\scenes\Interfaces\Menus\level_select.hooks.gd
+   > 	var helper = load("res://mods-unpacked/gareth-diagonal_map_mod/helpers/DiagonalMapHelper.gd")
+   > 	if helper and helper.has_method("ensure_level_registered"):
+   > 		helper.ensure_level_registered()
+  
+  	var ls = chain.reference_object
+   > 	if ls and ("LEVEL_ORDER" in ls):
+   > 		if not ls.LEVEL_ORDER.has(105):
+   > 			ls.LEVEL_ORDER.append(105)
+  
+  	chain.execute_next([])
+File: \mods-unpacked\gareth-living_canvas_mod\mods-unpacked\gareth-living_canvas_mod\extensions\scenes\Interfaces\Menus\level_select.hooks.gd
+   > 	var helper_script = load("res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd")
+   > 	if helper_script and helper_script.has_method("ensure_level_registered"):
+   > 		helper_script.ensure_level_registered()
+  
+  	var ls = chain.reference_object
+   > 	if ls and ("LEVEL_ORDER" in ls):
+   > 		if not ls.LEVEL_ORDER.has(103):
+   > 			ls.LEVEL_ORDER.append(103)
+  
+  	chain.execute_next([])
+File: \mods-unpacked\gareth-lost_expedition_mod\mods-unpacked\gareth-lost_expedition_mod\extensions\scenes\Interfaces\Menus\level_select.hooks.gd
+   > 		helper.ensure_level_registered()
+  		var ls = chain.reference_object
+   > 		if ls and ("LEVEL_ORDER" in ls):
+   > 			if not ls.LEVEL_ORDER.has(helper.EXPEDITION_LEVEL_ID):
+   > 				ls.LEVEL_ORDER.append(helper.EXPEDITION_LEVEL_ID)
+  	chain.execute_next([])
+File: \mods-unpacked\gareth-tectonic_faultline_mod\mods-unpacked\gareth-tectonic_faultline_mod\extensions\scenes\Interfaces\Menus\level_select.hooks.gd
+   > 		helper.ensure_level_registered()
+  		var ls = chain.reference_object
+   > 		if ls and ("LEVEL_ORDER" in ls):
+   > 			if not ls.LEVEL_ORDER.has(helper.FAULTLINE_LEVEL_ID):
+   > 				ls.LEVEL_ORDER.append(helper.FAULTLINE_LEVEL_ID)
+  	chain.execute_next([])
+
+Discovery Phase 57 complete. Zero files modified.
