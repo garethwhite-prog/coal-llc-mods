@@ -22,31 +22,31 @@ func _build_hud() -> void:
 	panel.anchor_right = 1.0
 	panel.anchor_top = 1.0
 	panel.anchor_bottom = 1.0
-	panel.offset_left = -396.0
-	panel.offset_right = -16.0
-	panel.offset_top = -140.0
-	panel.offset_bottom = -96.0
+	panel.offset_left = -172.0
+	panel.offset_right = -8.0
+	panel.offset_top = -108.0
+	panel.offset_bottom = -86.0
 	panel.visible = false
 
 	var hbox = HBoxContainer.new()
 	hbox.add_theme_constant_override("separation", 6)
 
 	btn_dragon = Button.new()
-	btn_dragon.text = "🔥 Dragon (7)"
+	btn_dragon.text = "🔥 7"
 	btn_dragon.modulate = Color(1.0, 0.4, 0.2, 1.0)
 	btn_dragon.tooltip_text = "Deploy Fire Dragon Airstrike [ Key 7 ]"
 	btn_dragon.pressed.connect(func(): trigger_strike("dragon"))
 	hbox.add_child(btn_dragon)
 
 	btn_water = Button.new()
-	btn_water.text = "💧 Water (8)"
+	btn_water.text = "💧 8"
 	btn_water.modulate = Color(0.3, 0.7, 1.0, 1.0)
 	btn_water.tooltip_text = "Deploy Water Bomber Airstrike [ Key 8 ]"
 	btn_water.pressed.connect(func(): trigger_strike("water"))
 	hbox.add_child(btn_water)
 
 	btn_poison = Button.new()
-	btn_poison.text = "☣️ Poison (9)"
+	btn_poison.text = "☣️ 9"
 	btn_poison.modulate = Color(0.4, 1.0, 0.4, 1.0)
 	btn_poison.tooltip_text = "Deploy Agent Orange Poison Bomber [ Key 9 ]"
 	btn_poison.pressed.connect(func(): trigger_strike("poison"))
@@ -112,6 +112,7 @@ func trigger_strike(strike_type: String) -> void:
 		tree.current_scene.add_child(boom_audio)
 		boom_audio.play()
 		boom_audio.finished.connect(boom_audio.queue_free)
+
 
 
 

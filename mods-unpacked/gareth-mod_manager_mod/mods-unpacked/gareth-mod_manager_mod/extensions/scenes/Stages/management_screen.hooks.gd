@@ -5,6 +5,11 @@ var sort_dropdown: OptionButton = null
 var chk_affordable: CheckBox = null
 var is_affordable_only: bool = false
 
+var bonus_search_input: LineEdit = null
+var bonus_sort_dropdown: OptionButton = null
+var bonus_chk_affordable: CheckBox = null
+var is_bonus_affordable_only: bool = false
+
 func load_equipment_shop(chain: ModLoaderHookChain) -> void:
 	var screen = chain.reference_object
 	if is_instance_valid(screen):
@@ -18,6 +23,16 @@ func load_equipment_shop(chain: ModLoaderHookChain) -> void:
 	if is_instance_valid(screen):
 		Callable(self, "_apply_filter").call_deferred(screen)
 
+func load_bonus_shop(chain: ModLoaderHookChain) -> void:
+	var screen = chain.reference_object
+	if is_instance_valid(screen):
+		_ensure_bonus_filter_bar(screen)
+
+	chain.execute_next([])
+
+	if is_instance_valid(screen):
+		Callable(self, "_apply_bonus_filter").call_deferred(screen)
+
 func _ensure_search_and_sort_bar(screen: Node) -> void:
 	if not is_instance_valid(screen):
 		return
@@ -27,19 +42,12 @@ func _ensure_search_and_sort_bar(screen: Node) -> void:
 
 	var scroll = shop.get_parent()
 	var v_box = scroll.get_parent() if scroll else null
-	if not v_box:
-		return
-
-	if v_box.has_node("EquipmentFilterBar"):
-		var existing_bar = v_box.get_node("EquipmentFilterBar")
-		search_input = existing_bar.get_node_or_null("SearchInput")
-		sort_dropdown = existing_bar.get_node_or_null("SortOption")
-		chk_affordable = existing_bar.get_node_or_null("AffordableOnly")
+	if not v_box or v_box.has_node("EquipmentFilterBar"):
 		return
 
 	var bar = HBoxContainer.new()
 	bar.name = "EquipmentFilterBar"
-	bar.add_theme_constant_override("separation", 12)
+	bar.add_theme_constant_override("separation", 10)
 
 	var search = LineEdit.new()
 	search.name = "SearchInput"
@@ -67,13 +75,52 @@ func _ensure_search_and_sort_bar(screen: Node) -> void:
 	var chk = CheckBox.new()
 	chk.name = "AffordableOnly"
 	chk.text = "Affordable Only"
-	chk.tooltip_text = "Show only items you can afford with your current cash."
+	chk.tooltip_text = "Show only items you can afford with current cash."
 	chk.toggled.connect(func(pressed: bool):
 		is_affordable_only = pressed
 		_apply_filter(screen)
 	)
 	bar.add_child(chk)
 	chk_affordable = chk
+
+	v_box.add_child(bar)
+	v_box.move_child(bar, scroll.get_index())
+
+func _ensure_bonus_filter_bar(screen: Node) -> void:
+	if not is_instance_valid(screen):
+		return
+	var shop = screen.find_child("BonusShop", true, false)
+	if not shop:
+		return
+
+	var scroll = shop.get_parent()
+	var v_box = scroll.get_parent() if scroll else null
+	if not v_box or v_box.has_node("BonusFilterBar"):
+		return
+
+	var bar = HBoxContainer.new()
+	bar.name = "BonusFilterBar"
+	bar.add_theme_constant_override("separation", 10)
+
+	var search = LineEdit.new()
+	search.name = "BonusSearchInput"
+	search.placeholder_text = "Search bonuses by name..."
+	search.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	search.clear_button_enabled = true
+	search.text_changed.connect(func(_new_text): _apply_bonus_filter(screen))
+	bar.add_child(search)
+	bonus_search_input = search
+
+	var chk = CheckBox.new()
+	chk.name = "BonusAffordableOnly"
+	chk.text = "Affordable Only"
+	chk.tooltip_text = "Show only bonuses you can afford."
+	chk.toggled.connect(func(pressed: bool):
+		is_bonus_affordable_only = pressed
+		_apply_bonus_filter(screen)
+	)
+	bar.add_child(chk)
+	bonus_chk_affordable = chk
 
 	v_box.add_child(bar)
 	v_box.move_child(bar, scroll.get_index())
@@ -111,5 +158,25 @@ func _apply_filter(screen: Node) -> void:
 
 		var match_query: bool = query.is_empty() or query in it_name or query in it_id or query in it_type
 		var match_afford: bool = not is_affordable_only or (it.itemBuyPrice <= cur_cash or it.itemBuyPrice <= 0.0)
+
+		card.visible = match_query and match_afford
+
+func _apply_bonus_filter(screen: Node) -> void:
+	if not is_instance_valid(screen) or not is_instance_valid(bonus_search_input):
+		return
+	var query: String = bonus_search_input.text.strip_edges().to_lower()
+	var cur_cash: float = Gvars.CashCount if Gvars else 0.0
+
+	var shop = screen.find_child("BonusShop", true, false)
+	if not shop:
+		return
+
+	for card in shop.find_children("*", "PanelContainer", true, false):
+		if not is_instance_valid(card) or not ("item" in card) or not card.item:
+			continue
+		var it = card.item
+		var it_name: String = str(it.itemName).to_lower()
+		var match_query: bool = query.is_empty() or query in it_name
+		var match_afford: bool = not is_bonus_affordable_only or (it.itemBuyPrice <= cur_cash or it.itemBuyPrice <= 0.0)
 
 		card.visible = match_query and match_afford

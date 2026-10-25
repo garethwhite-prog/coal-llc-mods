@@ -25,17 +25,17 @@ func _build_hud() -> void:
 	panel.anchor_right = 1.0
 	panel.anchor_top = 1.0
 	panel.anchor_bottom = 1.0
-	panel.offset_left = -396.0
-	panel.offset_right = -16.0
-	panel.offset_top = -46.0
-	panel.offset_bottom = -14.0
+	panel.offset_left = -172.0
+	panel.offset_right = -8.0
+	panel.offset_top = -56.0
+	panel.offset_bottom = -34.0
 
 	var hbox = HBoxContainer.new()
 	hbox.add_theme_constant_override("separation", 6)
 
 	btn_slower = Button.new()
 	btn_slower.text = "◀"
-	btn_slower.custom_minimum_size = Vector2(28, 24)
+	btn_slower.custom_minimum_size = Vector2(22, 20)
 	btn_slower.tooltip_text = "Slower [ [ ]"
 	btn_slower.pressed.connect(func(): _step_speed(-1))
 	hbox.add_child(btn_slower)
@@ -43,12 +43,12 @@ func _build_hud() -> void:
 	lbl_speed = Label.new()
 	lbl_speed.text = "1.00x"
 	lbl_speed.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	lbl_speed.custom_minimum_size = Vector2(48, 24)
+	lbl_speed.custom_minimum_size = Vector2(40, 20)
 	hbox.add_child(lbl_speed)
 
 	btn_faster = Button.new()
 	btn_faster.text = "▶"
-	btn_faster.custom_minimum_size = Vector2(28, 24)
+	btn_faster.custom_minimum_size = Vector2(22, 20)
 	btn_faster.tooltip_text = "Faster [ ] ]"
 	btn_faster.pressed.connect(func(): _step_speed(1))
 	hbox.add_child(btn_faster)
@@ -58,7 +58,7 @@ func _build_hud() -> void:
 
 	btn_end_day = Button.new()
 	btn_end_day.text = "End Day"
-	btn_end_day.custom_minimum_size = Vector2(70, 24)
+	btn_end_day.visible = false
 	btn_end_day.modulate = Color(1.0, 0.45, 0.45, 1.0)
 	btn_end_day.tooltip_text = "Finish Level / Emergency Exit [ F8 ]"
 	btn_end_day.pressed.connect(Callable(self, "_finish_level"))
@@ -114,6 +114,7 @@ func _finish_level() -> void:
 			Game.on_EndDay()
 		elif Game.has_method("change_stage") and Gconsts and ("Stages" in Gconsts):
 			Game.change_stage(Gconsts.Stages._END_OF_DAY_OVERLAY, Vector2.ZERO)
+
 
 
 

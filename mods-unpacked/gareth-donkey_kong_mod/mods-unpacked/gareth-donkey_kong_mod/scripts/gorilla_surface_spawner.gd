@@ -114,7 +114,42 @@ func _toss_barrel(scene: Node, pos: Vector2) -> void:
 	col.shape = shape
 	barrel.add_child(col)
 
-	var on_hit = func(target: Node):
+		var on_hit = func(target: Node):
+		var p_node = target if (target.name == "Player" or target.is_in_group("player")) else target.get_parent()
+		if p_node and (p_node.name == "Player" or p_node.is_in_group("player")):
+			# Freeze movement, disable mining, and pause player state machine
+			if "velocity" in p_node:
+				p_node.velocity = Vector2.ZERO
+			if "able_to_mine" in p_node:
+				p_node.able_to_mine = false
+			if p_node.has_node("StateMachine"):
+				p_node.get_node("StateMachine").set_physics_process(false)
+
+			var toast = Label.new()
+			toast.text = "★ BONK! STUNNED! ★"
+			toast.modulate = Color(1.0, 0.85, 0.2)
+			toast.position = Vector2(-60, -40)
+			p_node.add_child(toast)
+
+			var bonk = AudioStreamPlayer2D.new()
+			bonk.stream = load("res://assets/sound/sound effects/box_1.wav")
+			bonk.pitch_scale = 1.3
+			p_node.add_child(bonk)
+			bonk.play()
+
+			var tw = p_node.create_tween()
+			tw.tween_interval(2.5)
+			tw.tween_callback(func():
+				if is_instance_valid(p_node):
+					if "able_to_mine" in p_node:
+						p_node.able_to_mine = true
+					if p_node.has_node("StateMachine"):
+						p_node.get_node("StateMachine").set_physics_process(true)
+				toast.queue_free()
+				bonk.queue_free()
+			)
+			barrel.queue_free()
+			return
 		var p_node = target if (target.name == "Player" or target.is_in_group("player")) else target.get_parent()
 		if p_node and (p_node.name == "Player" or p_node.is_in_group("player")):
 			if "velocity" in p_node:
@@ -149,3 +184,4 @@ func _toss_barrel(scene: Node, pos: Vector2) -> void:
 	b_tween.parallel().tween_property(barrel, "global_position:y", 680.0, 6.0)
 	b_tween.parallel().tween_property(barrel, "rotation", 14.0, 6.0)
 	b_tween.tween_callback(barrel.queue_free)
+

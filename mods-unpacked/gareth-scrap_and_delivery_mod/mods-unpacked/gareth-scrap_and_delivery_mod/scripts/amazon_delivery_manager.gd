@@ -60,15 +60,15 @@ func _build_ui() -> void:
 	# Bottom-Right Docked HUD Button (above Speed Controls)
 	hud_btn = Button.new()
 	hud_btn.name = "AmazonHUDButton"
-	hud_btn.text = "📦 Amazon"
+	hud_btn.text = "📦 Amazon (B)"
 	hud_btn.anchor_left = 1.0
 	hud_btn.anchor_right = 1.0
 	hud_btn.anchor_top = 1.0
 	hud_btn.anchor_bottom = 1.0
-	hud_btn.offset_left = -396.0
-	hud_btn.offset_right = -16.0
-	hud_btn.offset_top = -88.0
-	hud_btn.offset_bottom = -54.0
+	hud_btn.offset_left = -172.0
+	hud_btn.offset_right = -8.0
+	hud_btn.offset_top = -82.0
+	hud_btn.offset_bottom = -60.0
 	hud_btn.modulate = Color(1.0, 0.85, 0.3, 1.0)
 	hud_btn.tooltip_text = "Open Amazon Same-Day Emergency Delivery (Hotkey B)"
 	hud_btn.pressed.connect(toggle_store)
@@ -441,6 +441,7 @@ func show_toast(msg: String) -> void:
 				if is_instance_valid(toast_label):
 					toast_label.visible = false
 			)
+
 
 
 

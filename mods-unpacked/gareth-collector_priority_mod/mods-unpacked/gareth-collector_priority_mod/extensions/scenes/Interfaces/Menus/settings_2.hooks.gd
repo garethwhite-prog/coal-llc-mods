@@ -7,11 +7,11 @@ func _ready(chain: ModLoaderHookChain) -> void:
 		return
 
 	var tc = settings.tab_container
-	if tc.has_node("CollectorPriorityTab"):
+	if tc.has_node("Collector"):
 		return
 
 	var tab = PanelContainer.new()
-	tab.name = "CollectorPriorityTab"
+	tab.name = "Collector"
 
 	var margin = MarginContainer.new()
 	margin.add_theme_constant_override("margin_left", 24)
@@ -31,7 +31,7 @@ func _ready(chain: ModLoaderHookChain) -> void:
 	vbox.add_child(title)
 
 	var desc = Label.new()
-	desc.text = "Choose how automated Collector UFOs prioritize dropped items on the mine floor."
+	desc.text = "Configure how automated Collector UFOs prioritize dropped items on the mine floor."
 	desc.modulate = Color(0.8, 0.8, 0.8)
 	vbox.add_child(desc)
 
@@ -52,3 +52,4 @@ func _ready(chain: ModLoaderHookChain) -> void:
 	vbox.add_child(opt)
 
 	tc.add_child(tab)
+	tc.call_deferred("move_child", tab, 7)
