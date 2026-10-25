@@ -22,7 +22,6 @@ static func get_all_mods() -> Array[Dictionary]:
 	var list: Array[Dictionary] = []
 	var mod_dict: Dictionary = {}
 
-	# 1. Attempt ModLoaderStore autoload
 	var mls = Engine.get_main_loop().root.get_node_or_null("/root/ModLoaderStore")
 	if mls and ("mod_data" in mls) and mls.mod_data is Dictionary and mls.mod_data.size() > 0:
 		mod_dict = mls.mod_data
@@ -34,11 +33,9 @@ static func get_all_mods() -> Array[Dictionary]:
 			var data = mod_dict[mod_id]
 			if not data or not ("manifest" in data) or not data.manifest:
 				continue
-			var m = data.manifest
-			list.append(_dict_from_manifest(mod_id, m, data.is_active if "is_active" in data else true))
+			list.append(_dict_from_manifest(mod_id, data.manifest, data.is_active if "is_active" in data else true))
 		return list
 
-	# 2. Fallback: Scan virtual filesystem at res://mods-unpacked/
 	var dir := DirAccess.open("res://mods-unpacked")
 	if dir:
 		dir.list_dir_begin()
@@ -56,13 +53,14 @@ static func get_all_mods() -> Array[Dictionary]:
 
 	return list
 
-static func _dict_from_manifest(mod_id: String, m: Dictionary, active: bool) -> Dictionary:
+static func _dict_from_manifest(mod_id: String, m, active: bool) -> Dictionary:
 	var display_name: String = _format_display_name(m)
-	var desc: String = m.description if "description" in m else ""
+	var desc: String = str(m.description) if "description" in m else ""
 	var author: String = "Community"
-	if m.has("extra") and m.extra.has("godot") and m.extra.godot.has("authors") and m.extra.godot.authors.size() > 0:
-		author = m.extra.godot.authors[0]
-	var version: String = m.version_number if "version_number" in m else "1.0.0"
+	if "extra" in m and m.extra:
+		if ("godot" in m.extra) and ("authors" in m.extra.godot) and m.extra.godot.authors.size() > 0:
+			author = str(m.extra.godot.authors[0])
+	var version: String = str(m.version_number) if "version_number" in m else "1.0.0"
 	var cat: String = _determine_category(m)
 
 	return {
@@ -77,7 +75,7 @@ static func _dict_from_manifest(mod_id: String, m: Dictionary, active: bool) -> 
 	}
 
 static func _determine_category(m) -> String:
-	var id: String = str(m.name).to_lower()
+	var id: String = str(m.name).to_lower() if "name" in m else ""
 	if "class" in id or "profession" in id or "jedi" in id or "knight" in id or "sinclairity" in id:
 		return "Classes & Professions"
 	if "map" in id or "trench" in id or "faultline" in id or "canvas" in id or "expedition" in id:
@@ -95,7 +93,7 @@ static func _determine_category(m) -> String:
 	return "Community Add-Ons"
 
 static func _format_display_name(m) -> String:
-	if m.has("extra") and m.extra.has("godot") and m.extra.godot.has("display_name"):
-		return m.extra.godot.display_name
-	var raw: String = m.name.replace("_mod", "").replace("mod_", "").replace("-", " ").replace("_", " ")
+	if "extra" in m and m.extra and ("godot" in m.extra) and ("display_name" in m.extra.godot):
+		return str(m.extra.godot.display_name)
+	var raw: String = str(m.name).replace("_mod", "").replace("mod_", "").replace("-", " ").replace("_", " ") if "name" in m else "Mod"
 	return raw.capitalize()

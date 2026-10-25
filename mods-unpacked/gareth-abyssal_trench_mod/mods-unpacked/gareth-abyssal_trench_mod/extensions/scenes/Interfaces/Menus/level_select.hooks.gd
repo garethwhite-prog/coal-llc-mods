@@ -1,14 +1,16 @@
 extends Object
 
 func _ready(chain: ModLoaderHookChain) -> void:
-	chain.execute_next([])
 	var helper_script = load("res://mods-unpacked/gareth-abyssal_trench_mod/helpers/AbyssalTrenchHelper.gd")
 	if helper_script:
 		var helper = helper_script.new()
 		if helper.has_method("ensure_level_registered"):
 			helper.ensure_level_registered()
-		var ls = chain.reference_object
-		if ls and ("LEVEL_ORDER" in ls):
-			var trench_id: int = helper_script.TRENCH_LEVEL_ID if ("TRENCH_LEVEL_ID" in helper_script) else 104
-			if not ls.LEVEL_ORDER.has(trench_id):
-				ls.LEVEL_ORDER.append(trench_id)
+
+	var ls = chain.reference_object
+	if ls and ("LEVEL_ORDER" in ls):
+		var tid: int = 104
+		if not ls.LEVEL_ORDER.has(tid):
+			ls.LEVEL_ORDER.append(tid)
+
+	chain.execute_next([])

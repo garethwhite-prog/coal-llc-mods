@@ -3,6 +3,7 @@ extends Object
 var search_input: LineEdit = null
 var sort_dropdown: OptionButton = null
 var chk_affordable: CheckBox = null
+var is_affordable_only: bool = false
 
 func load_equipment_shop(chain: ModLoaderHookChain) -> void:
 	var screen = chain.reference_object
@@ -68,7 +69,7 @@ func _ensure_search_and_sort_bar(screen: Node) -> void:
 	chk.text = "Affordable Only"
 	chk.tooltip_text = "Show only items you can afford with your current cash."
 	chk.toggled.connect(func(pressed: bool):
-		Gvars.show_only_affordable = pressed
+		is_affordable_only = pressed
 		_apply_filter(screen)
 	)
 	bar.add_child(chk)
@@ -94,7 +95,6 @@ func _apply_filter(screen: Node) -> void:
 	if not is_instance_valid(screen) or not is_instance_valid(search_input):
 		return
 	var query: String = search_input.text.strip_edges().to_lower()
-	var only_afford: bool = chk_affordable.button_pressed if is_instance_valid(chk_affordable) else false
 	var cur_cash: float = Gvars.CashCount if Gvars else 0.0
 
 	var shop = screen.find_child("EquipmentShop", true, false)
@@ -110,6 +110,6 @@ func _apply_filter(screen: Node) -> void:
 		var it_type: String = str(it.itemType).to_lower()
 
 		var match_query: bool = query.is_empty() or query in it_name or query in it_id or query in it_type
-		var match_afford: bool = not only_afford or (it.itemBuyPrice <= cur_cash or it.itemBuyPrice <= 0.0)
+		var match_afford: bool = not is_affordable_only or (it.itemBuyPrice <= cur_cash or it.itemBuyPrice <= 0.0)
 
 		card.visible = match_query and match_afford

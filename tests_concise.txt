@@ -1,25 +1,60 @@
-﻿ 991: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
-1066: SCRIPT ERROR: Invalid access to property or key '105' on a base object of type 'Dictionary'.
-[Repeated 3 times]
-  First: 1068: SCRIPT ERROR: Trying to call an async function without "await".
-  Last:  1080: SCRIPT ERROR: Trying to call an async function without "await".
+﻿  19: ERROR ModLoader:Path: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
+  20: ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
+  21: at: push_error (core/variant/variant_utility.cpp:1098)
+ 994: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
+1001: SCRIPT ERROR: Parse Error: Cannot find member "NORMAL" in base "GameLevel.Difficulty".
+1003: ERROR: Failed to load script "res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd" with error "Parse error".
+1064: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
+1073: SCRIPT ERROR: Invalid type in function '_dict_from_manifest' in base 'GDScript'. Cannot convert argument 2 from Object to Dictionary.
+1075: SCRIPT ERROR: Invalid type in function '_dict_from_manifest' in base 'GDScript'. Cannot convert argument 2 from Object to Dictionary.
+1077: SCRIPT ERROR: Parse Error: Cannot find member "NORMAL" in base "GameLevel.Difficulty".
+1079: ERROR: Failed to load script "res://mods-unpacked/gareth-diagonal_map_mod/helpers/DiagonalMapHelper.gd" with error "Parse error".
+1081: SCRIPT ERROR: Trying to call an async function without "await".
+1086: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1088: ERROR: Child is not a child of this node.
+1090: SCRIPT ERROR: Trying to call an async function without "await".
+1093: SCRIPT ERROR: Invalid type in function '_dict_from_manifest' in base 'GDScript'. Cannot convert argument 2 from Object to Dictionary.
+1095: SCRIPT ERROR: Trying to call an async function without "await".
+1100: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1102: ERROR: Child is not a child of this node.
+[Repeated 8 times]
+  First: 1104: SCRIPT ERROR: Invalid assignment of property or key 'show_only_affordable' with value of type 'bool' on a base object of type 'Node (Gvars.gd)'.
+  Last:  1118: SCRIPT ERROR: Invalid assignment of property or key 'show_only_affordable' with value of type 'bool' on a base object of type 'Node (Gvars.gd)'.
+1120: SCRIPT ERROR: Trying to call an async function without "await".
+1123: SCRIPT ERROR: Trying to call an async function without "await".
 [Repeated 4 times]
-  First: 1082: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-  Last:  1088: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1132: SCRIPT ERROR: Trying to call an async function without "await".
-1137: SCRIPT ERROR: Invalid access to property or key '105' on a base object of type 'Dictionary'.
-[Repeated 3 times]
-  First: 1139: SCRIPT ERROR: Trying to call an async function without "await".
-  Last:  1151: SCRIPT ERROR: Trying to call an async function without "await".
+  First: 1125: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+  Last:  1131: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1133: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1135: ERROR: Child is not a child of this node.
+[Repeated 3185 times]
+  First: 1137: SCRIPT ERROR: Invalid call. Nonexistent function 'is_canvas_level' in base 'GDScript'.
+  Last:  7505: SCRIPT ERROR: Invalid call. Nonexistent function 'is_canvas_level' in base 'GDScript'.
+7509: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
 [Repeated 4 times]
-  First: 1153: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-  Last:  1159: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1409: SCRIPT ERROR: Trying to call an async function without "await".
+  First: 7512: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+  Last:  7518: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+[Repeated 1676 times]
+  First: 7522: SCRIPT ERROR: Invalid call. Nonexistent function 'is_canvas_level' in base 'GDScript'.
+  Last:  10981: SCRIPT ERROR: Invalid call. Nonexistent function 'is_canvas_level' in base 'GDScript'.
+10984: SCRIPT ERROR: Trying to call an async function without "await".
+10990: ERROR: 59 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+10993: ERROR: 12 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+10994: ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
+10997: ERROR: 178 resources still in use at exit (run with --verbose for details).
 Telemetry Highlights (Last 15):
-1238: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Speed +5.0%
-1242: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Speed +5.0%
-1246: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Sprint Speed +5.0%
-1308: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Jump Velocity +10.0%
-1321: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Jump Velocity +10.0%
-1367: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Sprint Speed +5.0%
-1400: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Speed +5.0%
+10819: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
+10822: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
+10825: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
+10828: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
+10831: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
+10832: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (-49.44753, -57.0)!
+10895: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
+10898: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
+10901: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
+10904: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
+10907: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
+10908: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (-49.44753, -57.0)!
+10971: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
+10977: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
+10980: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x

@@ -6,7 +6,7 @@ func _ready(chain: ModLoaderHookChain) -> void:
 		helper.ensure_level_registered()
 
 	var ls = chain.reference_object
-	if ls and ("LEVEL_ORDER" in ls) and Gvars and Gvars.level_manager and Gvars.level_manager.all_levels.has(105):
+	if ls and ("LEVEL_ORDER" in ls):
 		if not ls.LEVEL_ORDER.has(105):
 			ls.LEVEL_ORDER.append(105)
 

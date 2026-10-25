@@ -14,7 +14,7 @@ static func ensure_level_registered() -> void:
 		custom_level.level = DIAGONAL_LEVEL_ID
 		custom_level.mining_scene_path = "res://scenes/Stages/MineRegion.tscn"
 		custom_level.level_description = "45-degree rotated subterranean strata and inverted angled seams.\nCarve through diagonal geological faultlines and tilted mineral layers."
-		custom_level.level_difficulty = GameLevel.Difficulty.NORMAL
+		custom_level.level_difficulty = GameLevel.Difficulty.REGULAR
 		custom_level.unlock_description = ""
 
 		lvl_mgr.all_levels[DIAGONAL_LEVEL_ID] = {

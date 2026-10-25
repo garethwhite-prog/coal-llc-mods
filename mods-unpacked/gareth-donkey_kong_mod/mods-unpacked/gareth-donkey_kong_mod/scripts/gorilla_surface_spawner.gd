@@ -31,24 +31,58 @@ func _spawn_gorilla(scene: Node) -> void:
 	gorilla.global_position = Vector2(180, -28)
 	gorilla.set_meta("dir", -1.0)
 
-	var torso = Sprite2D.new()
-	torso.texture = load("res://assets/NPCs/PlayerSkins/Torsos/playerSheet_Torso_Brown.png")
-	torso.hframes = 4
-	torso.vframes = 4
-	torso.frame = 0
-	torso.scale = Vector2(2.2, 2.2)
-	gorilla.add_child(torso)
-
-	var head = Sprite2D.new()
-	head.texture = load("res://assets/NPCs/PlayerSkins/Heads/playerSheet_Head_HelmetBrown.png")
-	head.hframes = 4
-	head.vframes = 4
-	head.frame = 0
-	head.scale = Vector2(2.2, 2.2)
-	head.position = Vector2(0, -18)
-	gorilla.add_child(head)
-
+	var spr = Sprite2D.new()
+	spr.texture = _create_gorilla_texture()
+	spr.scale = Vector2(2.5, 2.5)
+	gorilla.add_child(spr)
 	scene.add_child(gorilla)
+
+func _create_gorilla_texture() -> ImageTexture:
+	var img = Image.create(32, 32, false, Image.FORMAT_RGBA8)
+	var fur = Color(0.35, 0.18, 0.08, 1.0)
+	var tan_skin = Color(0.72, 0.52, 0.35, 1.0)
+	var tie_red = Color(0.9, 0.15, 0.15, 1.0)
+	var eye = Color(1.0, 1.0, 1.0, 1.0)
+
+	for x in range(32):
+		for y in range(32):
+			# Broad gorilla torso and massive ape arms
+			if (y in range(12, 28) and x in range(6, 26)) or (y in range(14, 30) and (x in range(2, 8) or x in range(24, 30))):
+				img.set_pixel(x, y, fur)
+			# Gorilla head and brow ridge
+			elif (y in range(4, 13) and x in range(10, 22)):
+				img.set_pixel(x, y, fur)
+			# Tan muzzle and chest plate
+			elif (y in range(9, 13) and x in range(12, 20)) or (y in range(15, 24) and x in range(11, 21)):
+				img.set_pixel(x, y, tan_skin)
+			# Classic DK Red Tie
+			elif (y in range(15, 25) and (x in range(15, 17) or (y in range(22, 25) and x in range(14, 18)))):
+				img.set_pixel(x, y, tie_red)
+			# Eyes
+			elif (y in range(7, 9) and (x == 13 or x == 18)):
+				img.set_pixel(x, y, eye)
+
+	return ImageTexture.create_from_image(img)
+
+func _create_barrel_texture() -> ImageTexture:
+	var img = Image.create(20, 20, false, Image.FORMAT_RGBA8)
+	var wood_dark = Color(0.45, 0.26, 0.12, 1.0)
+	var wood_light = Color(0.60, 0.38, 0.20, 1.0)
+	var hoop_metal = Color(0.25, 0.25, 0.28, 1.0)
+
+	for x in range(20):
+		for y in range(20):
+			var dx = float(x - 10)
+			var dy = float(y - 10)
+			if dx*dx + dy*dy <= 90.0:
+				if y in range(4, 7) or y in range(13, 16):
+					img.set_pixel(x, y, hoop_metal)
+				elif x % 3 == 0:
+					img.set_pixel(x, y, wood_dark)
+				else:
+					img.set_pixel(x, y, wood_light)
+
+	return ImageTexture.create_from_image(img)
 
 func _toss_barrel(scene: Node, pos: Vector2) -> void:
 	var barrel = Area2D.new()
@@ -56,8 +90,7 @@ func _toss_barrel(scene: Node, pos: Vector2) -> void:
 	barrel.global_position = pos
 
 	var spr = Sprite2D.new()
-	spr.texture = load("res://assets/Equipment/bombs/big_bomb_sheet_red.png")
-	spr.hframes = 4
+	spr.texture = _create_barrel_texture()
 	spr.scale = Vector2(1.8, 1.8)
 	barrel.add_child(spr)
 
@@ -72,13 +105,35 @@ func _toss_barrel(scene: Node, pos: Vector2) -> void:
 			if "velocity" in body:
 				body.velocity = Vector2.ZERO
 			body.set_physics_process(false)
+
+			# Bonk Sound and Dizzy Notification
+			var bonk = AudioStreamPlayer2D.new()
+			bonk.stream = load("res://assets/sound/sound effects/box_1.wav")
+			bonk.pitch_scale = 1.3
+			bonk.global_position = body.global_position
+			body.add_child(bonk)
+			bonk.play()
+
+			var toast = Label.new()
+			toast.text = "★ BONK! STUNNED! ★"
+			toast.modulate = Color(1.0, 0.85, 0.2)
+			toast.position = Vector2(-60, -40)
+			body.add_child(toast)
+
 			var tw = body.create_tween()
-			tw.tween_interval(5.0)
-			tw.tween_callback(func(): body.set_physics_process(true))
+			tw.tween_interval(3.0)
+			tw.tween_callback(func():
+				body.set_physics_process(true)
+				toast.queue_free()
+				bonk.queue_free()
+			)
 			barrel.queue_free()
 	)
 
 	scene.add_child(barrel)
+
+	# Roll barrel down and rotate
 	var b_tween = barrel.create_tween()
-	b_tween.tween_property(barrel, "global_position:y", 600.0, 7.0)
+	b_tween.parallel().tween_property(barrel, "global_position:y", 650.0, 7.0)
+	b_tween.parallel().tween_property(barrel, "rotation", 14.0, 7.0)
 	b_tween.tween_callback(barrel.queue_free)
