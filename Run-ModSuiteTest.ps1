@@ -1,4 +1,4 @@
-﻿Clear-Host
+Clear-Host
 Write-Host "==========================================" -ForegroundColor Cyan
 Write-Host "COAL LLC - SAFE LOG AUDITOR & TEST RUNNER" -ForegroundColor Cyan
 Write-Host "==========================================" -ForegroundColor Cyan

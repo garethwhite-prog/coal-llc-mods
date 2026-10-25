@@ -1,4 +1,4 @@
-﻿# Executes ai_worker_script.ps1, displays live output, and auto-saves to output.txt
+# Executes ai_worker_script.ps1, displays live output, and auto-saves to output.txt
 $scriptPath = "C:\Dev\coal-llc-mods\ai_worker_script.ps1"
 $outputPath = "C:\Dev\coal-llc-mods\output.txt"
 

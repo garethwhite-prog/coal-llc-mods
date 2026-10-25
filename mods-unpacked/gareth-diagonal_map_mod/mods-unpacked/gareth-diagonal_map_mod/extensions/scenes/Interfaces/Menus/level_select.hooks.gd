@@ -1,4 +1,4 @@
-﻿extends Object
+extends Object
 
 func _ready(chain: ModLoaderHookChain) -> void:
 	var ls = chain.reference_object

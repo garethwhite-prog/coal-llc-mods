@@ -1,1 +1,210 @@
 >>> 1. Terminating running Coal LLC / Godot processes...
+
+>>> 2. Creating Run-Worker.ps1 (Automates execution & output.txt logging)...
+  Created: Run-Worker.ps1
+
+>>> 3. Upgrading Run-ModSuiteTest.ps1...
+  Updated: Run-ModSuiteTest.ps1 (Safe and auto-reducing)
+
+>>> 4. Docking Air Wings HUD to bottom-right and strictly gating to mine...
+
+>>> 5. Registering Abyssal Trench & Diagonal Map in level_select.hooks.gd...
+
+>>> 6. Repackaging all modified mods to Steam...
+Unable to find type [System.IO.Compression.ZipArchiveMode].
+At C:\Dev\coal-llc-mods\ai_worker_script.ps1:333 char:66
++ ... on.ZipArchive($stream, [System.IO.Compression.ZipArchiveMode]::Create ...
++                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidOperation: (System.IO.Compression.ZipArchiveMode:TypeName) [], RuntimeException
+    + FullyQualifiedErrorId : TypeNotFound
+ 
+Exception calling "CreateEntryFromFile" with "3" argument(s): "Value cannot be null.
+Parameter name: destination"
+At C:\Dev\coal-llc-mods\ai_worker_script.ps1:336 char:3
++         [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFil ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : ArgumentNullException
+ 
+Exception calling "CreateEntryFromFile" with "3" argument(s): "Value cannot be null.
+Parameter name: destination"
+At C:\Dev\coal-llc-mods\ai_worker_script.ps1:336 char:3
++         [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFil ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : ArgumentNullException
+ 
+Exception calling "CreateEntryFromFile" with "3" argument(s): "Value cannot be null.
+Parameter name: destination"
+At C:\Dev\coal-llc-mods\ai_worker_script.ps1:336 char:3
++         [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFil ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : ArgumentNullException
+ 
+Exception calling "CreateEntryFromFile" with "3" argument(s): "Value cannot be null.
+Parameter name: destination"
+At C:\Dev\coal-llc-mods\ai_worker_script.ps1:336 char:3
++         [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFil ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : ArgumentNullException
+ 
+Exception calling "CreateEntryFromFile" with "3" argument(s): "Value cannot be null.
+Parameter name: destination"
+At C:\Dev\coal-llc-mods\ai_worker_script.ps1:336 char:3
++         [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFil ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : ArgumentNullException
+ 
+Exception calling "CreateEntryFromFile" with "3" argument(s): "Value cannot be null.
+Parameter name: destination"
+At C:\Dev\coal-llc-mods\ai_worker_script.ps1:336 char:3
++         [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFil ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : ArgumentNullException
+ 
+Exception calling "CreateEntryFromFile" with "3" argument(s): "Value cannot be null.
+Parameter name: destination"
+At C:\Dev\coal-llc-mods\ai_worker_script.ps1:336 char:3
++         [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFil ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : ArgumentNullException
+ 
+Exception calling "CreateEntryFromFile" with "3" argument(s): "Value cannot be null.
+Parameter name: destination"
+At C:\Dev\coal-llc-mods\ai_worker_script.ps1:336 char:3
++         [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFil ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : ArgumentNullException
+ 
+Exception calling "CreateEntryFromFile" with "3" argument(s): "Value cannot be null.
+Parameter name: destination"
+At C:\Dev\coal-llc-mods\ai_worker_script.ps1:336 char:3
++         [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFil ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : ArgumentNullException
+ 
+Exception calling "CreateEntryFromFile" with "3" argument(s): "Value cannot be null.
+Parameter name: destination"
+At C:\Dev\coal-llc-mods\ai_worker_script.ps1:336 char:3
++         [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFil ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : ArgumentNullException
+ 
+Exception calling "CreateEntryFromFile" with "3" argument(s): "Value cannot be null.
+Parameter name: destination"
+At C:\Dev\coal-llc-mods\ai_worker_script.ps1:336 char:3
++         [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFil ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : ArgumentNullException
+ 
+Exception calling "CreateEntryFromFile" with "3" argument(s): "Value cannot be null.
+Parameter name: destination"
+At C:\Dev\coal-llc-mods\ai_worker_script.ps1:336 char:3
++         [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFil ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : ArgumentNullException
+ 
+Exception calling "CreateEntryFromFile" with "3" argument(s): "Value cannot be null.
+Parameter name: destination"
+At C:\Dev\coal-llc-mods\ai_worker_script.ps1:336 char:3
++         [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFil ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : ArgumentNullException
+ 
+Exception calling "CreateEntryFromFile" with "3" argument(s): "Value cannot be null.
+Parameter name: destination"
+At C:\Dev\coal-llc-mods\ai_worker_script.ps1:336 char:3
++         [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFil ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : ArgumentNullException
+ 
+Exception calling "CreateEntryFromFile" with "3" argument(s): "Value cannot be null.
+Parameter name: destination"
+At C:\Dev\coal-llc-mods\ai_worker_script.ps1:336 char:3
++         [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFil ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : ArgumentNullException
+ 
+Exception calling "CreateEntryFromFile" with "3" argument(s): "Value cannot be null.
+Parameter name: destination"
+At C:\Dev\coal-llc-mods\ai_worker_script.ps1:336 char:3
++         [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFil ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : ArgumentNullException
+ 
+Exception calling "CreateEntryFromFile" with "3" argument(s): "Value cannot be null.
+Parameter name: destination"
+At C:\Dev\coal-llc-mods\ai_worker_script.ps1:336 char:3
++         [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFil ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : ArgumentNullException
+ 
+Exception calling "CreateEntryFromFile" with "3" argument(s): "Value cannot be null.
+Parameter name: destination"
+At C:\Dev\coal-llc-mods\ai_worker_script.ps1:336 char:3
++         [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFil ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : ArgumentNullException
+ 
+Exception calling "CreateEntryFromFile" with "3" argument(s): "Value cannot be null.
+Parameter name: destination"
+At C:\Dev\coal-llc-mods\ai_worker_script.ps1:336 char:3
++         [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFil ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : ArgumentNullException
+ 
+Exception calling "CreateEntryFromFile" with "3" argument(s): "Value cannot be null.
+Parameter name: destination"
+At C:\Dev\coal-llc-mods\ai_worker_script.ps1:336 char:3
++         [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFil ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : ArgumentNullException
+ 
+Exception calling "CreateEntryFromFile" with "3" argument(s): "Value cannot be null.
+Parameter name: destination"
+At C:\Dev\coal-llc-mods\ai_worker_script.ps1:336 char:3
++         [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFil ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : ArgumentNullException
+ 
+You cannot call a method on a null-valued expression.
+At C:\Dev\coal-llc-mods\ai_worker_script.ps1:338 char:2
++     $archive.Dispose()
++     ~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException
+    + FullyQualifiedErrorId : InvokeMethodOnNull
+ 
+  Repacked: gareth-mod_manager_mod.zip
+  Repacked: gareth-elemental_airstrikes_mod.zip
+  Repacked: gareth-abyssal_trench_mod.zip
+  Repacked: gareth-diagonal_map_mod.zip
+  Repacked: gareth-knight_class_mod.zip
+  Repacked: gareth-scrap_and_delivery_mod.zip
+
+>>> 7. Staging, committing and pushing to GitHub...
+[main 9ca09e8] Workflow: Add Run-Worker auto-logger, safe log auditor in Run-ModSuiteTest, dock Air Wings HUD, and register all custom maps
+ 8 files changed, 10 insertions(+), 154 deletions(-)
+ create mode 100644 taskpad.ps1
+To https://github.com/garethwhite-prog/coal-llc-mods.git
+   be83233..9ca09e8  main -> main
+
+Automation and fixes deployed successfully!
