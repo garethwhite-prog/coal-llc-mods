@@ -52,22 +52,16 @@ func _create_gorilla_texture() -> ImageTexture:
 
 	for x in range(36):
 		for y in range(36):
-			# Head & Brow ridge
 			if y in range(4, 13) and x in range(11, 25):
 				img.set_pixel(x, y, fur_mid if y < 9 else fur_dark)
-			# Broad gorilla torso & arms
 			elif (y in range(13, 30) and x in range(8, 28)) or (y in range(14, 32) and (x in range(3, 9) or x in range(27, 33))):
 				img.set_pixel(x, y, fur_mid if x % 2 == 0 else fur_dark)
-			# Tan muzzle & chest contours
 			if (y in range(9, 13) and x in range(13, 23)) or (y in range(15, 24) and x in range(12, 24)):
 				img.set_pixel(x, y, chest)
-			# Red tie
 			if (y in range(15, 26) and x in range(16, 20)):
 				img.set_pixel(x, y, tie_red)
-			# "DK" yellow monogram on tie
 			if (y == 20 or y == 21) and (x == 17 or x == 18):
 				img.set_pixel(x, y, tie_gold)
-			# Expressive gorilla eyes
 			if y in range(7, 9) and (x == 14 or x == 20):
 				img.set_pixel(x, y, eye_w)
 			if y == 8 and (x == 15 or x == 21):
@@ -99,7 +93,6 @@ func _toss_barrel(scene: Node, pos: Vector2) -> void:
 	var barrel = Area2D.new()
 	barrel.name = "RollingBarrel"
 	barrel.global_position = pos
-	# Listen to ALL physics layers to guarantee player detection
 	barrel.collision_layer = 0
 	barrel.collision_mask = 0xFFFFFFFF
 
@@ -114,10 +107,9 @@ func _toss_barrel(scene: Node, pos: Vector2) -> void:
 	col.shape = shape
 	barrel.add_child(col)
 
-		var on_hit = func(target: Node):
+	var on_hit = func(target: Node):
 		var p_node = target if (target.name == "Player" or target.is_in_group("player")) else target.get_parent()
 		if p_node and (p_node.name == "Player" or p_node.is_in_group("player")):
-			# Freeze movement, disable mining, and pause player state machine
 			if "velocity" in p_node:
 				p_node.velocity = Vector2.ZERO
 			if "able_to_mine" in p_node:
@@ -149,31 +141,6 @@ func _toss_barrel(scene: Node, pos: Vector2) -> void:
 				bonk.queue_free()
 			)
 			barrel.queue_free()
-			return
-		var p_node = target if (target.name == "Player" or target.is_in_group("player")) else target.get_parent()
-		if p_node and (p_node.name == "Player" or p_node.is_in_group("player")):
-			if "velocity" in p_node:
-				p_node.velocity = Vector2(-220.0, -120.0)
-
-			var toast = Label.new()
-			toast.text = "★ BONK! STUNNED! ★"
-			toast.modulate = Color(1.0, 0.85, 0.2)
-			toast.position = Vector2(-60, -40)
-			p_node.add_child(toast)
-
-			var bonk = AudioStreamPlayer2D.new()
-			bonk.stream = load("res://assets/sound/sound effects/box_1.wav")
-			bonk.pitch_scale = 1.3
-			p_node.add_child(bonk)
-			bonk.play()
-
-			var tw = p_node.create_tween()
-			tw.tween_interval(2.5)
-			tw.tween_callback(func():
-				toast.queue_free()
-				bonk.queue_free()
-			)
-			barrel.queue_free()
 
 	barrel.body_entered.connect(on_hit)
 	barrel.area_entered.connect(on_hit)
@@ -184,4 +151,3 @@ func _toss_barrel(scene: Node, pos: Vector2) -> void:
 	b_tween.parallel().tween_property(barrel, "global_position:y", 680.0, 6.0)
 	b_tween.parallel().tween_property(barrel, "rotation", 14.0, 6.0)
 	b_tween.tween_callback(barrel.queue_free)
-

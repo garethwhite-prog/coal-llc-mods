@@ -18,7 +18,7 @@ func end(player):
 func physics_process(player, _delta):
 	if beam_node == null or not is_instance_valid(beam_node):
 		return
-	if Input.is_action_pressed("useItem") or Input.is_action_pressed("fire"):
+	if Input.is_action_pressed("useItem") or Input.is_action_pressed("fire") or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) or Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
 		beam_node.call("fire_beam", player.global_position, player.pointer_global_pos, player.tilemap)
 	else:
 		beam_node.call("stop_beam")

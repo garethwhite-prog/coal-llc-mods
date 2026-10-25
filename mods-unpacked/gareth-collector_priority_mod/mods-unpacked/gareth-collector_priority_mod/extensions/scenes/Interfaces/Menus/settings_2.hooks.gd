@@ -42,14 +42,15 @@ func _ready(chain: ModLoaderHookChain) -> void:
 
 	var cur_mode: int = 1
 	if Gvars and ("collector_priority_mode" in Gvars):
-		cur_mode = int(Gvars.collector_priority_mode)
+		cur_mode = int(Gvars.get_meta("collector_priority_mode", 1))
 	opt.selected = cur_mode
 
 	opt.item_selected.connect(func(idx: int):
 		if Gvars:
-			Gvars.collector_priority_mode = idx
+			Gvars.set_meta("collector_priority_mode", idx)
 	)
 	vbox.add_child(opt)
 
 	tc.add_child(tab)
 	tc.call_deferred("move_child", tab, 7)
+

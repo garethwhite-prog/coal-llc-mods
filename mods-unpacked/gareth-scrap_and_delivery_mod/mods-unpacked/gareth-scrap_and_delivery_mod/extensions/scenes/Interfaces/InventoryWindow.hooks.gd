@@ -7,6 +7,13 @@ func load_inventory(chain: ModLoaderHookChain) -> void:
 		_inject_scrap_bar(grid)
 
 func _inject_scrap_bar(grid: GridContainer) -> void:
+	# Hide buttons if we are in the between-day store (ManagementScreen / TabContainer)
+	var scene = grid.get_tree().current_scene
+	if scene and (scene.name == "ManagementScreen" or scene.name == "management_screen"):
+		return
+	if grid.find_parent("ManagementScreen") or grid.find_parent("TabContainer"):
+		return
+
 	var parent = grid.get_parent()
 	if not parent or parent.has_node("DaytimeScrapBar"):
 		return
@@ -43,49 +50,31 @@ func _scrap_all_ores(grid: GridContainer) -> void:
 		return
 
 	var total_scrapped_cash: float = 0.0
-	var total_items_cleared: int = 0
-	var empty_res = load("res://resources/Items/Empty.tres")
+	var inv: Inventory = grid.inventory
+	var ore_rates = {
+		"Coal": 1.0,
+		"Copper": 2.5,
+		"Iron": 5.0,
+		"Silver": 12.0,
+		"Gold": 25.0,
+		"Amethyst": 45.0,
+		"Sapphire": 80.0,
+		"Emerald": 130.0,
+		"Ruby": 200.0,
+		"Diamond": 350.0
+	}
 
-	for i in range(grid.inventory.items.size()):
-		var slot_item = grid.inventory.items[i]
-		if not is_instance_valid(slot_item) or not is_instance_valid(slot_item.item) or slot_item.count <= 0:
-			continue
-
-		var it = slot_item.item
-		var id_str = str(it.itemID).to_lower()
-		var type_str = str(it.itemType).to_lower()
-		var name_str = str(it.itemName).to_lower()
-
-		var is_ore = (type_str in ["ore", "resource", "mineral", "material"] or 
-			"coal" in id_str or "copper" in id_str or "iron" in id_str or "sapphire" in id_str or 
-			"emerald" in id_str or "silver" in id_str or "amethyst" in id_str or "gold" in id_str or 
-			"ruby" in id_str or "diamond" in id_str or "spinel" in id_str or "uranium" in id_str or 
-			"moonstone" in id_str or "onyx" in id_str)
-
-		if is_ore and type_str != "equipment" and type_str != "weapon":
-			var unit_val: float = 0.0
-			if it.itemSellPrice > 0.0:
-				unit_val = it.itemSellPrice * 0.5
-			elif it.itemBuyPrice > 0.0:
-				unit_val = it.itemBuyPrice * 0.25
-			else:
-				unit_val = 5.0
-
-			var stack_cash = unit_val * slot_item.count
-			total_scrapped_cash += stack_cash
-			total_items_cleared += int(slot_item.count)
-
-			slot_item.count = 0
-			if empty_res:
-				slot_item.item = empty_res
+	for slot in inv.items:
+		if slot and slot.item and slot.count > 0:
+			var iname = str(slot.item.itemName)
+			if ore_rates.has(iname):
+				var cash_gain = float(slot.count) * ore_rates[iname] * 0.5
+				total_scrapped_cash += cash_gain
+				slot.count = 0.0
+				var empty_res = load("res://resources/Items/Empty.tres")
+				if empty_res:
+					slot.set("item", empty_res)
 
 	if total_scrapped_cash > 0.0:
 		Gvars.CashCount += total_scrapped_cash
-		grid.save_inventory()
-		grid.load_inventory()
-
-		var tree = grid.get_tree()
-		if tree and tree.root:
-			var mgr = tree.root.find_child("AmazonDeliveryManager", true, false)
-			if mgr and mgr.has_method("show_toast"):
-				mgr.show_toast("♻️ Scrapped %d ores for +$%.2f cash!" % [total_items_cleared, total_scrapped_cash / 100.0])
+		Bus.inventory_changed.emit()

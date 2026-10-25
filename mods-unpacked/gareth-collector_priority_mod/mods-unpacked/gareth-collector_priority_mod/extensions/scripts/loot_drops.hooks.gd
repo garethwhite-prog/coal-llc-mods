@@ -9,7 +9,7 @@ func find_loot(chain: ModLoaderHookChain, collector) -> void:
 	# Check priority mode: 0 = Closest, 1 = Most Valuable First
 	var priority_mode: int = 1
 	if Gvars and ("collector_priority_mode" in Gvars):
-		priority_mode = int(Gvars.collector_priority_mode)
+		priority_mode = int(Gvars.get_meta("collector_priority_mode", 1))
 
 	if priority_mode == 0:
 		chain.execute_next([collector])
@@ -35,3 +35,4 @@ func find_loot(chain: ModLoaderHookChain, collector) -> void:
 		return
 
 	chain.execute_next([collector])
+

@@ -1,6 +1,7 @@
-const Textures = preload("res://mods-unpacked/gareth-elemental_airstrikes_mod/scripts/texture_factory.gd")
 class_name DragonStrike
 extends Node2D
+
+const Textures = preload("res://mods-unpacked/gareth-elemental_airstrikes_mod/scripts/texture_factory.gd")
 
 var damage: float = 180.0
 var bomb_rate: float = 0.05
@@ -37,29 +38,24 @@ func _process(delta: float) -> void:
 
 func _drop_fireball(pos: Vector2) -> void:
 	var tree = get_tree()
-	if not tree:
+	if not tree or not tree.current_scene:
 		return
-	var tilemaps = tree.get_nodes_in_group("tilemap")
-	if tilemaps.is_empty():
-		return
-	var tm = tilemaps[0]
+	var b = Node2D.new()
+	b.global_position = pos
+	var spr = Sprite2D.new()
+	spr.texture = Textures.create_fireball_texture()
+	spr.scale = Vector2(1.5, 1.5)
+	b.add_child(spr)
+	tree.current_scene.add_child(b)
 
-	var mult: float = 1.0
-	if Gvars and ("passives" in Gvars) and Gvars.passives:
-		if "fire_damage" in Gvars.passives:
-			mult += float(Gvars.passives.fire_damage)
-		if "airstrike_damage" in Gvars.passives:
-			mult += float(Gvars.passives.airstrike_damage)
-
-	var center_cell = tm.local_to_map(tm.to_local(pos))
-	for dx in range(-2, 3):
-		for dy in range(-2, 3):
-			if dx*dx + dy*dy <= 4:
-				var cell = center_cell + Vector2i(dx, dy)
-				if tm.has_method("damageTileCoords"):
-					tm.damageTileCoords(cell, (damage * 0.4) * mult)
-				if tm.has_method("burn_tile"):
-					tm.burn_tile(pos, damage * mult, 20)
-				elif "fires" in tm and tm.fires and tm.fires.has_method("add_fire_tile"):
-					tm.fires.add_fire_tile(cell, damage * mult, 20)
-
+	var tw = b.create_tween()
+	tw.parallel().tween_property(b, "global_position:y", pos.y + 600.0, 2.0)
+	tw.tween_callback(func():
+		var tm = tree.root.find_child("TileMapManager", true, false)
+		if tm:
+			var m_pos = tm.local_to_map(b.global_position)
+			for dx in range(-2, 3):
+				for dy in range(-2, 3):
+					tm.damageTileCoords(Vector2i(m_pos.x + dx, m_pos.y + dy), damage)
+		b.queue_free()
+	)
