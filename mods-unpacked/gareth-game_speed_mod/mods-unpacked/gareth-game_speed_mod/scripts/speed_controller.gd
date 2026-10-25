@@ -25,9 +25,9 @@ func _build_hud() -> void:
 	panel.anchor_right = 1.0
 	panel.anchor_top = 1.0
 	panel.anchor_bottom = 1.0
-	panel.offset_left = -264.0
+	panel.offset_left = -316.0
 	panel.offset_right = -16.0
-	panel.offset_top = -48.0
+	panel.offset_top = -46.0
 	panel.offset_bottom = -12.0
 
 	var hbox = HBoxContainer.new()
@@ -114,3 +114,4 @@ func _finish_level() -> void:
 			Game.on_EndDay()
 		elif Game.has_method("change_stage") and Gconsts and ("Stages" in Gconsts):
 			Game.change_stage(Gconsts.Stages._END_OF_DAY_OVERLAY, Vector2.ZERO)
+

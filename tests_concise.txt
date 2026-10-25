@@ -1,7 +1,25 @@
 ﻿ 991: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
-1061: SCRIPT ERROR: Parse Error: There is already a variable named "list" declared in this scope.
-1065: SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+1066: SCRIPT ERROR: Invalid access to property or key '105' on a base object of type 'Dictionary'.
 [Repeated 3 times]
-  First: 1071: SCRIPT ERROR: Invalid call. Nonexistent function 'get_all_installed_mods' in base 'GDScript'.
-  Last:  1075: SCRIPT ERROR: Invalid call. Nonexistent function 'get_all_installed_mods' in base 'GDScript'.
-1077: SCRIPT ERROR: Invalid access to property or key 'ABYSSAL_LEVEL_ID' on a base object of type 'RefCounted (AbyssalTrenchHelper)'.
+  First: 1068: SCRIPT ERROR: Trying to call an async function without "await".
+  Last:  1080: SCRIPT ERROR: Trying to call an async function without "await".
+[Repeated 4 times]
+  First: 1082: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+  Last:  1088: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1132: SCRIPT ERROR: Trying to call an async function without "await".
+1137: SCRIPT ERROR: Invalid access to property or key '105' on a base object of type 'Dictionary'.
+[Repeated 3 times]
+  First: 1139: SCRIPT ERROR: Trying to call an async function without "await".
+  Last:  1151: SCRIPT ERROR: Trying to call an async function without "await".
+[Repeated 4 times]
+  First: 1153: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+  Last:  1159: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1409: SCRIPT ERROR: Trying to call an async function without "await".
+Telemetry Highlights (Last 15):
+1238: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Speed +5.0%
+1242: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Speed +5.0%
+1246: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Sprint Speed +5.0%
+1308: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Jump Velocity +10.0%
+1321: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Jump Velocity +10.0%
+1367: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Sprint Speed +5.0%
+1400: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Speed +5.0%

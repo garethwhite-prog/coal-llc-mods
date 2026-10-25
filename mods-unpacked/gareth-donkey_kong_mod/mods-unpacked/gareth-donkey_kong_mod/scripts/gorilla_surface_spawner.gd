@@ -31,26 +31,24 @@ func _spawn_gorilla(scene: Node) -> void:
 	gorilla.global_position = Vector2(180, -28)
 	gorilla.set_meta("dir", -1.0)
 
-	var spr = Sprite2D.new()
-	spr.texture = _create_gorilla_texture()
-	spr.scale = Vector2(2.5, 2.5)
-	gorilla.add_child(spr)
-	scene.add_child(gorilla)
+	var torso = Sprite2D.new()
+	torso.texture = load("res://assets/NPCs/PlayerSkins/Torsos/playerSheet_Torso_Brown.png")
+	torso.hframes = 4
+	torso.vframes = 4
+	torso.frame = 0
+	torso.scale = Vector2(2.2, 2.2)
+	gorilla.add_child(torso)
 
-func _create_gorilla_texture() -> ImageTexture:
-	var img = Image.create(24, 24, false, Image.FORMAT_RGBA8)
-	var fur = Color(0.35, 0.20, 0.10, 1.0)
-	var chest = Color(0.65, 0.45, 0.30, 1.0)
-	var eye = Color(1.0, 1.0, 1.0, 1.0)
-	for x in range(24):
-		for y in range(24):
-			if (y in range(4, 10) and x in range(7, 17)) or (y in range(10, 20) and x in range(4, 20)):
-				img.set_pixel(x, y, fur)
-			elif y in range(11, 17) and x in range(8, 16):
-				img.set_pixel(x, y, chest)
-			elif y in range(6, 8) and (x == 10 or x == 14):
-				img.set_pixel(x, y, eye)
-	return ImageTexture.create_from_image(img)
+	var head = Sprite2D.new()
+	head.texture = load("res://assets/NPCs/PlayerSkins/Heads/playerSheet_Head_HelmetBrown.png")
+	head.hframes = 4
+	head.vframes = 4
+	head.frame = 0
+	head.scale = Vector2(2.2, 2.2)
+	head.position = Vector2(0, -18)
+	gorilla.add_child(head)
+
+	scene.add_child(gorilla)
 
 func _toss_barrel(scene: Node, pos: Vector2) -> void:
 	var barrel = Area2D.new()

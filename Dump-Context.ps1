@@ -1,7 +1,8 @@
-﻿Clear-Host
+Clear-Host
 
 $repoRoot = "C:\Dev\coal-llc-mods"
 $appDataGodot = [System.IO.Path]::Combine($env:APPDATA, "Godot\app_userdata\Coal LLC")
+$steamRoot = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC"
 $outputFile = [System.IO.Path]::Combine($repoRoot, "context.txt")
 
 $sb = New-Object System.Text.StringBuilder
@@ -15,39 +16,46 @@ $gitLog = git log -n 3 --oneline
 foreach ($line in $gitLog) { [void]$sb.AppendLine($line) }
 Pop-Location
 
+# 1. Capture ModLoader.log
+$mlLog = [System.IO.Path]::Combine($steamRoot, "modloader.log")
+if (Test-Path $mlLog) {
+    $mlLines = Get-Content $mlLog
+    $mlErrors = $mlLines | Where-Object { $_ -match "(ERROR|CRITICAL|failed|cannot be loaded)" }
+    [void]$sb.AppendLine("`n=== MODLOADER LOG AUDIT ($($mlErrors.Count) errors found) ===")
+    if ($mlErrors.Count -gt 0) {
+        foreach ($line in ($mlErrors | Select-Object -Last 15)) { [void]$sb.AppendLine($line) }
+    } else {
+        [void]$sb.AppendLine("All active mods verified by ModLoader cleanly.")
+    }
+}
+
+# 2. Capture godot.log
 $logPath = [System.IO.Path]::Combine($appDataGodot, "logs\godot.log")
 if (Test-Path $logPath) {
-    $allLogLines = Get-Content $logPath
-    
-    # 1. Capture every error, crash, and warning across the whole session
-    $errorLines = $allLogLines | Where-Object { 
-        $_ -match "(SCRIPT ERROR|ERROR:|Compile Error|Parse Error|Failed to load script|Invalid call|Invalid access)" 
+    # Open with FileShare.ReadWrite to avoid locking collisions
+    $stream = [System.IO.FileStream]::new($logPath, [System.IO.FileMode]::Open, [System.IO.FileAccess]::Read, [System.IO.FileShare]::ReadWrite)
+    $reader = [System.IO.StreamReader]::new($stream, [System.Text.Encoding]::UTF8)
+    $allLogLines = [System.Collections.Generic.List[string]]::new()
+    while (-not $reader.EndOfStream) { $allLogLines.Add($reader.ReadLine()) }
+    $reader.Dispose()
+    $stream.Dispose()
+
+    $errorLines = $allLogLines | Where-Object {
+        $_ -match "(SCRIPT ERROR|ERROR:|Compile Error|Parse Error|Failed to load script|Invalid call|Invalid access)"
     }
-    
+
     [void]$sb.AppendLine("`n=== SESSION ERRORS & WARNINGS ($($errorLines.Count) found) ===")
     if ($errorLines.Count -gt 0) {
-        foreach ($line in ($errorLines | Select-Object -Last 30)) { [void]$sb.AppendLine($line) }
+        foreach ($line in ($errorLines | Select-Object -Last 25)) { [void]$sb.AppendLine($line) }
     } else {
         [void]$sb.AppendLine("None detected.")
     }
 
-    # 2. Capture all log entries matching the mod currently being modified
-    $activeModLines = $allLogLines | Where-Object {$_ -match "tectonic_faultline" }
-    [void]$sb.AppendLine("`n=== ACTIVE MOD LOG ENTRIES ($($activeModLines.Count) found) ===")
-    if ($activeModLines.Count -gt 0) {
-        foreach ($line in ($activeModLines | Select-Object -Last 20)) { [void]$sb.AppendLine($line) }
-    } else {
-        [void]$sb.AppendLine("None detected.")
-    }
-
-    # 3. Trailing log context
-    [void]$sb.AppendLine("`n=== LOG TAIL (LAST 30 LINES) ===")
-    $tailLines =$allLogLines | Select-Object -Last 30
+    [void]$sb.AppendLine("`n=== LOG TAIL (LAST 25 LINES) ===")
+    $tailLines = $allLogLines | Select-Object -Last 25
     foreach ($line in $tailLines) { [void]$sb.AppendLine($line) }
 }
 
-[System.IO.File]::WriteAllText($outputFile,$sb.ToString(), [System.Text.Encoding]::UTF8)
+[System.IO.File]::WriteAllText($outputFile, $sb.ToString(), [System.Text.Encoding]::UTF8)
 Set-Clipboard -Value $sb.ToString()
-Write-Host "[+] Enhanced context collected in context.txt AND copied to clipboard!" -ForegroundColor Green
-Write-Host "    Press Ctrl+V in the chat to share your project status." -ForegroundColor Yellow
-
+Write-Host "Context written to context.txt and copied to clipboard." -ForegroundColor Green

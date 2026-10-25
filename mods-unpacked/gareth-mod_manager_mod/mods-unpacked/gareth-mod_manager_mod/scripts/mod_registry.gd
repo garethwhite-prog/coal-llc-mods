@@ -21,33 +21,60 @@ static func get_all_installed_mods() -> Array[Dictionary]:
 static func get_all_mods() -> Array[Dictionary]:
 	var list: Array[Dictionary] = []
 	var mod_dict: Dictionary = {}
-	if ModLoader and ("mod_data" in ModLoader) and ModLoader.mod_data is Dictionary:
+
+	# 1. Attempt ModLoaderStore autoload
+	var mls = Engine.get_main_loop().root.get_node_or_null("/root/ModLoaderStore")
+	if mls and ("mod_data" in mls) and mls.mod_data is Dictionary and mls.mod_data.size() > 0:
+		mod_dict = mls.mod_data
+	elif ModLoader and ("mod_data" in ModLoader) and ModLoader.mod_data is Dictionary and ModLoader.mod_data.size() > 0:
 		mod_dict = ModLoader.mod_data
 
-	for mod_id in mod_dict.keys():
-		var data = mod_dict[mod_id]
-		if not data or not ("manifest" in data) or not data.manifest:
-			continue
-		var m = data.manifest
-		var display_name: String = _format_display_name(m)
-		var desc: String = m.description if "description" in m else ""
-		var author: String = "Community"
-		if m.has("extra") and m.extra.has("godot") and m.extra.godot.has("authors") and m.extra.godot.authors.size() > 0:
-			author = m.extra.godot.authors[0]
-		var version: String = m.version_number if "version_number" in m else "1.0.0"
-		var cat: String = _determine_category(m)
+	if mod_dict.size() > 0:
+		for mod_id in mod_dict.keys():
+			var data = mod_dict[mod_id]
+			if not data or not ("manifest" in data) or not data.manifest:
+				continue
+			var m = data.manifest
+			list.append(_dict_from_manifest(mod_id, m, data.is_active if "is_active" in data else true))
+		return list
 
-		list.append({
-			"id": mod_id,
-			"key": mod_id,
-			"name": display_name,
-			"description": desc,
-			"author": author,
-			"version": version,
-			"category": cat,
-			"is_active": data.is_active if "is_active" in data else true
-		})
+	# 2. Fallback: Scan virtual filesystem at res://mods-unpacked/
+	var dir := DirAccess.open("res://mods-unpacked")
+	if dir:
+		dir.list_dir_begin()
+		var folder := dir.get_next()
+		while folder != "":
+			if dir.current_is_dir() and not folder.begins_with("."):
+				var mpath := "res://mods-unpacked/%s/manifest.json" % folder
+				if FileAccess.file_exists(mpath):
+					var f := FileAccess.open(mpath, FileAccess.READ)
+					if f:
+						var parsed = JSON.parse_string(f.get_as_text())
+						if parsed is Dictionary:
+							list.append(_dict_from_manifest(folder, parsed, true))
+			folder = dir.get_next()
+
 	return list
+
+static func _dict_from_manifest(mod_id: String, m: Dictionary, active: bool) -> Dictionary:
+	var display_name: String = _format_display_name(m)
+	var desc: String = m.description if "description" in m else ""
+	var author: String = "Community"
+	if m.has("extra") and m.extra.has("godot") and m.extra.godot.has("authors") and m.extra.godot.authors.size() > 0:
+		author = m.extra.godot.authors[0]
+	var version: String = m.version_number if "version_number" in m else "1.0.0"
+	var cat: String = _determine_category(m)
+
+	return {
+		"id": mod_id,
+		"key": mod_id,
+		"name": display_name,
+		"description": desc,
+		"author": author,
+		"version": version,
+		"category": cat,
+		"is_active": active
+	}
 
 static func _determine_category(m) -> String:
 	var id: String = str(m.name).to_lower()

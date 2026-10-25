@@ -1,28 +1,43 @@
 ﻿=== GIT STATUS ===
- M Run-ModSuiteTest.ps1
- M Run-Worker.ps1
- M ai_worker_script.ps1
  M output.txt
  M tests_concise.txt
 
 === RECENT COMMITS ===
+d34a7eb Fix: Remove duplicate variable in mod_registry.gd, correct TRENCH_LEVEL_ID in level_select hook, and patch SwordThud audio
 1317d9f Workflow: Add Run-Worker auto-logger, safe log auditor in Run-ModSuiteTest, dock Air Wings HUD, and register all custom maps
 95802db Workflow: Add Run-Worker auto-logger, safe log auditor in Run-ModSuiteTest, dock Air Wings HUD, and register all custom maps
-d3e6883 Workflow: Add Run-Worker auto-logger, safe log auditor in Run-ModSuiteTest, dock Air Wings HUD, and register all custom maps
 
-=== SESSION ERRORS & WARNINGS (12 found) ===
-ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
-SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
-ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
-SCRIPT ERROR: Parse Error: There is already a variable named "list" declared in this scope.
-ERROR: Failed to load script "res://mods-unpacked/gareth-mod_manager_mod/scripts/mod_registry.gd" with error "Parse error".
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'get_all_installed_mods' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'get_all_installed_mods' in base 'GDScript'.
-SCRIPT ERROR: Invalid call. Nonexistent function 'get_all_installed_mods' in base 'GDScript'.
-SCRIPT ERROR: Invalid access to property or key 'ABYSSAL_LEVEL_ID' on a base object of type 'RefCounted (AbyssalTrenchHelper)'.
-ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-ERROR: 169 resources still in use at exit (run with --verbose for details).
+=== SESSION ERRORS & WARNINGS (43 found) ===
+ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+ERROR: Child is not a child of this node.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Invalid access to property or key '105' on a base object of type 'Dictionary'.
+SCRIPT ERROR: Trying to call an async function without "await".
+ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+ERROR: Child is not a child of this node.
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Trying to call an async function without "await".
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+ERROR: Child is not a child of this node.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+SCRIPT ERROR: Trying to call an async function without "await".
+ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+ERROR: Child is not a child of this node.
+ERROR: 67 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+ERROR: 38 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+ERROR: 4 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
+ERROR: 183 resources still in use at exit (run with --verbose for details).
 
 === ACTIVE MOD LOG ENTRIES (13 found) ===
 	 - C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mods/gareth-tectonic_faultline_mod.zip
@@ -40,33 +55,33 @@ DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultl
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Custom Map Mod (ID 102) online!
 
 === LOG TAIL (LAST 30 LINES) ===
-   at: _ready (res://mods-unpacked/gareth-knight_class_mod/mod_main.gd:36)
-INFO ModLoader:ModHookPacker: Generating mod hooks .zip
-DEBUG ModLoader:ModHookPacker: Scripts requiring hooks: { "res://resources/BuyEffects/Scripts/AddToInventory.gd": ["buy_effect", "get_max_count"], "res://scenes/Interfaces/Management/shop_item_card.gd": ["refreshDetails", "_on_purchase_button_pressed", "_on_purchase_button_gui_input"], "res://scenes/Interfaces/in_game/choose_passive.gd": ["set_up_buttons", "_on_button_pressed", "_on_button_2_pressed", "_on_button_3_pressed", "_process"], "res://scenes/Interfaces/Management/passive_bonuses.gd": ["refresh"], "res://scripts/MainMenu.gd": ["_ready", "on_profession_selected"], "res://scripts/Gvars.gd": ["reset_resources", "save_Gvars", "load_Gvars"], "res://scenes/Stages/management_screen.gd": ["load_equipment_shop"], "res://scripts/Camera.gd": ["_process"], "res://scripts/StateMachine/Player2/player_2.gd": ["mine_action", "_ready", "_physics_process"], "res://scenes/Interfaces/Menus/settings_2.gd": ["_ready"], "res://scenes/tilemaps/tile_map_chunk.gd": ["destroy_tile", "lvl_from_global_pos", "generate_chunk", "damage_tile_idx", "generate_chests", "adjust_level_bonus", "apply_tile_effects"], "res://scripts/Chest.gd": ["pickup_item", "roll_loot"], "res://scenes/Interfaces/Menus/level_select.gd": ["_ready"], "res://scripts/Game.gd": ["change_stage"], "res://scenes/equipment/boxing_gloves.gd": ["attack_tile"], "res://scenes/equipment/kick.gd": ["_process", "damage_tiles"], "res://resources/professions/scripts/martial_artist.gd": ["_profession_effect"], "res://scenes/Interfaces/Management/employee_shop_tooltip.gd": ["_ready"], "res://resources/Employees/Scripts/employee_manager.gd": ["get_employee_level_from_enum", "purchase_employee_level"], "res://scenes/Interfaces/Management/organisation_chart_2.gd": ["_ready", "refresh_all_icons", "_draw"], "res://scenes/Interfaces/Management/employee_level_icon_2.gd": ["_ready", "position_tooltip"], "res://scenes/Interfaces/InventoryWindow.gd": ["_ready", "load_inventory"], "res://scripts/equipment_manager.gd": ["generate_vacuum_cleaner"], "res://scenes/NPCs/quest_scene_manager.gd": ["_ready", "refresh_all_quest_points"], "res://resources/Quests/quest_rewards/reward_vacuum.gd": ["reward"], "res://resources/professions/scripts/tanker.gd": ["_profession_effect"], "res://resources/EquipEffects/Scripts/tank.gd": ["start", "end"], "res://scenes/equipment/tank_bullet.gd": ["_ready", "attack_tile"], "res://scenes/equipment/vacuum_cleaner.gd": ["_physics_process"], "res://scripts/LootCollectorUFO.gd": ["check_inventory_count", "_physics_process"], "res://resources/EquipEffects/Scripts/gun.gd": ["start", "end", "physics_process"], "res://resources/EquipEffects/Scripts/water_gun.gd": ["start", "end", "physics_process"], "res://scenes/ManagersInScene/mortar_manager.gd": ["shoot_mortar"], "res://scenes/tilemaps/tile_map_manager.gd": ["load_chunks"], "res://scripts/PauseMenu.gd": ["on_pressed_resume"], "res://scenes/equipment/electric_shock.gd": ["_physics_process"], "res://scripts/tile_map_layer_main.gd": ["damageTileCoords"], "res://scripts/loot_drops.gd": ["find_loot"], "res://scenes/AutoMiners/employee_miner_2.gd": ["_physics_process"] }
-INFO ModLoader:ModHookPacker: Scripts are already processed according to cache, skipping process.
-INFO gareth-multisave_mod: Career progression and hard modifier badges verified.
-SCRIPT ERROR: Invalid call. Nonexistent function 'get_all_installed_mods' in base 'GDScript'.
-   at: ModManagerView._populate_cards (res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd:91)
-SCRIPT ERROR: Invalid call. Nonexistent function 'get_all_installed_mods' in base 'GDScript'.
-   at: ModManagerView._populate_cards (res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd:91)
-SCRIPT ERROR: Invalid call. Nonexistent function 'get_all_installed_mods' in base 'GDScript'.
-   at: ModManagerView._populate_cards (res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd:91)
-SCRIPT ERROR: Invalid access to property or key 'ABYSSAL_LEVEL_ID' on a base object of type 'RefCounted (AbyssalTrenchHelper)'.
-   at: _ready (res://mods-unpacked/gareth-abyssal_trench_mod/extensions/scenes/Interfaces/Menus/level_select.hooks.gd:11)
-INFO nanobotz-autopassivechooser:SettingsHook: Passive Order tab added to settings menu.
-INFO der_floh-effect_spread_mod:SettingsHook: Effect Spread tab added to settings menu.
-INFO der_floh-game_limits_mod:Tab: Max mortars set to 200
-INFO der_floh-game_limits_mod:Tab: Max employee draws set to 500
-INFO der_floh-game_limits_mod:Tab: Chunk load radius set to 1
-INFO der_floh-game_limits_mod:Tab: Max electric chain tiles set to 500
-INFO der_floh-game_limits_mod:Tab: Max electric visual arcs set to 200
-INFO der_floh-game_limits_mod:SettingsHook: Game Limits tab added to settings menu.
-INFO der_floh-ore_value_mod:SettingsHook: Ore Value tab added to settings menu.
-INFO der_floh-passive_drop_mod:SettingsHook: Passive Drop tab added to settings menu.
-ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-WARNING: 88 RIDs of type "Texture" were leaked.
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
+INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (35.27052, 50.89318)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (51.94479, -56.00528)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (51.94479, -56.00528)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (-34.72356, -56.03517)
+end day
+SCRIPT ERROR: Trying to call an async function without "await".
+   at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+Day Count: 1
+Days Passed: 0
+INFO gareth-more_employees_mod: Workforce chart initialized cleanly.
+ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+   at: add_child (scene/main/node.cpp:1657)
+ERROR: Child is not a child of this node.
+   at: move_child (scene/main/node.cpp:465)
+say_game_has_been_saved() function running
+finished turning on
+WARNING: 41 RIDs of type "CanvasItem" were leaked.
+   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2679)
+ERROR: 67 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+WARNING: 117 RIDs of type "Texture" were leaked.
    at: finalize (servers/rendering/rendering_device.cpp:7130)
+ERROR: 38 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+ERROR: 4 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
 WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
    at: cleanup (core/object/object.cpp:2378)
-ERROR: 169 resources still in use at exit (run with --verbose for details).
+ERROR: 183 resources still in use at exit (run with --verbose for details).
    at: clear (core/io/resource.cpp:614)
