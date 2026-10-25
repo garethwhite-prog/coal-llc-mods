@@ -155,7 +155,7 @@ func _populate_cards(content: VBoxContainer) -> void:
 
 			var cb := CheckBox.new()
 			cb.button_pressed = default_active
-			cb.disabled = m["is_core"]
+			cb.disabled = bool(m.get("is_core", false))
 			cb.toggled.connect(func(val: bool): toggles[k] = val)
 			hbox.add_child(cb)
 
@@ -202,5 +202,6 @@ func _on_confirm() -> void:
 
 	confirmed.emit()
 	queue_free()
+
 
 

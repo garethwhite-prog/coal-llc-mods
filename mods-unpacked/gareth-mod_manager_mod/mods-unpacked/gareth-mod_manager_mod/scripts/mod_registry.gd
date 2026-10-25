@@ -62,6 +62,7 @@ static func _dict_from_manifest(mod_id: String, m, active: bool) -> Dictionary:
 			author = str(m.extra.godot.authors[0])
 	var version: String = str(m.version_number) if "version_number" in m else "1.0.0"
 	var cat: String = _determine_category(m)
+	var is_core: bool = (mod_id == "gareth-mod_manager_mod")
 
 	return {
 		"id": mod_id,
@@ -71,7 +72,8 @@ static func _dict_from_manifest(mod_id: String, m, active: bool) -> Dictionary:
 		"author": author,
 		"version": version,
 		"category": cat,
-		"is_active": active
+		"is_active": active,
+		"is_core": is_core
 	}
 
 static func _determine_category(m) -> String:

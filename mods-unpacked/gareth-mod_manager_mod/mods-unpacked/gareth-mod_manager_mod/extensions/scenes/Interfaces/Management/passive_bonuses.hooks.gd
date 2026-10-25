@@ -1,52 +1,85 @@
 extends Object
 
+var bonus_search: LineEdit = null
+var bonus_sort: OptionButton = null
+var bonus_chk_afford: CheckBox = null
+var is_bonus_affordable_only: bool = false
+
 func refresh(chain: ModLoaderHookChain) -> void:
 	chain.execute_next([])
-	var pb = chain.reference_object
-	if not is_instance_valid(pb) or not Gvars or not ("passives" in Gvars) or not Gvars.passives:
+	var panel = chain.reference_object
+	if not is_instance_valid(panel):
 		return
 
-	var p = Gvars.passives
+	_ensure_filter_bar(panel)
+	_apply_bonus_filter(panel)
 
-	var worker_stats = {
-		"Employee Miner Speed": "employee_miner_speed",
-		"Employee Miner Damage": "employee_miner_damage",
-		"Employee Collector Speed": "employee_collector_speed",
-		"Employee Collector Capacity": "employee_collector_capacity"
-	}
-	for s_name in worker_stats.keys():
-		var prop: String = worker_stats[s_name]
-		if prop in p:
-			var val: float = float(p.get(prop))
-			if val > 0.0:
-				var lbl = RichTextLabel.new()
-				lbl.text = "Increase %s +%d%%" % [s_name, roundi(val * 100)]
-				lbl.fit_content = true
-				pb.add_child(lbl)
+func _ensure_filter_bar(panel: Control) -> void:
+	var scroll = panel.get_parent()
+	var v_box = scroll.get_parent() if scroll else null
+	if not v_box:
+		return
 
-	var custom_stats = [
-		"sword_damage", "sword_speed", "sword_range",
-		"employee_miner_range", "employee_miner_pickup_speed", "collector_range",
-		"jedi_saber_damage", "jedi_swing_rate", "jedi_cleave_reach",
-		"ball_blast_damage", "chrono_tick_rate", "exec_damage",
-		"fracker_pulse_damage", "void_implosion_damage", "sinclair_melt_damage"
-	]
+	if v_box.has_node("BonusFilterBar"):
+		var existing = v_box.get_node("BonusFilterBar")
+		bonus_search = existing.get_node_or_null("BonusSearch")
+		bonus_sort = existing.get_node_or_null("BonusSort")
+		bonus_chk_afford = existing.get_node_or_null("BonusAfford")
+		return
 
-	var cp_dict: Dictionary = {}
-	if ("custom_passives" in Gvars) and (Gvars.custom_passives is Dictionary):
-		cp_dict = Gvars.custom_passives
+	var bar = HBoxContainer.new()
+	bar.name = "BonusFilterBar"
+	bar.add_theme_constant_override("separation", 10)
 
-	for stat_key in custom_stats:
-		var s_val: float = 0.0
-		if cp_dict.has(stat_key):
-			s_val = float(cp_dict[stat_key])
-		elif p.has_meta(stat_key):
-			s_val = float(p.get_meta(stat_key))
-		elif stat_key in p:
-			s_val = float(p.get(stat_key))
+	var search = LineEdit.new()
+	search.name = "BonusSearch"
+	search.placeholder_text = "Search bonus upgrades..."
+	search.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	search.clear_button_enabled = true
+	search.text_changed.connect(func(_t): _apply_bonus_filter(panel))
+	bar.add_child(search)
+	bonus_search = search
 
-		if s_val > 0.0:
-			var c_lbl = RichTextLabel.new()
-			c_lbl.text = "Increase %s +%d%%" % [stat_key.replace("_", " ").capitalize(), roundi(s_val * 100)]
-			c_lbl.fit_content = true
-			pb.add_child(c_lbl)
+	var sort_btn = OptionButton.new()
+	sort_btn.name = "BonusSort"
+	sort_btn.add_item("Sort: Default", 0)
+	sort_btn.add_item("Name: A-Z", 1)
+	sort_btn.item_selected.connect(func(_idx): _apply_bonus_filter(panel))
+	bar.add_child(sort_btn)
+	bonus_sort = sort_btn
+
+	var chk = CheckBox.new()
+	chk.name = "BonusAfford"
+	chk.text = "Affordable Only"
+	chk.tooltip_text = "Show only upgrades you can purchase right now."
+	chk.toggled.connect(func(pressed: bool):
+		is_bonus_affordable_only = pressed
+		_apply_bonus_filter(panel)
+	)
+	bar.add_child(chk)
+	bonus_chk_afford = chk
+
+	v_box.add_child(bar)
+	v_box.move_child(bar, scroll.get_index())
+
+func _apply_bonus_filter(panel: Control) -> void:
+	if not is_instance_valid(panel) or not is_instance_valid(bonus_search):
+		return
+	var q: String = bonus_search.text.strip_edges().to_lower()
+	var cur_cash: float = Gvars.CashCount if Gvars else 0.0
+
+	for item in panel.get_children():
+		if not is_instance_valid(item):
+			continue
+		var label = item.find_child("*Label*", true, false)
+		var text: String = label.text.to_lower() if (label and "text" in label) else ""
+		var match_q: bool = q.is_empty() or q in text
+
+		var cost: float = 0.0
+		if "cost" in item:
+			cost = float(item.cost)
+		elif "price" in item:
+			cost = float(item.price)
+
+		var match_afford: bool = not is_bonus_affordable_only or (cost <= cur_cash or cost <= 0.0)
+		item.visible = match_q and match_afford

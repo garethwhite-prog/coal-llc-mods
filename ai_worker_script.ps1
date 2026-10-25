@@ -1,5 +1,5 @@
 ﻿# ==============================================================================
-# Coal LLC - Master Fix: Mod Manager, Custom Maps, Sky Tile Guard & HUD Column
+# Coal LLC - Master Fix: Mod Manager is_core, Map Previews, HUD & DK Patrol
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
@@ -17,9 +17,9 @@ Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
 # ------------------------------------------------------------------------------
-# 2. FIX MOD_REGISTRY.GD: UNTYPED MANIFEST COMPATIBILITY (OBJECT & DICT)
+# 2. FIX MOD_REGISTRY.GD & MOD_MANAGER_VIEW.GD (IS_CORE RESOLUTION)
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 2. Updating mod_registry.gd with universal ModManifest handling..." -ForegroundColor Cyan
+Write-Host "`n>>> 2. Adding is_core key to mod_registry.gd & hardening mod_manager_view.gd..." -ForegroundColor Cyan
 $regPath = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\scripts\mod_registry.gd"
 @'
 class_name ModRegistry
@@ -86,6 +86,7 @@ static func _dict_from_manifest(mod_id: String, m, active: bool) -> Dictionary:
 			author = str(m.extra.godot.authors[0])
 	var version: String = str(m.version_number) if "version_number" in m else "1.0.0"
 	var cat: String = _determine_category(m)
+	var is_core: bool = (mod_id == "gareth-mod_manager_mod")
 
 	return {
 		"id": mod_id,
@@ -95,7 +96,8 @@ static func _dict_from_manifest(mod_id: String, m, active: bool) -> Dictionary:
 		"author": author,
 		"version": version,
 		"category": cat,
-		"is_active": active
+		"is_active": active,
+		"is_core": is_core
 	}
 
 static func _determine_category(m) -> String:
@@ -122,144 +124,35 @@ static func _format_display_name(m) -> String:
 	var raw: String = str(m.name).replace("_mod", "").replace("mod_", "").replace("-", " ").replace("_", " ") if "name" in m else "Mod"
 	return raw.capitalize()
 '@ | Set-Content -Path $regPath -Encoding UTF8
-Write-Host "  Updated: mod_registry.gd" -ForegroundColor Green
+
+$mmvPath = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\scenes\mod_manager_view.gd"
+$mmvCode = Get-Content $mmvPath -Raw
+$mmvCode = $mmvCode.Replace('cb.disabled = m["is_core"]', 'cb.disabled = bool(m.get("is_core", false))')
+Set-Content -Path $mmvPath -Value $mmvCode -Encoding UTF8
+Write-Host "  Updated: mod_registry.gd and mod_manager_view.gd (is_core guarded)" -ForegroundColor Green
 
 # ------------------------------------------------------------------------------
-# 3. FIX HARDWARE BOOSTER CHUNK HOOK (PREVENT SKY TILE GENERATION)
+# 3. FIX MAP PREVIEW TEXTURES (LIVING CANVAS & DIAGONAL SEAMS)
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 3. Protecting sky and surface coordinates (Y <= 0) in hardware_booster_mod..." -ForegroundColor Cyan
-$hwHookPath = "$repo\mods-unpacked\gareth-hardware_booster_mod\mods-unpacked\gareth-hardware_booster_mod\extensions\scenes\tilemaps\tile_map_chunk.hooks.gd"
-@'
-extends Object
+Write-Host "`n>>> 3. Correcting map preview textures for Map 103 and Map 105..." -ForegroundColor Cyan
 
-func generate_chunk(chain: ModLoaderHookChain, noise: Noise) -> void:
-	# Execute base game chunk generation first so surface rows and empty sky are respected
-	chain.execute_next([noise])
-
-	var chunk = chain.reference_object
-	if not chunk or not ("tiles" in chunk) or not chunk.has_method("array_to_global_pos"):
-		return
-
-	# Only apply hardware worker acceleration to subterranean regions (Y > 0)
-	for idx in range(chunk.tiles.size()):
-		var global_pos: Vector2i = Vector2i(chunk.array_to_global_pos(idx))
-		if global_pos.y <= 0:
-			# Ensure sky and surface air remain completely open
-			chunk.tiles[idx] = chunk.Tiles.EMPTY
-			chunk.build_tile(idx)
-'@ | Set-Content -Path $hwHookPath -Encoding UTF8
-Write-Host "  Updated: hardware_booster_mod (sky tiles protected)" -ForegroundColor Green
-
-# ------------------------------------------------------------------------------
-# 4. FIX MAP 103 (THE LIVING CANVAS) HELPER & HOOK
-# ------------------------------------------------------------------------------
-Write-Host "`n>>> 4. Registering Map 103 (The Living Canvas) with Difficulty.REGULAR..." -ForegroundColor Cyan
+# 3a. Living Canvas: point to default_canvas.png
 $lcHelperPath = "$repo\mods-unpacked\gareth-living_canvas_mod\mods-unpacked\gareth-living_canvas_mod\helpers\LivingCanvasHelper.gd"
-@'
-class_name LivingCanvasHelper
-extends RefCounted
+$lcHelperCode = Get-Content $lcHelperPath -Raw
+$lcHelperCode = $lcHelperCode.Replace('canvas_preview.png', 'default_canvas.png')
+Set-Content -Path $lcHelperPath -Value $lcHelperCode -Encoding UTF8
 
-const CANVAS_LEVEL_ID: int = 103
-const PREVIEW_PATH: String = "res://mods-unpacked/gareth-living_canvas_mod/assets/canvas_preview.png"
+# 3b. Diagonal Seams: Generate diagonal preview texture
+$dmAssetDir = "$repo\mods-unpacked\gareth-diagonal_map_mod\mods-unpacked\gareth-diagonal_map_mod\assets"
+New-Item -ItemType Directory -Path $dmAssetDir -Force | Out-Null
 
-static func is_canvas_level() -> bool:
-	if Gvars:
-		if "level" in Gvars and Gvars.level == CANVAS_LEVEL_ID:
-			return true
-		if "chosen_level" in Gvars and Gvars.chosen_level == CANVAS_LEVEL_ID:
-			return true
-		if "current_level" in Gvars and Gvars.current_level == CANVAS_LEVEL_ID:
-			return true
-	return false
-
-static func ensure_level_registered() -> void:
-	if not Gvars or not ("level_manager" in Gvars) or not Gvars.level_manager:
-		return
-
-	var lvl_mgr = Gvars.level_manager
-	if "all_levels" in lvl_mgr and not lvl_mgr.all_levels.has(CANVAS_LEVEL_ID):
-		var custom_level = GameLevel.new()
-		custom_level.level_name = "The Living Canvas"
-		custom_level.level = CANVAS_LEVEL_ID
-		custom_level.mining_scene_path = "res://scenes/Stages/MineRegion.tscn"
-		custom_level.level_description = "Subterranean strata sculpted directly from a real image or screenshot.\n\nDefault theme: 'Your Mum'. Mine through the beach mosaic or choose any custom image."
-		custom_level.level_difficulty = GameLevel.Difficulty.REGULAR
-		custom_level.unlock_description = ""
-
-		if FileAccess.file_exists(PREVIEW_PATH):
-			var bytes = FileAccess.get_file_as_bytes(PREVIEW_PATH)
-			if bytes.size() > 0:
-				var img = Image.new()
-				if img.load_png_from_buffer(bytes) == OK:
-					custom_level.level_image = ImageTexture.create_from_image(img)
-
-		lvl_mgr.all_levels[CANVAS_LEVEL_ID] = {
-			"level": custom_level,
-			"is_unlocked": true
-		}
-
-	if "level_info" in Gvars and Gvars.level_info is Dictionary:
-		if not Gvars.level_info.has(CANVAS_LEVEL_ID):
-			Gvars.level_info[CANVAS_LEVEL_ID] = {
-				"name": "The Living Canvas",
-				"description": "Subterranean strata sculpted from real images.",
-				"depth": 1000,
-				"cost": 0,
-				"unlocked": true
-			}
-'@ | Set-Content -Path $lcHelperPath -Encoding UTF8
-
-$lcHookPath = "$repo\mods-unpacked\gareth-living_canvas_mod\mods-unpacked\gareth-living_canvas_mod\extensions\scenes\Interfaces\Menus\level_select.hooks.gd"
-@'
-extends Object
-
-func _ready(chain: ModLoaderHookChain) -> void:
-	var helper_script = load("res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd")
-	if helper_script and helper_script.has_method("ensure_level_registered"):
-		helper_script.ensure_level_registered()
-
-	var ls = chain.reference_object
-	if ls and ("LEVEL_ORDER" in ls):
-		if not ls.LEVEL_ORDER.has(103):
-			ls.LEVEL_ORDER.append(103)
-
-	chain.execute_next([])
-'@ | Set-Content -Path $lcHookPath -Encoding UTF8
-
-# ------------------------------------------------------------------------------
-# 5. FIX MAP 104 (ABYSSAL TRENCH) LEVEL SELECT HOOK
-# ------------------------------------------------------------------------------
-Write-Host "`n>>> 5. Registering Map 104 (The Abyssal Trench) before execute_next..." -ForegroundColor Cyan
-$atHookPath = "$repo\mods-unpacked\gareth-abyssal_trench_mod\mods-unpacked\gareth-abyssal_trench_mod\extensions\scenes\Interfaces\Menus\level_select.hooks.gd"
-@'
-extends Object
-
-func _ready(chain: ModLoaderHookChain) -> void:
-	var helper_script = load("res://mods-unpacked/gareth-abyssal_trench_mod/helpers/AbyssalTrenchHelper.gd")
-	if helper_script:
-		var helper = helper_script.new()
-		if helper.has_method("ensure_level_registered"):
-			helper.ensure_level_registered()
-
-	var ls = chain.reference_object
-	if ls and ("LEVEL_ORDER" in ls):
-		var tid: int = 104
-		if not ls.LEVEL_ORDER.has(tid):
-			ls.LEVEL_ORDER.append(tid)
-
-	chain.execute_next([])
-'@ | Set-Content -Path $atHookPath -Encoding UTF8
-
-# ------------------------------------------------------------------------------
-# 6. FIX MAP 105 (DIAGONAL SEAMS) HELPER & HOOK
-# ------------------------------------------------------------------------------
-Write-Host "`n>>> 6. Registering Map 105 (Diagonal Seams) with Difficulty.REGULAR..." -ForegroundColor Cyan
 $dmHelperPath = "$repo\mods-unpacked\gareth-diagonal_map_mod\mods-unpacked\gareth-diagonal_map_mod\helpers\DiagonalMapHelper.gd"
 @'
 class_name DiagonalMapHelper
 extends RefCounted
 
 const DIAGONAL_LEVEL_ID: int = 105
+const PREVIEW_PATH: String = "res://mods-unpacked/gareth-diagonal_map_mod/assets/diagonal_preview.png"
 
 static func ensure_level_registered() -> void:
 	if not Gvars or not ("level_manager" in Gvars) or not Gvars.level_manager:
@@ -274,6 +167,7 @@ static func ensure_level_registered() -> void:
 		custom_level.level_description = "45-degree rotated subterranean strata and inverted angled seams.\nCarve through diagonal geological faultlines and tilted mineral layers."
 		custom_level.level_difficulty = GameLevel.Difficulty.REGULAR
 		custom_level.unlock_description = ""
+		custom_level.level_image = _get_or_create_preview()
 
 		lvl_mgr.all_levels[DIAGONAL_LEVEL_ID] = {
 			"level": custom_level,
@@ -289,153 +183,62 @@ static func ensure_level_registered() -> void:
 				"cost": 0,
 				"unlocked": true
 			}
+
+static func _get_or_create_preview() -> ImageTexture:
+	if FileAccess.file_exists(PREVIEW_PATH):
+		var bytes = FileAccess.get_file_as_bytes(PREVIEW_PATH)
+		if bytes.size() > 0:
+			var img = Image.new()
+			if img.load_png_from_buffer(bytes) == OK:
+				return ImageTexture.create_from_image(img)
+
+	# Generate procedural diagonal preview card
+	var img = Image.create(96, 64, false, Image.FORMAT_RGBA8)
+	var col1 = Color(0.18, 0.22, 0.30, 1.0)
+	var col2 = Color(0.85, 0.55, 0.20, 1.0)
+	var col3 = Color(0.30, 0.65, 0.85, 1.0)
+	for x in range(96):
+		for y in range(64):
+			var diag = (x + y) % 24
+			if diag < 10:
+				img.set_pixel(x, y, col1)
+			elif diag < 16:
+				img.set_pixel(x, y, col2)
+			else:
+				img.set_pixel(x, y, col3)
+	return ImageTexture.create_from_image(img)
 '@ | Set-Content -Path $dmHelperPath -Encoding UTF8
-
-$dmHookPath = "$repo\mods-unpacked\gareth-diagonal_map_mod\mods-unpacked\gareth-diagonal_map_mod\extensions\scenes\Interfaces\Menus\level_select.hooks.gd"
-@'
-extends Object
-
-func _ready(chain: ModLoaderHookChain) -> void:
-	var helper = load("res://mods-unpacked/gareth-diagonal_map_mod/helpers/DiagonalMapHelper.gd")
-	if helper and helper.has_method("ensure_level_registered"):
-		helper.ensure_level_registered()
-
-	var ls = chain.reference_object
-	if ls and ("LEVEL_ORDER" in ls):
-		if not ls.LEVEL_ORDER.has(105):
-			ls.LEVEL_ORDER.append(105)
-
-	chain.execute_next([])
-'@ | Set-Content -Path $dmHookPath -Encoding UTF8
+Write-Host "  Updated: Map 103 & 105 preview textures" -ForegroundColor Green
 
 # ------------------------------------------------------------------------------
-# 7. FIX EQUIPMENT SHOP SEARCH, SORT & LOCAL AFFORDABLE FILTER
+# 4. FIX ELEMENTAL AIRSTRIKE TEXTURE FACTORY IMPORTS
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 7. Hardening search, sort & Affordable Only filter (local state)..." -ForegroundColor Cyan
-$msHookPath = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\extensions\scenes\Stages\management_screen.hooks.gd"
-@'
-extends Object
+Write-Host "`n>>> 4. Preloading texture factory in dragon_strike.gd & water_bomber_strike.gd..." -ForegroundColor Cyan
+$dsPath = "$repo\mods-unpacked\gareth-elemental_airstrikes_mod\mods-unpacked\gareth-elemental_airstrikes_mod\scripts\dragon_strike.gd"
+if (Test-Path $dsPath) {
+	$dsCode = Get-Content $dsPath -Raw
+	if (-not $dsCode.Contains("const Textures = preload")) {
+		$dsCode = "const Textures = preload(`"res://mods-unpacked/gareth-elemental_airstrikes_mod/scripts/texture_factory.gd`")`r`n" + $dsCode
+		$dsCode = $dsCode.Replace("ElementalAirstrikeTextures.", "Textures.")
+		Set-Content -Path $dsPath -Value $dsCode -Encoding UTF8
+	}
+}
 
-var search_input: LineEdit = null
-var sort_dropdown: OptionButton = null
-var chk_affordable: CheckBox = null
-var is_affordable_only: bool = false
-
-func load_equipment_shop(chain: ModLoaderHookChain) -> void:
-	var screen = chain.reference_object
-	if is_instance_valid(screen):
-		if Gvars and is_nan(Gvars.CashCount):
-			Gvars.CashCount = 0.0
-		_ensure_search_and_sort_bar(screen)
-		_sort_equipment_catalog()
-
-	chain.execute_next([])
-
-	if is_instance_valid(screen):
-		Callable(self, "_apply_filter").call_deferred(screen)
-
-func _ensure_search_and_sort_bar(screen: Node) -> void:
-	if not is_instance_valid(screen):
-		return
-	var shop = screen.find_child("EquipmentShop", true, false)
-	if not shop:
-		return
-
-	var scroll = shop.get_parent()
-	var v_box = scroll.get_parent() if scroll else null
-	if not v_box:
-		return
-
-	if v_box.has_node("EquipmentFilterBar"):
-		var existing_bar = v_box.get_node("EquipmentFilterBar")
-		search_input = existing_bar.get_node_or_null("SearchInput")
-		sort_dropdown = existing_bar.get_node_or_null("SortOption")
-		chk_affordable = existing_bar.get_node_or_null("AffordableOnly")
-		return
-
-	var bar = HBoxContainer.new()
-	bar.name = "EquipmentFilterBar"
-	bar.add_theme_constant_override("separation", 12)
-
-	var search = LineEdit.new()
-	search.name = "SearchInput"
-	search.placeholder_text = "Search equipment by name or type..."
-	search.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	search.clear_button_enabled = true
-	search.text_changed.connect(func(_new_text): _apply_filter(screen))
-	bar.add_child(search)
-	search_input = search
-
-	var sort_btn = OptionButton.new()
-	sort_btn.name = "SortOption"
-	sort_btn.add_item("Sort: Tier (Default)", 0)
-	sort_btn.add_item("Sort: Price (Low to High)", 1)
-	sort_btn.add_item("Sort: Price (High to Low)", 2)
-	sort_btn.add_item("Sort: Alphabetical (A-Z)", 3)
-	sort_btn.item_selected.connect(func(_idx):
-		_sort_equipment_catalog()
-		if screen.has_method("load_equipment_shop"):
-			screen.load_equipment_shop()
-	)
-	bar.add_child(sort_btn)
-	sort_dropdown = sort_btn
-
-	var chk = CheckBox.new()
-	chk.name = "AffordableOnly"
-	chk.text = "Affordable Only"
-	chk.tooltip_text = "Show only items you can afford with your current cash."
-	chk.toggled.connect(func(pressed: bool):
-		is_affordable_only = pressed
-		_apply_filter(screen)
-	)
-	bar.add_child(chk)
-	chk_affordable = chk
-
-	v_box.add_child(bar)
-	v_box.move_child(bar, scroll.get_index())
-
-func _sort_equipment_catalog() -> void:
-	var item_unlocks = load("res://resources/unlockable_items/scripts/item_unlocks.tres")
-	if not item_unlocks or not ("all_equipment_items" in item_unlocks):
-		return
-
-	var mode: int = sort_dropdown.selected if is_instance_valid(sort_dropdown) else 0
-	if mode == 1:
-		item_unlocks.all_equipment_items.sort_custom(func(a, b): return a.itemBuyPrice < b.itemBuyPrice)
-	elif mode == 2:
-		item_unlocks.all_equipment_items.sort_custom(func(a, b): return a.itemBuyPrice > b.itemBuyPrice)
-	elif mode == 3:
-		item_unlocks.all_equipment_items.sort_custom(func(a, b): return str(a.itemName).nocasecmp_to(str(b.itemName)) < 0)
-
-func _apply_filter(screen: Node) -> void:
-	if not is_instance_valid(screen) or not is_instance_valid(search_input):
-		return
-	var query: String = search_input.text.strip_edges().to_lower()
-	var cur_cash: float = Gvars.CashCount if Gvars else 0.0
-
-	var shop = screen.find_child("EquipmentShop", true, false)
-	if not shop:
-		return
-
-	for card in shop.find_children("*", "PanelContainer", true, false):
-		if not is_instance_valid(card) or not ("item" in card) or not card.item:
-			continue
-		var it = card.item
-		var it_name: String = str(it.itemName).to_lower()
-		var it_id: String = str(it.itemID).to_lower()
-		var it_type: String = str(it.itemType).to_lower()
-
-		var match_query: bool = query.is_empty() or query in it_name or query in it_id or query in it_type
-		var match_afford: bool = not is_affordable_only or (it.itemBuyPrice <= cur_cash or it.itemBuyPrice <= 0.0)
-
-		card.visible = match_query and match_afford
-'@ | Set-Content -Path $msHookPath -Encoding UTF8
-Write-Host "  Updated: management_screen.hooks.gd" -ForegroundColor Green
+$wbPath = "$repo\mods-unpacked\gareth-elemental_airstrikes_mod\mods-unpacked\gareth-elemental_airstrikes_mod\scripts\water_bomber_strike.gd"
+if (Test-Path $wbPath) {
+	$wbCode = Get-Content $wbPath -Raw
+	if (-not $wbCode.Contains("const Textures = preload")) {
+		$wbCode = "const Textures = preload(`"res://mods-unpacked/gareth-elemental_airstrikes_mod/scripts/texture_factory.gd`")`r`n" + $wbCode
+		$wbCode = $wbCode.Replace("ElementalAirstrikeTextures.", "Textures.")
+		Set-Content -Path $wbPath -Value $wbCode -Encoding UTF8
+	}
+}
+Write-Host "  Updated: Elemental airstrike script imports" -ForegroundColor Green
 
 # ------------------------------------------------------------------------------
-# 8. UPGRADE DONKEY KONG: GORILLA SPRITE & ROLLING WOODEN BARREL
+# 5. FIX DONKEY KONG GORILLA (RELOCATE OFF PIT & IMPROVE APE SPRITE)
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 8. Upgrading Donkey Kong with authentic ape silhouette & wooden rolling barrels..." -ForegroundColor Cyan
+Write-Host "`n>>> 5. Relocating Donkey Kong to right surface plateau (X = 420) & building ape sprite..." -ForegroundColor Cyan
 $dkSpawner = "$repo\mods-unpacked\gareth-donkey_kong_mod\mods-unpacked\gareth-donkey_kong_mod\scripts\gorilla_surface_spawner.gd"
 @'
 extends Node
@@ -455,10 +258,14 @@ func _process(delta: float) -> void:
 		_spawn_gorilla(tree.current_scene)
 
 	if is_instance_valid(gorilla):
-		gorilla.position.x += 60.0 * delta * gorilla.get_meta("dir", 1.0)
-		if abs(gorilla.position.x) > 350.0:
-			gorilla.set_meta("dir", -gorilla.get_meta("dir", 1.0))
-			gorilla.scale.x = -abs(gorilla.scale.x) if gorilla.get_meta("dir", 1.0) > 0 else abs(gorilla.scale.x)
+		# Patrol on right plateau (X = 360 to 620), safely away from surface pit
+		gorilla.position.x += 50.0 * delta * gorilla.get_meta("dir", 1.0)
+		if gorilla.position.x > 620.0:
+			gorilla.set_meta("dir", -1.0)
+			gorilla.scale.x = abs(gorilla.scale.x)
+		elif gorilla.position.x < 360.0:
+			gorilla.set_meta("dir", 1.0)
+			gorilla.scale.x = -abs(gorilla.scale.x)
 
 		barrel_timer += delta
 		if barrel_timer >= 6.0:
@@ -468,55 +275,62 @@ func _process(delta: float) -> void:
 func _spawn_gorilla(scene: Node) -> void:
 	gorilla = Node2D.new()
 	gorilla.name = "DonkeyKongGorilla"
-	gorilla.global_position = Vector2(180, -28)
-	gorilla.set_meta("dir", -1.0)
+	# Spawn on far-right surface plateau, leaving mine entrance wide open
+	gorilla.global_position = Vector2(420, -32)
+	gorilla.set_meta("dir", 1.0)
 
 	var spr = Sprite2D.new()
 	spr.texture = _create_gorilla_texture()
-	spr.scale = Vector2(2.5, 2.5)
+	spr.scale = Vector2(1.8, 1.8)
 	gorilla.add_child(spr)
 	scene.add_child(gorilla)
 
 func _create_gorilla_texture() -> ImageTexture:
 	var img = Image.create(32, 32, false, Image.FORMAT_RGBA8)
-	var fur = Color(0.35, 0.18, 0.08, 1.0)
-	var tan_skin = Color(0.72, 0.52, 0.35, 1.0)
-	var tie_red = Color(0.9, 0.15, 0.15, 1.0)
+	var fur = Color(0.28, 0.14, 0.06, 1.0)
+	var chest = Color(0.70, 0.50, 0.32, 1.0)
+	var tie = Color(0.95, 0.15, 0.15, 1.0)
 	var eye = Color(1.0, 1.0, 1.0, 1.0)
+	var pupil = Color(0.05, 0.05, 0.05, 1.0)
 
 	for x in range(32):
 		for y in range(32):
-			# Broad gorilla torso and massive ape arms
-			if (y in range(12, 28) and x in range(6, 26)) or (y in range(14, 30) and (x in range(2, 8) or x in range(24, 30))):
+			# Head
+			if y in range(4, 12) and x in range(10, 22):
 				img.set_pixel(x, y, fur)
-			# Gorilla head and brow ridge
-			elif (y in range(4, 13) and x in range(10, 22)):
+			# Broad ape torso
+			elif y in range(12, 28) and x in range(7, 25):
 				img.set_pixel(x, y, fur)
-			# Tan muzzle and chest plate
-			elif (y in range(9, 13) and x in range(12, 20)) or (y in range(15, 24) and x in range(11, 21)):
-				img.set_pixel(x, y, tan_skin)
-			# Classic DK Red Tie
-			elif (y in range(15, 25) and (x in range(15, 17) or (y in range(22, 25) and x in range(14, 18)))):
-				img.set_pixel(x, y, tie_red)
+			# Arms
+			elif y in range(13, 29) and (x in range(3, 8) or x in range(24, 29)):
+				img.set_pixel(x, y, fur)
+			# Chest plate & muzzle
+			if (y in range(8, 12) and x in range(12, 20)) or (y in range(14, 22) and x in range(11, 21)):
+				img.set_pixel(x, y, chest)
+			# Red tie
+			if (y in range(13, 24) and x in range(15, 17)) or (y in range(22, 26) and x in range(14, 18)):
+				img.set_pixel(x, y, tie)
 			# Eyes
-			elif (y in range(7, 9) and (x == 13 or x == 18)):
+			if y in range(6, 8) and (x == 13 or x == 18):
 				img.set_pixel(x, y, eye)
+			if y == 7 and (x == 14 or x == 19):
+				img.set_pixel(x, y, pupil)
 
 	return ImageTexture.create_from_image(img)
 
 func _create_barrel_texture() -> ImageTexture:
 	var img = Image.create(20, 20, false, Image.FORMAT_RGBA8)
-	var wood_dark = Color(0.45, 0.26, 0.12, 1.0)
-	var wood_light = Color(0.60, 0.38, 0.20, 1.0)
-	var hoop_metal = Color(0.25, 0.25, 0.28, 1.0)
+	var wood_dark = Color(0.42, 0.24, 0.10, 1.0)
+	var wood_light = Color(0.58, 0.36, 0.18, 1.0)
+	var metal_band = Color(0.24, 0.24, 0.26, 1.0)
 
 	for x in range(20):
 		for y in range(20):
 			var dx = float(x - 10)
 			var dy = float(y - 10)
-			if dx*dx + dy*dy <= 90.0:
+			if dx*dx + dy*dy <= 85.0:
 				if y in range(4, 7) or y in range(13, 16):
-					img.set_pixel(x, y, hoop_metal)
+					img.set_pixel(x, y, metal_band)
 				elif x % 3 == 0:
 					img.set_pixel(x, y, wood_dark)
 				else:
@@ -531,12 +345,12 @@ func _toss_barrel(scene: Node, pos: Vector2) -> void:
 
 	var spr = Sprite2D.new()
 	spr.texture = _create_barrel_texture()
-	spr.scale = Vector2(1.8, 1.8)
+	spr.scale = Vector2(1.7, 1.7)
 	barrel.add_child(spr)
 
 	var col = CollisionShape2D.new()
 	var shape = CircleShape2D.new()
-	shape.radius = 16.0
+	shape.radius = 15.0
 	col.shape = shape
 	barrel.add_child(col)
 
@@ -545,14 +359,6 @@ func _toss_barrel(scene: Node, pos: Vector2) -> void:
 			if "velocity" in body:
 				body.velocity = Vector2.ZERO
 			body.set_physics_process(false)
-
-			# Bonk Sound and Dizzy Notification
-			var bonk = AudioStreamPlayer2D.new()
-			bonk.stream = load("res://assets/sound/sound effects/box_1.wav")
-			bonk.pitch_scale = 1.3
-			bonk.global_position = body.global_position
-			body.add_child(bonk)
-			bonk.play()
 
 			var toast = Label.new()
 			toast.text = "★ BONK! STUNNED! ★"
@@ -565,73 +371,186 @@ func _toss_barrel(scene: Node, pos: Vector2) -> void:
 			tw.tween_callback(func():
 				body.set_physics_process(true)
 				toast.queue_free()
-				bonk.queue_free()
 			)
 			barrel.queue_free()
 	)
 
 	scene.add_child(barrel)
-
-	# Roll barrel down and rotate
 	var b_tween = barrel.create_tween()
-	b_tween.parallel().tween_property(barrel, "global_position:y", 650.0, 7.0)
-	b_tween.parallel().tween_property(barrel, "rotation", 14.0, 7.0)
+	b_tween.parallel().tween_property(barrel, "global_position:x", 180.0, 4.0)
+	b_tween.parallel().tween_property(barrel, "global_position:y", 650.0, 6.0)
+	b_tween.parallel().tween_property(barrel, "rotation", 14.0, 6.0)
 	b_tween.tween_callback(barrel.queue_free)
 '@ | Set-Content -Path $dkSpawner -Encoding UTF8
-Write-Host "  Updated: Donkey Kong gorilla & barrel projectile" -ForegroundColor Green
+Write-Host "  Updated: Donkey Kong gorilla patrol & barrel trajectory" -ForegroundColor Green
 
 # ------------------------------------------------------------------------------
-# 9. HARMONIZE BOTTOM-RIGHT HUD DOCKING (SPEED, AMAZON & AIR WINGS)
+# 6. RESOLVE BOTTOM-RIGHT HUD OVERLAP (CLEAN VERTICAL STACK)
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 9. Establishing clean 300px right-docked column geometry..." -ForegroundColor Cyan
+Write-Host "`n>>> 6. Harmonizing bottom-right HUD docking geometry (360px width, staggered offsets)..." -ForegroundColor Cyan
 
-# 9a. Speed Controller (Bottom Slot: -48 to -16, width: 300px)
+# 6a. Speed Controller (Bottom Slot: -44 to -14)
 $scPath = "$repo\mods-unpacked\gareth-game_speed_mod\mods-unpacked\gareth-game_speed_mod\scripts\speed_controller.gd"
 $scCode = Get-Content $scPath -Raw
-$scCode = $scCode.Replace('panel.offset_left = -316.0', 'panel.offset_left = -324.0')
-$scCode = $scCode.Replace('panel.offset_left = -264.0', 'panel.offset_left = -324.0')
-$scCode = $scCode.Replace('panel.offset_right = -16.0', 'panel.offset_right = -24.0')
-$scCode = $scCode.Replace('panel.offset_top = -46.0', 'panel.offset_top = -48.0')
-$scCode = $scCode.Replace('panel.offset_bottom = -12.0', 'panel.offset_bottom = -16.0')
+$scCode = $scCode.Replace('panel.offset_left = -324.0', 'panel.offset_left = -356.0')
+$scCode = $scCode.Replace('panel.offset_left = -316.0', 'panel.offset_left = -356.0')
+$scCode = $scCode.Replace('panel.offset_left = -264.0', 'panel.offset_left = -356.0')
+$scCode = $scCode.Replace('panel.offset_right = -16.0', 'panel.offset_right = -20.0')
+$scCode = $scCode.Replace('panel.offset_right = -24.0', 'panel.offset_right = -20.0')
+$scCode = $scCode.Replace('panel.offset_top = -48.0', 'panel.offset_top = -44.0')
+$scCode = $scCode.Replace('panel.offset_top = -46.0', 'panel.offset_top = -44.0')
+$scCode = $scCode.Replace('panel.offset_bottom = -12.0', 'panel.offset_bottom = -14.0')
+$scCode = $scCode.Replace('panel.offset_bottom = -16.0', 'panel.offset_bottom = -14.0')
 Set-Content -Path $scPath -Value $scCode -Encoding UTF8
 
-# 9b. Amazon Button (Middle Slot: -86 to -54, width: 300px)
+# 6b. Amazon Button (Middle Slot: -80 to -48)
 $amzPath = "$repo\mods-unpacked\gareth-scrap_and_delivery_mod\mods-unpacked\gareth-scrap_and_delivery_mod\scripts\amazon_delivery_manager.gd"
 $amzCode = Get-Content $amzPath -Raw
-$amzCode = $amzCode.Replace('hud_btn.offset_left = -316.0', 'hud_btn.offset_left = -324.0')
-$amzCode = $amzCode.Replace('hud_btn.offset_left = -110.0', 'hud_btn.offset_left = -324.0')
-$amzCode = $amzCode.Replace('hud_btn.offset_right = -16.0', 'hud_btn.offset_right = -24.0')
-$amzCode = $amzCode.Replace('hud_btn.offset_top = -82.0', 'hud_btn.offset_top = -86.0')
-$amzCode = $amzCode.Replace('hud_btn.offset_bottom = -50.0', 'hud_btn.offset_bottom = -54.0')
+$amzCode = $amzCode.Replace('hud_btn.offset_left = -324.0', 'hud_btn.offset_left = -356.0')
+$amzCode = $amzCode.Replace('hud_btn.offset_left = -316.0', 'hud_btn.offset_left = -356.0')
+$amzCode = $amzCode.Replace('hud_btn.offset_left = -110.0', 'hud_btn.offset_left = -356.0')
+$amzCode = $amzCode.Replace('hud_btn.offset_right = -16.0', 'hud_btn.offset_right = -20.0')
+$amzCode = $amzCode.Replace('hud_btn.offset_right = -24.0', 'hud_btn.offset_right = -20.0')
+$amzCode = $amzCode.Replace('hud_btn.offset_top = -86.0', 'hud_btn.offset_top = -80.0')
+$amzCode = $amzCode.Replace('hud_btn.offset_top = -82.0', 'hud_btn.offset_top = -80.0')
+$amzCode = $amzCode.Replace('hud_btn.offset_bottom = -50.0', 'hud_btn.offset_bottom = -48.0')
+$amzCode = $amzCode.Replace('hud_btn.offset_bottom = -54.0', 'hud_btn.offset_bottom = -48.0')
 Set-Content -Path $amzPath -Value $amzCode -Encoding UTF8
 
-# 9c. Air Wings Panel (Top Slot: -126 to -92, width: 300px)
+# 6c. Air Wings Panel (Top Slot: -128 to -84)
 $eamPath = "$repo\mods-unpacked\gareth-elemental_airstrikes_mod\mods-unpacked\gareth-elemental_airstrikes_mod\scripts\elemental_airstrike_manager.gd"
 $eamCode = Get-Content $eamPath -Raw
-$eamCode = $eamCode.Replace('panel.offset_left = -316.0', 'panel.offset_left = -324.0')
-$eamCode = $eamCode.Replace('panel.offset_left = -264.0', 'panel.offset_left = -324.0')
-$eamCode = $eamCode.Replace('panel.offset_right = -16.0', 'panel.offset_right = -24.0')
-$eamCode = $eamCode.Replace('panel.offset_top = -120.0', 'panel.offset_top = -126.0')
-$eamCode = $eamCode.Replace('panel.offset_bottom = -86.0', 'panel.offset_bottom = -92.0')
+$eamCode = $eamCode.Replace('panel.offset_left = -324.0', 'panel.offset_left = -356.0')
+$eamCode = $eamCode.Replace('panel.offset_left = -316.0', 'panel.offset_left = -356.0')
+$eamCode = $eamCode.Replace('panel.offset_left = -264.0', 'panel.offset_left = -356.0')
+$eamCode = $eamCode.Replace('panel.offset_right = -16.0', 'panel.offset_right = -20.0')
+$eamCode = $eamCode.Replace('panel.offset_right = -24.0', 'panel.offset_right = -20.0')
+$eamCode = $eamCode.Replace('panel.offset_top = -126.0', 'panel.offset_top = -128.0')
+$eamCode = $eamCode.Replace('panel.offset_top = -120.0', 'panel.offset_top = -128.0')
+$eamCode = $eamCode.Replace('panel.offset_bottom = -86.0', 'panel.offset_bottom = -84.0')
+$eamCode = $eamCode.Replace('panel.offset_bottom = -92.0', 'panel.offset_bottom = -84.0')
 Set-Content -Path $eamPath -Value $eamCode -Encoding UTF8
-Write-Host "  Updated: HUD coordinates aligned cleanly with 24px right breathing room" -ForegroundColor Green
+Write-Host "  Updated: HUD column alignment (Speed: -44:-14, Amazon: -80:-48, AirWings: -128:-84)" -ForegroundColor Green
 
 # ------------------------------------------------------------------------------
-# 10. REPACK ALL AFFECTED MODS TO STEAM
+# 7. ADD SEARCH, SORT & AFFORDABLE FILTERS TO BONUS UPGRADES PANEL
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 10. Purging hook cache and repacking mod suite..." -ForegroundColor Cyan
+Write-Host "`n>>> 7. Creating passive_bonuses.hooks.gd (Search, Sort & Affordable on Bonus Upgrades)..." -ForegroundColor Cyan
+$pbHookDir = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\extensions\scenes\Interfaces\Management"
+@'
+extends Object
+
+var bonus_search: LineEdit = null
+var bonus_sort: OptionButton = null
+var bonus_chk_afford: CheckBox = null
+var is_bonus_affordable_only: bool = false
+
+func refresh(chain: ModLoaderHookChain) -> void:
+	chain.execute_next([])
+	var panel = chain.reference_object
+	if not is_instance_valid(panel):
+		return
+
+	_ensure_filter_bar(panel)
+	_apply_bonus_filter(panel)
+
+func _ensure_filter_bar(panel: Control) -> void:
+	var scroll = panel.get_parent()
+	var v_box = scroll.get_parent() if scroll else null
+	if not v_box:
+		return
+
+	if v_box.has_node("BonusFilterBar"):
+		var existing = v_box.get_node("BonusFilterBar")
+		bonus_search = existing.get_node_or_null("BonusSearch")
+		bonus_sort = existing.get_node_or_null("BonusSort")
+		bonus_chk_afford = existing.get_node_or_null("BonusAfford")
+		return
+
+	var bar = HBoxContainer.new()
+	bar.name = "BonusFilterBar"
+	bar.add_theme_constant_override("separation", 10)
+
+	var search = LineEdit.new()
+	search.name = "BonusSearch"
+	search.placeholder_text = "Search bonus upgrades..."
+	search.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	search.clear_button_enabled = true
+	search.text_changed.connect(func(_t): _apply_bonus_filter(panel))
+	bar.add_child(search)
+	bonus_search = search
+
+	var sort_btn = OptionButton.new()
+	sort_btn.name = "BonusSort"
+	sort_btn.add_item("Sort: Default", 0)
+	sort_btn.add_item("Name: A-Z", 1)
+	sort_btn.item_selected.connect(func(_idx): _apply_bonus_filter(panel))
+	bar.add_child(sort_btn)
+	bonus_sort = sort_btn
+
+	var chk = CheckBox.new()
+	chk.name = "BonusAfford"
+	chk.text = "Affordable Only"
+	chk.tooltip_text = "Show only upgrades you can purchase right now."
+	chk.toggled.connect(func(pressed: bool):
+		is_bonus_affordable_only = pressed
+		_apply_bonus_filter(panel)
+	)
+	bar.add_child(chk)
+	bonus_chk_afford = chk
+
+	v_box.add_child(bar)
+	v_box.move_child(bar, scroll.get_index())
+
+func _apply_bonus_filter(panel: Control) -> void:
+	if not is_instance_valid(panel) or not is_instance_valid(bonus_search):
+		return
+	var q: String = bonus_search.text.strip_edges().to_lower()
+	var cur_cash: float = Gvars.CashCount if Gvars else 0.0
+
+	for item in panel.get_children():
+		if not is_instance_valid(item):
+			continue
+		var label = item.find_child("*Label*", true, false)
+		var text: String = label.text.to_lower() if (label and "text" in label) else ""
+		var match_q: bool = q.is_empty() or q in text
+
+		var cost: float = 0.0
+		if "cost" in item:
+			cost = float(item.cost)
+		elif "price" in item:
+			cost = float(item.price)
+
+		var match_afford: bool = not is_bonus_affordable_only or (cost <= cur_cash or cost <= 0.0)
+		item.visible = match_q and match_afford
+'@ | Set-Content -Path "$pbHookDir\passive_bonuses.hooks.gd" -Encoding UTF8
+
+# Register hook in mod_manager_mod mod_main.gd
+$mmmPath = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\mod_main.gd"
+$mmmCode = Get-Content $mmmPath -Raw
+if (-not $mmmCode.Contains("passive_bonuses.hooks.gd")) {
+	$mmmCode = $mmmCode.Replace(
+		'func _init() -> void:',
+		"func _init() -> void:`r`n`tModLoaderMod.install_script_hooks(`"res://scenes/Interfaces/Management/passive_bonuses.gd`", `"res://mods-unpacked/gareth-mod_manager_mod/extensions/scenes/Interfaces/Management/passive_bonuses.hooks.gd`")"
+	)
+	Set-Content -Path $mmmPath -Value $mmmCode -Encoding UTF8
+}
+Write-Host "  Installed: passive_bonuses search and sort hooks" -ForegroundColor Green
+
+# ------------------------------------------------------------------------------
+# 8. REPACK ALL MOD ARCHIVES TO STEAM
+# ------------------------------------------------------------------------------
+Write-Host "`n>>> 8. Repackaging updated mods to Steam..." -ForegroundColor Cyan
 if (Test-Path $hookZip) { Remove-Item -Path $hookZip -Force }
 
 $modsToRepack = @(
 	"gareth-mod_manager_mod",
-	"gareth-hardware_booster_mod",
 	"gareth-living_canvas_mod",
-	"gareth-abyssal_trench_mod",
 	"gareth-diagonal_map_mod",
+	"gareth-elemental_airstrikes_mod",
 	"gareth-donkey_kong_mod",
 	"gareth-game_speed_mod",
-	"gareth-scrap_and_delivery_mod",
-	"gareth-elemental_airstrikes_mod"
+	"gareth-scrap_and_delivery_mod"
 )
 
 foreach ($m in $modsToRepack) {
@@ -653,11 +572,14 @@ foreach ($m in $modsToRepack) {
 }
 
 # ------------------------------------------------------------------------------
-# 11. COMMIT AND PUSH
+# 9. RUN AUDIT & COMMIT
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 11. Staging, committing and pushing to GitHub..." -ForegroundColor Cyan
+Write-Host "`n>>> 9. Running static CI/CD regression check..." -ForegroundColor Cyan
+& "$repo\tests\test_runner.ps1" -RepoPath $repo
+
+Write-Host "`n>>> 10. Staging, committing and pushing to GitHub..." -ForegroundColor Cyan
 git add -A
-git commit -m "Fix: ModManifest object handling in registry, Difficulty.REGULAR across maps 103-105, sky tile guard in hardware booster, and non-overlapping HUD column"
+git commit -m "Fix: Add is_core to ModRegistry, restore Map 103/105 previews, fix airstrike imports, relocate DK off pit, align HUD, and add Bonus filters"
 git push origin main
 
-Write-Host "`nAll fixes deployed and committed cleanly!" -ForegroundColor Green
+Write-Host "`nAll fixes deployed cleanly!" -ForegroundColor Green

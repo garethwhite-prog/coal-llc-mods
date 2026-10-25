@@ -1,3 +1,4 @@
+const Textures = preload("res://mods-unpacked/gareth-elemental_airstrikes_mod/scripts/texture_factory.gd")
 class_name DragonStrike
 extends Node2D
 
@@ -11,7 +12,7 @@ var sprite: Sprite2D
 func _ready() -> void:
 	z_index = 60
 	sprite = Sprite2D.new()
-	sprite.texture = ElementalAirstrikeTextures.create_dragon_texture()
+	sprite.texture = Textures.create_dragon_texture()
 	sprite.scale = Vector2(2.0, 2.0)
 	add_child(sprite)
 
@@ -61,3 +62,4 @@ func _drop_fireball(pos: Vector2) -> void:
 					tm.burn_tile(pos, damage * mult, 20)
 				elif "fires" in tm and tm.fires and tm.fires.has_method("add_fire_tile"):
 					tm.fires.add_fire_tile(cell, damage * mult, 20)
+

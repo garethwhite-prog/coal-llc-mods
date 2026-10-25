@@ -2,7 +2,7 @@ class_name LivingCanvasHelper
 extends RefCounted
 
 const CANVAS_LEVEL_ID: int = 103
-const PREVIEW_PATH: String = "res://mods-unpacked/gareth-living_canvas_mod/assets/canvas_preview.png"
+const PREVIEW_PATH: String = "res://mods-unpacked/gareth-living_canvas_mod/assets/default_canvas.png"
 
 static func is_canvas_level() -> bool:
 	if Gvars:
@@ -49,3 +49,4 @@ static func ensure_level_registered() -> void:
 				"cost": 0,
 				"unlocked": true
 			}
+

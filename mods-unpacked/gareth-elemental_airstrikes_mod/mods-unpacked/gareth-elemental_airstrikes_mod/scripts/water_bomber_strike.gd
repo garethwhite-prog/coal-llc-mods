@@ -1,3 +1,4 @@
+const Textures = preload("res://mods-unpacked/gareth-elemental_airstrikes_mod/scripts/texture_factory.gd")
 class_name WaterBomberStrike
 extends Node2D
 
@@ -11,7 +12,7 @@ var sprite: Sprite2D
 func _ready() -> void:
 	z_index = 60
 	sprite = Sprite2D.new()
-	sprite.texture = ElementalAirstrikeTextures.create_water_bomber_texture()
+	sprite.texture = Textures.create_water_bomber_texture()
 	sprite.scale = Vector2(2.0, 2.0)
 	add_child(sprite)
 
@@ -61,3 +62,4 @@ func _drop_water(pos: Vector2) -> void:
 					tm.wet_tile(pos)
 				if tm.has_method("damageTileCoords"):
 					tm.damageTileCoords(cell, 35.0 * mult)
+

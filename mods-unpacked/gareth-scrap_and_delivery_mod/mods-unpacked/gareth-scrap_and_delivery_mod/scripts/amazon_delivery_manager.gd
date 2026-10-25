@@ -65,10 +65,10 @@ func _build_ui() -> void:
 	hud_btn.anchor_right = 1.0
 	hud_btn.anchor_top = 1.0
 	hud_btn.anchor_bottom = 1.0
-	hud_btn.offset_left = -324.0
-	hud_btn.offset_right = -24.0
-	hud_btn.offset_top = -86.0
-	hud_btn.offset_bottom = -54.0
+	hud_btn.offset_left = -356.0
+	hud_btn.offset_right = -20.0
+	hud_btn.offset_top = -80.0
+	hud_btn.offset_bottom = -48.0
 	hud_btn.modulate = Color(1.0, 0.85, 0.3, 1.0)
 	hud_btn.tooltip_text = "Open Amazon Same-Day Emergency Delivery (Hotkey B)"
 	hud_btn.pressed.connect(toggle_store)
@@ -441,6 +441,7 @@ func show_toast(msg: String) -> void:
 				if is_instance_valid(toast_label):
 					toast_label.visible = false
 			)
+
 
 
 
