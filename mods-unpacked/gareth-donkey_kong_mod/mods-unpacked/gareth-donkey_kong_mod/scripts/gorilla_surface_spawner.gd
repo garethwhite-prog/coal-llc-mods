@@ -15,9 +15,8 @@ func _process(delta: float) -> void:
 		_spawn_gorilla(tree.current_scene)
 
 	if is_instance_valid(gorilla):
-		# Patrol on right plateau (X = 360 to 620), safely away from surface pit
-		gorilla.position.x += 50.0 * delta * gorilla.get_meta("dir", 1.0)
-		if gorilla.position.x > 620.0:
+		gorilla.position.x += 45.0 * delta * gorilla.get_meta("dir", 1.0)
+		if gorilla.position.x > 600.0:
 			gorilla.set_meta("dir", -1.0)
 			gorilla.scale.x = abs(gorilla.scale.x)
 		elif gorilla.position.x < 360.0:
@@ -32,66 +31,67 @@ func _process(delta: float) -> void:
 func _spawn_gorilla(scene: Node) -> void:
 	gorilla = Node2D.new()
 	gorilla.name = "DonkeyKongGorilla"
-	# Spawn on far-right surface plateau, leaving mine entrance wide open
-	gorilla.global_position = Vector2(420, -32)
+	gorilla.global_position = Vector2(460, -32)
 	gorilla.set_meta("dir", 1.0)
 
 	var spr = Sprite2D.new()
 	spr.texture = _create_gorilla_texture()
-	spr.scale = Vector2(1.8, 1.8)
+	spr.scale = Vector2(1.6, 1.6)
 	gorilla.add_child(spr)
 	scene.add_child(gorilla)
 
 func _create_gorilla_texture() -> ImageTexture:
-	var img = Image.create(32, 32, false, Image.FORMAT_RGBA8)
-	var fur = Color(0.28, 0.14, 0.06, 1.0)
-	var chest = Color(0.70, 0.50, 0.32, 1.0)
-	var tie = Color(0.95, 0.15, 0.15, 1.0)
-	var eye = Color(1.0, 1.0, 1.0, 1.0)
-	var pupil = Color(0.05, 0.05, 0.05, 1.0)
+	var img = Image.create(36, 36, false, Image.FORMAT_RGBA8)
+	var fur_dark = Color(0.22, 0.11, 0.04, 1.0)
+	var fur_mid  = Color(0.36, 0.18, 0.08, 1.0)
+	var chest    = Color(0.74, 0.52, 0.34, 1.0)
+	var tie_red  = Color(0.95, 0.15, 0.15, 1.0)
+	var tie_gold = Color(1.0, 0.85, 0.20, 1.0)
+	var eye_w    = Color(1.0, 1.0, 1.0, 1.0)
+	var eye_b    = Color(0.05, 0.05, 0.05, 1.0)
 
-	for x in range(32):
-		for y in range(32):
-			# Head
-			if y in range(4, 12) and x in range(10, 22):
-				img.set_pixel(x, y, fur)
-			# Broad ape torso
-			elif y in range(12, 28) and x in range(7, 25):
-				img.set_pixel(x, y, fur)
-			# Arms
-			elif y in range(13, 29) and (x in range(3, 8) or x in range(24, 29)):
-				img.set_pixel(x, y, fur)
-			# Chest plate & muzzle
-			if (y in range(8, 12) and x in range(12, 20)) or (y in range(14, 22) and x in range(11, 21)):
+	for x in range(36):
+		for y in range(36):
+			# Head & Brow ridge
+			if y in range(4, 13) and x in range(11, 25):
+				img.set_pixel(x, y, fur_mid if y < 9 else fur_dark)
+			# Broad gorilla torso & arms
+			elif (y in range(13, 30) and x in range(8, 28)) or (y in range(14, 32) and (x in range(3, 9) or x in range(27, 33))):
+				img.set_pixel(x, y, fur_mid if x % 2 == 0 else fur_dark)
+			# Tan muzzle & chest contours
+			if (y in range(9, 13) and x in range(13, 23)) or (y in range(15, 24) and x in range(12, 24)):
 				img.set_pixel(x, y, chest)
 			# Red tie
-			if (y in range(13, 24) and x in range(15, 17)) or (y in range(22, 26) and x in range(14, 18)):
-				img.set_pixel(x, y, tie)
-			# Eyes
-			if y in range(6, 8) and (x == 13 or x == 18):
-				img.set_pixel(x, y, eye)
-			if y == 7 and (x == 14 or x == 19):
-				img.set_pixel(x, y, pupil)
+			if (y in range(15, 26) and x in range(16, 20)):
+				img.set_pixel(x, y, tie_red)
+			# "DK" yellow monogram on tie
+			if (y == 20 or y == 21) and (x == 17 or x == 18):
+				img.set_pixel(x, y, tie_gold)
+			# Expressive gorilla eyes
+			if y in range(7, 9) and (x == 14 or x == 20):
+				img.set_pixel(x, y, eye_w)
+			if y == 8 and (x == 15 or x == 21):
+				img.set_pixel(x, y, eye_b)
 
 	return ImageTexture.create_from_image(img)
 
 func _create_barrel_texture() -> ImageTexture:
-	var img = Image.create(20, 20, false, Image.FORMAT_RGBA8)
-	var wood_dark = Color(0.42, 0.24, 0.10, 1.0)
-	var wood_light = Color(0.58, 0.36, 0.18, 1.0)
-	var metal_band = Color(0.24, 0.24, 0.26, 1.0)
+	var img = Image.create(22, 22, false, Image.FORMAT_RGBA8)
+	var w_dark  = Color(0.40, 0.22, 0.10, 1.0)
+	var w_light = Color(0.58, 0.36, 0.18, 1.0)
+	var metal   = Color(0.24, 0.24, 0.26, 1.0)
 
-	for x in range(20):
-		for y in range(20):
-			var dx = float(x - 10)
-			var dy = float(y - 10)
-			if dx*dx + dy*dy <= 85.0:
-				if y in range(4, 7) or y in range(13, 16):
-					img.set_pixel(x, y, metal_band)
+	for x in range(22):
+		for y in range(22):
+			var dx = float(x - 11)
+			var dy = float(y - 11)
+			if dx*dx + dy*dy <= 105.0:
+				if y in range(4, 7) or y in range(15, 18):
+					img.set_pixel(x, y, metal)
 				elif x % 3 == 0:
-					img.set_pixel(x, y, wood_dark)
+					img.set_pixel(x, y, w_dark)
 				else:
-					img.set_pixel(x, y, wood_light)
+					img.set_pixel(x, y, w_light)
 
 	return ImageTexture.create_from_image(img)
 
@@ -99,6 +99,9 @@ func _toss_barrel(scene: Node, pos: Vector2) -> void:
 	var barrel = Area2D.new()
 	barrel.name = "RollingBarrel"
 	barrel.global_position = pos
+	# Listen to ALL physics layers to guarantee player detection
+	barrel.collision_layer = 0
+	barrel.collision_mask = 0xFFFFFFFF
 
 	var spr = Sprite2D.new()
 	spr.texture = _create_barrel_texture()
@@ -107,34 +110,42 @@ func _toss_barrel(scene: Node, pos: Vector2) -> void:
 
 	var col = CollisionShape2D.new()
 	var shape = CircleShape2D.new()
-	shape.radius = 15.0
+	shape.radius = 16.0
 	col.shape = shape
 	barrel.add_child(col)
 
-	barrel.body_entered.connect(func(body):
-		if body.is_in_group("player") or body.name == "Player":
-			if "velocity" in body:
-				body.velocity = Vector2.ZERO
-			body.set_physics_process(false)
+	var on_hit = func(target: Node):
+		var p_node = target if (target.name == "Player" or target.is_in_group("player")) else target.get_parent()
+		if p_node and (p_node.name == "Player" or p_node.is_in_group("player")):
+			if "velocity" in p_node:
+				p_node.velocity = Vector2(-220.0, -120.0)
 
 			var toast = Label.new()
 			toast.text = "★ BONK! STUNNED! ★"
 			toast.modulate = Color(1.0, 0.85, 0.2)
 			toast.position = Vector2(-60, -40)
-			body.add_child(toast)
+			p_node.add_child(toast)
 
-			var tw = body.create_tween()
-			tw.tween_interval(3.0)
+			var bonk = AudioStreamPlayer2D.new()
+			bonk.stream = load("res://assets/sound/sound effects/box_1.wav")
+			bonk.pitch_scale = 1.3
+			p_node.add_child(bonk)
+			bonk.play()
+
+			var tw = p_node.create_tween()
+			tw.tween_interval(2.5)
 			tw.tween_callback(func():
-				body.set_physics_process(true)
 				toast.queue_free()
+				bonk.queue_free()
 			)
 			barrel.queue_free()
-	)
+
+	barrel.body_entered.connect(on_hit)
+	barrel.area_entered.connect(on_hit)
 
 	scene.add_child(barrel)
 	var b_tween = barrel.create_tween()
-	b_tween.parallel().tween_property(barrel, "global_position:x", 180.0, 4.0)
-	b_tween.parallel().tween_property(barrel, "global_position:y", 650.0, 6.0)
+	b_tween.parallel().tween_property(barrel, "global_position:x", 160.0, 4.0)
+	b_tween.parallel().tween_property(barrel, "global_position:y", 680.0, 6.0)
 	b_tween.parallel().tween_property(barrel, "rotation", 14.0, 6.0)
 	b_tween.tween_callback(barrel.queue_free)

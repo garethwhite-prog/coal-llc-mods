@@ -22,10 +22,10 @@ func _build_hud() -> void:
 	panel.anchor_right = 1.0
 	panel.anchor_top = 1.0
 	panel.anchor_bottom = 1.0
-	panel.offset_left = -356.0
-	panel.offset_right = -20.0
-	panel.offset_top = -128.0
-	panel.offset_bottom = -84.0
+	panel.offset_left = -396.0
+	panel.offset_right = -16.0
+	panel.offset_top = -140.0
+	panel.offset_bottom = -96.0
 	panel.visible = false
 
 	var hbox = HBoxContainer.new()
@@ -112,6 +112,7 @@ func trigger_strike(strike_type: String) -> void:
 		tree.current_scene.add_child(boom_audio)
 		boom_audio.play()
 		boom_audio.finished.connect(boom_audio.queue_free)
+
 
 
 
