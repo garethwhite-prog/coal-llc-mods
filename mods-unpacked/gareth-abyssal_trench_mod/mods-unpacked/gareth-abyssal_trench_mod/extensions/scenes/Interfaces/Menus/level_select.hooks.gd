@@ -8,7 +8,6 @@ func _ready(chain: ModLoaderHookChain) -> void:
 			helper.ensure_level_registered()
 		var ls = chain.reference_object
 		if ls and ("LEVEL_ORDER" in ls):
-			if not ls.LEVEL_ORDER.has(104):
-				ls.LEVEL_ORDER.append(104)
-
+			if not ls.LEVEL_ORDER.has(helper.ABYSSAL_LEVEL_ID):
+				ls.LEVEL_ORDER.append(helper.ABYSSAL_LEVEL_ID)
 	chain.execute_next([])

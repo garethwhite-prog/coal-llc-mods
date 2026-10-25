@@ -1,48 +1,148 @@
 ﻿=================================================================
-             COAL LLC MOD PLATFORM 2.0 ORCHESTRATOR              
+>>> 1. Inspecting Run-ModSuiteTest.ps1 to see what it overwrites...
 =================================================================
+   Clear-Host;
+   
+   Write-Host "==========================================" -ForegroundColor Cyan;
+   Write-Host "COAL LLC MOD SUITE - AUTOMATED TEST RUNNER" -ForegroundColor Cyan;
+   Write-Host "==========================================" -ForegroundColor Cyan;
+   
+   $repoRoot = "C:\Dev\coal-llc-mods";
+   $steamMods = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods";
+   $logDir = [System.IO.Path]::Combine($env:APPDATA, "Godot\app_userdata\Coal LLC\logs");
+   $godotLog = [System.IO.Path]::Combine($logDir, "godot.log");
+   
+   Add-Type -AssemblyName System.IO.Compression.FileSystem;
+   
+   # 1. Package and deploy active mods
+   $mods = @("gareth-mod_manager_mod", "gareth-knight_class_mod", "gareth-dual_multipliers_mod", "gareth-elemental_transmutation_mod");
+   for ($m = 0; $m -lt $mods.Length; $m++) {
+       $modName = $mods[$m];
+       $src = [System.IO.Path]::Combine($repoRoot, "mods-unpacked", $modName);
+       $repoZip = [System.IO.Path]::Combine($repoRoot, "mods", "$modName.zip");
+       $dstZip = [System.IO.Path]::Combine($steamMods, "$modName.zip");
+   
+       if ([System.IO.Directory]::Exists($src)) {
+           if ([System.IO.File]::Exists($repoZip)) { [System.IO.File]::Delete($repoZip); };
+           $fs = [System.IO.File]::Open($repoZip, [System.IO.FileMode]::Create);
+           $zip = [System.IO.Compression.ZipArchive]::new($fs, [System.IO.Compression.ZipArchiveMode]::Create);
+           $files = [System.IO.Directory]::GetFiles($src, "*", [System.IO.SearchOption]::AllDirectories);
+           for ($f = 0; $f -lt $files.Length; $f++) {
+               $fp = $files[$f];
+               $rel = $fp.Substring($src.Length + 1).Replace("\", "/");
+               $entry = $zip.CreateEntry($rel);
+               $es = $entry.Open();
+               $fs2 = [System.IO.File]::OpenRead($fp);
+               $fs2.CopyTo($es);
+               $fs2.Dispose();
+               $es.Dispose();
+           };
+           $zip.Dispose();
+           $fs.Dispose();
+           [System.IO.File]::Copy($repoZip, $dstZip, $true);
+           Write-Host "  -> Deployed $modName" -ForegroundColor Green;
 
->>> 1. REPOSITORY STATE
-  HEAD Commit: 02171aa Fix: Resolve AddToInventory NaN division, Mod Manager Array[Dictionary] type mismatch, elemental airstrikes compilation, Amazon HUD offset collision, and gorilla sprite
-  Modified Files:
- M Run-ModSuiteTest.ps1  M ai_worker_script.ps1  M context.txt  M mods-unpacked/gareth-plasma_raygun_mod/mods-unpacked/gareth-plasma_raygun_mod/extensions/scripts/StateMachine/Player2/player_2.hooks.gd  M mods/gareth-dual_multipliers_mod.zip  M mods/gareth-elemental_transmutation_mod.zip  M mods/gareth-knight_class_mod.zip  M mods/gareth-mod_manager_mod.zip  M output.txt  M tests.txt  M tests_concise.txt
-
->>> 2. STAGING DIRECTORY STATUS
-  Active Mods (Coal LLC/mods):            64 archives
-  Master Catalog (Coal LLC/mods_repo):   3 archives
-
->>> 3. RUNNING REGRESSION & CI/CD CHECKS
 =================================================================
->>> COAL LLC CI/CD: Automated Regression & Sanity Verification
+>>> 2. Inspecting elemental_airstrike_manager.gd anchors & gating...
 =================================================================
-  [PASS] mod_registry.gd satisfies is_mod_active_for_run interface
+    4: var panel: PanelContainer
+   19:  panel = PanelContainer.new()
+   20:  panel.anchor_left = 1.0
+   21:  panel.anchor_right = 1.0
+   22:  panel.offset_left = -348.0
+   23:  panel.offset_right = -16.0
+   24:  panel.offset_top = 58.0
+   25:  panel.offset_bottom = 92.0
+   51:  panel.add_child(hbox)
+   52:  canvas.add_child(panel)
+   56:  var in_game := false
+   58:          var p = tree.root.find_child("Player", true, false)
+   59:          in_game = is_instance_valid(p)
+   61:  if panel:
+   62:          panel.visible = in_game
+
 =================================================================
->>> ALL REGRESSION CHECKS PASSED (Warnings: 0, Errors: 0)
-
->>> 4. RUNTIME LOG AUDIT (LAST 5 ERRORS/WARNINGS)
-  SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-  ERROR: 60 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-  ERROR: 8 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
-  ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
-  ERROR: 177 resources still in use at exit (run with --verbose for details).
+>>> 3. Inspecting level_select.hooks.gd across custom map mods...
+=================================================================
+Found: \mods-unpacked\gareth-abyssal_trench_mod\mods-unpacked\gareth-abyssal_trench_mod\extensions\scenes\Interfaces\Menus\level_select.hooks.gd
+   > func _ready(chain: ModLoaderHookChain) -> void:
+   >    var helper_script = load("res://mods-unpacked/gareth-abyssal_trench_mod/helpers/AbyssalTrenchHelper.gd")
+        if helper_script:
+                var helper = helper_script.new()
+                if helper.has_method("ensure_level_registered"):
+                        helper.ensure_level_registered()
+                var ls = chain.reference_object
+Found: \mods-unpacked\gareth-living_canvas_mod\mods-unpacked\gareth-living_canvas_mod\extensions\scenes\Interfaces\Menus\level_select.hooks.gd
+   > func _ready(chain: ModLoaderHookChain) -> void:
+   >    var helper_script = load("res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd")
+        if helper_script and helper_script.has_method("ensure_level_registered"):
+                helper_script.ensure_level_registered()
+                var ls = chain.reference_object
+                if ls and ("LEVEL_ORDER" in ls):
+   >                    if not ls.LEVEL_ORDER.has(helper_script.CANVAS_LEVEL_ID):
+   >                            ls.LEVEL_ORDER.append(helper_script.CANVAS_LEVEL_ID)
+  
+        chain.execute_next([])
+  
+        var ls = chain.reference_object
+        if ls and "levels" in ls and ls.levels:
+   >                            _inject_canvas_button(ls, card)
+  
+   > func _inject_canvas_button(ls: Control, card: Control) -> void:
+   >    var helper_script = load("res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd")
+        var active_path = helper_script.get_saved_image_path() if helper_script else ""
+        var initial_label = "[ Your Mum (Default) ]"
+        if active_path != "":
+                initial_label = "[ " + active_path.get_file() + " ]"
+  
+   >    card.add_child(btn)
+        btn.position = Vector2(8, 180)
+  
+        btn.pressed.connect(func():
+                var dialog = FileDialog.new()
+                dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
+   >            dialog.title = "Select Image for The Living Canvas"
+                if "use_native_dialog" in dialog:
+                        dialog.set("use_native_dialog", true)
+  
+                dialog.file_selected.connect(func(path: String):
+                        path = path.replace("\\", "/")
+   >            ls.add_child(dialog)
+                dialog.popup_centered(Vector2i(800, 500))
+        )
+Found: \mods-unpacked\gareth-lost_expedition_mod\mods-unpacked\gareth-lost_expedition_mod\extensions\scenes\Interfaces\Menus\level_select.hooks.gd
+   > func _ready(chain: ModLoaderHookChain) -> void:
+        var helper_script = load("res://mods-unpacked/gareth-lost_expedition_mod/helpers/LostExpeditionHelper.gd")
+        if helper_script:
+                var helper = helper_script.new()
+                helper.ensure_level_registered()
+                var ls = chain.reference_object
+Found: \mods-unpacked\gareth-tectonic_faultline_mod\mods-unpacked\gareth-tectonic_faultline_mod\extensions\scenes\Interfaces\Menus\level_select.hooks.gd
+   > func _ready(chain: ModLoaderHookChain) -> void:
+   >    var helper_script = load("res://mods-unpacked/gareth-tectonic_faultline_mod/helpers/TectonicFaultlineHelper.gd")
+        if helper_script:
+                var helper = helper_script.new()
+                helper.ensure_level_registered()
+                var ls = chain.reference_object
+                if ls and ("LEVEL_ORDER" in ls):
+   >                    if not ls.LEVEL_ORDER.has(helper.FAULTLINE_LEVEL_ID):
+   >                            ls.LEVEL_ORDER.append(helper.FAULTLINE_LEVEL_ID)
+        chain.execute_next([])
 
 =================================================================
-Pipeline check complete. Ready for development or gameplay.
+>>> 4. Inspecting active mod count in Steam mods folder...
 =================================================================
+Total zip archives in C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods : 64
+   der_floh-effect_spread_mod.zip [6.5 KB]
+   der_floh-game_limits_mod.zip [11.2 KB]
+   der_floh-no_holes_mod.zip [4.1 KB]
+   der_floh-ore_value_mod.zip [7.3 KB]
+   der_floh-passive_drop_mod.zip [12.5 KB]
+   der_floh-pickaxeaoe_mod.zip [4.3 KB]
+   gareth-abyssal_trench_mod.zip [19.1 KB]
+   gareth-auto_ladder_mod.zip [1.8 KB]
+   gareth-bouncing_ball_mod.zip [14.5 KB]
+   gareth-buyable_vacuums_mod.zip [5 KB]
 
->>> 7. Staging, committing and pushing to GitHub...
-warning: in the working copy of 'context.txt', LF will be replaced by CRLF the next time Git touches it
-[main 7426f6e] Fix: Cache mod activation status in plasma_raygun hook to eliminate physics error loop
- 11 files changed, 1250 insertions(+), 23822 deletions(-)
-Enumerating objects: 41, done.
-Counting objects: 100% (41/41), done.
-Delta compression using up to 24 threads
-Compressing objects: 100% (18/18), done.
-Writing objects: 100% (22/22), 29.41 KiB | 4.20 MiB/s, done.
-Total 22 (delta 9), reused 0 (delta 0), pack-reused 0 (from 0)
-remote: Resolving deltas: 100% (9/9), completed with 9 local objects.
-To https://github.com/garethwhite-prog/coal-llc-mods.git
-   02171aa..7426f6e  main -> main
-
-Morning pass complete. Runtime error loop eliminated!
+Discovery Phase 48 complete. Zero files modified.
 PS C:\Dev\coal-llc-mods> 

@@ -17,12 +17,16 @@ func _build_hud() -> void:
 	add_child(canvas)
 
 	panel = PanelContainer.new()
+	# Anchor to Bottom-Right, right above Amazon button
 	panel.anchor_left = 1.0
 	panel.anchor_right = 1.0
-	panel.offset_left = -348.0
+	panel.anchor_top = 1.0
+	panel.anchor_bottom = 1.0
+	panel.offset_left = -264.0
 	panel.offset_right = -16.0
-	panel.offset_top = 58.0
-	panel.offset_bottom = 92.0
+	panel.offset_top = -126.0
+	panel.offset_bottom = -92.0
+	panel.visible = false
 
 	var hbox = HBoxContainer.new()
 	hbox.add_theme_constant_override("separation", 6)
@@ -53,15 +57,20 @@ func _build_hud() -> void:
 
 func _process(_delta: float) -> void:
 	var tree = get_tree()
-	var in_game := false
+	var in_mining_shift := false
 	if tree and tree.root:
 		var p = tree.root.find_child("Player", true, false)
-		in_game = is_instance_valid(p)
+		var tm = tree.root.find_child("TileMapManager", true, false)
+		var pause = tree.root.find_child("PauseMenu", true, false)
+		# Only visible during active underground gameplay
+		in_mining_shift = (p is Node2D) and is_instance_valid(tm) and (not is_instance_valid(pause) or not pause.visible)
 
 	if panel:
-		panel.visible = in_game
+		panel.visible = in_mining_shift
 
 func _unhandled_input(event: InputEvent) -> void:
+	if not panel.visible:
+		return
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode == KEY_7:
 			trigger_strike("dragon")
@@ -76,7 +85,7 @@ func trigger_strike(strike_type: String) -> void:
 		return
 
 	var p = tree.root.find_child("Player", true, false)
-	var target_pos: Vector2 = p.global_position if is_instance_valid(p) else Vector2.ZERO
+	var target_pos: Vector2 = p.global_position if (p is Node2D) else Vector2.ZERO
 
 	var strike_node: Node2D = null
 	if strike_type == "dragon":

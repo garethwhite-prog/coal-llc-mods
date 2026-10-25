@@ -2,11 +2,11 @@
  M output.txt
 
 === RECENT COMMITS ===
+f707242 Fix: Cache mod activation status in plasma_raygun hook to eliminate physics error loop
+7426f6e Fix: Cache mod activation status in plasma_raygun hook to eliminate physics error loop
 02171aa Fix: Resolve AddToInventory NaN division, Mod Manager Array[Dictionary] type mismatch, elemental airstrikes compilation, Amazon HUD offset collision, and gorilla sprite
-620f763 Fix: Resolve NaN cash cascade, ModLoader mod_data property access, missing manifest versions, and equipment shop hook registration
-82f922d Commit 4: Heavy Turret targeting fix, Collector Priority mod, Center Auto Ladder, Diagonal Map, Donkey Kong Surface Hazard, and Leaderboard Celebrations
 
-=== SESSION ERRORS & WARNINGS (2270 found) ===
+=== SESSION ERRORS & WARNINGS (59 found) ===
 SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
 SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
 SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
@@ -33,7 +33,7 @@ SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base
 SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
 SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
 SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-ERROR: 62 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+ERROR: 60 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
 ERROR: 8 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
 ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
 ERROR: 177 resources still in use at exit (run with --verbose for details).
@@ -49,34 +49,34 @@ INFO ModLoader: mod_load_order -> 27) gareth-tectonic_faultline_mod
 INFO ModLoader: Initializing -> gareth-tectonic_faultline_mod
 DEBUG ModLoader: Loading script from -> res://mods-unpacked/gareth-tectonic_faultline_mod/mod_main.gd
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Mod initializing...
-DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultline_mod:<Node#852567797943>
+DEBUG ModLoader: Adding mod main instance to ModLoader -> gareth-tectonic_faultline_mod:<Node#852618129592>
   "gareth-tectonic_faultline_mod": "<Resource#-9223371943221131632>",
 INFO gareth-tectonic_faultline_mod: Tectonic Faultline Custom Map Mod (ID 102) online!
 
 === LOG TAIL (LAST 30 LINES) ===
-   at: _physics_process (res://mods-unpacked/gareth-plasma_raygun_mod/extensions/scripts/StateMachine/Player2/player_2.hooks.gd:10)
 SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-   at: _physics_process (res://mods-unpacked/gareth-plasma_raygun_mod/extensions/scripts/StateMachine/Player2/player_2.hooks.gd:10)
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-   at: _physics_process (res://mods-unpacked/gareth-plasma_raygun_mod/extensions/scripts/StateMachine/Player2/player_2.hooks.gd:10)
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-   at: _physics_process (res://mods-unpacked/gareth-plasma_raygun_mod/extensions/scripts/StateMachine/Player2/player_2.hooks.gd:10)
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-   at: _physics_process (res://mods-unpacked/gareth-plasma_raygun_mod/extensions/scripts/StateMachine/Player2/player_2.hooks.gd:10)
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-   at: _physics_process (res://mods-unpacked/gareth-plasma_raygun_mod/extensions/scripts/StateMachine/Player2/player_2.hooks.gd:10)
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-   at: _physics_process (res://mods-unpacked/gareth-plasma_raygun_mod/extensions/scripts/StateMachine/Player2/player_2.hooks.gd:10)
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-   at: _physics_process (res://mods-unpacked/gareth-plasma_raygun_mod/extensions/scripts/StateMachine/Player2/player_2.hooks.gd:10)
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-   at: _physics_process (res://mods-unpacked/gareth-plasma_raygun_mod/extensions/scripts/StateMachine/Player2/player_2.hooks.gd:10)
-SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
-   at: _physics_process (res://mods-unpacked/gareth-plasma_raygun_mod/extensions/scripts/StateMachine/Player2/player_2.hooks.gd:10)
+   at: destroy_tile (res://mods-unpacked/gareth-seismic_hazards_mod/extensions/scenes/tilemaps/tile_map_chunk.hooks.gd:5)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (197.558, -8.034912)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (197.558, -8.034912)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (197.558, -8.034912)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (197.558, -8.034912)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (197.558, -8.034912)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (197.558, -8.034912)
+INFO gareth-prospectors_beacon_mod:Hook: [Prospector Beacon] Acoustic pulse pinging near (197.558, -8.034912)
+INFO nanobotz-autopassivechooser:SettingsHook: Passive Order tab added to settings menu.
+INFO der_floh-effect_spread_mod:SettingsHook: Effect Spread tab added to settings menu.
+INFO der_floh-game_limits_mod:Tab: Max mortars set to 200
+INFO der_floh-game_limits_mod:Tab: Max employee draws set to 500
+INFO der_floh-game_limits_mod:Tab: Chunk load radius set to 1
+INFO der_floh-game_limits_mod:Tab: Max electric chain tiles set to 500
+INFO der_floh-game_limits_mod:Tab: Max electric visual arcs set to 200
+INFO der_floh-game_limits_mod:SettingsHook: Game Limits tab added to settings menu.
+INFO der_floh-ore_value_mod:SettingsHook: Ore Value tab added to settings menu.
+INFO der_floh-passive_drop_mod:SettingsHook: Passive Drop tab added to settings menu.
 WARNING: 6 RIDs of type "CanvasItem" were leaked.
    at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2679)
-ERROR: 62 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-WARNING: 111 RIDs of type "Texture" were leaked.
+ERROR: 60 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+WARNING: 109 RIDs of type "Texture" were leaked.
    at: finalize (servers/rendering/rendering_device.cpp:7130)
 ERROR: 8 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
 ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
