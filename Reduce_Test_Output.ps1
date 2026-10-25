@@ -14,7 +14,6 @@ if (-not (Test-Path -LiteralPath $InputPath)) {
     return
 }
 
-# Use a StreamWriter for high-speed streaming on large log files
 $writer = [System.IO.StreamWriter]::new($OutputPath, $false, [System.Text.Encoding]::UTF8)
 
 try {
@@ -30,7 +29,6 @@ try {
             $writer.WriteLine($first)
         }
         elseif ($cnt -eq 2) {
-            # For exactly 2, showing both lines avoids unnecessary summary overhead
             $writer.WriteLine($first)
             $writer.WriteLine($last)
         }
@@ -41,15 +39,17 @@ try {
         }
     }
 
-    # Stream line by line to keep memory footprint minimal
     foreach ($line in [System.IO.File]::ReadLines($InputPath)) {
         if ([string]::IsNullOrWhiteSpace($line)) {
             continue
         }
 
-        # Normalize the message key by stripping leading numbers followed by a colon
-        # (e.g. "20244: SCRIPT ERROR: ..." -> "SCRIPT ERROR: ...")
-        $key = if ($line -match '^\s*\d+:\s*(.*)$') { $Matches[1].Trim() } else { $line.Trim() }
+        # Normalize key: strip line numbers (e.g. "20244: "), tags ("[ModLoader] "), and timestamps ("20:09:20   ")
+        $key = if ($line -match '^\s*\d+:\s*(?:\[[^\]]+\]\s*)?(?:\d{2}:\d{2}:\d{2}\s+)?(.*)$') {
+            $Matches[1].Trim()
+        } else {
+            $line.Trim()
+        }
 
         if ($null -ne $currentKey -and $key -eq $currentKey) {
             $lastLine = $line
@@ -66,7 +66,6 @@ try {
         }
     }
 
-    # Flush final run
     if ($count -gt 0) {
         Write-Run -key $currentKey -first $firstLine -last $lastLine -cnt $count
     }
