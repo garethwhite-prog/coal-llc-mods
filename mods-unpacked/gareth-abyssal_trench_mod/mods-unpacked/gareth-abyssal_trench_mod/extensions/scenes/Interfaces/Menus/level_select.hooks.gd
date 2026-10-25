@@ -1,4 +1,4 @@
-extends Object
+﻿extends Object
 
 func _ready(chain: ModLoaderHookChain) -> void:
 	var helper_script = load("res://mods-unpacked/gareth-abyssal_trench_mod/helpers/AbyssalTrenchHelper.gd")
