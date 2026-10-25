@@ -97,3 +97,9 @@ func _trigger_trap_explosion(chest: Node2D) -> void:
 	tree.current_scene.add_child(boom_audio)
 	boom_audio.play()
 	boom_audio.finished.connect(boom_audio.queue_free)
+
+func pickup_item(chain: ModLoaderHookChain) -> void:
+	var chest = chain.reference_object
+	if not is_instance_valid(chest) or not ("loot" in chest) or chest.loot == null:
+		return
+	chain.execute_next([])

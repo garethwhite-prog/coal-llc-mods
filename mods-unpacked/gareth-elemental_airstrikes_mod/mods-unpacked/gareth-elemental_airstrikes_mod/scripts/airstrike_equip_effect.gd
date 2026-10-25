@@ -4,7 +4,7 @@ extends EquipEffect
 @export var strike_type: String = "dragon"
 
 func physics_process(player, _delta: float) -> void:
-	if Input.is_action_just_pressed("useItem") or Input.is_mouse_button_just_pressed(MOUSE_BUTTON_LEFT) or Input.is_mouse_button_just_pressed(MOUSE_BUTTON_RIGHT):
+	if Input.is_action_just_pressed("useItem") or Input.is_action_just_pressed("fire"):
 		var tree = player.get_tree()
 		if not tree or not tree.current_scene:
 			return
@@ -25,7 +25,6 @@ func physics_process(player, _delta: float) -> void:
 					strike.modulate = Color(0.2, 1.0, 0.4)
 				tree.current_scene.add_child(strike)
 
-		# Consume 1 charge from player inventory
 		var inv: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
 		if inv and is_instance_valid(player) and ("item_equipped" in player) and player.item_equipped:
 			inv.sellFromInventory(player.item_equipped, 1)

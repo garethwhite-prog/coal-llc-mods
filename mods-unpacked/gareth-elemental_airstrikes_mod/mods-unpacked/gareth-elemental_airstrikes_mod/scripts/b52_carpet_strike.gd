@@ -2,13 +2,14 @@ class_name B52CarpetStrike
 extends Node2D
 
 const Textures = preload("res://mods-unpacked/gareth-elemental_airstrikes_mod/scripts/texture_factory.gd")
+const BombScript = preload("res://mods-unpacked/gareth-elemental_airstrikes_mod/scripts/airstrike_bomb.gd")
 
 var damage: float = 240.0
 var drop_rate: float = 0.08
 var speed: float = 220.0
 var t: float = 0.0
 var sprite: Sprite2D
-var target_y: float = -140.0
+var player_ref: Node2D = null
 
 func _ready() -> void:
 	z_index = 60
@@ -17,10 +18,9 @@ func _ready() -> void:
 	sprite.scale = Vector2(2.2, 2.2)
 	add_child(sprite)
 
-	var p = get_tree().root.find_child("Player", true, false)
-	if p:
-		target_y = p.global_position.y - 140.0
-		global_position = Vector2(p.global_position.x + 850.0, target_y)
+	player_ref = get_tree().root.find_child("Player", true, false)
+	if player_ref:
+		global_position = Vector2(player_ref.global_position.x + 850.0, player_ref.global_position.y - 140.0)
 
 func _process(delta: float) -> void:
 	t += delta
@@ -30,8 +30,9 @@ func _process(delta: float) -> void:
 		_drop_carpet_bomb(global_position)
 		t -= drop_rate
 
-	var p = get_tree().root.find_child("Player", true, false)
-	if p and position.x < (p.global_position.x - 900.0):
+	if is_instance_valid(player_ref) and position.x < (player_ref.global_position.x - 900.0):
+		queue_free()
+	elif position.x < -1500.0:
 		queue_free()
 
 func _drop_carpet_bomb(pos: Vector2) -> void:
@@ -39,21 +40,7 @@ func _drop_carpet_bomb(pos: Vector2) -> void:
 	if not tree or not tree.current_scene:
 		return
 	var b = Node2D.new()
-	b.global_position = pos
-	var spr = Sprite2D.new()
-	spr.texture = Textures.create_heavy_bomb_texture()
-	spr.scale = Vector2(1.6, 1.6)
-	b.add_child(spr)
+	b.set_script(BombScript)
+	var tgt_y = pos.y + 450.0
+	b.setup(pos, tgt_y, damage, 3, Textures.create_heavy_bomb_texture())
 	tree.current_scene.add_child(b)
-
-	var tw = b.create_tween()
-	tw.parallel().tween_property(b, "global_position:y", pos.y + 450.0, 1.4)
-	tw.tween_callback(func():
-		var tm = tree.root.find_child("TileMapManager", true, false)
-		if tm:
-			var m_pos = tm.local_to_map(b.global_position)
-			for dx in range(-3, 4):
-				for dy in range(-3, 4):
-					tm.damageTileCoords(Vector2i(m_pos.x + dx, m_pos.y + dy), damage)
-		b.queue_free()
-	)

@@ -21,6 +21,7 @@ func _ready() -> void:
 	panel.offset_right = -10.0
 	panel.offset_top = -102.0
 	panel.offset_bottom = -76.0
+	panel.visible = false
 
 	var empty_sb = StyleBoxEmpty.new()
 	panel.add_theme_stylebox_override("panel", empty_sb)
@@ -65,16 +66,37 @@ func _ready() -> void:
 	canvas.add_child(panel)
 
 func _process(_delta: float) -> void:
+	var mining = _is_actively_mining()
+	if panel and panel.visible != mining:
+		panel.visible = mining
+
+func _is_actively_mining() -> bool:
 	var tree = get_tree()
 	if not tree or not tree.root:
-		return
-	var in_mine: bool = is_instance_valid(tree.root.find_child("TileMapManager", true, false)) and is_instance_valid(tree.root.find_child("Player", true, false))
+		return false
+	var scene = tree.current_scene
+	if scene and (scene.name == "MainMenu" or scene.name == "level_select"):
+		return false
+
+	var mgmt = tree.root.find_child("management_screen", true, false)
+	if not mgmt:
+		mgmt = tree.root.find_child("ManagementScreen", true, false)
+	if mgmt and mgmt.is_visible_in_tree():
+		return false
+
+	var go_btn = tree.root.find_child("GoButton", true, false)
+	if not go_btn:
+		go_btn = tree.root.find_child("go_button", true, false)
+	if go_btn and go_btn.is_visible_in_tree():
+		return false
+
 	var pause = tree.root.find_child("PauseMenu", true, false)
 	if pause and pause.visible:
-		in_mine = false
+		return false
 
-	if panel and panel.visible != in_mine:
-		panel.visible = in_mine
+	var tm = tree.root.find_child("TileMapManager", true, false)
+	var p = tree.root.find_child("Player", true, false)
+	return is_instance_valid(tm) and is_instance_valid(p)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not panel.visible:
