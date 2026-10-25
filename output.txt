@@ -1,34 +1,17 @@
 ﻿=================================================================
->>> 1. Inspecting Inventory.gd signals and removal methods...
-=================================================================
-   Line 24: signal inventory_changed
-   Line 38: func addToInventory(item: Item, itemCount: float) -> float:
-   Line 81: func removeFromInventory(item: Item, itemCount: float) -> float:
-
-=================================================================
->>> 2. Finding SwordHit.wav reference in knight_class_mod...
+             COAL LLC MOD PLATFORM 2.0 ORCHESTRATOR              
 =================================================================
 
-Discovery Phase 47 complete. Zero files modified.
-PS C:\Dev\coal-llc-mods> 
+>>> 1. REPOSITORY STATE
+  HEAD Commit: 02171aa Fix: Resolve AddToInventory NaN division, Mod Manager Array[Dictionary] type mismatch, elemental airstrikes compilation, Amazon HUD offset collision, and gorilla sprite
+  Modified Files:
+ M Run-ModSuiteTest.ps1  M ai_worker_script.ps1  M context.txt  M mods-unpacked/gareth-plasma_raygun_mod/mods-unpacked/gareth-plasma_raygun_mod/extensions/scripts/StateMachine/Player2/player_2.hooks.gd  M mods/gareth-dual_multipliers_mod.zip  M mods/gareth-elemental_transmutation_mod.zip  M mods/gareth-knight_class_mod.zip  M mods/gareth-mod_manager_mod.zip  M output.txt  M tests.txt  M tests_concise.txt
 
->>> 1. Terminating running Coal LLC / Godot processes...
+>>> 2. STAGING DIRECTORY STATUS
+  Active Mods (Coal LLC/mods):            64 archives
+  Master Catalog (Coal LLC/mods_repo):   3 archives
 
->>> 2. Creating AddToInventory.hooks.gd (0g safety guard)...
-
->>> 3. Resolving Array[Dictionary] type mismatch in mod_manager_view.gd...
-
->>> 4. Fixing extends Node placement in elemental_airstrikes_mod...
-
->>> 5. Updating amazon_delivery_manager.gd (HUD docking & inventory wipe)...
-
->>> 6. Replacing boot placeholder with custom gorilla sprite in donkey_kong_mod...
-
->>> 7. Pointing SwordHit.wav to SwordThud.wav in knight_class_mod...
-
->>> 8. Ensuring hook installations in mod_manager_mod mod_main.gd...
-
->>> 9. Running CI/CD validation...
+>>> 3. RUNNING REGRESSION & CI/CD CHECKS
 =================================================================
 >>> COAL LLC CI/CD: Automated Regression & Sanity Verification
 =================================================================
@@ -36,26 +19,30 @@ PS C:\Dev\coal-llc-mods>
 =================================================================
 >>> ALL REGRESSION CHECKS PASSED (Warnings: 0, Errors: 0)
 
->>> 10. Purging hook cache and repacking mod archives...
-  Repacked: gareth-mod_manager_mod.zip
-  Repacked: gareth-scrap_and_delivery_mod.zip
-  Repacked: gareth-elemental_airstrikes_mod.zip
-  Repacked: gareth-donkey_kong_mod.zip
-  Repacked: gareth-knight_class_mod.zip
+>>> 4. RUNTIME LOG AUDIT (LAST 5 ERRORS/WARNINGS)
+  SCRIPT ERROR: Invalid call. Nonexistent function 'is_mod_active_for_run' in base 'GDScript'.
+  ERROR: 60 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+  ERROR: 8 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+  ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
+  ERROR: 177 resources still in use at exit (run with --verbose for details).
 
->>> 11. Staging, committing and pushing to GitHub...
-[main 02171aa] Fix: Resolve AddToInventory NaN division, Mod Manager Array[Dictionary] type mismatch, elemental airstrikes compilation, Amazon HUD offset collision, and gorilla sprite
- 9 files changed, 316 insertions(+), 718 deletions(-)
- create mode 100644 mods-unpacked/gareth-mod_manager_mod/mods-unpacked/gareth-mod_manager_mod/extensions/resources/BuyEffects/Scripts/AddToInventory.hooks.gd
-Enumerating objects: 51, done.
-Counting objects: 100% (51/51), done.
+=================================================================
+Pipeline check complete. Ready for development or gameplay.
+=================================================================
+
+>>> 7. Staging, committing and pushing to GitHub...
+warning: in the working copy of 'context.txt', LF will be replaced by CRLF the next time Git touches it
+[main 7426f6e] Fix: Cache mod activation status in plasma_raygun hook to eliminate physics error loop
+ 11 files changed, 1250 insertions(+), 23822 deletions(-)
+Enumerating objects: 41, done.
+Counting objects: 100% (41/41), done.
 Delta compression using up to 24 threads
-Compressing objects: 100% (27/27), done.
-Writing objects: 100% (32/32), 7.82 KiB | 1000.00 KiB/s, done.
-Total 32 (delta 10), reused 0 (delta 0), pack-reused 0 (from 0)
-remote: Resolving deltas: 100% (10/10), completed with 10 local objects.
+Compressing objects: 100% (18/18), done.
+Writing objects: 100% (22/22), 29.41 KiB | 4.20 MiB/s, done.
+Total 22 (delta 9), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (9/9), completed with 9 local objects.
 To https://github.com/garethwhite-prog/coal-llc-mods.git
-   620f763..02171aa  main -> main
+   02171aa..7426f6e  main -> main
 
-All fixes deployed and committed cleanly!
+Morning pass complete. Runtime error loop eliminated!
 PS C:\Dev\coal-llc-mods> 

@@ -76,9 +76,9 @@ func _physics_process(chain: ModLoaderHookChain, delta: float) -> void:
 # ------------------------------------------------------------------------------
 Write-Host "`n>>> 4. Auditing other hooks for is_mod_active_for_run calls..." -ForegroundColor Cyan
 Get-ChildItem -Path "$repo\mods-unpacked" -Recurse -Filter "*.hooks.gd" | ForEach-Object {
-    $matches = Get-Content $_.FullName | Select-String -Pattern 'is_mod_active_for_run'
-    if ($matches) {
-        Write-Host "  Hook file: $($_.Name) has $($matches.Count) calls" -ForegroundColor Yellow
+    $matches2 = Get-Content $_.FullName | Select-String -Pattern 'is_mod_active_for_run'
+    if ($matches2) {
+        Write-Host "  Hook file: $($_.Name) has $($matches2.Count) calls" -ForegroundColor Yellow
     }
 }
 
