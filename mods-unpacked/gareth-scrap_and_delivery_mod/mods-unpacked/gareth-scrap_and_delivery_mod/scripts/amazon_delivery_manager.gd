@@ -60,7 +60,9 @@ func _build_ui() -> void:
 	# Bottom-Right Docked HUD Button (above Speed Controls)
 	hud_btn = Button.new()
 	hud_btn.name = "AmazonHUDButton"
-	hud_btn.text = "📦 Amazon (B)"`r`n`thud_btn.add_theme_font_size_override("font_size", 10)`r`n`thud_btn.custom_minimum_size = Vector2(150, 24)
+	hud_btn.text = "📦 Amazon (B)"
+	hud_btn.add_theme_font_size_override("font_size", 10)
+	hud_btn.custom_minimum_size = Vector2(150, 24)
 	hud_btn.anchor_left = 1.0
 	hud_btn.anchor_right = 1.0
 	hud_btn.anchor_top = 1.0
@@ -441,6 +443,7 @@ func show_toast(msg: String) -> void:
 				if is_instance_valid(toast_label):
 					toast_label.visible = false
 			)
+
 
 
 

@@ -21,8 +21,8 @@ func _ready() -> void:
 	panel.anchor_bottom = 1.0
 	panel.offset_left = -160.0
 	panel.offset_right = -10.0
-	panel.offset_top = -40.0
-	panel.offset_bottom = -14.0
+	panel.offset_top = -42.0
+	panel.offset_bottom = -16.0
 
 	var empty_sb = StyleBoxEmpty.new()
 	panel.add_theme_stylebox_override("panel", empty_sb)
@@ -54,6 +54,18 @@ func _ready() -> void:
 	hbox.add_child(btn_faster)
 
 	canvas.add_child(panel)
+
+func _process(_delta: float) -> void:
+	var tree = get_tree()
+	if not tree or not tree.root:
+		return
+	var in_mine: bool = is_instance_valid(tree.root.find_child("TileMapManager", true, false)) and is_instance_valid(tree.root.find_child("Player", true, false))
+	var pause = tree.root.find_child("PauseMenu", true, false)
+	if pause and pause.visible:
+		in_mine = false
+
+	if panel and panel.visible != in_mine:
+		panel.visible = in_mine
 
 func _increase_speed() -> void:
 	if current_idx < SPEEDS.size() - 1:

@@ -5,6 +5,7 @@ var panel: PanelContainer
 var btn_dragon: Button
 var btn_water: Button
 var btn_poison: Button
+var btn_b52: Button
 
 func _ready() -> void:
 	canvas = CanvasLayer.new()
@@ -18,44 +19,66 @@ func _ready() -> void:
 	panel.anchor_bottom = 1.0
 	panel.offset_left = -160.0
 	panel.offset_right = -10.0
-	panel.offset_top = -104.0
-	panel.offset_bottom = -78.0
+	panel.offset_top = -102.0
+	panel.offset_bottom = -76.0
 
 	var empty_sb = StyleBoxEmpty.new()
 	panel.add_theme_stylebox_override("panel", empty_sb)
 
 	var hbox = HBoxContainer.new()
 	hbox.alignment = BoxContainer.ALIGNMENT_CENTER
-	hbox.add_theme_constant_override("separation", 4)
+	hbox.add_theme_constant_override("separation", 2)
 	panel.add_child(hbox)
 
 	btn_dragon = Button.new()
 	btn_dragon.text = "🔥 7"
 	btn_dragon.tooltip_text = "Dragon Firebombing (Press 7)"
-	btn_dragon.custom_minimum_size = Vector2(46, 22)
-	btn_dragon.add_theme_font_size_override("font_size", 10)
+	btn_dragon.custom_minimum_size = Vector2(34, 24)
+	btn_dragon.add_theme_font_size_override("font_size", 9)
 	btn_dragon.pressed.connect(_launch_dragon)
 	hbox.add_child(btn_dragon)
 
 	btn_water = Button.new()
 	btn_water.text = "💧 8"
 	btn_water.tooltip_text = "Water Bomber (Press 8)"
-	btn_water.custom_minimum_size = Vector2(46, 22)
-	btn_water.add_theme_font_size_override("font_size", 10)
+	btn_water.custom_minimum_size = Vector2(34, 24)
+	btn_water.add_theme_font_size_override("font_size", 9)
 	btn_water.pressed.connect(_launch_water)
 	hbox.add_child(btn_water)
 
 	btn_poison = Button.new()
 	btn_poison.text = "☣️ 9"
 	btn_poison.tooltip_text = "Poison Gas Strike (Press 9)"
-	btn_poison.custom_minimum_size = Vector2(46, 22)
-	btn_poison.add_theme_font_size_override("font_size", 10)
+	btn_poison.custom_minimum_size = Vector2(34, 24)
+	btn_poison.add_theme_font_size_override("font_size", 9)
 	btn_poison.pressed.connect(_launch_poison)
 	hbox.add_child(btn_poison)
 
+	btn_b52 = Button.new()
+	btn_b52.text = "💣 0"
+	btn_b52.tooltip_text = "B-52 Carpet Bomber (Press 0)"
+	btn_b52.custom_minimum_size = Vector2(34, 24)
+	btn_b52.add_theme_font_size_override("font_size", 9)
+	btn_b52.pressed.connect(_launch_b52)
+	hbox.add_child(btn_b52)
+
 	canvas.add_child(panel)
 
+func _process(_delta: float) -> void:
+	var tree = get_tree()
+	if not tree or not tree.root:
+		return
+	var in_mine: bool = is_instance_valid(tree.root.find_child("TileMapManager", true, false)) and is_instance_valid(tree.root.find_child("Player", true, false))
+	var pause = tree.root.find_child("PauseMenu", true, false)
+	if pause and pause.visible:
+		in_mine = false
+
+	if panel and panel.visible != in_mine:
+		panel.visible = in_mine
+
 func _unhandled_input(event: InputEvent) -> void:
+	if not panel.visible:
+		return
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode == KEY_7:
 			_launch_dragon()
@@ -63,6 +86,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			_launch_water()
 		elif event.keycode == KEY_9:
 			_launch_poison()
+		elif event.keycode == KEY_0:
+			_launch_b52()
 
 func _launch_dragon() -> void:
 	var tree = get_tree()
@@ -93,4 +118,14 @@ func _launch_poison() -> void:
 		var strike = Node2D.new()
 		strike.set_script(script)
 		strike.modulate = Color(0.2, 1.0, 0.4)
+		tree.current_scene.add_child(strike)
+
+func _launch_b52() -> void:
+	var tree = get_tree()
+	if not tree or not tree.current_scene:
+		return
+	var script = load("res://mods-unpacked/gareth-elemental_airstrikes_mod/scripts/b52_carpet_strike.gd")
+	if script:
+		var strike = Node2D.new()
+		strike.set_script(script)
 		tree.current_scene.add_child(strike)

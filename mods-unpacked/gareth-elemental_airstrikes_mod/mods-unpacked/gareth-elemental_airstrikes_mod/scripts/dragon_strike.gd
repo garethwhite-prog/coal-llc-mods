@@ -4,11 +4,11 @@ extends Node2D
 const Textures = preload("res://mods-unpacked/gareth-elemental_airstrikes_mod/scripts/texture_factory.gd")
 
 var damage: float = 180.0
-var bomb_rate: float = 0.05
+var bomb_rate: float = 0.06
 var speed: float = 280.0
 var t: float = 0.0
-
 var sprite: Sprite2D
+var start_x: float = 0.0
 
 func _ready() -> void:
 	z_index = 60
@@ -17,23 +17,22 @@ func _ready() -> void:
 	sprite.scale = Vector2(2.0, 2.0)
 	add_child(sprite)
 
-func _process(delta: float) -> void:
-	var speed_mod: float = (1.0 + 2.0 * abs(sprite.position.x / 1000.0))
-	t += delta
-	sprite.position.x -= delta * speed * speed_mod
+	var p = get_tree().root.find_child("Player", true, false)
+	if p:
+		global_position = Vector2(p.global_position.x + 850.0, p.global_position.y - 130.0)
+		start_x = p.global_position.x
 
-	if sprite.position.x > 0:
-		sprite.rotation_degrees = -30
-		sprite.position.y += delta * speed * speed_mod * 0.7
-	else:
-		sprite.rotation_degrees = 30
-		sprite.position.y -= delta * speed * speed_mod * 0.7
+func _process(delta: float) -> void:
+	t += delta
+	position.x -= delta * speed
+	position.y += sin(t * 4.0) * 1.5
 
 	if t > bomb_rate:
-		_drop_fireball(sprite.global_position)
+		_drop_fireball(global_position)
 		t -= bomb_rate
 
-	if sprite.position.x < -1000:
+	var p = get_tree().root.find_child("Player", true, false)
+	if p and position.x < (p.global_position.x - 900.0):
 		queue_free()
 
 func _drop_fireball(pos: Vector2) -> void:
@@ -49,7 +48,7 @@ func _drop_fireball(pos: Vector2) -> void:
 	tree.current_scene.add_child(b)
 
 	var tw = b.create_tween()
-	tw.parallel().tween_property(b, "global_position:y", pos.y + 600.0, 2.0)
+	tw.parallel().tween_property(b, "global_position:y", pos.y + 450.0, 1.5)
 	tw.tween_callback(func():
 		var tm = tree.root.find_child("TileMapManager", true, false)
 		if tm:
