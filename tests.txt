@@ -1,7 +1,48 @@
 ﻿  19: ERROR ModLoader:Path: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
   20: ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
   21: at: push_error (core/variant/variant_utility.cpp:1098)
-1013: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
-1079: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
-1088: ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-1093: ERROR: 173 resources still in use at exit (run with --verbose for details).
+ 167: ERROR ModLoader: The mod from path "C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mods/gareth-mod_manager_mod.zip" cannot be loaded. Manifest validation failed with the following errors:
+ 172: ERROR: The mod from path "C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mods/gareth-mod_manager_mod.zip" cannot be loaded. Manifest validation failed with the following errors:
+ 177: at: push_error (core/variant/variant_utility.cpp:1098)
+ 295: ERROR ModLoader:ModData: Unable to activate mod "gareth-mod_manager_mod" since it has the following load errors:
+ 296: ERROR: Unable to activate mod "gareth-mod_manager_mod" since it has the following load errors:
+ 297: at: push_error (core/variant/variant_utility.cpp:1098)
+ 386: ERROR ModLoader:Dependency: Missing dependency - mod: -> gareth-auto_ladder_mod dependency -> gareth-mod_manager_mod
+ 387: ERROR: Missing dependency - mod: -> gareth-auto_ladder_mod dependency -> gareth-mod_manager_mod
+ 388: at: push_error (core/variant/variant_utility.cpp:1098)
+ 394: ERROR ModLoader:Dependency: Missing dependency - mod: -> gareth-collector_priority_mod dependency -> gareth-mod_manager_mod
+ 395: ERROR: Missing dependency - mod: -> gareth-collector_priority_mod dependency -> gareth-mod_manager_mod
+ 396: at: push_error (core/variant/variant_utility.cpp:1098)
+ 400: ERROR ModLoader:Dependency: Missing dependency - mod: -> gareth-diagonal_map_mod dependency -> gareth-mod_manager_mod
+ 401: ERROR: Missing dependency - mod: -> gareth-diagonal_map_mod dependency -> gareth-mod_manager_mod
+ 402: at: push_error (core/variant/variant_utility.cpp:1098)
+ 404: ERROR ModLoader:Dependency: Missing dependency - mod: -> gareth-donkey_kong_mod dependency -> gareth-mod_manager_mod
+ 405: ERROR: Missing dependency - mod: -> gareth-donkey_kong_mod dependency -> gareth-mod_manager_mod
+ 406: at: push_error (core/variant/variant_utility.cpp:1098)
+ 409: ERROR ModLoader:Dependency: Missing dependency - mod: -> gareth-elemental_airstrikes_mod dependency -> gareth-mod_manager_mod
+ 410: ERROR: Missing dependency - mod: -> gareth-elemental_airstrikes_mod dependency -> gareth-mod_manager_mod
+ 411: at: push_error (core/variant/variant_utility.cpp:1098)
+ 414: ERROR ModLoader:Dependency: Missing dependency - mod: -> gareth-employee_passives_mod dependency -> gareth-mod_manager_mod
+ 415: ERROR: Missing dependency - mod: -> gareth-employee_passives_mod dependency -> gareth-mod_manager_mod
+ 416: at: push_error (core/variant/variant_utility.cpp:1098)
+ 452: ERROR ModLoader:Dependency: Missing dependency - mod: -> gareth-scrap_and_delivery_mod dependency -> gareth-mod_manager_mod
+ 453: ERROR: Missing dependency - mod: -> gareth-scrap_and_delivery_mod dependency -> gareth-mod_manager_mod
+ 454: at: push_error (core/variant/variant_utility.cpp:1098)
+ 955: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
+1011: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
+1015: ERROR: Attempt to open script 'res://mods-unpacked/gareth-mod_manager_mod/scripts/mod_registry.gd' resulted in error 'File not found'.
+1017: ERROR: Failed loading resource: res://mods-unpacked/gareth-mod_manager_mod/scripts/mod_registry.gd. Make sure resources have been imported by opening the project in the editor at least once.
+1026: SCRIPT ERROR: Trying to call an async function without "await".
+1031: SCRIPT ERROR: Trying to call an async function without "await".
+1034: SCRIPT ERROR: Trying to call an async function without "await".
+1036: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1038: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1040: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1042: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1046: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+1049: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1051: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1053: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1055: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1059: ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+1064: ERROR: 154 resources still in use at exit (run with --verbose for details).

@@ -6,17 +6,104 @@ func _ready(chain: ModLoaderHookChain) -> void:
 	if not is_instance_valid(menu):
 		return
 
-	# Adjust original title rect to display our custom pixel branded logo
+	# 1. Custom Title Sign Override with Hanging Chains Sub-Board
 	var title_node = menu.find_child("Title", true, false)
-	if is_instance_valid(title_node):
-		var b_logo = load("res://mods-unpacked/gareth-mod_manager_mod/assets/branded_logo.png")
-		if b_logo:
-			title_node.texture = b_logo
-			# Seamless center and custom size
-			title_node.custom_minimum_size = Vector2(810, 310)
+	if not title_node:
+		title_node = menu.find_child("TextureRect", true, false)
+
+	if is_instance_valid(title_node) and title_node is TextureRect:
+		var custom_tex = load("res://mods-unpacked/gareth-mod_manager_mod/assets/branded_logo.png")
+		if custom_tex:
+			title_node.texture = custom_tex
+			title_node.custom_minimum_size = Vector2(760, 310)
 			title_node.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-			
-			# Strip overlapping subtitle overlays since its beautifully rendered on image_26.png
-			var m_sub = menu.find_child("SubtitleLabel", true, false)
-			if is_instance_valid(m_sub):
-				m_sub.queue_free()
+
+	# Remove any old overlapping label
+	var old_sub = menu.find_child("EnhancedSubtitle", true, false)
+	if is_instance_valid(old_sub):
+		old_sub.queue_free()
+
+	# 2. Main Menu Buttons Stack
+	var btn_grid = menu.get_node_or_null("%MainMenuButtons")
+	if btn_grid:
+		# Shift buttons up and use clean spacing
+		btn_grid.offset_top = -68.0
+		btn_grid.offset_bottom = 176.0
+		btn_grid.add_theme_constant_override("separation", 4)
+
+		if not btn_grid.has_node("ModManagerButton"):
+			var mod_btn := Button.new()
+			mod_btn.name = "ModManagerButton"
+			mod_btn.text = "Mod Manager"
+			mod_btn.custom_minimum_size = Vector2(0, 30)
+			mod_btn.pressed.connect(func():
+				var view_script = load("res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd")
+				if view_script:
+					var view: Control = Control.new()
+					view.set_script(view_script)
+					view.is_pre_run_mode = false
+					menu.add_child(view)
+			)
+			btn_grid.add_child(mod_btn)
+			btn_grid.move_child(mod_btn, 2)
+
+		if not btn_grid.has_node("ModStoreButton"):
+			var store_btn := Button.new()
+			store_btn.name = "ModStoreButton"
+			store_btn.text = "Mod & Map Store"
+			store_btn.custom_minimum_size = Vector2(0, 30)
+			store_btn.modulate = Color(1.0, 0.88, 0.35)
+			store_btn.pressed.connect(func():
+				var store_script = load("res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.gd")
+				if store_script:
+					var store_view = store_script.new()
+					menu.add_child(store_view)
+			)
+			btn_grid.add_child(store_btn)
+			btn_grid.move_child(store_btn, 3)
+
+		if not btn_grid.has_node("LeaderboardsButton"):
+			var lb_btn := Button.new()
+			lb_btn.name = "LeaderboardsButton"
+			lb_btn.text = "Leaderboards"
+			lb_btn.custom_minimum_size = Vector2(0, 30)
+			lb_btn.pressed.connect(func():
+				var modal_script = load("res://mods-unpacked/gareth-leaderboard_mod/scenes/leaderboard_modal.gd")
+				if modal_script:
+					var modal = modal_script.new()
+					menu.add_child(modal)
+			)
+			btn_grid.add_child(lb_btn)
+			btn_grid.move_child(lb_btn, 4)
+
+func on_profession_selected(chain: ModLoaderHookChain, mode: int, prof: Object, hard_modifier: Object) -> void:
+	var menu = chain.reference_object
+	if not menu:
+		chain.execute_next([mode, prof, hard_modifier])
+		return
+
+	var p_select = menu.get_node_or_null("ProfessionSelect")
+	if not p_select and "profession_select" in menu:
+		p_select = menu.profession_select
+	if p_select:
+		p_select.visible = false
+
+	var view_script = load("res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd")
+	if view_script:
+		var view: Control = Control.new()
+		view.set_script(view_script)
+		view.name = "PreRunModSelector"
+		view.is_pre_run_mode = true
+
+		view.confirmed.connect(func():
+			chain.execute_next([mode, prof, hard_modifier])
+		)
+
+		view.back_pressed.connect(func():
+			if p_select:
+				p_select.visible = true
+		)
+
+		menu.add_child(view)
+	else:
+		chain.execute_next([mode, prof, hard_modifier])

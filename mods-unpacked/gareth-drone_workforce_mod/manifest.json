@@ -1,0 +1,17 @@
+{
+  "name": "drone_workforce_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "Replaces all walking employee miners with hovering quadcopter laser drones and transforms UFO collectors into heavy-lift cargo quadcopters.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": ["gareth-mod_manager_mod"],
+  "extra": {
+    "godot": {
+      "authors": ["Gareth White"],
+      "display_name": "Quadcopter Drone Workforce Overhaul",
+      "tags": ["workforce", "automation", "drones", "visuals"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}
