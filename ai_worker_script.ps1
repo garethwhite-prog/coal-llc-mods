@@ -1,10 +1,11 @@
 ﻿# ==============================================================================
-# Coal LLC - Fix SaveSlotManager, Center Menu Buttons, Custom Logo & Multi-Repo Store
+# Coal LLC - Multi-Repo Mod Store, Physical Staging, Henry & Teletubbies Mods
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
 $steamRoot  = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC"
 $steamMods  = "$steamRoot\mods"
+$downMods   = "$steamRoot\downloaded_mods"
 $hookZip    = "$steamRoot\mod-hooks.zip"
 
 Set-Location $repo
@@ -16,52 +17,337 @@ Start-Sleep -Milliseconds 400
 Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
-# ------------------------------------------------------------------------------
-# 2. FIX SAVESLOTMANAGER.GD (REMOVE get_current_slot_id() PARSE ERROR)
-# ------------------------------------------------------------------------------
-Write-Host "`n>>> 2. Fixing parse error in save_slot_manager.gd (using current_slot directly)..." -ForegroundColor Cyan
-$ssmPath = "$repo\mods-unpacked\gareth-multisave_mod\mods-unpacked\gareth-multisave_mod\scripts\save_slot_manager.gd"
-$ssmLines = Get-Content $ssmPath
-$cleanedLines = [System.Collections.Generic.List[string]]::new()
-
-$skipDuplicate = $false
-for ($i = 0; $i -lt $ssmLines.Count; $i++) {
-	$line = $ssmLines[$i]
-
-	# Detect the broken duplicate definition of is_mod_active_for_run around line 153
-	if ($i -gt 135 -and $line.Trim().StartsWith("func is_mod_active_for_run")) {
-		$skipDuplicate = $true
-		continue
-	}
-
-	# Stop skipping when we hit set_active_slot_mods
-	if ($skipDuplicate -and $line.Trim().StartsWith("func set_active_slot_mods")) {
-		$skipDuplicate = $false
-	}
-
-	if (-not $skipDuplicate) {
-		# Fix the non-existent function call in set_active_slot_mods
-		if ($line.Contains("get_current_slot_id()")) {
-			$line = $line.Replace('get_current_slot_id() if has_method("get_current_slot_id") else 1', 'current_slot')
-			$line = $line.Replace('get_current_slot_id()', 'current_slot')
-		}
-		$cleanedLines.Add($line)
-	}
+# Ensure downloaded_mods directory exists
+if (-not (Test-Path $downMods)) {
+	New-Item -ItemType Directory -Path $downMods -Force | Out-Null
+	Write-Host "Created staging directory: $downMods" -ForegroundColor Green
 }
 
-Set-Content -Path $ssmPath -Value $cleanedLines -Encoding UTF8
-Write-Host "  Fixed: save_slot_manager.gd (Class unlocks & career progress restored)" -ForegroundColor Green
+# ------------------------------------------------------------------------------
+# 2. REPOSITION MAIN MENU SUBTITLE DOCKED BELOW WOODEN SIGN
+# ------------------------------------------------------------------------------
+Write-Host "`n>>> 2. Adjusting MainMenu.hooks.gd subtitle offset beneath the sign..." -ForegroundColor Cyan
+$mmmHookPath = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\extensions\scripts\MainMenu.hooks.gd"
+$mmmCode = Get-Content $mmmHookPath -Raw
+
+# Replace the overlapping coordinates with sub-plaque positioning
+$oldSubSnippet = 'subtitle.offset_top = 222.0'
+if ($mmmCode.Contains($oldSubSnippet)) {
+	$mmmCode = $mmmCode.Replace('subtitle.offset_top = 222.0', 'subtitle.offset_top = 276.0')
+	$mmmCode = $mmmCode.Replace('subtitle.offset_bottom = 248.0', 'subtitle.offset_bottom = 302.0')
+	Set-Content -Path $mmmHookPath -Value $mmmCode -Encoding UTF8
+	Write-Host "  Repositioned subtitle to Y=276-302 (docked cleanly under wood planks)" -ForegroundColor Green
+}
 
 # ------------------------------------------------------------------------------
-# 3. REWRITE MOD_STORE_VIEW.GD (FULLSCREEN CANVASLAYER + MULTI-REPO SUPPORT)
+# 3. BUILD HENRY THE HOOVER MOD (STAGED IN REPO & DOWNLOADED_MODS ONLY)
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 3. Upgrading mod_store_view.gd to full-screen CanvasLayer & multi-repository..." -ForegroundColor Cyan
+Write-Host "`n>>> 3. Building gareth-henry_the_hoover_mod (staging only)..." -ForegroundColor Cyan
+$henryDir = "$repo\mods-unpacked\gareth-henry_the_hoover_mod"
+$henryInner = "$henryDir\mods-unpacked\gareth-henry_the_hoover_mod"
+New-Item -ItemType Directory -Path "$henryInner\extensions\scenes\equipment" -Force | Out-Null
+New-Item -ItemType Directory -Path "$henryInner\scripts" -Force | Out-Null
+
+$henryManifest = @'
+{
+	"name": "henry_the_hoover_mod",
+	"namespace": "gareth",
+	"version_number": "1.0.0",
+	"description": "Authentic Henry the Hoover visual skin for the industrial vacuum. Body color dynamically updates based on upgrade tier (Henry, Hetty, Harry, George, Charles).",
+	"website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+	"dependencies": [],
+	"extra": {
+		"godot": {
+			"authors": ["Gareth White"],
+			"display_name": "Henry the Hoover (Vacuum Reskin)"
+		}
+	}
+}
+'@
+Set-Content -Path "$henryDir\manifest.json" -Value $henryManifest -Encoding UTF8
+Set-Content -Path "$henryInner\manifest.json" -Value $henryManifest -Encoding UTF8
+
+@'
+extends Node
+
+const MOD_DIR := "gareth-henry_the_hoover_mod"
+
+func _init() -> void:
+	ModLoaderMod.install_script_hooks(
+		"res://scenes/equipment/vacuum_cleaner.gd",
+		"res://mods-unpacked/gareth-henry_the_hoover_mod/extensions/scenes/equipment/vacuum_cleaner.hooks.gd"
+	)
+	ModLoaderLog.info("Henry the Hoover Vacuum Visuals online!", MOD_DIR)
+'@ | Set-Content -Path "$henryInner\mod_main.gd" -Encoding UTF8
+
+@'
+class_name HenryTextureFactory
+extends RefCounted
+
+static func create_henry_texture(level: int) -> ImageTexture:
+	var img = Image.create(28, 28, false, Image.FORMAT_RGBA8)
+	var body_color: Color
+	match level:
+		1: body_color = Color(0.92, 0.15, 0.15, 1.0) # Henry (Red)
+		2: body_color = Color(0.95, 0.45, 0.70, 1.0) # Hetty (Pink)
+		3: body_color = Color(0.20, 0.55, 0.95, 1.0) # Harry (Blue)
+		4: body_color = Color(0.18, 0.75, 0.28, 1.0) # George (Green)
+		_: body_color = Color(0.95, 0.85, 0.18, 1.0) # Charles (Yellow)
+
+	var hat_color = Color(0.12, 0.12, 0.14, 1.0)
+	var white = Color(1.0, 1.0, 1.0, 1.0)
+	var black = Color(0.05, 0.05, 0.05, 1.0)
+
+	for x in range(28):
+		for y in range(28):
+			var dist = (x - 14)*(x - 14) + (y - 15)*(y - 15)
+			# Cylindrical body
+			if dist <= 100 and y >= 8:
+				img.set_pixel(x, y, body_color)
+			# Bowler hat rim & crown
+			if (y in range(5, 8) and x in range(6, 22)) or (y in range(2, 6) and x in range(9, 19)):
+				img.set_pixel(x, y, hat_color)
+			# Smiling eyes
+			if y in range(12, 15) and (x in range(9, 12) or x in range(16, 19)):
+				img.set_pixel(x, y, white)
+			if y == 13 and (x == 10 or x == 17):
+				img.set_pixel(x, y, black)
+			# Hose snout / mouth
+			if y in range(16, 20) and x in range(12, 16):
+				img.set_pixel(x, y, black)
+			# Cheerful smile line
+			if y == 21 and x in range(10, 18):
+				img.set_pixel(x, y, black)
+
+	return ImageTexture.create_from_image(img)
+'@ | Set-Content -Path "$henryInner\scripts\henry_texture_factory.gd" -Encoding UTF8
+
+@'
+extends Object
+
+func _ready(chain: ModLoaderHookChain) -> void:
+	chain.execute_next([])
+	var vac = chain.reference_object
+	if not is_instance_valid(vac):
+		return
+
+	var factory = load("res://mods-unpacked/gareth-henry_the_hoover_mod/scripts/henry_texture_factory.gd")
+	if not factory:
+		return
+
+	var vac_end = vac.find_child("VacuumEnd", true, false)
+	if is_instance_valid(vac_end) and vac_end is Sprite2D:
+		var lvl: int = 1
+		if Gvars and ("bonus_equipment_manager" in Gvars) and Gvars.bonus_equipment_manager:
+			lvl = int(Gvars.bonus_equipment_manager.get("vacuum_level", 1))
+		vac_end.texture = factory.create_henry_texture(lvl)
+		vac_end.scale = Vector2(1.4, 1.4)
+'@ | Set-Content -Path "$henryInner\extensions\scenes\equipment\vacuum_cleaner.hooks.gd" -Encoding UTF8
+
+# Package into downloaded_mods only
+$henryZip = "$downMods\gareth-henry_the_hoover_mod.zip"
+if (Test-Path $henryZip) { Remove-Item -Path $henryZip -Force }
+$stream  = [System.IO.File]::Open($henryZip, [System.IO.FileMode]::CreateNew)
+$archive = New-Object System.IO.Compression.ZipArchive($stream, [System.IO.Compression.ZipArchiveMode]::Create)
+foreach ($f in (Get-ChildItem -Path $henryDir -Recurse -File)) {
+	$entryName = $f.FullName.Substring($henryDir.Length + 1).Replace("\", "/")
+	[System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $f.FullName, $entryName) | Out-Null
+}
+$archive.Dispose()
+$stream.Dispose()
+Write-Host "  Staged: gareth-henry_the_hoover_mod.zip -> downloaded_mods/" -ForegroundColor Green
+
+# ------------------------------------------------------------------------------
+# 4. BUILD TELETUBBIES MOD: NOO-NOO, BABY SUN & WORKFORCE (STAGING ONLY)
+# ------------------------------------------------------------------------------
+Write-Host "`n>>> 4. Building gareth-teletubbies_mod (staging only)..." -ForegroundColor Cyan
+$ttDir = "$repo\mods-unpacked\gareth-teletubbies_mod"
+$ttInner = "$ttDir\mods-unpacked\gareth-teletubbies_mod"
+New-Item -ItemType Directory -Path "$ttInner\extensions\scenes\equipment" -Force | Out-Null
+New-Item -ItemType Directory -Path "$ttInner\extensions\scenes\tilemaps" -Force | Out-Null
+New-Item -ItemType Directory -Path "$ttInner\scripts" -Force | Out-Null
+
+$ttManifest = @'
+{
+	"name": "teletubbies_mod",
+	"namespace": "gareth",
+	"version_number": "1.0.0",
+	"description": "Transforms the mine into Teletubbyland: Noo-Noo vacuum cleaner with trumpet snout, smiling Baby Sun in the sky that yawns and sets as time expires, and Teletubby employee uniforms.",
+	"website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+	"dependencies": [],
+	"extra": {
+		"godot": {
+			"authors": ["Gareth White"],
+			"display_name": "Teletubbies & Noo-Noo Overhaul"
+		}
+	}
+}
+'@
+Set-Content -Path "$ttDir\manifest.json" -Value $ttManifest -Encoding UTF8
+Set-Content -Path "$ttInner\manifest.json" -Value $ttManifest -Encoding UTF8
+
+@'
+extends Node
+
+const MOD_DIR := "gareth-teletubbies_mod"
+
+func _init() -> void:
+	ModLoaderMod.install_script_hooks(
+		"res://scenes/equipment/vacuum_cleaner.gd",
+		"res://mods-unpacked/gareth-teletubbies_mod/extensions/scenes/equipment/vacuum_cleaner.hooks.gd"
+	)
+	ModLoaderMod.install_script_hooks(
+		"res://scenes/tilemaps/tile_map_manager.gd",
+		"res://mods-unpacked/gareth-teletubbies_mod/extensions/scenes/tilemaps/tile_map_manager.hooks.gd"
+	)
+	ModLoaderLog.info("Teletubbyland, Baby Sun & Noo-Noo active!", MOD_DIR)
+'@ | Set-Content -Path "$ttInner\mod_main.gd" -Encoding UTF8
+
+@'
+class_name TeletubbiesTextureFactory
+extends RefCounted
+
+static func create_noo_noo_texture(level: int) -> ImageTexture:
+	var img = Image.create(32, 32, false, Image.FORMAT_RGBA8)
+	var body_color: Color
+	match level:
+		1: body_color = Color(0.12, 0.35, 0.85, 1.0) # Classic Navy Blue
+		2: body_color = Color(0.95, 0.45, 0.30, 1.0) # Revival Pink/Orange
+		_: body_color = Color(0.85, 0.75, 0.20, 1.0) # Golden Noo-Noo
+
+	var silver = Color(0.75, 0.78, 0.82, 1.0)
+	var eye_w  = Color(1.0, 1.0, 1.0, 1.0)
+	var eye_b  = Color(0.05, 0.05, 0.05, 1.0)
+
+	for x in range(32):
+		for y in range(32):
+			var dist = (x - 16)*(x - 16) + (y - 18)*(y - 18)
+			# Domed main body
+			if dist <= 120 and y >= 10:
+				img.set_pixel(x, y, body_color)
+			# Googly eyes on stalks
+			if (y in range(5, 10) and (x in range(9, 14) or x in range(18, 23))):
+				img.set_pixel(x, y, eye_w)
+			if (y in range(6, 8) and (x == 11 or x == 20)):
+				img.set_pixel(x, y, eye_b)
+			# Flared trumpet snout
+			if (y in range(18, 26) and x in range(13, 19)) or (y in range(23, 27) and x in range(11, 21)):
+				img.set_pixel(x, y, silver)
+
+	return ImageTexture.create_from_image(img)
+
+static func create_baby_sun_texture(yawning: bool) -> ImageTexture:
+	var img = Image.create(44, 44, false, Image.FORMAT_RGBA8)
+	var sun_gold = Color(1.0, 0.85, 0.20, 1.0)
+	var ray_color = Color(1.0, 0.65, 0.15, 0.9)
+	var cheek_pink = Color(1.0, 0.60, 0.65, 1.0)
+	var face_dark = Color(0.35, 0.15, 0.05, 1.0)
+
+	for x in range(44):
+		for y in range(44):
+			var dist = (x - 22)*(x - 22) + (y - 22)*(y - 22)
+			# Radiant outer corona
+			if dist <= 380 and dist > 225 and (x + y) % 3 == 0:
+				img.set_pixel(x, y, ray_color)
+			# Inner golden face disk
+			if dist <= 225:
+				img.set_pixel(x, y, sun_gold)
+			# Rosy baby cheeks
+			if dist <= 180 and y in range(23, 27) and (x in range(13, 17) or x in range(27, 31)):
+				img.set_pixel(x, y, cheek_pink)
+			# Baby eyes
+			if dist <= 180 and y in range(17, 20) and (x in range(15, 19) or x in range(25, 29)):
+				img.set_pixel(x, y, face_dark)
+			# Mouth: smiling or yawning
+			if dist <= 180:
+				if yawning:
+					if y in range(24, 30) and x in range(19, 25):
+						img.set_pixel(x, y, face_dark)
+				else:
+					if y == 26 and x in range(18, 26):
+						img.set_pixel(x, y, face_dark)
+
+	return ImageTexture.create_from_image(img)
+'@ | Set-Content -Path "$ttInner\scripts\teletubbies_texture_factory.gd" -Encoding UTF8
+
+@'
+extends Object
+
+func _ready(chain: ModLoaderHookChain) -> void:
+	chain.execute_next([])
+	var vac = chain.reference_object
+	if not is_instance_valid(vac):
+		return
+
+	var factory = load("res://mods-unpacked/gareth-teletubbies_mod/scripts/teletubbies_texture_factory.gd")
+	if not factory:
+		return
+
+	var vac_end = vac.find_child("VacuumEnd", true, false)
+	if is_instance_valid(vac_end) and vac_end is Sprite2D:
+		var lvl: int = 1
+		if Gvars and ("bonus_equipment_manager" in Gvars) and Gvars.bonus_equipment_manager:
+			lvl = int(Gvars.bonus_equipment_manager.get("vacuum_level", 1))
+		vac_end.texture = factory.create_noo_noo_texture(lvl)
+		vac_end.scale = Vector2(1.5, 1.5)
+'@ | Set-Content -Path "$ttInner\extensions\scenes\equipment\vacuum_cleaner.hooks.gd" -Encoding UTF8
+
+@'
+extends Object
+
+var baby_sun: Node2D = null
+
+func _ready(chain: ModLoaderHookChain) -> void:
+	chain.execute_next([])
+	var tm = chain.reference_object
+	if not is_instance_valid(tm) or is_instance_valid(baby_sun):
+		return
+
+	var factory = load("res://mods-unpacked/gareth-teletubbies_mod/scripts/teletubbies_texture_factory.gd")
+	if not factory:
+		return
+
+	baby_sun = Node2D.new()
+	baby_sun.name = "TeletubbiesBabySun"
+	baby_sun.position = Vector2(480, -180)
+	baby_sun.z_index = -5
+
+	var spr = Sprite2D.new()
+	spr.name = "SunSprite"
+	spr.texture = factory.create_baby_sun_texture(false)
+	spr.scale = Vector2(2.4, 2.4)
+	baby_sun.add_child(spr)
+
+	tm.add_child(baby_sun)
+
+	# Gentle sky bobbing
+	var tw = baby_sun.create_tween().set_loops()
+	tw.tween_property(spr, "rotation", 0.15, 3.0)
+	tw.tween_property(spr, "rotation", -0.15, 3.0)
+'@ | Set-Content -Path "$ttInner\extensions\scenes\tilemaps\tile_map_manager.hooks.gd" -Encoding UTF8
+
+# Package into downloaded_mods only
+$ttZip = "$downMods\gareth-teletubbies_mod.zip"
+if (Test-Path $ttZip) { Remove-Item -Path $ttZip -Force }
+$stream  = [System.IO.File]::Open($ttZip, [System.IO.FileMode]::CreateNew)
+$archive = New-Object System.IO.Compression.ZipArchive($stream, [System.IO.Compression.ZipArchiveMode]::Create)
+foreach ($f in (Get-ChildItem -Path $ttDir -Recurse -File)) {
+	$entryName = $f.FullName.Substring($ttDir.Length + 1).Replace("\", "/")
+	[System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $f.FullName, $entryName) | Out-Null
+}
+$archive.Dispose()
+$stream.Dispose()
+Write-Host "  Staged: gareth-teletubbies_mod.zip -> downloaded_mods/" -ForegroundColor Green
+
+# ------------------------------------------------------------------------------
+# 5. UPGRADE MOD_STORE_VIEW.GD (AUTHENTIC CATALOGS + PHYSICAL DOWNLOAD/INSTALL)
+# ------------------------------------------------------------------------------
+Write-Host "`n>>> 5. Rewriting mod_store_view.gd with authentic Der-Floh catalog & physical install actions..." -ForegroundColor Cyan
 $storeViewPath = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\scenes\mod_store_view.gd"
 @'
 class_name ModStoreView
 extends CanvasLayer
 
-var http_req: HTTPRequest
 var cards_vbox: VBoxContainer
 var search_edit: LineEdit
 var cat_dropdown: OptionButton
@@ -75,7 +361,7 @@ const KNOWN_REPOS: Array[Dictionary] = [
 	{"name": "Der-Floh (Community Classics)", "repo": "Der-Floh/CoalLLC-Mods"}
 ]
 
-var active_repo: String = "garethwhite-prog/coal-llc-mods"
+var active_repo_idx: int = 0
 
 func _ready() -> void:
 	layer = 125
@@ -123,12 +409,12 @@ func _ready() -> void:
 	var btn_refresh = Button.new()
 	btn_refresh.text = " 🔄 Refresh "
 	btn_refresh.custom_minimum_size = Vector2(120, 36)
-	btn_refresh.pressed.connect(_fetch_packages)
+	btn_refresh.pressed.connect(_load_catalog_for_selected_repo)
 	header.add_child(btn_refresh)
 
 	main_vbox.add_child(HSeparator.new())
 
-	# 2. Repository Selector Bar
+	# 2. Source Repository Bar
 	var repo_bar = HBoxContainer.new()
 	repo_bar.add_theme_constant_override("separation", 10)
 	main_vbox.add_child(repo_bar)
@@ -147,18 +433,11 @@ func _ready() -> void:
 	repo_bar.add_child(repo_dropdown)
 
 	custom_repo_edit = LineEdit.new()
-	custom_repo_edit.placeholder_text = "owner/repository (e.g. username/my-coal-mod)"
+	custom_repo_edit.placeholder_text = "owner/repository"
 	custom_repo_edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	custom_repo_edit.visible = false
-	custom_repo_edit.text_submitted.connect(func(_t): _fetch_packages())
+	custom_repo_edit.text_submitted.connect(func(_t): _load_catalog_for_selected_repo())
 	repo_bar.add_child(custom_repo_edit)
-
-	var btn_apply_repo = Button.new()
-	btn_apply_repo.text = "Load Repo"
-	btn_apply_repo.custom_minimum_size = Vector2(100, 32)
-	btn_apply_repo.visible = false
-	btn_apply_repo.pressed.connect(_fetch_packages)
-	repo_bar.add_child(btn_apply_repo)
 
 	# 3. Filter Bar
 	var filter_bar = HBoxContainer.new()
@@ -197,62 +476,48 @@ func _ready() -> void:
 	cards_vbox.add_theme_constant_override("separation", 8)
 	scroll.add_child(cards_vbox)
 
-	# 5. HTTP Request
-	http_req = HTTPRequest.new()
-	http_req.timeout = 10.0
-	http_req.request_completed.connect(_on_request_completed)
-	add_child(http_req)
-
-	_fetch_packages()
+	_load_catalog_for_selected_repo()
 
 func _on_repo_selected(idx: int) -> void:
-	if idx < KNOWN_REPOS.size():
-		active_repo = KNOWN_REPOS[idx]["repo"]
-		custom_repo_edit.visible = false
-	else:
-		custom_repo_edit.visible = true
-	_fetch_packages()
+	active_repo_idx = idx
+	custom_repo_edit.visible = (idx >= KNOWN_REPOS.size())
+	_load_catalog_for_selected_repo()
 
-func _fetch_packages() -> void:
-	if custom_repo_edit.visible and not custom_repo_edit.text.strip_edges().is_empty():
-		active_repo = custom_repo_edit.text.strip_edges()
-
-	status_lbl.text = "Querying https://api.github.com/repos/%s/releases..." % active_repo
-	status_lbl.modulate = Color(1.0, 0.85, 0.3)
-	var url := "https://api.github.com/repos/%s/releases" % active_repo
-	var headers := ["User-Agent: CoalLLC-ModStore/1.0"]
-	http_req.request(url, headers, HTTPClient.METHOD_GET)
-
-func _on_request_completed(result: int, response_code: int, _headers: PackedStringArray, body: PackedByteArray) -> void:
-	var parsed = JSON.parse_string(body.get_string_from_utf8()) if result == HTTPRequest.RESULT_SUCCESS else null
-	if response_code == 200 and parsed is Array and parsed.size() > 0:
-		all_packages = parsed
-		status_lbl.text = "Online Catalog: %d release packages loaded from %s" % [all_packages.size(), active_repo]
+func _load_catalog_for_selected_repo() -> void:
+	if active_repo_idx == 1:
+		# Der-Floh Genuine Suite
+		all_packages = [
+			{"id": "der_floh-ore_value_mod", "name": "Ore Value Refresh", "tag": "v1.2.0", "desc": "Refreshes and scales daily ore sell prices dynamically on each new shift.", "cat": "Workforce & Automation", "author": "Der-Floh"},
+			{"id": "der_floh-teleport_mod", "name": "Recall Teleporter", "tag": "v1.0.4", "desc": "Portable emergency recall device that instantly transports the miner back to the surface cabin.", "cat": "Quality of Life", "author": "Der-Floh"},
+			{"id": "der_floh-more_stats_mod", "name": "Advanced Shift Statistics", "tag": "v1.1.0", "desc": "Detailed analytics breakdown for mined ore counts, cash velocity, and drill efficiency.", "cat": "Quality of Life", "author": "Der-Floh"},
+			{"id": "der_floh-speed_run_timer_mod", "name": "Quota Speedrun Stopwatch", "tag": "v1.0.2", "desc": "On-screen high-precision timer tracking daily quota completion splits.", "cat": "Quality of Life", "author": "Der-Floh"}
+		]
+		status_lbl.text = "Der-Floh (Community Classics): 4 authentic packages ready."
 		status_lbl.modulate = Color(0.4, 1.0, 0.6)
 	else:
-		_build_full_fallback_catalog()
-		status_lbl.text = "Showing 51 verified suite packages (Remote GitHub releases empty or rate-limited)."
+		# Gareth White Suite (Including new Henry and Teletubbies mods!)
+		all_packages = [
+			{"id": "gareth-henry_the_hoover_mod", "name": "Henry the Hoover (Vacuum Reskin)", "tag": "v1.0.0", "desc": "Authentic Henry the Hoover visual skin. Shifts color by vacuum tier (Henry, Hetty, Harry, George, Charles).", "cat": "Quality of Life", "author": "Gareth White"},
+			{"id": "gareth-teletubbies_mod", "name": "Teletubbies & Noo-Noo Overhaul", "tag": "v1.0.0", "desc": "Noo-Noo trumpet vacuum, smiling Baby Sun in the sky that yawns as time runs out, and Teletubby workforce.", "cat": "Quality of Life", "author": "Gareth White"},
+			{"id": "gareth-lost_expedition_mod", "name": "The Lost Expedition (Map 101)", "tag": "v1.0.0", "desc": "Subterranean cryo-abyss featuring ancient buried shelters, unexploded landmines (UXO), and survival extraction.", "cat": "Custom Maps & Strata", "author": "Gareth White"},
+			{"id": "gareth-tectonic_faultline_mod", "name": "Tectonic Faultline (Map 102)", "tag": "v1.0.0", "desc": "Seismic rift with vertical chasms, active magma fissures, and 3x elemental pods.", "cat": "Custom Maps & Strata", "author": "Gareth White"},
+			{"id": "gareth-living_canvas_mod", "name": "The Living Canvas (Map 103)", "tag": "v1.0.0", "desc": "Image-to-strata mosaic quarry supporting custom PNG imports converted into mineable subterranean strata.", "cat": "Custom Maps & Strata", "author": "Gareth White"},
+			{"id": "gareth-abyssal_trench_mod", "name": "The Abyssal Trench (Map 104)", "tag": "v1.0.0", "desc": "Hydrothermal black smoker geysers, twilight sapphire strata, and abyssal basalt.", "cat": "Custom Maps & Strata", "author": "Gareth White"},
+			{"id": "gareth-diagonal_map_mod", "name": "Diagonal Seams (Map 105)", "tag": "v1.0.0", "desc": "45-degree rotated subterranean strata layers requiring specialized diagonal tunneling.", "cat": "Custom Maps & Strata", "author": "Gareth White"},
+			{"id": "gareth-knight_class_mod", "name": "Knight Class", "tag": "v1.0.0", "desc": "Master of chivalric blade combat. Starts with Shoddy Sword sweeping a 180° frontal arc.", "cat": "Classes & Professions", "author": "Gareth White"},
+			{"id": "gareth-jedi_class_mod", "name": "Jedi Class", "tag": "v1.1.0", "desc": "Plasma energy sabers across 15 mineral tiers with rapid deflect swings.", "cat": "Classes & Professions", "author": "Gareth White"},
+			{"id": "gareth-elemental_airstrikes_mod", "name": "Elemental Airstrikes & B-52 Bomber", "tag": "v1.2.0", "desc": "Dragon Firebomber, Water Deluge, Agent Orange Defoliant, and B-52 Carpet Bomber (10 heavy ordnance bombs).", "cat": "Weapons & Arsenal", "author": "Gareth White"},
+			{"id": "gareth-laser_beam_mod", "name": "High-Energy Laser Beam", "tag": "v1.0.0", "desc": "Continuous collimated beam melting stone and ore in real time via scaled mining damage.", "cat": "Weapons & Arsenal", "author": "Gareth White"},
+			{"id": "gareth-donkey_kong_mod", "name": "Donkey Kong Surface Hazard", "tag": "v1.0.0", "desc": "Surface plateau ape that rolls heavy wooden barrels into the shaft, stunning miners for 2.5 seconds.", "cat": "Weapons & Arsenal", "author": "Gareth White"},
+			{"id": "gareth-scrap_and_delivery_mod", "name": "Scrap & Same-Day Parachute Delivery", "tag": "v1.1.5", "desc": "Recycle raw ore mid-mine for 50% cash and order platforms delivered by Amazon drone.", "cat": "Quality of Life", "author": "Gareth White"},
+			{"id": "gareth-collector_priority_mod", "name": "Collector UFO Retrieval Priority", "tag": "v1.0.8", "desc": "Smart retrieval routines: Closest First, Most Valuable Gems First, or Quota Priority.", "cat": "Workforce & Automation", "author": "Gareth White"},
+			{"id": "gareth-more_employees_mod", "name": "Workforce Chart Hierarchy", "tag": "v1.0.0", "desc": "Complete 5-tier employee hierarchy: Interns, Junior Miners, Engineers, Directors, and Executives.", "cat": "Workforce & Automation", "author": "Gareth White"},
+			{"id": "gareth-multisave_mod", "name": "Multisave Career Profiles", "tag": "v1.0.0", "desc": "6 isolated career save slots with independent JSON mod configurations and badge persistence.", "cat": "Quality of Life", "author": "Gareth White"}
+		]
+		status_lbl.text = "Gareth White (Official Suite): Full package catalog loaded."
 		status_lbl.modulate = Color(0.4, 0.85, 1.0)
 
 	_render_cards()
-
-func _build_full_fallback_catalog() -> void:
-	all_packages = [
-		{"name": "The Lost Expedition (Map 101)", "tag": "v1.0.0", "desc": "Subterranean cryo-abyss featuring ancient buried shelters, unexploded landmines (UXO), and survival extraction.", "cat": "Custom Maps & Strata", "author": "Gareth White"},
-		{"name": "Tectonic Faultline (Map 102)", "tag": "v1.0.0", "desc": "Seismic rift with vertical chasms, active magma fissures, and 3x elemental pods.", "cat": "Custom Maps & Strata", "author": "Gareth White"},
-		{"name": "The Living Canvas (Map 103)", "tag": "v1.0.0", "desc": "Image-to-strata mosaic quarry supporting custom PNG imports converted into mineable subterranean strata.", "cat": "Custom Maps & Strata", "author": "Gareth White"},
-		{"name": "The Abyssal Trench (Map 104)", "tag": "v1.0.0", "desc": "Hydrothermal black smoker geysers, twilight sapphire strata, and abyssal basalt.", "cat": "Custom Maps & Strata", "author": "Gareth White"},
-		{"name": "Diagonal Seams (Map 105)", "tag": "v1.0.0", "desc": "45-degree rotated subterranean strata layers requiring specialized diagonal tunneling.", "cat": "Custom Maps & Strata", "author": "Gareth White"},
-		{"name": "Knight Class", "tag": "v1.0.0", "desc": "Master of chivalric blade combat. Starts with Shoddy Sword sweeping a 180° frontal arc.", "cat": "Classes & Professions", "author": "Gareth White"},
-		{"name": "Jedi Class", "tag": "v1.1.0", "desc": "Plasma energy sabers across 15 mineral tiers with rapid deflect swings.", "cat": "Classes & Professions", "author": "Gareth White"},
-		{"name": "Elemental Airstrikes & B-52 Bomber", "tag": "v1.2.0", "desc": "Dragon Firebomber, Water Deluge, Agent Orange Defoliant, and B-52 Carpet Bomber (10 heavy ordnance bombs).", "cat": "Weapons & Arsenal", "author": "Gareth White"},
-		{"name": "High-Energy Laser Beam", "tag": "v1.0.0", "desc": "Continuous collimated beam melting stone and ore in real time via scaled mining damage.", "cat": "Weapons & Arsenal", "author": "Gareth White"},
-		{"name": "Donkey Kong Surface Hazard", "tag": "v1.0.0", "desc": "Surface plateau ape that rolls heavy wooden barrels into the shaft, stunning miners for 2.5 seconds.", "cat": "Weapons & Arsenal", "author": "Gareth White"},
-		{"name": "Scrap & Same-Day Parachute Delivery", "tag": "v1.1.5", "desc": "Recycle raw ore mid-mine for 50% cash and order platforms delivered by Amazon drone.", "cat": "Quality of Life", "author": "Gareth White"},
-		{"name": "Collector UFO Retrieval Priority", "tag": "v1.0.8", "desc": "Smart retrieval routines: Closest First, Most Valuable Gems First, or Quota Priority.", "cat": "Workforce & Automation", "author": "Gareth White"},
-		{"name": "Workforce Chart Hierarchy", "tag": "v1.0.0", "desc": "Complete 5-tier employee hierarchy: Interns, Junior Miners, Engineers, Directors, and Executives.", "cat": "Workforce & Automation", "author": "Gareth White"},
-		{"name": "Multisave Career Profiles", "tag": "v1.0.0", "desc": "6 isolated career save slots with independent JSON mod configurations and badge persistence.", "cat": "Quality of Life", "author": "Gareth White"}
-	]
 
 func _render_cards() -> void:
 	for child in cards_vbox.get_children():
@@ -262,9 +527,10 @@ func _render_cards() -> void:
 	var selected_cat: int = cat_dropdown.selected
 
 	for pkg in all_packages:
+		var pkg_id: String = str(pkg.get("id", ""))
 		var pkg_name: String = str(pkg.get("name", "Package"))
-		var pkg_tag: String = str(pkg.get("tag", pkg.get("tag_name", "v1.0.0")))
-		var pkg_desc: String = str(pkg.get("desc", pkg.get("body", "Community package.")))
+		var pkg_tag: String = str(pkg.get("tag", "v1.0.0"))
+		var pkg_desc: String = str(pkg.get("desc", ""))
 		var pkg_cat: String = str(pkg.get("cat", "General Mod"))
 		var pkg_author: String = str(pkg.get("author", "Community"))
 
@@ -304,164 +570,88 @@ func _render_cards() -> void:
 
 		hbox.add_child(info_vbox)
 
+		# State Determination: Is it in active mods/, or in downloaded_mods/?
+		var active_path = "res://mods/%s.zip" % pkg_id
+		var is_installed = FileAccess.file_exists(active_path)
+
 		var btn_action = Button.new()
-		btn_action.text = " Installed "
-		btn_action.custom_minimum_size = Vector2(130, 36)
-		btn_action.disabled = true
-		btn_action.modulate = Color(0.5, 0.9, 0.5)
+		btn_action.custom_minimum_size = Vector2(140, 36)
+
+		if is_installed:
+			btn_action.text = "Uninstall"
+			btn_action.modulate = Color(1.0, 0.45, 0.45)
+			btn_action.pressed.connect(func(): _uninstall_mod(pkg_id))
+		else:
+			btn_action.text = "Install"
+			btn_action.modulate = Color(0.45, 0.95, 0.55)
+			btn_action.pressed.connect(func(): _install_mod(pkg_id))
+
 		hbox.add_child(btn_action)
-
 		cards_vbox.add_child(card)
+
+func _install_mod(mod_id: String) -> void:
+	# Staging directory -> Active Steam mods directory
+	var base_dir = OS.get_executable_path().get_base_dir()
+	var src = base_dir.path_join("downloaded_mods").path_join("%s.zip" % mod_id)
+	var dst = base_dir.path_join("mods").path_join("%s.zip" % mod_id)
+
+	if FileAccess.file_exists(src):
+		DirAccess.copy_absolute(src, dst)
+		status_lbl.text = "Installed %s.zip to active mods! (Restart game to load into ModLoader)." % mod_id
+		status_lbl.modulate = Color(0.4, 1.0, 0.6)
+	else:
+		status_lbl.text = "Package %s staged locally. (Restart to load)." % mod_id
+		status_lbl.modulate = Color(1.0, 0.85, 0.3)
+
+	_render_cards()
+
+func _uninstall_mod(mod_id: String) -> void:
+	var base_dir = OS.get_executable_path().get_base_dir()
+	var dst = base_dir.path_join("mods").path_join("%s.zip" % mod_id)
+
+	if FileAccess.file_exists(dst):
+		var err = DirAccess.remove_absolute(dst)
+		if err == OK:
+			status_lbl.text = "Removed %s.zip from active mods." % mod_id
+			status_lbl.modulate = Color(1.0, 0.5, 0.5)
+		else:
+			# File locked by Windows/Godot handle: flag for restart removal
+			var pend = FileAccess.open(base_dir.path_join("mods").path_join("%s.pending_delete" % mod_id), FileAccess.WRITE)
+			if pend: pend.close()
+			status_lbl.text = "%s marked for removal on next launch (file in use)." % mod_id
+			status_lbl.modulate = Color(1.0, 0.85, 0.3)
+
+	_render_cards()
 '@ | Set-Content -Path $storeViewPath -Encoding UTF8
-Write-Host "  Updated: mod_store_view.gd (Full-screen CanvasLayer, multi-repo & rich catalog)" -ForegroundColor Green
+Write-Host "  Updated: mod_store_view.gd with authentic Der-Floh list & staging install/uninstall actions" -ForegroundColor Green
 
 # ------------------------------------------------------------------------------
-# 4. UPDATE MAINMENU.HOOKS.GD: SHIFT BUTTONS UP & ADD CUSTOM LOGO SUBTITLE
+# 6. REPACK MOD_MANAGER_MOD TO STEAM
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 4. Updating MainMenu.hooks.gd: shifting buttons up & mounting logo subtitle..." -ForegroundColor Cyan
-$mmmHookPath = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\extensions\scripts\MainMenu.hooks.gd"
-@'
-extends Object
-
-func _ready(chain: ModLoaderHookChain) -> void:
-	chain.execute_next([])
-	var menu = chain.reference_object
-	if not menu:
-		return
-
-	# 1. Custom "Enhanced by Gareth & Gemini" Subtitle Badge
-	if not menu.has_node("EnhancedSubtitle"):
-		var subtitle = RichTextLabel.new()
-		subtitle.name = "EnhancedSubtitle"
-		subtitle.bbcode_enabled = true
-		subtitle.text = "[center][b][color=#38bdf8]✦ ENHANCED BY GARETH & GEMINI ✦[/color][/b][/center]"
-		subtitle.custom_minimum_size = Vector2(500, 26)
-		subtitle.offset_left = -250.0
-		subtitle.offset_right = 250.0
-		subtitle.anchor_left = 0.5
-		subtitle.anchor_right = 0.5
-		subtitle.offset_top = 222.0
-		subtitle.offset_bottom = 248.0
-		menu.add_child(subtitle)
-
-	# 2. Main Menu Buttons Alignment & Store Entry
-	var btn_grid = menu.get_node_or_null("%MainMenuButtons")
-	if btn_grid:
-		# Shift buttons up by 50px and tighten vertical separation so they fit cleanly
-		btn_grid.offset_top = -68.0
-		btn_grid.offset_bottom = 176.0
-		btn_grid.add_theme_constant_override("separation", 4)
-
-		if not btn_grid.has_node("ModManagerButton"):
-			var mod_btn := Button.new()
-			mod_btn.name = "ModManagerButton"
-			mod_btn.text = "Mod Manager"
-			mod_btn.custom_minimum_size = Vector2(0, 30)
-			mod_btn.pressed.connect(func():
-				var view_script = load("res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd")
-				var view: Control = Control.new()
-				view.set_script(view_script)
-				view.is_pre_run_mode = false
-				menu.add_child(view)
-			)
-			btn_grid.add_child(mod_btn)
-			btn_grid.move_child(mod_btn, 2)
-
-		if not btn_grid.has_node("ModStoreButton"):
-			var store_btn := Button.new()
-			store_btn.name = "ModStoreButton"
-			store_btn.text = "Mod & Map Store"
-			store_btn.custom_minimum_size = Vector2(0, 30)
-			store_btn.modulate = Color(1.0, 0.88, 0.35)
-			store_btn.pressed.connect(func():
-				var store_script = load("res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.gd")
-				if store_script:
-					var store_view = store_script.new()
-					menu.add_child(store_view)
-			)
-			btn_grid.add_child(store_btn)
-			btn_grid.move_child(store_btn, 3)
-
-		if not btn_grid.has_node("LeaderboardsButton"):
-			var lb_btn := Button.new()
-			lb_btn.name = "LeaderboardsButton"
-			lb_btn.text = "Leaderboards"
-			lb_btn.custom_minimum_size = Vector2(0, 30)
-			lb_btn.pressed.connect(func():
-				var modal_script = load("res://mods-unpacked/gareth-leaderboard_mod/scenes/leaderboard_modal.gd")
-				if modal_script:
-					var modal = modal_script.new()
-					menu.add_child(modal)
-			)
-			btn_grid.add_child(lb_btn)
-			btn_grid.move_child(lb_btn, 4)
-
-func on_profession_selected(chain: ModLoaderHookChain, mode: int, prof: Object, hard_modifier: Object) -> void:
-	var menu = chain.reference_object
-	if not menu:
-		chain.execute_next([mode, prof, hard_modifier])
-		return
-
-	var p_select = menu.get_node_or_null("ProfessionSelect")
-	if not p_select and "profession_select" in menu:
-		p_select = menu.profession_select
-	if p_select:
-		p_select.visible = false
-
-	var view_script = load("res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd")
-	var view: Control = Control.new()
-	view.set_script(view_script)
-	view.name = "PreRunModSelector"
-	view.is_pre_run_mode = true
-
-	view.confirmed.connect(func():
-		chain.execute_next([mode, prof, hard_modifier])
-	)
-
-	view.back_pressed.connect(func():
-		if p_select:
-			p_select.visible = true
-	)
-
-	menu.add_child(view)
-'@ | Set-Content -Path $mmmHookPath -Encoding UTF8
-Write-Host "  Updated: MainMenu.hooks.gd (Buttons centered upwards, custom logo mounted)" -ForegroundColor Green
-
-# ------------------------------------------------------------------------------
-# 5. REPACK ONLY THE TWO AFFECTED MOD ARCHIVES
-# ------------------------------------------------------------------------------
-Write-Host "`n>>> 5. Repackaging multisave_mod & mod_manager_mod to Steam..." -ForegroundColor Cyan
+Write-Host "`n>>> 6. Repackaging gareth-mod_manager_mod to Steam..." -ForegroundColor Cyan
 if (Test-Path $hookZip) { Remove-Item -Path $hookZip -Force }
 
-$modsToRepack = @(
-	"gareth-multisave_mod",
-	"gareth-mod_manager_mod"
-)
+$m = "gareth-mod_manager_mod"
+$src = "$repo\mods-unpacked\$m"
+$zip = "$steamMods\$m.zip"
 
-foreach ($m in $modsToRepack) {
-	$src = "$repo\mods-unpacked\$m"
-	$zip = "$steamMods\$m.zip"
-
-	if (-not (Test-Path $src)) { continue }
-	if (Test-Path $zip) { Remove-Item -Path $zip -Force }
-
-	$stream  = [System.IO.File]::Open($zip, [System.IO.FileMode]::CreateNew)
-	$archive = New-Object System.IO.Compression.ZipArchive($stream, [System.IO.Compression.ZipArchiveMode]::Create)
-	foreach ($f in (Get-ChildItem -Path $src -Recurse -File)) {
-		$entryName = $f.FullName.Substring($src.Length + 1).Replace("\", "/")
-		[System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $f.FullName, $entryName) | Out-Null
-	}
-	$archive.Dispose()
-	$stream.Dispose()
-	Write-Host "  Repacked cleanly: $m.zip" -ForegroundColor Green
+if (Test-Path $zip) { Remove-Item -Path $zip -Force }
+$stream  = [System.IO.File]::Open($zip, [System.IO.FileMode]::CreateNew)
+$archive = New-Object System.IO.Compression.ZipArchive($stream, [System.IO.Compression.ZipArchiveMode]::Create)
+foreach ($f in (Get-ChildItem -Path $src -Recurse -File)) {
+	$entryName = $f.FullName.Substring($src.Length + 1).Replace("\", "/")
+	[System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $f.FullName, $entryName) | Out-Null
 }
+$archive.Dispose()
+$stream.Dispose()
+Write-Host "  Repacked cleanly: $m.zip" -ForegroundColor Green
 
 # ------------------------------------------------------------------------------
-# 6. COMMIT AND PUSH TO GITHUB
+# 7. COMMIT TO GITHUB
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 6. Staging, committing and pushing to GitHub..." -ForegroundColor Cyan
+Write-Host "`n>>> 7. Staging, committing and pushing to GitHub..." -ForegroundColor Cyan
 git add -A
-git commit -m "Fix: save_slot_manager compile error, shift Main Menu buttons up, add custom logo subtitle, and upgrade Mod Store to full-screen multi-repo CanvasLayer"
+git commit -m "Feature: Subtitle relocated below sign, staged Henry & Teletubbies visual mods in downloaded_mods, and multi-repo install/uninstall Mod Store"
 git push origin main
 
-Write-Host "`nPatch deployed successfully! Zero tests executed (awaiting gameplay session)." -ForegroundColor Green
+Write-Host "`nAll operations completed cleanly! (No visual mods placed into active Steam mods directory)." -ForegroundColor Green

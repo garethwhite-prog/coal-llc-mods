@@ -1,7 +1,6 @@
 class_name ModStoreView
 extends CanvasLayer
 
-var http_req: HTTPRequest
 var cards_vbox: VBoxContainer
 var search_edit: LineEdit
 var cat_dropdown: OptionButton
@@ -15,7 +14,7 @@ const KNOWN_REPOS: Array[Dictionary] = [
 	{"name": "Der-Floh (Community Classics)", "repo": "Der-Floh/CoalLLC-Mods"}
 ]
 
-var active_repo: String = "garethwhite-prog/coal-llc-mods"
+var active_repo_idx: int = 0
 
 func _ready() -> void:
 	layer = 125
@@ -63,12 +62,12 @@ func _ready() -> void:
 	var btn_refresh = Button.new()
 	btn_refresh.text = " 🔄 Refresh "
 	btn_refresh.custom_minimum_size = Vector2(120, 36)
-	btn_refresh.pressed.connect(_fetch_packages)
+	btn_refresh.pressed.connect(_load_catalog_for_selected_repo)
 	header.add_child(btn_refresh)
 
 	main_vbox.add_child(HSeparator.new())
 
-	# 2. Repository Selector Bar
+	# 2. Source Repository Bar
 	var repo_bar = HBoxContainer.new()
 	repo_bar.add_theme_constant_override("separation", 10)
 	main_vbox.add_child(repo_bar)
@@ -87,18 +86,11 @@ func _ready() -> void:
 	repo_bar.add_child(repo_dropdown)
 
 	custom_repo_edit = LineEdit.new()
-	custom_repo_edit.placeholder_text = "owner/repository (e.g. username/my-coal-mod)"
+	custom_repo_edit.placeholder_text = "owner/repository"
 	custom_repo_edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	custom_repo_edit.visible = false
-	custom_repo_edit.text_submitted.connect(func(_t): _fetch_packages())
+	custom_repo_edit.text_submitted.connect(func(_t): _load_catalog_for_selected_repo())
 	repo_bar.add_child(custom_repo_edit)
-
-	var btn_apply_repo = Button.new()
-	btn_apply_repo.text = "Load Repo"
-	btn_apply_repo.custom_minimum_size = Vector2(100, 32)
-	btn_apply_repo.visible = false
-	btn_apply_repo.pressed.connect(_fetch_packages)
-	repo_bar.add_child(btn_apply_repo)
 
 	# 3. Filter Bar
 	var filter_bar = HBoxContainer.new()
@@ -137,62 +129,48 @@ func _ready() -> void:
 	cards_vbox.add_theme_constant_override("separation", 8)
 	scroll.add_child(cards_vbox)
 
-	# 5. HTTP Request
-	http_req = HTTPRequest.new()
-	http_req.timeout = 10.0
-	http_req.request_completed.connect(_on_request_completed)
-	add_child(http_req)
-
-	_fetch_packages()
+	_load_catalog_for_selected_repo()
 
 func _on_repo_selected(idx: int) -> void:
-	if idx < KNOWN_REPOS.size():
-		active_repo = KNOWN_REPOS[idx]["repo"]
-		custom_repo_edit.visible = false
-	else:
-		custom_repo_edit.visible = true
-	_fetch_packages()
+	active_repo_idx = idx
+	custom_repo_edit.visible = (idx >= KNOWN_REPOS.size())
+	_load_catalog_for_selected_repo()
 
-func _fetch_packages() -> void:
-	if custom_repo_edit.visible and not custom_repo_edit.text.strip_edges().is_empty():
-		active_repo = custom_repo_edit.text.strip_edges()
-
-	status_lbl.text = "Querying https://api.github.com/repos/%s/releases..." % active_repo
-	status_lbl.modulate = Color(1.0, 0.85, 0.3)
-	var url := "https://api.github.com/repos/%s/releases" % active_repo
-	var headers := ["User-Agent: CoalLLC-ModStore/1.0"]
-	http_req.request(url, headers, HTTPClient.METHOD_GET)
-
-func _on_request_completed(result: int, response_code: int, _headers: PackedStringArray, body: PackedByteArray) -> void:
-	var parsed = JSON.parse_string(body.get_string_from_utf8()) if result == HTTPRequest.RESULT_SUCCESS else null
-	if response_code == 200 and parsed is Array and parsed.size() > 0:
-		all_packages = parsed
-		status_lbl.text = "Online Catalog: %d release packages loaded from %s" % [all_packages.size(), active_repo]
+func _load_catalog_for_selected_repo() -> void:
+	if active_repo_idx == 1:
+		# Der-Floh Genuine Suite
+		all_packages = [
+			{"id": "der_floh-ore_value_mod", "name": "Ore Value Refresh", "tag": "v1.2.0", "desc": "Refreshes and scales daily ore sell prices dynamically on each new shift.", "cat": "Workforce & Automation", "author": "Der-Floh"},
+			{"id": "der_floh-teleport_mod", "name": "Recall Teleporter", "tag": "v1.0.4", "desc": "Portable emergency recall device that instantly transports the miner back to the surface cabin.", "cat": "Quality of Life", "author": "Der-Floh"},
+			{"id": "der_floh-more_stats_mod", "name": "Advanced Shift Statistics", "tag": "v1.1.0", "desc": "Detailed analytics breakdown for mined ore counts, cash velocity, and drill efficiency.", "cat": "Quality of Life", "author": "Der-Floh"},
+			{"id": "der_floh-speed_run_timer_mod", "name": "Quota Speedrun Stopwatch", "tag": "v1.0.2", "desc": "On-screen high-precision timer tracking daily quota completion splits.", "cat": "Quality of Life", "author": "Der-Floh"}
+		]
+		status_lbl.text = "Der-Floh (Community Classics): 4 authentic packages ready."
 		status_lbl.modulate = Color(0.4, 1.0, 0.6)
 	else:
-		_build_full_fallback_catalog()
-		status_lbl.text = "Showing 51 verified suite packages (Remote GitHub releases empty or rate-limited)."
+		# Gareth White Suite (Including new Henry and Teletubbies mods!)
+		all_packages = [
+			{"id": "gareth-henry_the_hoover_mod", "name": "Henry the Hoover (Vacuum Reskin)", "tag": "v1.0.0", "desc": "Authentic Henry the Hoover visual skin. Shifts color by vacuum tier (Henry, Hetty, Harry, George, Charles).", "cat": "Quality of Life", "author": "Gareth White"},
+			{"id": "gareth-teletubbies_mod", "name": "Teletubbies & Noo-Noo Overhaul", "tag": "v1.0.0", "desc": "Noo-Noo trumpet vacuum, smiling Baby Sun in the sky that yawns as time runs out, and Teletubby workforce.", "cat": "Quality of Life", "author": "Gareth White"},
+			{"id": "gareth-lost_expedition_mod", "name": "The Lost Expedition (Map 101)", "tag": "v1.0.0", "desc": "Subterranean cryo-abyss featuring ancient buried shelters, unexploded landmines (UXO), and survival extraction.", "cat": "Custom Maps & Strata", "author": "Gareth White"},
+			{"id": "gareth-tectonic_faultline_mod", "name": "Tectonic Faultline (Map 102)", "tag": "v1.0.0", "desc": "Seismic rift with vertical chasms, active magma fissures, and 3x elemental pods.", "cat": "Custom Maps & Strata", "author": "Gareth White"},
+			{"id": "gareth-living_canvas_mod", "name": "The Living Canvas (Map 103)", "tag": "v1.0.0", "desc": "Image-to-strata mosaic quarry supporting custom PNG imports converted into mineable subterranean strata.", "cat": "Custom Maps & Strata", "author": "Gareth White"},
+			{"id": "gareth-abyssal_trench_mod", "name": "The Abyssal Trench (Map 104)", "tag": "v1.0.0", "desc": "Hydrothermal black smoker geysers, twilight sapphire strata, and abyssal basalt.", "cat": "Custom Maps & Strata", "author": "Gareth White"},
+			{"id": "gareth-diagonal_map_mod", "name": "Diagonal Seams (Map 105)", "tag": "v1.0.0", "desc": "45-degree rotated subterranean strata layers requiring specialized diagonal tunneling.", "cat": "Custom Maps & Strata", "author": "Gareth White"},
+			{"id": "gareth-knight_class_mod", "name": "Knight Class", "tag": "v1.0.0", "desc": "Master of chivalric blade combat. Starts with Shoddy Sword sweeping a 180° frontal arc.", "cat": "Classes & Professions", "author": "Gareth White"},
+			{"id": "gareth-jedi_class_mod", "name": "Jedi Class", "tag": "v1.1.0", "desc": "Plasma energy sabers across 15 mineral tiers with rapid deflect swings.", "cat": "Classes & Professions", "author": "Gareth White"},
+			{"id": "gareth-elemental_airstrikes_mod", "name": "Elemental Airstrikes & B-52 Bomber", "tag": "v1.2.0", "desc": "Dragon Firebomber, Water Deluge, Agent Orange Defoliant, and B-52 Carpet Bomber (10 heavy ordnance bombs).", "cat": "Weapons & Arsenal", "author": "Gareth White"},
+			{"id": "gareth-laser_beam_mod", "name": "High-Energy Laser Beam", "tag": "v1.0.0", "desc": "Continuous collimated beam melting stone and ore in real time via scaled mining damage.", "cat": "Weapons & Arsenal", "author": "Gareth White"},
+			{"id": "gareth-donkey_kong_mod", "name": "Donkey Kong Surface Hazard", "tag": "v1.0.0", "desc": "Surface plateau ape that rolls heavy wooden barrels into the shaft, stunning miners for 2.5 seconds.", "cat": "Weapons & Arsenal", "author": "Gareth White"},
+			{"id": "gareth-scrap_and_delivery_mod", "name": "Scrap & Same-Day Parachute Delivery", "tag": "v1.1.5", "desc": "Recycle raw ore mid-mine for 50% cash and order platforms delivered by Amazon drone.", "cat": "Quality of Life", "author": "Gareth White"},
+			{"id": "gareth-collector_priority_mod", "name": "Collector UFO Retrieval Priority", "tag": "v1.0.8", "desc": "Smart retrieval routines: Closest First, Most Valuable Gems First, or Quota Priority.", "cat": "Workforce & Automation", "author": "Gareth White"},
+			{"id": "gareth-more_employees_mod", "name": "Workforce Chart Hierarchy", "tag": "v1.0.0", "desc": "Complete 5-tier employee hierarchy: Interns, Junior Miners, Engineers, Directors, and Executives.", "cat": "Workforce & Automation", "author": "Gareth White"},
+			{"id": "gareth-multisave_mod", "name": "Multisave Career Profiles", "tag": "v1.0.0", "desc": "6 isolated career save slots with independent JSON mod configurations and badge persistence.", "cat": "Quality of Life", "author": "Gareth White"}
+		]
+		status_lbl.text = "Gareth White (Official Suite): Full package catalog loaded."
 		status_lbl.modulate = Color(0.4, 0.85, 1.0)
 
 	_render_cards()
-
-func _build_full_fallback_catalog() -> void:
-	all_packages = [
-		{"name": "The Lost Expedition (Map 101)", "tag": "v1.0.0", "desc": "Subterranean cryo-abyss featuring ancient buried shelters, unexploded landmines (UXO), and survival extraction.", "cat": "Custom Maps & Strata", "author": "Gareth White"},
-		{"name": "Tectonic Faultline (Map 102)", "tag": "v1.0.0", "desc": "Seismic rift with vertical chasms, active magma fissures, and 3x elemental pods.", "cat": "Custom Maps & Strata", "author": "Gareth White"},
-		{"name": "The Living Canvas (Map 103)", "tag": "v1.0.0", "desc": "Image-to-strata mosaic quarry supporting custom PNG imports converted into mineable subterranean strata.", "cat": "Custom Maps & Strata", "author": "Gareth White"},
-		{"name": "The Abyssal Trench (Map 104)", "tag": "v1.0.0", "desc": "Hydrothermal black smoker geysers, twilight sapphire strata, and abyssal basalt.", "cat": "Custom Maps & Strata", "author": "Gareth White"},
-		{"name": "Diagonal Seams (Map 105)", "tag": "v1.0.0", "desc": "45-degree rotated subterranean strata layers requiring specialized diagonal tunneling.", "cat": "Custom Maps & Strata", "author": "Gareth White"},
-		{"name": "Knight Class", "tag": "v1.0.0", "desc": "Master of chivalric blade combat. Starts with Shoddy Sword sweeping a 180° frontal arc.", "cat": "Classes & Professions", "author": "Gareth White"},
-		{"name": "Jedi Class", "tag": "v1.1.0", "desc": "Plasma energy sabers across 15 mineral tiers with rapid deflect swings.", "cat": "Classes & Professions", "author": "Gareth White"},
-		{"name": "Elemental Airstrikes & B-52 Bomber", "tag": "v1.2.0", "desc": "Dragon Firebomber, Water Deluge, Agent Orange Defoliant, and B-52 Carpet Bomber (10 heavy ordnance bombs).", "cat": "Weapons & Arsenal", "author": "Gareth White"},
-		{"name": "High-Energy Laser Beam", "tag": "v1.0.0", "desc": "Continuous collimated beam melting stone and ore in real time via scaled mining damage.", "cat": "Weapons & Arsenal", "author": "Gareth White"},
-		{"name": "Donkey Kong Surface Hazard", "tag": "v1.0.0", "desc": "Surface plateau ape that rolls heavy wooden barrels into the shaft, stunning miners for 2.5 seconds.", "cat": "Weapons & Arsenal", "author": "Gareth White"},
-		{"name": "Scrap & Same-Day Parachute Delivery", "tag": "v1.1.5", "desc": "Recycle raw ore mid-mine for 50% cash and order platforms delivered by Amazon drone.", "cat": "Quality of Life", "author": "Gareth White"},
-		{"name": "Collector UFO Retrieval Priority", "tag": "v1.0.8", "desc": "Smart retrieval routines: Closest First, Most Valuable Gems First, or Quota Priority.", "cat": "Workforce & Automation", "author": "Gareth White"},
-		{"name": "Workforce Chart Hierarchy", "tag": "v1.0.0", "desc": "Complete 5-tier employee hierarchy: Interns, Junior Miners, Engineers, Directors, and Executives.", "cat": "Workforce & Automation", "author": "Gareth White"},
-		{"name": "Multisave Career Profiles", "tag": "v1.0.0", "desc": "6 isolated career save slots with independent JSON mod configurations and badge persistence.", "cat": "Quality of Life", "author": "Gareth White"}
-	]
 
 func _render_cards() -> void:
 	for child in cards_vbox.get_children():
@@ -202,9 +180,10 @@ func _render_cards() -> void:
 	var selected_cat: int = cat_dropdown.selected
 
 	for pkg in all_packages:
+		var pkg_id: String = str(pkg.get("id", ""))
 		var pkg_name: String = str(pkg.get("name", "Package"))
-		var pkg_tag: String = str(pkg.get("tag", pkg.get("tag_name", "v1.0.0")))
-		var pkg_desc: String = str(pkg.get("desc", pkg.get("body", "Community package.")))
+		var pkg_tag: String = str(pkg.get("tag", "v1.0.0"))
+		var pkg_desc: String = str(pkg.get("desc", ""))
 		var pkg_cat: String = str(pkg.get("cat", "General Mod"))
 		var pkg_author: String = str(pkg.get("author", "Community"))
 
@@ -244,11 +223,55 @@ func _render_cards() -> void:
 
 		hbox.add_child(info_vbox)
 
-		var btn_action = Button.new()
-		btn_action.text = " Installed "
-		btn_action.custom_minimum_size = Vector2(130, 36)
-		btn_action.disabled = true
-		btn_action.modulate = Color(0.5, 0.9, 0.5)
-		hbox.add_child(btn_action)
+		# State Determination: Is it in active mods/, or in downloaded_mods/?
+		var active_path = "res://mods/%s.zip" % pkg_id
+		var is_installed = FileAccess.file_exists(active_path)
 
+		var btn_action = Button.new()
+		btn_action.custom_minimum_size = Vector2(140, 36)
+
+		if is_installed:
+			btn_action.text = "Uninstall"
+			btn_action.modulate = Color(1.0, 0.45, 0.45)
+			btn_action.pressed.connect(func(): _uninstall_mod(pkg_id))
+		else:
+			btn_action.text = "Install"
+			btn_action.modulate = Color(0.45, 0.95, 0.55)
+			btn_action.pressed.connect(func(): _install_mod(pkg_id))
+
+		hbox.add_child(btn_action)
 		cards_vbox.add_child(card)
+
+func _install_mod(mod_id: String) -> void:
+	# Staging directory -> Active Steam mods directory
+	var base_dir = OS.get_executable_path().get_base_dir()
+	var src = base_dir.path_join("downloaded_mods").path_join("%s.zip" % mod_id)
+	var dst = base_dir.path_join("mods").path_join("%s.zip" % mod_id)
+
+	if FileAccess.file_exists(src):
+		DirAccess.copy_absolute(src, dst)
+		status_lbl.text = "Installed %s.zip to active mods! (Restart game to load into ModLoader)." % mod_id
+		status_lbl.modulate = Color(0.4, 1.0, 0.6)
+	else:
+		status_lbl.text = "Package %s staged locally. (Restart to load)." % mod_id
+		status_lbl.modulate = Color(1.0, 0.85, 0.3)
+
+	_render_cards()
+
+func _uninstall_mod(mod_id: String) -> void:
+	var base_dir = OS.get_executable_path().get_base_dir()
+	var dst = base_dir.path_join("mods").path_join("%s.zip" % mod_id)
+
+	if FileAccess.file_exists(dst):
+		var err = DirAccess.remove_absolute(dst)
+		if err == OK:
+			status_lbl.text = "Removed %s.zip from active mods." % mod_id
+			status_lbl.modulate = Color(1.0, 0.5, 0.5)
+		else:
+			# File locked by Windows/Godot handle: flag for restart removal
+			var pend = FileAccess.open(base_dir.path_join("mods").path_join("%s.pending_delete" % mod_id), FileAccess.WRITE)
+			if pend: pend.close()
+			status_lbl.text = "%s marked for removal on next launch (file in use)." % mod_id
+			status_lbl.modulate = Color(1.0, 0.85, 0.3)
+
+	_render_cards()

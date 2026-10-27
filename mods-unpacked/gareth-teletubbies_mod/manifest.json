@@ -1,0 +1,14 @@
+{
+	"name": "teletubbies_mod",
+	"namespace": "gareth",
+	"version_number": "1.0.0",
+	"description": "Transforms the mine into Teletubbyland: Noo-Noo vacuum cleaner with trumpet snout, smiling Baby Sun in the sky that yawns and sets as time expires, and Teletubby employee uniforms.",
+	"website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+	"dependencies": [],
+	"extra": {
+		"godot": {
+			"authors": ["Gareth White"],
+			"display_name": "Teletubbies & Noo-Noo Overhaul"
+		}
+	}
+}

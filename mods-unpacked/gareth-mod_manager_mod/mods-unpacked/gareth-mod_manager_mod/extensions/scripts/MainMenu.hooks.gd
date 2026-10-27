@@ -17,8 +17,8 @@ func _ready(chain: ModLoaderHookChain) -> void:
 		subtitle.offset_right = 250.0
 		subtitle.anchor_left = 0.5
 		subtitle.anchor_right = 0.5
-		subtitle.offset_top = 222.0
-		subtitle.offset_bottom = 248.0
+		subtitle.offset_top = 276.0
+		subtitle.offset_bottom = 302.0
 		menu.add_child(subtitle)
 
 	# 2. Main Menu Buttons Alignment & Store Entry
@@ -101,3 +101,4 @@ func on_profession_selected(chain: ModLoaderHookChain, mode: int, prof: Object, 
 	)
 
 	menu.add_child(view)
+
