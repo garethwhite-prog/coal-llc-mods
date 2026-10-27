@@ -1,8 +1,8 @@
 {
 	"name": "teletubbies_mod",
 	"namespace": "gareth",
-	"version_number": "1.0.0",
-	"description": "Transforms the mine into Teletubbyland: Noo-Noo vacuum cleaner with trumpet snout, smiling Baby Sun in the sky that yawns and sets as time expires, and Teletubby employee uniforms.",
+	"version_number": "1.0.5",
+	"description": "Transforms your mine into Teletubbyland! Replaces industrial nozzle with googly-eyed Noo-Noo, adds animated yawning Baby Sun who drops in the sky, and converts employees and drone collectors to Tinky Winky, Dipsy, Laa-Laa, and Po.",
 	"website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
 	"dependencies": [],
 	"extra": {

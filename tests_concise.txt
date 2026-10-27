@@ -3,14 +3,5 @@
   21: at: push_error (core/variant/variant_utility.cpp:1098)
 1013: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
 1079: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
-1088: SCRIPT ERROR: Trying to call an async function without "await".
-1093: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1095: ERROR: Child is not a child of this node.
-1097: SCRIPT ERROR: Trying to call an async function without "await".
-1104: ERROR: 1 RID allocations of type 'N10RendererRD12LightStorage11ShadowAtlasE' were leaked at exit.
-1105: ERROR: 1 RID allocations of type 'N10RendererRD14TextureStorage12RenderTargetE' were leaked at exit.
-1106: ERROR: 76 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-1107: ERROR: 1 RID allocations of type 'N16RendererViewport8ViewportE' were leaked at exit.
-1110: ERROR: 9 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
-1111: ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
-1114: ERROR: 183 resources still in use at exit (run with --verbose for details).
+1088: ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+1093: ERROR: 173 resources still in use at exit (run with --verbose for details).
