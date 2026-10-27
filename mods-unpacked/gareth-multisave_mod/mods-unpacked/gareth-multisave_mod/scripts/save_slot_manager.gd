@@ -150,17 +150,6 @@ func _generate_slot_meta(slot_id: int) -> void:
 	if file:
 		file.store_string(JSON.stringify(meta_data, "\t"))
 		file.close()
-func is_mod_active_for_run(mod_key: String) -> bool:
-	var slot_id = get_current_slot_id() if has_method("get_current_slot_id") else 1
-	var slot_cfg_path = "user://profile_mods_slot_%d.json" % slot_id
-	if FileAccess.file_exists(slot_cfg_path):
-		var f = FileAccess.open(slot_cfg_path, FileAccess.READ)
-		if f:
-			var parsed = JSON.parse_string(f.get_as_text())
-			if parsed is Dictionary and parsed.has("mods"):
-				return bool(parsed["mods"].get(mod_key, true))
-	return true
-
 func set_active_slot_mods(cfg: Dictionary) -> void:
 	var slot_id = get_current_slot_id() if has_method("get_current_slot_id") else 1
 	var slot_cfg_path = "user://profile_mods_slot_%d.json" % slot_id

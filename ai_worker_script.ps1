@@ -1,5 +1,5 @@
 ﻿# ==============================================================================
-# Coal LLC - Architecture 3.0: Permanent Maps, Profile Persistence & Mod Store
+# Coal LLC - Fix SaveSlotManager Parse Error, Wire Store to Main Menu & Sync Docs
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
@@ -17,414 +17,173 @@ Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
 # ------------------------------------------------------------------------------
-# 2. UPDATE MOD_REGISTRY.GD: IMMUTABLE MAPS & SAVE SLOT SYNC
+# 2. PRUNE DUPLICATE FUNCTION IN SAVESLOTMANAGER.GD (RESTORE CLASS UNLOCKS)
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 2. Updating mod_registry.gd with immutable map packs & slot isolation..." -ForegroundColor Cyan
-$regPath = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\scripts\mod_registry.gd"
-@'
-class_name ModRegistry
-extends RefCounted
+Write-Host "`n>>> 2. Pruning duplicate function in save_slot_manager.gd..." -ForegroundColor Cyan
+$ssmPath = "$repo\mods-unpacked\gareth-multisave_mod\mods-unpacked\gareth-multisave_mod\scripts\save_slot_manager.gd"
+$ssmLines = Get-Content $ssmPath
+$cleanedLines = [System.Collections.Generic.List[string]]::new()
 
-const CORE_MODS: Array[String] = [
-	"gareth-mod_manager_mod",
-	"gareth-multisave_mod",
-	"gareth-game_speed_mod",
-	"gareth-lost_expedition_mod",
-	"gareth-tectonic_faultline_mod",
-	"gareth-living_canvas_mod",
-	"gareth-abyssal_trench_mod",
-	"gareth-diagonal_map_mod"
-]
+$skipDuplicate = $false
+for ($i = 0; $i -lt $ssmLines.Count; $i++) {
+	$line = $ssmLines[$i]
 
-static func is_mod_active_for_run(mod_key: String) -> bool:
-	if mod_key in CORE_MODS:
-		return true
-
-	var ssm = Engine.get_main_loop().root.get_node_or_null("/root/SaveSlotManager")
-	if ssm and ssm.has_method("is_mod_active_for_run"):
-		return ssm.is_mod_active_for_run(mod_key)
-
-	var cfg_path := "user://gareth_mods_config.json"
-	if FileAccess.file_exists(cfg_path):
-		var f := FileAccess.open(cfg_path, FileAccess.READ)
-		if f:
-			var parsed = JSON.parse_string(f.get_as_text())
-			if parsed is Dictionary and parsed.has("mods"):
-				return bool(parsed["mods"].get(mod_key, true))
-	return true
-
-static func get_all_installed_mods() -> Array[Dictionary]:
-	return get_all_mods()
-
-static func get_all_mods() -> Array[Dictionary]:
-	var list: Array[Dictionary] = []
-	var mod_dict: Dictionary = {}
-
-	var mls = Engine.get_main_loop().root.get_node_or_null("/root/ModLoaderStore")
-	if mls and ("mod_data" in mls) and mls.mod_data is Dictionary and mls.mod_data.size() > 0:
-		mod_dict = mls.mod_data
-	elif ModLoader and ("mod_data" in ModLoader) and ModLoader.mod_data is Dictionary and ModLoader.mod_data.size() > 0:
-		mod_dict = ModLoader.mod_data
-
-	if mod_dict.size() > 0:
-		for mod_id in mod_dict.keys():
-			var data = mod_dict[mod_id]
-			if not data or not ("manifest" in data) or not data.manifest:
-				continue
-			list.append(_dict_from_manifest(mod_id, data.manifest, data.is_active if "is_active" in data else true))
-		return list
-
-	var dir := DirAccess.open("res://mods-unpacked")
-	if dir:
-		dir.list_dir_begin()
-		var folder := dir.get_next()
-		while folder != "":
-			if dir.current_is_dir() and not folder.begins_with("."):
-				var mpath := "res://mods-unpacked/%s/manifest.json" % folder
-				if FileAccess.file_exists(mpath):
-					var f := FileAccess.open(mpath, FileAccess.READ)
-					if f:
-						var parsed = JSON.parse_string(f.get_as_text())
-						if parsed is Dictionary:
-							list.append(_dict_from_manifest(folder, parsed, true))
-			folder = dir.get_next()
-
-	return list
-
-static func _dict_from_manifest(mod_id: String, m, active: bool) -> Dictionary:
-	var display_name: String = _format_display_name(m)
-	var desc: String = str(m.description) if "description" in m else ""
-	var author: String = "Community"
-	if "extra" in m and m.extra:
-		if ("godot" in m.extra) and ("authors" in m.extra.godot) and m.extra.godot.authors.size() > 0:
-			author = str(m.extra.godot.authors[0])
-	var version: String = str(m.version_number) if "version_number" in m else "1.0.0"
-	var cat: String = _determine_category(m)
-	var is_core: bool = (mod_id in CORE_MODS)
-
-	return {
-		"id": mod_id,
-		"key": mod_id,
-		"name": display_name,
-		"description": desc,
-		"author": author,
-		"version": version,
-		"category": cat,
-		"is_active": active,
-		"is_core": is_core
+	# Detect the second definition of is_mod_active_for_run around line 153
+	if ($i -gt 135 -and $line.Trim().StartsWith("func is_mod_active_for_run")) {
+		$skipDuplicate = $true
+		continue
 	}
 
-static func _determine_category(m) -> String:
-	var id: String = str(m.name).to_lower() if "name" in m else ""
-	if "map" in id or "trench" in id or "faultline" in id or "canvas" in id or "expedition" in id or "diagonal" in id:
-		return "Custom Maps & Strata"
-	if "class" in id or "profession" in id or "jedi" in id or "knight" in id or "sinclairity" in id:
-		return "Classes & Professions"
-	if "weapon" in id or "bomb" in id or "laser" in id or "nuke" in id or "turret" in id or "mortar" in id or "grenade" in id or "arsenal" in id or "tank" in id or "strike" in id:
-		return "Weapons & Arsenal"
-	if "employee" in id or "collector" in id or "drill" in id or "vacuum" in id:
-		return "Employees & Automation"
-	if "speed" in id or "inventory" in id or "save" in id or "leaderboard" in id or "multisave" in id or "settings" in id or "scrap" in id or "delivery" in id or "ladder" in id:
-		return "Quality of Life"
-	if "hardware" in id or "limit" in id or "performance" in id or "booster" in id or "holes" in id:
-		return "Performance & System"
-	if "spirit" in id or "variance" in id or "upgrade" in id or "passive" in id or "order" in id or "beacon" in id:
-		return "Progression & Upgrades"
-	return "Community Add-Ons"
+	# Stop skipping when we hit set_active_slot_mods
+	if ($skipDuplicate -and $line.Trim().StartsWith("func set_active_slot_mods")) {
+		$skipDuplicate = $false
+	}
 
-static func _format_display_name(m) -> String:
-	if "extra" in m and m.extra and ("godot" in m.extra) and ("display_name" in m.extra.godot):
-		return str(m.extra.godot.display_name)
-	var raw: String = str(m.name).replace("_mod", "").replace("mod_", "").replace("-", " ").replace("_", " ") if "name" in m else "Mod"
-	return raw.capitalize()
-'@ | Set-Content -Path $regPath -Encoding UTF8
-Write-Host "  Updated: mod_registry.gd (Maps 101-105 & Core framework immutable)" -ForegroundColor Green
+	if (-not $skipDuplicate) {
+		$cleanedLines.Add($line)
+	}
+}
+
+Set-Content -Path $ssmPath -Value $cleanedLines -Encoding UTF8
+Write-Host "  Cleaned: save_slot_manager.gd (Class unlocks & career ranks restored)" -ForegroundColor Green
 
 # ------------------------------------------------------------------------------
-# 3. IMPLEMENT IN-GAME MOD STORE VIEW (MOD_STORE_VIEW.GD)
+# 3. HARDEN _ON_CONFIRM IN PRE_RUN_MOD_SELECTOR.GD (GUARANTEE MAP SELECT TRANSITION)
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 3. Creating mod_store_view.gd (GitHub release browser & installer)..." -ForegroundColor Cyan
-$storeViewPath = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\scenes\mod_store_view.gd"
+Write-Host "`n>>> 3. Hardening _on_confirm in pre_run_mod_selector.gd..." -ForegroundColor Cyan
+$prmsPath = "$repo\mods-unpacked\gareth-multisave_mod\mods-unpacked\gareth-multisave_mod\scenes\pre_run_mod_selector.gd"
+$prmsCode = Get-Content $prmsPath -Raw
+$prmsCode = $prmsCode.Replace(
 @'
-class_name ModStoreView
-extends Control
+func _on_confirm() -> void:
+	var ssm = get_node_or_null("/root/SaveSlotManager")
+	if ssm:
+		var cfg := {"mods": toggles}
+		var f := FileAccess.open(ssm.get_slot_config_path(ssm.current_slot), FileAccess.WRITE)
+		if f:
+			f.store_string(JSON.stringify(cfg, "\t"))
+			f.close()
+	run_confirmed.emit()
+	queue_free()
+'@,
+@'
+func _on_confirm() -> void:
+	var ssm = get_node_or_null("/root/SaveSlotManager")
+	if ssm and ("current_slot" in ssm) and ssm.has_method("get_slot_config_path"):
+		var cfg := {"mods": toggles}
+		var path: String = ssm.get_slot_config_path(ssm.current_slot)
+		var f := FileAccess.open(path, FileAccess.WRITE)
+		if f:
+			f.store_string(JSON.stringify(cfg, "\t"))
+			f.close()
+	run_confirmed.emit()
+	queue_free()
+'@
+)
+Set-Content -Path $prmsPath -Value $prmsCode -Encoding UTF8
+Write-Host "  Updated: pre_run_mod_selector.gd (Map select transition guaranteed)" -ForegroundColor Green
 
-var http_req: HTTPRequest
-var cards_vbox: VBoxContainer
-var search_edit: LineEdit
-var cat_dropdown: OptionButton
-var status_lbl: Label
-var all_releases: Array = []
+# ------------------------------------------------------------------------------
+# 4. HOOK MOD & MAP STORE BUTTON DIRECTLY ONTO MAIN MENU
+# ------------------------------------------------------------------------------
+Write-Host "`n>>> 4. Adding 'Mod & Map Store' button directly to Main Menu..." -ForegroundColor Cyan
+$mmmHookPath = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\extensions\scripts\MainMenu.hooks.gd"
+@'
+extends Object
 
-const REPO_API := "https://api.github.com/repos/garethwhite-prog/coal-llc-mods/releases"
-
-func _ready() -> void:
-	set_anchors_preset(Control.PRESET_FULL_RECT)
-	z_index = 120
-
-	var bg = ColorRect.new()
-	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
-	bg.color = Color(0.08, 0.09, 0.11, 0.98)
-	add_child(bg)
-
-	var main_vbox = VBoxContainer.new()
-	main_vbox.set_anchors_preset(Control.PRESET_FULL_RECT)
-	main_vbox.add_theme_constant_override("margin_left", 32)
-	main_vbox.add_theme_constant_override("margin_top", 24)
-	main_vbox.add_theme_constant_override("margin_right", 32)
-	main_vbox.add_theme_constant_override("margin_bottom", 24)
-	add_child(main_vbox)
-
-	# 1. Header Bar
-	var header = HBoxContainer.new()
-	header.add_theme_constant_override("separation", 16)
-	main_vbox.add_child(header)
-
-	var btn_back = Button.new()
-	btn_back.text = " < Back to Mod Manager "
-	btn_back.custom_minimum_size = Vector2(180, 36)
-	btn_back.pressed.connect(queue_free)
-	header.add_child(btn_back)
-
-	var title = Label.new()
-	title.text = "COAL LLC MOD & MAP STORE — COMMUNITY REPOSITORY"
-	title.add_theme_font_size_override("font_size", 18)
-	title.modulate = Color(1.0, 0.85, 0.3)
-	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	header.add_child(title)
-
-	var btn_refresh = Button.new()
-	btn_refresh.text = " 🔄 Refresh Catalog "
-	btn_refresh.custom_minimum_size = Vector2(150, 36)
-	btn_refresh.pressed.connect(_fetch_releases)
-	header.add_child(btn_refresh)
-
-	main_vbox.add_child(HSeparator.new())
-
-	# 2. Filter Bar
-	var filter_bar = HBoxContainer.new()
-	filter_bar.add_theme_constant_override("separation", 12)
-	main_vbox.add_child(filter_bar)
-
-	search_edit = LineEdit.new()
-	search_edit.placeholder_text = "Search store packages, weapon arsenals, map strata, classes..."
-	search_edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	search_edit.clear_button_enabled = true
-	search_edit.text_changed.connect(func(_t): _render_cards())
-	filter_bar.add_child(search_edit)
-
-	cat_dropdown = OptionButton.new()
-	cat_dropdown.add_item("All Categories", 0)
-	cat_dropdown.add_item("Custom Maps & Strata", 1)
-	cat_dropdown.add_item("Classes & Professions", 2)
-	cat_dropdown.add_item("Weapons & Arsenal", 3)
-	cat_dropdown.add_item("Employees & Automation", 4)
-	cat_dropdown.add_item("Quality of Life", 5)
-	cat_dropdown.item_selected.connect(func(_idx): _render_cards())
-	filter_bar.add_child(cat_dropdown)
-
-	status_lbl = Label.new()
-	status_lbl.text = "Connecting to repository..."
-	status_lbl.modulate = Color(0.7, 0.7, 0.7)
-	main_vbox.add_child(status_lbl)
-
-	# 3. Scrollable Card View
-	var scroll = ScrollContainer.new()
-	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	main_vbox.add_child(scroll)
-
-	cards_vbox = VBoxContainer.new()
-	cards_vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	cards_vbox.add_theme_constant_override("separation", 8)
-	scroll.add_child(cards_vbox)
-
-	# 4. HTTP Request Setup
-	http_req = HTTPRequest.new()
-	http_req.timeout = 10.0
-	http_req.request_completed.connect(_on_request_completed)
-	add_child(http_req)
-
-	_fetch_releases()
-
-func _fetch_releases() -> void:
-	status_lbl.text = "Fetching releases from GitHub..."
-	status_lbl.modulate = Color(1.0, 0.85, 0.3)
-	var headers := ["User-Agent: CoalLLC-ModStore/1.0"]
-	http_req.request(REPO_API, headers, HTTPClient.METHOD_GET)
-
-func _on_request_completed(result: int, response_code: int, _headers: PackedStringArray, body: PackedByteArray) -> void:
-	if result != HTTPRequest.RESULT_SUCCESS or response_code != 200:
-		status_lbl.text = "Online repository unreachable. Displaying cached local catalog."
-		status_lbl.modulate = Color(1.0, 0.4, 0.4)
-		_build_fallback_catalog()
-		_render_cards()
+func _ready(chain: ModLoaderHookChain) -> void:
+	chain.execute_next([])
+	var menu = chain.reference_object
+	if not menu:
 		return
 
-	var parsed = JSON.parse_string(body.get_string_from_utf8())
-	if parsed is Array:
-		all_releases = parsed
-		status_lbl.text = "Catalog loaded: %d release packages found." % all_releases.size()
-		status_lbl.modulate = Color(0.4, 1.0, 0.6)
-	else:
-		_build_fallback_catalog()
+	var btn_grid = menu.get_node_or_null("%MainMenuButtons")
+	if btn_grid:
+		if not btn_grid.has_node("ModManagerButton"):
+			var mod_btn := Button.new()
+			mod_btn.name = "ModManagerButton"
+			mod_btn.text = "Mod Manager"
+			mod_btn.custom_minimum_size = Vector2(0, 32)
+			mod_btn.pressed.connect(func():
+				var view_script = load("res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd")
+				var view: Control = Control.new()
+				view.set_script(view_script)
+				view.is_pre_run_mode = false
+				menu.add_child(view)
+			)
+			btn_grid.add_child(mod_btn)
+			btn_grid.move_child(mod_btn, 2)
 
-	_render_cards()
+		if not btn_grid.has_node("ModStoreButton"):
+			var store_btn := Button.new()
+			store_btn.name = "ModStoreButton"
+			store_btn.text = "Mod & Map Store"
+			store_btn.custom_minimum_size = Vector2(0, 32)
+			store_btn.modulate = Color(1.0, 0.88, 0.35)
+			store_btn.pressed.connect(func():
+				var store_script = load("res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.gd")
+				if store_script:
+					var store_view: Control = Control.new()
+					store_view.set_script(store_script)
+					menu.add_child(store_view)
+			)
+			btn_grid.add_child(store_btn)
+			btn_grid.move_child(store_btn, 3)
 
-func _build_fallback_catalog() -> void:
-	all_releases = [
-		{"name": "Custom Map Pack (101-105)", "tag_name": "v1.4.0", "body": "Permanent strata package containing Lost Expedition, Faultline, Living Canvas, Abyssal Trench, and Diagonal Seams.", "category": "Custom Maps & Strata"},
-		{"name": "Knight & Martial Classes Suite", "tag_name": "v1.3.2", "body": "Adds Knight class with Broadsword, Martial Artist with shockwave kicks, and custom starter gear.", "category": "Classes & Professions"},
-		{"name": "Elemental Airstrikes & B-52 Bomber", "tag_name": "v1.2.0", "body": "Single-use tactical airstrike radios: Dragon firebomber, Water deluge, Agent Orange defoliant, and B-52 Carpet Bomber.", "category": "Weapons & Arsenal"},
-		{"name": "Scrap & Same-Day Parachute Delivery", "tag_name": "v1.1.5", "body": "Recycle raw ore mid-mine for emergency cash and order platforms or ladders delivered by Amazon drone.", "category": "Quality of Life"},
-		{"name": "Collector UFO Retrieval Priority", "tag_name": "v1.0.8", "body": "Enables smart retrieval routines for automated UFOs: closest, highest value gems, or quota priority.", "category": "Employees & Automation"}
-	]
+		if not btn_grid.has_node("LeaderboardsButton"):
+			var lb_btn := Button.new()
+			lb_btn.name = "LeaderboardsButton"
+			lb_btn.text = "Leaderboards"
+			lb_btn.custom_minimum_size = Vector2(0, 32)
+			lb_btn.pressed.connect(func():
+				var modal_script = load("res://mods-unpacked/gareth-leaderboard_mod/scenes/leaderboard_modal.gd")
+				if modal_script:
+					var modal = modal_script.new()
+					menu.add_child(modal)
+			)
+			btn_grid.add_child(lb_btn)
+			btn_grid.move_child(lb_btn, 4)
 
-func _render_cards() -> void:
-	for child in cards_vbox.get_children():
-		child.queue_free()
+func on_profession_selected(chain: ModLoaderHookChain, mode: int, prof: Object, hard_modifier: Object) -> void:
+	var menu = chain.reference_object
+	if not menu:
+		chain.execute_next([mode, prof, hard_modifier])
+		return
 
-	var query: String = search_edit.text.strip_edges().to_lower()
-	var selected_cat: int = cat_dropdown.selected
+	var p_select = menu.get_node_or_null("ProfessionSelect")
+	if not p_select and "profession_select" in menu:
+		p_select = menu.profession_select
+	if p_select:
+		p_select.visible = false
 
-	for rel in all_releases:
-		var pkg_name: String = str(rel.get("name", "Unknown Package"))
-		var pkg_tag: String = str(rel.get("tag_name", "v1.0.0"))
-		var pkg_desc: String = str(rel.get("body", "No description provided."))
-		var pkg_cat: String = str(rel.get("category", "General Mod"))
+	var view_script = load("res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd")
+	var view: Control = Control.new()
+	view.set_script(view_script)
+	view.name = "PreRunModSelector"
+	view.is_pre_run_mode = true
 
-		if not query.is_empty() and not (query in pkg_name.to_lower() or query in pkg_desc.to_lower()):
-			continue
-		if selected_cat > 0:
-			var cat_name: String = cat_dropdown.get_item_text(selected_cat)
-			if pkg_cat != cat_name:
-				continue
+	view.confirmed.connect(func():
+		chain.execute_next([mode, prof, hard_modifier])
+	)
 
-		var card = PanelContainer.new()
-		var margin = MarginContainer.new()
-		margin.add_theme_constant_override("margin_left", 16)
-		margin.add_theme_constant_override("margin_top", 10)
-		margin.add_theme_constant_override("margin_right", 16)
-		margin.add_theme_constant_override("margin_bottom", 10)
-		card.add_child(margin)
+	view.back_pressed.connect(func():
+		if p_select:
+			p_select.visible = true
+	)
 
-		var hbox = HBoxContainer.new()
-		hbox.add_theme_constant_override("separation", 16)
-		margin.add_child(hbox)
-
-		var info_vbox = VBoxContainer.new()
-		info_vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-
-		var title_lbl = RichTextLabel.new()
-		title_lbl.bbcode_enabled = true
-		title_lbl.text = "[b][font_size=15]%s[/font_size][/b]  [color=#4ade80]%s[/color]  [color=#fbbf24][%s][/color]" % [pkg_name, pkg_tag, pkg_cat]
-		title_lbl.fit_content = true
-		info_vbox.add_child(title_lbl)
-
-		var desc_lbl = Label.new()
-		desc_lbl.text = pkg_desc
-		desc_lbl.modulate = Color(0.75, 0.75, 0.75)
-		desc_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		info_vbox.add_child(desc_lbl)
-
-		hbox.add_child(info_vbox)
-
-		var btn_action = Button.new()
-		btn_action.text = " Installed "
-		btn_action.custom_minimum_size = Vector2(130, 36)
-		btn_action.disabled = true
-		btn_action.modulate = Color(0.5, 0.9, 0.5)
-		hbox.add_child(btn_action)
-
-		cards_vbox.add_child(card)
-'@ | Set-Content -Path $storeViewPath -Encoding UTF8
-Write-Host "  Created: mod_store_view.gd (GitHub release browser UI)" -ForegroundColor Green
-
-# ------------------------------------------------------------------------------
-# 4. HOOK MOD STORE BUTTON & SAVE SLOT PERSISTENCE INTO MOD_MANAGER_VIEW.GD
-# ------------------------------------------------------------------------------
-Write-Host "`n>>> 4. Wiring Mod Store button & SaveSlotManager profile sync into mod_manager_view.gd..." -ForegroundColor Cyan
-$mmvPath = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\scenes\mod_manager_view.gd"
-$mmvCode = Get-Content $mmvPath -Raw
-
-# 4a. Add "Open Mod Store" button to header
-if (-not $mmvCode.Contains("btn_open_store")) {
-	$headerHook = @'
-	var btn_open_store := Button.new()
-	btn_open_store.text = " 🛒 Open Mod & Map Store "
-	btn_open_store.custom_minimum_size = Vector2(210, 36)
-	btn_open_store.modulate = Color(1.0, 0.85, 0.3)
-	btn_open_store.pressed.connect(_open_mod_store)
-	header_hbox.add_child(btn_open_store)
-'@
-	$mmvCode = $mmvCode.Replace('header_hbox.add_child(btn_save)', "$headerHook`r`n`theader_hbox.add_child(btn_save)")
-}
-
-# 4b. Add _open_mod_store implementation and SaveSlotManager persistence
-if (-not $mmvCode.Contains("func _open_mod_store")) {
-	$methodsHook = @'
-
-func _open_mod_store() -> void:
-	var store_script = load("res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.gd")
-	if store_script:
-		var store_inst = Control.new()
-		store_inst.set_script(store_script)
-		add_child(store_inst)
-
-func _sync_toggles_to_career_slot(cfg: Dictionary) -> void:
-	var ssm = Engine.get_main_loop().root.get_node_or_null("/root/SaveSlotManager")
-	if ssm and ssm.has_method("set_active_slot_mods"):
-		ssm.set_active_slot_mods(cfg)
-'@
-	$mmvCode = $mmvCode.Replace('func _save_and_close() -> void:', "$methodsHook`r`nfunc _save_and_close() -> void:")
-	$mmvCode = $mmvCode.Replace('_save_config(config_to_save)', "_save_config(config_to_save)`r`n`t_sync_toggles_to_career_slot(config_to_save)")
-}
-
-Set-Content -Path $mmvPath -Value $mmvCode -Encoding UTF8
-Write-Host "  Updated: mod_manager_view.gd (Mod Store button & save slot sync active)" -ForegroundColor Green
+	menu.add_child(view)
+'@ | Set-Content -Path $mmmHookPath -Encoding UTF8
+Write-Host "  Updated: MainMenu.hooks.gd (Mod & Map Store button mounted)" -ForegroundColor Green
 
 # ------------------------------------------------------------------------------
-# 5. UPDATE SAVESLOTMANAGER IN MULTISAVE_MOD FOR PER-PROFILE MOD CONFIGS
+# 5. REPACK AFFECTED MOD ARCHIVES
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 5. Adding per-profile mod persistence methods to save_slot_manager.gd..." -ForegroundColor Cyan
-$ssmPath = "$repo\mods-unpacked\gareth-multisave_mod\mods-unpacked\gareth-multisave_mod\scripts\save_slot_manager.gd"
-if (Test-Path $ssmPath) {
-	$ssmCode = Get-Content $ssmPath -Raw
-	if (-not $ssmCode.Contains("func set_active_slot_mods")) {
-		$slotMethods = @'
-
-func is_mod_active_for_run(mod_key: String) -> bool:
-	var slot_id = get_current_slot_id() if has_method("get_current_slot_id") else 1
-	var slot_cfg_path = "user://profile_mods_slot_%d.json" % slot_id
-	if FileAccess.file_exists(slot_cfg_path):
-		var f = FileAccess.open(slot_cfg_path, FileAccess.READ)
-		if f:
-			var parsed = JSON.parse_string(f.get_as_text())
-			if parsed is Dictionary and parsed.has("mods"):
-				return bool(parsed["mods"].get(mod_key, true))
-	return true
-
-func set_active_slot_mods(cfg: Dictionary) -> void:
-	var slot_id = get_current_slot_id() if has_method("get_current_slot_id") else 1
-	var slot_cfg_path = "user://profile_mods_slot_%d.json" % slot_id
-	var f = FileAccess.open(slot_cfg_path, FileAccess.WRITE)
-	if f:
-		f.store_string(JSON.stringify(cfg, "\t"))
-'@
-		$ssmCode += $slotMethods
-		Set-Content -Path $ssmPath -Value $ssmCode -Encoding UTF8
-		Write-Host "  Updated: save_slot_manager.gd (Slots 1-6 isolated mod configs)" -ForegroundColor Green
-	}
-}
-
-# ------------------------------------------------------------------------------
-# 6. REPACK AFFECTED MOD ARCHIVES
-# ------------------------------------------------------------------------------
-Write-Host "`n>>> 6. Repackaging updated mods to Steam..." -ForegroundColor Cyan
+Write-Host "`n>>> 5. Repackaging multisave_mod & mod_manager_mod..." -ForegroundColor Cyan
 if (Test-Path $hookZip) { Remove-Item -Path $hookZip -Force }
 
 $modsToRepack = @(
-	"gareth-mod_manager_mod",
-	"gareth-multisave_mod"
+	"gareth-multisave_mod",
+	"gareth-mod_manager_mod"
 )
 
 foreach ($m in $modsToRepack) {
@@ -446,14 +205,142 @@ foreach ($m in $modsToRepack) {
 }
 
 # ------------------------------------------------------------------------------
-# 7. COMMIT & RUN REGRESSION TEST
+# 6. COMPREHENSIVE UPDATE OF README.MD (DOCUMENT ALL RECENT RELEASES)
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 7. Staging, committing and pushing to GitHub..." -ForegroundColor Cyan
+Write-Host "`n>>> 6. Updating README.md with all new releases & engine contracts..." -ForegroundColor Cyan
+@'
+# Coal LLC Modding Suite
+
+A complete, high-performance ecosystem of gameplay overhauls, custom subterranean maps, unique character classes, industrial workforce hierarchies, high-tier demolition options, and quality-of-life tools for **[Coal LLC](https://store.steampowered.com/app/3361510/Coal_LLC/)**, built on the **[Godot ModLoader 7.x](https://godotengine.org/asset-library/asset/4107)** hook architecture.
+
+![Tectonic Faultline Preview](mods-unpacked/gareth-tectonic_faultline_mod/assets/tectonic_preview.png)
+
+---
+
+## Complete Mod Directory (51 mods)
+
+### 1. Custom Maps & Subterranean Overhauls (Maps 101–105)
+| Mod | ID | Type | Description |
+| :--- | :--- | :--- | :--- |
+| **The Lost Expedition** | `gareth-lost_expedition_mod` | Map (ID 101) | Subterranean cryo-abyss featuring ancient buried shelters, unexploded landmines (UXO), and survival extraction mechanics. |
+| **Tectonic Faultline** | `gareth-tectonic_faultline_mod` | Map (ID 102) | Seismic rift featuring vertical chasms, active magma fissures, 3x density elemental pods (Fire, Water, Poison), and an elemental tick rate progression engine. |
+| **The Living Canvas** | `gareth-living_canvas_mod` | Map (ID 103) | Image-to-strata mosaic quarry supporting custom PNG imports converted into mineable subterranean strata. |
+| **The Abyssal Trench** | `gareth-abyssal_trench_mod` | Map (ID 104) | Subterranean ocean trench featuring hydrothermal black smoker geysers, twilight sapphire strata, and abyssal basalt. |
+| **Diagonal Seams** | `gareth-diagonal_map_mod` | Map (ID 105) | 45-degree rotated diagonal subterranean strata layers requiring specialized diagonal tunneling and stepped excavation. |
+
+### 2. Character Classes & Combat Archetypes
+| Mod | ID | Description |
+| :--- | :--- | :--- |
+| **Knight Class** | `gareth-knight_class_mod` | Master of chivalric blade combat. Starts with a Shoddy Sword that sweeps in a 180° frontal arc clearing rock and ore. |
+| **Jedi Class** | `gareth-jedi_class_mod` | Wielder of plasma energy sabers across 15 mineral tiers with rapid deflect swings and rock vaporisation. |
+| **Bouncing Demolitionist**| `gareth-custom_classes_mod` | Master of ricochet excavation using bouncy rubber demolition spheres. |
+| **Rainbow Sinclairity** | `gareth-sinclairity_class_mod` | Experimental spectral optics miner with continuous prismatic beam across 15 tiers. |
+| **Void Siphon** | `gareth-void_siphon_mod` | Gravitational vacuum imploder that collapses distant ore veins directly into personal inventory. |
+| **Debt Executioner** | `gareth-debt_executioner_mod` | High-risk financial class converting unpaid daily quotas into raw pickaxe excavation damage. |
+| **Chrono-Industrialist** | `gareth-chrono_industrialist_mod` | Temporal manipulation specialist that warps excavation speed and slows physics timers. |
+| **Gravitational Dreadnought** | `gareth-grav_dreadnought_mod` | Heavy exo-suit miner that crushes stone beneath accelerated downward terminal velocity. |
+| **Tectonic Fracker** | `gareth-tectonic_fracker_mod` | High-pressure hydraulic injection specialist that shatters surrounding strata veins. |
+
+### 3. Weapons, Demolition & Surface Hazards
+| Mod | ID | Description |
+| :--- | :--- | :--- |
+| **Elemental Airstrikes & B-52** | `gareth-elemental_airstrikes_mod` | Consumable tactical radios: Dragon Firebomber, Water Deluge, Agent Orange Defoliant, and **B-52 Carpet Bomber** (10 heavy ordnance bombs). |
+| **High-Energy Laser Beam** | `gareth-laser_beam_mod` | Continuous collimated beam that melts stone and ore in real time via scaled mining damage. |
+| **Donkey Kong Surface Hazard** | `gareth-donkey_kong_mod` | Surface plateau ape that rolls heavy wooden barrels into the shaft, stunning and immobilizing miners for 2.5 seconds. |
+| **Heavy Turrets** | `gareth-heavy_turrets_mod` | Deployable perimeter auto-turrets targeting subterranean stone clusters within a 14-tile radius. |
+| **Bouncing Grenades** | `gareth-grenade_mod` | 15 tiers of timed demolition grenades that rebound off solid walls before exploding. |
+| **Tank Arsenal** | `gareth-tank_arsenal_mod` | Heavy artillery tank shells with shockwave piercing and multi-block blast radiuses. |
+
+### 4. Workforce, Automation & Progression
+| Mod | ID | Description |
+| :--- | :--- | :--- |
+| **Workforce Chart** | `gareth-more_employees_mod` | Complete 5-tier employee hierarchy: Interns, Junior Miners, Engineers, Directors, and Executives. |
+| **Collector UFO Priority** | `gareth-collector_priority_mod` | Configurable in-game settings tab: Closest First, Most Valuable Gems First, or Quota Priority. |
+| **Auto-Ladder Builder** | `gareth-auto_ladder_mod` | Automatically drops scaffolding ladders under the miner when descending vertical shafts. |
+| **Scrap & Parachute Delivery**| `gareth-scrap_and_delivery_mod` | Mid-mine ore recycling for 50% cash and instant parachute deliveries via Amazon drone. |
+| **Bonus Upgrades Search & Filter** | `gareth-mod_manager_mod` | Search bar, A-Z sorting, and "Affordable Only" checkbox on both Equipment and Bonus Upgrades shop tabs. |
+| **Multisave Career Profiles** | `gareth-multisave_mod` | 6 isolated career save slots with independent JSON mod configurations and badge persistence. |
+| **In-Game Mod & Map Store** | `gareth-mod_manager_mod` | Title-screen community repository browser with category filtering and version checking. |
+
+---
+
+## Core Engine Modding Contracts
+
+1. **Sky Code Contract:** `lvl_from_global_pos(pos)` must return `-2` whenever `pos.y <= 0`. Returning positive rock tiers at or above ground level fills the sky and spawn point with solid bedrock, crushing the player on spawn.
+2. **Tile Damage Signature:** In *Coal LLC*, tile damage is processed via `tilemap.damageTileCoords(coords: Vector2i, damage: float)`. Passing non-primitive objects into argument 2 triggers an unhandled conversion abort.
+3. **InputMap Restrictions:** Never query unmapped input action names (e.g., `"fire"`). Vanilla only registers `useItem`, `rightMouseClick`, and `toggle_use_item`. Querying unregistered strings logs errors on every physics tick.
+4. **Chunk Bounds Protection:** `TileMapManager.chunks_created` must be guarded with `.has(chunk_id)` before indexing. Querying unloaded chunk IDs throws an unhandled dictionary exception.
+5. **Ordnance & Tween Lifecycles:** Decouple falling projectiles from their parent launchers into standalone entities (`AirstrikeBomb`) to prevent `Instance is null` errors when parent nodes are freed while tween callbacks are pending.
+'@ | Set-Content -Path (Join-Path $repo "README.md") -Encoding UTF8
+Write-Host "  Updated: README.md" -ForegroundColor Green
+
+# ------------------------------------------------------------------------------
+# 7. COMPREHENSIVE UPDATE OF SESSION_PROMPT.MD (RETAINED KNOWLEDGE BASE)
+# ------------------------------------------------------------------------------
+Write-Host "`n>>> 7. Updating SESSION_PROMPT.md with all retained architectural knowledge..." -ForegroundColor Cyan
+@'
+# Coal LLC Modding Architecture & Session Knowledge Base (Updated October 2026)
+
+## 1. Directory Structure & Environment Paths
+- Local Git Repository: `C:\Dev\coal-llc-mods`
+- Remote Repository: `https://github.com/garethwhite-prog/coal-llc-mods`
+- Active Unpacked Mods: `C:\Dev\coal-llc-mods\mods-unpacked\<namespace>-<mod_name>`
+- Steam Game Root: `C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC`
+- Steam Active Mods (.zip): `C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods`
+- Hook Preprocessor Zip: `C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mod-hooks.zip`
+- User Data & Logs: `%APPDATA%\Godot\app_userdata\Coal LLC` (`godot.log`, `modloader.log`, `gareth_mods_config.json`, `profile_mods_slot_*.json`)
+
+## 2. Packaging & Git Directives
+1. **Dual-Manifest & Dual-README Requirement:**
+   Every mod archive MUST contain `manifest.json` and `README.md` at the archive root AND duplicate copies inside `mods-unpacked/<namespace>-<mod_name>/`.
+   `manifest.json` strictly requires: `name`, `namespace`, `version_number`, `description`, `website_url`, `dependencies`, and `extra: { godot: { ... } }`.
+2. **Forward Slash Zip Rule:**
+   Godot's virtual filesystem requires all zip entry paths to use forward slashes (`/`). Windows `Compress-Archive` uses backslashes (`\`), causing silent resource load failures. Always use `System.IO.Compression.ZipArchive` with entry paths normalized via `.Replace("\", "/")`.
+3. **Targeted Deployment Only:**
+   Only repack archives that have received code or asset updates. Never touch or rebuild unrelated mod packages.
+4. **Test Runner Timing:**
+   Never run `Run-ModSuiteTest.ps1` at the end of deployment scripts. The test auditor must only run after the developer has launched the game and played a live session to produce fresh telemetry.
+
+## 3. Core Engine Contracts & Invariants
+1. **The Sky Code Contract ($Y \le 0$):**
+   `lvl_from_global_pos(pos)` must return `-2` whenever `pos.y <= 0`. Returning `>= 0` generates solid subterranean rock throughout the surface, crushing the player on frame 1.
+2. **Native Tile Damage Protocol:**
+   `tilemap.damageTileCoords(coords: Vector2i, damage: float)` is the sole engine method for damaging strata. Argument 2 must always be cast to `float`.
+3. **InputMap Action Integrity:**
+   The game registers `useItem`, `rightMouseClick`, and `toggle_use_item`. It does NOT register `"fire"`. Querying `Input.is_action_pressed("fire")` throws an engine error on every physics frame.
+4. **Unloaded Chunk Dictionary Guard:**
+   `TileMapManager.chunks_created` must be guarded with `.has(chunk_id)` before indexing. Querying coordinates outside active chunks throws fatal dictionary key exceptions.
+5. **Chest Loot Null Dereference:**
+   When a chest detonates as a booby trap, `chest.loot` is cleared to `null`. Hooks must verify `chest.loot != null` before delegating to vanilla `pickup_item()`.
+6. **Ordnance Callback Isolation:**
+   Falling ordnance must be instantiated as independent entities (`AirstrikeBomb`) rather than child nodes of moving planes. Freeing the parent plane while tween callbacks are queued causes `Instance is null` errors.
+7. **Player Stun Implementation:**
+   Freezing the character requires setting `velocity = Vector2.ZERO`, setting `able_to_mine = false`, and pausing the child `$StateMachine` via `set_physics_process(false)`.
+
+## 4. UI Architecture & In-Game Navigation
+1. **Main Menu Extensions:**
+   `%MainMenuButtons` in `MainMenu.hooks.gd` hosts:
+   - Index 1: `SaveProfilesButton` (Career multisave modal)
+   - Index 2: `ModManagerButton` (Universal mod manager)
+   - Index 3: `ModStoreButton` (Mod & Map Store browser)
+   - Index 4: `LeaderboardsButton` (Community records)
+2. **Bottom-Right In-Mine Micro-Dock:**
+   Widgets are docked in a 150px-wide column with uniform 4px vertical separation:
+   - Speed Controls (`◀ 1.00x ▶`): `-42.0` to `-16.0`
+   - Amazon Emergency Delivery (`📦 Amazon (B)`): `-72.0` to `-46.0`
+   - Air Wings (`🔥 7 | 💧 8 | ☣️ 9 | 💣 0`): `-102.0` to `-76.0`
+   All three widgets dynamically query `_is_actively_mining()`, hiding completely during menus, customize screens, and between-day management.
+3. **Shop Search & Filters:**
+   Injected into the `VBoxContainer` directly above the `ScrollContainer` in both `%EquipmentShop` and `%BonusShop`.
+'@ | Set-Content -Path (Join-Path $repo "SESSION_PROMPT.md") -Encoding UTF8
+Write-Host "  Updated: SESSION_PROMPT.md" -ForegroundColor Green
+
+# ------------------------------------------------------------------------------
+# 8. STAGE, COMMIT AND PUSH TO GITHUB
+# ------------------------------------------------------------------------------
+Write-Host "`n>>> 8. Staging, committing and pushing to GitHub..." -ForegroundColor Cyan
 git add -A
-git commit -m "Architecture 3.0: Permanent immutable map registry, SaveSlotManager profile isolation, and in-game Mod & Map Store browser"
+git commit -m "Fix: Prune duplicate is_mod_active_for_run in SaveSlotManager, restore class unlocks, harden map transition, add Mod Store to Main Menu, and refresh README/SESSION_PROMPT"
 git push origin main
 
-Write-Host "`n>>> 8. Running ModSuite test auditor..." -ForegroundColor Cyan
-& "$repo\Run-ModSuiteTest.ps1"
-
-Write-Host "`nArchitecture 3.0 deployment complete!" -ForegroundColor Green
+Write-Host "`nDeployment complete! Zero tests executed (awaiting gameplay session)." -ForegroundColor Green

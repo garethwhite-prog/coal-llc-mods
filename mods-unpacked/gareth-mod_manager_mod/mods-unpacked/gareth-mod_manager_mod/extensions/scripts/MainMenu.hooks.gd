@@ -23,6 +23,22 @@ func _ready(chain: ModLoaderHookChain) -> void:
 			btn_grid.add_child(mod_btn)
 			btn_grid.move_child(mod_btn, 2)
 
+		if not btn_grid.has_node("ModStoreButton"):
+			var store_btn := Button.new()
+			store_btn.name = "ModStoreButton"
+			store_btn.text = "Mod & Map Store"
+			store_btn.custom_minimum_size = Vector2(0, 32)
+			store_btn.modulate = Color(1.0, 0.88, 0.35)
+			store_btn.pressed.connect(func():
+				var store_script = load("res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.gd")
+				if store_script:
+					var store_view: Control = Control.new()
+					store_view.set_script(store_script)
+					menu.add_child(store_view)
+			)
+			btn_grid.add_child(store_btn)
+			btn_grid.move_child(store_btn, 3)
+
 		if not btn_grid.has_node("LeaderboardsButton"):
 			var lb_btn := Button.new()
 			lb_btn.name = "LeaderboardsButton"
@@ -35,7 +51,7 @@ func _ready(chain: ModLoaderHookChain) -> void:
 					menu.add_child(modal)
 			)
 			btn_grid.add_child(lb_btn)
-			btn_grid.move_child(lb_btn, 3)
+			btn_grid.move_child(lb_btn, 4)
 
 func on_profession_selected(chain: ModLoaderHookChain, mode: int, prof: Object, hard_modifier: Object) -> void:
 	var menu = chain.reference_object

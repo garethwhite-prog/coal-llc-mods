@@ -2,80 +2,11 @@
   20: ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
   21: at: push_error (core/variant/variant_utility.cpp:1098)
 1013: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
-1079: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
-1088: SCRIPT ERROR: Trying to call an async function without "await".
-1093: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1095: ERROR: Child is not a child of this node.
-1097: SCRIPT ERROR: Trying to call an async function without "await".
-1100: SCRIPT ERROR: Trying to call an async function without "await".
-[Repeated 4 times]
-  First: 1102: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-  Last:  1108: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1110: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1112: ERROR: Child is not a child of this node.
-1114: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1116: ERROR: Child is not a child of this node.
-1120: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
-[Repeated 4 times]
-  First: 1123: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-  Last:  1129: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-1848: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1850: ERROR: Child is not a child of this node.
-1852: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1854: ERROR: Child is not a child of this node.
-1885: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1887: ERROR: Child is not a child of this node.
-1889: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1891: ERROR: Child is not a child of this node.
-1902: SCRIPT ERROR: Trying to call an async function without "await".
-1907: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1909: ERROR: Child is not a child of this node.
-1914: SCRIPT ERROR: Trying to call an async function without "await".
-1917: SCRIPT ERROR: Trying to call an async function without "await".
-[Repeated 4 times]
-  First: 1919: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-  Last:  1925: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1927: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1929: ERROR: Child is not a child of this node.
-1931: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1933: ERROR: Child is not a child of this node.
-1937: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
-[Repeated 4 times]
-  First: 1940: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-  Last:  1946: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-2424: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-2426: ERROR: Child is not a child of this node.
-2428: ERROR: Next focus node path is invalid: '../../../CameraSmoothing/HBoxContainer/MarginContainer/Slider'.
-2430: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-2432: ERROR: Child is not a child of this node.
-2435: ERROR: Next focus node path is invalid: '../../../CameraSmoothing/HBoxContainer/MarginContainer/Slider'.
-2437: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-2439: ERROR: Child is not a child of this node.
-2441: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-2443: ERROR: Child is not a child of this node.
-2462: SCRIPT ERROR: Trying to call an async function without "await".
-2467: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-2469: ERROR: Child is not a child of this node.
-2476: ERROR: 13 RID allocations of type 'N10RendererRD12LightStorage11ShadowAtlasE' were leaked at exit.
-2477: ERROR: 13 RID allocations of type 'N10RendererRD14TextureStorage12RenderTargetE' were leaked at exit.
-2478: ERROR: 103 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-2479: ERROR: 13 RID allocations of type 'N16RendererViewport8ViewportE' were leaked at exit.
-2482: ERROR: 125 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
-2483: ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
-2486: ERROR: 183 resources still in use at exit (run with --verbose for details).
-Telemetry Highlights (Last 15):
-2413: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Pickaxe Mining Damage +10.0%
-2446: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Jump Velocity +20.0%
-[Repeated 3 times]
-  First: 2447: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Damage +10.0%
-  Last:  2449: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Damage +10.0%
-2450: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Mortar Gun Damage +10.0%
-2451: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Mortar Gun Damage +10.0%
-2452: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Speed +10.0%
-2453: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Damage +10.0%
-2454: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Mortar Gun Rate +10.0%
-2455: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Mortar Gun Damage +10.0%
-2456: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Damage +10.0%
-2457: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Pickaxe Mining Speed +10.0%
-2458: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Damage +10.0%
-2459: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Jump Velocity +20.0%
+1030: SCRIPT ERROR: Parse Error: Function "is_mod_active_for_run" has the same name as a previously declared function.
+1032: ERROR: Failed to load script "res://mods-unpacked/gareth-multisave_mod/scripts/save_slot_manager.gd" with error "Parse error".
+1083: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
+[Repeated 7 times]
+  First: 1091: SCRIPT ERROR: Invalid access to property or key 'current_slot' on a base object of type 'Node'.
+  Last:  1103: SCRIPT ERROR: Invalid access to property or key 'current_slot' on a base object of type 'Node'.
+1105: ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+1110: ERROR: 173 resources still in use at exit (run with --verbose for details).

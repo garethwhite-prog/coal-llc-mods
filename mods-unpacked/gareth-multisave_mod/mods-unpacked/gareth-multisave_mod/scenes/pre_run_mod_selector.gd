@@ -182,9 +182,10 @@ func _load_existing_mod_config() -> Dictionary:
 
 func _on_confirm() -> void:
 	var ssm = get_node_or_null("/root/SaveSlotManager")
-	if ssm:
+	if ssm and ("current_slot" in ssm) and ssm.has_method("get_slot_config_path"):
 		var cfg := {"mods": toggles}
-		var f := FileAccess.open(ssm.get_slot_config_path(ssm.current_slot), FileAccess.WRITE)
+		var path: String = ssm.get_slot_config_path(ssm.current_slot)
+		var f := FileAccess.open(path, FileAccess.WRITE)
 		if f:
 			f.store_string(JSON.stringify(cfg, "\t"))
 			f.close()
