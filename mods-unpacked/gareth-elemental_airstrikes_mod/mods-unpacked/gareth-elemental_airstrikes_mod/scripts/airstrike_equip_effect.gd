@@ -4,7 +4,7 @@ extends EquipEffect
 @export var strike_type: String = "dragon"
 
 func physics_process(player, _delta: float) -> void:
-	if Input.is_action_just_pressed("useItem") or Input.is_action_just_pressed("fire"):
+	if Input.is_action_just_pressed("useItem") or Input.is_action_just_pressed("rightMouseClick"):
 		var tree = player.get_tree()
 		if not tree or not tree.current_scene:
 			return
@@ -29,3 +29,4 @@ func physics_process(player, _delta: float) -> void:
 		if inv and is_instance_valid(player) and ("item_equipped" in player) and player.item_equipped:
 			inv.sellFromInventory(player.item_equipped, 1)
 			Bus.inventory_changed.emit()
+

@@ -38,14 +38,14 @@ func _acquire_and_fire() -> void:
 		if not tilemap:
 			return
 
-	var center := tilemap.local_to_map(global_position)
+	var center: Vector2i = tilemap.local_to_map(global_position)
 	var best_target: Vector2i = Vector2i.ZERO
 	var found: bool = false
 
 	for r in range(1, 14):
 		for dx in range(-r, r + 1):
 			for dy in range(-r, r + 1):
-				var check_pos := center + Vector2i(dx, dy)
+				var check_pos: Vector2i = center + Vector2i(dx, dy)
 				if tilemap.has_method("is_tile_collision") and tilemap.is_tile_collision(check_pos):
 					best_target = check_pos
 					found = true
@@ -56,7 +56,7 @@ func _acquire_and_fire() -> void:
 			break
 
 	if found:
-		var target_world := tilemap.map_to_local(best_target)
+		var target_world: Vector2 = tilemap.map_to_local(best_target)
 		sprite.rotation = (target_world - global_position).angle()
 		if tilemap.has_method("damageTileCoords"):
 			tilemap.damageTileCoords(best_target, DAMAGE)
@@ -68,3 +68,4 @@ func _acquire_and_fire() -> void:
 		get_tree().current_scene.add_child(boom)
 		boom.play()
 		boom.finished.connect(boom.queue_free)
+

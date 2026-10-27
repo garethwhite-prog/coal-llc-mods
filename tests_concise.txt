@@ -1,1165 +1,186 @@
 ﻿  21: ERROR ModLoader:Path: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
   22: ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
   23: at: push_error (core/variant/variant_utility.cpp:1098)
-1001: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
-1054: SCRIPT ERROR: Parse Error: Static function "is_mouse_button_just_pressed()" not found in base "GDScriptNativeClass".
-1056: SCRIPT ERROR: Parse Error: Static function "is_mouse_button_just_pressed()" not found in base "GDScriptNativeClass".
-1058: ERROR: Failed to load script "res://mods-unpacked/gareth-elemental_airstrikes_mod/scripts/airstrike_equip_effect.gd" with error "Parse error".
-1060: SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
-1075: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
-1085: SCRIPT ERROR: Trying to call an async function without "await".
-1090: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1092: ERROR: Child is not a child of this node.
-1094: SCRIPT ERROR: Trying to call an async function without "await".
-1097: SCRIPT ERROR: Trying to call an async function without "await".
-[Repeated 4 times]
-  First: 1099: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-  Last:  1105: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1107: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1109: ERROR: Child is not a child of this node.
-1111: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1113: ERROR: Child is not a child of this node.
-1117: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
-[Repeated 4 times]
-  First: 1120: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-  Last:  1126: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-1450: SCRIPT ERROR: Trying to call an async function without "await".
-1455: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1457: ERROR: Child is not a child of this node.
-1462: SCRIPT ERROR: Trying to call an async function without "await".
-1465: SCRIPT ERROR: Trying to call an async function without "await".
-[Repeated 4 times]
-  First: 1467: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-  Last:  1473: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1475: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1477: ERROR: Child is not a child of this node.
-1479: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1481: ERROR: Child is not a child of this node.
-1485: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
-[Repeated 4 times]
-  First: 1488: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-  Last:  1494: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-[Repeated 3 times]
-  First: 7373: SCRIPT ERROR: Invalid access to property or key 'itemPickupEffect' on a base object of type 'Nil'.
-  Last:  11971: SCRIPT ERROR: Invalid access to property or key 'itemPickupEffect' on a base object of type 'Nil'.
-14650: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-14652: ERROR: Child is not a child of this node.
-14654: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-14656: ERROR: Child is not a child of this node.
-14721: SCRIPT ERROR: Trying to call an async function without "await".
-14726: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-14728: ERROR: Child is not a child of this node.
-14733: SCRIPT ERROR: Trying to call an async function without "await".
-14736: SCRIPT ERROR: Trying to call an async function without "await".
-14741: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-14743: ERROR: Child is not a child of this node.
-14748: SCRIPT ERROR: Trying to call an async function without "await".
-14751: SCRIPT ERROR: Trying to call an async function without "await".
-[Repeated 4 times]
-  First: 14753: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-  Last:  14759: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-14761: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-14763: ERROR: Child is not a child of this node.
-14765: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-14767: ERROR: Child is not a child of this node.
-14771: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
-[Repeated 4 times]
-  First: 14774: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-  Last:  14780: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-14902: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-14904: ERROR: Child is not a child of this node.
-14906: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-14908: ERROR: Child is not a child of this node.
-14953: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-14955: ERROR: Child is not a child of this node.
-14957: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-14959: ERROR: Child is not a child of this node.
-[Repeated 239 times]
-  First: 14977: SCRIPT ERROR: Invalid access to property or key '(-3, 3)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  15456: SCRIPT ERROR: Invalid access to property or key '(-3, 3)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-15458: ERROR: Trying to call a lambda with an invalid instance.
-15460: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15462: ERROR: Trying to call a lambda with an invalid instance.
-15464: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15466: ERROR: Trying to call a lambda with an invalid instance.
-15468: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15470: ERROR: Trying to call a lambda with an invalid instance.
-15472: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15474: ERROR: Trying to call a lambda with an invalid instance.
-15476: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15478: ERROR: Trying to call a lambda with an invalid instance.
-15480: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15482: ERROR: Trying to call a lambda with an invalid instance.
-15484: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15486: ERROR: Trying to call a lambda with an invalid instance.
-15488: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15490: ERROR: Trying to call a lambda with an invalid instance.
-15492: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15494: ERROR: Trying to call a lambda with an invalid instance.
-15496: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15498: ERROR: Trying to call a lambda with an invalid instance.
-15500: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15502: ERROR: Trying to call a lambda with an invalid instance.
-15504: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15506: ERROR: Trying to call a lambda with an invalid instance.
-15508: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15510: ERROR: Trying to call a lambda with an invalid instance.
-15512: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15514: ERROR: Trying to call a lambda with an invalid instance.
-15516: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15518: ERROR: Trying to call a lambda with an invalid instance.
-15520: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15522: ERROR: Trying to call a lambda with an invalid instance.
-15524: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15526: ERROR: Trying to call a lambda with an invalid instance.
-15528: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15530: ERROR: Trying to call a lambda with an invalid instance.
-15532: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15534: ERROR: Trying to call a lambda with an invalid instance.
-15536: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15538: ERROR: Trying to call a lambda with an invalid instance.
-15540: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15542: ERROR: Trying to call a lambda with an invalid instance.
-15544: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15546: ERROR: Trying to call a lambda with an invalid instance.
-15548: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15550: ERROR: Trying to call a lambda with an invalid instance.
-15552: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15555: ERROR: Trying to call a lambda with an invalid instance.
-15557: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15559: ERROR: Trying to call a lambda with an invalid instance.
-15561: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15563: ERROR: Trying to call a lambda with an invalid instance.
-15565: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15567: ERROR: Trying to call a lambda with an invalid instance.
-15569: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-[Repeated 50 times]
-  First: 15573: SCRIPT ERROR: Invalid access to property or key '(-3, 3)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  15671: SCRIPT ERROR: Invalid access to property or key '(-3, 3)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-15673: ERROR: Trying to call a lambda with an invalid instance.
-15675: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15677: ERROR: Trying to call a lambda with an invalid instance.
-15679: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15681: ERROR: Trying to call a lambda with an invalid instance.
-15683: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15685: ERROR: Trying to call a lambda with an invalid instance.
-15687: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15689: ERROR: Trying to call a lambda with an invalid instance.
-15691: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15693: ERROR: Trying to call a lambda with an invalid instance.
-15695: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15697: ERROR: Trying to call a lambda with an invalid instance.
-15699: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15701: ERROR: Trying to call a lambda with an invalid instance.
-15703: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15705: ERROR: Trying to call a lambda with an invalid instance.
-15707: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15709: ERROR: Trying to call a lambda with an invalid instance.
-15711: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15713: ERROR: Trying to call a lambda with an invalid instance.
-15715: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15717: ERROR: Trying to call a lambda with an invalid instance.
-15719: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15721: ERROR: Trying to call a lambda with an invalid instance.
-15723: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15725: ERROR: Trying to call a lambda with an invalid instance.
-15727: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-15729: ERROR: Trying to call a lambda with an invalid instance.
-15731: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-[Repeated 392 times]
-  First: 15737: SCRIPT ERROR: Invalid access to property or key '(-3, 3)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  16520: SCRIPT ERROR: Invalid access to property or key '(-3, 3)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-16522: ERROR: Trying to call a lambda with an invalid instance.
-16524: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-16526: ERROR: Trying to call a lambda with an invalid instance.
-16528: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-16530: ERROR: Trying to call a lambda with an invalid instance.
-16532: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-16534: ERROR: Trying to call a lambda with an invalid instance.
-16536: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-16538: ERROR: Trying to call a lambda with an invalid instance.
-16540: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-16542: ERROR: Trying to call a lambda with an invalid instance.
-16544: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-16547: ERROR: Trying to call a lambda with an invalid instance.
-16549: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-16551: ERROR: Trying to call a lambda with an invalid instance.
-16553: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-16555: ERROR: Trying to call a lambda with an invalid instance.
-16557: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-16559: ERROR: Trying to call a lambda with an invalid instance.
-16561: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-16563: ERROR: Trying to call a lambda with an invalid instance.
-16565: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-16567: ERROR: Trying to call a lambda with an invalid instance.
-16569: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-16571: ERROR: Trying to call a lambda with an invalid instance.
-16573: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-16575: ERROR: Trying to call a lambda with an invalid instance.
-16577: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-16579: ERROR: Trying to call a lambda with an invalid instance.
-16581: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-16583: ERROR: Trying to call a lambda with an invalid instance.
-16585: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-[Repeated 325 times]
-  First: 16595: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  17244: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 5 times]
-  First: 17246: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  17254: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 20 times]
-  First: 17256: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  17294: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 10 times]
-  First: 17296: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  17314: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 15 times]
-  First: 17316: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  17344: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 15 times]
-  First: 17346: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  17374: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 10 times]
-  First: 17376: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  17394: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 20 times]
-  First: 17396: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  17434: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 5 times]
-  First: 17436: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  17444: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 300 times]
-  First: 17446: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  18045: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 5 times]
-  First: 18047: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  18055: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 20 times]
-  First: 18057: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  18095: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 15 times]
-  First: 18097: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  18125: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 10 times]
-  First: 18127: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  18145: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 20 times]
-  First: 18147: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  18185: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 5 times]
-  First: 18187: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  18195: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 20 times]
-  First: 18197: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  18235: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 5 times]
-  First: 18237: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  18245: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 100 times]
-  First: 18247: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  18445: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 565 times]
-  First: 18447: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  19576: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 19578: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  19584: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 24 times]
-  First: 19586: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  19632: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 8 times]
-  First: 19634: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  19648: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 45 times]
-  First: 19650: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  19738: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 8 times]
-  First: 19740: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  19754: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 45 times]
-  First: 19756: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  19844: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 12 times]
-  First: 19846: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  19868: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 41 times]
-  First: 19870: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  19950: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 16 times]
-  First: 19952: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  19982: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 37 times]
-  First: 19984: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  20056: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 20 times]
-  First: 20058: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  20096: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 33 times]
-  First: 20098: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  20162: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 24 times]
-  First: 20164: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  20210: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 20212: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  20218: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 24 times]
-  First: 20220: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  20266: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 29 times]
-  First: 20268: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  20324: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 28 times]
-  First: 20326: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  20380: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 25 times]
-  First: 20382: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  20430: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 28 times]
-  First: 20432: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  20486: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 25 times]
-  First: 20488: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  20536: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 61 times]
-  First: 20538: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  20658: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 20 times]
-  First: 20660: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  20698: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 38 times]
-  First: 20700: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  20774: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 15 times]
-  First: 20776: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  20804: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 43 times]
-  First: 20806: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  20890: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 10 times]
-  First: 20892: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  20910: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 48 times]
-  First: 20912: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21006: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 5 times]
-  First: 21008: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21016: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 240 times]
-  First: 21018: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21496: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 21498: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21502: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 21504: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21510: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 49 times]
-  First: 21512: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21608: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 21610: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21614: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 21616: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21622: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 21624: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21628: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 21630: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21636: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 45 times]
-  First: 21638: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21726: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 21728: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21732: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 21734: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21738: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 21740: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21746: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 21748: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21752: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 21754: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21760: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 20 times]
-  First: 21762: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21800: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 6 times]
-  First: 21802: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21812: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 21814: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21818: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 21820: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21826: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 21828: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21832: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 21834: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21840: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 21842: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21846: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 21848: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21854: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 41 times]
-  First: 21856: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21936: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 21938: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21942: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 21944: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21950: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 21952: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21956: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 21958: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21964: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 21966: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21970: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 21972: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21978: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 21980: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21984: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 21986: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  21992: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 37 times]
-  First: 21994: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22066: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 9 times]
-  First: 22068: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22084: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22086: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22090: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22092: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22098: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22100: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22104: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22106: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22112: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22114: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22118: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22120: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22126: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22128: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22132: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22134: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22140: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22142: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22146: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22148: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22154: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 33 times]
-  First: 22156: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22220: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22222: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22226: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22228: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22234: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22236: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22240: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22242: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22248: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22250: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22254: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22256: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22262: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22264: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22268: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22270: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22276: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22278: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22282: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22284: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22290: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22292: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22296: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22298: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22304: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22306: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22312: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 12 times]
-  First: 22314: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22336: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 25 times]
-  First: 22338: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22386: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22388: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22392: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22394: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22400: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22402: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22406: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22408: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22414: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22416: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22420: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22422: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22428: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22430: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22434: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22436: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22442: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22444: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22448: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22450: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22456: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22458: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22462: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22464: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22470: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22472: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22476: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22478: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22484: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 15 times]
-  First: 22486: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22514: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22516: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22520: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22522: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22528: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22530: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22534: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22536: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22542: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22544: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22548: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22550: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22556: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22558: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22562: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22564: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22570: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22572: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22576: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22578: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22584: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22586: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22590: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22592: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22598: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22600: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22604: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22606: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22612: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 25 times]
-  First: 22614: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22662: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22664: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22668: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22670: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22676: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22678: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22682: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22684: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22690: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22692: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22696: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22698: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22704: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22706: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22710: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22712: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22718: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22720: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22724: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22726: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22732: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22734: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22738: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22740: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22746: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22748: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22752: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 9 times]
-  First: 22754: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22770: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 20 times]
-  First: 22772: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22810: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 18 times]
-  First: 22812: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22846: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22848: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22852: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22854: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22860: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22862: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22866: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22868: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22874: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22876: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22880: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22882: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22888: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22890: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22894: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22896: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22902: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22904: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22908: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22910: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22916: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22918: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22922: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 22924: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22930: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 22932: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22936: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 9 times]
-  First: 22938: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22954: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 20 times]
-  First: 22956: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  22994: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 21 times]
-  First: 22996: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23036: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 23038: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23042: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 23044: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23050: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 23052: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23056: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 23058: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23064: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 23066: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23070: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 23072: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23078: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 23080: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23084: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 23086: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23092: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 23094: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23098: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 23100: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23106: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 23108: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23112: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 23114: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23120: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 23122: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23126: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 14 times]
-  First: 23128: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23154: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 15 times]
-  First: 23156: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23184: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 23186: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23190: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 23192: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23198: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 23200: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23204: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 23206: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23212: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 23214: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23218: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 23220: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23226: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 23228: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23232: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 23234: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23240: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 23242: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23246: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 23248: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23254: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 23256: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23260: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 23262: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23268: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 23270: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23274: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 24 times]
-  First: 23276: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23322: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 5 times]
-  First: 23324: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23332: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 21 times]
-  First: 23334: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23374: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 23376: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23380: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 23382: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23388: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 23390: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23394: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 23396: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23402: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 23404: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23408: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 23410: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23416: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 23418: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23422: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 23424: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23430: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 23432: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23436: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 23438: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23444: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 23446: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23450: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 23452: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23458: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 23460: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23464: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 29 times]
-  First: 23466: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23523: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 23525: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23529: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 23531: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23537: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 23539: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23543: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 23545: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23551: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 23553: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23557: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 23559: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23565: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 23567: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23571: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 23573: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23579: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 23581: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23585: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 23587: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23593: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 23595: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23599: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 23601: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23607: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 23609: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23613: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 23615: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23621: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 21 times]
-  First: 23623: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23663: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 25 times]
-  First: 23665: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23713: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 21 times]
-  First: 23715: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23755: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 25 times]
-  First: 23757: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23805: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 21 times]
-  First: 23807: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23847: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 50 times]
-  First: 23849: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  23947: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
+1003: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
+1068: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
+1078: SCRIPT ERROR: Trying to call an async function without "await".
+1083: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1085: ERROR: Child is not a child of this node.
+1087: SCRIPT ERROR: Trying to call an async function without "await".
+1090: SCRIPT ERROR: Trying to call an async function without "await".
+[Repeated 4 times]
+  First: 1092: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+  Last:  1098: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1100: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1102: ERROR: Child is not a child of this node.
+1104: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1106: ERROR: Child is not a child of this node.
+1110: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+[Repeated 4 times]
+  First: 1113: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+  Last:  1119: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1443: SCRIPT ERROR: Trying to call an async function without "await".
+1448: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1450: ERROR: Child is not a child of this node.
+1455: SCRIPT ERROR: Trying to call an async function without "await".
+1458: SCRIPT ERROR: Trying to call an async function without "await".
+[Repeated 4 times]
+  First: 1460: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+  Last:  1466: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1468: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1470: ERROR: Child is not a child of this node.
+1472: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1474: ERROR: Child is not a child of this node.
+1478: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+[Repeated 4 times]
+  First: 1481: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+  Last:  1487: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1605: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1607: ERROR: Child is not a child of this node.
+1609: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1611: ERROR: Child is not a child of this node.
+2090: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2092: ERROR: Child is not a child of this node.
+2094: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2096: ERROR: Child is not a child of this node.
+2348: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2350: ERROR: Child is not a child of this node.
+2353: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2355: ERROR: Child is not a child of this node.
+2379: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2381: ERROR: Child is not a child of this node.
+2383: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2385: ERROR: Child is not a child of this node.
+2697: SCRIPT ERROR: Trying to call an async function without "await".
+2703: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2705: ERROR: Child is not a child of this node.
+2710: SCRIPT ERROR: Trying to call an async function without "await".
+2713: SCRIPT ERROR: Trying to call an async function without "await".
+[Repeated 4 times]
+  First: 2715: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+  Last:  2721: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+2723: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2725: ERROR: Child is not a child of this node.
+2727: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2729: ERROR: Child is not a child of this node.
+2733: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+[Repeated 4 times]
+  First: 2736: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+  Last:  2742: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
 [Repeated 84 times]
-  First: 23949: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  24115: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 24117: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  24121: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 18 times]
-  First: 24123: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  24157: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 6 times]
-  First: 24159: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  24169: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 15 times]
-  First: 24171: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  24199: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 9 times]
-  First: 24201: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  24217: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 12 times]
-  First: 24219: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  24241: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 12 times]
-  First: 24243: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  24265: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 9 times]
-  First: 24267: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  24283: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 18 times]
-  First: 24285: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  24319: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 24321: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  24325: SCRIPT ERROR: Invalid access to property or key '(-3, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 189 times]
-  First: 24327: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  24703: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
+  First: 2746: ERROR: The InputMap action "fire" doesn't exist.
+  Last:  2912: ERROR: The InputMap action "fire" doesn't exist.
+3432: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+3434: ERROR: Child is not a child of this node.
+3436: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+3438: ERROR: Child is not a child of this node.
+3445: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+3447: ERROR: Child is not a child of this node.
+3449: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+3451: ERROR: Child is not a child of this node.
+3526: ERROR: <Tween#-9223335193920610595>: started with no Tweeners.
+4271: ERROR: <Tween#-9223324930945301584>: started with no Tweeners.
+4286: ERROR: <Tween#-9223324753945672348>: started with no Tweeners.
+4289: ERROR: <Tween#-9223324742386169930>: started with no Tweeners.
+4292: ERROR: <Tween#-9223324713177034986>: started with no Tweeners.
+4296: ERROR: <Tween#-9223324701432985533>: started with no Tweeners.
+4300: ERROR: <Tween#-9223324667492675953>: started with no Tweeners.
+4302: ERROR: <Tween#-9223324656671374565>: started with no Tweeners.
+4342: SCRIPT ERROR: Trying to call an async function without "await".
+4347: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+4349: ERROR: Child is not a child of this node.
+4354: SCRIPT ERROR: Trying to call an async function without "await".
+4357: SCRIPT ERROR: Trying to call an async function without "await".
 [Repeated 4 times]
-  First: 24705: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  24711: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 24713: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  24717: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 18 times]
-  First: 24719: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  24753: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
+  First: 4359: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+  Last:  4365: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+4367: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+4369: ERROR: Child is not a child of this node.
+4371: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+4373: ERROR: Child is not a child of this node.
+4377: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
 [Repeated 4 times]
-  First: 24755: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  24761: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 24763: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  24767: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
+  First: 4380: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+  Last:  4386: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+[Repeated 413 times]
+  First: 4391: ERROR: The InputMap action "fire" doesn't exist.
+  Last:  5230: ERROR: The InputMap action "fire" doesn't exist.
+5232: SCRIPT ERROR: Parse Error: Cannot infer the type of "center" variable because the value doesn't have a set type.
+5234: SCRIPT ERROR: Parse Error: Cannot infer the type of "check_pos" variable because the value doesn't have a set type.
+5236: SCRIPT ERROR: Parse Error: Cannot infer the type of "target_world" variable because the value doesn't have a set type.
+5238: ERROR: Failed to load script "res://mods-unpacked/gareth-heavy_turrets_mod/scripts/heavy_turret_entity.gd" with error "Parse error".
+[Repeated 1051 times]
+  First: 5240: ERROR: The InputMap action "fire" doesn't exist.
+  Last:  7417: ERROR: The InputMap action "fire" doesn't exist.
+7419: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+7421: ERROR: Child is not a child of this node.
+7423: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+7425: ERROR: Child is not a child of this node.
+[Repeated 691 times]
+  First: 7427: ERROR: The InputMap action "fire" doesn't exist.
+  Last:  8987: ERROR: The InputMap action "fire" doesn't exist.
+9153: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+9155: ERROR: Child is not a child of this node.
+9157: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+9159: ERROR: Child is not a child of this node.
+9162: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+9164: ERROR: Child is not a child of this node.
+9166: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+9168: ERROR: Child is not a child of this node.
+9214: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+9216: ERROR: Child is not a child of this node.
+9218: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+9220: ERROR: Child is not a child of this node.
+9237: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+9239: ERROR: Child is not a child of this node.
+9241: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+9243: ERROR: Child is not a child of this node.
+9424: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+9426: ERROR: Child is not a child of this node.
+9428: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+9430: ERROR: Child is not a child of this node.
+[Repeated 29 times]
+  First: 9816: ERROR: The InputMap action "fire" doesn't exist.
+  Last:  9872: ERROR: The InputMap action "fire" doesn't exist.
+9893: SCRIPT ERROR: Trying to call an async function without "await".
+9898: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+9900: ERROR: Child is not a child of this node.
+9905: SCRIPT ERROR: Trying to call an async function without "await".
+9908: SCRIPT ERROR: Trying to call an async function without "await".
 [Repeated 4 times]
-  First: 24769: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  24775: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 24777: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  24781: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 15 times]
-  First: 24783: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  24811: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
+  First: 9910: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+  Last:  9916: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+9918: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+9920: ERROR: Child is not a child of this node.
+9922: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+9924: ERROR: Child is not a child of this node.
+9928: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
 [Repeated 4 times]
-  First: 24813: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  24819: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 24821: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  24825: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 24827: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  24833: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 24835: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  24839: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 4 times]
-  First: 24841: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  24847: SCRIPT ERROR: Invalid access to property or key '(-5, 0)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 3 times]
-  First: 24849: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  24853: SCRIPT ERROR: Invalid access to property or key '(-5, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 12 times]
-  First: 24855: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  24877: SCRIPT ERROR: Invalid access to property or key '(-4, 1)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-24879: ERROR: Trying to call a lambda with an invalid instance.
-24881: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-[Repeated 486 times]
-  First: 24896: SCRIPT ERROR: Invalid access to property or key '(4, 4)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  25867: SCRIPT ERROR: Invalid access to property or key '(4, 4)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-25878: ERROR: <Tween#-9223282627429965356>: started with no Tweeners.
-25883: SCRIPT ERROR: Trying to call an async function without "await".
-25888: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-25890: ERROR: Child is not a child of this node.
-25895: SCRIPT ERROR: Trying to call an async function without "await".
-25898: SCRIPT ERROR: Trying to call an async function without "await".
-[Repeated 4 times]
-  First: 25900: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-  Last:  25906: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-25908: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-25910: ERROR: Child is not a child of this node.
-25912: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-25914: ERROR: Child is not a child of this node.
-25918: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
-[Repeated 4 times]
-  First: 25921: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-  Last:  25927: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-25987: ERROR: <Tween#-9223276344714953078>: started with no Tweeners.
-26450: SCRIPT ERROR: Invalid access to property or key 'itemPickupEffect' on a base object of type 'Nil'.
-27167: ERROR: <Tween#-9223220071180981804>: started with no Tweeners.
-27181: ERROR: <Tween#-9223218391009929792>: started with no Tweeners.
-27202: ERROR: <Tween#-9223217354278611249>: started with no Tweeners.
-27213: ERROR: <Tween#-9223215996582419686>: started with no Tweeners.
-27224: ERROR: <Tween#-9223215245281909226>: started with no Tweeners.
-27262: SCRIPT ERROR: Trying to call an async function without "await".
-27267: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-27269: ERROR: Child is not a child of this node.
-27274: SCRIPT ERROR: Trying to call an async function without "await".
-27277: SCRIPT ERROR: Trying to call an async function without "await".
-[Repeated 4 times]
-  First: 27279: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-  Last:  27285: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-27287: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-27289: ERROR: Child is not a child of this node.
-27291: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-27293: ERROR: Child is not a child of this node.
-27297: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
-[Repeated 4 times]
-  First: 27300: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-  Last:  27306: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-[Repeated 4 times]
-  First: 27457: SCRIPT ERROR: Invalid access to property or key 'itemPickupEffect' on a base object of type 'Nil'.
-  Last:  28197: SCRIPT ERROR: Invalid access to property or key 'itemPickupEffect' on a base object of type 'Nil'.
-28351: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-28353: ERROR: Child is not a child of this node.
-28414: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-28416: ERROR: Child is not a child of this node.
-28431: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-28433: ERROR: Child is not a child of this node.
-28438: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-28440: ERROR: Child is not a child of this node.
-[Repeated 25 times]
-  First: 29286: SCRIPT ERROR: Invalid access to property or key '(7, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  29334: SCRIPT ERROR: Invalid access to property or key '(7, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 32 times]
-  First: 29337: SCRIPT ERROR: Invalid access to property or key '(6, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  29400: SCRIPT ERROR: Invalid access to property or key '(6, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 42 times]
-  First: 29402: SCRIPT ERROR: Invalid access to property or key '(7, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  29484: SCRIPT ERROR: Invalid access to property or key '(7, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 49 times]
-  First: 29487: SCRIPT ERROR: Invalid access to property or key '(6, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  29583: SCRIPT ERROR: Invalid access to property or key '(6, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 25 times]
-  First: 29585: SCRIPT ERROR: Invalid access to property or key '(7, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  29633: SCRIPT ERROR: Invalid access to property or key '(7, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 25 times]
-  First: 29636: SCRIPT ERROR: Invalid access to property or key '(6, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  29684: SCRIPT ERROR: Invalid access to property or key '(6, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 49 times]
-  First: 29686: SCRIPT ERROR: Invalid access to property or key '(7, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  29782: SCRIPT ERROR: Invalid access to property or key '(7, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 91 times]
-  First: 29785: SCRIPT ERROR: Invalid access to property or key '(6, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  29966: SCRIPT ERROR: Invalid access to property or key '(6, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-29974: SCRIPT ERROR: Invalid type in function 'damageTileCoords' in base 'TileMapLayer (TileMapManager)'. Cannot convert argument 2 from Object to float.
-29977: SCRIPT ERROR: Invalid type in function 'damageTileCoords' in base 'TileMapLayer (TileMapManager)'. Cannot convert argument 2 from Object to float.
-29982: ERROR: Trying to call a lambda with an invalid instance.
-29984: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-[Repeated 49 times]
-  First: 30412: SCRIPT ERROR: Invalid access to property or key '(7, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  30508: SCRIPT ERROR: Invalid access to property or key '(7, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 63 times]
-  First: 30512: SCRIPT ERROR: Invalid access to property or key '(6, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  30641: SCRIPT ERROR: Invalid access to property or key '(6, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 42 times]
-  First: 30643: SCRIPT ERROR: Invalid access to property or key '(7, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  30725: SCRIPT ERROR: Invalid access to property or key '(7, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 49 times]
-  First: 30728: SCRIPT ERROR: Invalid access to property or key '(6, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  30824: SCRIPT ERROR: Invalid access to property or key '(6, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 49 times]
-  First: 30826: SCRIPT ERROR: Invalid access to property or key '(7, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  30922: SCRIPT ERROR: Invalid access to property or key '(7, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 63 times]
-  First: 30925: SCRIPT ERROR: Invalid access to property or key '(6, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  31049: SCRIPT ERROR: Invalid access to property or key '(6, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-[Repeated 35 times]
-  First: 31051: SCRIPT ERROR: Invalid access to property or key '(7, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  31119: SCRIPT ERROR: Invalid access to property or key '(7, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-31122: SCRIPT ERROR: Invalid type in function 'damageTileCoords' in base 'TileMapLayer (TileMapManager)'. Cannot convert argument 2 from Object to float.
-[Repeated 56 times]
-  First: 31124: SCRIPT ERROR: Invalid access to property or key '(6, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-  Last:  31234: SCRIPT ERROR: Invalid access to property or key '(6, 27)' on a base object of type 'Dictionary[Vector2i, TileMapChunk]'.
-31237: SCRIPT ERROR: Invalid type in function 'damageTileCoords' in base 'TileMapLayer (TileMapManager)'. Cannot convert argument 2 from Object to float.
-31244: ERROR: Trying to call a lambda with an invalid instance.
-31246: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-31249: ERROR: Trying to call a lambda with an invalid instance.
-31251: ERROR: Error calling method from CallbackTweener: 'Node2D::<anonymous lambda>': Instance is null.
-33118: SCRIPT ERROR: Invalid access to property or key 'itemPickupEffect' on a base object of type 'Nil'.
-33184: SCRIPT ERROR: Trying to call an async function without "await".
-33191: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-33193: ERROR: Child is not a child of this node.
-33198: SCRIPT ERROR: Trying to call an async function without "await".
-33201: SCRIPT ERROR: Trying to call an async function without "await".
-[Repeated 4 times]
-  First: 33203: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-  Last:  33209: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-33211: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-33213: ERROR: Child is not a child of this node.
-33215: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-33217: ERROR: Child is not a child of this node.
-33221: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
-[Repeated 4 times]
-  First: 33226: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-  Last:  33232: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-[Repeated 5 times]
-  First: 33381: SCRIPT ERROR: Invalid access to property or key 'itemPickupEffect' on a base object of type 'Nil'.
-  Last:  33665: SCRIPT ERROR: Invalid access to property or key 'itemPickupEffect' on a base object of type 'Nil'.
-34156: SCRIPT ERROR: Trying to call an async function without "await".
-34164: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-34166: ERROR: Child is not a child of this node.
-34171: SCRIPT ERROR: Trying to call an async function without "await".
-34174: SCRIPT ERROR: Trying to call an async function without "await".
-[Repeated 4 times]
-  First: 34176: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-  Last:  34182: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-34184: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-34186: ERROR: Child is not a child of this node.
-34188: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-34190: ERROR: Child is not a child of this node.
-34194: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
-[Repeated 4 times]
-  First: 34199: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-  Last:  34205: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-[Repeated 4 times]
-  First: 34301: SCRIPT ERROR: Invalid access to property or key 'itemPickupEffect' on a base object of type 'Nil'.
-  Last:  34882: SCRIPT ERROR: Invalid access to property or key 'itemPickupEffect' on a base object of type 'Nil'.
-35040: SCRIPT ERROR: Trying to call an async function without "await".
-35048: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-35050: ERROR: Child is not a child of this node.
-35059: ERROR: 146 RID allocations of type 'N10RendererRD12LightStorage11ShadowAtlasE' were leaked at exit.
-35060: ERROR: 146 RID allocations of type 'N10RendererRD14TextureStorage12RenderTargetE' were leaked at exit.
-35061: ERROR: 378 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-35062: ERROR: 146 RID allocations of type 'N16RendererViewport8ViewportE' were leaked at exit.
-35065: ERROR: 3942 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
-35066: ERROR: 4 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
-35069: ERROR: 185 resources still in use at exit (run with --verbose for details).
+  First: 9931: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+  Last:  9937: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+10971: SCRIPT ERROR: Trying to call an async function without "await".
+10976: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+10978: ERROR: Child is not a child of this node.
+10986: ERROR: 35 RID allocations of type 'N10RendererRD12LightStorage11ShadowAtlasE' were leaked at exit.
+10987: ERROR: 35 RID allocations of type 'N10RendererRD14TextureStorage12RenderTargetE' were leaked at exit.
+10988: ERROR: 156 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+10989: ERROR: 35 RID allocations of type 'N16RendererViewport8ViewportE' were leaked at exit.
+10992: ERROR: 339 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+10993: ERROR: 4 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
+10996: ERROR: 191 resources still in use at exit (run with --verbose for details).
 Telemetry Highlights (Last 15):
-35027: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Damage +320.0%
-35028: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Employee Miner Damage +128.0%
-35029: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Damage +320.0%
-35030: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Damage +320.0%
-35031: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Damage +320.0%
-35032: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Pickaxe Mining Damage +320.0%
-35033: INFO nanobotz-autopassivechooser: Auto choosing option -1: Cash
-35034: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Employee Collector Speed +128.0%
-35035: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Pickaxe Mining Damage +320.0%
-35036: INFO nanobotz-autopassivechooser: Auto choosing option -1: Cash
-35037: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Pickaxe Mining Damage +320.0%
-35038: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Employee Miner Damage +128.0%
-35042: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Speed +320.0%
-35043: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Pickaxe Mining Speed +320.0%
-35046: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Speed +320.0%
+10952: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Damage +405.0%
+10953: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Mortar Gun Damage +405.0%
+10955: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Employee Miner Damage +162.0%
+10956: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Damage +405.0%
+10957: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Pickaxe Mining Speed +405.0%
+10958: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Pickaxe Mining Speed +405.0%
+10959: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Employee Collector Speed +162.0%
+10961: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Speed +405.0%
+10962: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Employee Miner Damage +162.0%
+10963: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Speed +405.0%
+10964: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Speed +405.0%
+10965: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Employee Miner Damage +162.0%
+10966: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Pickaxe Mining Damage +405.0%
+10967: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Pickaxe Mining Speed +405.0%
+10969: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Pickaxe Mining Speed +405.0%

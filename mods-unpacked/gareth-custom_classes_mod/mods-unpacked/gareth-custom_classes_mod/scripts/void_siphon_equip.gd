@@ -2,7 +2,7 @@ class_name VoidSiphonEquipEffect
 extends EquipEffect
 
 func physics_process(player, _delta):
-	if Input.is_action_just_pressed("useItem") or Input.is_action_just_pressed("fire"):
+	if Input.is_action_just_pressed("useItem") or Input.is_action_just_pressed("rightMouseClick"):
 		_trigger_implosion(player)
 
 func _trigger_implosion(player) -> void:
