@@ -1,7 +1,21 @@
 class_name ModRegistry
 extends RefCounted
 
+const CORE_MODS: Array[String] = [
+	"gareth-mod_manager_mod",
+	"gareth-multisave_mod",
+	"gareth-game_speed_mod",
+	"gareth-lost_expedition_mod",
+	"gareth-tectonic_faultline_mod",
+	"gareth-living_canvas_mod",
+	"gareth-abyssal_trench_mod",
+	"gareth-diagonal_map_mod"
+]
+
 static func is_mod_active_for_run(mod_key: String) -> bool:
+	if mod_key in CORE_MODS:
+		return true
+
 	var ssm = Engine.get_main_loop().root.get_node_or_null("/root/SaveSlotManager")
 	if ssm and ssm.has_method("is_mod_active_for_run"):
 		return ssm.is_mod_active_for_run(mod_key)
@@ -62,7 +76,7 @@ static func _dict_from_manifest(mod_id: String, m, active: bool) -> Dictionary:
 			author = str(m.extra.godot.authors[0])
 	var version: String = str(m.version_number) if "version_number" in m else "1.0.0"
 	var cat: String = _determine_category(m)
-	var is_core: bool = (mod_id == "gareth-mod_manager_mod")
+	var is_core: bool = (mod_id in CORE_MODS)
 
 	return {
 		"id": mod_id,
@@ -78,10 +92,10 @@ static func _dict_from_manifest(mod_id: String, m, active: bool) -> Dictionary:
 
 static func _determine_category(m) -> String:
 	var id: String = str(m.name).to_lower() if "name" in m else ""
+	if "map" in id or "trench" in id or "faultline" in id or "canvas" in id or "expedition" in id or "diagonal" in id:
+		return "Custom Maps & Strata"
 	if "class" in id or "profession" in id or "jedi" in id or "knight" in id or "sinclairity" in id:
 		return "Classes & Professions"
-	if "map" in id or "trench" in id or "faultline" in id or "canvas" in id or "expedition" in id:
-		return "Custom Maps & Strata"
 	if "weapon" in id or "bomb" in id or "laser" in id or "nuke" in id or "turret" in id or "mortar" in id or "grenade" in id or "arsenal" in id or "tank" in id or "strike" in id:
 		return "Weapons & Arsenal"
 	if "employee" in id or "collector" in id or "drill" in id or "vacuum" in id:
