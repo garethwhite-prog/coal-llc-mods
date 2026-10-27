@@ -151,7 +151,7 @@ func _generate_slot_meta(slot_id: int) -> void:
 		file.store_string(JSON.stringify(meta_data, "\t"))
 		file.close()
 func set_active_slot_mods(cfg: Dictionary) -> void:
-	var slot_id = get_current_slot_id() if has_method("get_current_slot_id") else 1
+	var slot_id = current_slot
 	var slot_cfg_path = "user://profile_mods_slot_%d.json" % slot_id
 	var f = FileAccess.open(slot_cfg_path, FileAccess.WRITE)
 	if f:

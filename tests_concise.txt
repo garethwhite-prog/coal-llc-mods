@@ -2,11 +2,11 @@
   20: ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
   21: at: push_error (core/variant/variant_utility.cpp:1098)
 1013: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
-1030: SCRIPT ERROR: Parse Error: Function "is_mod_active_for_run" has the same name as a previously declared function.
+1030: SCRIPT ERROR: Parse Error: Function "get_current_slot_id()" not found in base self.
 1032: ERROR: Failed to load script "res://mods-unpacked/gareth-multisave_mod/scripts/save_slot_manager.gd" with error "Parse error".
 1083: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
-[Repeated 7 times]
+[Repeated 6 times]
   First: 1091: SCRIPT ERROR: Invalid access to property or key 'current_slot' on a base object of type 'Node'.
-  Last:  1103: SCRIPT ERROR: Invalid access to property or key 'current_slot' on a base object of type 'Node'.
-1105: ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-1110: ERROR: 173 resources still in use at exit (run with --verbose for details).
+  Last:  1101: SCRIPT ERROR: Invalid access to property or key 'current_slot' on a base object of type 'Node'.
+1103: ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+1108: ERROR: 173 resources still in use at exit (run with --verbose for details).
