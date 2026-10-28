@@ -1,14 +1,17 @@
 {
-	"name": "teletubbies_mod",
-	"namespace": "gareth",
-	"version_number": "1.0.5",
-	"description": "Transforms your mine into Teletubbyland! Replaces industrial nozzle with googly-eyed Noo-Noo, adds animated yawning Baby Sun who drops in the sky, and converts employees and drone collectors to Tinky Winky, Dipsy, Laa-Laa, and Po.",
-	"website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
-	"dependencies": [],
-	"extra": {
-		"godot": {
-			"authors": ["Gareth White"],
-			"display_name": "Teletubbies & Noo-Noo Overhaul"
-		}
-	}
+  "name": "teletubbies_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.5",
+  "description": "Transforms your mine into Teletubbyland: Noo-Noo vacuum cleaner, yawning Baby Sun that sets with the timer, and colorful workforce reskins.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": ["gareth-mod_manager_mod"],
+  "extra": {
+    "godot": {
+      "authors": ["Gareth White"],
+      "display_name": "Teletubbies & Noo-Noo Overhaul",
+      "tags": ["visual", "teletubbies", "workforce", "qol"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
 }

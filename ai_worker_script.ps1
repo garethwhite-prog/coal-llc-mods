@@ -1,5 +1,5 @@
 ﻿# ==============================================================================
-# Coal LLC - Fix Mod Manager Manifest, Restore Menu Buttons, Title Logo & New Mods
+# Coal LLC - Fix Store Text Contrast, Henry/Teletubby Manifests & Chained Title Sign
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
@@ -10,51 +10,126 @@ $hookZip    = "$steamRoot\mod-hooks.zip"
 
 Set-Location $repo
 
-Write-Host ">>> 1. Terminating running Coal LLC processes..." -ForegroundColor Cyan
+Write-Host ">>> 1. Terminating running Coal LLC / Godot processes..." -ForegroundColor Cyan
 Get-Process -Name "Coal LLC*", "godot*" -ErrorAction SilentlyContinue | Stop-Process -Force
 Start-Sleep -Milliseconds 400
 
 Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
-if (-not (Test-Path $downMods)) {
-	New-Item -ItemType Directory -Path $downMods -Force | Out-Null
-}
-
 # ------------------------------------------------------------------------------
-# 2. FIX GARETH-MOD_MANAGER_MOD MANIFEST (ADD REQUIRED COMPATIBILITY ARRAYS)
+# 2. FIX MANIFEST SCHEMA FOR HENRY THE HOOVER (RESTORE MODLOADER ACTIVATION)
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 2. Repairing gareth-mod_manager_mod manifest validation schema..." -ForegroundColor Cyan
-$gmmDir = "$repo\mods-unpacked\gareth-mod_manager_mod"
-$gmmInner = "$gmmDir\mods-unpacked\gareth-mod_manager_mod"
+Write-Host "`n>>> 2. Fixing manifest schema for gareth-henry_the_hoover_mod..." -ForegroundColor Cyan
+$henryDir = "$repo\mods-unpacked\gareth-henry_the_hoover_mod"
+$henryInner = "$henryDir\mods-unpacked\gareth-henry_the_hoover_mod"
 
-$mmmManifest = @'
+$henryManifest = @'
 {
-  "name": "mod_manager_mod",
+  "name": "henry_the_hoover_mod",
   "namespace": "gareth",
-  "version_number": "2.1.0",
-  "description": "Comprehensive Mod Store featuring multi-repository filtering, live name and author searches, physical staging downloads, and integrated custom Title logo.",
+  "version_number": "1.0.5",
+  "description": "Authentic Henry the Hoover visual skin for the industrial vacuum. Body color dynamically updates based on upgrade tier (Henry, Hetty, Harry, George, Charles).",
   "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
-  "dependencies": [],
+  "dependencies": ["gareth-mod_manager_mod"],
   "extra": {
     "godot": {
       "authors": ["Gareth White"],
-      "display_name": "COAL LLC UNIVERSAL MOD MANAGER",
-      "tags": ["core", "ui", "store", "manager", "hotbar"],
+      "display_name": "Henry the Hoover (Vacuum Reskin)",
+      "tags": ["visual", "vacuum", "reskin", "qol"],
       "compatible_mod_loader_version": ["7.0.1"],
       "compatible_game_version": ["1.4.1.1"]
     }
   }
 }
 '@
-Set-Content -Path "$gmmDir\manifest.json" -Value $mmmManifest -Encoding UTF8
-Set-Content -Path "$gmmInner\manifest.json" -Value $mmmManifest -Encoding UTF8
-Write-Host "  Fixed: manifest.json schema (validation failure resolved)" -ForegroundColor Green
+Set-Content -Path "$henryDir\manifest.json" -Value $henryManifest -Encoding UTF8
+Set-Content -Path "$henryInner\manifest.json" -Value $henryManifest -Encoding UTF8
+
+# Repack into downloaded_mods AND update active mods if already installed
+$henryZip = "$downMods\gareth-henry_the_hoover_mod.zip"
+if (Test-Path $henryZip) { Remove-Item -Path $henryZip -Force }
+$stream  = [System.IO.File]::Open($henryZip, [System.IO.FileMode]::CreateNew)
+$archive = New-Object System.IO.Compression.ZipArchive($stream, [System.IO.Compression.ZipArchiveMode]::Create)
+foreach ($f in (Get-ChildItem -Path $henryDir -Recurse -File)) {
+	$entryName = $f.FullName.Substring($henryDir.Length + 1).Replace("\", "/")
+	[System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $f.FullName, $entryName) | Out-Null
+}
+$archive.Dispose()
+$stream.Dispose()
+
+# If user installed Henry in Steam mods/, copy the repaired zip over
+if (Test-Path "$steamMods\gareth-henry_the_hoover_mod.zip") {
+	Copy-Item -Path $henryZip -Destination "$steamMods\gareth-henry_the_hoover_mod.zip" -Force
+	Write-Host "  Updated active: gareth-henry_the_hoover_mod.zip in mods/" -ForegroundColor Green
+}
+Write-Host "  Staged repaired: gareth-henry_the_hoover_mod.zip in downloaded_mods/" -ForegroundColor Green
 
 # ------------------------------------------------------------------------------
-# 3. WRITE COMPLETE MAINMENU.HOOKS.GD (ALL BUTTONS RESTORED + BRANDED LOGO)
+# 3. FIX MANIFEST SCHEMA FOR TELETUBBIES MOD
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 3. Restoring full MainMenu.hooks.gd (Buttons + Custom Branded Logo)..." -ForegroundColor Cyan
+Write-Host "`n>>> 3. Fixing manifest schema for gareth-teletubbies_mod..." -ForegroundColor Cyan
+$ttDir = "$repo\mods-unpacked\gareth-teletubbies_mod"
+$ttInner = "$ttDir\mods-unpacked\gareth-teletubbies_mod"
+
+$ttManifest = @'
+{
+  "name": "teletubbies_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.5",
+  "description": "Transforms your mine into Teletubbyland: Noo-Noo vacuum cleaner, yawning Baby Sun that sets with the timer, and colorful workforce reskins.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": ["gareth-mod_manager_mod"],
+  "extra": {
+    "godot": {
+      "authors": ["Gareth White"],
+      "display_name": "Teletubbies & Noo-Noo Overhaul",
+      "tags": ["visual", "teletubbies", "workforce", "qol"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}
+'@
+Set-Content -Path "$ttDir\manifest.json" -Value $ttManifest -Encoding UTF8
+Set-Content -Path "$ttInner\manifest.json" -Value $ttManifest -Encoding UTF8
+
+$ttZip = "$downMods\gareth-teletubbies_mod.zip"
+if (Test-Path $ttZip) { Remove-Item -Path $ttZip -Force }
+$stream  = [System.IO.File]::Open($ttZip, [System.IO.FileMode]::CreateNew)
+$archive = New-Object System.IO.Compression.ZipArchive($stream, [System.IO.Compression.ZipArchiveMode]::Create)
+foreach ($f in (Get-ChildItem -Path $ttDir -Recurse -File)) {
+	$entryName = $f.FullName.Substring($ttDir.Length + 1).Replace("\", "/")
+	[System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $f.FullName, $entryName) | Out-Null
+}
+$archive.Dispose()
+$stream.Dispose()
+Write-Host "  Staged repaired: gareth-teletubbies_mod.zip in downloaded_mods/" -ForegroundColor Green
+
+# ------------------------------------------------------------------------------
+# 4. FIX MOD STORE TEXT CONTRAST (BRIGHT WHITE TITLES)
+# ------------------------------------------------------------------------------
+Write-Host "`n>>> 4. Fixing mod name font color in mod_store_view.gd..." -ForegroundColor Cyan
+$msvPath = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\scenes\mod_store_view.gd"
+$msvCode = Get-Content $msvPath -Raw
+
+# Replace uncolored %s with bright white [color=#ffffff]%s[/color]
+$oldTitleBB = 'title_lbl.text = "[b][font_size=15]%s[/font_size][/b]'
+$newTitleBB = 'title_lbl.text = "[b][font_size=15][color=#ffffff]%s[/color][/font_size][/b]'
+if ($msvCode.Contains($oldTitleBB)) {
+	$msvCode = $msvCode.Replace($oldTitleBB, $newTitleBB)
+}
+
+# Also ensure description text is bright and legible
+$msvCode = $msvCode.Replace('desc_lbl.modulate = Color(0.78, 0.78, 0.78)', 'desc_lbl.modulate = Color(0.88, 0.90, 0.94)')
+
+Set-Content -Path $msvPath -Value $msvCode -Encoding UTF8
+Write-Host "  Updated: mod_store_view.gd (Titles now render in bright white #ffffff)" -ForegroundColor Green
+
+# ------------------------------------------------------------------------------
+# 5. PROCEDURAL HANGING SIGN WITH CHAINS IN MAINMENU.HOOKS.GD
+# ------------------------------------------------------------------------------
+Write-Host "`n>>> 5. Installing procedural hanging title sub-board in MainMenu.hooks.gd..." -ForegroundColor Cyan
 $mmmHookPath = "$repo\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\extensions\scripts\MainMenu.hooks.gd"
 @'
 extends Object
@@ -65,27 +140,75 @@ func _ready(chain: ModLoaderHookChain) -> void:
 	if not is_instance_valid(menu):
 		return
 
-	# 1. Custom Title Sign Override with Hanging Chains Sub-Board
+	# Check for an optional external branded logo using raw byte buffers
+	var logo_loaded := false
 	var title_node = menu.find_child("Title", true, false)
 	if not title_node:
 		title_node = menu.find_child("TextureRect", true, false)
 
-	if is_instance_valid(title_node) and title_node is TextureRect:
-		var custom_tex = load("res://mods-unpacked/gareth-mod_manager_mod/assets/branded_logo.png")
-		if custom_tex:
-			title_node.texture = custom_tex
-			title_node.custom_minimum_size = Vector2(760, 310)
-			title_node.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	var logo_path := "res://mods-unpacked/gareth-mod_manager_mod/assets/branded_logo.png"
+	if FileAccess.file_exists(logo_path) and is_instance_valid(title_node) and title_node is TextureRect:
+		var bytes := FileAccess.get_file_as_bytes(logo_path)
+		if bytes.size() > 0:
+			var img := Image.new()
+			if img.load_png_from_buffer(bytes) == OK:
+				var tex := ImageTexture.create_from_image(img)
+				title_node.texture = tex
+				title_node.custom_minimum_size = Vector2(760, 310)
+				title_node.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+				logo_loaded = true
 
-	# Remove any old overlapping label
-	var old_sub = menu.find_child("EnhancedSubtitle", true, false)
-	if is_instance_valid(old_sub):
-		old_sub.queue_free()
+	# Procedural Hanging Plaque with Iron Chains beneath the Title Sign
+	if not logo_loaded and not menu.has_node("HangingTitlePlaque"):
+		var plaque_container := Control.new()
+		plaque_container.name = "HangingTitlePlaque"
+		plaque_container.set_anchors_preset(Control.PRESET_CENTER_TOP)
+		plaque_container.position = Vector2(0, 0)
+		menu.add_child(plaque_container)
 
-	# 2. Main Menu Buttons Stack
+		# Left Iron Chain Links
+		var chain_l := ColorRect.new()
+		chain_l.color = Color(0.28, 0.28, 0.32, 0.95)
+		chain_l.position = Vector2(488, 252)
+		chain_l.size = Vector2(8, 22)
+		plaque_container.add_child(chain_l)
+
+		# Right Iron Chain Links
+		var chain_r := ColorRect.new()
+		chain_r.color = Color(0.28, 0.28, 0.32, 0.95)
+		chain_r.position = Vector2(784, 252)
+		chain_r.size = Vector2(8, 22)
+		plaque_container.add_child(chain_r)
+
+		# Hanging Wooden Plaque Board
+		var wood_panel := PanelContainer.new()
+		wood_panel.position = Vector2(440, 274)
+		wood_panel.custom_minimum_size = Vector2(400, 36)
+
+		var sb := StyleBoxFlat.new()
+		sb.bg_color = Color(0.55, 0.32, 0.18, 0.98) # Warm timber brown
+		sb.border_color = Color(0.22, 0.12, 0.06, 1.0) # Dark wooden bark rim
+		sb.set_border_width_all(3)
+		sb.corner_radius_top_left = 6
+		sb.corner_radius_top_right = 6
+		sb.corner_radius_bottom_left = 6
+		sb.corner_radius_bottom_right = 6
+		sb.expand_margin_top = 2
+		sb.expand_margin_bottom = 2
+		wood_panel.add_theme_stylebox_override("panel", sb)
+
+		var plaque_label := RichTextLabel.new()
+		plaque_label.bbcode_enabled = true
+		plaque_label.text = "[center][b][color=#38bdf8]✦ ENHANCED BY GARETH WHITE & GEMINI ✦[/color][/b][/center]"
+		plaque_label.fit_content = true
+		plaque_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		wood_panel.add_child(plaque_label)
+
+		plaque_container.add_child(wood_panel)
+
+	# Main Menu Buttons Configuration
 	var btn_grid = menu.get_node_or_null("%MainMenuButtons")
 	if btn_grid:
-		# Shift buttons up and use clean spacing
 		btn_grid.offset_top = -68.0
 		btn_grid.offset_bottom = 176.0
 		btn_grid.add_theme_constant_override("separation", 4)
@@ -167,306 +290,10 @@ func on_profession_selected(chain: ModLoaderHookChain, mode: int, prof: Object, 
 	else:
 		chain.execute_next([mode, prof, hard_modifier])
 '@ | Set-Content -Path $mmmHookPath -Encoding UTF8
-Write-Host "  Restored: MainMenu.hooks.gd (All buttons and custom title active)" -ForegroundColor Green
+Write-Host "  Updated: MainMenu.hooks.gd (Procedural hanging plaque + buffer loader mounted)" -ForegroundColor Green
 
 # ------------------------------------------------------------------------------
-# 4. BUILD DRONE WORKFORCE MOD (STAGE IN DOWNLOADED_MODS ONLY)
-# ------------------------------------------------------------------------------
-Write-Host "`n>>> 4. Building gareth-drone_workforce_mod (staged in downloaded_mods only)..." -ForegroundColor Cyan
-$droneDir = "$repo\mods-unpacked\gareth-drone_workforce_mod"
-$droneInner = "$droneDir\mods-unpacked\gareth-drone_workforce_mod"
-New-Item -ItemType Directory -Path "$droneInner\extensions\scenes\AutoMiners" -Force | Out-Null
-New-Item -ItemType Directory -Path "$droneInner\extensions\scripts" -Force | Out-Null
-New-Item -ItemType Directory -Path "$droneInner\scripts" -Force | Out-Null
-
-$droneManifest = @'
-{
-  "name": "drone_workforce_mod",
-  "namespace": "gareth",
-  "version_number": "1.0.0",
-  "description": "Replaces all walking employee miners with hovering quadcopter laser drones and transforms UFO collectors into heavy-lift cargo quadcopters.",
-  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
-  "dependencies": ["gareth-mod_manager_mod"],
-  "extra": {
-    "godot": {
-      "authors": ["Gareth White"],
-      "display_name": "Quadcopter Drone Workforce Overhaul",
-      "tags": ["workforce", "automation", "drones", "visuals"],
-      "compatible_mod_loader_version": ["7.0.1"],
-      "compatible_game_version": ["1.4.1.1"]
-    }
-  }
-}
-'@
-Set-Content -Path "$droneDir\manifest.json" -Value $droneManifest -Encoding UTF8
-Set-Content -Path "$droneInner\manifest.json" -Value $droneManifest -Encoding UTF8
-
-@'
-extends Node
-const MOD_DIR := "gareth-drone_workforce_mod"
-func _init() -> void:
-	ModLoaderMod.install_script_hooks(
-		"res://scenes/AutoMiners/employee_miner_2.gd",
-		"res://mods-unpacked/gareth-drone_workforce_mod/extensions/scenes/AutoMiners/employee_miner_2.hooks.gd"
-	)
-	ModLoaderMod.install_script_hooks(
-		"res://scripts/LootCollectorUFO.gd",
-		"res://mods-unpacked/gareth-drone_workforce_mod/extensions/scripts/LootCollectorUFO.hooks.gd"
-	)
-	ModLoaderLog.info("Quadcopter Drone Workforce online!", MOD_DIR)
-'@ | Set-Content -Path "$droneInner\mod_main.gd" -Encoding UTF8
-
-@'
-class_name DroneTextureFactory
-extends RefCounted
-
-static func create_miner_drone_texture() -> ImageTexture:
-	var img = Image.create(32, 24, false, Image.FORMAT_RGBA8)
-	var body = Color(0.25, 0.28, 0.32, 1.0)
-	var rotor = Color(0.70, 0.75, 0.80, 0.9)
-	var light = Color(0.20, 0.85, 1.00, 1.0)
-	var motor = Color(0.12, 0.14, 0.16, 1.0)
-
-	for x in range(32):
-		for y in range(24):
-			# Central streamlined drone body
-			if (y in range(9, 17) and x in range(10, 22)):
-				img.set_pixel(x, y, body)
-			# Front searchlight
-			if y in range(12, 15) and x in range(20, 24):
-				img.set_pixel(x, y, light)
-			# Quad motor arms
-			if (y in range(7, 10) and (x in range(4, 11) or x in range(21, 28))):
-				img.set_pixel(x, y, motor)
-			# Spinning rotor blade blur
-			if (y == 6 and (x in range(1, 13) or x in range(19, 31))):
-				img.set_pixel(x, y, rotor)
-	return ImageTexture.create_from_image(img)
-
-static func create_cargo_drone_texture() -> ImageTexture:
-	var img = Image.create(36, 28, false, Image.FORMAT_RGBA8)
-	var body = Color(0.85, 0.55, 0.15, 1.0)
-	var frame = Color(0.20, 0.22, 0.25, 1.0)
-	var rotor = Color(0.75, 0.80, 0.85, 0.85)
-	var magnet = Color(0.90, 0.15, 0.15, 1.0)
-
-	for x in range(36):
-		for y in range(28):
-			if (y in range(8, 18) and x in range(11, 25)):
-				img.set_pixel(x, y, body)
-			if (y in range(6, 9) and (x in range(3, 12) or x in range(24, 33))):
-				img.set_pixel(x, y, frame)
-			if (y == 5 and (x in range(1, 14) or x in range(22, 35))):
-				img.set_pixel(x, y, rotor)
-			# Underslung magnetic collector winch
-			if y in range(19, 24) and x in range(15, 21):
-				img.set_pixel(x, y, magnet)
-	return ImageTexture.create_from_image(img)
-'@ | Set-Content -Path "$droneInner\scripts\drone_texture_factory.gd" -Encoding UTF8
-
-@'
-extends Object
-
-func _ready(chain: ModLoaderHookChain) -> void:
-	chain.execute_next([])
-	var miner = chain.reference_object
-	if not is_instance_valid(miner): return
-
-	var factory = load("res://mods-unpacked/gareth-drone_workforce_mod/scripts/drone_texture_factory.gd")
-	if not factory: return
-
-	# Hide humanoid limbs and mount drone chassis
-	for part in ["Head", "Torso", "Legs", "Tool"]:
-		var node = miner.find_child(part, true, false)
-		if is_instance_valid(node) and node is CanvasItem:
-			node.visible = false
-
-	var drone_spr = miner.get_node_or_null("MinerDroneSprite")
-	if not drone_spr:
-		drone_spr = Sprite2D.new()
-		drone_spr.name = "MinerDroneSprite"
-		drone_spr.texture = factory.create_miner_drone_texture()
-		drone_spr.scale = Vector2(1.5, 1.5)
-		miner.add_child(drone_spr)
-'@ | Set-Content -Path "$droneInner\extensions\scenes\AutoMiners\employee_miner_2.hooks.gd" -Encoding UTF8
-
-@'
-extends Object
-
-func _ready(chain: ModLoaderHookChain) -> void:
-	chain.execute_next([])
-	var ufo = chain.reference_object
-	if not is_instance_valid(ufo): return
-
-	var factory = load("res://mods-unpacked/gareth-drone_workforce_mod/scripts/drone_texture_factory.gd")
-	if not factory: return
-
-	var models = ufo.find_child("Models", true, false)
-	if is_instance_valid(models) and models is CanvasItem:
-		models.visible = false
-
-	var cargo_spr = ufo.get_node_or_null("CargoDroneSprite")
-	if not cargo_spr:
-		cargo_spr = Sprite2D.new()
-		cargo_spr.name = "CargoDroneSprite"
-		cargo_spr.texture = factory.create_cargo_drone_texture()
-		cargo_spr.scale = Vector2(1.5, 1.5)
-		ufo.add_child(cargo_spr)
-'@ | Set-Content -Path "$droneInner\extensions\scripts\LootCollectorUFO.hooks.gd" -Encoding UTF8
-
-# Package into downloaded_mods only
-$droneZip = "$downMods\gareth-drone_workforce_mod.zip"
-if (Test-Path $droneZip) { Remove-Item -Path $droneZip -Force }
-$stream  = [System.IO.File]::Open($droneZip, [System.IO.FileMode]::CreateNew)
-$archive = New-Object System.IO.Compression.ZipArchive($stream, [System.IO.Compression.ZipArchiveMode]::Create)
-foreach ($f in (Get-ChildItem -Path $droneDir -Recurse -File)) {
-	$entryName = $f.FullName.Substring($droneDir.Length + 1).Replace("\", "/")
-	[System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $f.FullName, $entryName) | Out-Null
-}
-$archive.Dispose()
-$stream.Dispose()
-Write-Host "  Staged: gareth-drone_workforce_mod.zip -> downloaded_mods/" -ForegroundColor Green
-
-# ------------------------------------------------------------------------------
-# 5. BUILD THOMAS THE TANK ENGINE CLASS & RAIL OVERHAUL (STAGE ONLY)
-# ------------------------------------------------------------------------------
-Write-Host "`n>>> 5. Building gareth-thomas_tank_engine_mod (staged in downloaded_mods only)..." -ForegroundColor Cyan
-$thomasDir = "$repo\mods-unpacked\gareth-thomas_tank_engine_mod"
-$thomasInner = "$thomasDir\mods-unpacked\gareth-thomas_tank_engine_mod"
-New-Item -ItemType Directory -Path "$thomasInner\scripts" -Force | Out-Null
-New-Item -ItemType Directory -Path "$thomasInner\extensions\scenes\Stages" -Force | Out-Null
-
-$thomasManifest = @'
-{
-  "name": "thomas_tank_engine_mod",
-  "namespace": "gareth",
-  "version_number": "1.0.0",
-  "description": "Playable railway overhaul: Thomas shuttles back and forth along the mine floor between buffer stops, collecting ore into rolling wagons. Features 3-tier upgrade branches: Locomotives (Thomas, Edward, Henry, Gordon), Wagon Rake Count (1-6), and Hopper Capacity.",
-  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
-  "dependencies": ["gareth-mod_manager_mod"],
-  "extra": {
-    "godot": {
-      "authors": ["Gareth White"],
-      "display_name": "Thomas the Tank Engine Railway Class",
-      "tags": ["class", "railway", "trains", "automation"],
-      "compatible_mod_loader_version": ["7.0.1"],
-      "compatible_game_version": ["1.4.1.1"]
-    }
-  }
-}
-'@
-Set-Content -Path "$thomasDir\manifest.json" -Value $thomasManifest -Encoding UTF8
-Set-Content -Path "$thomasInner\manifest.json" -Value $thomasManifest -Encoding UTF8
-
-@'
-extends Node
-const MOD_DIR := "gareth-thomas_tank_engine_mod"
-func _ready() -> void:
-	ModLoaderLog.info("Thomas the Tank Engine Railway expansion initialized!", MOD_DIR)
-'@ | Set-Content -Path "$thomasInner\mod_main.gd" -Encoding UTF8
-
-@'
-class_name ThomasTrainManager
-extends Node2D
-
-var left_stop: float = 64.0
-var right_stop: float = 880.0
-var speed: float = 140.0
-var direction: float = 1.0
-
-var loco_tier: int = 1 # 1: Thomas, 2: Edward, 3: Henry, 4: Gordon
-var wagon_count: int = 2
-var wagon_capacity: float = 150.0
-var current_haul: float = 0.0
-
-var loco_sprite: Sprite2D
-var wagons: Array[Sprite2D] = []
-
-func _ready() -> void:
-	z_index = 20
-	position = Vector2(left_stop, 24.0)
-
-	loco_sprite = Sprite2D.new()
-	loco_sprite.texture = _generate_loco_texture(loco_tier)
-	loco_sprite.scale = Vector2(1.8, 1.8)
-	add_child(loco_sprite)
-
-func _process(delta: float) -> void:
-	position.x += direction * speed * delta
-
-	# Physical buffer stops at cavern edges
-	if position.x >= right_stop:
-		position.x = right_stop
-		direction = -1.0
-		loco_sprite.scale.x = -abs(loco_sprite.scale.x)
-	elif position.x <= left_stop:
-		position.x = left_stop
-		direction = 1.0
-		loco_sprite.scale.x = abs(loco_sprite.scale.x)
-		_unload_at_stockpile()
-
-	_sweep_dropped_ore()
-
-func _sweep_dropped_ore() -> void:
-	var tree = get_tree()
-	if not tree or not tree.root: return
-	var ld = tree.root.find_child("LootDrops", true, false)
-	if not ld or not ("loot_drops" in ld): return
-
-	for drop in ld.loot_drops.get_children():
-		if is_instance_valid(drop) and drop.global_position.distance_to(global_position) < 48.0:
-			if current_haul < (wagon_count * wagon_capacity):
-				current_haul += 1.0
-				drop.queue_free()
-
-func _unload_at_stockpile() -> void:
-	if current_haul > 0.0 and Gvars:
-		Gvars.CashCount += current_haul * 2.0
-		current_haul = 0.0
-
-func _generate_loco_texture(tier: int) -> ImageTexture:
-	var img = Image.create(36, 24, false, Image.FORMAT_RGBA8)
-	var body_color = Color(0.15, 0.45, 0.90, 1.0) # Thomas blue
-	if tier == 2: body_color = Color(0.20, 0.60, 0.95, 1.0) # Edward
-	elif tier == 3: body_color = Color(0.15, 0.70, 0.25, 1.0) # Henry Green
-	elif tier == 4: body_color = Color(0.10, 0.35, 0.85, 1.0) # Gordon Express
-
-	var boiler = Color(0.12, 0.12, 0.14, 1.0)
-	var red = Color(0.90, 0.15, 0.15, 1.0)
-	var face = Color(0.85, 0.85, 0.88, 1.0)
-
-	for x in range(36):
-		for y in range(24):
-			# Boiler and Cab
-			if (y in range(8, 18) and x in range(6, 26)) or (y in range(4, 18) and x in range(4, 12)):
-				img.set_pixel(x, y, body_color)
-			# Smokebox and Funnel
-			if (y in range(7, 18) and x in range(25, 32)) or (y in range(2, 7) and x in range(27, 30)):
-				img.set_pixel(x, y, boiler)
-			# Face on front of smokebox
-			if y in range(9, 16) and x in range(30, 34):
-				img.set_pixel(x, y, face)
-			# Red Buffer Beam
-			if y in range(16, 20) and (x in range(2, 6) or x in range(31, 35)):
-				img.set_pixel(x, y, red)
-	return ImageTexture.create_from_image(img)
-'@ | Set-Content -Path "$thomasInner\scripts\thomas_train_manager.gd" -Encoding UTF8
-
-# Package into downloaded_mods only
-$thomasZip = "$downMods\gareth-thomas_tank_engine_mod.zip"
-if (Test-Path $thomasZip) { Remove-Item -Path $thomasZip -Force }
-$stream  = [System.IO.File]::Open($thomasZip, [System.IO.FileMode]::CreateNew)
-$archive = New-Object System.IO.Compression.ZipArchive($stream, [System.IO.Compression.ZipArchiveMode]::Create)
-foreach ($f in (Get-ChildItem -Path $thomasDir -Recurse -File)) {
-	$entryName = $f.FullName.Substring($thomasDir.Length + 1).Replace("\", "/")
-	[System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $f.FullName, $entryName) | Out-Null
-}
-$archive.Dispose()
-$stream.Dispose()
-Write-Host "  Staged: gareth-thomas_tank_engine_mod.zip -> downloaded_mods/" -ForegroundColor Green
-
-# ------------------------------------------------------------------------------
-# 6. REPACK GARETH-MOD_MANAGER_MOD WITH PROPER MANIFEST & CLEAN HOOKS
+# 6. REPACK GARETH-MOD_MANAGER_MOD TO STEAM
 # ------------------------------------------------------------------------------
 Write-Host "`n>>> 6. Repackaging gareth-mod_manager_mod into active Steam mods..." -ForegroundColor Cyan
 if (Test-Path $hookZip) { Remove-Item -Path $hookZip -Force }
@@ -491,7 +318,7 @@ Write-Host "  Repacked cleanly: $m.zip" -ForegroundColor Green
 # ------------------------------------------------------------------------------
 Write-Host "`n>>> 7. Staging, committing and pushing to GitHub..." -ForegroundColor Cyan
 git add -A
-git commit -m "Fix: mod_manager_mod manifest validation schema, restore Main Menu buttons, integrate hanging-sign title logo, stage Quadcopter Drone mod and Thomas the Tank Engine railway expansion"
+git commit -m "Fix: Bright white font for Mod Store card titles, repaired manifest schema for Henry and Teletubbies, and procedural hanging title sub-board"
 git push origin main
 
 Write-Host "`nDeployment complete! Zero tests executed (awaiting gameplay session)." -ForegroundColor Green

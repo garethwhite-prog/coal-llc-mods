@@ -6,27 +6,75 @@ func _ready(chain: ModLoaderHookChain) -> void:
 	if not is_instance_valid(menu):
 		return
 
-	# 1. Custom Title Sign Override with Hanging Chains Sub-Board
+	# Check for an optional external branded logo using raw byte buffers
+	var logo_loaded := false
 	var title_node = menu.find_child("Title", true, false)
 	if not title_node:
 		title_node = menu.find_child("TextureRect", true, false)
 
-	if is_instance_valid(title_node) and title_node is TextureRect:
-		var custom_tex = load("res://mods-unpacked/gareth-mod_manager_mod/assets/branded_logo.png")
-		if custom_tex:
-			title_node.texture = custom_tex
-			title_node.custom_minimum_size = Vector2(760, 310)
-			title_node.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	var logo_path := "res://mods-unpacked/gareth-mod_manager_mod/assets/branded_logo.png"
+	if FileAccess.file_exists(logo_path) and is_instance_valid(title_node) and title_node is TextureRect:
+		var bytes := FileAccess.get_file_as_bytes(logo_path)
+		if bytes.size() > 0:
+			var img := Image.new()
+			if img.load_png_from_buffer(bytes) == OK:
+				var tex := ImageTexture.create_from_image(img)
+				title_node.texture = tex
+				title_node.custom_minimum_size = Vector2(760, 310)
+				title_node.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+				logo_loaded = true
 
-	# Remove any old overlapping label
-	var old_sub = menu.find_child("EnhancedSubtitle", true, false)
-	if is_instance_valid(old_sub):
-		old_sub.queue_free()
+	# Procedural Hanging Plaque with Iron Chains beneath the Title Sign
+	if not logo_loaded and not menu.has_node("HangingTitlePlaque"):
+		var plaque_container := Control.new()
+		plaque_container.name = "HangingTitlePlaque"
+		plaque_container.set_anchors_preset(Control.PRESET_CENTER_TOP)
+		plaque_container.position = Vector2(0, 0)
+		menu.add_child(plaque_container)
 
-	# 2. Main Menu Buttons Stack
+		# Left Iron Chain Links
+		var chain_l := ColorRect.new()
+		chain_l.color = Color(0.28, 0.28, 0.32, 0.95)
+		chain_l.position = Vector2(488, 252)
+		chain_l.size = Vector2(8, 22)
+		plaque_container.add_child(chain_l)
+
+		# Right Iron Chain Links
+		var chain_r := ColorRect.new()
+		chain_r.color = Color(0.28, 0.28, 0.32, 0.95)
+		chain_r.position = Vector2(784, 252)
+		chain_r.size = Vector2(8, 22)
+		plaque_container.add_child(chain_r)
+
+		# Hanging Wooden Plaque Board
+		var wood_panel := PanelContainer.new()
+		wood_panel.position = Vector2(440, 274)
+		wood_panel.custom_minimum_size = Vector2(400, 36)
+
+		var sb := StyleBoxFlat.new()
+		sb.bg_color = Color(0.55, 0.32, 0.18, 0.98) # Warm timber brown
+		sb.border_color = Color(0.22, 0.12, 0.06, 1.0) # Dark wooden bark rim
+		sb.set_border_width_all(3)
+		sb.corner_radius_top_left = 6
+		sb.corner_radius_top_right = 6
+		sb.corner_radius_bottom_left = 6
+		sb.corner_radius_bottom_right = 6
+		sb.expand_margin_top = 2
+		sb.expand_margin_bottom = 2
+		wood_panel.add_theme_stylebox_override("panel", sb)
+
+		var plaque_label := RichTextLabel.new()
+		plaque_label.bbcode_enabled = true
+		plaque_label.text = "[center][b][color=#38bdf8]✦ ENHANCED BY GARETH WHITE & GEMINI ✦[/color][/b][/center]"
+		plaque_label.fit_content = true
+		plaque_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		wood_panel.add_child(plaque_label)
+
+		plaque_container.add_child(wood_panel)
+
+	# Main Menu Buttons Configuration
 	var btn_grid = menu.get_node_or_null("%MainMenuButtons")
 	if btn_grid:
-		# Shift buttons up and use clean spacing
 		btn_grid.offset_top = -68.0
 		btn_grid.offset_bottom = 176.0
 		btn_grid.add_theme_constant_override("separation", 4)

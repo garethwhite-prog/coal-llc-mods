@@ -1,48 +1,164 @@
-﻿  19: ERROR ModLoader:Path: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
-  20: ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
-  21: at: push_error (core/variant/variant_utility.cpp:1098)
- 167: ERROR ModLoader: The mod from path "C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mods/gareth-mod_manager_mod.zip" cannot be loaded. Manifest validation failed with the following errors:
- 172: ERROR: The mod from path "C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mods/gareth-mod_manager_mod.zip" cannot be loaded. Manifest validation failed with the following errors:
- 177: at: push_error (core/variant/variant_utility.cpp:1098)
- 295: ERROR ModLoader:ModData: Unable to activate mod "gareth-mod_manager_mod" since it has the following load errors:
- 296: ERROR: Unable to activate mod "gareth-mod_manager_mod" since it has the following load errors:
- 297: at: push_error (core/variant/variant_utility.cpp:1098)
- 386: ERROR ModLoader:Dependency: Missing dependency - mod: -> gareth-auto_ladder_mod dependency -> gareth-mod_manager_mod
- 387: ERROR: Missing dependency - mod: -> gareth-auto_ladder_mod dependency -> gareth-mod_manager_mod
- 388: at: push_error (core/variant/variant_utility.cpp:1098)
- 394: ERROR ModLoader:Dependency: Missing dependency - mod: -> gareth-collector_priority_mod dependency -> gareth-mod_manager_mod
- 395: ERROR: Missing dependency - mod: -> gareth-collector_priority_mod dependency -> gareth-mod_manager_mod
- 396: at: push_error (core/variant/variant_utility.cpp:1098)
- 400: ERROR ModLoader:Dependency: Missing dependency - mod: -> gareth-diagonal_map_mod dependency -> gareth-mod_manager_mod
- 401: ERROR: Missing dependency - mod: -> gareth-diagonal_map_mod dependency -> gareth-mod_manager_mod
- 402: at: push_error (core/variant/variant_utility.cpp:1098)
- 404: ERROR ModLoader:Dependency: Missing dependency - mod: -> gareth-donkey_kong_mod dependency -> gareth-mod_manager_mod
- 405: ERROR: Missing dependency - mod: -> gareth-donkey_kong_mod dependency -> gareth-mod_manager_mod
- 406: at: push_error (core/variant/variant_utility.cpp:1098)
- 409: ERROR ModLoader:Dependency: Missing dependency - mod: -> gareth-elemental_airstrikes_mod dependency -> gareth-mod_manager_mod
- 410: ERROR: Missing dependency - mod: -> gareth-elemental_airstrikes_mod dependency -> gareth-mod_manager_mod
- 411: at: push_error (core/variant/variant_utility.cpp:1098)
- 414: ERROR ModLoader:Dependency: Missing dependency - mod: -> gareth-employee_passives_mod dependency -> gareth-mod_manager_mod
- 415: ERROR: Missing dependency - mod: -> gareth-employee_passives_mod dependency -> gareth-mod_manager_mod
- 416: at: push_error (core/variant/variant_utility.cpp:1098)
- 452: ERROR ModLoader:Dependency: Missing dependency - mod: -> gareth-scrap_and_delivery_mod dependency -> gareth-mod_manager_mod
- 453: ERROR: Missing dependency - mod: -> gareth-scrap_and_delivery_mod dependency -> gareth-mod_manager_mod
- 454: at: push_error (core/variant/variant_utility.cpp:1098)
- 955: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
-1011: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
-1015: ERROR: Attempt to open script 'res://mods-unpacked/gareth-mod_manager_mod/scripts/mod_registry.gd' resulted in error 'File not found'.
-1017: ERROR: Failed loading resource: res://mods-unpacked/gareth-mod_manager_mod/scripts/mod_registry.gd. Make sure resources have been imported by opening the project in the editor at least once.
-1026: SCRIPT ERROR: Trying to call an async function without "await".
-1031: SCRIPT ERROR: Trying to call an async function without "await".
-1034: SCRIPT ERROR: Trying to call an async function without "await".
-1036: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1038: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1040: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1042: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1046: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
-1049: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-1051: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-1053: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-1055: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-1059: ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-1064: ERROR: 154 resources still in use at exit (run with --verbose for details).
+﻿  21: ERROR ModLoader:Path: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
+  22: ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
+  23: at: push_error (core/variant/variant_utility.cpp:1098)
+ 152: ERROR ModLoader: The mod from path "C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mods/gareth-henry_the_hoover_mod.zip" cannot be loaded. Manifest validation failed with the following errors:
+ 157: ERROR: The mod from path "C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mods/gareth-henry_the_hoover_mod.zip" cannot be loaded. Manifest validation failed with the following errors:
+ 162: at: push_error (core/variant/variant_utility.cpp:1098)
+ 301: ERROR ModLoader:ModData: Unable to activate mod "gareth-henry_the_hoover_mod" since it has the following load errors:
+ 302: ERROR: Unable to activate mod "gareth-henry_the_hoover_mod" since it has the following load errors:
+ 303: at: push_error (core/variant/variant_utility.cpp:1098)
+1033: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
+1099: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
+1108: ERROR: No loader found for resource: res://mods-unpacked/gareth-mod_manager_mod/assets/branded_logo.png (expected type: )
+1111: SCRIPT ERROR: Trying to call an async function without "await".
+1116: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1118: ERROR: Child is not a child of this node.
+1120: SCRIPT ERROR: Trying to call an async function without "await".
+1123: SCRIPT ERROR: Trying to call an async function without "await".
+1125: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1127: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1129: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1131: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1133: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1135: ERROR: Child is not a child of this node.
+1137: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1139: ERROR: Child is not a child of this node.
+1143: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+1146: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1148: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1150: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1152: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1214: SCRIPT ERROR: Trying to call an async function without "await".
+1219: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1221: ERROR: Child is not a child of this node.
+1226: SCRIPT ERROR: Trying to call an async function without "await".
+1229: SCRIPT ERROR: Trying to call an async function without "await".
+1231: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1233: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1235: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1237: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1239: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1241: ERROR: Child is not a child of this node.
+1243: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1245: ERROR: Child is not a child of this node.
+1249: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+1252: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1254: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1256: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1258: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1399: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1401: ERROR: Child is not a child of this node.
+1403: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1405: ERROR: Child is not a child of this node.
+1474: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1476: ERROR: Child is not a child of this node.
+1478: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1480: ERROR: Child is not a child of this node.
+1503: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1505: ERROR: Child is not a child of this node.
+1507: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1509: ERROR: Child is not a child of this node.
+1529: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1531: ERROR: Child is not a child of this node.
+1533: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1535: ERROR: Child is not a child of this node.
+1555: SCRIPT ERROR: Trying to call an async function without "await".
+1560: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1562: ERROR: Child is not a child of this node.
+1567: SCRIPT ERROR: Trying to call an async function without "await".
+1570: SCRIPT ERROR: Trying to call an async function without "await".
+1572: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1574: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1576: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1578: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1580: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1582: ERROR: Child is not a child of this node.
+1584: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1586: ERROR: Child is not a child of this node.
+1590: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+1593: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1595: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1597: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1599: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1848: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1850: ERROR: Child is not a child of this node.
+1852: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1854: ERROR: Child is not a child of this node.
+1870: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1872: ERROR: Child is not a child of this node.
+1874: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1876: ERROR: Child is not a child of this node.
+2021: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2023: ERROR: Child is not a child of this node.
+2025: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2027: ERROR: Child is not a child of this node.
+2377: ERROR: <Tween#-9223230470387378490>: started with no Tweeners.
+2381: ERROR: <Tween#-9223230208092378252>: started with no Tweeners.
+2383: ERROR: <Tween#-9223230191818491120>: started with no Tweeners.
+2386: ERROR: <Tween#-9223230146788400855>: started with no Tweeners.
+2388: ERROR: <Tween#-9223230135631582191>: started with no Tweeners.
+2392: ERROR: <Tween#-9223230077112662579>: started with no Tweeners.
+2395: ERROR: <Tween#-9223230020657311864>: started with no Tweeners.
+2530: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2532: ERROR: Child is not a child of this node.
+2534: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2536: ERROR: Child is not a child of this node.
+2665: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2667: ERROR: Child is not a child of this node.
+2669: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2671: ERROR: Child is not a child of this node.
+2757: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2759: ERROR: Child is not a child of this node.
+2761: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2763: ERROR: Child is not a child of this node.
+2791: SCRIPT ERROR: Trying to call an async function without "await".
+2796: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2798: ERROR: Child is not a child of this node.
+2803: SCRIPT ERROR: Trying to call an async function without "await".
+2806: SCRIPT ERROR: Trying to call an async function without "await".
+2808: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+2810: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+2812: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+2814: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+2816: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2818: ERROR: Child is not a child of this node.
+2820: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2822: ERROR: Child is not a child of this node.
+2826: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+2829: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+2831: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+2833: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+2835: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+3064: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+3066: ERROR: Child is not a child of this node.
+3068: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+3070: ERROR: Child is not a child of this node.
+3882: ERROR: <Tween#-9223073700473931968>: started with no Tweeners.
+4111: SCRIPT ERROR: Trying to call an async function without "await".
+4116: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+4118: ERROR: Child is not a child of this node.
+4123: SCRIPT ERROR: Trying to call an async function without "await".
+4125: ERROR: No loader found for resource: res://mods-unpacked/gareth-mod_manager_mod/assets/branded_logo.png (expected type: )
+4132: ERROR: 31 RID allocations of type 'N10RendererRD12LightStorage11ShadowAtlasE' were leaked at exit.
+4133: ERROR: 31 RID allocations of type 'N10RendererRD14TextureStorage12RenderTargetE' were leaked at exit.
+4134: ERROR: 143 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+4135: ERROR: 31 RID allocations of type 'N16RendererViewport8ViewportE' were leaked at exit.
+4138: ERROR: 295 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+4139: ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
+4142: ERROR: 185 resources still in use at exit (run with --verbose for details).
+Telemetry Highlights (Last 15):
+4094: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Speed +125.0%
+4095: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
+4096: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
+4097: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Pickaxe Mining Speed +125.0%
+4098: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
+4099: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Mortar Gun Damage +125.0%
+4101: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
+4102: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
+4103: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (454.6864, 1239.933)!
+4104: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
+4105: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
+4106: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
+4107: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
+4108: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
+4109: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (510.6627, 1240.0)!

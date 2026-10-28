@@ -1,14 +1,17 @@
 {
-	"name": "henry_the_hoover_mod",
-	"namespace": "gareth",
-	"version_number": "1.0.5",
-	"description": "Premium visual replacement for industrial vacuums. Multi-tier visual coloring based on upgrade tier (Henry Red, Hetty Pink, Harry Blue, George Green, Charles Yellow).",
-	"website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
-	"dependencies": [],
-	"extra": {
-		"godot": {
-			"authors": ["Gareth White"],
-			"display_name": "Henry the Hoover (Vacuum Reskin)"
-		}
-	}
+  "name": "henry_the_hoover_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.5",
+  "description": "Authentic Henry the Hoover visual skin for the industrial vacuum. Body color dynamically updates based on upgrade tier (Henry, Hetty, Harry, George, Charles).",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": ["gareth-mod_manager_mod"],
+  "extra": {
+    "godot": {
+      "authors": ["Gareth White"],
+      "display_name": "Henry the Hoover (Vacuum Reskin)",
+      "tags": ["visual", "vacuum", "reskin", "qol"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
 }

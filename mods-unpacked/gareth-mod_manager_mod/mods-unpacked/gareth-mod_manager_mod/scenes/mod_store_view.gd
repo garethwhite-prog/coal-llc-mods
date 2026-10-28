@@ -279,13 +279,13 @@ func _render_cards() -> void:
 
 		var title_lbl = RichTextLabel.new()
 		title_lbl.bbcode_enabled = true
-		title_lbl.text = "[b][font_size=15]%s[/font_size][/b]  [color=#4ade80]%s[/color]  [color=#fbbf24][%s][/color]  [color=#94a3b8]by %s[/color]" % [pkg_name, pkg_tag, pkg_cat, pkg_author]
+		title_lbl.text = "[b][font_size=15][color=#ffffff]%s[/color][/font_size][/b]  [color=#4ade80]%s[/color]  [color=#fbbf24][%s][/color]  [color=#94a3b8]by %s[/color]" % [pkg_name, pkg_tag, pkg_cat, pkg_author]
 		title_lbl.fit_content = true
 		info_vbox.add_child(title_lbl)
 
 		var desc_lbl = Label.new()
 		desc_lbl.text = pkg_desc
-		desc_lbl.modulate = Color(0.78, 0.78, 0.78)
+		desc_lbl.modulate = Color(0.88, 0.90, 0.94)
 		desc_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		info_vbox.add_child(desc_lbl)
 
@@ -350,3 +350,4 @@ func _uninstall_mod(mod_id: String) -> void:
 			status_lbl.modulate = Color(1.0, 0.85, 0.3)
 
 	_render_cards()
+
