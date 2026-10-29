@@ -337,32 +337,36 @@ func _update_orders(delta: float, player_node) -> void:
 
 func _spawn_parachute_crate(item: Item, player_node) -> void:
 	var tree = get_tree()
-	if not tree or not tree.current_scene:
+	if not tree or not tree.root:
+		return
+
+	var p = player_node if is_instance_valid(player_node) else tree.root.find_child("Player", true, false)
+	if not is_instance_valid(p):
 		return
 
 	var crate = Node2D.new()
 	crate.name = "AmazonDeliveryCrate"
-	var spawn_x: float = player_node.global_position.x if (is_instance_valid(player_node) and ("global_position" in player_node)) else 0.0
-	crate.global_position = Vector2(spawn_x, -60.0)
+	crate.z_index = 60
+	crate.global_position = Vector2(p.global_position.x, p.global_position.y - 320.0)
 
 	var spr = Sprite2D.new()
 	spr.texture = item.itemTexture if is_instance_valid(item.itemTexture) else load("res://assets/Equipment/kicks/kick_04_sapphire.png")
-	spr.scale = Vector2(1.6, 1.6)
+	spr.scale = Vector2(2.0, 2.0)
 	crate.add_child(spr)
-	tree.current_scene.add_child(crate)
 
-	var target_y = player_node.global_position.y if (is_instance_valid(player_node) and ("global_position" in player_node)) else 0.0
+	p.get_parent().add_child(crate)
+
+	var target_y = p.global_position.y - 12.0
 	var tween = tree.create_tween()
 	tween.tween_property(crate, "global_position:y", target_y, 1.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	tween.tween_callback(func():
+		var inv: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
+		if inv:
+			inv.addToInventory(item, 1)
 		if item.itemBuyEffect:
 			item.itemBuyEffect.buy_effect(item, 1)
-		else:
-			var inv: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
-			if inv:
-				inv.addToInventory(item, 1)
 		Bus.inventory_changed.emit()
-		show_toast("📦 DELIVERED! [%s] acquired." % item.itemName)
+		show_toast("📦 DELIVERED! [%s] safely received." % item.itemName)
 		crate.queue_free()
 	)
 
@@ -443,6 +447,7 @@ func show_toast(msg: String) -> void:
 				if is_instance_valid(toast_label):
 					toast_label.visible = false
 			)
+
 
 
 

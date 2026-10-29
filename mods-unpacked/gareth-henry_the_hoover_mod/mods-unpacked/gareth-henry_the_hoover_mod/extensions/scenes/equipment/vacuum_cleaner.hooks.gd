@@ -14,6 +14,7 @@ func _ready(chain: ModLoaderHookChain) -> void:
 	if is_instance_valid(vac_end) and vac_end is Sprite2D:
 		var lvl: int = 1
 		if Gvars and ("bonus_equipment_manager" in Gvars) and Gvars.bonus_equipment_manager:
-			lvl = int(Gvars.bonus_equipment_manager.get("vacuum_level", 1))
+			lvl = int(Gvars.bonus_equipment_manager.vacuum_level) if ("vacuum_level" in Gvars.bonus_equipment_manager) else 1
 		vac_end.texture = factory.create_henry_texture(lvl)
 		vac_end.scale = Vector2(1.4, 1.4)
+
