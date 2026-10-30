@@ -1,120 +1,109 @@
 ﻿$repoRoot = "C:\Dev\coal-llc-mods"
-$steamRoot = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC"
-$steamMods = Join-Path $steamRoot "mods"
-$downMods = Join-Path $steamRoot "downloaded_mods"
+$steamMods = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods"
+$downMods = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\downloaded_mods"
 Set-Location -Path $repoRoot
 
-Write-Output "--- 1. Enforcing File Locks & Cache Cleanup ---"
 Stop-Process -Name "Coal LLC*" -Force -ErrorAction SilentlyContinue
 Stop-Process -Name "godot*" -Force -ErrorAction SilentlyContinue
-[System.GC]::Collect()
-[System.GC]::WaitForPendingFinalizers()
-Start-Sleep -Seconds 2
+Start-Sleep -Seconds 1
 
-$hooksZip = Join-Path $steamRoot "mod-hooks.zip"
-if (Test-Path $hooksZip) { 
-    Remove-Item $hooksZip -Force -ErrorAction Stop 
-    Write-Output "Deleted locked mod-hooks.zip successfully."
-}
+Write-Output "--- Patching Henry the Hoover Texture Factory ---"
+$factoryPath = "mods-unpacked\gareth-henry_the_hoover_mod\mods-unpacked\gareth-henry_the_hoover_mod\helpers\henry_texture_factory.gd"
+$factoryScript = @"
+class_name HenryTextureFactory
+extends RefCounted
 
-Write-Output "`n--- 2. Patching Map 105 Transition ---"
-$gameHookPath = Join-Path $repoRoot "mods-unpacked\gareth-diagonal_map_mod\mods-unpacked\gareth-diagonal_map_mod\extensions\scripts\Game.hooks.gd"
-$gameHookScript = @"
+static func apply_henry_skin(sprite: Sprite2D, tier: int) -> void:
+	if not sprite:
+		return
+		
+	var path := ""
+	match tier:
+		1: path = "res://mods-unpacked/gareth-henry_the_hoover_mod/assets/henry_red.png"
+		2: path = "res://mods-unpacked/gareth-henry_the_hoover_mod/assets/hetty_pink.png"
+		3: path = "res://mods-unpacked/gareth-henry_the_hoover_mod/assets/harry_blue.png"
+		4: path = "res://mods-unpacked/gareth-henry_the_hoover_mod/assets/george_green.png"
+		5: path = "res://mods-unpacked/gareth-henry_the_hoover_mod/assets/charles_yellow.png"
+		_: path = "res://mods-unpacked/gareth-henry_the_hoover_mod/assets/henry_red.png"
+
+	if FileAccess.file_exists(path):
+		var bytes = FileAccess.get_file_as_bytes(path)
+		if bytes and bytes.size() > 0:
+			var img = Image.new()
+			if img.load_png_from_buffer(bytes) == OK:
+				sprite.texture = ImageTexture.create_from_image(img)
+				sprite.offset = Vector2(0, -8)
+"@
+$factoryScript | Set-Content -Path $factoryPath -Encoding UTF8
+
+Write-Output "--- Patching Vacuum Cleaner Hooks (Rate Limit & Skin) ---"
+$vacHookPath = "mods-unpacked\gareth-henry_the_hoover_mod\mods-unpacked\gareth-henry_the_hoover_mod\extensions\scenes\equipment\vacuum_cleaner.hooks.gd"
+$vacHookScript = @"
 extends Object
 
-func change_stage(chain: ModLoaderHookChain, target, pos: Vector2) -> void:
-	var game = chain.reference_object
-	if int(target) == 2 and Gvars and Gvars.get("level") == 105:
-		if is_instance_valid(game):
-			game.target_stage = load("res://scenes/Stages/MineRegion.tscn")
-	
-	await chain.execute_next([target, pos])
+func _physics_process(chain: ModLoaderHookChain, delta: float) -> void:
+	var vac = chain.reference_object
+	if is_instance_valid(vac):
+		if not vac.has_meta("henry_initialized"):
+			vac.set_meta("henry_initialized", true)
+			vac.set_meta("gobble_cooldown", 0.0)
+			
+			var lvl: int = 1
+			if Gvars and ("bonus_equipment_manager" in Gvars) and Gvars.bonus_equipment_manager:
+				if "vacuum_level" in Gvars.bonus_equipment_manager:
+					lvl = int(Gvars.bonus_equipment_manager.vacuum_level)
+					
+			var sprite = vac.get_node_or_null("Sprite2D")
+			if sprite:
+				var factory = load("res://mods-unpacked/gareth-henry_the_hoover_mod/helpers/henry_texture_factory.gd")
+				if factory and factory.has_method("apply_henry_skin"):
+					factory.apply_henry_skin(sprite, lvl)
+
+		var cd = float(vac.get_meta("gobble_cooldown", 0.0))
+		if cd > 0.0:
+			vac.set_meta("gobble_cooldown", cd - delta)
+
+	chain.execute_next([delta])
+
+func play_suck_effect(chain: ModLoaderHookChain) -> void:
+	var vac = chain.reference_object
+	if is_instance_valid(vac):
+		var cd = float(vac.get_meta("gobble_cooldown", 0.0))
+		if cd <= 0.0:
+			vac.set_meta("gobble_cooldown", 1.0)
+			chain.execute_next([])
+		else:
+			return
+	else:
+		chain.execute_next([])
 "@
-$gameHookScript | Set-Content -Path $gameHookPath -Encoding UTF8
-Write-Output "Patched Map 105 Game.hooks.gd"
+$vacHookScript | Set-Content -Path $vacHookPath -Encoding UTF8
 
-Write-Output "`n--- 3. Patching Living Canvas (103) UI ---"
-$canvasModDir = Join-Path $repoRoot "mods-unpacked\gareth-living_canvas_mod"
-$lsHook = Get-ChildItem -Path $canvasModDir -Recurse -Filter "*level_select.hooks.gd" | Select-Object -First 1
-if ($lsHook) {
-    $lsHookScript = @"
-extends Object
+Write-Output "--- Repacking and Deploying Henry Mod ---"
+$hooksZip = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mod-hooks.zip"
+if (Test-Path $hooksZip) { Remove-Item $hooksZip -Force }
 
-func _ready(chain: ModLoaderHookChain) -> void:
-	var ls = chain.reference_object
-	if ls and ("LEVEL_ORDER" in ls):
-		if not ls.LEVEL_ORDER.has(103):
-			ls.LEVEL_ORDER.append(103)
-	
-	await chain.execute_next([])
-	
-	if is_instance_valid(ls):
-		var levels_grid = ls.get_node_or_null("%Levels")
-		if levels_grid:
-			for card in levels_grid.get_children():
-				if "game_level" in card and card.game_level and card.game_level.level == 103:
-					var container = card.get_node_or_null("MarginContainer/VBoxContainer")
-					if container and not container.has_node("CanvasImagePickerBtn"):
-						var btn = Button.new()
-						btn.name = "CanvasImagePickerBtn"
-						btn.text = "Browse Custom Canvas..."
-						var helper = load("res://mods-unpacked/gareth-living_canvas_mod/helpers/canvas_helper.gd")
-						if helper:
-							btn.pressed.connect(Callable(helper.new(), "_on_browse_pressed"))
-						container.add_child(btn)
-"@
-    $lsHookScript | Set-Content -Path $lsHook.FullName -Encoding UTF8
-    Write-Output "Injected CanvasImagePickerBtn into $($lsHook.Name)"
-}
+$mod = "gareth-henry_the_hoover_mod"
+$srcDir = Join-Path $repoRoot "mods-unpacked\$mod"
+$downZip = Join-Path $downMods "$mod.zip"
+$steamZip = Join-Path $steamMods "$mod.zip"
 
-Write-Output "`n--- 4. Patching Amazon Delivery Null Crash ---"
-$scrapModDir = Join-Path $repoRoot "mods-unpacked\gareth-scrap_and_delivery_mod"
-$gdFiles = Get-ChildItem -Path $scrapModDir -Recurse -Filter "*.gd"
-foreach ($file in $gdFiles) {
-    $content = Get-Content $file.FullName
-    $modified = $false
-    for ($i=0; $i -lt $content.Count; $i++) {
-        if ($content[$i] -match "^(\s*)([\w]+)\.itemBuyPrice\s*=") {
-            $indent = $matches[1]
-            $varName = $matches[2]
-            $content[$i] = "${indent}if is_instance_valid(${varName}) and `"itemBuyPrice`" in ${varName}:`n" + $content[$i]
-            $modified = $true
-        }
-    }
-    if ($modified) { 
-        $content | Set-Content $file.FullName -Encoding UTF8 
-        Write-Output "Guarded itemBuyPrice crash in $($file.Name)"
-    }
-}
+if (Test-Path $downZip) { Remove-Item $downZip -Force }
 
-Write-Output "`n--- 5. Repacking and Deploying Workstreams ---"
-$targetMods = @("gareth-diagonal_map_mod", "gareth-living_canvas_mod", "gareth-scrap_and_delivery_mod")
 Add-Type -AssemblyName System.IO.Compression.FileSystem
+$archive = [System.IO.Compression.ZipFile]::Open($downZip, [System.IO.Compression.ZipArchiveMode]::Create)
+$files = Get-ChildItem -Path $srcDir -Recurse -File
+foreach ($file in $files) {
+    $entryName = $file.FullName.Substring($srcDir.Length + 1).Replace("\", "/")
+    [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $file.FullName, $entryName)
+}
+$archive.Dispose()
 
-foreach ($mod in $targetMods) {
-    $srcDir = Join-Path $repoRoot "mods-unpacked\$mod"
-    if (!(Test-Path $srcDir)) { continue }
-    
-    $downZip = Join-Path $downMods "$mod.zip"
-    $steamZip = Join-Path $steamMods "$mod.zip"
-    
-    if (Test-Path $downZip) { Remove-Item $downZip -Force }
-    
-    $archive = [System.IO.Compression.ZipFile]::Open($downZip, [System.IO.Compression.ZipArchiveMode]::Create)
-    $files = Get-ChildItem -Path $srcDir -Recurse -File
-    foreach ($file in $files) {
-        $entryName = $file.FullName.Substring($srcDir.Length + 1).Replace("\", "/")
-        [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $file.FullName, $entryName)
-    }
-    $archive.Dispose()
-    
-    if (Test-Path $steamZip) {
-        Copy-Item -Path $downZip -Destination $steamZip -Force
-        Write-Output "Deployed $mod to runtime."
-    }
+if (Test-Path $steamZip) {
+    Copy-Item -Path $downZip -Destination $steamZip -Force
 }
 
-Write-Output "`n--- Committing to Git ---"
+Write-Output "--- Committing to Git ---"
 git add -A
-git commit -m "Fix: Concurrent patches for Map 105 crash, Canvas UI button, Amazon Delivery null crash, and ModLoader file lock cleanup (Syntax Fixed)."
+git commit -m "Feature: Implement Henry vacuum dynamic skins and rate-limit gobble sound effects."
 git push origin main
