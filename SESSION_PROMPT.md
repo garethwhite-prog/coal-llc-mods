@@ -14,7 +14,21 @@
 
 ---
 
-## 2. Non-Negotiable Engineering Rules & Syntax Contracts
+## 2. STRICT WORKFLOW CONTRACT: `Run-Worker.ps1` (CRITICAL)
+
+**YOU MUST NEVER PROVIDE LOOSE GDSCRIPT, JSON, OR MARKDOWN BLOCKS FOR THE USER TO COPY/PASTE.** 
+
+The user does not manually edit files. Your output MUST be a single, comprehensive PowerShell script that the user will save into `ai_worker_script.ps1` and execute via `.\Run-Worker.ps1`.
+
+Your response format MUST be:
+1. Diagnostic explanation.
+2. A single ````powershell` block containing the complete deployment script.
+3. The script MUST use `@' ... '@ | Set-Content` to write files, `.Replace()` to patch strings, and `System.IO.Compression.ZipArchive` to repack `.zip` files into the `downloaded_mods/` staging directory.
+4. When asking the user to test, tell them to execute `.\Run-ModSuiteTest.ps1` AFTER they have run `.\Run-Worker.ps1`.
+
+---
+
+## 3. Non-Negotiable Engineering Rules & Syntax Contracts
 
 ### A. GDScript `Object.get()` vs `Dictionary.get()`
 * In Godot 4, `Dictionary.get(key, default)` accepts 2 arguments, but `Object.get(property)` accepts **strictly 1 argument**.
@@ -33,7 +47,7 @@
 
 ---
 
-## 3. Subsystem Architectural Blueprints
+## 4. Subsystem Architectural Blueprints
 
 ### A. Level Registration & Level Select Carousel
 * `LevelManager` is **not an engine autoload** at `/root/LevelManager`. It is stored globally on `Gvars.level_manager`.
@@ -50,16 +64,18 @@
 
 ---
 
-## 4. Historical Failures & Lessons Learned (DO NOT REPEAT)
-1. **The Object.get() Crash:** Assuming Godot 4 `Object.get()` worked like `Dictionary.get(key, default)`.
-2. **The LevelManager Autoload Assumption:** Assuming `LevelManager` was at `/root/LevelManager`. It was actually on `Gvars.level_manager`.
-3. **The Root Directory Hallucination:** Assuming mod source code was in the root repository folder instead of `mods-unpacked/`.
-4. **The Missing Z-Index:** Spawning items at default `z_index = 0` attached to the root viewport, causing them to render permanently behind the mining terrain.
+## 5. Historical Failures & Lessons Learned (DO NOT REPEAT)
+1. **The Manual Edit Assumption:** Asking the user to manually edit files or run the test script instead of providing the `Run-Worker.ps1` payload.
+2. **The Object.get() Crash:** Assuming Godot 4 `Object.get()` worked like `Dictionary.get(key, default)`.
+3. **The LevelManager Autoload Assumption:** Assuming `LevelManager` was at `/root/LevelManager`. It was actually on `Gvars.level_manager`.
+4. **The Root Directory Hallucination:** Assuming mod source code was in the root repository folder instead of `mods-unpacked/`.
+5. **The Missing Z-Index:** Spawning items at default `z_index = 0` attached to the root viewport, causing them to render permanently behind the mining terrain.
 
 ---
 
-## 5. Session Bootstrap Mandate
-Before writing any code or proposing solutions, the AI MUST run a discovery script to:
-1. Read the `git log -p SESSION_PROMPT.md` to understand how these rules evolved.
-2. List all directories in `C:\Dev\coal-llc-mods\mods-unpacked\` to prove it knows where the source code lives.
-3. Review the current state of `gareth-thomas_tank_engine_mod`, `gareth-reach_expansion_mod`, and `gareth-employee_passives_mod`.
+## 6. Session Bootstrap Mandate
+Before writing any code or proposing solutions, you MUST provide a PowerShell discovery script targeting `C:\Dev\coal-llc-mods` and `_dump` to map the current state of:
+1. The 3rd tier of employee/collector passives (`gareth-employee_passives_mod` and `more_employees_mod`).
+2. The Thomas the Tank Engine railway class logic (`gareth-thomas_tank_engine_mod`).
+3. The Player Reach Expansion mod (`gareth-reach_expansion_mod`).
+Do not write or alter any game code until the baseline telemetry and codebase structure are fully audited.
