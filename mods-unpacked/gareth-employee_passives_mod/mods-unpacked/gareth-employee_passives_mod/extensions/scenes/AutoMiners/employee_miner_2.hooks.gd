@@ -6,17 +6,22 @@ func _physics_process(chain: ModLoaderHookChain, delta: float) -> void:
 		var range_stat: float = _get_passive_stat("employee_miner_range")
 		var speed_stat: float = _get_passive_stat("employee_miner_pickup_speed")
 
-		if range_stat > 0.0:
+		if range_stat > 0.0 and ("pickaxe_range" in miner):
 			miner.pickaxe_range = int(round(3.0 * (1.0 + range_stat)))
 			miner.search_range = int(round(10.0 * (1.0 + range_stat)))
 
-		if speed_stat > 0.0 and miner.state == miner.States.MOVING_TO_TARGET:
+		var is_moving = false
+		if ("state" in miner) and ("States" in miner):
+			is_moving = (miner.state == miner.States.MOVING_TO_TARGET)
+
+		if speed_stat > 0.0 and is_moving and ("velocity" in miner):
 			miner.velocity.x *= (1.0 + speed_stat)
 
-		if range_stat > 0.0 and miner.state == miner.States.MOVING_TO_TARGET:
+		if range_stat > 0.0 and is_moving and ("target_pos" in miner):
 			var reach: float = 16.0 * (1.0 + range_stat)
 			if abs(miner.global_position.x - miner.target_pos.x) < reach:
-				miner.mining_animation_player.play("mining")
+				if "mining_animation_player" in miner:
+					miner.mining_animation_player.play("mining")
 				miner.state = miner.States.MINING
 
 		if speed_stat > 0.0:
@@ -29,10 +34,12 @@ func _vacuum_nearby_loot(miner: Node2D, radius: float, pull_speed: float, delta:
 	if not tree or not tree.root:
 		return
 	var loot_mgr = tree.root.find_child("LootDrops", true, false)
-	if not loot_mgr:
+	if not is_instance_valid(loot_mgr):
 		return
+		
 	var m_pos = miner.global_position
 	var r_sq = radius * radius
+	
 	for child in loot_mgr.get_children():
 		if is_instance_valid(child) and ("global_position" in child):
 			var d_sq = m_pos.distance_squared_to(child.global_position)
