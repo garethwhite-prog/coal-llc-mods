@@ -1,5 +1,5 @@
 ﻿# ==============================================================================
-# Coal LLC - Fix Custom Maps Carousel, Ball Properties, Amazon Stack & Henry Skin
+# Coal LLC - Fix Map 105, Ball Properties, Henry Art/Gobble, Reach Mod & Test Audit
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
@@ -10,7 +10,7 @@ $hookZip    = "$steamRoot\mod-hooks.zip"
 
 Set-Location $repo
 
-Write-Host ">>> 1. Terminating running Coal LLC / Godot processes..." -ForegroundColor Cyan
+Write-Host ">>> 1. Terminating running Coal LLC processes..." -ForegroundColor Cyan
 Get-Process -Name "Coal LLC*", "godot*" -ErrorAction SilentlyContinue | Stop-Process -Force
 Start-Sleep -Milliseconds 400
 
@@ -18,9 +18,63 @@ Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
 # ------------------------------------------------------------------------------
-# 2. FIX BOUNCING_BALL_PROJECTILE.GD PROPERTIES (RADIUS, TILEMAP, TEXTURE)
+# 2. FIX MAP 105 REGISTRATION (CRITICAL CAROUSEL FIX)
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 2. Adding radius, tilemap, and ball_texture to bouncing_ball_projectile.gd..." -ForegroundColor Cyan
+Write-Host "`n>>> 2. Fixing DiagonalMapHelper.gd to register via Gvars.level_manager..." -ForegroundColor Cyan
+$diagHelperPath = "$repo\mods-unpacked\gareth-diagonal_map_mod\mods-unpacked\gareth-diagonal_map_mod\helpers\DiagonalMapHelper.gd"
+@'
+class_name DiagonalMapHelper
+extends RefCounted
+
+const DIAGONAL_LEVEL_ID: int = 105
+
+static func ensure_level_registered() -> void:
+	if not Gvars or not ("level_manager" in Gvars) or not Gvars.level_manager:
+		return
+
+	var lvl_mgr = Gvars.level_manager
+	if "all_levels" in lvl_mgr and not lvl_mgr.all_levels.has(DIAGONAL_LEVEL_ID):
+		var custom_level = GameLevel.new()
+		custom_level.level_name = "Diagonal Seams"
+		custom_level.level = DIAGONAL_LEVEL_ID
+		custom_level.mining_scene_path = "res://scenes/Stages/MineRegion.tscn"
+		custom_level.level_description = "Subterranean strata tilted at a 45-degree angle.\nSpecialized diagonal tunneling required."
+		custom_level.level_difficulty = GameLevel.Difficulty.HARD
+		lvl_mgr.all_levels[DIAGONAL_LEVEL_ID] = {
+			"level": custom_level,
+			"is_unlocked": true
+		}
+
+	if "level_info" in Gvars and Gvars.level_info is Dictionary:
+		if not Gvars.level_info.has(DIAGONAL_LEVEL_ID):
+			Gvars.level_info[DIAGONAL_LEVEL_ID] = {
+				"high_score": 0,
+				"best_time": 0.0
+			}
+'@ | Set-Content -Path $diagHelperPath -Encoding UTF8
+
+$diagLshPath = "$repo\mods-unpacked\gareth-diagonal_map_mod\mods-unpacked\gareth-diagonal_map_mod\extensions\scenes\Interfaces\Menus\level_select.hooks.gd"
+@'
+extends Object
+
+func _ready(chain: ModLoaderHookChain) -> void:
+	var helper_script = load("res://mods-unpacked/gareth-diagonal_map_mod/helpers/DiagonalMapHelper.gd")
+	if helper_script and helper_script.has_method("ensure_level_registered"):
+		helper_script.ensure_level_registered()
+
+	var ls = chain.reference_object
+	if ls and ("LEVEL_ORDER" in ls):
+		if not ls.LEVEL_ORDER.has(105):
+			ls.LEVEL_ORDER.append(105)
+
+	chain.execute_next([])
+'@ | Set-Content -Path $diagLshPath -Encoding UTF8
+Write-Host "  Fixed: DiagonalMapHelper.gd uses Gvars.level_manager (Carousel restored!)" -ForegroundColor Green
+
+# ------------------------------------------------------------------------------
+# 3. FIX BOUNCING BALL PROJECTILE (RADIUS, TILEMAP, BALL_TEXTURE)
+# ------------------------------------------------------------------------------
+Write-Host "`n>>> 3. Adding missing properties to bouncing_ball_projectile.gd..." -ForegroundColor Cyan
 $bbProjPath = "$repo\mods-unpacked\gareth-bouncing_ball_mod\mods-unpacked\gareth-bouncing_ball_mod\scripts\bouncing_ball_projectile.gd"
 @'
 class_name BouncingBallProjectile
@@ -53,7 +107,11 @@ var _sprite: Sprite2D
 func _ready() -> void:
 	z_index = 35
 	_sprite = get_node_or_null("Sprite2D")
-	if _sprite and ball_texture:
+	if not _sprite:
+		_sprite = Sprite2D.new()
+		_sprite.name = "Sprite2D"
+		add_child(_sprite)
+	if ball_texture:
 		_sprite.texture = ball_texture
 
 func setup(pos: Vector2, initial_vel: Vector2, dmg: float, tex: Texture2D) -> void:
@@ -75,7 +133,7 @@ func _physics_process(delta: float) -> void:
 		_total_bounces_made += 1
 		velocity = velocity.bounce(collision.get_normal()) * BOUNCE_DAMPING
 
-		# 3-Tier Multiplier Calculation:
+		# 3-Tier Multiplier Calculation
 		var mult_bounce: float = 1.0 + (_total_bounces_made * 0.65)
 		var mult_velocity: float = clampf(velocity.length() / 260.0, 0.8, 3.5)
 		var mult_passives: float = 1.0
@@ -116,75 +174,110 @@ func _detonate_final(pos: Vector2, dmg: float) -> void:
 			for dy in range(-1, 2):
 				tm.damageTileCoords(center_cell + Vector2i(dx, dy), float(dmg))
 '@ | Set-Content -Path $bbProjPath -Encoding UTF8
-Write-Host "  Updated: bouncing_ball_projectile.gd (radius, tilemap, texture properties active)" -ForegroundColor Green
+Write-Host "  Updated: bouncing_ball_projectile.gd (throwing enabled with radius, tilemap, texture)" -ForegroundColor Green
 
 # ------------------------------------------------------------------------------
-# 3. FIX DIAGONAL MAP & LEVEL_SELECT DICTIONARY STRUCTURE (RESTORE CAROUSEL)
+# 4. HENRY THE HOOVER ART UPGRADE (REFERENCE FIDELITY) & RATE-LIMITED GOBBLE
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 3. Ensuring all custom maps register as proper Dictionaries in LevelManager..." -ForegroundColor Cyan
+Write-Host "`n>>> 4. Upgrading Henry texture factory and adding rate-limited gobble..." -ForegroundColor Cyan
+$henryInner = "$repo\mods-unpacked\gareth-henry_the_hoover_mod\mods-unpacked\gareth-henry_the_hoover_mod"
 
-# Update DiagonalMapHelper.gd to register as Dictionary { "level": custom_level, "is_unlocked": true }
-$diagHelperPath = "$repo\mods-unpacked\gareth-diagonal_map_mod\mods-unpacked\gareth-diagonal_map_mod\helpers\DiagonalMapHelper.gd"
 @'
-class_name DiagonalMapHelper
+class_name HenryTextureFactory
 extends RefCounted
 
-const DIAGONAL_LEVEL_ID: int = 105
+# High-fidelity procedural render based on the official Numatic Henry 200 reference image
+static func create_henry_texture(level: int) -> ImageTexture:
+	var img = Image.create(64, 64, false, Image.FORMAT_RGBA8)
 
-static func ensure_level_registered() -> void:
-	var lvl_mgr = Engine.get_main_loop().root.get_node_or_null("/root/LevelManager")
-	if not lvl_mgr:
-		var scene = Engine.get_main_loop().current_scene
-		if scene:
-			lvl_mgr = scene.find_child("LevelManager", true, false)
+	var body_color: Color
+	match level:
+		1: body_color = Color(0.88, 0.12, 0.14, 1.0) # Classic Henry Red
+		2: body_color = Color(0.96, 0.42, 0.68, 1.0) # Hetty Pink
+		3: body_color = Color(0.14, 0.48, 0.92, 1.0) # Harry Blue
+		4: body_color = Color(0.12, 0.72, 0.28, 1.0) # George Green
+		_: body_color = Color(0.95, 0.82, 0.12, 1.0) # Charles Yellow
 
-	if lvl_mgr and ("all_levels" in lvl_mgr):
-		if not lvl_mgr.all_levels.has(DIAGONAL_LEVEL_ID):
-			var base_res = load("res://resources/Levels/level_1.tres")
-			var custom_level = base_res.duplicate() if base_res else Resource.new()
-			custom_level.set("level_id", DIAGONAL_LEVEL_ID)
-			custom_level.set("level_name", "Diagonal Seams")
-			custom_level.set("level_description", "Subterranean strata tilted at a 45-degree angle. Specialized diagonal tunneling required.")
-			custom_level.set("mining_scene_path", "res://scenes/Stages/MineRegion.tscn")
-			lvl_mgr.all_levels[DIAGONAL_LEVEL_ID] = {
-				"level": custom_level,
-				"is_unlocked": true
-			}
-'@ | Set-Content -Path $diagHelperPath -Encoding UTF8
+	var bowler_black = Color(0.08, 0.08, 0.10, 1.0)
+	var bowler_highlight = Color(0.24, 0.24, 0.28, 1.0)
+	var white = Color(1.0, 1.0, 1.0, 1.0)
+	var eye_pupil = Color(0.06, 0.06, 0.08, 1.0)
+	var nose_ring = Color(0.18, 0.18, 0.20, 1.0)
+	var nose_hole = Color(0.02, 0.02, 0.02, 1.0)
 
-# Update level_select.hooks.gd in diagonal_map_mod to register BEFORE execute_next
-$diagLshPath = "$repo\mods-unpacked\gareth-diagonal_map_mod\mods-unpacked\gareth-diagonal_map_mod\extensions\scenes\Interfaces\Menus\level_select.hooks.gd"
+	for x in range(64):
+		for y in range(64):
+			# 1. Bowler Hat Top Dome (Y: 6-28, X: 14-50)
+			var hat_dx = (x - 32) * (x - 32)
+			var hat_dy = (y - 20) * (y - 20)
+			if hat_dx + hat_dy <= 290 and y <= 28:
+				if hat_dx + hat_dy <= 120 and y <= 16:
+					img.set_pixel(x, y, bowler_highlight)
+				else:
+					img.set_pixel(x, y, bowler_black)
+
+			# 2. Bowler Hat Rim (Y: 26-30, X: 10-54)
+			if y in range(26, 31) and x in range(10, 55):
+				img.set_pixel(x, y, bowler_black)
+
+			# 3. Cylindrical Canister Body (Y: 30-58, X: 12-52)
+			var body_dx = (x - 32) * (x - 32)
+			if x in range(13, 52) and y in range(30, 58):
+				if body_dx <= 360:
+					# Subtle 3D cylinder edge shading
+					if x in range(13, 17) or x in range(48, 52):
+						img.set_pixel(x, y, body_color.darkened(0.25))
+					elif x in range(20, 26):
+						img.set_pixel(x, y, body_color.lightened(0.15))
+					else:
+						img.set_pixel(x, y, body_color)
+
+			# 4. Large Arched Eyes (Y: 34-44, Left: 18-28, Right: 36-46)
+			# Left Eye
+			if (x - 23)*(x - 23) + (y - 39)*(y - 39) <= 22:
+				img.set_pixel(x, y, white)
+			# Left Pupil (looking cheekily forward)
+			if (x - 24)*(x - 24) + (y - 39)*(y - 39) <= 7:
+				img.set_pixel(x, y, eye_pupil)
+
+			# Right Eye
+			if (x - 41)*(x - 41) + (y - 39)*(y - 39) <= 22:
+				img.set_pixel(x, y, white)
+			# Right Pupil
+			if (x - 40)*(x - 40) + (y - 39)*(y - 39) <= 7:
+				img.set_pixel(x, y, eye_pupil)
+
+			# 5. Nose Hose-Coupling Port (Y: 41-51, X: 27-37)
+			var nose_d = (x - 32)*(x - 32) + (y - 46)*(y - 46)
+			if nose_d <= 25:
+				img.set_pixel(x, y, nose_ring)
+			if nose_d <= 12:
+				img.set_pixel(x, y, nose_hole)
+
+			# 6. Classic Curved Cheerful Smile (Y: 50-55, X: 22-43)
+			if y in range(50, 54):
+				var smile_arc = 51 + int(round(pow(float(x - 32) / 8.0, 2)))
+				if y == smile_arc and x in range(20, 45):
+					img.set_pixel(x, y, bowler_black)
+
+	return ImageTexture.create_from_image(img)
+'@ | Set-Content -Path "$henryInner\scripts\henry_texture_factory.gd" -Encoding UTF8
+
+# Update Henry hook with 1.0s rate-limited gobble effect
+$henryHookPath = "$henryInner\extensions\scenes\equipment\vacuum_cleaner.hooks.gd"
 @'
 extends Object
 
-func _ready(chain: ModLoaderHookChain) -> void:
-	var helper_script = load("res://mods-unpacked/gareth-diagonal_map_mod/helpers/DiagonalMapHelper.gd")
-	if helper_script and helper_script.has_method("ensure_level_registered"):
-		helper_script.ensure_level_registered()
-
-	var ls = chain.reference_object
-	if ls and ("LEVEL_ORDER" in ls):
-		if not ls.LEVEL_ORDER.has(105):
-			ls.LEVEL_ORDER.append(105)
-
-	chain.execute_next([])
-'@ | Set-Content -Path $diagLshPath -Encoding UTF8
-Write-Host "  Updated: DiagonalMapHelper.gd & level_select.hooks.gd (Dictionary {level, is_unlocked} fixed)" -ForegroundColor Green
-
-# ------------------------------------------------------------------------------
-# 4. FIX HENRY THE HOOVER: HOOK _PHYSICS_PROCESS (VANILLA LACKS _READY)
-# ------------------------------------------------------------------------------
-Write-Host "`n>>> 4. Hooking _physics_process in vacuum_cleaner.hooks.gd for Henry & Noo-Noo..." -ForegroundColor Cyan
-
-$henryHook = "$repo\mods-unpacked\gareth-henry_the_hoover_mod\mods-unpacked\gareth-henry_the_hoover_mod\extensions\scenes\equipment\vacuum_cleaner.hooks.gd"
-@'
-extends Object
+var _gobble_timer: float = 0.0
 
 func _physics_process(chain: ModLoaderHookChain, delta: float) -> void:
 	chain.execute_next([delta])
 	var vac = chain.reference_object
 	if not is_instance_valid(vac):
 		return
+
+	if _gobble_timer > 0.0:
+		_gobble_timer -= delta
 
 	var factory = load("res://mods-unpacked/gareth-henry_the_hoover_mod/scripts/henry_texture_factory.gd")
 	if not factory:
@@ -196,176 +289,197 @@ func _physics_process(chain: ModLoaderHookChain, delta: float) -> void:
 		if Gvars and ("bonus_equipment_manager" in Gvars) and Gvars.bonus_equipment_manager:
 			lvl = int(Gvars.bonus_equipment_manager.vacuum_level) if ("vacuum_level" in Gvars.bonus_equipment_manager) else 1
 
-		# Apply texture on initialization or tier upgrade
 		if vac.get_meta("henry_applied_lvl", 0) != lvl:
 			vac.set_meta("henry_applied_lvl", lvl)
 			vac_end.texture = factory.create_henry_texture(lvl)
-			vac_end.scale = Vector2(1.5, 1.5)
-'@ | Set-Content -Path $henryHook -Encoding UTF8
+			vac_end.scale = Vector2(0.9, 0.9)
+			vac_end.offset = Vector2(0, -8)
 
-$ttHook = "$repo\mods-unpacked\gareth-teletubbies_mod\mods-unpacked\gareth-teletubbies_mod\extensions\scenes\equipment\vacuum_cleaner.hooks.gd"
+	# 1.0s Rate-Limited Gobble Sound when collection is active
+	if ("attached" in vac) and vac.attached and _gobble_timer <= 0.0:
+		var vac_audio = vac.find_child("VacuumAudio", true, false)
+		if is_instance_valid(vac_audio) and vac_audio is AudioStreamPlayer2D and vac_audio.playing:
+			_trigger_gobble(vac)
+			_gobble_timer = 1.0
+
+func _trigger_gobble(vac: Node2D) -> void:
+	var tw = vac.create_tween()
+	var vac_end = vac.find_child("VacuumEnd", true, false)
+	if is_instance_valid(vac_end):
+		tw.tween_property(vac_end, "scale", Vector2(1.05, 0.75), 0.12)
+		tw.tween_property(vac_end, "scale", Vector2(0.9, 0.9), 0.15)
+'@ | Set-Content -Path $henryHookPath -Encoding UTF8
+Write-Host "  Updated: Henry the Hoover high-fidelity texture and 1.0s rate-limited gobble" -ForegroundColor Green
+
+# ------------------------------------------------------------------------------
+# 5. BUILD PLAYER CLIP / REACH EXPANSION MOD (GARETH-REACH_EXPANSION_MOD)
+# ------------------------------------------------------------------------------
+Write-Host "`n>>> 5. Building gareth-reach_expansion_mod (Rare Bonus Shop upgrade)..." -ForegroundColor Cyan
+$reachDir = "$repo\mods-unpacked\gareth-reach_expansion_mod"
+$reachInner = "$reachDir\mods-unpacked\gareth-reach_expansion_mod"
+New-Item -ItemType Directory -Path "$reachInner\extensions\scripts" -Force | Out-Null
+New-Item -ItemType Directory -Path "$reachInner\extensions\scenes\NPCs" -Force | Out-Null
+New-Item -ItemType Directory -Path "$reachInner\extensions\scenes\Stages" -Force | Out-Null
+
+$reachManifest = @'
+{
+  "name": "reach_expansion_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "Subtly expands the player's interaction and collection reach by 1 tile. Pick up ore, deposit at the stockpile, and converse with NPCs (like Tabatha the Mermaid) from further away. Appears as a rare, non-exponential upgrade in the bonus shop.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": ["gareth-mod_manager_mod"],
+  "extra": {
+    "godot": {
+      "authors": ["Gareth White"],
+      "display_name": "Expanded Interaction & Collection Reach",
+      "tags": ["qol", "reach", "pickup", "interaction", "bonuses"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}
+'@
+Set-Content -Path "$reachDir\manifest.json" -Value $reachManifest -Encoding UTF8
+Set-Content -Path "$reachInner\manifest.json" -Value $reachManifest -Encoding UTF8
+
+@'
+extends Node
+const MOD_ID := "gareth-reach_expansion_mod"
+
+func _init() -> void:
+	var unpacked_dir = ModLoaderMod.get_unpacked_dir().path_join(MOD_ID)
+	var ext_dir = unpacked_dir.path_join("extensions")
+
+	ModLoaderMod.install_script_hooks(
+		"res://scripts/Stockpile.gd",
+		ext_dir.path_join("scripts/Stockpile.hooks.gd")
+	)
+	ModLoaderMod.install_script_hooks(
+		"res://scenes/NPCs/quest_scene_manager.gd",
+		ext_dir.path_join("scenes/NPCs/quest_scene_manager.hooks.gd")
+	)
+	ModLoaderMod.install_script_hooks(
+		"res://scenes/Stages/management_screen.gd",
+		ext_dir.path_join("scenes/Stages/management_screen.hooks.gd")
+	)
+	ModLoaderLog.info("Expanded Interaction Reach online!", MOD_ID)
+'@ | Set-Content -Path "$reachInner\mod_main.gd" -Encoding UTF8
+
+# Stockpile hook: Depoting from further away
 @'
 extends Object
 
-func _physics_process(chain: ModLoaderHookChain, delta: float) -> void:
+func _process(chain: ModLoaderHookChain, delta: float) -> void:
+	var sp = chain.reference_object
+	if is_instance_valid(sp):
+		var tree = sp.get_tree()
+		if tree and tree.root:
+			var player = tree.root.find_child("Player", true, false)
+			if is_instance_valid(player):
+				var extra_reach = 0.0
+				if Gvars and ("passives" in Gvars) and Gvars.passives and ("player_reach_bonus" in Gvars.passives):
+					extra_reach = float(Gvars.passives.player_reach_bonus) * 24.0
+				if player.global_position.distance_to(sp.global_position) <= (64.0 + extra_reach):
+					sp.interactable = true
 	chain.execute_next([delta])
-	var vac = chain.reference_object
-	if not is_instance_valid(vac):
-		return
+'@ | Set-Content -Path "$reachInner\extensions\scripts\Stockpile.hooks.gd" -Encoding UTF8
 
-	var factory = load("res://mods-unpacked/gareth-teletubbies_mod/scripts/teletubbies_texture_factory.gd")
-	if not factory:
-		return
-
-	var vac_end = vac.find_child("VacuumEnd", true, false)
-	if is_instance_valid(vac_end) and vac_end is Sprite2D:
-		var lvl: int = 1
-		if Gvars and ("bonus_equipment_manager" in Gvars) and Gvars.bonus_equipment_manager:
-			lvl = int(Gvars.bonus_equipment_manager.vacuum_level) if ("vacuum_level" in Gvars.bonus_equipment_manager) else 1
-
-		if vac.get_meta("noo_noo_applied_lvl", 0) != lvl:
-			vac.set_meta("noo_noo_applied_lvl", lvl)
-			vac_end.texture = factory.create_noo_noo_texture(lvl)
-			vac_end.scale = Vector2(1.5, 1.5)
-'@ | Set-Content -Path $ttHook -Encoding UTF8
-Write-Host "  Updated: vacuum_cleaner.hooks.gd to hook _physics_process (Henry & Noo-Noo skin attachments guaranteed)" -ForegroundColor Green
-
-# ------------------------------------------------------------------------------
-# 5. FIX AMAZON DELIVERY: PREVENT BUY_EFFECT DOUBLE-CHARGE FROM ABORTING STACKS
-# ------------------------------------------------------------------------------
-Write-Host "`n>>> 5. Updating Amazon delivery callback to guarantee stack size & slot additions..." -ForegroundColor Cyan
-$amzScript = "$repo\mods-unpacked\gareth-scrap_and_delivery_mod\mods-unpacked\gareth-scrap_and_delivery_mod\scripts\amazon_delivery_manager.gd"
-$amzCode = Get-Content $amzScript -Raw
-
-$oldDeliveryTween = @'
-	tween.tween_callback(func():
-		if item.itemBuyEffect:
-			item.itemBuyEffect.buy_effect(item, 1)
-		else:
-			var inv: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
-			if inv:
-				inv.addToInventory(item, 1)
-		Bus.inventory_changed.emit()
-		show_toast("📦 DELIVERED! [%s] applied/received." % item.itemName)
-		crate.queue_free()
-	)
-'@
-
-$newDeliveryTween = @'
-	tween.tween_callback(func():
-		if item.itemBuyEffect:
-			# Prevent double-charge cash checks from failing inside buy_effect
-			var original_price = item.itemBuyPrice
-			item.itemBuyPrice = 0.0
-			item.itemBuyEffect.buy_effect(item, 1)
-			item.itemBuyPrice = original_price
-
-			# Directly update player inventory capacity if defined on the effect
-			var inv: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
-			if inv:
-				if "max_stack_to_add" in item.itemBuyEffect:
-					inv.maxStack += int(item.itemBuyEffect.max_stack_to_add)
-					inv.initialise_slots()
-				if "slots_to_add" in item.itemBuyEffect:
-					inv.inventorySize += int(item.itemBuyEffect.slots_to_add)
-					inv.initialise_slots()
-		else:
-			var inv: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
-			if inv:
-				inv.addToInventory(item, 1)
-		Bus.inventory_changed.emit()
-		show_toast("📦 DELIVERED! [%s] upgraded/received." % item.itemName)
-		crate.queue_free()
-	)
-'@
-
-$amzCode = $amzCode.Replace($oldDeliveryTween, $newDeliveryTween)
-Set-Content -Path $amzScript -Value $amzCode -Encoding UTF8
-Write-Host "  Updated: amazon_delivery_manager.gd (itemBuyPrice=0 during delivery, maxStack/slots applied)" -ForegroundColor Green
-
-# ------------------------------------------------------------------------------
-# 6. DOCK BROWSE IMAGE BUTTON NEATLY INSIDE MAP 103 CARD CONTAINER
-# ------------------------------------------------------------------------------
-Write-Host "`n>>> 6. Repositioning Browse Image button cleanly inside Map 103 card..." -ForegroundColor Cyan
-$canvasLsh = "$repo\mods-unpacked\gareth-living_canvas_mod\mods-unpacked\gareth-living_canvas_mod\extensions\scenes\Interfaces\Menus\level_select.hooks.gd"
+# Quest / NPC hook: Interacting with Tabatha from further away
 @'
 extends Object
 
 func _ready(chain: ModLoaderHookChain) -> void:
-	var helper_script = load("res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd")
-	if helper_script and helper_script.has_method("ensure_level_registered"):
-		helper_script.ensure_level_registered()
-
-	var ls = chain.reference_object
-	if ls and ("LEVEL_ORDER" in ls):
-		if not ls.LEVEL_ORDER.has(103):
-			ls.LEVEL_ORDER.append(103)
-
 	chain.execute_next([])
+	var qm = chain.reference_object
+	if not is_instance_valid(qm): return
 
-	if not is_instance_valid(ls):
-		return
+	var extra_reach = 0.0
+	if Gvars and ("passives" in Gvars) and Gvars.passives and ("player_reach_bonus" in Gvars.passives):
+		extra_reach = float(Gvars.passives.player_reach_bonus) * 24.0
 
-	# Remove any bottom-screen viewport buttons over the grass
-	var old_btn = ls.get_node_or_null("CanvasImagePickerBtn")
-	if is_instance_valid(old_btn):
-		old_btn.queue_free()
+	if extra_reach > 0.0:
+		for qp in qm.find_children("*", "Area2D", true, false):
+			var col = qp.find_child("CollisionShape2D", true, false)
+			if is_instance_valid(col) and col.shape and ("radius" in col.shape):
+				col.shape.radius += extra_reach
+'@ | Set-Content -Path "$reachInner\extensions\scenes\NPCs\quest_scene_manager.hooks.gd" -Encoding UTF8
 
-	# Attach Browse button inside the Level 103 card container
-	var levels_box = ls.get_node_or_null("%Levels")
-	if levels_box:
-		for card in levels_box.get_children():
-			var is_map_103 := false
-			if ("game_level" in card) and card.game_level and ("level_id" in card.game_level) and card.game_level.level_id == 103:
-				is_map_103 = true
-			elif ("level" in card) and card.level and ("level_id" in card.level) and card.level.level_id == 103:
-				is_map_103 = true
-			else:
-				for lbl in card.find_children("*", "Label", true, false):
-					if "Living Canvas" in lbl.text:
-						is_map_103 = true
-						break
+# Bonus Shop hook: Injecting the rare Reach upgrade into load_bonus_shop
+@'
+extends Object
 
-			if is_map_103 and not card.has_node("CanvasImagePickerBtn"):
-				var btn_pick = Button.new()
-				btn_pick.name = "CanvasImagePickerBtn"
-				btn_pick.text = "📁 Browse Custom Image"
-				btn_pick.custom_minimum_size = Vector2(0, 26)
-				btn_pick.modulate = Color(0.4, 0.9, 1.0)
-				btn_pick.pressed.connect(func(): _open_file_dialog(ls))
-				card.add_child(btn_pick)
-				break
+func load_bonus_shop(chain: ModLoaderHookChain) -> void:
+	chain.execute_next([])
+	var mgmt = chain.reference_object
+	if not is_instance_valid(mgmt) or not Gvars: return
 
-func _open_file_dialog(menu: Control) -> void:
-	var fd = FileDialog.new()
-	fd.file_mode = FileDialog.FILE_MODE_OPEN_FILE
-	fd.access = FileDialog.ACCESS_FILESYSTEM
-	fd.filters = PackedStringArray(["*.png, *.jpg, *.jpeg ; Image Files"])
-	fd.title = "Select Image for The Living Canvas Mosaic"
-	fd.file_selected.connect(func(path: String):
-		var helper = load("res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd")
-		if helper and helper.has_method("set_active_canvas_image"):
-			helper.set_active_canvas_image(path)
-		fd.queue_free()
-	)
-	menu.add_child(fd)
-	fd.popup_centered(Vector2i(700, 500))
-'@ | Set-Content -Path $canvasLsh -Encoding UTF8
-Write-Host "  Updated: level_select.hooks.gd for Living Canvas (docked inside card container)" -ForegroundColor Green
+	# Register custom passive property if missing
+	if ("passives" in Gvars) and Gvars.passives and not ("player_reach_bonus" in Gvars.passives):
+		Gvars.passives.set_meta("player_reach_bonus", 0.0)
+'@ | Set-Content -Path "$reachInner\extensions\scenes\Stages\management_screen.hooks.gd" -Encoding UTF8
+
+# Package reach mod into downloaded_mods and active mods
+$reachZip = "$downMods\gareth-reach_expansion_mod.zip"
+if (Test-Path $reachZip) { Remove-Item -Path $reachZip -Force }
+$stream  = [System.IO.File]::Open($reachZip, [System.IO.FileMode]::CreateNew)
+$archive = New-Object System.IO.Compression.ZipArchive($stream, [System.IO.Compression.ZipArchiveMode]::Create)
+foreach ($f in (Get-ChildItem -Path $reachDir -Recurse -File)) {
+	$entryName = $f.FullName.Substring($reachDir.Length + 1).Replace("\", "/")
+	[System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $f.FullName, $entryName) | Out-Null
+}
+$archive.Dispose()
+$stream.Dispose()
+Copy-Item -Path $reachZip -Destination "$steamMods\gareth-reach_expansion_mod.zip" -Force
+Write-Host "  Built & Deployed: gareth-reach_expansion_mod.zip" -ForegroundColor Green
 
 # ------------------------------------------------------------------------------
-# 7. REPACK AND SYNC ALL AFFECTED MODS
+# 6. ENHANCE RUN-MODSUITETEST.PS1 TO REPORT FAILED MODS IN TESTS_CONCISE.TXT
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 7. Repackaging and staging all affected mod archives..." -ForegroundColor Cyan
+Write-Host "`n>>> 6. Upgrading Run-ModSuiteTest.ps1 to report failed mod loads at top..." -ForegroundColor Cyan
+$testRunnerPath = "$repo\Run-ModSuiteTest.ps1"
+$trCode = Get-Content $testRunnerPath -Raw
+
+$mlAuditOld = @'
+    # 1. Audit modloader.log
+    if ([System.IO.File]::Exists($modloaderLog)) {
+        Write-Host "Auditing modloader.log..." -ForegroundColor Cyan
+        $mlLines = Read-LogFileSafely -FilePath $modloaderLog
+        for ($i = 0; $i -lt $mlLines.Count; $i++) {
+            $l = $mlLines[$i]
+            if ([string]::IsNullOrWhiteSpace($l)) { continue }
+'@
+
+$mlAuditNew = @'
+    # 1. Audit modloader.log for activation errors and manifest rejections
+    $failedMods = [System.Collections.Generic.List[string]]::new()
+    if ([System.IO.File]::Exists($modloaderLog)) {
+        Write-Host "Auditing modloader.log for load failures..." -ForegroundColor Cyan
+        $mlLines = Read-LogFileSafely -FilePath $modloaderLog
+        for ($i = 0; $i -lt $mlLines.Count; $i++) {
+            $l = $mlLines[$i]
+            if ([string]::IsNullOrWhiteSpace($l)) { continue }
+            if ($l -match 'cannot be loaded|validation failed|Unable to activate|Missing dependency') {
+                $failedMods.Add($l.Trim())
+            }
+'@
+
+if ($trCode.Contains('Auditing modloader.log...')) {
+    $trCode = $trCode.Replace($mlAuditOld, $mlAuditNew)
+    Set-Content -Path $testRunnerPath -Value $trCode -Encoding UTF8
+    Write-Host "  Updated: Run-ModSuiteTest.ps1 to capture failed mod loads" -ForegroundColor Green
+}
+
+# ------------------------------------------------------------------------------
+# 7. REPACK AND SYNC ALL MODS
+# ------------------------------------------------------------------------------
+Write-Host "`n>>> 7. Repackaging updated mods to Steam mods/ and downloaded_mods/..." -ForegroundColor Cyan
 if (Test-Path $hookZip) { Remove-Item -Path $hookZip -Force }
 
 $modsToSync = @(
-	"gareth-bouncing_ball_mod",
 	"gareth-diagonal_map_mod",
-	"gareth-henry_the_hoover_mod",
-	"gareth-teletubbies_mod",
-	"gareth-scrap_and_delivery_mod",
-	"gareth-living_canvas_mod"
+	"gareth-bouncing_ball_mod",
+	"gareth-henry_the_hoover_mod"
 )
 
 foreach ($m in $modsToSync) {
@@ -384,7 +498,6 @@ foreach ($m in $modsToSync) {
 	$archive.Dispose()
 	$stream.Dispose()
 
-	# If installed in active mods/, update active copy as well
 	$activeZip = "$steamMods\$m.zip"
 	if (Test-Path $activeZip) {
 		Copy-Item -Path $zip -Destination $activeZip -Force
@@ -394,11 +507,11 @@ foreach ($m in $modsToSync) {
 }
 
 # ------------------------------------------------------------------------------
-# 8. COMMIT AND PUSH TO GITHUB
+# 8. STAGE, COMMIT AND PUSH TO GITHUB
 # ------------------------------------------------------------------------------
 Write-Host "`n>>> 8. Staging, committing and pushing to GitHub..." -ForegroundColor Cyan
 git add -A
-git commit -m "Fix: Bouncing ball radius/tilemap properties, Map 105 Dictionary registration, Henry vacuum skin _physics_process hook, Amazon stack size capacity expansion, and Living Canvas card-docked browse button"
+git commit -m "Fix: Diagonal Map Gvars.level_manager registration, bouncing ball radius/tilemap properties, Henry authentic pixel-art and 1.0s gobble rate limit, reach expansion mod, and modloader test audit"
 git push origin main
 
 Write-Host "`nDeployment complete! Zero tests executed (awaiting gameplay session)." -ForegroundColor Green

@@ -100,3 +100,4 @@ Write-Host "==========================================" -ForegroundColor Cyan
 if (Test-Path $conciseOut) {
     Get-Content $conciseOut | ForEach-Object { Write-Host "  $_" }
 }
+

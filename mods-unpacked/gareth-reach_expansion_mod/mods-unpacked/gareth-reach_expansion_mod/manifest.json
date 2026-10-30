@@ -1,0 +1,17 @@
+{
+  "name": "reach_expansion_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "Subtly expands the player's interaction and collection reach by 1 tile. Pick up ore, deposit at the stockpile, and converse with NPCs (like Tabatha the Mermaid) from further away. Appears as a rare, non-exponential upgrade in the bonus shop.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": ["gareth-mod_manager_mod"],
+  "extra": {
+    "godot": {
+      "authors": ["Gareth White"],
+      "display_name": "Expanded Interaction & Collection Reach",
+      "tags": ["qol", "reach", "pickup", "interaction", "bonuses"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}

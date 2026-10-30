@@ -28,7 +28,11 @@ var _sprite: Sprite2D
 func _ready() -> void:
 	z_index = 35
 	_sprite = get_node_or_null("Sprite2D")
-	if _sprite and ball_texture:
+	if not _sprite:
+		_sprite = Sprite2D.new()
+		_sprite.name = "Sprite2D"
+		add_child(_sprite)
+	if ball_texture:
 		_sprite.texture = ball_texture
 
 func setup(pos: Vector2, initial_vel: Vector2, dmg: float, tex: Texture2D) -> void:
@@ -50,7 +54,7 @@ func _physics_process(delta: float) -> void:
 		_total_bounces_made += 1
 		velocity = velocity.bounce(collision.get_normal()) * BOUNCE_DAMPING
 
-		# 3-Tier Multiplier Calculation:
+		# 3-Tier Multiplier Calculation
 		var mult_bounce: float = 1.0 + (_total_bounces_made * 0.65)
 		var mult_velocity: float = clampf(velocity.length() / 260.0, 0.8, 3.5)
 		var mult_passives: float = 1.0
