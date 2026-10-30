@@ -1,1 +1,1 @@
---- Patching Bouncing Ball Mod ---
+--- Patching Diagonal Map Game.hooks.gd ---

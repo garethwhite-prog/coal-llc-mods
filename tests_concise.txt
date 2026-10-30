@@ -7,64 +7,20 @@
 1128: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
 1130: ERROR: Child is not a child of this node.
 1132: SCRIPT ERROR: Trying to call an async function without "await".
-1135: SCRIPT ERROR: Trying to call an async function without "await".
 [Repeated 4 times]
-  First: 1137: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-  Last:  1143: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1145: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1147: ERROR: Child is not a child of this node.
-1149: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1151: ERROR: Child is not a child of this node.
-1155: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
-[Repeated 4 times]
-  First: 1158: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-  Last:  1164: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-1347: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1349: ERROR: Child is not a child of this node.
-1351: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1353: ERROR: Child is not a child of this node.
-1356: ERROR: <Tween#-9223365696291835578>: started with no Tweeners.
-1445: ERROR: <Tween#-9223364547136434250>: started with no Tweeners.
-1448: SCRIPT ERROR: Trying to call an async function without "await".
-1453: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1455: ERROR: Child is not a child of this node.
-1459: SCRIPT ERROR: Trying to call an async function without "await".
-1462: SCRIPT ERROR: Trying to call an async function without "await".
-[Repeated 4 times]
-  First: 1464: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-  Last:  1470: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1472: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1474: ERROR: Child is not a child of this node.
-1476: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1478: ERROR: Child is not a child of this node.
-1482: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
-[Repeated 4 times]
-  First: 1485: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-  Last:  1491: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-1496: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1498: ERROR: Child is not a child of this node.
-1500: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1502: ERROR: Child is not a child of this node.
-1509: ERROR: 8 RID allocations of type 'N10RendererRD12LightStorage11ShadowAtlasE' were leaked at exit.
-1510: ERROR: 8 RID allocations of type 'N10RendererRD14TextureStorage12RenderTargetE' were leaked at exit.
-1511: ERROR: 97 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-1512: ERROR: 8 RID allocations of type 'N16RendererViewport8ViewportE' were leaked at exit.
-1515: ERROR: 80 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
-1516: ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
-1519: ERROR: 190 resources still in use at exit (run with --verbose for details).
-Telemetry Highlights (Last 15):
-1427: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (106.2586, 303.9755)!
-1428: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Jump Velocity +10.0%
-1429: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
-1430: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
-1431: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
-1433: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
-1434: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
-1435: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (124.9253, 270.1649)!
-1436: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
-1437: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
-1438: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
-1439: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
-1440: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
-1441: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (102.0872, 365.875)!
-1442: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
+  First: 1135: SCRIPT ERROR: Invalid call. Nonexistent function 'load_mine' in base 'CanvasLayer (Game.gd)'.
+  Last:  1141: SCRIPT ERROR: Invalid call. Nonexistent function 'load_mine' in base 'CanvasLayer (Game.gd)'.
+1143: SCRIPT ERROR: Trying to call an async function without "await".
+1145: SCRIPT ERROR: Invalid call. Nonexistent function 'load_mine' in base 'CanvasLayer (Game.gd)'.
+1150: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1152: ERROR: Child is not a child of this node.
+[Repeated 13 times]
+  First: 1154: SCRIPT ERROR: Invalid call. Nonexistent function 'load_mine' in base 'CanvasLayer (Game.gd)'.
+  Last:  1195: SCRIPT ERROR: Invalid call. Nonexistent function 'load_mine' in base 'CanvasLayer (Game.gd)'.
+1201: ERROR: 2 RID allocations of type 'N10RendererRD12LightStorage11ShadowAtlasE' were leaked at exit.
+1202: ERROR: 2 RID allocations of type 'N10RendererRD14TextureStorage12RenderTargetE' were leaked at exit.
+1203: ERROR: 76 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+1204: ERROR: 2 RID allocations of type 'N16RendererViewport8ViewportE' were leaked at exit.
+1207: ERROR: 18 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+1208: ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
+1211: ERROR: 188 resources still in use at exit (run with --verbose for details).
