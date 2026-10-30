@@ -1,4 +1,4 @@
-﻿extends Object
+extends Object
 
 func change_stage(chain: ModLoaderHookChain, target: int, targetPosition: Vector2) -> void:
 	var game = chain.reference_object
@@ -11,7 +11,7 @@ func change_stage(chain: ModLoaderHookChain, target: int, targetPosition: Vector
 		if game and "MINE_REGION" in game:
 			game.target_stage = game.MINE_REGION
 
-	chain.execute_next([target, targetPosition])
+	await chain.execute_next([target, targetPosition])
 
 	if game:
 		if game.has_node("ColorRect"):
@@ -25,3 +25,4 @@ func change_stage(chain: ModLoaderHookChain, target: int, targetPosition: Vector
 					game.player = player_node
 			if "player" in game and game.player:
 				game.player.set("profession", Gvars.profession)
+

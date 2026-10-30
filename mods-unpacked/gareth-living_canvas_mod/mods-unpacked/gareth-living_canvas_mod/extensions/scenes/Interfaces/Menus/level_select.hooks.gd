@@ -6,7 +6,7 @@ func _ready(chain: ModLoaderHookChain) -> void:
 		if not ls.LEVEL_ORDER.has(103):
 			ls.LEVEL_ORDER.append(103)
 	
-	await chain.execute_next([])
+	chain.execute_next([])
 	
 	if is_instance_valid(ls):
 		var levels_grid = ls.get_node_or_null("%Levels")
@@ -18,7 +18,7 @@ func _ready(chain: ModLoaderHookChain) -> void:
 						var btn = Button.new()
 						btn.name = "CanvasImagePickerBtn"
 						btn.text = "Browse Custom Canvas..."
-						var helper = load("res://mods-unpacked/gareth-living_canvas_mod/helpers/canvas_helper.gd")
+						var helper = load("res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd")
 						if helper:
 							btn.pressed.connect(Callable(helper.new(), "_on_browse_pressed"))
 						container.add_child(btn)

@@ -7,4 +7,5 @@ func change_stage(chain: ModLoaderHookChain, target: int, targetPosition: Vector
 		if mine_scene and game:
 			game.target_stage = mine_scene
 
-	chain.execute_next([target, targetPosition])
+	await chain.execute_next([target, targetPosition])
+

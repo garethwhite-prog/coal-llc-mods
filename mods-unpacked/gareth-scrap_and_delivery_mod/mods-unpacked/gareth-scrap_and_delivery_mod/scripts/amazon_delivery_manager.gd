@@ -364,10 +364,12 @@ func _spawn_parachute_crate(item: Item, player_node) -> void:
 			# Prevent double-charge cash checks from failing inside buy_effect
 			var original_price = item.itemBuyPrice
 			if is_instance_valid(item) and "itemBuyPrice" in item:
-			item.itemBuyPrice = 0.0
+			if is_instance_valid(item) and "itemBuyPrice" in item:
+				item.itemBuyPrice =
 			item.itemBuyEffect.buy_effect(item, 1)
 			if is_instance_valid(item) and "itemBuyPrice" in item:
-			item.itemBuyPrice = original_price
+			if is_instance_valid(item) and "itemBuyPrice" in item:
+				item.itemBuyPrice =
 
 			# Directly update player inventory capacity if defined on the effect
 			var inv: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
@@ -464,6 +466,7 @@ func show_toast(msg: String) -> void:
 				if is_instance_valid(toast_label):
 					toast_label.visible = false
 			)
+
 
 
 
