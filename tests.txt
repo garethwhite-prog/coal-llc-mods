@@ -1,37 +1,27 @@
-﻿  19: ERROR ModLoader:Path: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
-  20: ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
-  21: at: push_error (core/variant/variant_utility.cpp:1098)
-1049: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
-1102: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
-1123: SCRIPT ERROR: Trying to call an async function without "await".
-1128: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1130: ERROR: Child is not a child of this node.
-1132: SCRIPT ERROR: Trying to call an async function without "await".
-1135: SCRIPT ERROR: Invalid call. Nonexistent function 'load_mine' in base 'CanvasLayer (Game.gd)'.
-1137: SCRIPT ERROR: Invalid call. Nonexistent function 'load_mine' in base 'CanvasLayer (Game.gd)'.
-1139: SCRIPT ERROR: Invalid call. Nonexistent function 'load_mine' in base 'CanvasLayer (Game.gd)'.
-1141: SCRIPT ERROR: Invalid call. Nonexistent function 'load_mine' in base 'CanvasLayer (Game.gd)'.
-1143: SCRIPT ERROR: Trying to call an async function without "await".
-1145: SCRIPT ERROR: Invalid call. Nonexistent function 'load_mine' in base 'CanvasLayer (Game.gd)'.
-1150: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1152: ERROR: Child is not a child of this node.
-1154: SCRIPT ERROR: Invalid call. Nonexistent function 'load_mine' in base 'CanvasLayer (Game.gd)'.
-1157: SCRIPT ERROR: Invalid call. Nonexistent function 'load_mine' in base 'CanvasLayer (Game.gd)'.
-1160: SCRIPT ERROR: Invalid call. Nonexistent function 'load_mine' in base 'CanvasLayer (Game.gd)'.
-1163: SCRIPT ERROR: Invalid call. Nonexistent function 'load_mine' in base 'CanvasLayer (Game.gd)'.
-1166: SCRIPT ERROR: Invalid call. Nonexistent function 'load_mine' in base 'CanvasLayer (Game.gd)'.
-1169: SCRIPT ERROR: Invalid call. Nonexistent function 'load_mine' in base 'CanvasLayer (Game.gd)'.
-1172: SCRIPT ERROR: Invalid call. Nonexistent function 'load_mine' in base 'CanvasLayer (Game.gd)'.
-1175: SCRIPT ERROR: Invalid call. Nonexistent function 'load_mine' in base 'CanvasLayer (Game.gd)'.
-1177: SCRIPT ERROR: Invalid call. Nonexistent function 'load_mine' in base 'CanvasLayer (Game.gd)'.
-1179: SCRIPT ERROR: Invalid call. Nonexistent function 'load_mine' in base 'CanvasLayer (Game.gd)'.
-1191: SCRIPT ERROR: Invalid call. Nonexistent function 'load_mine' in base 'CanvasLayer (Game.gd)'.
-1193: SCRIPT ERROR: Invalid call. Nonexistent function 'load_mine' in base 'CanvasLayer (Game.gd)'.
-1195: SCRIPT ERROR: Invalid call. Nonexistent function 'load_mine' in base 'CanvasLayer (Game.gd)'.
-1201: ERROR: 2 RID allocations of type 'N10RendererRD12LightStorage11ShadowAtlasE' were leaked at exit.
-1202: ERROR: 2 RID allocations of type 'N10RendererRD14TextureStorage12RenderTargetE' were leaked at exit.
-1203: ERROR: 76 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-1204: ERROR: 2 RID allocations of type 'N16RendererViewport8ViewportE' were leaked at exit.
-1207: ERROR: 18 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
-1208: ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
-1211: ERROR: 188 resources still in use at exit (run with --verbose for details).
+﻿   7: ERROR: Parameter "zfile" is null.
+   9: ERROR ModLoader: Failed loading hooks pack from: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mod-hooks.zip
+  10: ERROR: Failed loading hooks pack from: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mod-hooks.zip
+  11: at: push_error (core/variant/variant_utility.cpp:1098)
+  25: ERROR ModLoader:Path: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
+  26: ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
+  27: at: push_error (core/variant/variant_utility.cpp:1098)
+1055: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
+1108: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
+1191: Verified 3884 files, no errors detected!
+1196: Extracted 41 files, no errors detected!
+1233: If you find that you have many non-import errors upon opening the project
+1234: (i.e. scripts or shaders have many errors), use the original game's binary as the export template.
+1277: Verified 3884 files, no errors detected!
+1282: Extracted 41 files, no errors detected!
+1289: ERROR ModLoader:ModHookPacker: Error (1) writing to hooks zip, consider deleting this file: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mod-hooks.zip
+1290: ERROR: Error (1) writing to hooks zip, consider deleting this file: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mod-hooks.zip
+1291: at: push_error (core/variant/variant_utility.cpp:1098)
+1293: ERROR: No loader found for resource: res:// (expected type: )
+1295: ERROR: Error loading resource: ''.
+1297: SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
+1301: ERROR: No loader found for resource: res:// (expected type: )
+1303: ERROR: Error loading resource: ''.
+1305: SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
+1310: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+1314: ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+1319: ERROR: 178 resources still in use at exit (run with --verbose for details).

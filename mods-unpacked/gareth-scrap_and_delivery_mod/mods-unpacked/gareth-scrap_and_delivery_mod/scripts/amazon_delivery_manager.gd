@@ -363,8 +363,10 @@ func _spawn_parachute_crate(item: Item, player_node) -> void:
 		if item.itemBuyEffect:
 			# Prevent double-charge cash checks from failing inside buy_effect
 			var original_price = item.itemBuyPrice
+			if is_instance_valid(item) and "itemBuyPrice" in item:
 			item.itemBuyPrice = 0.0
 			item.itemBuyEffect.buy_effect(item, 1)
+			if is_instance_valid(item) and "itemBuyPrice" in item:
 			item.itemBuyPrice = original_price
 
 			# Directly update player inventory capacity if defined on the effect

@@ -1,1 +1,1 @@
---- Patching Diagonal Map Game.hooks.gd ---
+--- 1. Enforcing File Locks & Cache Cleanup ---
