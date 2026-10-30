@@ -18,4 +18,7 @@ static func ensure_level_registered() -> void:
 			custom_level.set("level_name", "Diagonal Seams")
 			custom_level.set("level_description", "Subterranean strata tilted at a 45-degree angle. Specialized diagonal tunneling required.")
 			custom_level.set("mining_scene_path", "res://scenes/Stages/MineRegion.tscn")
-			lvl_mgr.all_levels[DIAGONAL_LEVEL_ID] = custom_level
+			lvl_mgr.all_levels[DIAGONAL_LEVEL_ID] = {
+				"level": custom_level,
+				"is_unlocked": true
+			}

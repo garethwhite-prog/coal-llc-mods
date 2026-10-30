@@ -361,13 +361,27 @@ func _spawn_parachute_crate(item: Item, player_node) -> void:
 	tween.tween_property(crate, "global_position:y", target_y, 1.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	tween.tween_callback(func():
 		if item.itemBuyEffect:
+			# Prevent double-charge cash checks from failing inside buy_effect
+			var original_price = item.itemBuyPrice
+			item.itemBuyPrice = 0.0
 			item.itemBuyEffect.buy_effect(item, 1)
+			item.itemBuyPrice = original_price
+
+			# Directly update player inventory capacity if defined on the effect
+			var inv: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
+			if inv:
+				if "max_stack_to_add" in item.itemBuyEffect:
+					inv.maxStack += int(item.itemBuyEffect.max_stack_to_add)
+					inv.initialise_slots()
+				if "slots_to_add" in item.itemBuyEffect:
+					inv.inventorySize += int(item.itemBuyEffect.slots_to_add)
+					inv.initialise_slots()
 		else:
 			var inv: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
 			if inv:
 				inv.addToInventory(item, 1)
 		Bus.inventory_changed.emit()
-		show_toast("📦 DELIVERED! [%s] applied/received." % item.itemName)
+		show_toast("📦 DELIVERED! [%s] upgraded/received." % item.itemName)
 		crate.queue_free()
 	)
 
@@ -448,6 +462,7 @@ func show_toast(msg: String) -> void:
 				if is_instance_valid(toast_label):
 					toast_label.visible = false
 			)
+
 
 
 

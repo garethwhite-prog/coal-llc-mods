@@ -15,31 +15,31 @@ func _ready(chain: ModLoaderHookChain) -> void:
 	if not is_instance_valid(ls):
 		return
 
-	# Remove any lingering root-level button on the grass
-	var old_root_btn = ls.get_node_or_null("CanvasImagePickerBtn")
-	if is_instance_valid(old_root_btn):
-		old_root_btn.queue_free()
+	# Remove any bottom-screen viewport buttons over the grass
+	var old_btn = ls.get_node_or_null("CanvasImagePickerBtn")
+	if is_instance_valid(old_btn):
+		old_btn.queue_free()
 
-	# Attach Browse button directly inside the Level 103 card in %Levels
+	# Attach Browse button inside the Level 103 card container
 	var levels_box = ls.get_node_or_null("%Levels")
 	if levels_box:
 		for card in levels_box.get_children():
-			var is_target := false
-			if ("level" in card) and card.level and ("level_id" in card.level) and card.level.level_id == 103:
-				is_target = true
-			elif "103" in card.name or "canvas" in card.name.to_lower():
-				is_target = true
+			var is_map_103 := false
+			if ("game_level" in card) and card.game_level and ("level_id" in card.game_level) and card.game_level.level_id == 103:
+				is_map_103 = true
+			elif ("level" in card) and card.level and ("level_id" in card.level) and card.level.level_id == 103:
+				is_map_103 = true
 			else:
 				for lbl in card.find_children("*", "Label", true, false):
 					if "Living Canvas" in lbl.text:
-						is_target = true
+						is_map_103 = true
 						break
 
-			if is_target and not card.has_node("CanvasImagePickerBtn"):
+			if is_map_103 and not card.has_node("CanvasImagePickerBtn"):
 				var btn_pick = Button.new()
 				btn_pick.name = "CanvasImagePickerBtn"
 				btn_pick.text = "📁 Browse Custom Image"
-				btn_pick.custom_minimum_size = Vector2(0, 28)
+				btn_pick.custom_minimum_size = Vector2(0, 26)
 				btn_pick.modulate = Color(0.4, 0.9, 1.0)
 				btn_pick.pressed.connect(func(): _open_file_dialog(ls))
 				card.add_child(btn_pick)

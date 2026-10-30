@@ -11,6 +11,16 @@ var damage: float:
 	set(val):
 		base_damage = val
 
+var radius: float = 16.0
+var tilemap: Node = null
+var ball_texture: Texture2D = null:
+	get:
+		return ball_texture
+	set(val):
+		ball_texture = val
+		if _sprite and val:
+			_sprite.texture = val
+
 var _bounces_left: int = 4
 var _total_bounces_made: int = 0
 var _sprite: Sprite2D
@@ -18,11 +28,14 @@ var _sprite: Sprite2D
 func _ready() -> void:
 	z_index = 35
 	_sprite = get_node_or_null("Sprite2D")
+	if _sprite and ball_texture:
+		_sprite.texture = ball_texture
 
 func setup(pos: Vector2, initial_vel: Vector2, dmg: float, tex: Texture2D) -> void:
 	global_position = pos
 	velocity = initial_vel
 	base_damage = dmg
+	ball_texture = tex
 	if _sprite and tex:
 		_sprite.texture = tex
 
@@ -38,13 +51,8 @@ func _physics_process(delta: float) -> void:
 		velocity = velocity.bounce(collision.get_normal()) * BOUNCE_DAMPING
 
 		# 3-Tier Multiplier Calculation:
-		# Multiplier 1: Rebound Kinetic Energy Stack (Consecutive Bounces)
 		var mult_bounce: float = 1.0 + (_total_bounces_made * 0.65)
-
-		# Multiplier 2: Momentum / Velocity Impulse (V relative to launch speed)
 		var mult_velocity: float = clampf(velocity.length() / 260.0, 0.8, 3.5)
-
-		# Multiplier 3: Global Player Passives Synergy
 		var mult_passives: float = 1.0
 		if Gvars and ("passives" in Gvars) and Gvars.passives:
 			var p = Gvars.passives
@@ -62,17 +70,21 @@ func _physics_process(delta: float) -> void:
 			queue_free()
 
 func _damage_at_pos(pos: Vector2, dmg: float) -> void:
-	var tree = get_tree()
-	if not tree or not tree.root: return
-	var tm = tree.root.find_child("TileMapManager", true, false)
+	var tm = tilemap
+	if not is_instance_valid(tm):
+		var tree = get_tree()
+		if tree and tree.root:
+			tm = tree.root.find_child("TileMapManager", true, false)
 	if tm and tm.has_method("damageTileCoords"):
 		var cell = tm.local_to_map(pos)
 		tm.damageTileCoords(cell, float(dmg))
 
 func _detonate_final(pos: Vector2, dmg: float) -> void:
-	var tree = get_tree()
-	if not tree or not tree.root: return
-	var tm = tree.root.find_child("TileMapManager", true, false)
+	var tm = tilemap
+	if not is_instance_valid(tm):
+		var tree = get_tree()
+		if tree and tree.root:
+			tm = tree.root.find_child("TileMapManager", true, false)
 	if tm and tm.has_method("damageTileCoords"):
 		var center_cell = tm.local_to_map(pos)
 		for dx in range(-1, 2):

@@ -1,102 +1,122 @@
 ﻿  19: ERROR ModLoader:Path: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
   20: ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
   21: at: push_error (core/variant/variant_utility.cpp:1098)
-1029: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
-1096: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
-1104: SCRIPT ERROR: Trying to call an async function without "await".
-1109: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1111: ERROR: Child is not a child of this node.
-1113: SCRIPT ERROR: Trying to call an async function without "await".
-1119: SCRIPT ERROR: Trying to call an async function without "await".
-1124: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1126: ERROR: Child is not a child of this node.
-1128: SCRIPT ERROR: Trying to call an async function without "await".
-1131: SCRIPT ERROR: Trying to call an async function without "await".
+1031: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
+1097: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
+1105: SCRIPT ERROR: Invalid access to property or key '105' on a base object of type 'Dictionary'.
+1107: SCRIPT ERROR: Trying to call an async function without "await".
+1112: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1114: ERROR: Child is not a child of this node.
+1116: SCRIPT ERROR: Trying to call an async function without "await".
+1119: SCRIPT ERROR: Invalid access to property or key '105' on a base object of type 'Dictionary'.
+1121: SCRIPT ERROR: Trying to call an async function without "await".
+1126: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1128: ERROR: Child is not a child of this node.
+1130: SCRIPT ERROR: Trying to call an async function without "await".
+1133: SCRIPT ERROR: Invalid access to property or key '105' on a base object of type 'Dictionary'.
+1135: SCRIPT ERROR: Trying to call an async function without "await".
+1140: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1142: ERROR: Child is not a child of this node.
+1144: SCRIPT ERROR: Trying to call an async function without "await".
+1147: SCRIPT ERROR: Trying to call an async function without "await".
 [Repeated 4 times]
-  First: 1133: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-  Last:  1139: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1141: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1143: ERROR: Child is not a child of this node.
-1145: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1147: ERROR: Child is not a child of this node.
-1151: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+  First: 1149: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+  Last:  1155: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1157: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1159: ERROR: Child is not a child of this node.
+1161: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1163: ERROR: Child is not a child of this node.
+1167: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
 [Repeated 4 times]
-  First: 1154: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-  Last:  1160: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-[Repeated 14 times]
-  First: 1164: SCRIPT ERROR: Invalid assignment of property or key 'damage' with value of type 'float' on a base object of type 'CharacterBody2D (BouncingBallProjectile)'.
-  Last:  1278: SCRIPT ERROR: Invalid assignment of property or key 'damage' with value of type 'float' on a base object of type 'CharacterBody2D (BouncingBallProjectile)'.
-1281: SCRIPT ERROR: Trying to call an async function without "await".
-1286: SCRIPT ERROR: Trying to call an async function without "await".
-1291: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1293: ERROR: Child is not a child of this node.
-1295: SCRIPT ERROR: Trying to call an async function without "await".
-1298: SCRIPT ERROR: Trying to call an async function without "await".
+  First: 1170: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+  Last:  1176: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+[Repeated 11 times]
+  First: 1187: SCRIPT ERROR: Invalid assignment of property or key 'radius' with value of type 'float' on a base object of type 'CharacterBody2D (BouncingBallProjectile)'.
+  Last:  1442: SCRIPT ERROR: Invalid assignment of property or key 'radius' with value of type 'float' on a base object of type 'CharacterBody2D (BouncingBallProjectile)'.
+1444: ERROR: No loader found for resource: res:// (expected type: )
+1446: SCRIPT ERROR: Invalid access to property or key 'itemTexture' on a base object of type 'null instance'.
+1497: SCRIPT ERROR: Trying to call an async function without "await".
+1502: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1504: ERROR: Child is not a child of this node.
+1509: SCRIPT ERROR: Trying to call an async function without "await".
+1512: SCRIPT ERROR: Trying to call an async function without "await".
 [Repeated 4 times]
-  First: 1300: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-  Last:  1306: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1308: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1310: ERROR: Child is not a child of this node.
-1312: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1314: ERROR: Child is not a child of this node.
-1318: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+  First: 1514: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+  Last:  1520: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1522: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1524: ERROR: Child is not a child of this node.
+1526: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1528: ERROR: Child is not a child of this node.
+1532: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
 [Repeated 4 times]
-  First: 1321: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-  Last:  1327: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-1531: SCRIPT ERROR: Invalid call. Nonexistent function 'start' in base 'Nil'.
-[Repeated 49 times]
-  First: 1533: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
-  Last:  1629: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
-1631: SCRIPT ERROR: Invalid call. Nonexistent function 'start' in base 'Nil'.
-[Repeated 17 times]
-  First: 1633: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
-  Last:  1665: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
-1667: SCRIPT ERROR: Invalid call. Nonexistent function 'start' in base 'Nil'.
-[Repeated 21 times]
-  First: 1669: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
-  Last:  1709: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
-1711: SCRIPT ERROR: Invalid call. Nonexistent function 'has_method' in base 'Nil'.
-1713: SCRIPT ERROR: Invalid call. Nonexistent function 'start' in base 'Nil'.
-[Repeated 38 times]
-  First: 1715: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
-  Last:  1789: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
-1791: SCRIPT ERROR: Invalid call. Nonexistent function 'has_method' in base 'Nil'.
-[Repeated 309 times]
-  First: 1793: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
-  Last:  2431: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
-2434: SCRIPT ERROR: Invalid call. Nonexistent function 'has_method' in base 'Nil'.
-[Repeated 49 times]
-  First: 2436: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
-  Last:  2541: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
-2543: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-2545: ERROR: Child is not a child of this node.
-2547: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-2549: ERROR: Child is not a child of this node.
-[Repeated 109 times]
-  First: 2551: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
-  Last:  2774: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
-2777: SCRIPT ERROR: Trying to call an async function without "await".
-2781: ERROR: 14 RID allocations of type 'P11GodotBody2D' were leaked at exit.
-2786: ERROR: 7 RID allocations of type 'N10RendererRD12LightStorage11ShadowAtlasE' were leaked at exit.
-2787: ERROR: 7 RID allocations of type 'N10RendererRD14TextureStorage12RenderTargetE' were leaked at exit.
-2788: ERROR: 102 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-2789: ERROR: 7 RID allocations of type 'N16RendererViewport8ViewportE' were leaked at exit.
-2792: ERROR: 71 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
-2793: ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
-2796: ERROR: 216 resources still in use at exit (run with --verbose for details).
+  First: 1535: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+  Last:  1541: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1754: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1756: ERROR: Child is not a child of this node.
+1758: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1760: ERROR: Child is not a child of this node.
+1910: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1912: ERROR: Child is not a child of this node.
+1914: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1916: ERROR: Child is not a child of this node.
+2025: SCRIPT ERROR: Trying to call an async function without "await".
+2030: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2032: ERROR: Child is not a child of this node.
+2037: SCRIPT ERROR: Trying to call an async function without "await".
+2040: SCRIPT ERROR: Trying to call an async function without "await".
+[Repeated 4 times]
+  First: 2042: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+  Last:  2048: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+2050: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2052: ERROR: Child is not a child of this node.
+2054: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2056: ERROR: Child is not a child of this node.
+2060: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+[Repeated 4 times]
+  First: 2063: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+  Last:  2069: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+2363: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2365: ERROR: Child is not a child of this node.
+2367: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2369: ERROR: Child is not a child of this node.
+2379: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2381: ERROR: Child is not a child of this node.
+2383: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2385: ERROR: Child is not a child of this node.
+2480: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2482: ERROR: Child is not a child of this node.
+2484: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2486: ERROR: Child is not a child of this node.
+2515: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2517: ERROR: Child is not a child of this node.
+2519: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2521: ERROR: Child is not a child of this node.
+2666: ERROR: <Tween#-9223340220156422313>: started with no Tweeners.
+2668: ERROR: <Tween#-9223340210710888607>: started with no Tweeners.
+2679: SCRIPT ERROR: Trying to call an async function without "await".
+2684: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2686: ERROR: Child is not a child of this node.
+2690: ERROR: 11 RID allocations of type 'P11GodotBody2D' were leaked at exit.
+2695: ERROR: 21 RID allocations of type 'N10RendererRD12LightStorage11ShadowAtlasE' were leaked at exit.
+2696: ERROR: 21 RID allocations of type 'N10RendererRD14TextureStorage12RenderTargetE' were leaked at exit.
+2697: ERROR: 127 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+2698: ERROR: 21 RID allocations of type 'N16RendererViewport8ViewportE' were leaked at exit.
+2701: ERROR: 228 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+2702: ERROR: 4 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
+2705: ERROR: 193 resources still in use at exit (run with --verbose for details).
 Telemetry Highlights (Last 15):
-2442: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Damage +10.0%
-2451: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Jump Velocity +20.0%
-2458: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Sprint Speed +10.0%
-2473: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Sprint Speed +10.0%
-2498: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Damage +10.0%
-2505: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Jump Velocity +20.0%
-2520: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Jump Velocity +20.0%
-2525: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Jump Velocity +20.0%
-2540: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Damage +10.0%
-2554: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Damage +10.0%
-2601: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Damage +10.0%
-2686: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Sprint Speed +10.0%
-2703: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Jump Velocity +20.0%
-2712: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Sprint Speed +10.0%
-2725: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Damage +10.0%
+2658: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
+2659: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
+2660: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
+2661: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
+2662: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (83.07482, 316.0726)!
+2663: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
+2665: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
+2670: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
+2671: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
+2672: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
+2673: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (68.69982, 471.9846)!
+2674: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
+2675: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
+2676: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
+2677: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
