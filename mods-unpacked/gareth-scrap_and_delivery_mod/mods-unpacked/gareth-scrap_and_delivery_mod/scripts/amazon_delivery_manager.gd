@@ -360,13 +360,14 @@ func _spawn_parachute_crate(item: Item, player_node) -> void:
 	var tween = tree.create_tween()
 	tween.tween_property(crate, "global_position:y", target_y, 1.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	tween.tween_callback(func():
-		var inv: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
-		if inv:
-			inv.addToInventory(item, 1)
 		if item.itemBuyEffect:
 			item.itemBuyEffect.buy_effect(item, 1)
+		else:
+			var inv: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
+			if inv:
+				inv.addToInventory(item, 1)
 		Bus.inventory_changed.emit()
-		show_toast("📦 DELIVERED! [%s] safely received." % item.itemName)
+		show_toast("📦 DELIVERED! [%s] applied/received." % item.itemName)
 		crate.queue_free()
 	)
 
@@ -447,6 +448,7 @@ func show_toast(msg: String) -> void:
 				if is_instance_valid(toast_label):
 					toast_label.visible = false
 			)
+
 
 
 

@@ -1,159 +1,688 @@
-﻿  21: ERROR ModLoader:Path: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
-  22: ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
-  23: at: push_error (core/variant/variant_utility.cpp:1098)
- 944: SCRIPT ERROR: Parse Error: Too many arguments for "get()" call. Expected at most 1 but received 2.
- 946: ERROR: Failed to load script "res://mods-unpacked/gareth-henry_the_hoover_mod/extensions/scenes/equipment/vacuum_cleaner.hooks.gd" with error "Parse error".
- 948: SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
-1035: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
-1102: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
-1111: SCRIPT ERROR: Trying to call an async function without "await".
-1116: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1118: ERROR: Child is not a child of this node.
-1120: SCRIPT ERROR: Trying to call an async function without "await".
-1126: SCRIPT ERROR: Trying to call an async function without "await".
-1131: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1133: ERROR: Child is not a child of this node.
-1135: SCRIPT ERROR: Trying to call an async function without "await".
-1138: SCRIPT ERROR: Trying to call an async function without "await".
-1140: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1142: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1144: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1146: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1148: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1150: ERROR: Child is not a child of this node.
-1152: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1154: ERROR: Child is not a child of this node.
-1158: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
-1161: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-1163: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-1165: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-1167: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-1255: SCRIPT ERROR: Trying to call an async function without "await".
-1260: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1262: ERROR: Child is not a child of this node.
-1267: SCRIPT ERROR: Trying to call an async function without "await".
-1270: SCRIPT ERROR: Trying to call an async function without "await".
-1272: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1274: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1276: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1278: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1280: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1282: ERROR: Child is not a child of this node.
-1284: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1286: ERROR: Child is not a child of this node.
-1290: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
-1293: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-1295: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-1297: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-1299: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-1530: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1532: ERROR: Child is not a child of this node.
-1534: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1536: ERROR: Child is not a child of this node.
-1568: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1570: ERROR: Child is not a child of this node.
-1572: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1574: ERROR: Child is not a child of this node.
-8617: SCRIPT ERROR: Trying to call an async function without "await".
-8622: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-8624: ERROR: Child is not a child of this node.
-8629: SCRIPT ERROR: Trying to call an async function without "await".
-8632: SCRIPT ERROR: Trying to call an async function without "await".
-8634: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-8636: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-8638: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-8640: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-8642: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-8644: ERROR: Child is not a child of this node.
-8646: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-8648: ERROR: Child is not a child of this node.
-8652: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
-8655: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-8657: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-8659: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-8661: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-9058: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-9060: ERROR: Child is not a child of this node.
-9062: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-9064: ERROR: Child is not a child of this node.
-9197: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-9199: ERROR: Child is not a child of this node.
-9201: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-9203: ERROR: Child is not a child of this node.
-9221: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-9223: ERROR: Child is not a child of this node.
-9225: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-9227: ERROR: Child is not a child of this node.
-9853: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-9855: ERROR: Child is not a child of this node.
-9857: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-9859: ERROR: Child is not a child of this node.
-9919: SCRIPT ERROR: Trying to call an async function without "await".
-9924: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-9926: ERROR: Child is not a child of this node.
-9931: SCRIPT ERROR: Trying to call an async function without "await".
-9934: SCRIPT ERROR: Trying to call an async function without "await".
-9936: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-9938: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-9940: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-9942: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-9944: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-9946: ERROR: Child is not a child of this node.
-9948: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-9950: ERROR: Child is not a child of this node.
-9954: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
-9959: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-9961: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-9963: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-9965: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-9993: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-9995: ERROR: Child is not a child of this node.
-9997: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-9999: ERROR: Child is not a child of this node.
-13242: ERROR: <Tween#-9223151875086288900>: started with no Tweeners.
-13249: ERROR: <Tween#-9223151826667241814>: started with no Tweeners.
-13299: ERROR: <Tween#-9223151191095958479>: started with no Tweeners.
-13363: SCRIPT ERROR: Trying to call an async function without "await".
-13368: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-13370: ERROR: Child is not a child of this node.
-13375: SCRIPT ERROR: Trying to call an async function without "await".
-13378: SCRIPT ERROR: Trying to call an async function without "await".
-13380: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-13382: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-13384: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-13386: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-13388: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-13390: ERROR: Child is not a child of this node.
-13392: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-13394: ERROR: Child is not a child of this node.
-13398: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
-13403: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-13405: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-13407: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-13409: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-17947: SCRIPT ERROR: Trying to call an async function without "await".
-17952: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-17954: ERROR: Child is not a child of this node.
-17963: ERROR: 86 RID allocations of type 'N10RendererRD12LightStorage11ShadowAtlasE' were leaked at exit.
-17964: ERROR: 86 RID allocations of type 'N10RendererRD14TextureStorage12RenderTargetE' were leaked at exit.
-17965: ERROR: 266 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-17966: ERROR: 86 RID allocations of type 'N16RendererViewport8ViewportE' were leaked at exit.
-17969: ERROR: 2100 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
-17970: ERROR: 4 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
-17973: ERROR: 194 resources still in use at exit (run with --verbose for details).
+﻿  19: ERROR ModLoader:Path: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
+  20: ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
+  21: at: push_error (core/variant/variant_utility.cpp:1098)
+1029: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
+1096: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
+1104: SCRIPT ERROR: Trying to call an async function without "await".
+1109: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1111: ERROR: Child is not a child of this node.
+1113: SCRIPT ERROR: Trying to call an async function without "await".
+1119: SCRIPT ERROR: Trying to call an async function without "await".
+1124: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1126: ERROR: Child is not a child of this node.
+1128: SCRIPT ERROR: Trying to call an async function without "await".
+1131: SCRIPT ERROR: Trying to call an async function without "await".
+1133: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1135: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1137: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1139: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1141: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1143: ERROR: Child is not a child of this node.
+1145: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1147: ERROR: Child is not a child of this node.
+1151: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+1154: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1156: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1158: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1160: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1164: SCRIPT ERROR: Invalid assignment of property or key 'damage' with value of type 'float' on a base object of type 'CharacterBody2D (BouncingBallProjectile)'.
+1166: SCRIPT ERROR: Invalid assignment of property or key 'damage' with value of type 'float' on a base object of type 'CharacterBody2D (BouncingBallProjectile)'.
+1168: SCRIPT ERROR: Invalid assignment of property or key 'damage' with value of type 'float' on a base object of type 'CharacterBody2D (BouncingBallProjectile)'.
+1170: SCRIPT ERROR: Invalid assignment of property or key 'damage' with value of type 'float' on a base object of type 'CharacterBody2D (BouncingBallProjectile)'.
+1172: SCRIPT ERROR: Invalid assignment of property or key 'damage' with value of type 'float' on a base object of type 'CharacterBody2D (BouncingBallProjectile)'.
+1174: SCRIPT ERROR: Invalid assignment of property or key 'damage' with value of type 'float' on a base object of type 'CharacterBody2D (BouncingBallProjectile)'.
+1176: SCRIPT ERROR: Invalid assignment of property or key 'damage' with value of type 'float' on a base object of type 'CharacterBody2D (BouncingBallProjectile)'.
+1178: SCRIPT ERROR: Invalid assignment of property or key 'damage' with value of type 'float' on a base object of type 'CharacterBody2D (BouncingBallProjectile)'.
+1181: SCRIPT ERROR: Invalid assignment of property or key 'damage' with value of type 'float' on a base object of type 'CharacterBody2D (BouncingBallProjectile)'.
+1183: SCRIPT ERROR: Invalid assignment of property or key 'damage' with value of type 'float' on a base object of type 'CharacterBody2D (BouncingBallProjectile)'.
+1271: SCRIPT ERROR: Invalid assignment of property or key 'damage' with value of type 'float' on a base object of type 'CharacterBody2D (BouncingBallProjectile)'.
+1273: SCRIPT ERROR: Invalid assignment of property or key 'damage' with value of type 'float' on a base object of type 'CharacterBody2D (BouncingBallProjectile)'.
+1275: SCRIPT ERROR: Invalid assignment of property or key 'damage' with value of type 'float' on a base object of type 'CharacterBody2D (BouncingBallProjectile)'.
+1278: SCRIPT ERROR: Invalid assignment of property or key 'damage' with value of type 'float' on a base object of type 'CharacterBody2D (BouncingBallProjectile)'.
+1281: SCRIPT ERROR: Trying to call an async function without "await".
+1286: SCRIPT ERROR: Trying to call an async function without "await".
+1291: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1293: ERROR: Child is not a child of this node.
+1295: SCRIPT ERROR: Trying to call an async function without "await".
+1298: SCRIPT ERROR: Trying to call an async function without "await".
+1300: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1302: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1304: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1306: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1308: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1310: ERROR: Child is not a child of this node.
+1312: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1314: ERROR: Child is not a child of this node.
+1318: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+1321: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1323: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1325: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1327: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1531: SCRIPT ERROR: Invalid call. Nonexistent function 'start' in base 'Nil'.
+1533: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1535: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1537: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1539: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1541: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1543: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1545: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1547: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1549: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1551: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1553: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1555: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1557: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1559: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1561: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1563: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1565: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1567: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1569: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1571: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1573: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1575: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1577: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1579: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1581: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1583: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1585: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1587: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1589: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1591: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1593: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1595: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1597: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1599: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1601: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1603: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1605: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1607: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1609: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1611: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1613: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1615: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1617: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1619: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1621: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1623: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1625: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1627: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1629: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1631: SCRIPT ERROR: Invalid call. Nonexistent function 'start' in base 'Nil'.
+1633: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1635: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1637: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1639: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1641: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1643: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1645: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1647: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1649: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1651: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1653: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1655: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1657: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1659: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1661: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1663: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1665: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1667: SCRIPT ERROR: Invalid call. Nonexistent function 'start' in base 'Nil'.
+1669: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1671: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1673: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1675: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1677: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1679: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1681: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1683: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1685: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1687: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1689: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1691: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1693: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1695: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1697: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1699: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1701: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1703: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1705: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1707: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1709: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1711: SCRIPT ERROR: Invalid call. Nonexistent function 'has_method' in base 'Nil'.
+1713: SCRIPT ERROR: Invalid call. Nonexistent function 'start' in base 'Nil'.
+1715: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1717: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1719: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1721: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1723: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1725: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1727: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1729: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1731: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1733: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1735: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1737: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1739: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1741: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1743: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1745: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1747: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1749: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1751: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1753: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1755: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1757: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1759: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1761: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1763: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1765: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1767: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1769: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1771: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1773: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1775: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1777: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1779: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1781: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1783: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1785: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1787: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1789: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1791: SCRIPT ERROR: Invalid call. Nonexistent function 'has_method' in base 'Nil'.
+1793: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1795: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1797: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1799: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1801: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1803: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1805: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1807: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1809: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1811: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1813: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1815: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1817: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1819: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1821: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1823: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1825: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1827: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1829: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1831: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1833: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1835: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1837: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1839: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1841: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1843: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1845: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1847: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1849: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1851: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1853: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1855: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1857: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1859: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1861: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1863: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1865: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1867: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1869: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1871: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1873: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1875: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1877: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1879: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1881: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1883: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1885: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1887: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1889: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1891: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1893: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1895: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1897: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1899: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1901: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1903: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1905: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1907: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1909: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1911: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1913: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1915: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1917: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1919: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1921: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1923: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1925: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1927: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1929: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1931: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1933: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1935: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1937: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1939: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1941: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1943: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1945: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1947: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1949: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1951: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1953: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1955: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1957: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1959: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1961: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1963: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1965: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1967: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1969: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1971: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1973: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1975: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1977: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1979: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1981: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1983: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1985: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1987: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1990: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1992: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1994: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1996: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+1998: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2000: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2002: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2004: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2006: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2008: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2010: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2012: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2014: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2016: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2018: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2020: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2022: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2024: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2026: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2028: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2030: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2032: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2034: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2036: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2038: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2040: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2042: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2044: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2046: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2049: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2051: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2053: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2055: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2057: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2060: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2062: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2064: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2066: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2068: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2070: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2072: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2074: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2076: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2079: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2081: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2083: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2085: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2087: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2089: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2091: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2093: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2095: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2097: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2099: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2101: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2103: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2105: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2107: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2109: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2112: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2114: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2116: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2118: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2121: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2123: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2126: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2128: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2130: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2132: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2134: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2137: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2139: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2141: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2143: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2145: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2147: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2149: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2151: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2153: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2155: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2158: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2161: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2163: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2165: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2167: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2169: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2172: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2174: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2176: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2179: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2181: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2183: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2185: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2187: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2189: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2191: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2193: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2195: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2197: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2199: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2201: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2203: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2205: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2208: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2210: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2212: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2214: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2216: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2218: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2220: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2222: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2224: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2226: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2229: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2231: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2233: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2235: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2237: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2239: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2241: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2243: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2245: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2248: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2250: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2252: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2254: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2256: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2258: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2260: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2262: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2264: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2266: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2268: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2270: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2272: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2274: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2276: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2278: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2280: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2282: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2284: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2286: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2288: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2290: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2292: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2294: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2296: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2298: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2300: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2302: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2304: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2306: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2308: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2310: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2312: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2314: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2316: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2318: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2320: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2322: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2325: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2328: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2330: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2332: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2334: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2336: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2338: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2340: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2342: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2344: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2347: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2349: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2351: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2353: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2355: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2357: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2360: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2362: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2364: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2366: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2368: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2370: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2372: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2374: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2376: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2378: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2380: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2382: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2384: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2386: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2388: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2390: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2392: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2394: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2396: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2398: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2400: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2402: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2404: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2406: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2409: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2411: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2413: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2415: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2417: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2420: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2422: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2424: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2427: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2429: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2431: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2434: SCRIPT ERROR: Invalid call. Nonexistent function 'has_method' in base 'Nil'.
+2436: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2438: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2440: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2443: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2445: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2447: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2449: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2452: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2454: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2456: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2459: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2461: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2463: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2465: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2467: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2469: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2471: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2474: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2476: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2478: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2480: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2482: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2484: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2486: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2488: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2490: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2492: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2494: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2496: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2499: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2501: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2503: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2506: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2508: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2510: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2512: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2514: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2516: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2518: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2521: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2523: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2526: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2528: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2530: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2532: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2534: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2536: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2538: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2541: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2543: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2545: ERROR: Child is not a child of this node.
+2547: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2549: ERROR: Child is not a child of this node.
+2551: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2555: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2557: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2559: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2561: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2563: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2565: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2567: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2569: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2571: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2573: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2575: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2577: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2579: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2581: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2583: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2585: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2587: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2589: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2591: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2593: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2595: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2597: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2599: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2602: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2604: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2606: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2608: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2610: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2612: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2614: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2616: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2618: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2620: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2622: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2624: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2626: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2628: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2630: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2632: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2634: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2636: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2638: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2640: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2642: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2644: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2646: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2648: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2650: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2652: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2654: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2656: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2658: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2660: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2662: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2664: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2666: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2668: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2670: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2672: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2674: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2676: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2678: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2680: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2682: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2684: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2687: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2689: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2691: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2693: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2695: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2697: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2699: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2701: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2704: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2706: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2708: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2710: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2713: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2715: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2717: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2719: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2721: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2723: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2726: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2728: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2730: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2732: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2734: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2736: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2738: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2740: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2742: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2744: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2746: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2748: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2750: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2752: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2754: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2756: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2758: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2760: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2762: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2764: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2766: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2768: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2770: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2772: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2774: SCRIPT ERROR: Invalid call. Nonexistent function 'physics_process' in base 'Nil'.
+2777: SCRIPT ERROR: Trying to call an async function without "await".
+2781: ERROR: 14 RID allocations of type 'P11GodotBody2D' were leaked at exit.
+2786: ERROR: 7 RID allocations of type 'N10RendererRD12LightStorage11ShadowAtlasE' were leaked at exit.
+2787: ERROR: 7 RID allocations of type 'N10RendererRD14TextureStorage12RenderTargetE' were leaked at exit.
+2788: ERROR: 102 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+2789: ERROR: 7 RID allocations of type 'N16RendererViewport8ViewportE' were leaked at exit.
+2792: ERROR: 71 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+2793: ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
+2796: ERROR: 216 resources still in use at exit (run with --verbose for details).
 Telemetry Highlights (Last 15):
-17931: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
-17932: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (-44.33356, -56.00738)!
-17933: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
-17934: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
-17935: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
-17936: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
-17937: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
-17938: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (-44.33356, -56.00738)!
-17939: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
-17940: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
-17941: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
-17942: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
-17943: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
-17944: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (-44.33356, -56.00738)!
-17945: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
+2442: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Damage +10.0%
+2451: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Jump Velocity +20.0%
+2458: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Sprint Speed +10.0%
+2473: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Sprint Speed +10.0%
+2498: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Damage +10.0%
+2505: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Jump Velocity +20.0%
+2520: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Jump Velocity +20.0%
+2525: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Jump Velocity +20.0%
+2540: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Damage +10.0%
+2554: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Damage +10.0%
+2601: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Damage +10.0%
+2686: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Sprint Speed +10.0%
+2703: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Jump Velocity +20.0%
+2712: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Sprint Speed +10.0%
+2725: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Damage +10.0%

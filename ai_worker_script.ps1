@@ -1,5 +1,5 @@
 ﻿# ==============================================================================
-# Coal LLC - Bouncing Ball 3-Tier Stacking, Vacuum Fix, Amazon Delivery & End Day
+# Coal LLC - Ball Damage Alias, Diagonal Map Stage Hook, Amazon Passives & Canvas Card
 # ==============================================================================
 
 $repo       = "C:\Dev\coal-llc-mods"
@@ -10,7 +10,7 @@ $hookZip    = "$steamRoot\mod-hooks.zip"
 
 Set-Location $repo
 
-Write-Host ">>> 1. Terminating running Coal LLC processes..." -ForegroundColor Cyan
+Write-Host ">>> 1. Terminating running Coal LLC / Godot processes..." -ForegroundColor Cyan
 Get-Process -Name "Coal LLC*", "godot*" -ErrorAction SilentlyContinue | Stop-Process -Force
 Start-Sleep -Milliseconds 400
 
@@ -18,9 +18,9 @@ Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
 # ------------------------------------------------------------------------------
-# 2. IMPLEMENT 3-TIER DAMAGE STACKING IN BOUNCING_BALL_PROJECTILE.GD
+# 2. RESTORE 'damage' PROPERTY ALIAS IN BOUNCING_BALL_PROJECTILE.GD
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 2. Implementing 3-tier stacking damage multipliers in bouncing ball..." -ForegroundColor Cyan
+Write-Host "`n>>> 2. Adding damage property alias to bouncing_ball_projectile.gd..." -ForegroundColor Cyan
 $bbProjPath = "$repo\mods-unpacked\gareth-bouncing_ball_mod\mods-unpacked\gareth-bouncing_ball_mod\scripts\bouncing_ball_projectile.gd"
 @'
 class_name BouncingBallProjectile
@@ -29,6 +29,13 @@ extends CharacterBody2D
 const GRAVITY: float = 620.0
 const BOUNCE_DAMPING: float = 0.88
 var base_damage: float = 95.0
+
+var damage: float:
+	get:
+		return base_damage
+	set(val):
+		base_damage = val
+
 var _bounces_left: int = 4
 var _total_bounces_made: int = 0
 var _sprite: Sprite2D
@@ -97,17 +104,16 @@ func _detonate_final(pos: Vector2, dmg: float) -> void:
 			for dy in range(-1, 2):
 				tm.damageTileCoords(center_cell + Vector2i(dx, dy), float(dmg))
 '@ | Set-Content -Path $bbProjPath -Encoding UTF8
-Write-Host "  Updated: bouncing_ball_projectile.gd with 3 compounding damage multipliers" -ForegroundColor Green
+Write-Host "  Updated: bouncing_ball_projectile.gd (damage alias restored, throwing enabled)" -ForegroundColor Green
 
 # ------------------------------------------------------------------------------
-# 3. FIX OBJECT.GET PARSE ERROR IN HENRY & TELETUBBIES HOOKS
+# 3. FIX HENRY THE HOOVER & TELETUBBIES HOOK PARSE ERROR
 # ------------------------------------------------------------------------------
 Write-Host "`n>>> 3. Fixing Object.get() argument count parse error in vacuum hooks..." -ForegroundColor Cyan
 foreach ($m in @("gareth-henry_the_hoover_mod", "gareth-teletubbies_mod")) {
 	$vhPath = "$repo\mods-unpacked\$m\mods-unpacked\$m\extensions\scenes\equipment\vacuum_cleaner.hooks.gd"
 	if (Test-Path $vhPath) {
 		$code = Get-Content $vhPath -Raw
-		# Replace invalid Object.get("vacuum_level", 1) with safe property check
 		$code = $code.Replace('lvl = int(Gvars.bonus_equipment_manager.get("vacuum_level", 1))', 'lvl = int(Gvars.bonus_equipment_manager.vacuum_level) if ("vacuum_level" in Gvars.bonus_equipment_manager) else 1')
 		Set-Content -Path $vhPath -Value $code -Encoding UTF8
 		Write-Host "  Patched: $m\vacuum_cleaner.hooks.gd" -ForegroundColor Green
@@ -115,70 +121,13 @@ foreach ($m in @("gareth-henry_the_hoover_mod", "gareth-teletubbies_mod")) {
 }
 
 # ------------------------------------------------------------------------------
-# 4. FIX AMAZON EMERGENCY DRONE CRATE SPAWN & DIRECT INVENTORY DELIVERY
+# 4. FIX AMAZON DELIVERY (ROUTE PASSIVES EXCLUSIVELY TO BUY_EFFECT)
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 4. Fixing Amazon delivery crate visibility & delivery pipeline..." -ForegroundColor Cyan
+Write-Host "`n>>> 4. Routing Amazon passive upgrades to buy_effect (no hotbar clutter)..." -ForegroundColor Cyan
 $amzPath = "$repo\mods-unpacked\gareth-scrap_and_delivery_mod\mods-unpacked\gareth-scrap_and_delivery_mod\scripts\amazon_delivery_manager.gd"
 $amzCode = Get-Content $amzPath -Raw
 
-$oldSpawn = @'
-func _spawn_parachute_crate(item: Item, player_node) -> void:
-	var tree = get_tree()
-	if not tree or not tree.current_scene:
-		return
-
-	var crate = Node2D.new()
-	crate.name = "AmazonDeliveryCrate"
-	var spawn_x: float = player_node.global_position.x if (is_instance_valid(player_node) and ("global_position" in player_node)) else 0.0
-	crate.global_position = Vector2(spawn_x, -60.0)
-
-	var spr = Sprite2D.new()
-	spr.texture = item.itemTexture if is_instance_valid(item.itemTexture) else load("res://assets/Equipment/kicks/kick_04_sapphire.png")
-	spr.scale = Vector2(1.6, 1.6)
-	crate.add_child(spr)
-	tree.current_scene.add_child(crate)
-
-	var target_y = player_node.global_position.y if (is_instance_valid(player_node) and ("global_position" in player_node)) else 0.0
-	var tween = tree.create_tween()
-	tween.tween_property(crate, "global_position:y", target_y, 1.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	tween.tween_callback(func():
-		if item.itemBuyEffect:
-			item.itemBuyEffect.buy_effect(item, 1)
-		else:
-			var inv: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
-			if inv:
-				inv.addToInventory(item, 1)
-		Bus.inventory_changed.emit()
-		show_toast("📦 DELIVERED! [%s] acquired." % item.itemName)
-		crate.queue_free()
-	)
-'@
-
-$newSpawn = @'
-func _spawn_parachute_crate(item: Item, player_node) -> void:
-	var tree = get_tree()
-	if not tree or not tree.root:
-		return
-
-	var p = player_node if is_instance_valid(player_node) else tree.root.find_child("Player", true, false)
-	if not is_instance_valid(p):
-		return
-
-	var crate = Node2D.new()
-	crate.name = "AmazonDeliveryCrate"
-	crate.z_index = 60
-	crate.global_position = Vector2(p.global_position.x, p.global_position.y - 320.0)
-
-	var spr = Sprite2D.new()
-	spr.texture = item.itemTexture if is_instance_valid(item.itemTexture) else load("res://assets/Equipment/kicks/kick_04_sapphire.png")
-	spr.scale = Vector2(2.0, 2.0)
-	crate.add_child(spr)
-
-	p.get_parent().add_child(crate)
-
-	var target_y = p.global_position.y - 12.0
-	var tween = tree.create_tween()
-	tween.tween_property(crate, "global_position:y", target_y, 1.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+$oldDeliverBlock = @'
 	tween.tween_callback(func():
 		var inv: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
 		if inv:
@@ -191,140 +140,100 @@ func _spawn_parachute_crate(item: Item, player_node) -> void:
 	)
 '@
 
-$amzCode = $amzCode.Replace($oldSpawn, $newSpawn)
+$newDeliverBlock = @'
+	tween.tween_callback(func():
+		if item.itemBuyEffect:
+			item.itemBuyEffect.buy_effect(item, 1)
+		else:
+			var inv: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
+			if inv:
+				inv.addToInventory(item, 1)
+		Bus.inventory_changed.emit()
+		show_toast("📦 DELIVERED! [%s] applied/received." % item.itemName)
+		crate.queue_free()
+	)
+'@
+
+$amzCode = $amzCode.Replace($oldDeliverBlock, $newDeliverBlock)
 Set-Content -Path $amzPath -Value $amzCode -Encoding UTF8
-Write-Host "  Updated: amazon_delivery_manager.gd (z_index=60, guaranteed delivery to PlayerInventory)" -ForegroundColor Green
+Write-Host "  Updated: amazon_delivery_manager.gd (Slots/stacks trigger buy_effect directly)" -ForegroundColor Green
 
 # ------------------------------------------------------------------------------
-# 5. RESTORE "END DAY EARLY" BUTTON IN SPEED_CONTROLLER.GD
+# 5. FIX DIAGONAL MAP (MAP 105) REGISTRATION & ADD GAME.HOOKS.GD
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 5. Restoring 'End Day Early' button in speed_controller.gd..." -ForegroundColor Cyan
-$scPath = "$repo\mods-unpacked\gareth-game_speed_mod\mods-unpacked\gareth-game_speed_mod\scripts\speed_controller.gd"
+Write-Host "`n>>> 5. Adding Game.hooks.gd and fixing stage transition for Diagonal Map (105)..." -ForegroundColor Cyan
+$diagExtDir = "$repo\mods-unpacked\gareth-diagonal_map_mod\mods-unpacked\gareth-diagonal_map_mod\extensions"
+New-Item -ItemType Directory -Path "$diagExtDir\scripts" -Force | Out-Null
+
+@'
+extends Object
+
+func change_stage(chain: ModLoaderHookChain, stage, pos: Vector2) -> void:
+	if Gvars and ("level" in Gvars) and Gvars.level == 105:
+		var game = chain.reference_object
+		if is_instance_valid(game):
+			game.load_mine("res://scenes/Stages/MineRegion.tscn")
+			return
+	chain.execute_next([stage, pos])
+'@ | Set-Content -Path "$diagExtDir\scripts\Game.hooks.gd" -Encoding UTF8
+
+# Update mod_main.gd in gareth-diagonal_map_mod to register Game.hooks.gd
+$diagMainPath = "$repo\mods-unpacked\gareth-diagonal_map_mod\mods-unpacked\gareth-diagonal_map_mod\mod_main.gd"
 @'
 extends Node
 
-var canvas: CanvasLayer
-var panel: PanelContainer
-var lbl_speed: Label
-var btn_slower: Button
-var btn_faster: Button
-var btn_end_day: Button
+const MOD_ID := "gareth-diagonal_map_mod"
 
-const SPEEDS := [0.25, 0.5, 0.75, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0]
-var current_idx := 3
+func _init() -> void:
+	var unpacked_dir = ModLoaderMod.get_unpacked_dir().path_join(MOD_ID)
+	var ext_dir = unpacked_dir.path_join("extensions")
 
-func _ready() -> void:
-	canvas = CanvasLayer.new()
-	canvas.layer = 95
-	add_child(canvas)
+	ModLoaderMod.install_script_hooks(
+		"res://scenes/Interfaces/Menus/level_select.gd",
+		ext_dir.path_join("scenes/Interfaces/Menus/level_select.hooks.gd")
+	)
+	ModLoaderMod.install_script_hooks(
+		"res://scenes/tilemaps/tile_map_chunk.gd",
+		ext_dir.path_join("scenes/tilemaps/tile_map_chunk.hooks.gd")
+	)
+	ModLoaderMod.install_script_hooks(
+		"res://scripts/Game.gd",
+		ext_dir.path_join("scripts/Game.hooks.gd")
+	)
+	ModLoaderLog.info("Diagonal Map Mod initialized with Game.hooks.gd change_stage support.", MOD_ID)
+'@ | Set-Content -Path $diagMainPath -Encoding UTF8
 
-	panel = PanelContainer.new()
-	panel.anchor_left = 1.0
-	panel.anchor_right = 1.0
-	panel.anchor_top = 1.0
-	panel.anchor_bottom = 1.0
-	panel.offset_left = -210.0
-	panel.offset_right = -10.0
-	panel.offset_top = -42.0
-	panel.offset_bottom = -16.0
-	panel.visible = false
+# Update DiagonalMapHelper.gd to register proper CustomLevel resource
+$diagHelperPath = "$repo\mods-unpacked\gareth-diagonal_map_mod\mods-unpacked\gareth-diagonal_map_mod\helpers\DiagonalMapHelper.gd"
+@'
+class_name DiagonalMapHelper
+extends RefCounted
 
-	var empty_sb = StyleBoxEmpty.new()
-	panel.add_theme_stylebox_override("panel", empty_sb)
+const DIAGONAL_LEVEL_ID: int = 105
 
-	var hbox = HBoxContainer.new()
-	hbox.alignment = BoxContainer.ALIGNMENT_CENTER
-	hbox.add_theme_constant_override("separation", 4)
-	panel.add_child(hbox)
+static func ensure_level_registered() -> void:
+	var lvl_mgr = Engine.get_main_loop().root.get_node_or_null("/root/LevelManager")
+	if not lvl_mgr:
+		var scene = Engine.get_main_loop().current_scene
+		if scene:
+			lvl_mgr = scene.find_child("LevelManager", true, false)
 
-	btn_slower = Button.new()
-	btn_slower.text = "◀"
-	btn_slower.custom_minimum_size = Vector2(22, 22)
-	btn_slower.add_theme_font_size_override("font_size", 10)
-	btn_slower.pressed.connect(_decrease_speed)
-	hbox.add_child(btn_slower)
-
-	lbl_speed = Label.new()
-	lbl_speed.text = "1.00x"
-	lbl_speed.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	lbl_speed.custom_minimum_size = Vector2(40, 22)
-	lbl_speed.add_theme_font_size_override("font_size", 10)
-	hbox.add_child(lbl_speed)
-
-	btn_faster = Button.new()
-	btn_faster.text = "▶"
-	btn_faster.custom_minimum_size = Vector2(22, 22)
-	btn_faster.add_theme_font_size_override("font_size", 10)
-	btn_faster.pressed.connect(_increase_speed)
-	hbox.add_child(btn_faster)
-
-	btn_end_day = Button.new()
-	btn_end_day.text = "⏰ End Day"
-	btn_end_day.tooltip_text = "Finish Shift Early / Emergency Exit [Hotkey F8]"
-	btn_end_day.custom_minimum_size = Vector2(78, 22)
-	btn_end_day.add_theme_font_size_override("font_size", 10)
-	btn_end_day.modulate = Color(1.0, 0.5, 0.5)
-	btn_end_day.pressed.connect(_finish_shift_early)
-	hbox.add_child(btn_end_day)
-
-	canvas.add_child(panel)
-
-func _process(_delta: float) -> void:
-	var mining = _is_actively_mining()
-	if panel and panel.visible != mining:
-		panel.visible = mining
-
-func _unhandled_input(event: InputEvent) -> void:
-	if panel and panel.visible and event is InputEventKey and event.pressed and not event.echo:
-		if event.keycode == KEY_F8:
-			_finish_shift_early()
-
-func _is_actively_mining() -> bool:
-	var tree = get_tree()
-	if not tree or not tree.root: return false
-	var scene = tree.current_scene
-	if scene and (scene.name == "MainMenu" or scene.name == "level_select"): return false
-
-	var mgmt = tree.root.find_child("management_screen", true, false)
-	if not mgmt: mgmt = tree.root.find_child("ManagementScreen", true, false)
-	if mgmt and mgmt.is_visible_in_tree(): return false
-
-	var tm = tree.root.find_child("TileMapManager", true, false)
-	var p = tree.root.find_child("Player", true, false)
-	return is_instance_valid(tm) and is_instance_valid(p)
-
-func _increase_speed() -> void:
-	if current_idx < SPEEDS.size() - 1:
-		current_idx += 1
-		_apply_speed()
-
-func _decrease_speed() -> void:
-	if current_idx > 0:
-		current_idx -= 1
-		_apply_speed()
-
-func _apply_speed() -> void:
-	var sp = SPEEDS[current_idx]
-	Engine.time_scale = sp
-	lbl_speed.text = "%.2fx" % sp
-
-func _finish_shift_early() -> void:
-	Engine.time_scale = 1.0
-	current_idx = 3
-	_apply_speed()
-	var g = Engine.get_main_loop().root.get_node_or_null("/root/Game")
-	if g:
-		if g.has_method("on_EndDay"):
-			g.on_EndDay()
-		elif g.has_method("change_stage") and Gconsts and ("Stages" in Gconsts):
-			g.change_stage(Gconsts.Stages._END_OF_DAY_OVERLAY, Vector2.ZERO)
-'@ | Set-Content -Path $scPath -Encoding UTF8
-Write-Host "  Updated: speed_controller.gd (⏰ End Day button & F8 hotkey restored)" -ForegroundColor Green
+	if lvl_mgr and ("all_levels" in lvl_mgr):
+		if not lvl_mgr.all_levels.has(DIAGONAL_LEVEL_ID):
+			var base_res = load("res://resources/Levels/level_1.tres")
+			var custom_level = base_res.duplicate() if base_res else Resource.new()
+			custom_level.set("level_id", DIAGONAL_LEVEL_ID)
+			custom_level.set("level_name", "Diagonal Seams")
+			custom_level.set("level_description", "Subterranean strata tilted at a 45-degree angle. Specialized diagonal tunneling required.")
+			custom_level.set("mining_scene_path", "res://scenes/Stages/MineRegion.tscn")
+			lvl_mgr.all_levels[DIAGONAL_LEVEL_ID] = custom_level
+'@ | Set-Content -Path $diagHelperPath -Encoding UTF8
+Write-Host "  Updated: gareth-diagonal_map_mod (Game.hooks.gd installed, level 105 loads into day)" -ForegroundColor Green
 
 # ------------------------------------------------------------------------------
-# 6. ATTACH NATIVE IMAGE FILE BROWSER TO LIVING CANVAS (MAP 103)
+# 6. DOCK BROWSE IMAGE BUTTON DIRECTLY ONTO MAP 103 CARD (LEVEL_SELECT.HOOKS.GD)
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 6. Wiring image browser into level_select.hooks.gd for Living Canvas..." -ForegroundColor Cyan
+Write-Host "`n>>> 6. Repositioning Browse Image button directly onto Map 103 card..." -ForegroundColor Cyan
 $lshPath = "$repo\mods-unpacked\gareth-living_canvas_mod\mods-unpacked\gareth-living_canvas_mod\extensions\scenes\Interfaces\Menus\level_select.hooks.gd"
 @'
 extends Object
@@ -341,22 +250,38 @@ func _ready(chain: ModLoaderHookChain) -> void:
 
 	chain.execute_next([])
 
-	if is_instance_valid(ls) and not ls.has_node("CanvasImagePickerBtn"):
-		var btn_pick = Button.new()
-		btn_pick.name = "CanvasImagePickerBtn"
-		btn_pick.text = "📁 Browse Custom Image (Map 103)"
-		btn_pick.custom_minimum_size = Vector2(250, 34)
-		btn_pick.anchor_left = 0.5
-		btn_pick.anchor_right = 0.5
-		btn_pick.anchor_top = 1.0
-		btn_pick.anchor_bottom = 1.0
-		btn_pick.offset_left = -125.0
-		btn_pick.offset_right = 125.0
-		btn_pick.offset_top = -54.0
-		btn_pick.offset_bottom = -20.0
-		btn_pick.modulate = Color(0.4, 0.9, 1.0)
-		btn_pick.pressed.connect(func(): _open_file_dialog(ls))
-		ls.add_child(btn_pick)
+	if not is_instance_valid(ls):
+		return
+
+	# Remove any lingering root-level button on the grass
+	var old_root_btn = ls.get_node_or_null("CanvasImagePickerBtn")
+	if is_instance_valid(old_root_btn):
+		old_root_btn.queue_free()
+
+	# Attach Browse button directly inside the Level 103 card in %Levels
+	var levels_box = ls.get_node_or_null("%Levels")
+	if levels_box:
+		for card in levels_box.get_children():
+			var is_target := false
+			if ("level" in card) and card.level and ("level_id" in card.level) and card.level.level_id == 103:
+				is_target = true
+			elif "103" in card.name or "canvas" in card.name.to_lower():
+				is_target = true
+			else:
+				for lbl in card.find_children("*", "Label", true, false):
+					if "Living Canvas" in lbl.text:
+						is_target = true
+						break
+
+			if is_target and not card.has_node("CanvasImagePickerBtn"):
+				var btn_pick = Button.new()
+				btn_pick.name = "CanvasImagePickerBtn"
+				btn_pick.text = "📁 Browse Custom Image"
+				btn_pick.custom_minimum_size = Vector2(0, 28)
+				btn_pick.modulate = Color(0.4, 0.9, 1.0)
+				btn_pick.pressed.connect(func(): _open_file_dialog(ls))
+				card.add_child(btn_pick)
+				break
 
 func _open_file_dialog(menu: Control) -> void:
 	var fd = FileDialog.new()
@@ -373,18 +298,18 @@ func _open_file_dialog(menu: Control) -> void:
 	menu.add_child(fd)
 	fd.popup_centered(Vector2i(700, 500))
 '@ | Set-Content -Path $lshPath -Encoding UTF8
-Write-Host "  Updated: level_select.hooks.gd (Native FileDialog image browser mounted)" -ForegroundColor Green
+Write-Host "  Updated: level_select.hooks.gd (Button attached inside card, grass clear)" -ForegroundColor Green
 
 # ------------------------------------------------------------------------------
-# 7. REPACK AND STAGE ALL TARGETED PACKAGES
+# 7. REPACK AND SYNC ALL AFFECTED MODS
 # ------------------------------------------------------------------------------
-Write-Host "`n>>> 7. Repackaging and syncing targeted mods..." -ForegroundColor Cyan
+Write-Host "`n>>> 7. Repackaging and syncing updated archives..." -ForegroundColor Cyan
 if (Test-Path $hookZip) { Remove-Item -Path $hookZip -Force }
 
 $modsToSync = @(
 	"gareth-bouncing_ball_mod",
 	"gareth-scrap_and_delivery_mod",
-	"gareth-game_speed_mod",
+	"gareth-diagonal_map_mod",
 	"gareth-living_canvas_mod",
 	"gareth-henry_the_hoover_mod",
 	"gareth-teletubbies_mod"
@@ -406,11 +331,11 @@ foreach ($m in $modsToSync) {
 	$archive.Dispose()
 	$stream.Dispose()
 
-	# If the user has already installed the mod into Steam mods/, keep it synced
+	# If currently installed in Steam mods/, update active copy as well
 	$activeZip = "$steamMods\$m.zip"
 	if (Test-Path $activeZip) {
 		Copy-Item -Path $zip -Destination $activeZip -Force
-		Write-Host "  Synced active mod: $m.zip in mods/" -ForegroundColor Green
+		Write-Host "  Synced active: $m.zip in mods/" -ForegroundColor Green
 	}
 	Write-Host "  Updated stage: $m.zip in downloaded_mods/" -ForegroundColor Green
 }
@@ -420,7 +345,7 @@ foreach ($m in $modsToSync) {
 # ------------------------------------------------------------------------------
 Write-Host "`n>>> 8. Staging, committing and pushing to GitHub..." -ForegroundColor Cyan
 git add -A
-git commit -m "Feature: 3-tier bouncing ball damage stacking, fix vacuum hook parse error, restore End Day button & F8 hotkey, repair Amazon parachute delivery layer, and re-add Living Canvas image picker"
+git commit -m "Fix: Bouncing ball damage alias, Diagonal Map change_stage hook, Amazon passive upgrade delivery, and Living Canvas card button docking"
 git push origin main
 
 Write-Host "`nDeployment complete! Zero tests executed (awaiting gameplay session)." -ForegroundColor Green

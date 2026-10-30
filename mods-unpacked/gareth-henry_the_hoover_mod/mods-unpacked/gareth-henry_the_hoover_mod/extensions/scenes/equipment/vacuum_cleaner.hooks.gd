@@ -18,3 +18,4 @@ func _ready(chain: ModLoaderHookChain) -> void:
 		vac_end.texture = factory.create_henry_texture(lvl)
 		vac_end.scale = Vector2(1.4, 1.4)
 
+

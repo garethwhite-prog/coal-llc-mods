@@ -4,6 +4,13 @@ extends CharacterBody2D
 const GRAVITY: float = 620.0
 const BOUNCE_DAMPING: float = 0.88
 var base_damage: float = 95.0
+
+var damage: float:
+	get:
+		return base_damage
+	set(val):
+		base_damage = val
+
 var _bounces_left: int = 4
 var _total_bounces_made: int = 0
 var _sprite: Sprite2D
