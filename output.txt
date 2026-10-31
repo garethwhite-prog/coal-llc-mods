@@ -1,1 +1,2 @@
---- 1. Restoring Clean State ---
+--- 1. Enforcing File Locks ---
+--- 2. Reverting Corrupted Files to Golden Commit ---
