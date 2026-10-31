@@ -1,70 +1,13 @@
 ﻿$repoRoot = "C:\Dev\coal-llc-mods"
-$steamRoot = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC"
-$steamMods = Join-Path $steamRoot "mods"
-$downMods = Join-Path $steamRoot "downloaded_mods"
+$steamMods = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods"
+$downMods = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\downloaded_mods"
 Set-Location -Path $repoRoot
 
 Stop-Process -Name "Coal LLC*" -Force -ErrorAction SilentlyContinue
 Stop-Process -Name "godot*" -Force -ErrorAction SilentlyContinue
 Start-Sleep -Seconds 1
 
-Write-Output "--- 1. Restoring Diagonal Map Preview Icon ---"
-$diagHelperPath = "$repoRoot\mods-unpacked\gareth-diagonal_map_mod\mods-unpacked\gareth-diagonal_map_mod\helpers\DiagonalMapHelper.gd"
-$diagScript = @"
-class_name DiagonalMapHelper
-extends RefCounted
-
-const DIAGONAL_LEVEL_ID: int = 105
-const PREVIEW_PATH: String = "res://mods-unpacked/gareth-diagonal_map_mod/assets/diagonal_preview.png"
-
-static func ensure_level_registered() -> void:
-	if not Gvars or not ("level_manager" in Gvars) or not Gvars.level_manager:
-		return
-	var lvl_mgr = Gvars.level_manager
-	if "all_levels" in lvl_mgr and not lvl_mgr.all_levels.has(DIAGONAL_LEVEL_ID):
-		var custom_level = GameLevel.new()
-		custom_level.level_name = "Diagonal Seams"
-		custom_level.level = DIAGONAL_LEVEL_ID
-		custom_level.mining_scene_path = "res://scenes/Stages/MineRegion.tscn"
-		custom_level.level_description = "Subterranean strata tilted at a 45-degree angle.\nSpecialized diagonal tunneling required."
-		custom_level.level_difficulty = GameLevel.Difficulty.HARD
-		custom_level.level_image = _get_or_create_preview()
-		lvl_mgr.all_levels[DIAGONAL_LEVEL_ID] = {
-			"level": custom_level,
-			"is_unlocked": true
-		}
-	if "level_info" in Gvars and Gvars.level_info is Dictionary:
-		if not Gvars.level_info.has(DIAGONAL_LEVEL_ID):
-			Gvars.level_info[DIAGONAL_LEVEL_ID] = {
-				"high_score": 0,
-				"best_time": 0.0
-			}
-
-static func _get_or_create_preview() -> ImageTexture:
-	if FileAccess.file_exists(PREVIEW_PATH):
-		var bytes = FileAccess.get_file_as_bytes(PREVIEW_PATH)
-		if bytes and bytes.size() > 0:
-			var img = Image.new()
-			if img.load_png_from_buffer(bytes) == OK:
-				return ImageTexture.create_from_image(img)
-	var img = Image.create(96, 64, false, Image.FORMAT_RGBA8)
-	var col1 = Color(0.18, 0.22, 0.30, 1.0)
-	var col2 = Color(0.85, 0.55, 0.20, 1.0)
-	var col3 = Color(0.30, 0.65, 0.85, 1.0)
-	for x in range(96):
-		for y in range(64):
-			var diag = (x + y) % 24
-			if diag < 10:
-				img.set_pixel(x, y, col1)
-			elif diag < 16:
-				img.set_pixel(x, y, col2)
-			else:
-				img.set_pixel(x, y, col3)
-	return ImageTexture.create_from_image(img)
-"@
-$diagScript | Set-Content -Path $diagHelperPath -Encoding UTF8
-
-Write-Output "--- 2. Restoring Living Canvas Browse Button ---"
+Write-Output "--- 1. Patching Living Canvas UI (Deferred Mount) ---"
 $lcHookPath = "$repoRoot\mods-unpacked\gareth-living_canvas_mod\mods-unpacked\gareth-living_canvas_mod\extensions\scenes\Interfaces\Menus\level_select.hooks.gd"
 $lcScript = @"
 extends Object
@@ -81,45 +24,166 @@ func _ready(chain: ModLoaderHookChain) -> void:
 		var levels_grid = ls.get_node_or_null("%Levels")
 		if levels_grid:
 			for card in levels_grid.get_children():
-				if "game_level" in card and card.game_level and card.game_level.level == 103:
+				var is_map_103 := false
+				if ("game_level" in card) and card.game_level and ("level" in card.game_level) and card.game_level.level == 103:
+					is_map_103 = true
+				elif ("level" in card) and card.level and ("level_id" in card.level) and card.level.level_id == 103:
+					is_map_103 = true
+				else:
+					for lbl in card.find_children("*", "Label", true, false):
+						if "Living Canvas" in lbl.text:
+							is_map_103 = true
+							break
+							
+				if is_map_103:
 					var container = card.get_node_or_null("MarginContainer/VBoxContainer")
 					if container and not container.has_node("CanvasImagePickerBtn"):
 						var btn = Button.new()
 						btn.name = "CanvasImagePickerBtn"
 						btn.text = "Browse Custom Canvas..."
+						btn.custom_minimum_size = Vector2(0, 26)
+						btn.modulate = Color(0.4, 0.9, 1.0)
 						var helper = load("res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd")
 						if helper:
 							btn.pressed.connect(Callable(helper.new(), "_on_browse_pressed"))
-						container.add_child(btn)
+						container.call_deferred("add_child", btn)
 "@
 $lcScript | Set-Content -Path $lcHookPath -Encoding UTF8
 
-Write-Output "--- 3. Fixing Coroutines in ALL Map Mods ---"
-$mapMods = @("gareth-diagonal_map_mod", "gareth-living_canvas_mod", "gareth-lost_expedition_mod", "gareth-abyssal_trench_mod", "gareth-tectonic_faultline_mod")
-foreach ($mod in $mapMods) {
-    $ghPath = "$repoRoot\mods-unpacked\$mod\mods-unpacked\$mod\extensions\scripts\Game.hooks.gd"
-    if (Test-Path $ghPath) {
-        $lines = Get-Content $ghPath
-        $inChangeStage = $false
-        for ($i=0; $i -lt $lines.Count; $i++) {
-            if ($lines[$i] -match "func change_stage") { $inChangeStage = $true }
-            elseif ($lines[$i] -match "^func ") { $inChangeStage = $false }
-            
-            if ($inChangeStage -and $lines[$i] -match "chain\.execute_next" -and $lines[$i] -notmatch "await") {
-                $lines[$i] = $lines[$i] -replace "chain\.execute_next", "await chain.execute_next"
-            }
-        }
-        $lines | Set-Content $ghPath -Encoding UTF8
-        Write-Output "Patched async Coroutine in Game.hooks.gd for $mod"
-    }
-}
+Write-Output "--- 2. Rebuilding Bouncing Ball Physics & Collision ---"
+$ballProjPath = "$repoRoot\mods-unpacked\gareth-bouncing_ball_mod\mods-unpacked\gareth-bouncing_ball_mod\scripts\bouncing_ball_projectile.gd"
+$ballScript = @"
+class_name BouncingBallProjectile
+extends CharacterBody2D
 
-Write-Output "--- 4. Repacking Map Mods ---"
+const GRAVITY: float = 620.0
+const BOUNCE_DAMPING: float = 0.76
+var base_damage: float = 95.0
+
+var damage: float:
+	get: return base_damage
+	set(val): base_damage = val
+
+var radius: float = 16.0
+var tilemap: Node = null
+var ball_texture: Texture2D = null
+
+var _bounces_left: int = 4
+var _total_bounces_made: int = 0
+var _sprite: Sprite2D = null
+var _fuse_timer: float = 1.4
+
+func _ready() -> void:
+	z_index = 35
+	_sprite = Sprite2D.new()
+	_sprite.name = "Sprite2D"
+	if ball_texture:
+		_sprite.texture = ball_texture
+	add_child(_sprite)
+	
+	var circle := CircleShape2D.new()
+	circle.radius = 7.0
+	var shape := CollisionShape2D.new()
+	shape.shape = circle
+	add_child(shape)
+
+func setup(pos: Vector2, initial_vel: Vector2, dmg: float, tex: Texture2D) -> void:
+	global_position = pos
+	velocity = initial_vel
+	base_damage = dmg
+	ball_texture = tex
+	if _sprite and tex:
+		_sprite.texture = tex
+
+func _physics_process(delta: float) -> void:
+	velocity.y += GRAVITY * delta
+	if _sprite:
+		_sprite.rotation += velocity.x * delta * 0.08
+		
+	_fuse_timer -= delta
+	if _fuse_timer <= 0.0:
+		_detonate_final(global_position, base_damage)
+		queue_free()
+		return
+
+	var collision := move_and_collide(velocity * delta)
+	if collision:
+		_bounces_left -= 1
+		_total_bounces_made += 1
+		velocity = velocity.bounce(collision.get_normal()) * BOUNCE_DAMPING
+
+		var mult_bounce: float = 1.0 + (_total_bounces_made * 0.65)
+		var mult_velocity: float = clampf(velocity.length() / 260.0, 0.8, 3.5)
+		var mult_passives: float = 1.0
+		if Gvars and ("passives" in Gvars) and Gvars.passives:
+			var p = Gvars.passives
+			var pick_dmg = float(p.pickaxe_damage) if ("pickaxe_damage" in p) else 0.0
+			var ball_dmg = float(p.get("bouncing_ball_damage")) if ("bouncing_ball_damage" in p) else 0.0
+			mult_passives = (1.0 + pick_dmg) * (1.0 + ball_dmg)
+
+		var final_damage: float = base_damage * mult_bounce * mult_velocity * mult_passives
+		var hit_pos = collision.get_position() - (collision.get_normal() * 4.0)
+		_damage_at_pos(hit_pos, final_damage * 0.45)
+
+		if _bounces_left <= 0 or velocity.length() < 25.0:
+			_detonate_final(hit_pos, final_damage)
+			queue_free()
+
+func _damage_at_pos(pos: Vector2, dmg: float) -> void:
+	var tm = tilemap
+	if not is_instance_valid(tm):
+		var tree = get_tree()
+		if tree and tree.root:
+			tm = tree.root.find_child("TileMapManager", true, false)
+	if tm and tm.has_method("damageTileCoords"):
+		var cell = tm.local_to_map(pos)
+		tm.damageTileCoords(cell, float(dmg))
+
+func _detonate_final(pos: Vector2, dmg: float) -> void:
+	call_deferred("_spawn_blast_shockwave")
+	var tm = tilemap
+	if not is_instance_valid(tm):
+		var tree = get_tree()
+		if tree and tree.root:
+			tm = tree.root.find_child("TileMapManager", true, false)
+	if tm and tm.has_method("damageTileCoords"):
+		var center_cell = tm.local_to_map(pos)
+		var r_int: int = int(ceil(radius))
+		for dx in range(-r_int, r_int + 1):
+			for dy in range(-r_int, r_int + 1):
+				if Vector2(dx, dy).length() <= radius:
+					tm.damageTileCoords(center_cell + Vector2i(dx, dy), float(dmg))
+
+func _spawn_blast_shockwave() -> void:
+	var ring := Line2D.new()
+	ring.width = 3.0
+	ring.default_color = Color(1.0, 0.65, 0.15, 0.95)
+	var segs: int = 16
+	for i in range(segs + 1):
+		var ang: float = float(i) * TAU / float(segs)
+		ring.add_point(global_position + Vector2(cos(ang), sin(ang)) * 5.0)
+	
+	var parent = get_parent()
+	if parent:
+		parent.add_child(ring)
+		var tween = parent.create_tween()
+		if tween:
+			tween.set_parallel(true)
+			tween.tween_property(ring, "scale", Vector2(3.5, 3.5), 0.16)
+			tween.tween_property(ring, "modulate:a", 0.0, 0.16)
+			tween.set_parallel(false)
+			tween.tween_callback(ring.queue_free)
+"@
+$ballScript | Set-Content -Path $ballProjPath -Encoding UTF8
+
+Write-Output "--- 3. Repacking Bouncing Ball & Living Canvas ---"
 $hooksZip = Join-Path $steamRoot "mod-hooks.zip"
 if (Test-Path $hooksZip) { Remove-Item $hooksZip -Force }
 
+$targetMods = @("gareth-living_canvas_mod", "gareth-bouncing_ball_mod")
 Add-Type -AssemblyName System.IO.Compression.FileSystem
-foreach ($mod in $mapMods) {
+
+foreach ($mod in $targetMods) {
     $srcDir = "$repoRoot\mods-unpacked\$mod"
     $downZip = Join-Path $downMods "$mod.zip"
     $steamZip = Join-Path $steamMods "$mod.zip"
@@ -139,6 +203,6 @@ foreach ($mod in $mapMods) {
 
 Write-Output "--- Committing to Git ---"
 git add -A
-git commit -m "Fix: Fully enforce async change_stage across all map mods to prevent camera break, and safely inject Missing Canvas/Diagonal UI."
+git commit -m "Fix: Re-attach CollisionShape2D to Bouncing Ball to restore physics layer, and safely mount Living Canvas button using call_deferred to prevent tree lock crash."
 git push origin main
-Write-Output "All complete!"
+Write-Output "Completed!"

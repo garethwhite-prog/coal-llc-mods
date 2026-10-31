@@ -1,1 +1,1 @@
---- 1. Restoring Diagonal Map Preview Icon ---
+--- 1. Patching Living Canvas UI (Deferred Mount) ---
