@@ -160,7 +160,7 @@ func _ready() -> void:
 $thomasTrain | Set-Content -Path $thomasTrainPath -Encoding UTF8
 
 Write-Output "--- 3. Implementing Henry Hoover High-Fidelity Visuals & Audio Lock ---"
-$henryFactoryPath = Join-Path $repoRoot "mods-unpacked\gareth-henry_the_hoover_mod\mods-unpacked\gareth-henry_the_hoover_mod\helpers\henry_texture_factory.gd"
+$henryFactoryPath = Join-Path $repoRoot "mods-unpacked\gareth-henry_the_hoover_mod\mods-unpacked\gareth-henry_the_hoover_mod\scripts\henry_texture_factory.gd"
 $henryFactory = @"
 class_name HenryTextureFactory
 extends RefCounted
