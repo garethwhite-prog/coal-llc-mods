@@ -1,5 +1,6 @@
 ﻿$repoRoot = "C:\Dev\coal-llc-mods"
 $steamMods = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods"
+$steamRoot = $steamMods
 $downMods = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\downloaded_mods"
 Set-Location -Path $repoRoot
 
