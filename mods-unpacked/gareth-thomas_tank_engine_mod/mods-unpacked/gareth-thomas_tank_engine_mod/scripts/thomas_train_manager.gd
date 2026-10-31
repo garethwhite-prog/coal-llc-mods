@@ -6,9 +6,11 @@ var right_stop: float = 880.0
 var speed: float = 140.0
 var direction: float = 1.0
 
-var loco_tier: int = 1
-var wagon_count: int = 2
-var wagon_capacity: float = 150.0
+# Shop Exposed Configuration Variables
+@export var loco_tier: int = 1
+@export var wagon_count: int = 2
+@export var wagon_capacity: float = 150.0
+
 var current_haul: float = 0.0
 
 var loco_sprite: Sprite2D

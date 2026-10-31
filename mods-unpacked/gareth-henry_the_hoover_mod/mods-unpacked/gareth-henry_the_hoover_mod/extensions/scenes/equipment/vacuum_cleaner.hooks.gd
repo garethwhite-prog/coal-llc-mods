@@ -13,10 +13,11 @@ func _physics_process(chain: ModLoaderHookChain, delta: float) -> void:
 					lvl = int(Gvars.bonus_equipment_manager.vacuum_level)
 					
 			var sprite = vac.get_node_or_null("Sprite2D")
-			if sprite:
+			if is_instance_valid(sprite):
 				var factory = load("res://mods-unpacked/gareth-henry_the_hoover_mod/helpers/henry_texture_factory.gd")
 				if factory and factory.has_method("apply_henry_skin"):
-					factory.apply_henry_skin(sprite, lvl)
+					# Apply the high-fidelity Numatic pixel art deferred to prevent tree locks
+					factory.call_deferred("apply_henry_skin", sprite, lvl)
 
 		var cd = float(vac.get_meta("gobble_cooldown", 0.0))
 		if cd > 0.0:

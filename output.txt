@@ -1,1 +1,1 @@
---- 1. Patching Amazon Delivery Lambda Memory Leak ---
+--- 1. Overriding Amazon Delivery Lambda (Hard Replacement) ---
