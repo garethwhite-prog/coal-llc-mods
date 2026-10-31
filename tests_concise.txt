@@ -1,27 +1,105 @@
-﻿   7: ERROR: Parameter "zfile" is null.
-   9: ERROR ModLoader: Failed loading hooks pack from: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mod-hooks.zip
-  10: ERROR: Failed loading hooks pack from: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mod-hooks.zip
-  11: at: push_error (core/variant/variant_utility.cpp:1098)
-  25: ERROR ModLoader:Path: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
-  26: ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
-  27: at: push_error (core/variant/variant_utility.cpp:1098)
-1055: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
-1108: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
-1191: Verified 3884 files, no errors detected!
-1196: Extracted 41 files, no errors detected!
-1233: If you find that you have many non-import errors upon opening the project
-1234: (i.e. scripts or shaders have many errors), use the original game's binary as the export template.
-1277: Verified 3884 files, no errors detected!
-1282: Extracted 41 files, no errors detected!
-1289: ERROR ModLoader:ModHookPacker: Error (1) writing to hooks zip, consider deleting this file: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mod-hooks.zip
-1290: ERROR: Error (1) writing to hooks zip, consider deleting this file: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mod-hooks.zip
-1291: at: push_error (core/variant/variant_utility.cpp:1098)
-1293: ERROR: No loader found for resource: res:// (expected type: )
-1295: ERROR: Error loading resource: ''.
-1297: SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
-1301: ERROR: No loader found for resource: res:// (expected type: )
-1303: ERROR: Error loading resource: ''.
-1305: SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
-1310: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
-1314: ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-1319: ERROR: 178 resources still in use at exit (run with --verbose for details).
+﻿  19: ERROR ModLoader:Path: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
+  20: ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
+  21: at: push_error (core/variant/variant_utility.cpp:1098)
+1049: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
+1102: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
+1123: SCRIPT ERROR: Trying to call an async function without "await".
+1128: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1130: ERROR: Child is not a child of this node.
+1132: SCRIPT ERROR: Trying to call an async function without "await".
+1135: SCRIPT ERROR: Trying to call an async function without "await".
+1137: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1139: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1141: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1143: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1145: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1147: ERROR: Child is not a child of this node.
+1149: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1151: ERROR: Child is not a child of this node.
+1155: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+1158: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1160: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1162: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1164: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1540: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1542: ERROR: Child is not a child of this node.
+1544: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1546: ERROR: Child is not a child of this node.
+1678: SCRIPT ERROR: Trying to call an async function without "await".
+1684: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1686: ERROR: Child is not a child of this node.
+1691: SCRIPT ERROR: Trying to call an async function without "await".
+1694: SCRIPT ERROR: Trying to call an async function without "await".
+1696: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1698: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1700: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1702: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1704: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1706: ERROR: Child is not a child of this node.
+1708: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1710: ERROR: Child is not a child of this node.
+1714: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+1717: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1719: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1721: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1723: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1971: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1973: ERROR: Child is not a child of this node.
+1975: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1977: ERROR: Child is not a child of this node.
+3625: SCRIPT ERROR: Trying to call an async function without "await".
+3630: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+3632: ERROR: Child is not a child of this node.
+3637: SCRIPT ERROR: Trying to call an async function without "await".
+3640: SCRIPT ERROR: Trying to call an async function without "await".
+3642: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+3644: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+3646: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+3648: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+3650: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+3652: ERROR: Child is not a child of this node.
+3654: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+3656: ERROR: Child is not a child of this node.
+3660: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+3663: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+3665: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+3667: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+3669: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+5941: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+5943: ERROR: Child is not a child of this node.
+5945: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+5947: ERROR: Child is not a child of this node.
+6450: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+6452: ERROR: Child is not a child of this node.
+6454: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+6456: ERROR: Child is not a child of this node.
+8349: SCRIPT ERROR: Trying to call an async function without "await".
+8355: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+8357: ERROR: Child is not a child of this node.
+8362: SCRIPT ERROR: Trying to call an async function without "await".
+8365: SCRIPT ERROR: Trying to call an async function without "await".
+8367: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+8369: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+8371: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+8373: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+8375: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+8377: ERROR: Child is not a child of this node.
+8379: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+8381: ERROR: Child is not a child of this node.
+8385: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+8390: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+8392: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+8394: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+8396: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+8525: ERROR: <Tween#-9223277636325711303>: started with no Tweeners.
+9815: ERROR: <Tween#-9223247711275269437>: started with no Tweeners.
+11001: SCRIPT ERROR: Trying to call an async function without "await".
+11016: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+11018: ERROR: Child is not a child of this node.
+11026: ERROR: 17 RID allocations of type 'N10RendererRD12LightStorage11ShadowAtlasE' were leaked at exit.
+11027: ERROR: 17 RID allocations of type 'N10RendererRD14TextureStorage12RenderTargetE' were leaked at exit.
+11028: ERROR: 115 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+11029: ERROR: 17 RID allocations of type 'N16RendererViewport8ViewportE' were leaked at exit.
+11032: ERROR: 169 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+11033: ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
+11036: ERROR: 188 resources still in use at exit (run with --verbose for details).
