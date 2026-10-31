@@ -30,6 +30,11 @@ func _ready() -> void:
 	circle.radius = 7.0
 	var shape := CollisionShape2D.new()
 	shape.shape = circle
+	
+	# Explicitly set Godot 2D collision masks to interact with the TileMap
+	collision_layer = 0
+	collision_mask = 1 
+	
 	add_child(shape)
 
 func setup(pos: Vector2, initial_vel: Vector2, dmg: float, tex: Texture2D) -> void:
@@ -118,3 +123,4 @@ func _spawn_blast_shockwave() -> void:
 			tween.tween_property(ring, "modulate:a", 0.0, 0.16)
 			tween.set_parallel(false)
 			tween.tween_callback(ring.queue_free)
+
