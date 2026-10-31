@@ -8,114 +8,116 @@ Stop-Process -Name "Coal LLC*" -Force -ErrorAction SilentlyContinue
 Stop-Process -Name "godot*" -Force -ErrorAction SilentlyContinue
 Start-Sleep -Seconds 1
 
-Write-Output "--- 1. Overriding Amazon Delivery Lambda (Hard Replacement) ---"
-$amazonPath = "$repoRoot\mods-unpacked\gareth-scrap_and_delivery_mod\mods-unpacked\gareth-scrap_and_delivery_mod\scripts\amazon_delivery_manager.gd"
-$amazonContent = Get-Content $amazonPath -Raw
-$amazonTarget = @"
-		if item.itemBuyEffect:
-			item.itemBuyEffect.buy_effect(item, 1)
-		else:
-			var inv: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
-			if inv:
-				inv.addToInventory(item, 1)
-		Bus.inventory_changed.emit()
-		show_toast("📦 DELIVERED! [%s] safely received." % item.itemName)
-		crate.queue_free()
-	)
+Write-Output "--- 1. Updating Regressions and User Stories ---"
+$knownRegressionsPath = Join-Path $repoRoot "docs\KNOWN_REGRESSIONS_AND_MISTAKES.md"
+$knownRegressions = @"
+# Known Regressions, Mistakes & Safeguards
+
+This dossier tracks identified defects, the underlying engine root-cause, and regression assertions enforced by automated test runners.
+
+## 1. ModRegistry Interface Contract
+- **Symptom**: 5,000+ physics errors (`Nonexistent function 'is_mod_active_for_run' in base 'GDScript'`).
+- **Root Cause**: Omitting `static func is_mod_active_for_run(mod_key: String) -> bool` from `mod_registry.gd`.
+
+## 2. Block Hit / Damage Desync
+- **Symptom**: Blocks appear to take damage and instantly "heal" on the subsequent hit.
+- **Root Cause**: Physics frame termination due to unhandled GDScript exceptions in player or chunk hooks.
+
+## 3. In-Game Stage Gating
+- **Symptom**: HUD widgets (Speed, Amazon) either permanently invisible or overlapping Main Menu.
+- **Root Cause**: Assuming `Gconsts.Stages._IN_GAME` exists (vanilla enum uses `_MINE_REGION` = 2).
+
+## 4. 0g Shop Item Division by Zero
+- **Symptom**: Crash on purchase.
+- **Root Cause**: Unhandled 0 item prices. Guarded by `itemBuyPrice = max(1.0, val)`.
+
+## 5. Engine Arity Limits (Object.get)
+- **Symptom**: Fatal parse error `Expected at most 1 but received 2` for `get()`.
+- **Root Cause**: Passing a default value to `Object.get()`. `Dictionary.get()` takes 2, `Object.get()` strictly takes 1.
+
+## 6. Scene Tree Locks (add_child)
+- **Symptom**: `Parent node is busy setting up children, add_child() failed.`
+- **Root Cause**: Using `add_child()` directly inside a `_ready()` hook while the node is still mounting. 
+- **Safeguard**: Always use `call_deferred("add_child", node)` in setup phases.
+
+## 7. Asynchronous Coroutines (change_stage)
+- **Symptom**: Camera zooms out infinitely, player dumped out of viewport.
+- **Root Cause**: Calling `chain.execute_next()` without `await` on a vanilla function that uses coroutines.
+- **Safeguard**: Any hook modifying `Game.gd:change_stage` must use `await chain.execute_next(...)`.
+
+## 8. ModLoader File Locks
+- **Symptom**: ModLoader aborts zip generation, silently disabling ALL mods.
+- **Root Cause**: Godot background processes locking `mod-hooks.zip` or syntax parse errors blocking compilation.
+
+## 9. Mod Store & Manager Visibility
+- **Symptom**: New mods (e.g. Quadcopters, Thomas the Tank) do not appear in the Mod Manager or Mod Store UI.
+- **Root Cause**: Failing to append the new mod namespace to the `mod_registry.gd` within `gareth-mod_manager_mod`.
+
+## 10. Missing Passives in Mod Settings
+- **Symptom**: New passive upgrade paths (e.g. Bouncing Ball damage) do not appear in the 'Passive Order' tab of the Mod Settings UI.
+- **Root Cause**: The `passive_keys` array in `gareth-mod_manager_mod` needs to be explicitly updated with the new stat metadata keys.
 "@
-$amazonFix = @"
-		if item.itemBuyEffect:
-			item.itemBuyEffect.buy_effect(item, 1)
-		else:
-			var inv: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
-			if inv:
-				inv.addToInventory(item, 1)
-		Bus.inventory_changed.emit()
-		show_toast("📦 DELIVERED! [%s] safely received." % item.itemName)
-		if is_instance_valid(crate):
-			crate.queue_free()
-	)
+$knownRegressions | Set-Content -Path $knownRegressionsPath -Encoding UTF8
+
+$story5 = @"
+# US-05: Mod Store Registration & Passive Routing
+**Status:** In Progress
+**Mod:** `gareth-mod_manager_mod`
+
+**Description:**
+As a player, I want all newly developed mods (Quadcopters, Henry Hoover, Thomas the Tank) to appear in the Mod Manager and Mod Store so I can enable/disable them. I also want the Bouncing Ball upgrades to be configurable in the Passive Order menu.
+
+**Acceptance Criteria:**
+- Append `gareth-drone_workforce_mod` to `mod_registry.gd`.
+- Append `gareth-thomas_tank_engine_mod` to `mod_registry.gd`.
+- Append `gareth-reach_expansion_mod` to `mod_registry.gd`.
+- Inject `ball_blast_damage`, `ball_blast_radius`, and `ball_fire_rate` into the Passive Order array.
 "@
-$amazonContent = $amazonContent.Replace("`r`n", "`n").Replace($amazonTarget.Replace("`r`n", "`n"), $amazonFix.Replace("`r`n", "`n"))
-$amazonContent | Set-Content -Path $amazonPath -Encoding UTF8
+$story5 | Set-Content -Path (Join-Path $repoRoot "docs\user_stories\US-05_Mod_Registration.md") -Encoding UTF8
 
-Write-Output "--- 2. Securing Henry Hoover Texture Mount (call_deferred) ---"
-$vacHookPath = "$repoRoot\mods-unpacked\gareth-henry_the_hoover_mod\mods-unpacked\gareth-henry_the_hoover_mod\extensions\scenes\equipment\vacuum_cleaner.hooks.gd"
-$vacHookScript = @"
-extends Object
+Write-Output "--- 2. Registering Mods into Mod Manager ---"
+$registryPath = Join-Path $repoRoot "mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\scripts\mod_registry.gd"
+if (Test-Path $registryPath) {
+    $content = Get-Content $registryPath -Raw
+    
+    # We use regex to carefully inject the missing mods into the existing ALL_MODS array without breaking syntax
+    $content = $content -replace '"gareth-henry_the_hoover_mod",', '"gareth-henry_the_hoover_mod",
+		"gareth-drone_workforce_mod",
+		"gareth-thomas_tank_engine_mod",
+		"gareth-reach_expansion_mod",'
+    
+    $content | Set-Content -Path $registryPath -Encoding UTF8
+    Write-Output "Patched mod_registry.gd"
+} else {
+    Write-Output "ERROR: Could not find mod_registry.gd at $registryPath"
+}
 
-func _physics_process(chain: ModLoaderHookChain, delta: float) -> void:
-	var vac = chain.reference_object
-	if is_instance_valid(vac):
-		if not vac.has_meta("henry_initialized"):
-			vac.set_meta("henry_initialized", true)
-			vac.set_meta("gobble_cooldown", 0.0)
-			
-			var lvl: int = 1
-			if Gvars and ("bonus_equipment_manager" in Gvars) and Gvars.bonus_equipment_manager:
-				if "vacuum_level" in Gvars.bonus_equipment_manager:
-					lvl = int(Gvars.bonus_equipment_manager.vacuum_level)
-					
-			var sprite = vac.get_node_or_null("Sprite2D")
-			if is_instance_valid(sprite):
-				var factory = load("res://mods-unpacked/gareth-henry_the_hoover_mod/helpers/henry_texture_factory.gd")
-				if factory and factory.has_method("apply_henry_skin"):
-					# Apply the high-fidelity Numatic pixel art deferred to prevent tree locks
-					factory.call_deferred("apply_henry_skin", sprite, lvl)
+Write-Output "--- 3. Injecting Bouncing Ball Passives into Settings UI ---"
+$settingsHookPath = Join-Path $repoRoot "mods-unpacked\nanobotz-autopassivechooser\mods-unpacked\nanobotz-autopassivechooser\extensions\scenes\Interfaces\Menus\settings_2.hooks.gd"
+if (Test-Path $settingsHookPath) {
+    $content = Get-Content $settingsHookPath -Raw
+    
+    $content = $content -replace '"Player Climb Speed"', '"Player Climb Speed",
+	"Bouncing Ball Damage",
+	"Bouncing Ball Blast Radius",
+	"Bouncing Ball Fire Rate"'
+	
+	$content = $content -replace '"player_climb_speed"', '"player_climb_speed",
+	"ball_blast_damage",
+	"ball_blast_radius",
+	"ball_fire_rate"'
+    
+    $content | Set-Content -Path $settingsHookPath -Encoding UTF8
+    Write-Output "Patched settings_2.hooks.gd in AutoPassiveChooser"
+} else {
+    Write-Output "ERROR: Could not find settings_2.hooks.gd at $settingsHookPath"
+}
 
-		var cd = float(vac.get_meta("gobble_cooldown", 0.0))
-		if cd > 0.0:
-			vac.set_meta("gobble_cooldown", cd - delta)
-			
-		var audio = vac.get_node_or_null("AudioStreamPlayer2D")
-		if is_instance_valid(audio) and audio.playing:
-			if cd > 0.0:
-				audio.volume_db = -80.0
-			else:
-				audio.volume_db = 0.0
-				vac.set_meta("gobble_cooldown", 1.0)
-
-	chain.execute_next([delta])
-"@
-$vacHookScript | Set-Content -Path $vacHookPath -Encoding UTF8
-
-Write-Output "--- 3. Exposing Thomas the Tank Upgrades (US-01) ---"
-$thomasTrainPath = "$repoRoot\mods-unpacked\gareth-thomas_tank_engine_mod\mods-unpacked\gareth-thomas_tank_engine_mod\scripts\thomas_train_manager.gd"
-$thomasContent = Get-Content $thomasTrainPath -Raw
-$thomasFix = @"
-class_name ThomasTrainManager
-extends Node2D
-
-var left_stop: float = 64.0
-var right_stop: float = 880.0
-var speed: float = 140.0
-var direction: float = 1.0
-
-# Shop Exposed Configuration Variables
-@export var loco_tier: int = 1
-@export var wagon_count: int = 2
-@export var wagon_capacity: float = 150.0
-
-var current_haul: float = 0.0
-
-var loco_sprite: Sprite2D
-var wagons: Array[Sprite2D] = []
-
-func _ready() -> void:
-	z_index = 20
-	position = Vector2(left_stop, 24.0)
-
-	loco_sprite = Sprite2D.new()
-	loco_sprite.scale = Vector2(1.8, 1.8)
-	call_deferred("add_child", loco_sprite)
-"@
-$thomasFix | Set-Content -Path $thomasTrainPath -Encoding UTF8
-
-Write-Output "--- 4. Repacking Target Mods ---"
+Write-Output "--- 4. Repacking Mod Manager & AutoPassiveChooser ---"
 $hooksZip = Join-Path $steamRoot "mod-hooks.zip"
 if (Test-Path $hooksZip) { Remove-Item $hooksZip -Force }
 
-$targetMods = @("gareth-scrap_and_delivery_mod", "gareth-henry_the_hoover_mod", "gareth-thomas_tank_engine_mod")
+$targetMods = @("gareth-mod_manager_mod", "nanobotz-autopassivechooser")
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
 foreach ($mod in $targetMods) {
@@ -138,6 +140,6 @@ foreach ($mod in $targetMods) {
 
 Write-Output "--- Committing to Git ---"
 git add -A
-git commit -m "Fix: Explicit override for Amazon lambda crash, call_deferred on Henry visuals, and expose Thomas exports to Inspector/Shop."
+git commit -m "Fix: Add Quadcopters, Reach Expansion, and Thomas the Tank to ModRegistry, and map Bouncing Ball passives to Settings UI."
 git push origin main
 Write-Output "Operation Successful."

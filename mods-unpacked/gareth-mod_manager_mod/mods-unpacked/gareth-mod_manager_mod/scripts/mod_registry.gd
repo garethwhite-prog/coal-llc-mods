@@ -113,3 +113,4 @@ static func _format_display_name(m) -> String:
 		return str(m.extra.godot.display_name)
 	var raw: String = str(m.name).replace("_mod", "").replace("mod_", "").replace("-", " ").replace("_", " ") if "name" in m else "Mod"
 	return raw.capitalize()
+

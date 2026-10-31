@@ -35,3 +35,11 @@ This dossier tracks identified defects, the underlying engine root-cause, and re
 ## 8. ModLoader File Locks
 - **Symptom**: ModLoader aborts zip generation, silently disabling ALL mods.
 - **Root Cause**: Godot background processes locking mod-hooks.zip or syntax parse errors blocking compilation.
+
+## 9. Mod Store & Manager Visibility
+- **Symptom**: New mods (e.g. Quadcopters, Thomas the Tank) do not appear in the Mod Manager or Mod Store UI.
+- **Root Cause**: Failing to append the new mod namespace to the mod_registry.gd within gareth-mod_manager_mod.
+
+## 10. Missing Passives in Mod Settings
+- **Symptom**: New passive upgrade paths (e.g. Bouncing Ball damage) do not appear in the 'Passive Order' tab of the Mod Settings UI.
+- **Root Cause**: The passive_keys array in gareth-mod_manager_mod needs to be explicitly updated with the new stat metadata keys.
