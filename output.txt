@@ -1,1 +1,133 @@
---- 1. Patching Living Canvas UI (Deferred Mount) ---
+=================================================================
+>>> 1. Inspecting docs/ Directory Structure & Existing Files...
+=================================================================
+Directory 'docs' found. Listing all subdirectories and files:
+  [DIR]  docs\discovery
+  [DIR]  docs\user_stories
+  [DIR]  docs\wiki
+  [FILE] docs\KNOWN_REGRESSIONS_AND_MISTAKES.md        (   1638 bytes, LastWrite: 24/10/2026 20:02:43)
+  [FILE] docs\discovery\INDEX.md                       (   1391 bytes, LastWrite: 24/10/2026 19:37:23)
+  [FILE] docs\user_stories\US-01_Thomas_Upgrades.md    (    578 bytes, LastWrite: 31/10/2026 07:56:21)
+  [FILE] docs\user_stories\US-02_Reach_Expansion.md    (    523 bytes, LastWrite: 31/10/2026 07:56:21)
+  [FILE] docs\user_stories\US-03_Quadcopter_Workforce.md (    464 bytes, LastWrite: 31/10/2026 07:56:21)
+  [FILE] docs\user_stories\US-04_Henry_Hoover.md       (    501 bytes, LastWrite: 31/10/2026 07:56:21)
+
+=================================================================
+>>> 2. Examining User Story Naming Conventions & Templates...
+=================================================================
+Found 4 markdown files in user_stories:
+  -> US-01_Thomas_Upgrades.md
+  -> US-02_Reach_Expansion.md
+  -> US-03_Quadcopter_Workforce.md
+  -> US-04_Henry_Hoover.md
+
+Sampling structure of the first user story (US-01_Thomas_Upgrades.md):
+     # US-01: Thomas the Tank Engine Upgrade Branches
+     **Status:** To Do
+     **Mod:** gareth-thomas_tank_engine_mod
+     
+     **Description:**
+     As a player, I want to upgrade my Thomas the Tank Engine class in the shop so I can haul more ore faster.
+     
+     **Acceptance Criteria:**
+     - Expose Locomotive Upgrade branch (Thomas -> Edward -> Henry -> Gordon) scaling speed and pulling capacity.
+     - Expose Wagon Count branch (1 through 6 rolling freight wagons).
+     - Expose Hopper Capacity branch (50 -> 150 -> 500 -> 2000).
+     - Register the railway engine as a selectable class on the Sky Mine stage.
+
+=================================================================
+>>> 3. Checking for Existing Regression/Mistake & Architecture Docs...
+=================================================================
+Matching Doc: docs\KNOWN_REGRESSIONS_AND_MISTAKES.md
+     # Known Regressions, Mistakes & Safeguards
+     
+     This dossier tracks identified defects, the underlying engine root-cause, and regression assertions enforced by automated test runners.
+     
+     ## 1. ModRegistry Interface Contract
+     - **Symptom**: 5,000+ physics errors (`Nonexistent function 'is_mod_active_for_run' in base 'GDScript'`), Knight class vanishing, blank Mod Manager.
+     - **Root Cause**: Omitting `static func is_mod_active_for_run(mod_key: String) -> bool` from `mod_registry.gd`.
+     - **Safeguard**: Static AST check in `tests/test_runner.ps1` enforcing `is_mod_active_for_run` existence.
+     
+     ## 2. Block Hit / Damage Desync
+     - **Symptom**: Blocks appear to take damage and instantly "heal" on the subsequent hit.
+     - **Root Cause**: Physics frame termination due to unhandled GDScript exceptions in player or chunk hooks.
+     - **Safeguard**: Zero-error runtime log validation and ensuring all chunk hooks call `chain.execute_next([idx, damage])`.
+     
+     ## 3. In-Game Stage Gating
+     - **Symptom**: HUD widgets (Speed, Amazon) either permanently invisible or overlapping Main Menu / Class Select.
+     - **Root Cause**: Assuming `Gconsts.Stages._IN_GAME` exists (vanilla enum uses `_MINE_REGION` = 2).
+     - **Safeguard**: Dual detection via `Player` and `TileMapManager` existence, guarded against `PauseMenu`.
+     
+     ## 4. 0g Shop Item Division by Zero
+
+=================================================================
+>>> 4. Auditing All Installed Mods to Scope User Story Generation...
+=================================================================
+Total mods staged in mods-unpacked: 64
+   gareth-abyssal_trench_mod
+   gareth-auto_ladder_mod
+   gareth-bouncing_ball_mod
+   gareth-buyable_vacuums_mod
+   gareth-chest_variance_mod
+   gareth-chrono_industrialist_mod
+   gareth-collector_priority_mod
+   gareth-custom_classes_mod
+   gareth-debt_executioner_mod
+   gareth-diagonal_map_mod
+   gareth-donkey_kong_mod
+   gareth-drone_workforce_mod
+   gareth-dual_multipliers_mod
+   gareth-elemental_airstrikes_mod
+   gareth-elemental_transmutation_mod
+   gareth-employee_passives_mod
+   gareth-endgame_arsenal_mod
+   gareth-excavation_frenzy_mod
+   gareth-game_speed_mod
+   gareth-grav_dreadnought_mod
+   gareth-grenade_mod
+   gareth-hardware_booster_mod
+   gareth-heavy_bombs_mod
+   gareth-heavy_turrets_mod
+   gareth-henry_the_hoover_mod
+   gareth-hydrogen_bomb_mod
+   gareth-infini_platform_mod
+   gareth-jedi_class_mod
+   gareth-knight_class_mod
+   gareth-laser_beam_mod
+   gareth-leaderboard_mod
+   gareth-living_canvas_mod
+   gareth-lost_expedition_mod
+   gareth-martial_legends_mod
+   gareth-mod_manager_mod
+   gareth-mod_settings_mod
+   gareth-more_collectors_mod
+   gareth-more_drills_mod
+   gareth-more_employees_mod
+   gareth-more_inventory_slots_mod
+   gareth-more_inventory_stacks_mod
+   gareth-more_layer_shifts_mod
+   gareth-more_mortars_mod
+   gareth-more_nukes_mod
+   gareth-more_vacuum_quests_mod
+   gareth-multisave_mod
+   gareth-neutron_bomb_mod
+   gareth-plasma_raygun_mod
+   gareth-prospectors_beacon_mod
+   gareth-reach_expansion_mod
+   gareth-scrap_and_delivery_mod
+   gareth-seismic_hazards_mod
+   gareth-sinclairity_class_mod
+   gareth-tank_arsenal_mod
+   gareth-tectonic_faultline_mod
+   gareth-tectonic_fracker_mod
+   gareth-teletubbies_mod
+   gareth-thomas_tank_engine_mod
+   gareth-tick_upgrade_mod
+   gareth-vacuum_depot_mod
+   gareth-void_siphon_mod
+   gareth-water_spirit_mod
+   gareth-weapon_stacker_mod
+   nanobotz-autopassivechooser
+
+Discovery Phase 83 complete. Zero files modified.
+PS C:\Dev\coal-llc-mods> 
