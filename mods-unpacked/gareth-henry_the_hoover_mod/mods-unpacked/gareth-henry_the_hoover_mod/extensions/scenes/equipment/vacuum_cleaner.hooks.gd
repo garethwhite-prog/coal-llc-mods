@@ -21,17 +21,13 @@ func _physics_process(chain: ModLoaderHookChain, delta: float) -> void:
 		var cd = float(vac.get_meta("gobble_cooldown", 0.0))
 		if cd > 0.0:
 			vac.set_meta("gobble_cooldown", cd - delta)
+			
+		var audio = vac.get_node_or_null("AudioStreamPlayer2D")
+		if is_instance_valid(audio) and audio.playing:
+			if cd > 0.0:
+				audio.volume_db = -80.0
+			else:
+				audio.volume_db = 0.0
+				vac.set_meta("gobble_cooldown", 1.0)
 
 	chain.execute_next([delta])
-
-func play_suck_effect(chain: ModLoaderHookChain) -> void:
-	var vac = chain.reference_object
-	if is_instance_valid(vac):
-		var cd = float(vac.get_meta("gobble_cooldown", 0.0))
-		if cd <= 0.0:
-			vac.set_meta("gobble_cooldown", 1.0)
-			chain.execute_next([])
-		else:
-			return
-	else:
-		chain.execute_next([])

@@ -8,7 +8,6 @@ func _ready(chain: ModLoaderHookChain) -> void:
 	var factory = load("res://mods-unpacked/gareth-drone_workforce_mod/scripts/drone_texture_factory.gd")
 	if not factory: return
 
-	# Hide humanoid limbs and mount drone chassis
 	for part in ["Head", "Torso", "Legs", "Tool"]:
 		var node = miner.find_child(part, true, false)
 		if is_instance_valid(node) and node is CanvasItem:
@@ -20,4 +19,4 @@ func _ready(chain: ModLoaderHookChain) -> void:
 		drone_spr.name = "MinerDroneSprite"
 		drone_spr.texture = factory.create_miner_drone_texture()
 		drone_spr.scale = Vector2(1.5, 1.5)
-		miner.add_child(drone_spr)
+		miner.call_deferred("add_child", drone_spr)

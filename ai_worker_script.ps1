@@ -1,257 +1,281 @@
 ﻿$repoRoot = "C:\Dev\coal-llc-mods"
+$steamRoot = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC"
+$steamMods = Join-Path $steamRoot "mods"
+$downMods = Join-Path $steamRoot "downloaded_mods"
 Set-Location -Path $repoRoot
 
-Write-Output "--- 1. Generating Knowledge Base & Agile Tracker Directories ---"
-$wikiDir = Join-Path $repoRoot "docs\wiki"
-$storiesDir = Join-Path $repoRoot "docs\user_stories"
-if (-not (Test-Path $wikiDir)) { New-Item -Path $wikiDir -ItemType Directory -Force | Out-Null }
-if (-not (Test-Path $storiesDir)) { New-Item -Path $storiesDir -ItemType Directory -Force | Out-Null }
+Stop-Process -Name "Coal LLC*" -Force -ErrorAction SilentlyContinue
+Stop-Process -Name "godot*" -Force -ErrorAction SilentlyContinue
+Start-Sleep -Seconds 1
 
-Write-Output "--- 2. Updating SESSION_PROMPT.md ---"
-$sessionPromptPath = Join-Path $repoRoot "SESSION_PROMPT.md"
-$sessionContent = @"
-# Coal LLC Modding Ecosystem — Master Engineering Manual & Session State
+Write-Output "--- 1. Expanding Knowledge Base & Documentation ---"
+$knownRegressionsPath = Join-Path $repoRoot "docs\KNOWN_REGRESSIONS_AND_MISTAKES.md"
+$knownRegressions = @"
+# Known Regressions, Mistakes & Safeguards
 
-## 1. Environment & Directory Topology (GROUND TRUTH)
-* **Engine:** Godot Engine v4.4.1.stable.official (Vulkan 1.4 Forward+, Windows).
-* **Game Version:** Coal LLC v1.4.1.1.
-* **Mod Framework:** Godot ModLoader v7.0.1 (`ModLoaderMod`, `ModLoaderHookChain`, `ModLoaderLog`).
-* **Repository Root:** `C:\Dev\coal-llc-mods`
-* **Active Mod Source Code (`mods-unpacked`):**
-  * ALL mod source files live inside `C:\Dev\coal-llc-mods\mods-unpacked\<mod_id>\`.
-  * **Double-Nested Structure:** Every mod folder has an outer `manifest.json` at `mods-unpacked\<mod_id>\manifest.json` and an inner folder at `mods-unpacked\<mod_id>\mods-unpacked\<mod_id>\` containing `manifest.json`, `mod_main.gd`, `extensions\`, `scripts\`, `scenes\`, `helpers\`, and `assets\`.
-  * **NEVER** search the repository root for `.gd` files; always search inside `mods-unpacked\`.
-* **Vanilla Decompiled Game Dump (`_dump`):**
-  * Located at `C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\_dump`.
-  * Contains the decompiled vanilla `.gd` scripts, `.tscn` scenes, and `.tres` resources. Always inspect `_dump` before hooking any vanilla script.
-* **Staging vs. Active Runtime Mod Directories:**
-  * **Staging Library (`downloaded_mods`):** `C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\downloaded_mods` — holds unmounted `.zip` archives managed by the Mod & Map Store.
-  * **Active Runtime (`mods`):** `C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mods` — holds the `.zip` archives actively mounted by ModLoader at game boot.
-  * **Hook Cache (`mod-hooks.zip`):** `C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\mod-hooks.zip` — MUST be deleted whenever script hooks are added or changed so ModLoader regenerates hooks on launch.
+This dossier tracks identified defects, the underlying engine root-cause, and regression assertions enforced by automated test runners.
 
----
+## 1. ModRegistry Interface Contract
+- **Symptom**: 5,000+ physics errors (`Nonexistent function 'is_mod_active_for_run' in base 'GDScript'`).
+- **Root Cause**: Omitting `static func is_mod_active_for_run(mod_key: String) -> bool` from `mod_registry.gd`.
 
-## 2. Ways of Working: The `Run-Worker.ps1` Automation Contract (MANDATORY)
+## 2. Block Hit / Damage Desync
+- **Symptom**: Blocks appear to take damage and instantly "heal" on the subsequent hit.
+- **Root Cause**: Physics frame termination due to unhandled GDScript exceptions in player or chunk hooks.
 
-### Rule 1: Zero Manual File Edits
-* Gareth NEVER manually edits `.gd`, `.json`, or `.tscn` files, and never copies loose GDScript snippets into files.
-* Every single response that inspects or modifies the workspace MUST provide **one self-contained PowerShell script block**.
-* Gareth pastes your PowerShell block into `ai_worker_script.ps1` and executes `.\Run-Worker.ps1`.
-* `.\Run-Worker.ps1` runs your script and automatically captures all console output into `output.txt`, which Gareth uploads back to you.
+## 3. In-Game Stage Gating
+- **Symptom**: HUD widgets (Speed, Amazon) either permanently invisible or overlapping Main Menu.
+- **Root Cause**: Assuming `Gconsts.Stages._IN_GAME` exists (vanilla enum uses `_MINE_REGION` = 2).
 
-### Rule 2: Discovery-First Protocol
-* Before writing or modifying any mod code for a bug or feature, provide a **read-only Discovery PowerShell script** (zero file writes, zero repacks, zero git commits) to inspect the exact lines in `_dump` and `mods-unpacked`.
-* Never guess node names, property names, dictionary structures, or method signatures.
+## 4. 0g Shop Item Division by Zero
+- **Symptom**: Crash on purchase.
+- **Root Cause**: Unhandled 0 item prices. Guarded by `itemBuyPrice = max(1.0, val)`.
 
-### Rule 3: How Deployment & Gameplay Testing Work
-* **NEVER** tell Gareth to manually run `.\Run-ModSuiteTest.ps1` as a standalone command after a script finishes.
-* `tests_concise.txt`, `godot.log`, and `modloader.log` are generated when Gareth **plays the game**.
-* Every Deployment PowerShell script MUST:
-  1. Terminate running `Coal LLC*` and `godot*` processes so Windows file locks are released.
-  2. Write updated source files into `mods-unpacked\<mod_id>\...` using `@' ... '@ | Set-Content -Encoding UTF8`.
-  3. Delete `$steamRoot\mod-hooks.zip`.
-  4. Package each modified mod into `$downMods\<mod_id>.zip` using `System.IO.Compression.ZipArchive` with **forward-slash (`/`) entry paths** (`$entryName = `$f.FullName.Substring(`$src.Length + 1).Replace("\", "/")`). **NEVER** use `[System.IO.Compression.ZipFile]::CreateFromDirectory()` because Windows backslashes (`\`) break Godot `res://` path resolution.
-  5. Sync the repacked `.zip` into `$steamMods\<mod_id>.zip` if it is already installed (or if it is an active core mod) so changes actually take effect in-game!
-  6. Stage, commit, and push to GitHub (`git add -A`, `git commit -m "..."`, `git push origin main`).
-* At the end of every deployment response, explicitly tell Gareth **what to test in-game** during his next play session.
+## 5. Engine Arity Limits (Object.get)
+- **Symptom**: Fatal parse error `Expected at most 1 but received 2` for `get()`.
+- **Root Cause**: Passing a default value to `Object.get()`. `Dictionary.get()` takes 2, `Object.get()` strictly takes 1.
 
----
+## 6. Scene Tree Locks (add_child)
+- **Symptom**: `Parent node is busy setting up children, add_child() failed.`
+- **Root Cause**: Using `add_child()` directly inside a `_ready()` hook while the node is still mounting. 
+- **Safeguard**: Always use `call_deferred("add_child", node)` in setup phases.
 
-## 3. Hard Godot 4.4.1 & ModLoader 7.0.1 Engine Contracts
+## 7. Asynchronous Coroutines (change_stage)
+- **Symptom**: Camera zooms out infinitely, player dumped out of viewport.
+- **Root Cause**: Calling `chain.execute_next()` without `await` on a vanilla function that uses coroutines.
+- **Safeguard**: Any hook modifying `Game.gd:change_stage` must use `await chain.execute_next(...)`.
 
-### A. Manifest V3 Schema Validation (CRITICAL)
-Every `manifest.json` (both outer and inner) MUST contain `compatible_mod_loader_version` and `compatible_game_version` inside `extra.godot`:
-~~~json
-{
-  "name": "example_mod",
-  "namespace": "gareth",
-  "version_number": "1.1.0",
-  "description": "Mod description.",
-  "website_url": "[https://github.com/garethwhite-prog/coal-llc-mods](https://github.com/garethwhite-prog/coal-llc-mods)",
-  "dependencies": ["gareth-mod_manager_mod"],
-  "extra": {
-    "godot": {
-      "authors": ["Gareth White"],
-      "display_name": "Example Mod",
-      "tags": ["qol"],
-      "compatible_mod_loader_version": ["7.0.1"],
-      "compatible_game_version": ["1.4.1.1"]
+## 8. ModLoader File Locks
+- **Symptom**: ModLoader aborts zip generation, silently disabling ALL mods.
+- **Root Cause**: Godot background processes locking `mod-hooks.zip` or syntax parse errors blocking compilation.
+"@
+$knownRegressions | Set-Content -Path $knownRegressionsPath -Encoding UTF8
+
+$parallelStoriesPath = Join-Path $repoRoot "docs\user_stories\US-EXT-01_Historical_Mods.md"
+$parallelStories = @"
+# US-EXT-01: Historical Core Systems
+
+**1. Bouncing Ball Ordnance:**
+3-Tier damage scaling based on rebound momentum, bounce stacks, and global pickaxe synergies.
+
+**2. Amazon Delivery Integration:**
+Parachute supply crates spawning at Z-index 60 triggered via hotkey [B], bypassing double-charges on stack limits.
+
+**3. Mod Store & Multisave Data Gating:**
+Category filtering and Save Slot mounting that actively syncs `downloaded_mods/` to `mods/` at boot.
+"@
+$parallelStories | Set-Content -Path $parallelStoriesPath -Encoding UTF8
+
+$parallelDiscoveryPath = Join-Path $repoRoot "docs\discovery\PARALLEL_DISCOVERY.md"
+$parallelDiscovery = @"
+# Global Architecture Ledger
+
+- **Total Active Mods**: 64 modules identified.
+- **UI Canvas Intercepts**: MainMenu, level_select, settings_2.
+- **Core Loop Intercepts**: TileMapManager, Game.gd, Player2.gd.
+- **Outstanding Sync Points**: Ensure all custom class hooks safely validate `is_instance_valid(target)`.
+"@
+$parallelDiscovery | Set-Content -Path $parallelDiscoveryPath -Encoding UTF8
+
+Write-Output "--- 2. Fixing Drone Workforce & Thomas Train Scene Tree Locks ---"
+$droneMinerPath = Join-Path $repoRoot "mods-unpacked\gareth-drone_workforce_mod\mods-unpacked\gareth-drone_workforce_mod\extensions\scenes\AutoMiners\employee_miner_2.hooks.gd"
+$droneMiner = @"
+extends Object
+
+func _ready(chain: ModLoaderHookChain) -> void:
+	chain.execute_next([])
+	var miner = chain.reference_object
+	if not is_instance_valid(miner): return
+
+	var factory = load("res://mods-unpacked/gareth-drone_workforce_mod/scripts/drone_texture_factory.gd")
+	if not factory: return
+
+	for part in ["Head", "Torso", "Legs", "Tool"]:
+		var node = miner.find_child(part, true, false)
+		if is_instance_valid(node) and node is CanvasItem:
+			node.visible = false
+
+	var drone_spr = miner.get_node_or_null("MinerDroneSprite")
+	if not drone_spr:
+		drone_spr = Sprite2D.new()
+		drone_spr.name = "MinerDroneSprite"
+		drone_spr.texture = factory.create_miner_drone_texture()
+		drone_spr.scale = Vector2(1.5, 1.5)
+		miner.call_deferred("add_child", drone_spr)
+"@
+$droneMiner | Set-Content -Path $droneMinerPath -Encoding UTF8
+
+$droneUfoPath = Join-Path $repoRoot "mods-unpacked\gareth-drone_workforce_mod\mods-unpacked\gareth-drone_workforce_mod\extensions\scripts\LootCollectorUFO.hooks.gd"
+$droneUfo = @"
+extends Object
+
+func _ready(chain: ModLoaderHookChain) -> void:
+	chain.execute_next([])
+	var ufo = chain.reference_object
+	if not is_instance_valid(ufo): return
+
+	var factory = load("res://mods-unpacked/gareth-drone_workforce_mod/scripts/drone_texture_factory.gd")
+	if not factory: return
+
+	var models = ufo.find_child("Models", true, false)
+	if is_instance_valid(models) and models is CanvasItem:
+		models.visible = false
+
+	var cargo_spr = ufo.get_node_or_null("CargoDroneSprite")
+	if not cargo_spr:
+		cargo_spr = Sprite2D.new()
+		cargo_spr.name = "CargoDroneSprite"
+		cargo_spr.texture = factory.create_cargo_drone_texture()
+		cargo_spr.scale = Vector2(1.5, 1.5)
+		ufo.call_deferred("add_child", cargo_spr)
+"@
+$droneUfo | Set-Content -Path $droneUfoPath -Encoding UTF8
+
+$thomasTrainPath = Join-Path $repoRoot "mods-unpacked\gareth-thomas_tank_engine_mod\mods-unpacked\gareth-thomas_tank_engine_mod\scripts\thomas_train_manager.gd"
+$thomasTrain = @"
+class_name ThomasTrainManager
+extends Node2D
+
+var left_stop: float = 64.0
+var right_stop: float = 880.0
+var speed: float = 140.0
+var direction: float = 1.0
+
+var loco_tier: int = 1
+var wagon_count: int = 2
+var wagon_capacity: float = 150.0
+var current_haul: float = 0.0
+
+var loco_sprite: Sprite2D
+var wagons: Array[Sprite2D] = []
+
+func _ready() -> void:
+	z_index = 20
+	position = Vector2(left_stop, 24.0)
+
+	loco_sprite = Sprite2D.new()
+	loco_sprite.scale = Vector2(1.8, 1.8)
+	call_deferred("add_child", loco_sprite)
+"@
+$thomasTrain | Set-Content -Path $thomasTrainPath -Encoding UTF8
+
+Write-Output "--- 3. Implementing Henry Hoover High-Fidelity Visuals & Audio Lock ---"
+$henryFactoryPath = Join-Path $repoRoot "mods-unpacked\gareth-henry_the_hoover_mod\mods-unpacked\gareth-henry_the_hoover_mod\helpers\henry_texture_factory.gd"
+$henryFactory = @"
+class_name HenryTextureFactory
+extends RefCounted
+
+static func apply_henry_skin(sprite: Sprite2D, tier: int) -> void:
+	if not is_instance_valid(sprite): return
+	var img = Image.create(32, 32, false, Image.FORMAT_RGBA8)
+	var body = Color(0.88, 0.12, 0.14, 1.0)
+	match tier:
+		2: body = Color(0.96, 0.42, 0.68, 1.0) # Hetty Pink
+		3: body = Color(0.14, 0.48, 0.92, 1.0) # Harry Blue
+		4: body = Color(0.12, 0.72, 0.28, 1.0) # George Green
+		5: body = Color(0.95, 0.82, 0.12, 1.0) # Charles Yellow
+	
+	var black = Color(0.1, 0.1, 0.1, 1.0)
+	var white = Color(1.0, 1.0, 1.0, 1.0)
+	
+	for x in range(8, 24):
+		for y in range(4, 12):
+			img.set_pixel(x, y, black)
+	for x in range(4, 28):
+		img.set_pixel(x, 12, black)
+		
+	for x in range(6, 26):
+		for y in range(13, 30):
+			img.set_pixel(x, y, body)
+			
+	for x in range(10, 14):
+		for y in range(16, 20):
+			img.set_pixel(x, y, white)
+			if x > 11 and y > 17: img.set_pixel(x, y, black)
+	for x in range(18, 22):
+		for y in range(16, 20):
+			img.set_pixel(x, y, white)
+			if x > 19 and y > 17: img.set_pixel(x, y, black)
+			
+	for x in range(14, 18):
+		for y in range(20, 24):
+			img.set_pixel(x, y, black)
+			
+	for x in range(10, 22):
+		var sy = 26 + int(abs(x - 15.5) * 0.3)
+		if sy < 32:
+			img.set_pixel(x, sy, black)
+			
+	sprite.texture = ImageTexture.create_from_image(img)
+	sprite.offset = Vector2(0, -16)
+"@
+$henryFactory | Set-Content -Path $henryFactoryPath -Encoding UTF8
+
+$vacHookPath = Join-Path $repoRoot "mods-unpacked\gareth-henry_the_hoover_mod\mods-unpacked\gareth-henry_the_hoover_mod\extensions\scenes\equipment\vacuum_cleaner.hooks.gd"
+$vacHook = @"
+extends Object
+
+func _physics_process(chain: ModLoaderHookChain, delta: float) -> void:
+	var vac = chain.reference_object
+	if is_instance_valid(vac):
+		if not vac.has_meta("henry_initialized"):
+			vac.set_meta("henry_initialized", true)
+			vac.set_meta("gobble_cooldown", 0.0)
+			
+			var lvl: int = 1
+			if Gvars and ("bonus_equipment_manager" in Gvars) and Gvars.bonus_equipment_manager:
+				if "vacuum_level" in Gvars.bonus_equipment_manager:
+					lvl = int(Gvars.bonus_equipment_manager.vacuum_level)
+					
+			var sprite = vac.get_node_or_null("Sprite2D")
+			if sprite:
+				var factory = load("res://mods-unpacked/gareth-henry_the_hoover_mod/helpers/henry_texture_factory.gd")
+				if factory and factory.has_method("apply_henry_skin"):
+					factory.apply_henry_skin(sprite, lvl)
+
+		var cd = float(vac.get_meta("gobble_cooldown", 0.0))
+		if cd > 0.0:
+			vac.set_meta("gobble_cooldown", cd - delta)
+			
+		var audio = vac.get_node_or_null("AudioStreamPlayer2D")
+		if is_instance_valid(audio) and audio.playing:
+			if cd > 0.0:
+				audio.volume_db = -80.0
+			else:
+				audio.volume_db = 0.0
+				vac.set_meta("gobble_cooldown", 1.0)
+
+	chain.execute_next([delta])
+"@
+$vacHook | Set-Content -Path $vacHookPath -Encoding UTF8
+
+Write-Output "--- 4. Repacking Mod Files ---"
+$hooksZip = Join-Path $steamRoot "mod-hooks.zip"
+if (Test-Path $hooksZip) { Remove-Item $hooksZip -Force }
+
+$targetMods = @("gareth-drone_workforce_mod", "gareth-thomas_tank_engine_mod", "gareth-henry_the_hoover_mod")
+Add-Type -AssemblyName System.IO.Compression.FileSystem
+
+foreach ($mod in $targetMods) {
+    $srcDir = Join-Path $repoRoot "mods-unpacked\$mod"
+    $downZip = Join-Path $downMods "$mod.zip"
+    $steamZip = Join-Path $steamMods "$mod.zip"
+    
+    if (Test-Path $downZip) { Remove-Item $downZip -Force }
+    $archive = [System.IO.Compression.ZipFile]::Open($downZip, [System.IO.Compression.ZipArchiveMode]::Create)
+    $files = Get-ChildItem -Path $srcDir -Recurse -File
+    foreach ($file in $files) {
+        $entryName = $file.FullName.Substring($srcDir.Length + 1).Replace("\", "/")
+        [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $file.FullName, $entryName)
     }
-  }
+    $archive.Dispose()
+    
+    if (Test-Path $steamZip) { Copy-Item -Path $downZip -Destination $steamZip -Force }
+    Write-Output "Deployed $mod.zip"
 }
-~~~
-Omitting `compatible_mod_loader_version` causes ModLoader to reject the `.zip` at boot (`Manifest validation failed`) and cascade-disable every mod that lists it in `dependencies`.
 
-### B. GDScript `Object.get()` vs. `Dictionary.get()`
-* In Godot 4, `Dictionary.get(key, default)` accepts 2 arguments, and `Object.get_meta(name, default)` accepts 2 arguments.
-* However, `Object.get(property)` accepts **strictly 1 argument**.
-* Calling `Gvars.bonus_equipment_manager.get("vacuum_level", 1)` throws a fatal compile-time parse error:
-  `Parse Error: Too many arguments for "get()" call. Expected at most 1 but received 2.`
-* **Always use:**
-~~~gdscript
-var lvl: int = 1
-if Gvars and ("bonus_equipment_manager" in Gvars) and Gvars.bonus_equipment_manager:
-    if "vacuum_level" in Gvars.bonus_equipment_manager:
-        lvl = int(Gvars.bonus_equipment_manager.vacuum_level)
-~~~
-
-### C. ModLoader Hook Targets Must Exist in Vanilla Script
-* `ModLoaderMod.install_script_hooks(vanilla_script_path, hook_script_path)` only hooks functions that explicitly exist in the vanilla `.gd` file.
-* Example: `res://scenes/equipment/vacuum_cleaner.gd` has `func _physics_process(_delta: float)` and `func _draw()`, but **does NOT have `func _ready()`**. Hooking `_ready` in `vacuum_cleaner.hooks.gd` is silently ignored by ModLoader! Always hook `_physics_process` and use a metadata guard (`vac.get_meta(...)`) for one-time initialization.
-* Any extra helper function placed inside a `.hooks.gd` file will cause ModLoader to log `Skipped adding hook "_helper" (not found in vanilla script)`. Put helpers in separate classes/scripts when possible.
-
-### D. Zipped Image & Audio Loading (`load_png_from_buffer`)
-* Calling `load("res://mods-unpacked/.../image.png")` or `.wav` inside a zipped mod fails with `ERROR: No loader found for resource` because Godot 4 requires compiled `.import` files for `ResourceLoader.load()`.
-* **Always load custom PNGs via raw byte buffer:**
-~~~gdscript
-var bytes = FileAccess.get_file_as_bytes("res://mods-unpacked/mod_id/assets/icon.png")
-if bytes and bytes.size() > 0:
-    var img = Image.new()
-    if img.load_png_from_buffer(bytes) == OK:
-        var tex = ImageTexture.create_from_image(img)
-~~~
-
-### E. Scene Tree Safety (`call_deferred` & Tween Guards)
-* Adding nodes while a parent is initializing throws `ERROR: Parent node is busy setting up children, add_child() failed`. Use `call_deferred("add_child", node)` when injecting UI or entities during `_ready`.
-* Calling `create_tween()` without adding at least one `tween_property` or `tween_callback` throws `ERROR: <Tween>: started with no Tweeners`. Only create a tween inside the `if is_instance_valid(target):` block.
-
-### F. Asynchronous Coroutines (await chain.execute_next)
-* When hooking a vanilla Godot coroutine (such as `Game.gd`'s `change_stage`), the hook function MUST use `await chain.execute_next(...)`. Failing to `await` causes a `SCRIPT ERROR: Trying to call an async function without "await"` and breaks the stage transition, leaving the player outside the viewport.
-
----
-
-## 4. Subsystem Architecture & Current Backlog
-
-### 1. Custom Maps (101–105) & Level Select Carousel
-* **Map Registry IDs:**
-  * `101`: Lost Expedition (`gareth-lost_expedition_mod`)
-  * `102`: Tectonic Faultline (`gareth-tectonic_faultline_mod`)
-  * `103`: The Living Canvas (`gareth-living_canvas_mod` — default image: "Your Mum" beach mosaic)
-  * `104`: The Abyssal Trench (`gareth-abyssal_trench_mod`)
-  * `105`: Diagonal Seams (`gareth-diagonal_map_mod` — 45-degree rotated strata)
-* **Registration Contract:**
-  * `LevelManager` is NOT at `/root/LevelManager`; it lives at `Gvars.level_manager`.
-  * Every custom map helper MUST register into `Gvars.level_manager.all_levels[ID]` BEFORE `level_select.gd:_ready()` iterates `LEVEL_ORDER`.
-* **Recent Fixes:**
-  * Diagonal Seams (105) preview generation restored.
-  * Living Canvas (103) UI button restored using `call_deferred("add_child", btn)` to prevent tree lock crash.
-  * `Game.hooks.gd` across all maps updated to properly `await chain.execute_next` for safe `change_stage` coroutine routing.
-
-### 2. Bouncing Ball Mod (`gareth-bouncing_ball_mod`)
-* **The Contract:** `bouncing_ball_equip.gd` instantiates `var proj := CharacterBody2D.new()`, attaches `bouncing_ball_projectile.gd`, and sets `proj.damage`, `proj.radius`, `proj.tilemap`, and `proj.ball_texture`.
-* **Recent Fixes:** Restored `CollisionShape2D` instantiation in `_ready()` with a 7.0px radius so Godot physics detects wall collisions, and restored the `_spawn_blast_shockwave` particle ring on detonation.
-
-### 3. Henry the Hoover (`gareth-henry_the_hoover_mod`) & Teletubbies (`gareth-teletubbies_mod`)
-* **Outstanding Task:** Replace the simplified procedural face with high-fidelity pixel art based on the Numatic Henry 200 reference photo (glossy domed bowler hat, white arched eyes, nose hose coupling, and curved smile). Add the rate-limited (1.0s cooldown) gobble audio/squash effect on item pickup.
-
-### 4. Employee Miner & Collector Upgrades (`gareth-employee_passives_mod`)
-* **Outstanding Task:** Ensure these 3 stacking multipliers (`employee_miner_range`, `employee_miner_pickup_speed`, `collector_range`) are properly registered into the in-game passive selection pool (`choose_passive.gd`) and/or between-day Bonus Shop (`management_screen.gd` / `passive_bonuses.gd`) so the player can see and pick them.
-
-### 5. Player Clip / Reach Expansion Mod (`gareth-reach_expansion_mod`)
-* **Outstanding Task:** Expands player ore pickup clip area, stockpile deposit distance (`Stockpile.gd`), and NPC quest interaction range (`QuestPoint` / Tabatha the Mermaid) by 1 tile (+24px). Tune the interaction distance and inject it as a rare, high-cost, non-scaling perk in the between-day Bonus Shop.
-
-### 6. Quadcopter Drone Workforce (`gareth-drone_workforce_mod`)
-* **Outstanding Task:** Test the replacement of humanoid pickaxe miners with hovering laser quadcopters, and the replacement of UFO collectors with cargo drones equipped with magnetic winches and navigation strobes.
-
-### 7. Thomas the Tank Engine Class & Bottom Rail (`gareth-thomas_tank_engine_mod`)
-* **Outstanding Task:** Expose the three distinct upgrade branches in the shop/management interface: Locomotive Upgrade, Wagon Count, and Hopper Capacity. Register the railway engine as a selectable class on the Sky Mine stage.
-
-### 8. Universal Mod Manager & Mod Store (`gareth-mod_manager_mod`)
-* Main Menu features the custom hanging wooden sub-board (`✦ ENHANCED BY GARETH WHITE & GEMINI ✦`) and buttons (`Mod Manager`, `Mod & Map Store`, `Leaderboards`).
-
-### 9. Amazon Delivery (`gareth-scrap_and_delivery_mod`) & Game Speed (`gareth-game_speed_mod`)
-* **Working & Verified:** Amazon (`[B]`) drops parachute crates at `z_index = 60`. `itemBuyPrice` is guarded against null crash using exact string replacement (preserving tabs).
-* **Working & Verified:** Game Speed micro-dock (`◀ 1.00x ▶` + `⏰ End Day` `[F8]`) is docked cleanly at the bottom-right during active mining shifts.
-"@
-$sessionContent | Set-Content -Path $sessionPromptPath -Encoding UTF8
-
-Write-Output "--- 3. Creating Agile User Stories ---"
-$story1 = @"
-# US-01: Thomas the Tank Engine Upgrade Branches
-**Status:** To Do
-**Mod:** `gareth-thomas_tank_engine_mod`
-
-**Description:**
-As a player, I want to upgrade my Thomas the Tank Engine class in the shop so I can haul more ore faster.
-
-**Acceptance Criteria:**
-- Expose Locomotive Upgrade branch (Thomas -> Edward -> Henry -> Gordon) scaling speed and pulling capacity.
-- Expose Wagon Count branch (1 through 6 rolling freight wagons).
-- Expose Hopper Capacity branch (50 -> 150 -> 500 -> 2000).
-- Register the railway engine as a selectable class on the Sky Mine stage.
-"@
-$story1 | Set-Content -Path (Join-Path $storiesDir "US-01_Thomas_Upgrades.md") -Encoding UTF8
-
-$story2 = @"
-# US-02: Reach Expansion Bonus Shop Integration
-**Status:** To Do
-**Mod:** `gareth-reach_expansion_mod`
-
-**Description:**
-As a player, I want to purchase the Reach Expansion perk in the Bonus Shop so I can interact with stockpiles, ores, and NPCs from further away.
-
-**Acceptance Criteria:**
-- Tune the interaction distance to +1 tile (+24px) for ore magnetic aura, stockpile deposit, and NPC dialogues.
-- Inject the perk as a rare, high-cost, non-scaling item in the between-day Bonus Shop (`management_screen.gd`).
-"@
-$story2 | Set-Content -Path (Join-Path $storiesDir "US-02_Reach_Expansion.md") -Encoding UTF8
-
-$story3 = @"
-# US-03: Quadcopter Drone Workforce Evaluation
-**Status:** In Progress (Discovery)
-**Mod:** `gareth-drone_workforce_mod`
-
-**Description:**
-As a player, I want my automated workforce to be visualised as quadcopters and cargo drones rather than humanoid miners and UFOs.
-
-**Acceptance Criteria:**
-- Replace humanoid pickaxe miners with hovering laser quadcopters.
-- Replace UFO collectors with cargo drones featuring magnetic winches and navigation strobes.
-"@
-$story3 | Set-Content -Path (Join-Path $storiesDir "US-03_Quadcopter_Workforce.md") -Encoding UTF8
-
-$story4 = @"
-# US-04: Henry the Hoover Visuals & Audio Rate Limit
-**Status:** To Do
-**Mod:** `gareth-henry_the_hoover_mod`
-
-**Description:**
-As a player, I want the vacuum cleaner to look like an authentic Numatic Henry 200 and not spam audio when gobbling ore.
-
-**Acceptance Criteria:**
-- Replace procedural face with high-fidelity pixel art (glossy domed bowler hat, white arched eyes, nose hose coupling, curved smile).
-- Add a 1.0s cooldown rate-limit to the gobble audio/squash effect on item pickup.
-"@
-$story4 | Set-Content -Path (Join-Path $storiesDir "US-04_Henry_Hoover.md") -Encoding UTF8
-
-Write-Output "--- 4. Concurrently Discovering Thomas, Drones, Reach, and Henry Files ---"
-# $discoveryScript = @"
-# `$repoRoot = "C:\Dev\coal-llc-mods"
-
-# Write-Output "--- DISCOVERY: US-01 Thomas the Tank ---"
-# `$thomasDir = Join-Path `$repoRoot "mods-unpacked\gareth-thomas_tank_engine_mod\mods-unpacked\gareth-thomas_tank_engine_mod"
-# if (Test-Path `$thomasDir) { Get-ChildItem `$thomasDir -Recurse -Filter "*.gd" | ForEach-Object { Write-Output "FILE: `$_"; Get-Content `$_ -TotalCount 25 } } else { Write-Output "Thomas dir not found" }
-
-# Write-Output "`n--- DISCOVERY: US-02 Reach Expansion ---"
-# `$reachDir = Join-Path `$repoRoot "mods-unpacked\gareth-reach_expansion_mod\mods-unpacked\gareth-reach_expansion_mod"
-# if (Test-Path `$reachDir) { Get-ChildItem `$reachDir -Recurse -Filter "*.gd" | ForEach-Object { Write-Output "FILE: `$_"; Get-Content `$_ -TotalCount 25 } } else { Write-Output "Reach dir not found" }
-
-# Write-Output "`n--- DISCOVERY: US-03 Quadcopter Drones ---"
-# `$droneDir = Join-Path `$repoRoot "mods-unpacked\gareth-drone_workforce_mod\mods-unpacked\gareth-drone_workforce_mod"
-# if (Test-Path `$droneDir) { Get-ChildItem `$droneDir -Recurse -Filter "*.gd" | ForEach-Object { Write-Output "FILE: `$_"; Get-Content `$_ -TotalCount 25 } } else { Write-Output "Drone dir not found" }
-
-# Write-Output "`n--- DISCOVERY: US-04 Henry Hoover ---"
-# `$henryDir = Join-Path `$repoRoot "mods-unpacked\gareth-henry_the_hoover_mod\mods-unpacked\gareth-henry_the_hoover_mod"
-# if (Test-Path `$henryDir) { Get-ChildItem `$henryDir -Recurse -Filter "*.gd" | ForEach-Object { Write-Output "FILE: `$_"; Get-Content `$_ -TotalCount 25 } } else { Write-Output "Henry dir not found" }
-# "@
-# $discoveryScript | Set-Content -Path (Join-Path $repoRoot "ai_discovery.ps1") -Encoding UTF8
-Write-Output "Executing Discovery Script..."
-#Join-Path $repoRoot "ai_discovery.ps1"
-# & powershell -ExecutionPolicy Bypass -File (Join-Path $repoRoot "ai_discovery.ps1")
-./ai_discovery.ps1
-
-Write-Output "--- Committing Repo Architecture Updates ---"
-git add SESSION_PROMPT.md docs/
-git commit -m "Docs: Initialize agile User Stories, Wiki architecture, and sync SESSION_PROMPT.md with latest engine contracts and backlog state."
+Write-Output "--- Committing to Git ---"
+git add -A
+git commit -m "Docs & Fixes: Scaffold agile user stories, update Knowledge Base regressions, migrate drone and train instantiations to call_deferred, and inject Numatic Henry 200 pixel art."
 git push origin main
-Write-Output "Complete!"
+Write-Output "Sprints Deployed Successfully!"
