@@ -1,1 +1,5 @@
---- 1. FACTORY RESET: Main Menu Button Injection (BUG-06) ---
+--- 1. FIXING MAIN MENU BUTTON SCRIPT CRASH (BUG-06) ---
+Patched MainMenu.hooks.gd with strict type casting to prevent null lambda execution.
+--- 2. REWRITING AUTO PASSIVE CHOOSER SCRIPT (BUG-02) ---
+Rewrote passive_order.gd to dynamically generate all extra passives safely.
+--- 3. REMOVING SETTINGS 2 HACK (BUG-02) ---
