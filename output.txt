@@ -1,3 +1,1 @@
---- 1. FIXING PASSIVE ORDER GD SCRIPT (BUG-02) ---
-Patched passive_order.gd to fix static method parse error.
---- 2. FIXING MOD STORE CLIENT PARSER (US-05) ---
+--- 1. FIXING MOD MANAGER TAG PARSER (BUG-05) ---

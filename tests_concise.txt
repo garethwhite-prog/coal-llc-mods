@@ -1,25 +1,60 @@
-﻿  19: ERROR ModLoader:Path: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
-  20: ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
-  21: at: push_error (core/variant/variant_utility.cpp:1098)
-  21: at: push_error (core/variant/variant_utility.cpp:1098)
- 553: SCRIPT ERROR: Parse Error: Cannot call non-static function "has_method()" on the class "ModLoaderConfig" directly. Make an instance instead.
- 554: at: GDScript::reload (res://mods-unpacked/nanobotz-autopassivechooser/scenes/passive_order.gd:222)
- 555: ERROR: Failed to load script "res://mods-unpacked/nanobotz-autopassivechooser/scenes/passive_order.gd" with error "Parse error".
- 556: at: load (modules/gdscript/gdscript.cpp:3022)
-1037: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
-1038: at: apply_extension (res://addons/mod_loader/internal/script_extension.gd:118)
-1102: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
-1103: at: _load (core/io/resource_loader.cpp:359)
-1111: SCRIPT ERROR: Parse Error: Expected closing ")" after call arguments.
-1112: at: GDScript::reload (res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.gd:93)
-1113: ERROR: Failed to load script "res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.gd" with error "Parse error".
-1114: at: load (modules/gdscript/gdscript.cpp:3022)
-1115: SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
-1116: at: <anonymous lambda> (res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd:40)
-1117: SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
-1118: at: <anonymous lambda> (res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd:40)
-1119: ERROR: Error calling deferred method: 'Control(mod_manager_view.gd)::_inject_search_bar': Method not found.
-1120: at: _call_function (core/object/message_queue.cpp:222)
-1121: ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-1126: ERROR: 177 resources still in use at exit (run with --verbose for details).
-1127: at: clear (core/io/resource.cpp:614)
+﻿   7: ERROR: Parameter "zfile" is null.
+   8: at: try_open_pack (core/io/file_access_zip.cpp:171)
+   9: ERROR ModLoader: Failed loading hooks pack from: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mod-hooks.zip
+  10: ERROR: Failed loading hooks pack from: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mod-hooks.zip
+  11: at: push_error (core/variant/variant_utility.cpp:1098)
+  11: at: push_error (core/variant/variant_utility.cpp:1098)
+  25: ERROR ModLoader:Path: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
+  26: ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
+  27: at: push_error (core/variant/variant_utility.cpp:1098)
+  27: at: push_error (core/variant/variant_utility.cpp:1098)
+ 536: SCRIPT ERROR: Parse Error: Identifier "chain" not declared in the current scope.
+ 537: at: GDScript::reload (res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd:21)
+ 538: ERROR: Failed to load script "res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd" with error "Parse error".
+ 539: at: load (modules/gdscript/gdscript.cpp:3022)
+ 540: SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+ 541: at: install_script_hooks (res://addons/mod_loader/api/mod.gd:78)
+1042: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
+1043: at: apply_extension (res://addons/mod_loader/internal/script_extension.gd:118)
+1107: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
+1108: at: _load (core/io/resource_loader.cpp:359)
+1178: Verified 3884 files, no errors detected!
+1183: Extracted 41 files, no errors detected!
+1221: If you find that you have many non-import errors upon opening the project
+1222: (i.e. scripts or shaders have many errors), use the original game's binary as the export template.
+1265: Verified 3884 files, no errors detected!
+1270: Extracted 41 files, no errors detected!
+1277: ERROR ModLoader:ModHookPacker: Error (1) writing to hooks zip, consider deleting this file: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mod-hooks.zip
+1278: ERROR: Error (1) writing to hooks zip, consider deleting this file: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mod-hooks.zip
+1279: at: push_error (core/variant/variant_utility.cpp:1098)
+1279: at: push_error (core/variant/variant_utility.cpp:1098)
+1281: ERROR: No loader found for resource: res:// (expected type: )
+1282: at: _load (core/io/resource_loader.cpp:359)
+1283: ERROR: Error loading resource: ''.
+1284: at: load (core/core_bind.cpp:76)
+1285: SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
+1286: at: reset_resources (res://scripts/Gvars.gd:499)
+1287: ERROR: No loader found for resource: res:// (expected type: )
+1288: at: _load (core/io/resource_loader.cpp:359)
+1289: ERROR: Error loading resource: ''.
+1290: at: load (core/core_bind.cpp:76)
+1291: SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
+1292: at: reset_resources (res://scripts/Gvars.gd:499)
+1293: ERROR: No loader found for resource: res:// (expected type: )
+1294: at: _load (core/io/resource_loader.cpp:359)
+1299: ERROR: No loader found for resource: res:// (expected type: )
+1300: at: _load (core/io/resource_loader.cpp:359)
+1301: ERROR: Error loading resource: ''.
+1302: at: load (core/core_bind.cpp:76)
+1303: SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
+1304: at: reset_resources (res://scripts/Gvars.gd:499)
+1311: ERROR: No loader found for resource: res:// (expected type: )
+1312: at: _load (core/io/resource_loader.cpp:359)
+1313: ERROR: Error loading resource: ''.
+1314: at: load (core/core_bind.cpp:76)
+1315: SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
+1316: at: reset_resources (res://scripts/Gvars.gd:499)
+1320: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+1324: ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+1329: ERROR: 176 resources still in use at exit (run with --verbose for details).
+1330: at: clear (core/io/resource.cpp:614)

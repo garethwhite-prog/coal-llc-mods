@@ -219,9 +219,10 @@ func _on_confirm_pressed() -> void:
 	if passive.get("enabled", false):
 		passive_order.append(passive)
 
-	if ModLoaderConfig and "update_config" in ModLoaderConfig:
+	if ModLoaderConfig != null:
 		ModLoaderConfig.update_config(config)
 
 	clear_grid()
 	prepare_grid_and_reroll()
+
 
