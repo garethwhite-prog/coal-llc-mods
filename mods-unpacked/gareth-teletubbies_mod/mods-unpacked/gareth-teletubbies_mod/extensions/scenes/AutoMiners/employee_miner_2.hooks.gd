@@ -1,7 +1,7 @@
 extends Object
 
 func _physics_process(chain: ModLoaderHookChain) -> void:
-	chain.execute_next([])
+	await chain.execute_next([])
 	var miner = chain.reference_object
 	if not is_instance_valid(miner): return
 
@@ -13,3 +13,4 @@ func _physics_process(chain: ModLoaderHookChain) -> void:
 			1: spr.self_modulate = Color(0.15, 0.75, 0.15, 1.0) # Dipsy (Green)
 			2: spr.self_modulate = Color(0.95, 0.85, 0.10, 1.0) # Laa-Laa (Yellow)
 			_: spr.self_modulate = Color(0.95, 0.10, 0.10, 1.0) # Po (Red)
+

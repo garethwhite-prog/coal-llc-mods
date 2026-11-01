@@ -3,7 +3,7 @@ extends Object
 var punch_counter: int = 0
 
 func attack_tile(chain: ModLoaderHookChain, count: float) -> void:
-	chain.execute_next([count])
+	await chain.execute_next([count])
 	var bg = chain.reference_object
 	if not bg or not bg.tilemap:
 		return

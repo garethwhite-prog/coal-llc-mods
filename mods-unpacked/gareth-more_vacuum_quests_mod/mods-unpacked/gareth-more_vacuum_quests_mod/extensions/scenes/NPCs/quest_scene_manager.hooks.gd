@@ -4,7 +4,7 @@ const QUEST_POINT_SCENE = preload("res://scenes/NPCs/quest_point.tscn")
 const CUST_REWARD_SCRIPT = preload("res://mods-unpacked/gareth-more_vacuum_quests_mod/scripts/custom_vacuum_reward.gd")
 
 func _ready(chain: ModLoaderHookChain) -> void:
-	chain.execute_next([])
+	await chain.execute_next([])
 	var qsm := chain.reference_object as QuestSceneManager
 	if not qsm:
 		return
@@ -14,7 +14,7 @@ func refresh_all_quest_points(chain: ModLoaderHookChain) -> void:
 	var qsm := chain.reference_object as QuestSceneManager
 	if qsm:
 		_setup_extended_mermaid_quests(qsm)
-	chain.execute_next([])
+	await chain.execute_next([])
 
 func _setup_extended_mermaid_quests(qsm: QuestSceneManager) -> void:
 	var qm := Gvars.quest_manager

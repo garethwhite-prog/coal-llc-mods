@@ -10,6 +10,29 @@ var toggles: Dictionary = {}
 const CONFIG_PATH := "user://gareth_mods_config.json"
 
 func _ready() -> void:
+	call_deferred("_inject_search_bar")
+	
+func _inject_search_bar() -> void:
+	var header = find_child("HeaderContainer", true, false)
+	if not header: header = self
+	var search = LineEdit.new()
+	search.placeholder_text = "Search installed mods..."
+	search.custom_minimum_size = Vector2(300, 35)
+	search.text_changed.connect(_on_search_filter)
+	header.add_child(search)
+
+func _on_search_filter(query: String) -> void:
+	var q = query.to_lower()
+	var list = find_child("ModListContainer", true, false)
+	if is_instance_valid(list):
+		for card in list.get_children():
+			if q.is_empty():
+				card.visible = true
+			else:
+				var mod_name = card.name.to_lower()
+				var lbl = card.find_child("TitleLabel", true, false)
+				if lbl: mod_name += lbl.text.to_lower()
+				card.visible = q in mod_name
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	var vp_rect := get_viewport_rect()
 	position = Vector2.ZERO
@@ -202,6 +225,7 @@ func _on_confirm() -> void:
 
 	confirmed.emit()
 	queue_free()
+
 
 
 

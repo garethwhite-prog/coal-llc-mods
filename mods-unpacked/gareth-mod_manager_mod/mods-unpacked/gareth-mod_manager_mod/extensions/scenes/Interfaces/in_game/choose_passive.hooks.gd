@@ -17,7 +17,7 @@ const CUSTOM_PASSIVE_DEFAULTS: Dictionary = {
 func set_up_buttons(chain: ModLoaderHookChain) -> void:
 	var screen = chain.reference_object
 	if not is_instance_valid(screen) or not ("choose_between" in screen):
-		chain.execute_next([])
+		await chain.execute_next([])
 		return
 
 	var buttons = [screen.button, screen.button_2, screen.button_3]
@@ -44,16 +44,16 @@ func _on_button_3_pressed(chain: ModLoaderHookChain) -> void:
 func _handle_button_click(chain: ModLoaderHookChain, button_idx: int) -> void:
 	var screen = chain.reference_object
 	if not is_instance_valid(screen) or not screen.live or not ("choose_between" in screen):
-		chain.execute_next([])
+		await chain.execute_next([])
 		return
 
 	if button_idx >= screen.choose_between.size():
-		chain.execute_next([])
+		await chain.execute_next([])
 		return
 
 	var stat_name: String = str(screen.choose_between[button_idx])
 	if screen.ALL_PASSIVES.has(stat_name):
-		chain.execute_next([])
+		await chain.execute_next([])
 		return
 
 	screen.live = false
@@ -76,3 +76,4 @@ func _handle_button_click(chain: ModLoaderHookChain, button_idx: int) -> void:
 
 	screen.get_tree().paused = false
 	screen.queue_free()
+

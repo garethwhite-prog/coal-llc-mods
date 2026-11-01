@@ -1,10 +1,10 @@
-﻿extends Object
+extends Object
 
 var NanobotzAutoPassiveChooserMod = load("res://mods-unpacked/nanobotz-autopassivechooser/mod_main.gd")
 
 
 func _process(chain: ModLoaderHookChain, delta: float) -> void:
-	chain.execute_next([delta])
+	await chain.execute_next([delta])
 
 	var config = NanobotzAutoPassiveChooserMod.get_or_create_config()
 	var passive_order = config.data.get("passive_order", []) if (config and "data" in config and config.data is Dictionary) else []
@@ -60,3 +60,4 @@ func _process(chain: ModLoaderHookChain, delta: float) -> void:
 					effect_text.set_text(button_text)
 
 			ModLoaderLog.info("Auto choosing option " + str(idx) + ": " + button_text, NanobotzAutoPassiveChooserMod.MOD_ID)
+

@@ -1,7 +1,7 @@
 extends Object
 
 func refreshDetails(chain: ModLoaderHookChain) -> void:
-	chain.execute_next([])
+	await chain.execute_next([])
 	var card = chain.reference_object
 	if not is_instance_valid(card) or not ("item" in card) or not card.item:
 		return
@@ -17,7 +17,7 @@ func refreshDetails(chain: ModLoaderHookChain) -> void:
 func _on_purchase_button_pressed(chain: ModLoaderHookChain) -> void:
 	var card = chain.reference_object
 	if not is_instance_valid(card) or not ("item" in card) or not card.item:
-		chain.execute_next([])
+		await chain.execute_next([])
 		return
 
 	if Gvars and is_nan(Gvars.CashCount):
@@ -33,4 +33,5 @@ func _on_purchase_button_pressed(chain: ModLoaderHookChain) -> void:
 		return
 
 	# For regular items, let vanilla buy_effect perform the single deduction
-	chain.execute_next([])
+	await chain.execute_next([])
+

@@ -5,7 +5,7 @@ static var last_pulse: float = 0.0
 
 
 func _physics_process(chain: ModLoaderHookChain, delta: float) -> void:
-	chain.execute_next([delta])
+	await chain.execute_next([delta])
 
 	var player := chain.reference_object as Player
 	if not player or not player.is_inside_tree():

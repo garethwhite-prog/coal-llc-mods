@@ -5,7 +5,7 @@ static var last_pulse: float = 0.0
 
 
 func apply_tile_effects(chain: ModLoaderHookChain) -> void:
-	chain.execute_next()
+	await chain.execute_next()
 
 	var now: float = Time.get_ticks_msec() / 1000.0
 	if now - last_pulse > 4.5:

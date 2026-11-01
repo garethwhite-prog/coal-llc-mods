@@ -1,7 +1,7 @@
 extends Object
 
 func _ready(chain: ModLoaderHookChain) -> void:
-	chain.execute_next([])
+	await chain.execute_next([])
 	var drill = chain.reference_object
 	if drill:
 		_apply_drill_speed(drill)
@@ -10,12 +10,12 @@ func _physics_process(chain: ModLoaderHookChain, delta: float) -> void:
 	var drill = chain.reference_object
 	if drill:
 		_apply_drill_speed(drill)
-	chain.execute_next([delta])
+	await chain.execute_next([delta])
 
 func mine_ores(chain: ModLoaderHookChain) -> void:
 	var drill = chain.reference_object
 	if not drill or not drill.tilemap or not drill.drill:
-		chain.execute_next([])
+		await chain.execute_next([])
 		return
 
 	var spd: float = 0.0

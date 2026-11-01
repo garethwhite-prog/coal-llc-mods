@@ -1,7 +1,7 @@
 extends Object
 
 func _ready(chain: ModLoaderHookChain) -> void:
-	chain.execute_next([])
+	await chain.execute_next([])
 	var qm = chain.reference_object
 	if not is_instance_valid(qm): return
 
@@ -14,3 +14,4 @@ func _ready(chain: ModLoaderHookChain) -> void:
 			var col = qp.find_child("CollisionShape2D", true, false)
 			if is_instance_valid(col) and col.shape and ("radius" in col.shape):
 				col.shape.radius += extra_reach
+

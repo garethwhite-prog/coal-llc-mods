@@ -13,4 +13,5 @@ func _ready(chain: ModLoaderHookChain) -> void:
 		if not ls.LEVEL_ORDER.has(tid):
 			ls.LEVEL_ORDER.append(tid)
 
-	chain.execute_next([])
+	await chain.execute_next([])
+

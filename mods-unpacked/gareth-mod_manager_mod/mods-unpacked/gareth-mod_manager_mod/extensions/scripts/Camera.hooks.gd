@@ -1,7 +1,7 @@
 extends Object
 
 func _process(chain: ModLoaderHookChain, delta: float) -> void:
-	chain.execute_next([delta])
+	await chain.execute_next([delta])
 	var cam = chain.reference_object
 	if not is_instance_valid(cam):
 		return
@@ -37,3 +37,4 @@ func _process(chain: ModLoaderHookChain, delta: float) -> void:
 		elif Input.is_key_pressed(KEY_0):
 			Gvars.settings.zoom_level = 1.0
 			cam.zoom = Vector2(1.0, 1.0)
+

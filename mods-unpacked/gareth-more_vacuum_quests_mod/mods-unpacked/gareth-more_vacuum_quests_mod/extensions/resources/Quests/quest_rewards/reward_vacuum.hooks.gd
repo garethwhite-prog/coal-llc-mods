@@ -1,7 +1,7 @@
 extends Object
 
 func reward(chain: ModLoaderHookChain) -> void:
-	chain.execute_next([])
+	await chain.execute_next([])
 	var rw = chain.reference_object
 	if not rw or not Gvars.quest_manager:
 		return

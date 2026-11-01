@@ -9,4 +9,5 @@ func damageTileCoords(chain: ModLoaderHookChain, global_posi: Vector2i, damage: 
 	if not ("chunks_created" in tm) or not tm.chunks_created.has(chunk_id):
 		return
 
-	chain.execute_next([global_posi, float(damage)])
+	await chain.execute_next([global_posi, float(damage)])
+

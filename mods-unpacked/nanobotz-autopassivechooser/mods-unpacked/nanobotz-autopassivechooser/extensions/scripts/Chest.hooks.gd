@@ -15,5 +15,6 @@ func pickup_item(chain: ModLoaderHookChain):
 		effect_text.set_text("Skipped " + chest.loot.itemName)
 		return
 
-	chain.execute_next()
+	await chain.execute_next()
+
 

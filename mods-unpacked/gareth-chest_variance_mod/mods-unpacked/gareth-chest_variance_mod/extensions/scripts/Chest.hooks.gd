@@ -5,7 +5,7 @@ const MOD_DIR := "gareth-chest_variance_mod"
 func roll_loot(chain: ModLoaderHookChain) -> void:
 	var chest = chain.reference_object
 	if not is_instance_valid(chest):
-		chain.execute_next([])
+		await chain.execute_next([])
 		return
 
 	# 3% chance of a booby-trap explosion
@@ -31,7 +31,7 @@ func roll_loot(chain: ModLoaderHookChain) -> void:
 	var effective_level: int = clampi(original_level + tier_shift, 1, 15)
 	chest.loot_level = effective_level
 
-	chain.execute_next([])
+	await chain.execute_next([])
 
 	# Scale passive upgrade multipliers to match effective tier
 	if is_instance_valid(chest.loot) and chest.loot.itemType == "passive_upgrade":
@@ -102,4 +102,5 @@ func pickup_item(chain: ModLoaderHookChain) -> void:
 	var chest = chain.reference_object
 	if not is_instance_valid(chest) or not ("loot" in chest) or chest.loot == null:
 		return
-	chain.execute_next([])
+	await chain.execute_next([])
+

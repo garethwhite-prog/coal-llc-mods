@@ -4,7 +4,7 @@ const ICON2_SCENE = preload("res://scenes/Interfaces/Management/employee_level_i
 const SPACER_SCENE = preload("res://scenes/Interfaces/Management/employee_level_icon_spacer.tscn")
 
 func _ready(chain: ModLoaderHookChain) -> void:
-	chain.execute_next([])
+	await chain.execute_next([])
 	var chart := chain.reference_object as OrganisationChart2
 	if not chart:
 		return

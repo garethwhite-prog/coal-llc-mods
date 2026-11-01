@@ -1,7 +1,7 @@
 extends Object
 
 func _ready(chain: ModLoaderHookChain) -> void:
-	chain.execute_next([])
+	await chain.execute_next([])
 	var miner = chain.reference_object
 	if not is_instance_valid(miner): return
 
@@ -20,3 +20,4 @@ func _ready(chain: ModLoaderHookChain) -> void:
 		drone_spr.texture = factory.create_miner_drone_texture()
 		drone_spr.scale = Vector2(1.5, 1.5)
 		miner.call_deferred("add_child", drone_spr)
+

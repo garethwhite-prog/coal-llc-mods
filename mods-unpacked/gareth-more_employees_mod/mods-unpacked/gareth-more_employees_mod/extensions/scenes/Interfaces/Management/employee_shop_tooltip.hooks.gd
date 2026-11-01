@@ -10,14 +10,14 @@ const CUSTOM_NAMES := {
 func _ready(chain: ModLoaderHookChain) -> void:
 	var tooltip := chain.reference_object as EmployeeShopTooltip
 	if not tooltip:
-		chain.execute_next([])
+		await chain.execute_next([])
 		return
 
 	tooltip.scale = Vector2(1.88, 1.88)
 	_apply_click_through(tooltip)
 
 	if not tooltip.employee_level:
-		chain.execute_next([])
+		await chain.execute_next([])
 		return
 
 	var lvl = tooltip.employee_level
@@ -30,7 +30,7 @@ func _ready(chain: ModLoaderHookChain) -> void:
 			info += "Pickaxe: " + str(lvl.equipment.itemName) + "\n"
 		tooltip.text_label.text = info
 		return
-	chain.execute_next([])
+	await chain.execute_next([])
 	_apply_click_through(tooltip)
 
 func _apply_click_through(node: Node) -> void:

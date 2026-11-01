@@ -29,7 +29,8 @@ func _check_mod_status() -> bool:
 
 func _physics_process(chain: ModLoaderHookChain, delta: float) -> void:
 	if not _check_mod_status():
-		chain.execute_next([delta])
+		await chain.execute_next([delta])
 		return
 
-	chain.execute_next([delta])
+	await chain.execute_next([delta])
+

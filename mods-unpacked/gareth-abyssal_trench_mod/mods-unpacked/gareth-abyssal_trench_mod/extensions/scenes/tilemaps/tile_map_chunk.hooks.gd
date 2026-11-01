@@ -6,10 +6,10 @@ func lvl_from_global_pos(chain: ModLoaderHookChain, pos: Vector2i) -> int:
 		if pos.y < 0:
 			return -2
 		return 1
-	return chain.execute_next([pos])
+	return await chain.execute_next([pos])
 
 func generate_chunk(chain: ModLoaderHookChain, noise: Noise) -> void:
-	chain.execute_next([noise])
+	await chain.execute_next([noise])
 	var helper_script = load("res://mods-unpacked/gareth-abyssal_trench_mod/helpers/AbyssalTrenchHelper.gd")
 	if helper_script and helper_script.is_abyssal_level():
 		var chunk = chain.reference_object
@@ -30,7 +30,7 @@ func damage_tile_idx(chain: ModLoaderHookChain, idx: int, damage: float) -> void
 		# Enforce starter pickaxe damage floor for Hadal stone carving
 		damage = max(damage * 6.0, 35.0)
 
-	chain.execute_next([idx, damage])
+	await chain.execute_next([idx, damage])
 
 func destroy_tile(chain: ModLoaderHookChain, idx: int, tile_properties: Dictionary) -> void:
 	var helper_script = load("res://mods-unpacked/gareth-abyssal_trench_mod/helpers/AbyssalTrenchHelper.gd")
@@ -46,4 +46,5 @@ func destroy_tile(chain: ModLoaderHookChain, idx: int, tile_properties: Dictiona
 						chunk.spawn_item_drop(chunk.coal_resource, chunk.map_to_local(local_coords))
 
 	# Strictly preserve 2-argument signature: (idx: int, tile_properties: Dictionary)
-	chain.execute_next([idx, tile_properties])
+	await chain.execute_next([idx, tile_properties])
+

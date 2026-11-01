@@ -3,7 +3,7 @@ extends Object
 func find_loot(chain: ModLoaderHookChain, collector) -> void:
 	var ld = chain.reference_object
 	if not is_instance_valid(ld) or not is_instance_valid(collector):
-		chain.execute_next([collector])
+		await chain.execute_next([collector])
 		return
 
 	# Check priority mode: 0 = Closest, 1 = Most Valuable First
@@ -12,12 +12,12 @@ func find_loot(chain: ModLoaderHookChain, collector) -> void:
 		priority_mode = int(Gvars.get_meta("collector_priority_mode", 1))
 
 	if priority_mode == 0:
-		chain.execute_next([collector])
+		await chain.execute_next([collector])
 		return
 
 	var loots = ld.loot_drops.get_children()
 	if loots.is_empty():
-		chain.execute_next([collector])
+		await chain.execute_next([collector])
 		return
 
 	var best_loot = null
@@ -34,5 +34,6 @@ func find_loot(chain: ModLoaderHookChain, collector) -> void:
 		collector.state = collector.States.MOVING_TO_LOOT
 		return
 
-	chain.execute_next([collector])
+	await chain.execute_next([collector])
+
 

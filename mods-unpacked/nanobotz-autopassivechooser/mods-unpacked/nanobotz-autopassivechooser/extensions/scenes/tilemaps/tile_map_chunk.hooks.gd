@@ -21,7 +21,7 @@ func destroy_tile(chain: ModLoaderHookChain, idx: int, tile_properties: Dictiona
         TileMapChunk.Tiles.HARD_DARKBLUE
     ]
     
-    chain.execute_next([idx, tile_properties])
+    await chain.execute_next([idx, tile_properties])
     
     if not is_hard_tile:
         return
@@ -44,3 +44,4 @@ func destroy_tile(chain: ModLoaderHookChain, idx: int, tile_properties: Dictiona
                     chest.opened = true
                     chest.looted = true
                     Bus.ShowInputIndicator.emit("interact", false, chest)
+

@@ -5,7 +5,7 @@ const DEFAULT_BASE := Vector2(50.0, -55.0)
 func check_inventory_count(chain: ModLoaderHookChain) -> void:
 	var ufo = chain.reference_object
 	if not is_instance_valid(ufo) or not ("inventory" in ufo) or not ("maxInventoryCount" in ufo):
-		chain.execute_next([])
+		await chain.execute_next([])
 		return
 
 	if "StateLabel" in ufo and is_instance_valid(ufo.StateLabel):
@@ -29,7 +29,7 @@ func check_inventory_count(chain: ModLoaderHookChain) -> void:
 func _physics_process(chain: ModLoaderHookChain, delta: float) -> void:
 	var ufo = chain.reference_object
 	if not is_instance_valid(ufo):
-		chain.execute_next([delta])
+		await chain.execute_next([delta])
 		return
 
 	# State 2: States.RETURNING_TO_BASE
@@ -71,4 +71,5 @@ func _physics_process(chain: ModLoaderHookChain, delta: float) -> void:
 	elif ufo.state != 2 and ufo.baseCoords != DEFAULT_BASE:
 		ufo.baseCoords = DEFAULT_BASE
 
-	chain.execute_next([delta])
+	await chain.execute_next([delta])
+

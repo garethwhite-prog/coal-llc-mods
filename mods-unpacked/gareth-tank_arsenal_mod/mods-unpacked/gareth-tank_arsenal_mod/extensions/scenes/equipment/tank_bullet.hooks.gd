@@ -3,7 +3,7 @@ extends Object
 const STATE_SCRIPT := "res://mods-unpacked/gareth-tank_arsenal_mod/tank_state.gd"
 
 func _ready(chain: ModLoaderHookChain) -> void:
-	chain.execute_next([])
+	await chain.execute_next([])
 	var bullet = chain.reference_object
 	if not bullet:
 		return
@@ -31,12 +31,12 @@ func _ready(chain: ModLoaderHookChain) -> void:
 func attack_tile(chain: ModLoaderHookChain) -> void:
 	var bullet = chain.reference_object
 	if not bullet or not bullet.tilemap or bullet.hit:
-		chain.execute_next([])
+		await chain.execute_next([])
 		return
 
 	var tank_id = bullet.get_meta("tank_id", "")
 	if tank_id == "" or (not "tank_fire" in tank_id and not "tank_poison" in tank_id and not "tank_uranium" in tank_id):
-		chain.execute_next([])
+		await chain.execute_next([])
 		return
 
 	var current_tile: Vector2i = bullet.tilemap.local_to_map(bullet.tilemap.to_local(bullet.global_position))

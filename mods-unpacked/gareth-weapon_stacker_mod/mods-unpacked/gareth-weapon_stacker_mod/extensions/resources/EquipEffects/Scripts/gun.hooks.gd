@@ -3,22 +3,22 @@ extends Object
 func start(chain: ModLoaderHookChain, player, item) -> void:
 	if chain and chain.reference_object:
 		chain.reference_object.set_meta("equipped_item", item)
-	chain.execute_next([player, item])
+	await chain.execute_next([player, item])
 
 func end(chain: ModLoaderHookChain, player) -> void:
 	if chain and chain.reference_object:
 		chain.reference_object.set_meta("equipped_item", null)
-	chain.execute_next([player])
+	await chain.execute_next([player])
 
 func physics_process(chain: ModLoaderHookChain, player, delta) -> void:
 	var gun = chain.reference_object
 	if not gun:
-		chain.execute_next([player, delta])
+		await chain.execute_next([player, delta])
 		return
 
 	var stack: float = _get_gun_stack(gun, player)
 	if stack <= 1.0:
-		chain.execute_next([player, delta])
+		await chain.execute_next([player, delta])
 		return
 
 	var orig_damage: float = gun.bullet_damage
@@ -44,7 +44,7 @@ func physics_process(chain: ModLoaderHookChain, player, delta) -> void:
 	if Input.is_action_just_pressed("useItem"):
 		ModLoaderLog.info("[Minigun Stacker x%d] Dmg: %.1f | Bullets: %d | Delay: %.4fs (~%.1f bursts/sec) | Forward Speed: %.0f" % [int(stack), scaled_damage, capped_count, scaled_cooldown, 1.0 / scaled_cooldown, scaled_speed], "gareth-weapon_stacker_mod")
 
-	chain.execute_next([player, delta])
+	await chain.execute_next([player, delta])
 
 	gun.bullet_damage = orig_damage
 	gun.bullet_count = orig_count

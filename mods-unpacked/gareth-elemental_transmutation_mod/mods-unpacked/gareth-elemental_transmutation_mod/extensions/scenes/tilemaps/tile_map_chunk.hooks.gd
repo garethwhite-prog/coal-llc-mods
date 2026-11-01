@@ -1,4 +1,4 @@
-﻿extends Object
+extends Object
 
 const LOG_NAME := "gareth-elemental_transmutation_mod:Hook"
 
@@ -8,7 +8,7 @@ func destroy_tile(chain: ModLoaderHookChain, idx: int, tile_properties: Dictiona
 	var had_poison: bool = chunk.poison_tiles.has(idx)
 	var had_burn: bool = chunk.burn_tiles.has(idx)
 
-	chain.execute_next([idx, tile_properties])
+	await chain.execute_next([idx, tile_properties])
 
 	if not had_poison and not had_burn:
 		return

@@ -1,4 +1,4 @@
-﻿extends Object
+extends Object
 
 func _ready(chain: ModLoaderHookChain) -> void:
 	var helper_script = load("res://mods-unpacked/gareth-tectonic_faultline_mod/helpers/TectonicFaultlineHelper.gd")
@@ -9,4 +9,5 @@ func _ready(chain: ModLoaderHookChain) -> void:
 		if ls and ("LEVEL_ORDER" in ls):
 			if not ls.LEVEL_ORDER.has(helper.FAULTLINE_LEVEL_ID):
 				ls.LEVEL_ORDER.append(helper.FAULTLINE_LEVEL_ID)
-	chain.execute_next([])
+	await chain.execute_next([])
+

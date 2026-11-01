@@ -1,7 +1,7 @@
 extends Object
 
 func _ready(chain: ModLoaderHookChain) -> void:
-	chain.execute_next([])
+	await chain.execute_next([])
 	var settings = chain.reference_object
 	if not settings or not ("tab_container" in settings) or not settings.tab_container:
 		return

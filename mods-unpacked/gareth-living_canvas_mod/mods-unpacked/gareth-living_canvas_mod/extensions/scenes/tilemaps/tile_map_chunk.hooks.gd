@@ -6,10 +6,10 @@ func lvl_from_global_pos(chain: ModLoaderHookChain, pos: Vector2i) -> int:
 		if pos.y < 0:
 			return -2
 		return 1
-	return chain.execute_next([pos])
+	return await chain.execute_next([pos])
 
 func generate_chunk(chain: ModLoaderHookChain, noise: Noise) -> void:
-	chain.execute_next([noise])
+	await chain.execute_next([noise])
 	var helper_script = load("res://mods-unpacked/gareth-living_canvas_mod/helpers/LivingCanvasHelper.gd")
 	if helper_script and helper_script.is_canvas_level():
 		var chunk = chain.reference_object
@@ -25,4 +25,5 @@ func damage_tile_idx(chain: ModLoaderHookChain, idx: int, damage: float) -> void
 			# High damage multiplier so starter pickaxe easily carves into canvas art
 			if global_pos.y > 12:
 				damage *= 5.0
-	chain.execute_next([idx, damage])
+	await chain.execute_next([idx, damage])
+

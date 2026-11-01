@@ -1,4 +1,4 @@
-﻿extends Object
+extends Object
 
 func lvl_from_global_pos(chain: ModLoaderHookChain, pos: Vector2i) -> int:
 	if Gvars.level == 101:
@@ -6,10 +6,10 @@ func lvl_from_global_pos(chain: ModLoaderHookChain, pos: Vector2i) -> int:
 		if helper_script:
 			var helper = helper_script.new()
 			return helper.calculate_tier(pos)
-	return chain.execute_next([pos])
+	return await chain.execute_next([pos])
 
 func generate_chunk(chain: ModLoaderHookChain, noise: Noise) -> void:
-	chain.execute_next([noise])
+	await chain.execute_next([noise])
 	if Gvars.level == 101:
 		var chunk = chain.reference_object
 		if chunk:
@@ -26,10 +26,10 @@ func destroy_tile(chain: ModLoaderHookChain, idx: int, tile_properties: Dictiona
 			if helper_script:
 				var helper = helper_script.new()
 				helper.handle_tile_destroyed(chunk, idx, tile_properties)
-	chain.execute_next([idx, tile_properties])
+	await chain.execute_next([idx, tile_properties])
 
 func generate_chests(chain: ModLoaderHookChain, current_block_chest_locations: Array[Vector2i]) -> Array[Vector2i]:
-	var locs: Array[Vector2i] = chain.execute_next([current_block_chest_locations])
+	var locs: Array[Vector2i] = await chain.execute_next([current_block_chest_locations])
 	if Gvars.level == 101:
 		var chunk = chain.reference_object
 		if chunk:
@@ -38,3 +38,4 @@ func generate_chests(chain: ModLoaderHookChain, current_block_chest_locations: A
 				var helper = helper_script.new()
 				locs = helper.spawn_cryo_pods(chunk, locs)
 	return locs
+

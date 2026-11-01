@@ -100,6 +100,17 @@
   },
   {
     "tag_name": "v1.0.0",
+    "name": "Deep Layer Bonus Weapons",
+    "body": "Injects extreme high-tier weapons into chests spawned deep in the earth (Stratum 50+).",
+    "assets": [
+      {
+        "name": "gareth-deep_layer_weapons_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/gareth-deep_layer_weapons_mod.zip"
+      }
+    ]
+  },
+  {
+    "tag_name": "v1.0.0",
     "name": "Diagonal Seams Custom Map",
     "body": "45-degree rotated diagonal subterranean strata and Sky Mine variants.",
     "assets": [

@@ -18,7 +18,7 @@ func load_equipment_shop(chain: ModLoaderHookChain) -> void:
 		_ensure_search_and_sort_bar(screen)
 		_sort_equipment_catalog()
 
-	chain.execute_next([])
+	await chain.execute_next([])
 
 	if is_instance_valid(screen):
 		Callable(self, "_apply_filter").call_deferred(screen)
@@ -28,7 +28,7 @@ func load_bonus_shop(chain: ModLoaderHookChain) -> void:
 	if is_instance_valid(screen):
 		_ensure_bonus_filter_bar(screen)
 
-	chain.execute_next([])
+	await chain.execute_next([])
 
 	if is_instance_valid(screen):
 		Callable(self, "_apply_bonus_filter").call_deferred(screen)
@@ -180,3 +180,4 @@ func _apply_bonus_filter(screen: Node) -> void:
 		var match_afford: bool = not is_bonus_affordable_only or (it.itemBuyPrice <= cur_cash or it.itemBuyPrice <= 0.0)
 
 		card.visible = match_query and match_afford
+

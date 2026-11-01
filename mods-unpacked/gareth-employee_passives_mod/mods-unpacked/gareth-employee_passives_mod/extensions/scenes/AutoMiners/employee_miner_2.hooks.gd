@@ -27,7 +27,7 @@ func _physics_process(chain: ModLoaderHookChain, delta: float) -> void:
 		if speed_stat > 0.0:
 			_vacuum_nearby_loot(miner, 52.0 * (1.0 + range_stat), 260.0 * (1.0 + speed_stat), delta)
 
-	chain.execute_next([delta])
+	await chain.execute_next([delta])
 
 func _vacuum_nearby_loot(miner: Node2D, radius: float, pull_speed: float, delta: float) -> void:
 	var tree = miner.get_tree()
@@ -58,3 +58,4 @@ func _get_passive_stat(stat_name: String) -> float:
 		if stat_name in Gvars.passives:
 			return float(Gvars.passives.get(stat_name))
 	return 0.0
+

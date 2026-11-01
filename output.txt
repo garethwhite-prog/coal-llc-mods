@@ -1,1 +1,1 @@
---- 1. Restoring Settings UI (Reverting Corrupted Hook) ---
+--- 1. GLOBAL STABILITY: Enforcing 'await' on all ModLoader Hooks ---

@@ -1,7 +1,7 @@
 extends Object
 
 func _ready(chain: ModLoaderHookChain) -> void:
-	chain.execute_next([])
+	await chain.execute_next([])
 	var pause_menu = chain.reference_object
 	if not pause_menu:
 		return
@@ -61,3 +61,4 @@ func _ready(chain: ModLoaderHookChain) -> void:
 			parent_box.add_child(lb_btn)
 			var m_idx = parent_box.get_node("PauseModManagerButton").get_index()
 			parent_box.move_child(lb_btn, m_idx + 1)
+

@@ -8,10 +8,10 @@ func reset_resources(chain: ModLoaderHookChain) -> void:
 			if is_instance_valid(r) and ("resource_path" in r) and str(r.resource_path) != "" and ResourceLoader.exists(r.resource_path):
 				clean_res.append(r)
 		gvars.resources_to_save = clean_res
-	chain.execute_next([])
+	await chain.execute_next([])
 
 func save_Gvars(chain: ModLoaderHookChain) -> Dictionary:
-	var result: Dictionary = chain.execute_next([])
+	var result: Dictionary = await chain.execute_next([])
 	if not result.has("Gvars"):
 		result["Gvars"] = {}
 
@@ -25,7 +25,7 @@ func save_Gvars(chain: ModLoaderHookChain) -> Dictionary:
 	return result
 
 func load_Gvars(chain: ModLoaderHookChain, save: Dictionary) -> void:
-	chain.execute_next([save])
+	await chain.execute_next([save])
 	var g = chain.reference_object
 	if not g or not save.has("Gvars") or not save["Gvars"].has("profession"):
 		return
@@ -35,3 +35,4 @@ func load_Gvars(chain: ModLoaderHookChain, save: Dictionary) -> void:
 		var pm = g.profession_manager
 		if pm.all_professions.has(saved_id):
 			g.profession = pm.all_professions[saved_id]["profession"]
+

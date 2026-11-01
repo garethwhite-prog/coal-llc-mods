@@ -1,7 +1,7 @@
 extends Object
 
 func generate_vacuum_cleaner(chain: ModLoaderHookChain) -> void:
-	chain.execute_next([])
+	await chain.execute_next([])
 	var mgr = chain.reference_object
 	if not mgr or not mgr.bem:
 		return

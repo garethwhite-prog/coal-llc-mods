@@ -6,7 +6,7 @@ func adjust_level_bonus(chain: ModLoaderHookChain, lvl: int, rank: int) -> int:
 
 	var chunk = chain.reference_object
 	if not chunk or not ("upgrade_table" in chunk):
-		return chain.execute_next([lvl, rank])
+		return await chain.execute_next([lvl, rank])
 
 	var table: Array = chunk.upgrade_table
 	if lvl >= table.size():

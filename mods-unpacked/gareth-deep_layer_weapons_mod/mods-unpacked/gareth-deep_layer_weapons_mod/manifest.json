@@ -1,0 +1,17 @@
+{
+  "name": "gareth-deep_layer_weapons_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "Injects extreme high-tier weapons into chests spawned deep in the earth (Stratum 50+).",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": ["gareth-mod_manager_mod"],
+  "extra": {
+    "godot": {
+      "authors": ["Gareth White"],
+      "display_name": "Deep Layer Bonus Weapons",
+      "tags": ["gameplay", "loot"],
+      "compatible_mod_loader_version": ["7.0.1"],
+      "compatible_game_version": ["1.4.1.1"]
+    }
+  }
+}

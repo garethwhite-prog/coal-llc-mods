@@ -3,7 +3,7 @@ extends Object
 var baby_sun: Node2D = null
 
 func _ready(chain: ModLoaderHookChain) -> void:
-	chain.execute_next([])
+	await chain.execute_next([])
 	var tm = chain.reference_object
 	if not is_instance_valid(tm) or is_instance_valid(baby_sun):
 		return
@@ -29,3 +29,4 @@ func _ready(chain: ModLoaderHookChain) -> void:
 	var tw = baby_sun.create_tween().set_loops()
 	tw.tween_property(spr, "rotation", 0.15, 3.0)
 	tw.tween_property(spr, "rotation", -0.15, 3.0)
+
