@@ -90,7 +90,12 @@ func _ready() -> void:
 	custom_repo_edit.placeholder_text = "owner/repository"
 	custom_repo_edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	custom_repo_edit.visible = false
-	custom_repo_edit.text_submitted.connect(func(_t): _load_catalog_for_selected_repo())
+	custom_repo_edit.text_submitted.connect(func(_t): 	var client_script = load("res://mods-unpacked/gareth-mod_manager_mod/scripts/mod_store_client.gd")
+	if client_script:
+		var c = client_script.new()
+		add_child(c)
+		c.repo_fetch_completed.connect(_on_catalog_loaded)
+		c.fetch_all_available_mods())
 	repo_bar.add_child(custom_repo_edit)
 
 	# 3. Interactive Filter Bar
@@ -137,14 +142,29 @@ func _ready() -> void:
 	cards_vbox.add_theme_constant_override("separation", 8)
 	scroll.add_child(cards_vbox)
 
-	_load_catalog_for_selected_repo()
+		var client_script = load("res://mods-unpacked/gareth-mod_manager_mod/scripts/mod_store_client.gd")
+	if client_script:
+		var c = client_script.new()
+		add_child(c)
+		c.repo_fetch_completed.connect(_on_catalog_loaded)
+		c.fetch_all_available_mods()
 
 func _on_repo_selected(idx: int) -> void:
 	active_repo_idx = idx
 	custom_repo_edit.visible = (idx >= KNOWN_REPOS.size())
-	_load_catalog_for_selected_repo()
+		var client_script = load("res://mods-unpacked/gareth-mod_manager_mod/scripts/mod_store_client.gd")
+	if client_script:
+		var c = client_script.new()
+		add_child(c)
+		c.repo_fetch_completed.connect(_on_catalog_loaded)
+		c.fetch_all_available_mods()
 
-func _load_catalog_for_selected_repo() -> void:
+func 	var client_script = load("res://mods-unpacked/gareth-mod_manager_mod/scripts/mod_store_client.gd")
+	if client_script:
+		var c = client_script.new()
+		add_child(c)
+		c.repo_fetch_completed.connect(_on_catalog_loaded)
+		c.fetch_all_available_mods() -> void:
 	if active_repo_idx == 1:
 		# Der-Floh Catalogs with mature versions (1.2.0 - 1.0.4)
 		all_packages = [
@@ -297,7 +317,7 @@ func _render_cards() -> void:
 		if is_installed:
 			btn_action.text = "Uninstall"
 			btn_action.modulate = Color(1.0, 0.45, 0.45)
-			btn_action.pressed.connect(func(): _uninstall_mod(pkg_id))
+			btn_action.pressed.connect(func(): _uninstall_mod(pkg_id); btn_action.text = "Restart Required"; btn_action.disabled = true)
 		else:
 			btn_action.text = "Install"
 			btn_action.modulate = Color(0.45, 0.95, 0.55)

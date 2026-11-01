@@ -63,6 +63,12 @@ func _ready() -> void:
 	title.add_theme_font_size_override("font_size", 18)
 	top_bar.add_child(title)
 
+		var search = LineEdit.new()
+	search.placeholder_text = "Search installed mods..."
+	search.custom_minimum_size = Vector2(250, 36)
+	search.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	search.text_changed.connect(_on_search_filter)
+	top_bar.add_child(search)
 	var confirm_btn := Button.new()
 	confirm_btn.text = " Save & Close " if not is_pre_run_mode else " Continue to Map Select > "
 	confirm_btn.custom_minimum_size = Vector2(220, 40)
@@ -207,3 +213,18 @@ func _on_confirm() -> void:
 
 
 
+func _on_search_filter(query: String) -> void:
+	var q = query.to_lower()
+	var scroll = find_child("ScrollContainer", true, false)
+	if not scroll: return
+	var content = scroll.get_child(0)
+	for grid in content.get_children():
+		if grid is GridContainer:
+			for card in grid.get_children():
+				if q.is_empty():
+					card.visible = true
+				else:
+					var mod_name = card.name.to_lower()
+					var lbl = card.find_child("*Label*", true, false)
+					if is_instance_valid(lbl): mod_name += lbl.text.to_lower()
+					card.visible = q in mod_name

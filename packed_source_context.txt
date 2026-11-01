@@ -1,6 +1,6 @@
 ==================================================
 WORKSPACE SOURCE CODE DUMP
-Generated on: 11/01/2026 14:47:12
+Generated on: 11/01/2026 15:04:38
 ==================================================
 
 ### WORKSPACE STRUCTURE
@@ -2437,7 +2437,7 @@ FILE: taskpad.ps1
 .\Run-Worker.ps1
 .\Run-ModSuiteTest.ps1
 .\Dump-Context.ps1
-
+.\repo_exporter.ps1
 --------
 ==================================================
 FILE: docs\ACTIVE_SPRINT_BOARD.md
@@ -14043,7 +14043,6 @@ var toggles: Dictionary = {}
 const CONFIG_PATH := "user://gareth_mods_config.json"
 
 func _ready() -> void:
-	call_deferred("_inject_search_bar")
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	var vp_rect := get_viewport_rect()
 	position = Vector2.ZERO
@@ -14241,27 +14240,6 @@ func _on_confirm() -> void:
 
 
 
-func _inject_search_bar() -> void:
-	var header = find_child("HeaderContainer", true, false)
-	if not header: header = self
-	var search = LineEdit.new()
-	search.placeholder_text = "Search active mods..."
-	search.custom_minimum_size = Vector2(300, 35)
-	search.text_changed.connect(_on_search_filter)
-	header.add_child(search)
-
-func _on_search_filter(query: String) -> void:
-	var q = query.to_lower()
-	var list = find_child("ModListContainer", true, false)
-	if is_instance_valid(list):
-		for card in list.get_children():
-			if q.is_empty():
-				card.visible = true
-			else:
-				var mod_name = card.name.to_lower()
-				var lbl = card.find_child("*Label*", true, false)
-				if is_instance_valid(lbl): mod_name += lbl.text.to_lower()
-				card.visible = q in mod_name
 
 --------
 ==================================================
@@ -23719,15 +23697,15 @@ func _ready(chain: ModLoaderHookChain) -> void:
 	if not is_instance_valid(menu): return
 	
 	var passive_list = menu.find_child("passive_list", true, false)
-	if not is_instance_valid(passive_list): return
-	
-	if not passive_list.has_node("BouncingBallDamage"):
+	if not is_instance_valid(passive_list):
+		passive_list = menu.find_child("VBoxContainer", true, false)
+		
+	if is_instance_valid(passive_list) and not passive_list.has_node("BouncingBallDamage"):
+		# Safely grab the very first passive row to use as a clone template
 		var template = null
-		for c in passive_list.get_children():
-			if c is Control: 
-				template = c
-				break
-				
+		if passive_list.get_child_count() > 0:
+			template = passive_list.get_child(0)
+					
 		if is_instance_valid(template):
 			var keys = ["Bouncing Ball Damage", "Bouncing Ball Radius", "Bouncing Ball Fire Rate"]
 			var internal_keys = ["ball_blast_damage", "ball_blast_radius", "ball_fire_rate"]
@@ -23736,9 +23714,12 @@ func _ready(chain: ModLoaderHookChain) -> void:
 				var row = template.duplicate()
 				row.name = keys[i].replace(" ", "")
 				row.visible = true
+				
+				# Reset text and keys for the cloned row
 				var lbl = row.find_child("*Label*", true, false)
 				if is_instance_valid(lbl): lbl.text = keys[i]
 				row.set_meta("passive_key", internal_keys[i])
+				
 				passive_list.call_deferred("add_child", row)
 
 --------
