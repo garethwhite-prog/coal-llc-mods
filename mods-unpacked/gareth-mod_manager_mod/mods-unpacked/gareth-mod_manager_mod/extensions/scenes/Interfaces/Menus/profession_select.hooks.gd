@@ -1,7 +1,7 @@
 extends Object
 
 func _ready(chain: ModLoaderHookChain) -> void:
-	await chain.execute_next([])
+	chain.execute_next([])
 	var ps = chain.reference_object
 	if not ps or not ("professions" in ps) or not ps.professions:
 		return
@@ -15,3 +15,4 @@ func _ready(chain: ModLoaderHookChain) -> void:
 			var pname: String = str(card.profession.profession_name).to_lower().replace(" ", "_").replace("-", "_")
 			if not reg.is_mod_active_for_run(pname):
 				card.visible = false
+

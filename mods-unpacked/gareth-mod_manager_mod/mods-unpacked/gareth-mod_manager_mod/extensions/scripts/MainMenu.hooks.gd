@@ -1,7 +1,7 @@
 extends Object
 
 func _ready(chain: ModLoaderHookChain) -> void:
-	await chain.execute_next([])
+	chain.execute_next([])
 	var menu = chain.reference_object
 	if not is_instance_valid(menu):
 		return
@@ -127,7 +127,7 @@ func _ready(chain: ModLoaderHookChain) -> void:
 func on_profession_selected(chain: ModLoaderHookChain, mode: int, prof: Object, hard_modifier: Object) -> void:
 	var menu = chain.reference_object
 	if not menu:
-		await chain.execute_next([mode, prof, hard_modifier])
+		chain.execute_next([mode, prof, hard_modifier])
 		return
 
 	var p_select = menu.get_node_or_null("ProfessionSelect")
@@ -144,7 +144,7 @@ func on_profession_selected(chain: ModLoaderHookChain, mode: int, prof: Object, 
 		view.set_meta("is_pre_run_mode", true)
 
 		view.confirmed.connect(func():
-			await chain.execute_next([mode, prof, hard_modifier])
+			chain.execute_next([mode, prof, hard_modifier])
 		)
 
 		view.back_pressed.connect(func():
@@ -154,6 +154,7 @@ func on_profession_selected(chain: ModLoaderHookChain, mode: int, prof: Object, 
 
 		menu.add_child(view)
 	else:
-		await chain.execute_next([mode, prof, hard_modifier])
+		chain.execute_next([mode, prof, hard_modifier])
+
 
 

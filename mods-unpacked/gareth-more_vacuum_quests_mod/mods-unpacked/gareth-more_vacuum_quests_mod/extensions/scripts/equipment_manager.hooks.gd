@@ -1,7 +1,7 @@
 extends Object
 
 func generate_vacuum_cleaner(chain: ModLoaderHookChain) -> void:
-	await chain.execute_next([])
+	chain.execute_next([])
 	var mgr = chain.reference_object
 	if not mgr or not mgr.bem:
 		return
@@ -19,3 +19,4 @@ func generate_vacuum_cleaner(chain: ModLoaderHookChain) -> void:
 			if child is VacuumCleaner:
 				child.vacuum_length = target_len
 				ModLoaderLog.info("Upgraded vacuum tether length to %d tiles (%d px)." % [target_len / 16, target_len], "gareth-more_vacuum_quests_mod")
+

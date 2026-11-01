@@ -3,7 +3,7 @@ extends Object
 func initialise_slots(chain: ModLoaderHookChain) -> void:
 	var inv = chain.reference_object
 	if not is_instance_valid(inv):
-		await chain.execute_next([])
+		chain.execute_next([])
 		return
 
 	var target_slots: int = 10
@@ -19,4 +19,5 @@ func initialise_slots(chain: ModLoaderHookChain) -> void:
 			empty_slot.set("item", empty_res)
 		empty_slot.count = 0.0
 		inv.items.append(empty_slot)
+
 

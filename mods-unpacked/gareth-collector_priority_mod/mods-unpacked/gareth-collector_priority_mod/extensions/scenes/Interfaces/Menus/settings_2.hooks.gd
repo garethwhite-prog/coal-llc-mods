@@ -1,7 +1,7 @@
 extends Object
 
 func _ready(chain: ModLoaderHookChain) -> void:
-	await chain.execute_next([])
+	chain.execute_next([])
 	var settings = chain.reference_object
 	if not is_instance_valid(settings) or not ("tab_container" in settings):
 		return
@@ -53,5 +53,6 @@ func _ready(chain: ModLoaderHookChain) -> void:
 
 	tc.add_child(tab)
 	tc.call_deferred("move_child", tab, 7)
+
 
 

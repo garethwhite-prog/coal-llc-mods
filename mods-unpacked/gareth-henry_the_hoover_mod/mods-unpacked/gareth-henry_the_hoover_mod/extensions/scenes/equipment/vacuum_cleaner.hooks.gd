@@ -31,5 +31,6 @@ func _physics_process(chain: ModLoaderHookChain, delta: float) -> void:
 				audio.volume_db = 0.0
 				vac.set_meta("gobble_cooldown", 1.0)
 
-	await chain.execute_next([delta])
+	chain.execute_next([delta])
+
 

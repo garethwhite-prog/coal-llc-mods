@@ -6,7 +6,7 @@ func find_loot(chain: ModLoaderHookChain, collector) -> void:
 		var range_stat: float = _get_passive_stat("collector_range")
 		if range_stat > 0.0 and ("collector_sample_live_limit" in ld):
 			ld.collector_sample_live_limit = int(round(25.0 * (1.0 + range_stat)))
-	await chain.execute_next([collector])
+	chain.execute_next([collector])
 
 func _get_passive_stat(stat_name: String) -> float:
 	if not Gvars:
@@ -19,4 +19,5 @@ func _get_passive_stat(stat_name: String) -> float:
 		if stat_name in Gvars.passives:
 			return float(Gvars.passives.get(stat_name))
 	return 0.0
+
 

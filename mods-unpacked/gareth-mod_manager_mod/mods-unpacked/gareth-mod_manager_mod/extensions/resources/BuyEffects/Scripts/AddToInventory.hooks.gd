@@ -12,7 +12,7 @@ func get_max_count(chain: ModLoaderHookChain, price: float, count: float) -> flo
 
 func buy_effect(chain: ModLoaderHookChain, shop_item: Item, count: int) -> void:
 	if not shop_item:
-		await chain.execute_next([shop_item, count])
+		chain.execute_next([shop_item, count])
 		return
 
 	if Gvars and is_nan(Gvars.CashCount):
@@ -29,5 +29,6 @@ func buy_effect(chain: ModLoaderHookChain, shop_item: Item, count: int) -> void:
 		return
 
 	# Pass exact vanilla signature: [Item, int]
-	await chain.execute_next([shop_item, count])
+	chain.execute_next([shop_item, count])
+
 

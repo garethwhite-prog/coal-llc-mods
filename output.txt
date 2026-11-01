@@ -1,1 +1,1 @@
---- 1. Fixing BUG-02: Bouncing Ball Passive UI Scene Injection ---
+--- 1. CRITICAL FIX: Reverting Global Coroutine Destruction ---

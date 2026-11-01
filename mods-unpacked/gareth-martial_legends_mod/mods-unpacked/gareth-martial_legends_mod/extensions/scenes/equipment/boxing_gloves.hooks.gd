@@ -3,7 +3,7 @@ extends Object
 var punch_counter: int = 0
 
 func attack_tile(chain: ModLoaderHookChain, count: float) -> void:
-	await chain.execute_next([count])
+	chain.execute_next([count])
 	var bg = chain.reference_object
 	if not bg or not bg.tilemap:
 		return
@@ -80,3 +80,4 @@ func _spinks_uppercut(bg: Node2D, pt: Vector2i, dir: Vector2i, count: float) -> 
 	if bg.tilemap.is_tile_breakable(target):
 		bg.tilemap.damageTileCoords(target, bg.damage * 10.0 * count)
 		bg.tilemap.sparks_manager.add_spark(bg.tilemap.map_to_local(target))
+

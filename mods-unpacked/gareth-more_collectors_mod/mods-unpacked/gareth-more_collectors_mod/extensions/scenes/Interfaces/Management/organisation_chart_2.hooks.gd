@@ -4,7 +4,7 @@ const ICON2_SCENE = preload("res://scenes/Interfaces/Management/employee_level_i
 const SPACER_SCENE = preload("res://scenes/Interfaces/Management/employee_level_icon_spacer.tscn")
 
 func _ready(chain: ModLoaderHookChain) -> void:
-	await chain.execute_next([])
+	chain.execute_next([])
 	var chart := chain.reference_object as OrganisationChart2
 	if not chart:
 		return
@@ -38,3 +38,4 @@ func _ready(chain: ModLoaderHookChain) -> void:
 	chart.register_all_employee_icons()
 	chart.refresh_all_icons()
 	ModLoaderLog.info("Cosmic Collector tier icons injected into Organisation Chart.", "gareth-more_collectors_mod")
+

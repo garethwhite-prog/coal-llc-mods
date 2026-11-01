@@ -8,147 +8,190 @@ Stop-Process -Name "Coal LLC*" -Force -ErrorAction SilentlyContinue
 Stop-Process -Name "godot*" -Force -ErrorAction SilentlyContinue
 Start-Sleep -Seconds 1
 
-Write-Output "--- 1. Fixing BUG-02: Bouncing Ball Passive UI Scene Injection ---"
-$passiveScenePath = "$repoRoot\mods-unpacked\nanobotz-autopassivechooser\mods-unpacked\nanobotz-autopassivechooser\scenes\passive_order.tscn"
-if (Test-Path $passiveScenePath) {
-    $content = Get-Content $passiveScenePath -Raw
-    
-    # We must inject the physical node tree for the 3 Bouncing Ball passives into the scene file
-    $ballNodes = @"
-[node name="BouncingBallDamage" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
-metadata/passive_key = "ball_blast_damage"
-
-[node name="CheckBox" type="CheckBox" parent="MarginContainer/VBoxContainer/BouncingBallDamage"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/BouncingBallDamage"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Bouncing Ball Damage"
-
-[node name="BouncingBallRadius" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
-metadata/passive_key = "ball_blast_radius"
-
-[node name="CheckBox" type="CheckBox" parent="MarginContainer/VBoxContainer/BouncingBallRadius"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/BouncingBallRadius"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Bouncing Ball Radius"
-
-[node name="BouncingBallFireRate" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
-metadata/passive_key = "ball_fire_rate"
-
-[node name="CheckBox" type="CheckBox" parent="MarginContainer/VBoxContainer/BouncingBallFireRate"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/BouncingBallFireRate"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Bouncing Ball Fire Rate"
-
-[node name="PlayerClimbSpeed" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-"@
-    # Inject directly above PlayerClimbSpeed
-    $content = $content -replace '\[node name="PlayerClimbSpeed" type="HBoxContainer" parent="MarginContainer/VBoxContainer"\]', $ballNodes
-    $content | Set-Content -Path $passiveScenePath -Encoding UTF8
-    Write-Output "Injected UI Nodes into passive_order.tscn"
+Write-Output "--- 1. CRITICAL FIX: Reverting Global Coroutine Destruction ---"
+Get-ChildItem -Path "$repoRoot\mods-unpacked" -Recurse -Filter "*.hooks.gd" | ForEach-Object {
+    $content = Get-Content $_.FullName -Raw
+    if ($content -match "await chain\.execute_next") {
+        $content = $content -replace "await chain\.execute_next", "chain.execute_next"
+        $content | Set-Content -Path $_.FullName -Encoding UTF8
+    }
 }
 
-Write-Output "--- 2. Formatting mod_catalog.json for GitHub Releases API (US-05) ---"
+$mapMods = @("gareth-diagonal_map_mod", "gareth-living_canvas_mod", "gareth-lost_expedition_mod", "gareth-abyssal_trench_mod", "gareth-tectonic_faultline_mod")
+foreach ($mod in $mapMods) {
+    $gameHook = "$repoRoot\mods-unpacked\$mod\mods-unpacked\$mod\extensions\scripts\Game.hooks.gd"
+    if (Test-Path $gameHook) {
+        $content = Get-Content $gameHook -Raw
+        $content = $content -replace "chain\.execute_next", "await chain.execute_next"
+        $content | Set-Content -Path $gameHook -Encoding UTF8
+    }
+}
+
+Write-Output "--- 2. CRITICAL FIX: Restoring Mod Manager UI ---"
+$mgrViewPath = "$repoRoot\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\scenes\mod_manager_view.gd"
+if (Test-Path $mgrViewPath) {
+    # Restore the file to the commit BEFORE the _ready() body was accidentally deleted
+    git checkout 807de20 -- "$mgrViewPath"
+    
+    $mvContent = Get-Content $mgrViewPath -Raw
+    $mvContent = $mvContent -replace 'func _ready\(\) -> void:', "func _ready() -> void:`n`tcall_deferred(`"_inject_search_bar`")"
+    
+    $searchAndTag = @"
+
+func _inject_search_bar() -> void:
+	var header = find_child("HeaderContainer", true, false)
+	if not header: header = self
+	var search = LineEdit.new()
+	search.placeholder_text = "Search installed mods..."
+	search.custom_minimum_size = Vector2(300, 35)
+	search.text_changed.connect(_on_search_filter)
+	header.add_child(search)
+
+func _on_search_filter(query: String) -> void:
+	var q = query.to_lower()
+	var list = find_child("ModListContainer", true, false)
+	if is_instance_valid(list):
+		for card in list.get_children():
+			if q.is_empty():
+				card.visible = true
+			else:
+				var mod_name = card.name.to_lower()
+				var lbl = card.find_child("*Label*", true, false)
+				if is_instance_valid(lbl): mod_name += lbl.text.to_lower()
+				card.visible = q in mod_name
+"@
+    $mvContent = $mvContent + $searchAndTag
+    
+    $authorLogic = @"
+	if manifest and manifest.get("extra") and manifest.extra.get("godot") and manifest.extra.godot.get("authors"):
+		var authors = manifest.extra.godot.authors
+		if authors.size() > 0 and typeof(authors[0]) == TYPE_STRING and "Gareth White" in authors[0]:
+			return "Gareth White (Official Suite)"
+	return "Community Add-Ons"
+"@
+    $mvContent = $mvContent -replace 'return "Community Add-Ons"', $authorLogic
+    $mvContent | Set-Content -Path $mgrViewPath -Encoding UTF8
+}
+
+Write-Output "--- 3. FIXING MOD STORE JSON CATALOG ---"
 $catalogPath = Join-Path $repoRoot "mod_catalog.json"
 $mods = Get-ChildItem -Path "$repoRoot\mods-unpacked" -Directory
 $githubReleases = @()
-
 foreach ($mod in $mods) {
     $manifestPath = Join-Path $mod.FullName "manifest.json"
     if (Test-Path $manifestPath) {
         $json = Get-Content $manifestPath | ConvertFrom-Json
-        $modId = $json.name
-        $modName = $json.extra.godot.display_name
-        $modDesc = $json.description
-        $modVer = $json.version_number
-        
-        # Exact GitHub /releases Schema requested by the Godot JSON parser
         $release = [PSCustomObject]@{
-            url = "https://api.github.com/repos/garethwhite-prog/coal-llc-mods/releases/1"
-            tag_name = "v$modVer"
-            name = $modName
-            body = $modDesc
-            draft = $false
-            prerelease = $false
+            tag_name = "v$($json.version_number)"
+            name = $json.extra.godot.display_name
+            body = $json.description
             assets = @(
                 [PSCustomObject]@{
-                    url = "https://api.github.com/repos/garethwhite-prog/coal-llc-mods/releases/assets/1"
-                    name = "$modId.zip"
-                    label = ""
-                    content_type = "application/zip"
-                    state = "uploaded"
-                    browser_download_url = "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/$modId.zip"
+                    name = "$($json.name).zip"
+                    browser_download_url = "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/$($json.name).zip"
                 }
             )
         }
         $githubReleases += $release
     }
 }
-# Write exact flat array of releases
 $githubReleases | ConvertTo-Json -Depth 10 | Set-Content -Path $catalogPath -Encoding UTF8
-Write-Output "Regenerated mod_catalog.json to match exact GitHub /releases Schema."
 
-Write-Output "--- 3. Repacking Modified Mods ---"
+Write-Output "--- 4. US-01: Thomas the Tank Engine Graphical Logic ---"
+$thomasTrainPath = "$repoRoot\mods-unpacked\gareth-thomas_tank_engine_mod\mods-unpacked\gareth-thomas_tank_engine_mod\scripts\thomas_train_manager.gd"
+if (Test-Path $thomasTrainPath) {
+    $thomasLogic = @"
+class_name ThomasTrainManager
+extends Node2D
+
+var left_stop: float = 64.0
+var right_stop: float = 880.0
+var speed: float = 140.0
+var direction: float = 1.0
+
+@export var loco_tier: int = 1
+@export var wagon_count: int = 2
+@export var wagon_capacity: float = 150.0
+
+var current_haul: float = 0.0
+var loco_sprite: Sprite2D
+var wagons: Array[Sprite2D] = []
+
+func _ready() -> void:
+	z_index = 20
+	position = Vector2(left_stop, 24.0)
+
+	loco_sprite = Sprite2D.new()
+	loco_sprite.texture = _generate_loco_texture(loco_tier)
+	loco_sprite.scale = Vector2(1.8, 1.8)
+	call_deferred("add_child", loco_sprite)
+	
+	for i in range(wagon_count):
+		var wag = Sprite2D.new()
+		wag.texture = _generate_wagon_texture()
+		wag.scale = Vector2(1.8, 1.8)
+		wag.position = Vector2(-40.0 - (i * 36.0), 0.0)
+		wagons.append(wag)
+		call_deferred("add_child", wag)
+
+func _physics_process(delta: float) -> void:
+	# Locomotive Upgrade logic: Speed scales with tier (140 -> 260)
+	var current_speed = speed + (loco_tier * 40.0)
+	position.x += current_speed * direction * delta
+	
+	if position.x >= right_stop:
+		direction = -1.0
+		loco_sprite.flip_h = true
+	elif position.x <= left_stop:
+		direction = 1.0
+		loco_sprite.flip_h = false
+		_unload_haul()
+		
+func _unload_haul() -> void:
+	if current_haul > 0.0:
+		if Gvars and ("cash" in Gvars):
+			Gvars.cash += current_haul
+		current_haul = 0.0
+
+func _generate_loco_texture(tier: int) -> ImageTexture:
+	var img = Image.create(32, 16, false, Image.FORMAT_RGBA8)
+	var color = Color.CORNFLOWER_BLUE # Thomas
+	if tier == 2: color = Color.STEEL_BLUE # Edward
+	elif tier == 3: color = Color.FOREST_GREEN # Henry
+	elif tier >= 4: color = Color.ROYAL_BLUE # Gordon
+	img.fill(color)
+	return ImageTexture.create_from_image(img)
+
+func _generate_wagon_texture() -> ImageTexture:
+	var img = Image.create(24, 12, false, Image.FORMAT_RGBA8)
+	img.fill(Color.SADDLE_BROWN)
+	return ImageTexture.create_from_image(img)
+"@
+    $thomasLogic | Set-Content -Path $thomasTrainPath -Encoding UTF8
+}
+    
+Write-Output "--- 5. Repacking ALL MODS to Clear Cache ---"
 $hooksZip = Join-Path $steamRoot "mod-hooks.zip"
 if (Test-Path $hooksZip) { Remove-Item $hooksZip -Force }
 
-$targetMods = @("nanobotz-autopassivechooser")
 Add-Type -AssemblyName System.IO.Compression.FileSystem
-
-foreach ($mod in $targetMods) {
-    $srcDir = Join-Path $repoRoot "mods-unpacked\$mod"
-    $downZip = Join-Path $downMods "$mod.zip"
-    $steamZip = Join-Path $steamMods "$mod.zip"
-    
+$allMods = Get-ChildItem -Path "$repoRoot\mods-unpacked" -Directory
+foreach ($mod in $allMods) {
+    $downZip = Join-Path $downMods "$($mod.Name).zip"
+    $steamZip = Join-Path $steamMods "$($mod.Name).zip"
     if (Test-Path $downZip) { Remove-Item $downZip -Force }
     $archive = [System.IO.Compression.ZipFile]::Open($downZip, [System.IO.Compression.ZipArchiveMode]::Create)
-    $files = Get-ChildItem -Path $srcDir -Recurse -File
+    $files = Get-ChildItem -Path $mod.FullName -Recurse -File
     foreach ($file in $files) {
-        $entryName = $file.FullName.Substring($srcDir.Length + 1).Replace("\", "/")
+        $entryName = $file.FullName.Substring($mod.FullName.Length + 1).Replace("\", "/")
         [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $file.FullName, $entryName)
     }
     $archive.Dispose()
-    
     if (Test-Path $steamZip) { Copy-Item -Path $downZip -Destination $steamZip -Force }
-    Write-Output "Deployed $mod.zip"
 }
-
-Write-Output "--- 4. Updating Agile Scrum Board ---"
-$sprintBoardPath = Join-Path $repoRoot "docs\ACTIVE_SPRINT_BOARD.md"
-$sprintBoard = @"
-# Current Active Sprint & Worklist
-
-## 🔴 Open Bugs (Highest Priority)
-* **[BUG-03]** Verify isolation between Henry Hoover (Player tool) and Drone Workforce (NPC automated entities).
-* **[BUG-01]** Quadcopter Visuals: Await validation.
-
-## 🟡 In Progress / Testing
-* **[US-05]** Mod Store Central Registry: `mod_catalog.json` re-architected to mock GitHub Release API schema. Thomas and Drones now indexable. (Awaiting User Validation).
-* **[BUG-02]** Passives UI: Bouncing Ball passives physically injected into `passive_order.tscn` node tree to bypass dynamic duplication limits. (Awaiting User Validation).
-* **[US-01]** Thomas the Tank Engine: Base class deployed. (Awaiting graphic implementation logic).
-* **[US-02]** Reach Expansion: Tune interaction distance to +1 tile (+24px) for stockpile, ore, and NPCs. Inject into Bonus Shop.
-
-## 🟢 Completed (Pending Verification)
-* **[US-06]** Deep Layer Bonus Weapons: Mod scaffolded and hooked to `Chest.gd` to drop plasma rayguns past depth 50.
-* **[US-07]** Mod Manager Search: `LineEdit` search bar dynamically injected via `call_deferred`.
-* **[BUG-04]** Mod Uninstall: Store UI now correctly changes to "Restart Required" to reflect OS file locks.
-* **[BUG-07]** Viewport/Camera Break: Global `await chain.execute_next` enforced across ALL `.hooks.gd` files.
-"@
-$sprintBoard | Set-Content -Path $sprintBoardPath -Encoding UTF8
 
 Write-Output "--- Committing to Git ---"
 git add -A
-git commit -m "Fix: Re-architect mod_catalog to strict GitHub Releases JSON schema and hard-inject Bouncing Ball passives into tscn resource."
+git commit -m "Fix: Revert global await coroutine destruction, restore Mod Manager UI lists, compile Thomas graphic logic, and repack entire mod ecosystem."
 git push origin main
 Write-Output "Sprint Executed Successfully!"

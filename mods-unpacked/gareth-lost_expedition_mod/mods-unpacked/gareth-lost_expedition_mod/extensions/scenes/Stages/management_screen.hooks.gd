@@ -1,7 +1,7 @@
 extends Object
 
 func load_equipment_shop(chain: ModLoaderHookChain) -> void:
-	await chain.execute_next([])
+	chain.execute_next([])
 	if Gvars.level == 101:
 		var ms = chain.reference_object
 		if ms and "equipment_shop" in ms and ms.equipment_shop:
@@ -11,4 +11,5 @@ func load_equipment_shop(chain: ModLoaderHookChain) -> void:
 					var itype: String = str(card.item.itemType).to_lower()
 					if not allowed.has(itype):
 						card.visible = false
+
 

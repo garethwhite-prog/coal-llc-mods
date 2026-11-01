@@ -6,7 +6,6 @@ var right_stop: float = 880.0
 var speed: float = 140.0
 var direction: float = 1.0
 
-# Shop Exposed Configuration Variables
 @export var loco_tier: int = 1
 @export var wagon_count: int = 2
 @export var wagon_capacity: float = 150.0
@@ -28,15 +27,35 @@ func _ready() -> void:
 		var wag = Sprite2D.new()
 		wag.texture = _generate_wagon_texture()
 		wag.scale = Vector2(1.8, 1.8)
-		# Couple wagons linearly behind the locomotive
 		wag.position = Vector2(-40.0 - (i * 36.0), 0.0)
 		wagons.append(wag)
 		call_deferred("add_child", wag)
 
+func _physics_process(delta: float) -> void:
+	# Locomotive Upgrade logic: Speed scales with tier (140 -> 260)
+	var current_speed = speed + (loco_tier * 40.0)
+	position.x += current_speed * direction * delta
+	
+	if position.x >= right_stop:
+		direction = -1.0
+		loco_sprite.flip_h = true
+	elif position.x <= left_stop:
+		direction = 1.0
+		loco_sprite.flip_h = false
+		_unload_haul()
+		
+func _unload_haul() -> void:
+	if current_haul > 0.0:
+		if Gvars and ("cash" in Gvars):
+			Gvars.cash += current_haul
+		current_haul = 0.0
+
 func _generate_loco_texture(tier: int) -> ImageTexture:
 	var img = Image.create(32, 16, false, Image.FORMAT_RGBA8)
-	var color = Color.CORNFLOWER_BLUE # Thomas (1), Edward (2), Gordon (4)
-	if tier == 3: color = Color.FOREST_GREEN # Henry
+	var color = Color.CORNFLOWER_BLUE # Thomas
+	if tier == 2: color = Color.STEEL_BLUE # Edward
+	elif tier == 3: color = Color.FOREST_GREEN # Henry
+	elif tier >= 4: color = Color.ROYAL_BLUE # Gordon
 	img.fill(color)
 	return ImageTexture.create_from_image(img)
 

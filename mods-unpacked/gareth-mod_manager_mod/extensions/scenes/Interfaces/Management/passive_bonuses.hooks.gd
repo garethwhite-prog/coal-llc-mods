@@ -6,7 +6,7 @@ var bonus_chk_afford: CheckBox = null
 var is_bonus_affordable_only: bool = false
 
 func refresh(chain: ModLoaderHookChain) -> void:
-	await chain.execute_next([])
+	chain.execute_next([])
 	var panel = chain.reference_object
 	if not is_instance_valid(panel):
 		return
@@ -83,4 +83,5 @@ func _apply_bonus_filter(panel: Control) -> void:
 
 		var match_afford: bool = not is_bonus_affordable_only or (cost <= cur_cash or cost <= 0.0)
 		item.visible = match_q and match_afford
+
 

@@ -3,22 +3,22 @@ extends Object
 func start(chain: ModLoaderHookChain, player, item) -> void:
 	if chain and chain.reference_object:
 		chain.reference_object.set_meta("equipped_item", item)
-	await chain.execute_next([player, item])
+	chain.execute_next([player, item])
 
 func end(chain: ModLoaderHookChain, player) -> void:
 	if chain and chain.reference_object:
 		chain.reference_object.set_meta("equipped_item", null)
-	await chain.execute_next([player])
+	chain.execute_next([player])
 
 func physics_process(chain: ModLoaderHookChain, player, delta) -> void:
 	var water_gun = chain.reference_object
 	if not water_gun:
-		await chain.execute_next([player, delta])
+		chain.execute_next([player, delta])
 		return
 
 	var stack: float = _get_water_stack(water_gun, player)
 	if stack <= 1.0:
-		await chain.execute_next([player, delta])
+		chain.execute_next([player, delta])
 		return
 
 	var orig_radius: int = water_gun.radius
@@ -28,7 +28,7 @@ func physics_process(chain: ModLoaderHookChain, player, delta) -> void:
 	if Input.is_action_just_pressed("useItem"):
 		ModLoaderLog.info("[WaterGun Stacker x%d] Spray Radius: %d | Pressure Dmg: %d" % [int(stack), scaled_radius, int(stack * 10)], "gareth-weapon_stacker_mod")
 
-	await chain.execute_next([player, delta])
+	chain.execute_next([player, delta])
 
 	water_gun.radius = orig_radius
 
@@ -57,3 +57,4 @@ func _get_water_stack(water_gun, player) -> float:
 				total += float(slot.count)
 
 	return max(total, 1.0)
+

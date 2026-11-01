@@ -5,7 +5,7 @@ static var last_pulse: float = 0.0
 
 
 func apply_tile_effects(chain: ModLoaderHookChain) -> void:
-	await chain.execute_next()
+	chain.execute_next()
 
 	var now: float = Time.get_ticks_msec() / 1000.0
 	if now - last_pulse > 4.5:
@@ -20,3 +20,4 @@ func apply_tile_effects(chain: ModLoaderHookChain) -> void:
 		ModLoaderLog.info("[Prospector Beacon] Acoustic pulse pinging near %s" % str(player_pos), LOG_NAME)
 		var ping_offset := Vector2(randf_range(-64, 64), randf_range(16, 80))
 		Bus.DamageTile.emit(player_pos + ping_offset, 25.0)
+

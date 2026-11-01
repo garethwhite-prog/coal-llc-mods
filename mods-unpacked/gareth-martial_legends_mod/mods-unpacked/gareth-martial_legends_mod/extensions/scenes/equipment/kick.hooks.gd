@@ -14,10 +14,10 @@ func _process(chain: ModLoaderHookChain, delta: float) -> void:
 					kick.rotation_speed = 40.0
 					if "boxing_gloves_instance" in player and player.boxing_gloves_instance:
 						player.boxing_gloves_instance.attacks_per_second = 15.0
-	await chain.execute_next([delta])
+	chain.execute_next([delta])
 
 func damage_tiles(chain: ModLoaderHookChain, damage_idxes: Array[int]) -> void:
-	await chain.execute_next([damage_idxes])
+	chain.execute_next([damage_idxes])
 	var kick = chain.reference_object
 	if not kick or not kick.tilemap:
 		return
@@ -74,3 +74,4 @@ func damage_tiles(chain: ModLoaderHookChain, damage_idxes: Array[int]) -> void:
 				var close_tile: Vector2i = centre_tile + Vector2i(dx, dy)
 				if kick.tilemap.is_tile_breakable(close_tile):
 					kick.tilemap.damageTileCoords(close_tile, kick.damage * 12.0)
+

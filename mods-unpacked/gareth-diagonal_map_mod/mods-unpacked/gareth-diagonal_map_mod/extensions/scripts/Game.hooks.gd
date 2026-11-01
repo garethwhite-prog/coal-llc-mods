@@ -7,3 +7,5 @@ func change_stage(chain: ModLoaderHookChain, target, pos: Vector2) -> void:
 			game.target_stage = load("res://scenes/Stages/MineRegion.tscn")
 	
 	await chain.execute_next([target, pos])
+
+

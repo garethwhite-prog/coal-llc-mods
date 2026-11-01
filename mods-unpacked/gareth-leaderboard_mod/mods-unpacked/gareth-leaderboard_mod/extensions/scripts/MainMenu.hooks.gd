@@ -1,7 +1,7 @@
 extends Object
 
 func _ready(chain: ModLoaderHookChain) -> void:
-	await chain.execute_next([])
+	chain.execute_next([])
 	var menu = chain.reference_object
 	if not menu:
 		return
@@ -19,3 +19,4 @@ func _ready(chain: ModLoaderHookChain) -> void:
 		)
 		btn_grid.add_child(lb_btn)
 		btn_grid.move_child(lb_btn, 3)
+

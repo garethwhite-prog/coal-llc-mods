@@ -3,7 +3,7 @@ extends Object
 const LOG_NAME := "gareth-mod_settings_mod:Hook"
 
 func _ready(chain: ModLoaderHookChain) -> void:
-	await chain.execute_next([])
+	chain.execute_next([])
 	var settings := chain.reference_object as SettingsMenu
 	if not settings or not settings.tab_container:
 		return
@@ -14,3 +14,4 @@ func _ready(chain: ModLoaderHookChain) -> void:
 	tab.name = "Gareth Mods"
 	settings.tab_container.add_child(tab)
 	ModLoaderLog.info("Gareth Mods configuration tab injected into Settings menu.", LOG_NAME)
+

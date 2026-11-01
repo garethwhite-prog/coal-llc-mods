@@ -1,7 +1,7 @@
 extends Object
 
 func _ready(chain: ModLoaderHookChain) -> void:
-	await chain.execute_next([])
+	chain.execute_next([])
 	var menu = chain.reference_object
 	if not is_instance_valid(menu): return
 	
@@ -29,3 +29,4 @@ func _ready(chain: ModLoaderHookChain) -> void:
 				if is_instance_valid(lbl): lbl.text = keys[i]
 				row.set_meta("passive_key", internal_keys[i])
 				passive_list.call_deferred("add_child", row)
+

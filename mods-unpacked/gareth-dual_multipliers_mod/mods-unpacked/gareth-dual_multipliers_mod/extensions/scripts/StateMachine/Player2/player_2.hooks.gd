@@ -7,8 +7,9 @@ func on_fire_gun_attempt(chain: ModLoaderHookChain, cooldown_time: float, gun_sh
 			rate_mult = 1.0 + float(Gvars.passives.gun_rate)
 
 	var scaled_cooldown: float = max(0.02, cooldown_time / rate_mult)
-	await chain.execute_next([
+	chain.execute_next([
 		scaled_cooldown, gun_shot_audio_stream, gun_recoil, bullet_count,
 		bullet_spread, bullet_speed, bullet_damage, bullet_max_distance,
 		weapon_length, is_reloaded, gun_reload_audio_stream, gun_reload_delay_time
 	])
+

@@ -1,7 +1,7 @@
 extends Object
 
 func _ready(chain: ModLoaderHookChain) -> void:
-	await chain.execute_next([])
+	chain.execute_next([])
 	var icon := chain.reference_object as EmployeeLevelIcon2
 	if not icon:
 		return
@@ -13,7 +13,7 @@ func _ready(chain: ModLoaderHookChain) -> void:
 func position_tooltip(chain: ModLoaderHookChain, tooltip_ins: Control) -> void:
 	var icon := chain.reference_object as EmployeeLevelIcon2
 	if not icon or not tooltip_ins:
-		await chain.execute_next([tooltip_ins])
+		chain.execute_next([tooltip_ins])
 		return
 
 	_set_ignore(tooltip_ins)
@@ -43,3 +43,4 @@ func _set_ignore(node: Node) -> void:
 		node.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	for child in node.get_children():
 		_set_ignore(child)
+

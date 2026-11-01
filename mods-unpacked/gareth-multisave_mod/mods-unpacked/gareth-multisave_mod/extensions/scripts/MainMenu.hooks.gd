@@ -1,7 +1,7 @@
 extends Object
 
 func _ready(chain: ModLoaderHookChain) -> void:
-	await chain.execute_next([])
+	chain.execute_next([])
 	var menu = chain.reference_object
 	if not menu:
 		return
@@ -51,3 +51,4 @@ func _open_profiles_modal(menu: Control) -> void:
 	)
 
 	menu.add_child(modal)
+

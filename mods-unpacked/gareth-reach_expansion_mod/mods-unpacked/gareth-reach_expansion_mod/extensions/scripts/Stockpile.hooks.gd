@@ -17,5 +17,6 @@ func _process(chain: ModLoaderHookChain, delta: float) -> void:
 					if "interactable" in sp:
 						sp.interactable = true
 						
-	await chain.execute_next([delta])
+	chain.execute_next([delta])
+
 

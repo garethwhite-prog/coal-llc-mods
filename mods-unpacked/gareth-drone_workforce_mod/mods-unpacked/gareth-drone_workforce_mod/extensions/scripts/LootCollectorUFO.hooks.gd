@@ -1,7 +1,7 @@
 extends Object
 
 func _ready(chain: ModLoaderHookChain) -> void:
-	await chain.execute_next([])
+	chain.execute_next([])
 	var ufo = chain.reference_object
 	if not is_instance_valid(ufo): return
 
@@ -19,4 +19,5 @@ func _ready(chain: ModLoaderHookChain) -> void:
 		cargo_spr.texture = factory.create_cargo_drone_texture()
 		cargo_spr.scale = Vector2(1.5, 1.5)
 		ufo.call_deferred("add_child", cargo_spr)
+
 

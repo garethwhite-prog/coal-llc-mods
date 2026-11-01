@@ -1,7 +1,7 @@
 extends Object
 
 func _ready(chain: ModLoaderHookChain) -> void:
-	await chain.execute_next([])
+	chain.execute_next([])
 	var settings = chain.reference_object
 	if not settings or not ("tab_container" in settings) or not settings.tab_container:
 		return
@@ -18,3 +18,4 @@ func _ready(chain: ModLoaderHookChain) -> void:
 	settings.tab_container.add_child(tab)
 	# Position 7 places it directly adjacent to Mod Manager
 	settings.tab_container.call_deferred("move_child", tab, 7)
+

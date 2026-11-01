@@ -1,7 +1,7 @@
 extends Object
 
 func load_inventory(chain: ModLoaderHookChain) -> void:
-	await chain.execute_next([])
+	chain.execute_next([])
 	var grid = chain.reference_object
 	if is_instance_valid(grid):
 		_inject_scrap_bar(grid)
@@ -78,4 +78,5 @@ func _scrap_all_ores(grid: GridContainer) -> void:
 	if total_scrapped_cash > 0.0:
 		Gvars.CashCount += total_scrapped_cash
 		Bus.inventory_changed.emit()
+
 

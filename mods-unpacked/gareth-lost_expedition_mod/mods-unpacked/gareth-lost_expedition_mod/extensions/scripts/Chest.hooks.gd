@@ -1,7 +1,7 @@
 extends Object
 
 func roll_loot(chain: ModLoaderHookChain) -> void:
-	await chain.execute_next([])
+	chain.execute_next([])
 	if Gvars.level == 101:
 		var chest = chain.reference_object
 		if chest and chest.loot:
@@ -18,4 +18,5 @@ func roll_loot(chain: ModLoaderHookChain) -> void:
 				if pass_res:
 					chest.loot = pass_res.duplicate()
 					chest.loot_count = 1
+
 

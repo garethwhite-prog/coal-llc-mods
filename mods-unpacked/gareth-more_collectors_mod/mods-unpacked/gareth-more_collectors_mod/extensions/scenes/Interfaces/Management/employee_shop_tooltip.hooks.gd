@@ -10,14 +10,14 @@ const CUSTOM_NAMES := {
 func _ready(chain: ModLoaderHookChain) -> void:
 	var tooltip := chain.reference_object as EmployeeShopTooltip
 	if not tooltip:
-		await chain.execute_next([])
+		chain.execute_next([])
 		return
 
 	tooltip.scale = Vector2(1.88, 1.88)
 	_apply_click_through(tooltip)
 
 	if not tooltip.employee_level:
-		await chain.execute_next([])
+		chain.execute_next([])
 		return
 
 	var lvl = tooltip.employee_level
@@ -29,7 +29,7 @@ func _ready(chain: ModLoaderHookChain) -> void:
 		info += "Capacity: " + Gconsts.add_comma_to_int(int(lvl.inventory_space)) + " items\n"
 		tooltip.text_label.text = info
 		return
-	await chain.execute_next([])
+	chain.execute_next([])
 	_apply_click_through(tooltip)
 
 func _apply_click_through(node: Node) -> void:
@@ -37,3 +37,4 @@ func _apply_click_through(node: Node) -> void:
 		node.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	for child in node.get_children():
 		_apply_click_through(child)
+

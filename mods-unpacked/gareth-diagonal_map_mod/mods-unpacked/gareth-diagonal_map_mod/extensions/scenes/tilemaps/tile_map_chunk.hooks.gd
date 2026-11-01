@@ -8,5 +8,6 @@ func lvl_from_global_pos(chain: ModLoaderHookChain, pos: Vector2i) -> int:
 		# Rotate subterranean strata 45 degrees
 		var diag = int((pos.x + pos.y) * 0.707)
 		return clampi(diag / 25, 1, 15)
-	return await chain.execute_next([pos])
+	return chain.execute_next([pos])
+
 

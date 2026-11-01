@@ -8,4 +8,5 @@ func _physics_process(chain: ModLoaderHookChain, delta: float) -> void:
 			var spd_mult: float = 1.0 + float(p.axe_speed)
 			if "rotation_speed" in baxe and baxe.on:
 				baxe.rotation_speed = min(baxe.rotation_speed * spd_mult, 7.0 * spd_mult)
-	await chain.execute_next([delta])
+	chain.execute_next([delta])
+

@@ -4,7 +4,7 @@ const ICON2_SCENE = preload("res://scenes/Interfaces/Management/employee_level_i
 const SPACER_SCENE = preload("res://scenes/Interfaces/Management/employee_level_icon_spacer.tscn")
 
 func _ready(chain: ModLoaderHookChain) -> void:
-	await chain.execute_next([])
+	chain.execute_next([])
 	var chart := chain.reference_object as OrganisationChart2
 	if not chart:
 		return
@@ -119,10 +119,10 @@ func _create_grid_row(chart: OrganisationChart2, miner_lvl: EmployeeLevel, speed
 func refresh_all_icons(chain: ModLoaderHookChain) -> void:
 	var chart := chain.reference_object as OrganisationChart2
 	if not chart:
-		await chain.execute_next([])
+		chain.execute_next([])
 		return
 	_cascade_and_update_visibility(chart)
-	await chain.execute_next([])
+	chain.execute_next([])
 	_cascade_and_update_visibility(chart)
 	chart.queue_redraw()
 
@@ -155,7 +155,7 @@ func _cascade_and_update_visibility(chart: OrganisationChart2) -> void:
 func _draw(chain: ModLoaderHookChain) -> void:
 	var chart := chain.reference_object as OrganisationChart2
 	if not chart:
-		await chain.execute_next([])
+		chain.execute_next([])
 		return
 
 	if chart.all_employee_icons.is_empty():
@@ -214,3 +214,4 @@ func _draw(chain: ModLoaderHookChain) -> void:
 
 	if not points_unlock.is_empty():
 		chart.draw_multiline(PackedVector2Array(points_unlock), Color(0.0, 0.6, 0.0), 5.5, false)
+

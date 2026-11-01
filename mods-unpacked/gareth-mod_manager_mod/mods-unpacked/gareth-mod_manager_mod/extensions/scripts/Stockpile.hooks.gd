@@ -5,5 +5,6 @@ func drop_off_coal(chain: ModLoaderHookChain) -> void:
 	# If player reference is lost at day transition, return safely without crashing
 	if not is_instance_valid(sp) or not ("player" in sp) or not is_instance_valid(sp.player) or not ("inventory" in sp.player) or not sp.player.inventory:
 		return
-	await chain.execute_next([])
+	chain.execute_next([])
+
 

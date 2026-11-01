@@ -25,3 +25,5 @@ func change_stage(chain: ModLoaderHookChain, target: int, targetPosition: Vector
 			if "player" in game and game.player:
 				game.player.set("profession", Gvars.profession)
 
+
+

@@ -6,7 +6,7 @@ func _ready(chain: ModLoaderHookChain) -> void:
 		if not ls.LEVEL_ORDER.has(103):
 			ls.LEVEL_ORDER.append(103)
 	
-	await chain.execute_next([])
+	chain.execute_next([])
 	
 	if is_instance_valid(ls):
 		var levels_grid = ls.get_node_or_null("%Levels")
@@ -35,4 +35,5 @@ func _ready(chain: ModLoaderHookChain) -> void:
 						if helper:
 							btn.pressed.connect(Callable(helper.new(), "_on_browse_pressed"))
 						container.call_deferred("add_child", btn)
+
 

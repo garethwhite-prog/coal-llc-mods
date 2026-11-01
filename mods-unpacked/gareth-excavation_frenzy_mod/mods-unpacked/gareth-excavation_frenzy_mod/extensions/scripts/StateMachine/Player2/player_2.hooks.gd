@@ -27,4 +27,5 @@ func mine_action(chain: ModLoaderHookChain) -> void:
 		Bus.BombExplode.emit(strike_pos, 3.5, 60.0)
 		combo_count = 0
 
-	await chain.execute_next()
+	chain.execute_next()
+

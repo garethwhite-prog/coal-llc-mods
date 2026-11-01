@@ -1,7 +1,7 @@
 extends Object
 
 func _ready(chain: ModLoaderHookChain) -> void:
-	await chain.execute_next([])
+	chain.execute_next([])
 	var settings = chain.reference_object
 	if not settings or not ("tab_container" in settings) or not settings.tab_container:
 		return
@@ -80,3 +80,4 @@ func _ready(chain: ModLoaderHookChain) -> void:
 				child.queue_free()
 		elif c_name.begins_with("@PanelContainer@"):
 			child.queue_free()
+

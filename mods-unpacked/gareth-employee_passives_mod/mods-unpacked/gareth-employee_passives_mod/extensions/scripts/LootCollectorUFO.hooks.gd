@@ -1,7 +1,7 @@
 extends Object
 
 func _physics_process(chain: ModLoaderHookChain, delta: float) -> void:
-	await chain.execute_next([delta])
+	chain.execute_next([delta])
 	var ufo = chain.reference_object
 	if not is_instance_valid(ufo):
 		return
@@ -45,4 +45,5 @@ func _get_passive_stat(stat_name: String) -> float:
 		if stat_name in Gvars.passives:
 			return float(Gvars.passives.get(stat_name))
 	return 0.0
+
 

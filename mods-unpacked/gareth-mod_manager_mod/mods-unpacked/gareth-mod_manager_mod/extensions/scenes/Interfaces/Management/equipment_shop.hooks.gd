@@ -1,7 +1,7 @@
 extends Object
 
 func _ready(chain: ModLoaderHookChain) -> void:
-	await chain.execute_next([])
+	chain.execute_next([])
 	var shop = chain.reference_object
 	if not is_instance_valid(shop):
 		return
@@ -25,4 +25,5 @@ func _ready(chain: ModLoaderHookChain) -> void:
 						card.refreshDetails()
 		)
 		bar.add_child(chk)
+
 

@@ -8,7 +8,7 @@ func destroy_tile(chain: ModLoaderHookChain, idx: int, tile_properties: Dictiona
 	var had_poison: bool = chunk.poison_tiles.has(idx)
 	var had_burn: bool = chunk.burn_tiles.has(idx)
 
-	await chain.execute_next([idx, tile_properties])
+	chain.execute_next([idx, tile_properties])
 
 	if not had_poison and not had_burn:
 		return
@@ -28,3 +28,4 @@ func destroy_tile(chain: ModLoaderHookChain, idx: int, tile_properties: Dictiona
 		if Gvars:
 			Gvars.CashCount += 15
 			Gvars.CashCount += 15
+

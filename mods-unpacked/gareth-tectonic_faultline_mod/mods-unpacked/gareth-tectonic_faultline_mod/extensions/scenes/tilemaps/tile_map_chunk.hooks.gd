@@ -5,10 +5,10 @@ func lvl_from_global_pos(chain: ModLoaderHookChain, pos: Vector2i) -> int:
 		var helper_script = load("res://mods-unpacked/gareth-tectonic_faultline_mod/helpers/TectonicFaultlineHelper.gd")
 		if helper_script:
 			return helper_script.calculate_faultline_tier(pos)
-	return await chain.execute_next([pos])
+	return chain.execute_next([pos])
 
 func generate_chunk(chain: ModLoaderHookChain, noise: Noise) -> void:
-	await chain.execute_next([noise])
+	chain.execute_next([noise])
 	if Gvars.level == 102:
 		var chunk = chain.reference_object
 		if chunk and "chunk_pos" in chunk and chunk.chunk_pos.y >= 0:
@@ -20,7 +20,7 @@ func generate_chunk(chain: ModLoaderHookChain, noise: Noise) -> void:
 				helper_script.generate_faultline_strata(chunk, fnl)
 
 func generate_chests(chain: ModLoaderHookChain, current_block_chest_locations: Array[Vector2i]) -> Array[Vector2i]:
-	var locs: Array[Vector2i] = await chain.execute_next([current_block_chest_locations])
+	var locs: Array[Vector2i] = chain.execute_next([current_block_chest_locations])
 	if Gvars.level == 102:
 		var chunk = chain.reference_object
 		if chunk:
@@ -30,10 +30,10 @@ func generate_chests(chain: ModLoaderHookChain, current_block_chest_locations: A
 	return locs
 
 func destroy_tile(chain: ModLoaderHookChain, idx: int, tile_properties: Dictionary) -> void:
-	await chain.execute_next([idx, tile_properties])
+	chain.execute_next([idx, tile_properties])
 
 func apply_tile_effects(chain: ModLoaderHookChain) -> void:
-	await chain.execute_next([])
+	chain.execute_next([])
 	var chunk = chain.reference_object
 	if chunk and ("level" in Gvars) and Gvars.level == 102:
 		var helper_script = load("res://mods-unpacked/gareth-tectonic_faultline_mod/helpers/TectonicFaultlineHelper.gd")
@@ -48,4 +48,5 @@ func apply_tile_effects(chain: ModLoaderHookChain) -> void:
 					if chunk.has_method("burns_loop"):
 						chunk.burns_loop()
 				chunk.set_meta("elem_tick_acc", acc)
+
 

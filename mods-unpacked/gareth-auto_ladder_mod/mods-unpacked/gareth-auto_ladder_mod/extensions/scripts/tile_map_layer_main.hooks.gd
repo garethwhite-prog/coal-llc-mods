@@ -1,7 +1,7 @@
 extends Object
 
 func damageTileCoords(chain: ModLoaderHookChain, coords: Vector2i, damage: float) -> void:
-	await chain.execute_next([coords, damage])
+	chain.execute_next([coords, damage])
 	var tm = chain.reference_object
 	if not is_instance_valid(tm):
 		return
@@ -12,4 +12,5 @@ func damageTileCoords(chain: ModLoaderHookChain, coords: Vector2i, damage: float
 			tm.place_ladder(coords)
 		elif "ladders" in tm and tm.ladders and tm.ladders.has_method("add_ladder"):
 			tm.ladders.add_ladder(coords)
+
 

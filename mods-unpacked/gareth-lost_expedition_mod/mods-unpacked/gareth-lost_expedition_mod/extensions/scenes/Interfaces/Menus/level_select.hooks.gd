@@ -9,5 +9,6 @@ func _ready(chain: ModLoaderHookChain) -> void:
 		if ls and ("LEVEL_ORDER" in ls):
 			if not ls.LEVEL_ORDER.has(helper.EXPEDITION_LEVEL_ID):
 				ls.LEVEL_ORDER.append(helper.EXPEDITION_LEVEL_ID)
-	await chain.execute_next([])
+	chain.execute_next([])
+
 
