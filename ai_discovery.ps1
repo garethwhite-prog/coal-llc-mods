@@ -1,31 +1,33 @@
 clear-host
 $repoRoot = "C:\Dev\coal-llc-mods"
 
-Write-Output "--- DISCOVERY: BUG-01 Drone Workforce Node Tree ---"
-$dumpMiner = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\_dump\scenes\AutoMiners\employee_miner_2.tscn"
-if (Test-Path $dumpMiner) { 
-    Write-Output "Scanning vanilla employee_miner_2.tscn for visual nodes:"
-    # FIXED: Wrapped pattern in single quotes
-    Select-String -Path $dumpMiner -Pattern 'type="Sprite2D"|type="Node2D"|name="Head"|name="Torso"' 
-} else { Write-Output "Miner dump not found" }
+Write-Output ">>> A. Mod Store Remote Registry URL"
+$storeClient = Join-Path $repoRoot "mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\scripts\mod_store_client.gd"
+if (Test-Path $storeClient) {
+    Select-String -Path $storeClient -Pattern "http|request|url"
+}
 
-$dumpUfo = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\_dump\scenes\AutoMiners\LootCollectorUFO.tscn"
-if (Test-Path $dumpUfo) { 
-    Write-Output "Scanning vanilla LootCollectorUFO.tscn for visual nodes:"
-    # FIXED: Wrapped pattern in single quotes
-    Select-String -Path $dumpUfo -Pattern 'type="Sprite2D"|type="Node2D"|name="Models"' 
-} else { Write-Output "UFO dump not found" }
+Write-Output "`n>>> B. Henry Hoover Vanilla Sprite Target"
+$vacDump = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\_dump\scenes\equipment\vacuum_cleaner.tscn"
+if (Test-Path $vacDump) {
+    # FIXED: Swapped to single quotes and added missing closing double quote for Sprite
+    Select-String -Path $vacDump -Pattern 'type="Sprite"'
+}
 
-Write-Output "`n--- DISCOVERY: BUG-02 AutoPassiveChooser UI Architecture ---"
-$passiveGd = Join-Path $repoRoot "mods-unpacked\nanobotz-autopassivechooser\mods-unpacked\nanobotz-autopassivechooser\scenes\passive_order.gd"
-if (Test-Path $passiveGd) { 
-    Write-Output "Scanning passive_order.gd:"
-    Get-Content $passiveGd -TotalCount 40 
-} else { Write-Output "passive_order.gd not found" }
+Write-Output "`n>>> C. Quadcopter Animation Visibility Override"
+$minerGd = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\_dump\scenes\AutoMiners\employee_miner_2.gd"
+if (Test-Path $minerGd) {
+    Select-String -Path $minerGd -Pattern "visible|modulate|Sprites|AnimationPlayer" -Context 1,1
+}
 
-$passiveTscn = Join-Path $repoRoot "mods-unpacked\nanobotz-autopassivechooser\mods-unpacked\nanobotz-autopassivechooser\scenes\passive_order.tscn"
-if (Test-Path $passiveTscn) { 
-    Write-Output "Scanning passive_order.tscn for hardcoded nodes:"
-    # FIXED: Wrapped pattern in single quotes
-    Select-String -Path $passiveTscn -Pattern 'name="passive_list"|type="VBoxContainer"' 
-} else { Write-Output "passive_order.tscn not found" }
+Write-Output "`n>>> D. Mod Manager 'By Community' Hardcode"
+$mgrView = Join-Path $repoRoot "mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\scenes\mod_manager_view.gd"
+if (Test-Path $mgrView) {
+    Select-String -Path $mgrView -Pattern "Community" -Context 2,2
+}
+
+Write-Output "`n>>> E. Passive Chooser Hardcoded Arrays"
+$passivesMain = Join-Path $repoRoot "mods-unpacked\nanobotz-autopassivechooser\mods-unpacked\nanobotz-autopassivechooser\mod_main.gd"
+if (Test-Path $passivesMain) {
+    Select-String -Path $passivesMain -Pattern "Axe Damage|player_climb_speed|passive" -Context 1,1
+}

@@ -1,147 +1,99 @@
 ﻿$repoRoot = "C:\Dev\coal-llc-mods"
-$steamRoot = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC"
-$steamMods = Join-Path $steamRoot "mods"
-$downMods = Join-Path $steamRoot "downloaded_mods"
 Set-Location -Path $repoRoot
 
-Stop-Process -Name "Coal LLC*" -Force -ErrorAction SilentlyContinue
-Stop-Process -Name "godot*" -Force -ErrorAction SilentlyContinue
-Start-Sleep -Seconds 1
+Write-Output "--- 1. Generating Backlog & Bug Tracker Directories ---"
+$storiesDir = Join-Path $repoRoot "docs\user_stories"
+$bugsDir = Join-Path $repoRoot "docs\bugs"
+if (-not (Test-Path $storiesDir)) { New-Item -Path $storiesDir -ItemType Directory -Force | Out-Null }
+if (-not (Test-Path $bugsDir)) { New-Item -Path $bugsDir -ItemType Directory -Force | Out-Null }
 
-Write-Output "--- 1. Fixing Employee Passives UI Hooks ---"
-$passiveHookPath = Join-Path $repoRoot "mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\extensions\scenes\Interfaces\in_game\choose_passive.hooks.gd"
-if (Test-Path $passiveHookPath) {
-    $content = Get-Content $passiveHookPath -Raw
-    # Route around missing _handle_button_click by hooking _on_button_pressed directly
-    $newHook = @"
-func _on_button_pressed(chain: ModLoaderHookChain) -> void:
-	chain.execute_next([])
-	_route_custom_passives(chain.reference_object)
-	
-func _on_button_2_pressed(chain: ModLoaderHookChain) -> void:
-	chain.execute_next([])
-	_route_custom_passives(chain.reference_object)
-	
-func _on_button_3_pressed(chain: ModLoaderHookChain) -> void:
-	chain.execute_next([])
-	_route_custom_passives(chain.reference_object)
+Write-Output "--- 2. Updating Bug Tracker & New User Stories ---"
+# BUG-04
+@"
+# BUG-04: Cannot Uninstall Mod via Mod Store
+**Status:** Open
+**Component:** `gareth-mod_manager_mod` (`mod_store_client.gd` / `mod_store_view.gd`)
+**Description:** User was able to install Teletubbies but clicking remove/uninstall on Henry the Hoover failed.
+**Theory:** The zip file might be locked by Godot's resource loader, or the deletion script is targeting the wrong directory (`mods/` vs `downloaded_mods/`).
+"@ | Set-Content -Path (Join-Path $bugsDir "BUG-04_Uninstall_Failure.md") -Encoding UTF8
 
-func _route_custom_passives(ui_node) -> void:
-	if is_instance_valid(ui_node):
-		# Re-implement custom logic here
-		pass
-"@
-    $content = $content.Replace("`r`n", "`n").Replace("func _handle_button_click", $newHook.Replace("`r`n", "`n"))
-    $content | Set-Content -Path $passiveHookPath -Encoding UTF8
-    Write-Output "Patched Employee Passives choose_passive hooks"
+# BUG-05
+@"
+# BUG-05: Mod Manager displays 'By Community' for Official Mods
+**Status:** Open
+**Component:** `gareth-mod_manager_mod` (`mod_manager_view.gd`)
+**Description:** Manifests have 'Gareth White' as the author, but the UI defaults to 'By Community'.
+**Theory:** The GDScript parsing the manifest likely has a hardcoded check (e.g. `if author != "Der-Floh"`).
+"@ | Set-Content -Path (Join-Path $bugsDir "BUG-05_Author_Tagging.md") -Encoding UTF8
+
+# US-06
+@"
+# US-06: Deep Layer Bonus Weapons
+**Status:** To Do
+**Description:** As a player, I want a mod that spawns bonus weapon drops in deeper strata layers to aid in late-game clearing.
+**Acceptance Criteria:** 
+- Create new mod `gareth-deep_layer_weapons_mod`.
+- Hook chest generation or layer transitions to inject high-tier weapons.
+"@ | Set-Content -Path (Join-Path $storiesDir "US-06_Deep_Layer_Weapons.md") -Encoding UTF8
+
+# US-07
+@"
+# US-07: Mod Manager Search & Filter Integration
+**Status:** To Do
+**Component:** `gareth-mod_manager_mod`
+**Description:** As a player, I want the local Mod Manager to have a search bar and category dropdowns matching the Mod Store UX.
+"@ | Set-Content -Path (Join-Path $storiesDir "US-07_Mod_Manager_Search.md") -Encoding UTF8
+
+Write-Output "--- 3. Updating SESSION_PROMPT.md ---"
+$sessionPromptPath = Join-Path $repoRoot "SESSION_PROMPT.md"
+$sessionContent = Get-Content $sessionPromptPath -Raw
+if ($sessionContent -notmatch "Deep Layer Bonus Weapons") {
+    $sessionContent += "`n### 10. Deep Layer Bonus Weapons (US-06)`n* **Outstanding Task:** Create a new mod that injects high-tier weapon drops into deep strata chests/spawns.`n"
+    $sessionContent += "`n### 11. Mod Manager Search & Filter (US-07)`n* **Outstanding Task:** Replicate the Mod Store UI search bar and dropdowns for the local active mods menu.`n"
+    $sessionContent | Set-Content -Path $sessionPromptPath -Encoding UTF8
 }
 
-Write-Output "--- 2. Building Thomas the Tank Upgrade Store ---"
-$thomasTrainPath = Join-Path $repoRoot "mods-unpacked\gareth-thomas_tank_engine_mod\mods-unpacked\gareth-thomas_tank_engine_mod\scripts\thomas_train_manager.gd"
-$thomasContent = Get-Content $thomasTrainPath -Raw
+Write-Output "--- 4. SURGICAL DISCOVERY ---"
+$discoveryScript = @"
+`$repoRoot = "C:\Dev\coal-llc-mods"
 
-Write-Output "Gareth Mod BEGIN: Outputting thomasContent"
-$thomasContent
-Write-Output "Gareth Mod END: Outputting thomasContent"
-
-$thomasFix = @"
-class_name ThomasTrainManager
-extends Node2D
-
-var left_stop: float = 64.0
-var right_stop: float = 880.0
-var speed: float = 140.0
-var direction: float = 1.0
-
-# Shop Exposed Configuration Variables
-@export var loco_tier: int = 1
-@export var wagon_count: int = 2
-@export var wagon_capacity: float = 150.0
-
-var current_haul: float = 0.0
-var loco_sprite: Sprite2D
-var wagons: Array[Sprite2D] = []
-
-func _ready() -> void:
-	z_index = 20
-	position = Vector2(left_stop, 24.0)
-
-	loco_sprite = Sprite2D.new()
-	loco_sprite.texture = _generate_loco_texture(loco_tier)
-	loco_sprite.scale = Vector2(1.8, 1.8)
-	call_deferred("add_child", loco_sprite)
-	
-	for i in range(wagon_count):
-		var wag = Sprite2D.new()
-		wag.texture = _generate_wagon_texture()
-		wag.scale = Vector2(1.8, 1.8)
-		# Couple wagons linearly behind the locomotive
-		wag.position = Vector2(-40.0 - (i * 36.0), 0.0)
-		wagons.append(wag)
-		call_deferred("add_child", wag)
-
-func _generate_loco_texture(tier: int) -> ImageTexture:
-	var img = Image.create(32, 16, false, Image.FORMAT_RGBA8)
-	var color = Color.CORNFLOWER_BLUE # Thomas (1), Edward (2), Gordon (4)
-	if tier == 3: color = Color.FOREST_GREEN # Henry
-	img.fill(color)
-	return ImageTexture.create_from_image(img)
-
-func _generate_wagon_texture() -> ImageTexture:
-	var img = Image.create(24, 12, false, Image.FORMAT_RGBA8)
-	img.fill(Color.SADDLE_BROWN)
-	return ImageTexture.create_from_image(img)
-"@
-$thomasFix | Set-Content -Path $thomasTrainPath -Encoding UTF8
-
-Write-Output "--- 3. Repacking Modified Mods ---"
-$hooksZip = Join-Path $steamRoot "mod-hooks.zip"
-if (Test-Path $hooksZip) { Remove-Item $hooksZip -Force }
-
-$targetMods = @("gareth-mod_manager_mod", "gareth-thomas_tank_engine_mod", "gareth-employee_passives_mod")
-Add-Type -AssemblyName System.IO.Compression.FileSystem
-
-foreach ($mod in $targetMods) {
-    $srcDir = Join-Path $repoRoot "mods-unpacked\$mod"
-    $downZip = Join-Path $downMods "$mod.zip"
-    $steamZip = Join-Path $steamMods "$mod.zip"
-    
-    if (Test-Path $downZip) { Remove-Item $downZip -Force }
-    $archive = [System.IO.Compression.ZipFile]::Open($downZip, [System.IO.Compression.ZipArchiveMode]::Create)
-    $files = Get-ChildItem -Path $srcDir -Recurse -File
-    foreach ($file in $files) {
-        $entryName = $file.FullName.Substring($srcDir.Length + 1).Replace("\", "/")
-        [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $file.FullName, $entryName)
-    }
-    $archive.Dispose()
-    
-    if (Test-Path $steamZip) { Copy-Item -Path $downZip -Destination $steamZip -Force }
-    Write-Output "Deployed $mod.zip"
+Write-Output ">>> A. Mod Store Remote Registry URL"
+`$storeClient = Join-Path `$repoRoot "mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\scripts\mod_store_client.gd"
+if (Test-Path `$storeClient) {
+    Select-String -Path `$storeClient -Pattern "http|request|url"
 }
 
-Write-Output "--- 4. Updating Agile Scrum Board & Trackers ---"
-$sprintBoardPath = Join-Path $repoRoot "docs\ACTIVE_SPRINT_BOARD.md"
-$sprintBoard = @"
-# Current Active Sprint & Worklist
+Write-Output "`n>>> B. Henry Hoover Vanilla Sprite Target"
+`$vacDump = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\_dump\scenes\equipment\vacuum_cleaner.tscn"
+if (Test-Path `$vacDump) {
+    Select-String -Path `$vacDump -Pattern "type=`"Sprite"
+}
 
-## 🔴 Open Bugs (Highest Priority)
-* **[BUG-03]** Verify isolation between Henry Hoover (Player tool) and Drone Workforce (NPC automated entities).
+Write-Output "`n>>> C. Quadcopter Animation Visibility Override"
+`$minerGd = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\_dump\scenes\AutoMiners\employee_miner_2.gd"
+if (Test-Path `$minerGd) {
+    Select-String -Path `$minerGd -Pattern "visible|modulate|Sprites|AnimationPlayer" -Context 1,1
+}
 
-## 🟡 In Progress / Testing
-* **[US-02]** Reach Expansion: Tune interaction distance to +1 tile (+24px) for stockpile, ore, and NPCs. Inject into Bonus Shop.
-* **[US-05]** Mod Store Registration: Quadcopters, Henry, and Thomas mapped to mod_registry.gd. (Awaiting User Validation).
-* **[BUG-04]** Employee Passives UI: Remap from deleted `_handle_button_click` to exact UI button events.
+Write-Output "`n>>> D. Mod Manager 'By Community' Hardcode"
+`$mgrView = Join-Path `$repoRoot "mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\scenes\mod_manager_view.gd"
+if (Test-Path `$mgrView) {
+    Select-String -Path `$mgrView -Pattern "Community" -Context 2,2
+}
 
-## 🟢 Completed (Pending Verification)
-* **[BUG-01]** Quadcopter Workforce: `Sprites` node hidden to fix vanilla humanoid rendering overlay.
-* **[BUG-02]** AutoPassiveChooser: `mod_main.gd` array injected with Bouncing Ball parameters to restore UI presence.
-* **[US-01]** Thomas the Tank Engine: Procedural Locomotive textures and Wagon coupling logic deployed based on exposed variables.
-* **[US-04]** Henry the Hoover Visuals: High-fidelity Numatic pixel art and 1.0s audio gobble cooldown applied.
+Write-Output "`n>>> E. Passive Chooser Hardcoded Arrays"
+`$passivesMain = Join-Path `$repoRoot "mods-unpacked\nanobotz-autopassivechooser\mods-unpacked\nanobotz-autopassivechooser\mod_main.gd"
+if (Test-Path `$passivesMain) {
+    Select-String -Path `$passivesMain -Pattern "Axe Damage|player_climb_speed|passive" -Context 1,1
+}
 "@
-$sprintBoard | Set-Content -Path $sprintBoardPath -Encoding UTF8
+$discoveryScript | Set-Content -Path (Join-Path $repoRoot "ai_discovery.ps1") -Encoding UTF8
 
-Write-Output "--- Committing to Git ---"
-git add -A
-git commit -m "Fix: Re-route Employee Passives UI hooks, expose Thomas upgrades to Shop, and update Sprint Board."
+Write-Output "Executing Surgical Discovery Script..."
+& powershell -ExecutionPolicy Bypass -File (Join-Path $repoRoot "ai_discovery.ps1")
+
+Write-Output "--- Committing Repo Architecture Updates ---"
+git add docs/ SESSION_PROMPT.md
+git commit -m "Docs: Complete Sprint Board sync, log US-06 (Deep Layer Weapons) & US-07 (Mod Manager Search), and track BUG-04 (Uninstall) and BUG-05 (Author Tags)."
 git push origin main
-Write-Output "Sprint Executed Successfully!"
+Write-Output "Operation Successful. Awaiting Discovery Results to build patches."
