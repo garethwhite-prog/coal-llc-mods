@@ -150,3 +150,10 @@ if bytes and bytes.size() > 0:
 ### 9. Amazon Delivery (gareth-scrap_and_delivery_mod) & Game Speed (gareth-game_speed_mod)
 * **Working & Verified:** Amazon ([B]) drops parachute crates at z_index = 60. itemBuyPrice is guarded against null crash using exact string replacement (preserving tabs).
 * **Working & Verified:** Game Speed micro-dock (◀ 1.00x ▶ + ⏰ End Day [F8]) is docked cleanly at the bottom-right during active mining shifts.
+
+### 10. Deep Layer Bonus Weapons (US-06)
+* **Outstanding Task:** Create a new mod that injects high-tier weapon drops into deep strata chests/spawns.
+
+### 11. Mod Manager Search & Filter (US-07)
+* **Outstanding Task:** Replicate the Mod Store UI search bar and dropdowns for the local active mods menu.
+
