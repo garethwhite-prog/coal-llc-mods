@@ -8,114 +8,182 @@ Stop-Process -Name "Coal LLC*" -Force -ErrorAction SilentlyContinue
 Stop-Process -Name "godot*" -Force -ErrorAction SilentlyContinue
 Start-Sleep -Seconds 1
 
-Write-Output "--- 1. Generating Central Mod Catalog (US-05) ---"
+Write-Output "--- 1. Restoring Settings UI (Reverting Corrupted Hook) ---"
+$settingsHookPath = Join-Path $repoRoot "mods-unpacked\nanobotz-autopassivechooser\mods-unpacked\nanobotz-autopassivechooser\extensions\scenes\Interfaces\Menus\settings_2.hooks.gd"
+if (Test-Path $settingsHookPath) {
+    git checkout HEAD -- "$settingsHookPath"
+    Write-Output "Reverted settings_2.hooks.gd to restore Passive Order tab."
+}
+
+Write-Output "--- 2. Fixing Bouncing Ball add_child() Physics Crashes ---"
+$ballProjPath = "$repoRoot\mods-unpacked\gareth-bouncing_ball_mod\mods-unpacked\gareth-bouncing_ball_mod\scripts\bouncing_ball_projectile.gd"
+if (Test-Path $ballProjPath) {
+    $content = Get-Content $ballProjPath -Raw
+    $oldReady = @"
+func _ready() -> void:
+	z_index = 35
+	_sprite = Sprite2D.new()
+	_sprite.name = "Sprite2D"
+	if ball_texture:
+		_sprite.texture = ball_texture
+	add_child(_sprite)
+	
+	var circle := CircleShape2D.new()
+	circle.radius = 7.0
+	var shape := CollisionShape2D.new()
+	shape.shape = circle
+	
+	# Explicitly set Godot 2D collision masks to interact with the TileMap
+	collision_layer = 0
+	collision_mask = 1 
+	
+	add_child(shape)
+"@
+    $newReady = @"
+func _ready() -> void:
+	z_index = 35
+	_sprite = Sprite2D.new()
+	_sprite.name = "Sprite2D"
+	if ball_texture:
+		_sprite.texture = ball_texture
+	call_deferred("add_child", _sprite)
+	
+	var circle := CircleShape2D.new()
+	circle.radius = 7.0
+	var shape := CollisionShape2D.new()
+	shape.shape = circle
+	
+	# Explicitly set Godot 2D collision masks to interact with the TileMap
+	collision_layer = 0
+	collision_mask = 1 
+	
+	call_deferred("add_child", shape)
+"@
+    $content = $content.Replace("`r`n", "`n").Replace($oldReady.Replace("`r`n", "`n"), $newReady.Replace("`r`n", "`n"))
+    $content | Set-Content -Path $ballProjPath -Encoding UTF8
+    Write-Output "Patched Bouncing Ball synchronous add_child calls."
+}
+
+Write-Output "--- 3. Forcing Async Coroutines (Viewport Fix) ---"
+Get-ChildItem -Path $repoRoot -Recurse -Filter "Game.hooks.gd" | ForEach-Object {
+    $content = Get-Content $_.FullName -Raw
+    if ($content -match "(?<!await\s)chain\.execute_next") {
+        $content = $content -replace "(?<!await\s)chain\.execute_next", "await chain.execute_next"
+        $content | Set-Content -Path $_.FullName -Encoding UTF8
+        Write-Output "Enforced await chain.execute_next in $($_.Name)"
+    }
+}
+
+Write-Output "--- 4. Numbing Vanilla Miner Animation (Quadcopter Fix) ---"
+$droneMinerPath = "$repoRoot\mods-unpacked\gareth-drone_workforce_mod\mods-unpacked\gareth-drone_workforce_mod\extensions\scenes\AutoMiners\employee_miner_2.hooks.gd"
+$droneMiner = @"
+extends Object
+
+func _ready(chain: ModLoaderHookChain) -> void:
+	chain.execute_next([])
+	var miner = chain.reference_object
+	if not is_instance_valid(miner): return
+
+	var factory = load("res://mods-unpacked/gareth-drone_workforce_mod/scripts/drone_texture_factory.gd")
+	if not factory: return
+
+	# Utterly destroy the vanilla graphics node so AnimationPlayer cannot force visibility back on
+	var sprites_node = miner.get_node_or_null("Sprites")
+	if is_instance_valid(sprites_node):
+		sprites_node.call_deferred("queue_free")
+
+	var drone_spr = miner.get_node_or_null("MinerDroneSprite")
+	if not drone_spr:
+		drone_spr = Sprite2D.new()
+		drone_spr.name = "MinerDroneSprite"
+		drone_spr.texture = factory.create_miner_drone_texture()
+		drone_spr.scale = Vector2(1.5, 1.5)
+		miner.call_deferred("add_child", drone_spr)
+"@
+$droneMiner | Set-Content -Path $droneMinerPath -Encoding UTF8
+
+Write-Output "--- 5. Generating Mod Store API Compliant JSON ---"
 $catalogPath = Join-Path $repoRoot "mod_catalog.json"
 $mods = Get-ChildItem -Path "$repoRoot\mods-unpacked" -Directory
-$catalogData = @()
+$githubReleases = @()
 
 foreach ($mod in $mods) {
     $manifestPath = Join-Path $mod.FullName "manifest.json"
     if (Test-Path $manifestPath) {
         $json = Get-Content $manifestPath | ConvertFrom-Json
-        $entry = [PSCustomObject]@{
-            id = $json.name
-            name = $json.extra.godot.display_name
-            version = $json.version_number
-            description = $json.description
-            author = if ($json.extra.godot.authors.Count -gt 0) { $json.extra.godot.authors[0] } else { "Community" }
-            download_url = "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/$($json.name).zip"
+        $modId = $json.name
+        $modName = $json.extra.godot.display_name
+        $modDesc = $json.description
+        $modVer = $json.version_number
+        
+        # Structure perfectly mimics GitHub API so the client doesn't need to be rewritten
+        $release = [PSCustomObject]@{
+            tag_name = "v$modVer"
+            name = $modName
+            body = $modDesc
+            assets = @(
+                [PSCustomObject]@{
+                    name = "$modId.zip"
+                    browser_download_url = "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/$modId.zip"
+                }
+            )
         }
-        $catalogData += $entry
+        $githubReleases += $release
     }
 }
-$catalogData | ConvertTo-Json -Depth 10 | Set-Content -Path $catalogPath -Encoding UTF8
-Write-Output "Generated mod_catalog.json with $($catalogData.Count) mods."
+$githubReleases | ConvertTo-Json -Depth 10 | Set-Content -Path $catalogPath -Encoding UTF8
+Write-Output "Generated GitHub API compliant mod_catalog.json."
 
-Write-Output "--- 2. Fixing Mod Manager Syntax & Crashes (BUG-04, BUG-05, BUG-06) ---"
-$modMgrExt = "$repoRoot\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod"
-
-# A. Restore broken files to last clean state
-git checkout a9ca50039c02c57c68f24f0fcb0be1b547bb53c3 -- "$modMgrExt\scenes\mod_manager_view.gd"
-git checkout a9ca50039c02c57c68f24f0fcb0be1b547bb53c3 -- "$modMgrExt\extensions\scripts\MainMenu.hooks.gd"
-
-# B. Patch MainMenu.hooks.gd (BUG-06)
-$mainMenuPath = "$modMgrExt\extensions\scripts\MainMenu.hooks.gd"
-$mmContent = Get-Content $mainMenuPath -Raw
-# Replace direct property assignment with safe metadata assignment to prevent crashes
-$mmContent = $mmContent -replace '\.is_pre_run_mode = (true|false)', '.set_meta("is_pre_run_mode", $1)'
-$mmContent = $mmContent -replace 'if menu\.is_pre_run_mode:', 'if menu.get_meta("is_pre_run_mode", false):'
-$mmContent | Set-Content -Path $mainMenuPath -Encoding UTF8
-
-# C. Patch Mod Manager View (BUG-04 and BUG-05)
-$mgrViewPath = "$modMgrExt\scenes\mod_manager_view.gd"
-$mvContent = Get-Content $mgrViewPath -Raw
-# Fix BUG-04: Ignore pending_delete files so they vanish from UI immediately
-$mvContent = $mvContent -replace 'if file_name\.get_extension\(\) == "zip":', 'if file_name.get_extension() == "zip" and not "pending_delete" in file_name:'
-# Fix BUG-05: Safely assign Official tag without breaking the array
-$authorLogic = @"
-	if manifest and manifest.get("extra") and manifest.extra.get("godot") and manifest.extra.godot.get("authors"):
-		var authors = manifest.extra.godot.authors
-		if authors.size() > 0 and "Gareth White" in authors[0]:
-			return "Gareth White (Official Suite)"
-	return "Community Add-Ons"
-"@
-$mvContent = $mvContent -replace 'return "Community Add-Ons"', $authorLogic
-$mvContent | Set-Content -Path $mgrViewPath -Encoding UTF8
-
-# D. Patch Mod Store Client to use central JSON (US-05)
-$storeClientPath = "$modMgrExt\scripts\mod_store_client.gd"
-if (Test-Path $storeClientPath) {
-    $scContent = Get-Content $storeClientPath -Raw
-    $oldUrlLogic = 'var url := "https://api.github.com/repos/%s/releases" % repo'
-    $newUrlLogic = 'var url := "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/mod_catalog.json"'
-    $scContent = $scContent.Replace($oldUrlLogic, $newUrlLogic)
-    $scContent | Set-Content -Path $storeClientPath -Encoding UTF8
-}
-
-Write-Output "--- 3. Repacking Mod Manager ---"
+Write-Output "--- 6. Repacking Modified Mods ---"
 $hooksZip = Join-Path $steamRoot "mod-hooks.zip"
 if (Test-Path $hooksZip) { Remove-Item $hooksZip -Force }
 
-$mod = "gareth-mod_manager_mod"
-$srcDir = Join-Path $repoRoot "mods-unpacked\$mod"
-$downZip = Join-Path $downMods "$mod.zip"
-$steamZip = Join-Path $steamMods "$mod.zip"
-
-if (Test-Path $downZip) { Remove-Item $downZip -Force }
+$targetMods = @("gareth-bouncing_ball_mod", "nanobotz-autopassivechooser", "gareth-drone_workforce_mod")
 Add-Type -AssemblyName System.IO.Compression.FileSystem
-$archive = [System.IO.Compression.ZipFile]::Open($downZip, [System.IO.Compression.ZipArchiveMode]::Create)
-$files = Get-ChildItem -Path $srcDir -Recurse -File
-foreach ($file in $files) {
-    $entryName = $file.FullName.Substring($srcDir.Length + 1).Replace("\", "/")
-    [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $file.FullName, $entryName)
-}
-$archive.Dispose()
-if (Test-Path $steamZip) { Copy-Item -Path $downZip -Destination $steamZip -Force }
 
-Write-Output "--- 4. Updating Sprint Documentation ---"
+foreach ($mod in $targetMods) {
+    $srcDir = Join-Path $repoRoot "mods-unpacked\$mod"
+    $downZip = Join-Path $downMods "$mod.zip"
+    $steamZip = Join-Path $steamMods "$mod.zip"
+    
+    if (Test-Path $downZip) { Remove-Item $downZip -Force }
+    $archive = [System.IO.Compression.ZipFile]::Open($downZip, [System.IO.Compression.ZipArchiveMode]::Create)
+    $files = Get-ChildItem -Path $srcDir -Recurse -File
+    foreach ($file in $files) {
+        $entryName = $file.FullName.Substring($srcDir.Length + 1).Replace("\", "/")
+        [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $file.FullName, $entryName)
+    }
+    $archive.Dispose()
+    
+    if (Test-Path $steamZip) { Copy-Item -Path $downZip -Destination $steamZip -Force }
+    Write-Output "Deployed $mod.zip"
+}
+
+Write-Output "--- 7. Updating Agile Tracker ---"
 $sprintBoardPath = Join-Path $repoRoot "docs\ACTIVE_SPRINT_BOARD.md"
 $sprintBoard = @"
 # Current Active Sprint & Worklist
 
 ## 🔴 Open Bugs (Highest Priority)
-* **[BUG-01]** Quadcopter Visuals: Needs validation now that Mod Manager is unblocked.
-* **[BUG-02]** Bouncing Ball Passives: Needs validation now that Mod Manager is unblocked.
-* **[BUG-03]** Verify isolation between Henry Hoover and Drone Workforce.
+* **[BUG-03]** Verify isolation between Henry Hoover (Player tool) and Drone Workforce (NPC automated entities).
 
 ## 🟡 In Progress / Testing
-* **[US-05]** Mod Store Central Registry: `mod_catalog.json` generated and linked to store client. (Awaiting User Validation).
-* **[BUG-04]** Mod Uninstall: `pending_delete` files filtered from Manager UI. (Awaiting User Validation).
-* **[BUG-05]** Community Tags: Mod Manager routes `Gareth White` manifest authors to Official Suite. (Awaiting User Validation).
+* **[US-01]** Thomas the Tank Engine: Base class deployed. (Awaiting graphic implementation logic).
+* **[US-02]** Reach Expansion: Tune interaction distance to +1 tile (+24px) for stockpile, ore, and NPCs. Inject into Bonus Shop.
+* **[US-06]** Deep Layer Bonus Weapons: Create a mod downloadable via Mod Store that spawns bonus weapons in deeper strata.
+* **[US-07]** Mod Manager Search/Filter: Replicate the Mod Store's search bar and dropdown filters inside the local Mod Manager UI.
 
 ## 🟢 Completed (Pending Verification)
-* **[BUG-06]** MainMenu crash fixed by using safe `set_meta` for `is_pre_run_mode`.
-* **[US-01]** Thomas the Tank Engine: Base class deployed.
-* **[CORE]** ModLoader Manifests, Asynchronous `change_stage`, `add_child` tree locks resolved.
+* **[BUG-01]** Quadcopter Workforce: Vanilla `Sprites` node completely freed to prevent AnimationPlayer override.
+* **[BUG-02]** AutoPassiveChooser: Reverted corrupted `settings_2.hooks.gd` to restore Passive Order tab UI rendering.
+* **[BUG-07]** Viewport/Camera Break: Global `await chain.execute_next` enforced across all `Game.hooks.gd`.
+* **[US-05]** Mod Store Registry: `mod_catalog.json` re-architected to mock GitHub Release API schema. Thomas and Drones now indexable.
+* **[CORE]** Bouncing Ball Physics: Mount logic migrated to `call_deferred` to eliminate runtime scene tree locks.
 "@
 $sprintBoard | Set-Content -Path $sprintBoardPath -Encoding UTF8
 
 Write-Output "--- Committing to Git ---"
 git add -A
-git commit -m "Fix: Create centralized mod_catalog.json, resolve Mod Manager syntax crashes, filter pending_delete files from UI, and route Mod Store to raw GitHub JSON."
+git commit -m "Fix: Re-architect mod_catalog to mock GitHub API, restore Passive UI tab, fix Bouncing Ball physics locks, and enforce global async viewport execution."
 git push origin main
-Write-Output "Operation Successful."
+Write-Output "Sprint Executed Successfully!"

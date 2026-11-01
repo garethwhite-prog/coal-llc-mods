@@ -24,7 +24,7 @@ func _ready() -> void:
 	_sprite.name = "Sprite2D"
 	if ball_texture:
 		_sprite.texture = ball_texture
-	add_child(_sprite)
+	call_deferred("add_child", _sprite)
 	
 	var circle := CircleShape2D.new()
 	circle.radius = 7.0
@@ -35,7 +35,7 @@ func _ready() -> void:
 	collision_layer = 0
 	collision_mask = 1 
 	
-	add_child(shape)
+	call_deferred("add_child", shape)
 
 func setup(pos: Vector2, initial_vel: Vector2, dmg: float, tex: Texture2D) -> void:
 	global_position = pos
@@ -123,5 +123,6 @@ func _spawn_blast_shockwave() -> void:
 			tween.tween_property(ring, "modulate:a", 0.0, 0.16)
 			tween.set_parallel(false)
 			tween.tween_callback(ring.queue_free)
+
 
 

@@ -1,514 +1,706 @@
 [
   {
-    "id": "abyssal_trench_mod",
+    "tag_name": "v1.0.0",
     "name": "The Abyssal Trench",
-    "version": "1.0.0",
-    "description": "Subterranean ocean trench featuring hydrothermal black smoker geysers, twilight sapphire strata, and abyssal basalt.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/abyssal_trench_mod.zip"
+    "body": "Subterranean ocean trench featuring hydrothermal black smoker geysers, twilight sapphire strata, and abyssal basalt.",
+    "assets": [
+      {
+        "name": "abyssal_trench_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/abyssal_trench_mod.zip"
+      }
+    ]
   },
   {
-    "id": "auto_ladder_mod",
+    "tag_name": "v1.0.0",
     "name": "Center-Column Auto Ladder",
-    "version": "1.0.0",
-    "description": "Automatically deploys ladders in the exact center column of the mine (or sky) when blocks are mined.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/auto_ladder_mod.zip"
+    "body": "Automatically deploys ladders in the exact center column of the mine (or sky) when blocks are mined.",
+    "assets": [
+      {
+        "name": "auto_ladder_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/auto_ladder_mod.zip"
+      }
+    ]
   },
   {
-    "id": "bouncing_ball_mod",
+    "tag_name": "v1.1.0",
     "name": "Bouncing Ball Class",
-    "version": "1.1.0",
-    "description": "Specialist in chaotic kinetic sphere ordnance. Bouncy balls rebound off cavern walls before detonating across 15 mineral tiers.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/bouncing_ball_mod.zip"
+    "body": "Specialist in chaotic kinetic sphere ordnance. Bouncy balls rebound off cavern walls before detonating across 15 mineral tiers.",
+    "assets": [
+      {
+        "name": "bouncing_ball_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/bouncing_ball_mod.zip"
+      }
+    ]
   },
   {
-    "id": "buyable_vacuums_mod",
+    "tag_name": "v1.0.0",
     "name": null,
-    "version": "1.0.0",
-    "description": "Makes Tabbitha vacuum upgrades directly purchasable in the Bonus shop in addition to quest rewards, and adds Levels 5 to 8 (up to 600 tiles).",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/buyable_vacuums_mod.zip"
+    "body": "Makes Tabbitha vacuum upgrades directly purchasable in the Bonus shop in addition to quest rewards, and adds Levels 5 to 8 (up to 600 tiles).",
+    "assets": [
+      {
+        "name": "buyable_vacuums_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/buyable_vacuums_mod.zip"
+      }
+    ]
   },
   {
-    "id": "chest_variance_mod",
+    "tag_name": "v1.0.0",
     "name": "Chest Tier Variance",
-    "version": "1.0.0",
-    "description": "Dynamic chest tier variance, weighted class weapon seeding, and dangerous booby-trap explosions.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/chest_variance_mod.zip"
+    "body": "Dynamic chest tier variance, weighted class weapon seeding, and dangerous booby-trap explosions.",
+    "assets": [
+      {
+        "name": "chest_variance_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/chest_variance_mod.zip"
+      }
+    ]
   },
   {
-    "id": "chrono_industrialist_mod",
+    "tag_name": "v1.1.0",
     "name": "Chrono-Industrialist Class",
-    "version": "1.1.0",
-    "description": "Temporal excavation engineer wielding 15 tiers of chrono harvesters.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/chrono_industrialist_mod.zip"
+    "body": "Temporal excavation engineer wielding 15 tiers of chrono harvesters.",
+    "assets": [
+      {
+        "name": "chrono_industrialist_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/chrono_industrialist_mod.zip"
+      }
+    ]
   },
   {
-    "id": "collector_priority_mod",
+    "tag_name": "v1.0.0",
     "name": "Collector Priority System",
-    "version": "1.0.0",
-    "description": "Configure Collector UFO target acquisition priority: Closest First vs Most Valuable Gem First.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/collector_priority_mod.zip"
+    "body": "Configure Collector UFO target acquisition priority: Closest First vs Most Valuable Gem First.",
+    "assets": [
+      {
+        "name": "collector_priority_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/collector_priority_mod.zip"
+      }
+    ]
   },
   {
-    "id": "custom_classes_mod",
+    "tag_name": "v1.0.0",
     "name": "Expanded Class Suite (9 Classes)",
-    "version": "1.0.0",
-    "description": "Complete 9-Class Suite: Knight, Jedi, Bouncing Demolitionist, Rainbow Sinclairity, Void Siphon, Debt Executioner, Chrono-Industrialist, Gravitational Dreadnought, and Tectonic Fracker.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/custom_classes_mod.zip"
+    "body": "Complete 9-Class Suite: Knight, Jedi, Bouncing Demolitionist, Rainbow Sinclairity, Void Siphon, Debt Executioner, Chrono-Industrialist, Gravitational Dreadnought, and Tectonic Fracker.",
+    "assets": [
+      {
+        "name": "custom_classes_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/custom_classes_mod.zip"
+      }
+    ]
   },
   {
-    "id": "debt_executioner_mod",
+    "tag_name": "v1.1.0",
     "name": "Debt Executioner Class",
-    "version": "1.1.0",
-    "description": "Corporate enforcer starting at -$50M debt with 15 tiers of rotary miniguns.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/debt_executioner_mod.zip"
+    "body": "Corporate enforcer starting at -$50M debt with 15 tiers of rotary miniguns.",
+    "assets": [
+      {
+        "name": "debt_executioner_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/debt_executioner_mod.zip"
+      }
+    ]
   },
   {
-    "id": "diagonal_map_mod",
+    "tag_name": "v1.0.0",
     "name": "Diagonal Seams Custom Map",
-    "version": "1.0.0",
-    "description": "45-degree rotated diagonal subterranean strata and Sky Mine variants.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/diagonal_map_mod.zip"
+    "body": "45-degree rotated diagonal subterranean strata and Sky Mine variants.",
+    "assets": [
+      {
+        "name": "diagonal_map_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/diagonal_map_mod.zip"
+      }
+    ]
   },
   {
-    "id": "donkey_kong_mod",
+    "tag_name": "v1.0.0",
     "name": "Donkey Kong Surface Hazard",
-    "version": "1.0.0",
-    "description": "Surface gorilla hazard patrols ground level and tosses rolling barrels down mine pits. 5-second stun on impact.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/donkey_kong_mod.zip"
+    "body": "Surface gorilla hazard patrols ground level and tosses rolling barrels down mine pits. 5-second stun on impact.",
+    "assets": [
+      {
+        "name": "donkey_kong_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/donkey_kong_mod.zip"
+      }
+    ]
   },
   {
-    "id": "drone_workforce_mod",
+    "tag_name": "v1.0.0",
     "name": "Quadcopter Drone Workforce Overhaul",
-    "version": "1.0.0",
-    "description": "Replaces all walking employee miners with hovering quadcopter laser drones and transforms UFO collectors into heavy-lift cargo quadcopters.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/drone_workforce_mod.zip"
+    "body": "Replaces all walking employee miners with hovering quadcopter laser drones and transforms UFO collectors into heavy-lift cargo quadcopters.",
+    "assets": [
+      {
+        "name": "drone_workforce_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/drone_workforce_mod.zip"
+      }
+    ]
   },
   {
-    "id": "dual_multipliers_mod",
+    "tag_name": "v1.0.0",
     "name": null,
-    "version": "1.0.0",
-    "description": "Adds secondary scaling multipliers (drill_speed, axe_speed, gun_rate) to give single-multiplier weapons quadratic late-game scaling.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/dual_multipliers_mod.zip"
+    "body": "Adds secondary scaling multipliers (drill_speed, axe_speed, gun_rate) to give single-multiplier weapons quadratic late-game scaling.",
+    "assets": [
+      {
+        "name": "dual_multipliers_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/dual_multipliers_mod.zip"
+      }
+    ]
   },
   {
-    "id": "elemental_airstrikes_mod",
+    "tag_name": "v1.0.0",
     "name": "Elemental Airstrikes Triad",
-    "version": "1.0.0",
-    "description": "Elemental Airstrike Triad: Dragon Strike (Fire), Water Bomber (Wetness), and Agent Orange Bomber (Poison).",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/elemental_airstrikes_mod.zip"
+    "body": "Elemental Airstrike Triad: Dragon Strike (Fire), Water Bomber (Wetness), and Agent Orange Bomber (Poison).",
+    "assets": [
+      {
+        "name": "elemental_airstrikes_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/elemental_airstrikes_mod.zip"
+      }
+    ]
   },
   {
-    "id": "elemental_transmutation_mod",
+    "tag_name": "v1.1.0",
     "name": null,
-    "version": "1.1.0",
-    "description": "When a tile with poison, fire or water effects is destroyed while still having ticks left, those effects spread to nearby ores in a configurable radius.",
-    "author": "gw",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/elemental_transmutation_mod.zip"
+    "body": "When a tile with poison, fire or water effects is destroyed while still having ticks left, those effects spread to nearby ores in a configurable radius.",
+    "assets": [
+      {
+        "name": "elemental_transmutation_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/elemental_transmutation_mod.zip"
+      }
+    ]
   },
   {
-    "id": "employee_passives_mod",
+    "tag_name": "v1.0.0",
     "name": "Expanded Employee Passives",
-    "version": "1.0.0",
-    "description": "Expanded employee passives: Employee Miner Range, Employee Miner Pickup Speed, and Collector Range.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/employee_passives_mod.zip"
+    "body": "Expanded employee passives: Employee Miner Range, Employee Miner Pickup Speed, and Collector Range.",
+    "assets": [
+      {
+        "name": "employee_passives_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/employee_passives_mod.zip"
+      }
+    ]
   },
   {
-    "id": "endgame_arsenal_mod",
+    "tag_name": "v1.0.0",
     "name": "End-Game Staffs & Poison Guns",
-    "version": "1.0.0",
-    "description": "Registers Tiers 12-15 End-Game Magic Staffs and all 15 Caustic Poison Guns into the shop.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/endgame_arsenal_mod.zip"
+    "body": "Registers Tiers 12-15 End-Game Magic Staffs and all 15 Caustic Poison Guns into the shop.",
+    "assets": [
+      {
+        "name": "endgame_arsenal_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/endgame_arsenal_mod.zip"
+      }
+    ]
   },
   {
-    "id": "excavation_frenzy_mod",
+    "tag_name": "v1.0.1",
     "name": null,
-    "version": "1.0.1",
-    "description": "Maintains a mining combo counter that buffs player movement, pickaxe speed, and triggers shockwaves.",
-    "author": "gareth",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/excavation_frenzy_mod.zip"
+    "body": "Maintains a mining combo counter that buffs player movement, pickaxe speed, and triggers shockwaves.",
+    "assets": [
+      {
+        "name": "excavation_frenzy_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/excavation_frenzy_mod.zip"
+      }
+    ]
   },
   {
-    "id": "game_speed_mod",
+    "tag_name": "v1.0.0",
     "name": "Game Speed & Shift Finisher",
-    "version": "1.0.0",
-    "description": "Adjust game simulation speed (0.5x, 0.75x, 1.0x, 1.5x, 2.0x) via on-screen HUD or hotkeys ([ / ]), plus emergency day finish (F8).",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/game_speed_mod.zip"
+    "body": "Adjust game simulation speed (0.5x, 0.75x, 1.0x, 1.5x, 2.0x) via on-screen HUD or hotkeys ([ / ]), plus emergency day finish (F8).",
+    "assets": [
+      {
+        "name": "game_speed_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/game_speed_mod.zip"
+      }
+    ]
   },
   {
-    "id": "grav_dreadnought_mod",
+    "tag_name": "v1.1.0",
     "name": "Gravitational Dreadnought Class",
-    "version": "1.1.0",
-    "description": "Heavy armored fortress wielding 15 tiers of orbital cannons.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/grav_dreadnought_mod.zip"
+    "body": "Heavy armored fortress wielding 15 tiers of orbital cannons.",
+    "assets": [
+      {
+        "name": "grav_dreadnought_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/grav_dreadnought_mod.zip"
+      }
+    ]
   },
   {
-    "id": "grenade_mod",
+    "tag_name": "v1.0.0",
     "name": null,
-    "version": "1.0.0",
-    "description": "Adds 15 tiers of bouncing grenades that arc, rebound off solid walls, and detonate on timed fuses.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/grenade_mod.zip"
+    "body": "Adds 15 tiers of bouncing grenades that arc, rebound off solid walls, and detonate on timed fuses.",
+    "assets": [
+      {
+        "name": "grenade_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/grenade_mod.zip"
+      }
+    ]
   },
   {
-    "id": "hardware_booster_mod",
+    "tag_name": "v1.0.0",
     "name": "Hardware Multi-Thread Booster",
-    "version": "1.0.0",
-    "description": "Accelerates terrain generation and heavy calculations using Godot 4 WorkerThreadPool across multi-core CPUs.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/hardware_booster_mod.zip"
+    "body": "Accelerates terrain generation and heavy calculations using Godot 4 WorkerThreadPool across multi-core CPUs.",
+    "assets": [
+      {
+        "name": "hardware_booster_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/hardware_booster_mod.zip"
+      }
+    ]
   },
   {
-    "id": "heavy_bombs_mod",
+    "tag_name": "v1.0.0",
     "name": "Heavy Demolition Bombs",
-    "version": "1.0.0",
-    "description": "Heavy Demolition Bomb arsenal (Bunker Buster, Cryo-Cluster, Thermobaric) using native big bomb sprites.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/heavy_bombs_mod.zip"
+    "body": "Heavy Demolition Bomb arsenal (Bunker Buster, Cryo-Cluster, Thermobaric) using native big bomb sprites.",
+    "assets": [
+      {
+        "name": "heavy_bombs_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/heavy_bombs_mod.zip"
+      }
+    ]
   },
   {
-    "id": "heavy_turrets_mod",
+    "tag_name": "v1.0.0",
     "name": "Heavy Automated Turrets",
-    "version": "1.0.0",
-    "description": "Deployable automated heavy defense and mining turret utilizing unused tank_turret.png asset.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/heavy_turrets_mod.zip"
+    "body": "Deployable automated heavy defense and mining turret utilizing unused tank_turret.png asset.",
+    "assets": [
+      {
+        "name": "heavy_turrets_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/heavy_turrets_mod.zip"
+      }
+    ]
   },
   {
-    "id": "henry_the_hoover_mod",
+    "tag_name": "v1.0.5",
     "name": "Henry the Hoover (Vacuum Reskin)",
-    "version": "1.0.5",
-    "description": "Authentic Henry the Hoover visual skin for the industrial vacuum. Body color dynamically updates based on upgrade tier (Henry, Hetty, Harry, George, Charles).",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/henry_the_hoover_mod.zip"
+    "body": "Authentic Henry the Hoover visual skin for the industrial vacuum. Body color dynamically updates based on upgrade tier (Henry, Hetty, Harry, George, Charles).",
+    "assets": [
+      {
+        "name": "henry_the_hoover_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/henry_the_hoover_mod.zip"
+      }
+    ]
   },
   {
-    "id": "hydrogen_bomb_mod",
+    "tag_name": "v2.0.0",
     "name": null,
-    "version": "2.0.0",
-    "description": "Adds 15 tiered Hydrogen Bombs spanning Shoddy to Onyx with massive blast radii for cavern excavation.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/hydrogen_bomb_mod.zip"
+    "body": "Adds 15 tiered Hydrogen Bombs spanning Shoddy to Onyx with massive blast radii for cavern excavation.",
+    "assets": [
+      {
+        "name": "hydrogen_bomb_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/hydrogen_bomb_mod.zip"
+      }
+    ]
   },
   {
-    "id": "infini_platform_mod",
+    "tag_name": "v1.0.0",
     "name": null,
-    "version": "1.0.0",
-    "description": "Adds the InfiniPlatform: builds a continuous bridge horizontally left and right across open gaps up to walls (max 200 blocks).",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/infini_platform_mod.zip"
+    "body": "Adds the InfiniPlatform: builds a continuous bridge horizontally left and right across open gaps up to walls (max 200 blocks).",
+    "assets": [
+      {
+        "name": "infini_platform_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/infini_platform_mod.zip"
+      }
+    ]
   },
   {
-    "id": "jedi_class_mod",
+    "tag_name": "v1.1.0",
     "name": "Jedi Class",
-    "version": "1.1.0",
-    "description": "Wielder of plasma energy sabers across 15 mineral tiers.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/jedi_class_mod.zip"
+    "body": "Wielder of plasma energy sabers across 15 mineral tiers.",
+    "assets": [
+      {
+        "name": "jedi_class_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/jedi_class_mod.zip"
+      }
+    ]
   },
   {
-    "id": "knight_class_mod",
+    "tag_name": "v1.0.0",
     "name": "The Knight Class",
-    "version": "1.0.0",
-    "description": "Master of chivalric blade combat. Starts with a Shoddy Sword that sweeps in a 180° frontal arc cleaving rock and ore.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/knight_class_mod.zip"
+    "body": "Master of chivalric blade combat. Starts with a Shoddy Sword that sweeps in a 180° frontal arc cleaving rock and ore.",
+    "assets": [
+      {
+        "name": "knight_class_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/knight_class_mod.zip"
+      }
+    ]
   },
   {
-    "id": "laser_beam_mod",
+    "tag_name": "v1.0.0",
     "name": "High-Energy Laser Beam",
-    "version": "1.0.0",
-    "description": "Continuous collimated high-energy laser beam weapon using native shader and audio assets.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/laser_beam_mod.zip"
+    "body": "Continuous collimated high-energy laser beam weapon using native shader and audio assets.",
+    "assets": [
+      {
+        "name": "laser_beam_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/laser_beam_mod.zip"
+      }
+    ]
   },
   {
-    "id": "leaderboard_mod",
+    "tag_name": "v2.0.0",
     "name": null,
-    "version": "2.0.0",
-    "description": "Comprehensive all-time high scores and quest rewards leaderboard covering collectors, mortars, combat, and wealth.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/leaderboard_mod.zip"
+    "body": "Comprehensive all-time high scores and quest rewards leaderboard covering collectors, mortars, combat, and wealth.",
+    "assets": [
+      {
+        "name": "leaderboard_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/leaderboard_mod.zip"
+      }
+    ]
   },
   {
-    "id": "living_canvas_mod",
+    "tag_name": "v1.0.0",
     "name": "The Living Canvas",
-    "version": "1.0.0",
-    "description": "Custom subterranean map sculpted directly from real images, photos, and Minecraft screenshots with an in-game file picker.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/living_canvas_mod.zip"
+    "body": "Custom subterranean map sculpted directly from real images, photos, and Minecraft screenshots with an in-game file picker.",
+    "assets": [
+      {
+        "name": "living_canvas_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/living_canvas_mod.zip"
+      }
+    ]
   },
   {
-    "id": "lost_expedition_mod",
+    "tag_name": "v1.0.0",
     "name": "The Knight Class",
-    "version": "1.0.0",
-    "description": "Custom subterranean expedition map featuring unexploded ordnance and cryo-pod survivor rescue mechanics.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/lost_expedition_mod.zip"
+    "body": "Custom subterranean expedition map featuring unexploded ordnance and cryo-pod survivor rescue mechanics.",
+    "assets": [
+      {
+        "name": "lost_expedition_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/lost_expedition_mod.zip"
+      }
+    ]
   },
   {
-    "id": "martial_legends_mod",
+    "tag_name": "v1.0.0",
     "name": null,
-    "version": "1.0.0",
-    "description": "Extends Martial Artist with Mike Tyson, Jean-Claude Van Damme, and Chuck Norris moves and equipment.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/martial_legends_mod.zip"
+    "body": "Extends Martial Artist with Mike Tyson, Jean-Claude Van Damme, and Chuck Norris moves and equipment.",
+    "assets": [
+      {
+        "name": "martial_legends_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/martial_legends_mod.zip"
+      }
+    ]
   },
   {
-    "id": "mod_manager_mod",
+    "tag_name": "v2.1.0",
     "name": "COAL LLC UNIVERSAL MOD MANAGER",
-    "version": "2.1.0",
-    "description": "Comprehensive Mod Store featuring multi-repository filtering, live name and author searches, physical staging downloads, and integrated custom Title logo.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/mod_manager_mod.zip"
+    "body": "Comprehensive Mod Store featuring multi-repository filtering, live name and author searches, physical staging downloads, and integrated custom Title logo.",
+    "assets": [
+      {
+        "name": "mod_manager_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/mod_manager_mod.zip"
+      }
+    ]
   },
   {
-    "id": "mod_settings_mod",
+    "tag_name": "v1.1.0",
     "name": null,
-    "version": "1.1.0",
-    "description": "Settings compatibility bridge.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/mod_settings_mod.zip"
+    "body": "Settings compatibility bridge.",
+    "assets": [
+      {
+        "name": "mod_settings_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/mod_settings_mod.zip"
+      }
+    ]
   },
   {
-    "id": "more_collectors_mod",
+    "tag_name": "v1.1.1",
     "name": "Cosmic Collectors",
-    "version": "1.1.1",
-    "description": "Adds 4 ultra-high-tier Collector drones with click-through tooltips.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/more_collectors_mod.zip"
+    "body": "Adds 4 ultra-high-tier Collector drones with click-through tooltips.",
+    "assets": [
+      {
+        "name": "more_collectors_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/more_collectors_mod.zip"
+      }
+    ]
   },
   {
-    "id": "more_drills_mod",
+    "tag_name": "v1.0.0",
     "name": null,
-    "version": "1.0.0",
-    "description": "Adds Tiers 5 through 10 of Drills with damage scaling from 100,000 up to 50 Billion, inserted directly after Drill 4.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/more_drills_mod.zip"
+    "body": "Adds Tiers 5 through 10 of Drills with damage scaling from 100,000 up to 50 Billion, inserted directly after Drill 4.",
+    "assets": [
+      {
+        "name": "more_drills_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/more_drills_mod.zip"
+      }
+    ]
   },
   {
-    "id": "more_employees_mod",
+    "tag_name": "v1.1.1",
     "name": "Executive Miners",
-    "version": "1.1.1",
-    "description": "Adds Executive Miner tiers with click-through tooltips and scaled position offsets.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/more_employees_mod.zip"
+    "body": "Adds Executive Miner tiers with click-through tooltips and scaled position offsets.",
+    "assets": [
+      {
+        "name": "more_employees_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/more_employees_mod.zip"
+      }
+    ]
   },
   {
-    "id": "more_inventory_slots_mod",
+    "tag_name": "v1.1.0",
     "name": null,
-    "version": "1.1.0",
-    "description": "Adds Tiers 4 through 10 of inventory slot expansions with exponentially scaling capacities (+20 to +250 slots) and prices, inserted directly after Slot 3.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/more_inventory_slots_mod.zip"
+    "body": "Adds Tiers 4 through 10 of inventory slot expansions with exponentially scaling capacities (+20 to +250 slots) and prices, inserted directly after Slot 3.",
+    "assets": [
+      {
+        "name": "more_inventory_slots_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/more_inventory_slots_mod.zip"
+      }
+    ]
   },
   {
-    "id": "more_inventory_stacks_mod",
+    "tag_name": "v1.1.0",
     "name": null,
-    "version": "1.1.0",
-    "description": "Adds Tiers 7 through 16 of inventory stack upgrades, scaling from 75 Trillion up to 50 Septillion, inserted directly adjacent to Stack 6.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/more_inventory_stacks_mod.zip"
+    "body": "Adds Tiers 7 through 16 of inventory stack upgrades, scaling from 75 Trillion up to 50 Septillion, inserted directly adjacent to Stack 6.",
+    "assets": [
+      {
+        "name": "more_inventory_stacks_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/more_inventory_stacks_mod.zip"
+      }
+    ]
   },
   {
-    "id": "more_layer_shifts_mod",
+    "tag_name": "v1.1.0",
     "name": null,
-    "version": "1.1.0",
-    "description": "Adds Shift Rock Layers 6 to 12 with dynamic stratum progression past vanilla limits.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/more_layer_shifts_mod.zip"
+    "body": "Adds Shift Rock Layers 6 to 12 with dynamic stratum progression past vanilla limits.",
+    "assets": [
+      {
+        "name": "more_layer_shifts_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/more_layer_shifts_mod.zip"
+      }
+    ]
   },
   {
-    "id": "more_mortars_mod",
+    "tag_name": "v1.0.0",
     "name": null,
-    "version": "1.0.0",
-    "description": "Adds Tiers 6 through 10 of Mortar Guns with damage scaling from 7.5 Million up to 500 Billion, inserted directly after Mortar Gun 5.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/more_mortars_mod.zip"
+    "body": "Adds Tiers 6 through 10 of Mortar Guns with damage scaling from 7.5 Million up to 500 Billion, inserted directly after Mortar Gun 5.",
+    "assets": [
+      {
+        "name": "more_mortars_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/more_mortars_mod.zip"
+      }
+    ]
   },
   {
-    "id": "more_nukes_mod",
+    "tag_name": "v1.0.0",
     "name": null,
-    "version": "1.0.0",
-    "description": "Adds 15 tiered Tactical Nukes spanning Shoddy to Onyx with balanced blast radius and damage.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/more_nukes_mod.zip"
+    "body": "Adds 15 tiered Tactical Nukes spanning Shoddy to Onyx with balanced blast radius and damage.",
+    "assets": [
+      {
+        "name": "more_nukes_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/more_nukes_mod.zip"
+      }
+    ]
   },
   {
-    "id": "more_vacuum_quests_mod",
+    "tag_name": "v1.1.0",
     "name": null,
-    "version": "1.1.0",
-    "description": "Extends Tabatha's NPC questline past Diamond with Uranium, Moonstone, Onyx, and Abyssal vacuum upgrades.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/more_vacuum_quests_mod.zip"
+    "body": "Extends Tabatha's NPC questline past Diamond with Uranium, Moonstone, Onyx, and Abyssal vacuum upgrades.",
+    "assets": [
+      {
+        "name": "more_vacuum_quests_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/more_vacuum_quests_mod.zip"
+      }
+    ]
   },
   {
-    "id": "multisave_mod",
+    "tag_name": "v2.2.0",
     "name": null,
-    "version": "2.2.0",
-    "description": "Multi-save slot manager with career progression restore and fullscreen pre-run mod selector.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/multisave_mod.zip"
+    "body": "Multi-save slot manager with career progression restore and fullscreen pre-run mod selector.",
+    "assets": [
+      {
+        "name": "multisave_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/multisave_mod.zip"
+      }
+    ]
   },
   {
-    "id": "neutron_bomb_mod",
+    "tag_name": "v2.0.0",
     "name": null,
-    "version": "2.0.0",
-    "description": "Adds 15 tiered Neutron Bombs spanning Shoddy to Onyx with extreme kinetic yield for shattering bedrock.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/neutron_bomb_mod.zip"
+    "body": "Adds 15 tiered Neutron Bombs spanning Shoddy to Onyx with extreme kinetic yield for shattering bedrock.",
+    "assets": [
+      {
+        "name": "neutron_bomb_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/neutron_bomb_mod.zip"
+      }
+    ]
   },
   {
-    "id": "plasma_raygun_mod",
+    "tag_name": "v1.0.0",
     "name": null,
-    "version": "1.0.0",
-    "description": "Equips the miner with an experimental high-energy Plasma Raygun on Right-Click that pierces multiple subterranean strata in a collimated beam.",
-    "author": "gareth",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/plasma_raygun_mod.zip"
+    "body": "Equips the miner with an experimental high-energy Plasma Raygun on Right-Click that pierces multiple subterranean strata in a collimated beam.",
+    "assets": [
+      {
+        "name": "plasma_raygun_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/plasma_raygun_mod.zip"
+      }
+    ]
   },
   {
-    "id": "prospectors_beacon_mod",
+    "tag_name": "v1.1.0",
     "name": null,
-    "version": "1.1.0",
-    "description": "When a tile with poison, fire or water effects is destroyed while still having ticks left, those effects spread to nearby ores in a configurable radius.",
-    "author": "gw",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/prospectors_beacon_mod.zip"
+    "body": "When a tile with poison, fire or water effects is destroyed while still having ticks left, those effects spread to nearby ores in a configurable radius.",
+    "assets": [
+      {
+        "name": "prospectors_beacon_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/prospectors_beacon_mod.zip"
+      }
+    ]
   },
   {
-    "id": "reach_expansion_mod",
+    "tag_name": "v1.0.0",
     "name": "Expanded Interaction & Collection Reach",
-    "version": "1.0.0",
-    "description": "Subtly expands the player's interaction and collection reach by 1 tile. Pick up ore, deposit at the stockpile, and converse with NPCs (like Tabatha the Mermaid) from further away. Appears as a rare, non-exponential upgrade in the bonus shop.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/reach_expansion_mod.zip"
+    "body": "Subtly expands the player's interaction and collection reach by 1 tile. Pick up ore, deposit at the stockpile, and converse with NPCs (like Tabatha the Mermaid) from further away. Appears as a rare, non-exponential upgrade in the bonus shop.",
+    "assets": [
+      {
+        "name": "reach_expansion_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/reach_expansion_mod.zip"
+      }
+    ]
   },
   {
-    "id": "scrap_and_delivery_mod",
+    "tag_name": "v1.0.0",
     "name": "Daytime Scrap & Amazon Delivery",
-    "version": "1.0.0",
-    "description": "Sell items during daytime shifts for 50% scrap value, and order same-day Amazon emergency supply drops with 10s delivery.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/scrap_and_delivery_mod.zip"
+    "body": "Sell items during daytime shifts for 50% scrap value, and order same-day Amazon emergency supply drops with 10s delivery.",
+    "assets": [
+      {
+        "name": "scrap_and_delivery_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/scrap_and_delivery_mod.zip"
+      }
+    ]
   },
   {
-    "id": "seismic_hazards_mod",
+    "tag_name": "v1.1.0",
     "name": null,
-    "version": "1.1.0",
-    "description": "When a tile with poison, fire or water effects is destroyed while still having ticks left, those effects spread to nearby ores in a configurable radius.",
-    "author": "gw",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/seismic_hazards_mod.zip"
+    "body": "When a tile with poison, fire or water effects is destroyed while still having ticks left, those effects spread to nearby ores in a configurable radius.",
+    "assets": [
+      {
+        "name": "seismic_hazards_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/seismic_hazards_mod.zip"
+      }
+    ]
   },
   {
-    "id": "sinclairity_class_mod",
+    "tag_name": "v1.1.1",
     "name": "Rainbow Sinclairity Class",
-    "version": "1.1.1",
-    "description": "Experimental spectral optics miner with continuous prismatic beam across 15 tiers.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/sinclairity_class_mod.zip"
+    "body": "Experimental spectral optics miner with continuous prismatic beam across 15 tiers.",
+    "assets": [
+      {
+        "name": "sinclairity_class_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/sinclairity_class_mod.zip"
+      }
+    ]
   },
   {
-    "id": "tank_arsenal_mod",
+    "tag_name": "v1.1.0",
     "name": null,
-    "version": "1.1.0",
-    "description": "Adds 45 tiered Incendiary, Caustic, and Depleted Uranium tanks to the shop, hooks chest drops for fire/poison passives, and enables dynamic passive scaling.",
-    "author": "gw",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/tank_arsenal_mod.zip"
+    "body": "Adds 45 tiered Incendiary, Caustic, and Depleted Uranium tanks to the shop, hooks chest drops for fire/poison passives, and enables dynamic passive scaling.",
+    "assets": [
+      {
+        "name": "tank_arsenal_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/tank_arsenal_mod.zip"
+      }
+    ]
   },
   {
-    "id": "tectonic_faultline_mod",
+    "tag_name": "v1.0.0",
     "name": "Tectonic Faultline",
-    "version": "1.0.0",
-    "description": "Custom subterranean faultline map with active magma strata and high-pressure magma siphons.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/tectonic_faultline_mod.zip"
+    "body": "Custom subterranean faultline map with active magma strata and high-pressure magma siphons.",
+    "assets": [
+      {
+        "name": "tectonic_faultline_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/tectonic_faultline_mod.zip"
+      }
+    ]
   },
   {
-    "id": "tectonic_fracker_mod",
+    "tag_name": "v1.2.0",
     "name": "The Tectonic Fracker Class",
-    "version": "1.2.0",
-    "description": "Industrial seismic harvester. Fires acoustic fracture pulses that shatter entire continuous ore seams simultaneously across 15 mineral tiers.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/tectonic_fracker_mod.zip"
+    "body": "Industrial seismic harvester. Fires acoustic fracture pulses that shatter entire continuous ore seams simultaneously across 15 mineral tiers.",
+    "assets": [
+      {
+        "name": "tectonic_fracker_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/tectonic_fracker_mod.zip"
+      }
+    ]
   },
   {
-    "id": "teletubbies_mod",
+    "tag_name": "v1.0.5",
     "name": "Teletubbies & Noo-Noo Overhaul",
-    "version": "1.0.5",
-    "description": "Transforms your mine into Teletubbyland: Noo-Noo vacuum cleaner, yawning Baby Sun that sets with the timer, and colorful workforce reskins.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/teletubbies_mod.zip"
+    "body": "Transforms your mine into Teletubbyland: Noo-Noo vacuum cleaner, yawning Baby Sun that sets with the timer, and colorful workforce reskins.",
+    "assets": [
+      {
+        "name": "teletubbies_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/teletubbies_mod.zip"
+      }
+    ]
   },
   {
-    "id": "thomas_tank_engine_mod",
+    "tag_name": "v1.0.0",
     "name": "Thomas the Tank Engine Railway Class",
-    "version": "1.0.0",
-    "description": "Playable railway overhaul: Thomas shuttles back and forth along the mine floor between buffer stops, collecting ore into rolling wagons. Features 3-tier upgrade branches: Locomotives (Thomas, Edward, Henry, Gordon), Wagon Rake Count (1-6), and Hopper Capacity.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/thomas_tank_engine_mod.zip"
+    "body": "Playable railway overhaul: Thomas shuttles back and forth along the mine floor between buffer stops, collecting ore into rolling wagons. Features 3-tier upgrade branches: Locomotives (Thomas, Edward, Henry, Gordon), Wagon Rake Count (1-6), and Hopper Capacity.",
+    "assets": [
+      {
+        "name": "thomas_tank_engine_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/thomas_tank_engine_mod.zip"
+      }
+    ]
   },
   {
-    "id": "tick_upgrade_mod",
+    "tag_name": "v1.4.0",
     "name": "Elemental Tick Upgrades",
-    "version": "1.4.0",
-    "description": "Elemental tick upgrade rate engine. Based on der_floh's tick upgrade mod, enhanced for custom classes and modern ModLoader compatibility.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/tick_upgrade_mod.zip"
+    "body": "Elemental tick upgrade rate engine. Based on der_floh's tick upgrade mod, enhanced for custom classes and modern ModLoader compatibility.",
+    "assets": [
+      {
+        "name": "tick_upgrade_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/tick_upgrade_mod.zip"
+      }
+    ]
   },
   {
-    "id": "vacuum_depot_mod",
+    "tag_name": "v1.0.0",
     "name": null,
-    "version": "1.0.0",
-    "description": "Collectors depot at the vacuum nozzle when it is closer than the surface chest.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/vacuum_depot_mod.zip"
+    "body": "Collectors depot at the vacuum nozzle when it is closer than the surface chest.",
+    "assets": [
+      {
+        "name": "vacuum_depot_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/vacuum_depot_mod.zip"
+      }
+    ]
   },
   {
-    "id": "void_siphon_mod",
+    "tag_name": "v1.1.1",
     "name": "Void Siphon Class",
-    "version": "1.1.1",
-    "description": "Gravitational singularity harvester with 15 tiers of void cores and implosion mechanics.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/void_siphon_mod.zip"
+    "body": "Gravitational singularity harvester with 15 tiers of void cores and implosion mechanics.",
+    "assets": [
+      {
+        "name": "void_siphon_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/void_siphon_mod.zip"
+      }
+    ]
   },
   {
-    "id": "water_spirit_mod",
+    "tag_name": "v1.0.0",
     "name": null,
-    "version": "1.0.0",
-    "description": "Orbital Water Spirit that circles the player and saturates surrounding rock tiles, scaling in radius and brush coverage with price.",
-    "author": "Gareth White",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/water_spirit_mod.zip"
+    "body": "Orbital Water Spirit that circles the player and saturates surrounding rock tiles, scaling in radius and brush coverage with price.",
+    "assets": [
+      {
+        "name": "water_spirit_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/water_spirit_mod.zip"
+      }
+    ]
   },
   {
-    "id": "weapon_stacker_mod",
+    "tag_name": "v1.1.1",
     "name": null,
-    "version": "1.1.1",
-    "description": "Multiplies miniguns and water guns based on stack count (forward-only trajectory).",
-    "author": "gw",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/weapon_stacker_mod.zip"
+    "body": "Multiplies miniguns and water guns based on stack count (forward-only trajectory).",
+    "assets": [
+      {
+        "name": "weapon_stacker_mod.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/weapon_stacker_mod.zip"
+      }
+    ]
   },
   {
-    "id": "autopassivechooser",
+    "tag_name": "v1.0.0",
     "name": null,
-    "version": "1.0.0",
-    "description": "Automatically open chests and choose passives",
-    "author": "NanobotZ",
-    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/autopassivechooser.zip"
+    "body": "Automatically open chests and choose passives",
+    "assets": [
+      {
+        "name": "autopassivechooser.zip",
+        "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/autopassivechooser.zip"
+      }
+    ]
   }
 ]

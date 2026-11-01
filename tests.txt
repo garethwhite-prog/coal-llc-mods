@@ -6,18 +6,88 @@
 1064: at: apply_extension (res://addons/mod_loader/internal/script_extension.gd:118)
 1116: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
 1117: at: _load (core/io/resource_loader.cpp:359)
-1137: SCRIPT ERROR: Parse Error: Expected expression as array element.
-1138: at: GDScript::reload (res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd:102)
-1139: ERROR: Failed to load script "res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd" with error "Parse error".
-1140: at: load (modules/gdscript/gdscript.cpp:3022)
-1141: SCRIPT ERROR: Invalid assignment of property or key 'is_pre_run_mode' with value of type 'bool' on a base object of type 'Control'.
-1142: at: <anonymous lambda> (res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd:92)
-1143: SCRIPT ERROR: Invalid assignment of property or key 'is_pre_run_mode' with value of type 'bool' on a base object of type 'Control'.
-1144: at: <anonymous lambda> (res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd:92)
-1145: SCRIPT ERROR: Invalid assignment of property or key 'is_pre_run_mode' with value of type 'bool' on a base object of type 'Control'.
-1146: at: <anonymous lambda> (res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd:92)
-1147: SCRIPT ERROR: Invalid assignment of property or key 'is_pre_run_mode' with value of type 'bool' on a base object of type 'Control'.
-1148: at: on_profession_selected (res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd:144)
-1151: ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-1156: ERROR: 181 resources still in use at exit (run with --verbose for details).
-1157: at: clear (core/io/resource.cpp:614)
+1137: SCRIPT ERROR: Trying to call an async function without "await".
+1138: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+1142: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1143: at: add_child (scene/main/node.cpp:1657)
+1144: ERROR: Child is not a child of this node.
+1145: at: move_child (scene/main/node.cpp:465)
+1146: SCRIPT ERROR: Trying to call an async function without "await".
+1147: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+1149: SCRIPT ERROR: Trying to call an async function without "await".
+1150: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+1151: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1152: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+1153: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1154: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+1155: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1156: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+1157: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1158: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+1159: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1160: at: add_child (scene/main/node.cpp:1657)
+1161: ERROR: Child is not a child of this node.
+1162: at: move_child (scene/main/node.cpp:465)
+1163: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1164: at: add_child (scene/main/node.cpp:1657)
+1165: ERROR: Child is not a child of this node.
+1166: at: move_child (scene/main/node.cpp:465)
+1169: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+1172: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1173: at: connect (core/object/object.cpp:1451)
+1174: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1175: at: connect (core/object/object.cpp:1451)
+1176: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1177: at: connect (core/object/object.cpp:1451)
+1178: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1179: at: connect (core/object/object.cpp:1451)
+1215: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1216: at: add_child (scene/main/node.cpp:1657)
+1217: ERROR: Child is not a child of this node.
+1218: at: move_child (scene/main/node.cpp:465)
+1219: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1220: at: add_child (scene/main/node.cpp:1657)
+1221: ERROR: Child is not a child of this node.
+1222: at: move_child (scene/main/node.cpp:465)
+5287: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+5288: at: add_child (scene/main/node.cpp:1657)
+5289: ERROR: Child is not a child of this node.
+5290: at: move_child (scene/main/node.cpp:465)
+16864: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+16865: at: add_child (scene/main/node.cpp:1657)
+16866: ERROR: Child is not a child of this node.
+16867: at: move_child (scene/main/node.cpp:465)
+37275: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+37276: at: add_child (scene/main/node.cpp:1657)
+37277: ERROR: Child is not a child of this node.
+37278: at: move_child (scene/main/node.cpp:465)
+42999: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+43000: at: add_child (scene/main/node.cpp:1657)
+43001: ERROR: Child is not a child of this node.
+43002: at: move_child (scene/main/node.cpp:465)
+44209: SCRIPT ERROR: Trying to call an async function without "await".
+44210: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+44229: ERROR: 8 RID allocations of type 'N10RendererRD12LightStorage11ShadowAtlasE' were leaked at exit.
+44230: ERROR: 8 RID allocations of type 'N10RendererRD14TextureStorage12RenderTargetE' were leaked at exit.
+44231: ERROR: 99 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+44232: ERROR: 8 RID allocations of type 'N16RendererViewport8ViewportE' were leaked at exit.
+44235: ERROR: 76 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+44236: ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
+44239: ERROR: 198 resources still in use at exit (run with --verbose for details).
+44240: at: clear (core/io/resource.cpp:614)
+Telemetry Highlights (Last 15):
+44205: INFO nanobotz-autopassivechooser: Auto choosing option -1: Cash
+44206: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Pickaxe Mining Damage +10.0%
+44207: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Damage +10.0%
+44211: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Pickaxe Mining Damage +10.0%
+44212: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Damage +10.0%
+44213: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Speed +10.0%
+44214: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Employee Miner Damage +4.0%
+44215: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Damage +10.0%
+44216: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Pickaxe Mining Speed +10.0%
+44217: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Damage +10.0%
+44218: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Damage +10.0%
+44219: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Speed +10.0%
+44220: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Pickaxe Mining Speed +5.0%
+44221: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Damage +10.0%
+44224: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Damage +10.0%

@@ -1,3 +1,1 @@
---- 1. Generating Central Mod Catalog (US-05) ---
-Generated mod_catalog.json with 64 mods.
---- 2. Fixing Mod Manager Syntax & Crashes (BUG-04, BUG-05, BUG-06) ---
+--- 1. Restoring Settings UI (Reverting Corrupted Hook) ---

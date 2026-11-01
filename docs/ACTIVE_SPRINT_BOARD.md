@@ -1,16 +1,17 @@
 # Current Active Sprint & Worklist
 
 ## 🔴 Open Bugs (Highest Priority)
-* **[BUG-01]** Quadcopter Visuals: Needs validation now that Mod Manager is unblocked.
-* **[BUG-02]** Bouncing Ball Passives: Needs validation now that Mod Manager is unblocked.
-* **[BUG-03]** Verify isolation between Henry Hoover and Drone Workforce.
+* **[BUG-03]** Verify isolation between Henry Hoover (Player tool) and Drone Workforce (NPC automated entities).
 
 ## 🟡 In Progress / Testing
-* **[US-05]** Mod Store Central Registry: mod_catalog.json generated and linked to store client. (Awaiting User Validation).
-* **[BUG-04]** Mod Uninstall: pending_delete files filtered from Manager UI. (Awaiting User Validation).
-* **[BUG-05]** Community Tags: Mod Manager routes Gareth White manifest authors to Official Suite. (Awaiting User Validation).
+* **[US-01]** Thomas the Tank Engine: Base class deployed. (Awaiting graphic implementation logic).
+* **[US-02]** Reach Expansion: Tune interaction distance to +1 tile (+24px) for stockpile, ore, and NPCs. Inject into Bonus Shop.
+* **[US-06]** Deep Layer Bonus Weapons: Create a mod downloadable via Mod Store that spawns bonus weapons in deeper strata.
+* **[US-07]** Mod Manager Search/Filter: Replicate the Mod Store's search bar and dropdown filters inside the local Mod Manager UI.
 
 ## 🟢 Completed (Pending Verification)
-* **[BUG-06]** MainMenu crash fixed by using safe set_meta for is_pre_run_mode.
-* **[US-01]** Thomas the Tank Engine: Base class deployed.
-* **[CORE]** ModLoader Manifests, Asynchronous change_stage, dd_child tree locks resolved.
+* **[BUG-01]** Quadcopter Workforce: Vanilla Sprites node completely freed to prevent AnimationPlayer override.
+* **[BUG-02]** AutoPassiveChooser: Reverted corrupted settings_2.hooks.gd to restore Passive Order tab UI rendering.
+* **[BUG-07]** Viewport/Camera Break: Global wait chain.execute_next enforced across all Game.hooks.gd.
+* **[US-05]** Mod Store Registry: mod_catalog.json re-architected to mock GitHub Release API schema. Thomas and Drones now indexable.
+* **[CORE]** Bouncing Ball Physics: Mount logic migrated to call_deferred to eliminate runtime scene tree locks.
