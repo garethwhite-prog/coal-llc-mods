@@ -18,43 +18,16 @@
 1043: at: apply_extension (res://addons/mod_loader/internal/script_extension.gd:118)
 1107: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
 1108: at: _load (core/io/resource_loader.cpp:359)
-1178: Verified 3884 files, no errors detected!
-1183: Extracted 41 files, no errors detected!
-1221: If you find that you have many non-import errors upon opening the project
-1222: (i.e. scripts or shaders have many errors), use the original game's binary as the export template.
-1265: Verified 3884 files, no errors detected!
-1270: Extracted 41 files, no errors detected!
-1277: ERROR ModLoader:ModHookPacker: Error (1) writing to hooks zip, consider deleting this file: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mod-hooks.zip
-1278: ERROR: Error (1) writing to hooks zip, consider deleting this file: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mod-hooks.zip
-1279: at: push_error (core/variant/variant_utility.cpp:1098)
-1279: at: push_error (core/variant/variant_utility.cpp:1098)
-1281: ERROR: No loader found for resource: res:// (expected type: )
-1282: at: _load (core/io/resource_loader.cpp:359)
-1283: ERROR: Error loading resource: ''.
-1284: at: load (core/core_bind.cpp:76)
-1285: SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
-1286: at: reset_resources (res://scripts/Gvars.gd:499)
-1287: ERROR: No loader found for resource: res:// (expected type: )
-1288: at: _load (core/io/resource_loader.cpp:359)
-1289: ERROR: Error loading resource: ''.
-1290: at: load (core/core_bind.cpp:76)
-1291: SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
-1292: at: reset_resources (res://scripts/Gvars.gd:499)
-1293: ERROR: No loader found for resource: res:// (expected type: )
-1294: at: _load (core/io/resource_loader.cpp:359)
-1299: ERROR: No loader found for resource: res:// (expected type: )
-1300: at: _load (core/io/resource_loader.cpp:359)
-1301: ERROR: Error loading resource: ''.
-1302: at: load (core/core_bind.cpp:76)
-1303: SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
-1304: at: reset_resources (res://scripts/Gvars.gd:499)
-1311: ERROR: No loader found for resource: res:// (expected type: )
-1312: at: _load (core/io/resource_loader.cpp:359)
-1313: ERROR: Error loading resource: ''.
-1314: at: load (core/core_bind.cpp:76)
-1315: SCRIPT ERROR: Invalid access to property or key 'itemBuyPrice' on a base object of type 'null instance'.
-1316: at: reset_resources (res://scripts/Gvars.gd:499)
-1320: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
-1324: ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-1329: ERROR: 176 resources still in use at exit (run with --verbose for details).
-1330: at: clear (core/io/resource.cpp:614)
+1177: Verified 3884 files, no errors detected!
+1182: Extracted 41 files, no errors detected!
+1219: If you find that you have many non-import errors upon opening the project
+1220: (i.e. scripts or shaders have many errors), use the original game's binary as the export template.
+1263: Verified 3884 files, no errors detected!
+1268: Extracted 41 files, no errors detected!
+1275: ERROR ModLoader:ModHookPacker: Error (1) writing to hooks zip, consider deleting this file: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mod-hooks.zip
+1276: ERROR: Error (1) writing to hooks zip, consider deleting this file: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mod-hooks.zip
+1277: at: push_error (core/variant/variant_utility.cpp:1098)
+1277: at: push_error (core/variant/variant_utility.cpp:1098)
+1279: ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+1284: ERROR: 176 resources still in use at exit (run with --verbose for details).
+1285: at: clear (core/io/resource.cpp:614)
