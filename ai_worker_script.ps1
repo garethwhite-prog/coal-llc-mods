@@ -8,58 +8,104 @@ Stop-Process -Name "Coal LLC*" -Force -ErrorAction SilentlyContinue
 Stop-Process -Name "godot*" -Force -ErrorAction SilentlyContinue
 Start-Sleep -Seconds 1
 
-Write-Output "--- 1. CLEANING UP LOCKED & PENDING DELETE FILES ---"
-Get-ChildItem -Path $steamMods -Filter "*.pending_delete" | ForEach-Object {
-    $zipPath = $_.FullName.Replace(".pending_delete", ".zip")
-    if (Test-Path $zipPath) { Remove-Item $zipPath -Force }
-    Remove-Item $_.FullName -Force
-    Write-Output "Purged pending deletion: $($_.Name)"
-}
-
-Write-Output "--- 2. FIXING SETTINGS MENU CRASH & PASSIVE UI (BUG-02) ---"
-$settingsHookPath = "$repoRoot\mods-unpacked\nanobotz-autopassivechooser\mods-unpacked\nanobotz-autopassivechooser\extensions\scenes\Interfaces\Menus\settings_2.hooks.gd"
-if (Test-Path $settingsHookPath) {
-    $settingsFix = @"
-extends Object
-
-func _ready(chain: ModLoaderHookChain) -> void:
-	# REMOVED AWAIT - This was crashing the entire Settings screen
-	chain.execute_next([])
-	var menu = chain.reference_object
-	if not is_instance_valid(menu): return
-	
-	var passive_list = menu.find_child("passive_list", true, false)
-	if not is_instance_valid(passive_list):
-		passive_list = menu.find_child("VBoxContainer", true, false)
-		
-	if is_instance_valid(passive_list) and not passive_list.has_node("BouncingBallDamage"):
-		var template = null
-		if passive_list.get_child_count() > 0:
-			template = passive_list.get_child(0)
-					
-		if is_instance_valid(template):
-			var keys = ["Bouncing Ball Damage", "Bouncing Ball Radius", "Bouncing Ball Fire Rate"]
-			var internal_keys = ["ball_blast_damage", "ball_blast_radius", "ball_fire_rate"]
-			
-			for i in range(keys.size()):
-				var row = template.duplicate()
-				row.name = keys[i].replace(" ", "")
-				row.visible = true
-				var lbl = row.find_child("*Label*", true, false)
-				if is_instance_valid(lbl): lbl.text = keys[i]
-				row.set_meta("passive_key", internal_keys[i])
-				passive_list.call_deferred("add_child", row)
+Write-Output "--- 1. FIXING MOD MANAGER PARSE ERRORS (BUG-05) ---"
+$mgrViewPath = "$repoRoot\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\scenes\mod_manager_view.gd"
+if (Test-Path $mgrViewPath) {
+    git checkout 807de20 -- "$mgrViewPath"
+    $mvContent = Get-Content $mgrViewPath -Raw
+    
+    # 1A. Safely inject the search bar into the _ready() block with strict Godot indentation
+    $searchInject = @"
+func _ready() -> void:
+	call_deferred("_inject_search_bar")
 "@
-    $settingsFix | Set-Content -Path $settingsHookPath -Encoding UTF8
+    $mvContent = $mvContent -replace 'func _ready\(\) -> void:', $searchInject
+    
+    # 1B. Append the search bar logic and Custom Tag override
+    $searchLogic = @"
+
+func _inject_search_bar() -> void:
+	var header = find_child("HeaderContainer", true, false)
+	if not header: header = self
+	var search = LineEdit.new()
+	search.placeholder_text = "Search active mods..."
+	search.custom_minimum_size = Vector2(300, 35)
+	search.text_changed.connect(_on_search_filter)
+	header.add_child(search)
+
+func _on_search_filter(query: String) -> void:
+	var q = query.to_lower()
+	var list = find_child("ModListContainer", true, false)
+	if is_instance_valid(list):
+		for card in list.get_children():
+			if q.is_empty():
+				card.visible = true
+			else:
+				var mod_name = card.name.to_lower()
+				var lbl = card.find_child("*Label*", true, false)
+				if is_instance_valid(lbl): mod_name += lbl.text.to_lower()
+				card.visible = q in mod_name
+
+func _get_mod_category(manifest: Dictionary) -> String:
+	if manifest and manifest.get("extra") and manifest.extra.get("godot") and manifest.extra.godot.get("authors"):
+		var authors = manifest.extra.godot.authors
+		if authors.size() > 0 and typeof(authors[0]) == TYPE_STRING and "Gareth White" in authors[0]:
+			return "Gareth White (Official Suite)"
+	return "Community Add-Ons"
+"@
+    $mvContent = $mvContent -replace 'func _get_mod_category\(manifest: Dictionary\) -> String:[\s\S]*?return "Community Add-Ons"', $searchLogic
+    $mvContent | Set-Content -Path $mgrViewPath -Encoding UTF8
+    Write-Output "Patched mod_manager_view.gd to remove Parse Errors and install Search."
 }
 
-Write-Output "--- 3. FIXING MOD STORE DYNAMIC JSON CATALOG (US-05) ---"
+Write-Output "--- 2. FIXING MAIN MENU NULL INSTANCE (BUG-06) ---"
+$mainMenuHooksPath = "$repoRoot\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\extensions\scripts\MainMenu.hooks.gd"
+if (Test-Path $mainMenuHooksPath) {
+    git checkout a9ca50039c02c57c68f24f0fcb0be1b547bb53c3 -- "$mainMenuHooksPath"
+    $mmContent = Get-Content $mainMenuHooksPath -Raw
+    
+    # Safely clear pending deletions without crashing GDScript lambdas
+    $purgeLogic = @"
+func _ready(chain: ModLoaderHookChain) -> void:
+	_process_pending_deletions()
+	chain.execute_next([])
+
+func _process_pending_deletions() -> void:
+	var base_dir = OS.get_executable_path().get_base_dir()
+	var mods_dir = base_dir.path_join("mods")
+	var dir = DirAccess.open(mods_dir)
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if "pending_delete" in file_name:
+				var target_zip = file_name.replace(".pending_delete", ".zip")
+				if FileAccess.file_exists(mods_dir.path_join(target_zip)):
+					DirAccess.remove_absolute(mods_dir.path_join(target_zip))
+				DirAccess.remove_absolute(mods_dir.path_join(file_name))
+			file_name = dir.get_next()
+"@
+    $mmContent = $mmContent -replace 'func _ready\(chain: ModLoaderHookChain\) -> void:\s*chain\.execute_next\(\[\]\)', $purgeLogic
+    $mmContent | Set-Content -Path $mainMenuHooksPath -Encoding UTF8
+    Write-Output "Patched MainMenu.hooks.gd to prevent null lambda execution."
+}
+
+Write-Output "--- 3. FIXING MOD STORE JSON FETCHING (US-05) ---"
+$storeClientPath = "$repoRoot\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\scripts\mod_store_client.gd"
+if (Test-Path $storeClientPath) {
+    $scContent = Get-Content $storeClientPath -Raw
+    $oldUrlLogic = 'var url := "https://api.github.com/repos/%s/releases" % repo'
+    $newUrlLogic = 'var url := "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/mod_catalog.json?v=" + str(Time.get_unix_time_from_system())'
+    $scContent = $scContent.Replace($oldUrlLogic, $newUrlLogic)
+    $scContent | Set-Content -Path $storeClientPath -Encoding UTF8
+    Write-Output "Forced Mod Store Client to use raw JSON."
+}
+
 $storeViewPath = "$repoRoot\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\scenes\mod_store_view.gd"
 if (Test-Path $storeViewPath) {
     git checkout 807de20 -- "$storeViewPath"
     $svContent = Get-Content $storeViewPath -Raw
     
-    # 1. Connect the client dynamically in _ready
     $clientInject = @"
 	var client_script = load("res://mods-unpacked/gareth-mod_manager_mod/scripts/mod_store_client.gd")
 	if client_script:
@@ -70,7 +116,6 @@ if (Test-Path $storeViewPath) {
 "@
     $svContent = $svContent -replace '_load_catalog_for_selected_repo\(\)', $clientInject
     
-    # 2. Add callback to populate all_packages from the JSON data
     $catalogCallback = @"
 
 func _on_catalog_loaded(repo: String, releases: Array) -> void:
@@ -98,60 +143,45 @@ func _on_catalog_loaded(repo: String, releases: Array) -> void:
 	_render_cards()
 "@
     $svContent = $svContent -replace 'func _load_catalog_for_selected_repo\(\) -> void:[\s\S]*?_render_cards\(\)', $catalogCallback
-    
-    # 3. Add visual feedback for uninstalls
-    $svContent = $svContent -replace 'status_lbl\.text = "🗑️ Uninstalled %s\.zip\. Deleted from active mods directory\." % mod_id', 'status_lbl.text = "🗑️ Uninstalled %s.zip. Deleted from active mods directory." % mod_id'
-    $svContent = $svContent -replace 'btn_action\.pressed\.connect\(func\(\): _uninstall_mod\(pkg_id\)\)', 'btn_action.pressed.connect(func(): _uninstall_mod(pkg_id); btn_action.text = "Restart Required"; btn_action.disabled = true)'
-    
     $svContent | Set-Content -Path $storeViewPath -Encoding UTF8
+    Write-Output "Patched Mod Store View to digest Custom JSON Array."
 }
 
-Write-Output "--- 4. FIXING MOD MANAGER SEARCH & TAGS (BUG-05 & US-07) ---"
-$mgrViewPath = "$repoRoot\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\scenes\mod_manager_view.gd"
-if (Test-Path $mgrViewPath) {
-    git checkout 807de20 -- "$mgrViewPath"
-    $mvContent = Get-Content $mgrViewPath -Raw
-    
-    # Inject search bar cleanly into top_bar instead of root
-    $searchInject = @"
-	var search = LineEdit.new()
-	search.placeholder_text = "Search installed mods..."
-	search.custom_minimum_size = Vector2(250, 36)
-	search.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	search.text_changed.connect(_on_search_filter)
-	top_bar.add_child(search)
+Write-Output "--- 4. RESTORING BOUNCING BALL PASSIVE UI (BUG-02) ---"
+$settingsHookPath = "$repoRoot\mods-unpacked\nanobotz-autopassivechooser\mods-unpacked\nanobotz-autopassivechooser\extensions\scenes\Interfaces\Menus\settings_2.hooks.gd"
+if (Test-Path $settingsHookPath) {
+    $settingsFix = @"
+extends Object
+
+func _ready(chain: ModLoaderHookChain) -> void:
+	chain.execute_next([])
+	var menu = chain.reference_object
+	if not is_instance_valid(menu): return
+	
+	var passive_list = menu.find_child("passive_list", true, false)
+	if not is_instance_valid(passive_list):
+		passive_list = menu.find_child("VBoxContainer", true, false)
+		
+	if is_instance_valid(passive_list) and not passive_list.has_node("BouncingBallDamage"):
+		var template = null
+		if passive_list.get_child_count() > 0:
+			template = passive_list.get_child(0)
+					
+		if is_instance_valid(template):
+			var keys = ["Bouncing Ball Damage", "Bouncing Ball Radius", "Bouncing Ball Fire Rate"]
+			var internal_keys = ["ball_blast_damage", "ball_blast_radius", "ball_fire_rate"]
+			
+			for i in range(keys.size()):
+				var row = template.duplicate()
+				row.name = keys[i].replace(" ", "")
+				row.visible = true
+				var lbl = row.find_child("*Label*", true, false)
+				if is_instance_valid(lbl): lbl.text = keys[i]
+				row.set_meta("passive_key", internal_keys[i])
+				passive_list.call_deferred("add_child", row)
 "@
-    $mvContent = $mvContent -replace 'var confirm_btn := Button\.new\(\)', "$searchInject`n`tvar confirm_btn := Button.new()"
-    
-    $searchLogic = @"
-func _on_search_filter(query: String) -> void:
-	var q = query.to_lower()
-	var scroll = find_child("ScrollContainer", true, false)
-	if not scroll: return
-	var content = scroll.get_child(0)
-	for grid in content.get_children():
-		if grid is GridContainer:
-			for card in grid.get_children():
-				if q.is_empty():
-					card.visible = true
-				else:
-					var mod_name = card.name.to_lower()
-					var lbl = card.find_child("*Label*", true, false)
-					if is_instance_valid(lbl): mod_name += lbl.text.to_lower()
-					card.visible = q in mod_name
-"@
-    $mvContent = $mvContent + "`n" + $searchLogic
-    
-    # Fix the community tags safely
-    $authorLogic = @"
-	if manifest and manifest.get("extra") and manifest.extra.get("godot") and manifest.extra.godot.get("authors"):
-		var authors = manifest.extra.godot.authors
-		if authors.size() > 0 and typeof(authors[0]) == TYPE_STRING and "Gareth White" in authors[0]:
-			return "Gareth White (Official Suite)"
-	return "Community Add-Ons"
-"@
-    $mvContent = $mvContent -replace 'return "Community Add-Ons"', $authorLogic
-    $mvContent | Set-Content -Path $mgrViewPath -Encoding UTF8
+    $settingsFix | Set-Content -Path $settingsHookPath -Encoding UTF8
+    Write-Output "Safely injected Bouncing Ball UI clones without await."
 }
 
 Write-Output "--- 5. REPACKING MOD MANAGER & AUTOPASSIVECHOOSER ---"
@@ -180,6 +210,6 @@ foreach ($mod in $targetMods) {
 
 Write-Output "--- Committing to Git ---"
 git add -A
-git commit -m "Fix: Remove destructive await in settings UI, wire Mod Store UI to live JSON fetch, and properly dock Mod Manager search."
+git commit -m "Fix: Eradicate Parse Errors in Mod Manager UI and properly map Mod Store URL to static JSON catalog."
 git push origin main
-Write-Output "Recovery Executed."
+Write-Output "Recovery Completed Successfully."

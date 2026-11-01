@@ -1,7 +1,6 @@
 extends Object
 
 func _ready(chain: ModLoaderHookChain) -> void:
-	# REMOVED AWAIT - This was crashing the entire Settings screen
 	chain.execute_next([])
 	var menu = chain.reference_object
 	if not is_instance_valid(menu): return
