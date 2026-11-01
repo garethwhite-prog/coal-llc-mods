@@ -34,7 +34,7 @@ func _load_repo_list() -> Array:
 	return list
 
 func _fetch_repo_releases(repo: String) -> void:
-	var url := "https://api.github.com/repos/%s/releases" % repo
+	var url := "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/mod_catalog.json"
 	var headers := ["User-Agent: Coal-LLC-Mod-Store/1.0"]
 	http_client.request(url, headers)
 	var result = await http_client.request_completed
@@ -53,4 +53,5 @@ func download_mod_zip(download_url: String, target_filename: String) -> void:
 	var res = await dl_http.request_completed
 	dl_http.queue_free()
 	mod_download_completed.emit(target_filename, res[1] == 200)
+
 

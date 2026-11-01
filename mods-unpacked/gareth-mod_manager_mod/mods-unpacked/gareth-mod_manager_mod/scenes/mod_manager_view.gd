@@ -99,7 +99,7 @@ func _populate_cards(content: VBoxContainer) -> void:
 		"Employees & Automation",
 		"Quality of Life",
 		"Performance & System",
-		"Gareth White (Official Suite)",`n		"Community Add-Ons",
+		"Community Add-Ons",
 		"Other Mods"
 	]
 

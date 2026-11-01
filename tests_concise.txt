@@ -2,32 +2,22 @@
   20: ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
   21: at: push_error (core/variant/variant_utility.cpp:1098)
   21: at: push_error (core/variant/variant_utility.cpp:1098)
- 538: SCRIPT ERROR: Parse Error: Function "_on_button_pressed" has the same name as a previously declared function.
- 539: at: GDScript::reload (res://mods-unpacked/gareth-mod_manager_mod/extensions/scenes/Interfaces/in_game/choose_passive.hooks.gd:44)
- 540: ERROR: Failed to load script "res://mods-unpacked/gareth-mod_manager_mod/extensions/scenes/Interfaces/in_game/choose_passive.hooks.gd" with error "Parse error".
- 541: at: load (modules/gdscript/gdscript.cpp:3022)
- 542: SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
- 543: at: install_script_hooks (res://addons/mod_loader/api/mod.gd:78)
-1064: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
-1065: at: apply_extension (res://addons/mod_loader/internal/script_extension.gd:118)
-1117: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
-1118: at: _load (core/io/resource_loader.cpp:359)
-1138: SCRIPT ERROR: Parse Error: Expected expression as array element.
-1139: at: GDScript::reload (res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd:102)
-1140: ERROR: Failed to load script "res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd" with error "Parse error".
-1141: at: load (modules/gdscript/gdscript.cpp:3022)
-1142: SCRIPT ERROR: Invalid assignment of property or key 'is_pre_run_mode' with value of type 'bool' on a base object of type 'Control'.
-1143: at: on_profession_selected (res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd:144)
-1144: SCRIPT ERROR: Invalid assignment of property or key 'is_pre_run_mode' with value of type 'bool' on a base object of type 'Control'.
-1145: at: on_profession_selected (res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd:144)
-1146: SCRIPT ERROR: Invalid assignment of property or key 'is_pre_run_mode' with value of type 'bool' on a base object of type 'Control'.
-1147: at: <anonymous lambda> (res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd:92)
-1148: SCRIPT ERROR: Invalid assignment of property or key 'is_pre_run_mode' with value of type 'bool' on a base object of type 'Control'.
-1149: at: <anonymous lambda> (res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd:92)
-1150: SCRIPT ERROR: Invalid assignment of property or key 'is_pre_run_mode' with value of type 'bool' on a base object of type 'Control'.
-1151: at: <anonymous lambda> (res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd:92)
-1152: SCRIPT ERROR: Invalid assignment of property or key 'is_pre_run_mode' with value of type 'bool' on a base object of type 'Control'.
-1153: at: <anonymous lambda> (res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd:92)
-1156: ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-1161: ERROR: 180 resources still in use at exit (run with --verbose for details).
-1162: at: clear (core/io/resource.cpp:614)
+1063: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
+1064: at: apply_extension (res://addons/mod_loader/internal/script_extension.gd:118)
+1116: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
+1117: at: _load (core/io/resource_loader.cpp:359)
+1137: SCRIPT ERROR: Parse Error: Expected expression as array element.
+1138: at: GDScript::reload (res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd:102)
+1139: ERROR: Failed to load script "res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd" with error "Parse error".
+1140: at: load (modules/gdscript/gdscript.cpp:3022)
+1141: SCRIPT ERROR: Invalid assignment of property or key 'is_pre_run_mode' with value of type 'bool' on a base object of type 'Control'.
+1142: at: <anonymous lambda> (res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd:92)
+1143: SCRIPT ERROR: Invalid assignment of property or key 'is_pre_run_mode' with value of type 'bool' on a base object of type 'Control'.
+1144: at: <anonymous lambda> (res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd:92)
+1145: SCRIPT ERROR: Invalid assignment of property or key 'is_pre_run_mode' with value of type 'bool' on a base object of type 'Control'.
+1146: at: <anonymous lambda> (res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd:92)
+1147: SCRIPT ERROR: Invalid assignment of property or key 'is_pre_run_mode' with value of type 'bool' on a base object of type 'Control'.
+1148: at: on_profession_selected (res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd:144)
+1151: ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+1156: ERROR: 181 resources still in use at exit (run with --verbose for details).
+1157: at: clear (core/io/resource.cpp:614)

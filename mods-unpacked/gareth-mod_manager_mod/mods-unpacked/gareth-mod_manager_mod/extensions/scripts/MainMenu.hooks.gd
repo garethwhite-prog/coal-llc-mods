@@ -89,7 +89,7 @@ func _ready(chain: ModLoaderHookChain) -> void:
 				if view_script:
 					var view: Control = Control.new()
 					view.set_script(view_script)
-					view.is_pre_run_mode = false
+					view.set_meta("is_pre_run_mode", false)
 					menu.add_child(view)
 			)
 			btn_grid.add_child(mod_btn)
@@ -141,7 +141,7 @@ func on_profession_selected(chain: ModLoaderHookChain, mode: int, prof: Object, 
 		var view: Control = Control.new()
 		view.set_script(view_script)
 		view.name = "PreRunModSelector"
-		view.is_pre_run_mode = true
+		view.set_meta("is_pre_run_mode", true)
 
 		view.confirmed.connect(func():
 			chain.execute_next([mode, prof, hard_modifier])
@@ -155,3 +155,4 @@ func on_profession_selected(chain: ModLoaderHookChain, mode: int, prof: Object, 
 		menu.add_child(view)
 	else:
 		chain.execute_next([mode, prof, hard_modifier])
+
