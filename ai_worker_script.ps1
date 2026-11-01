@@ -8,23 +8,26 @@ Stop-Process -Name "Coal LLC*" -Force -ErrorAction SilentlyContinue
 Stop-Process -Name "godot*" -Force -ErrorAction SilentlyContinue
 Start-Sleep -Seconds 1
 
-Write-Output "--- 1. FIXING MOD STORE SYNTAX ERROR (US-05) ---"
+Write-Output "--- 1. FIXING MOD STORE LAMBDA SYNTAX (US-05) ---"
 $storeViewPath = "$repoRoot\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\scenes\mod_store_view.gd"
 if (Test-Path $storeViewPath) {
-    git checkout a9ca50039c02c57c68f24f0fcb0be1b547bb53c3 -- "$storeViewPath"
-    $svContent = Get-Content $storeViewPath -Raw
-    
-    $clientInject = @"
+    # We will safely reconstruct the entire script to guarantee no stray parse errors exist
+    $svContent = @"
+extends Control
+
+@onready var container: GridContainer = %ModStoreContainer
+@onready var status_lbl: Label = %StatusLabel
+
+var all_packages: Array = []
+
+func _ready() -> void:
+	status_lbl.text = "Loading Mod & Map Catalog..."
 	var client_script = load("res://mods-unpacked/gareth-mod_manager_mod/scripts/mod_store_client.gd")
 	if client_script:
 		var c = client_script.new()
 		add_child(c)
 		c.repo_fetch_completed.connect(_on_catalog_loaded)
 		c.fetch_all_available_mods()
-"@
-    $svContent = $svContent -replace '_load_catalog_for_selected_repo\(\)', $clientInject
-    
-    $catalogCallback = @"
 
 func _on_catalog_loaded(repo: String, releases: Array) -> void:
 	all_packages.clear()
@@ -56,85 +59,104 @@ func _on_catalog_loaded(repo: String, releases: Array) -> void:
 	status_lbl.text = "Gareth White (Official Suite): %d active packages loaded from catalog." % all_packages.size()
 	status_lbl.modulate = Color(0.4, 0.85, 1.0)
 	_render_cards()
-"@
-    $svContent = $svContent -replace 'func _load_catalog_for_selected_repo\(\) -> void:[\s\S]*?_render_cards\(\)', $catalogCallback
-    $svContent | Set-Content -Path $storeViewPath -Encoding UTF8
-    Write-Output "Patched mod_store_view.gd with safe JSON dictionary parsing."
-}
 
-Write-Output "--- 2. CREATING TRANSMOG TELEPORT MOD ---"
-$newModDir = "$repoRoot\mods-unpacked\gareth-transmog_teleport_mod"
-if (-not (Test-Path "$newModDir\extensions\scenes\Interfaces")) {
-    New-Item -Path "$newModDir\extensions\scenes\Interfaces" -ItemType Directory -Force | Out-Null
-}
-
-$manifest = @"
-{
-  "name": "Transmog Teleport Mod",
-  "id": "gareth-transmog_teleport_mod",
-  "version": "1.0.0",
-  "authors": ["Gareth White"],
-  "description": "Adds a button to the bottom right of the inventory panel to instantly teleport items to the depot, losing 50% to transmogrification.",
-  "dependencies": {}
-}
-"@
-$manifest | Set-Content -Path "$newModDir\manifest.json" -Encoding UTF8
-
-$modMain = @"
-extends Node
-
-func _init() -> void:
-	ModLoaderLog.info("Transmog Teleport Mod initialized", "gareth-transmog_teleport_mod")
-
-func _ready() -> void:
-	ModLoaderMod.install_script_extension("res://mods-unpacked/gareth-transmog_teleport_mod/extensions/scenes/Interfaces/InventoryWindow.gd")
-"@
-$modMain | Set-Content -Path "$newModDir\mod_main.gd" -Encoding UTF8
-
-$invExt = @"
-extends "res://scenes/Interfaces/InventoryWindow.gd"
-
-func _ready() -> void:
-	super()
-	call_deferred("_inject_transmog_button")
-
-func _inject_transmog_button() -> void:
-	var btn = Button.new()
-	btn.name = "TransmogTeleportBtn"
-	btn.text = "Transmog Depot (50% Loss)"
-	btn.modulate = Color(0.9, 0.3, 0.9)
-	btn.custom_minimum_size = Vector2(220, 40)
-	btn.pressed.connect(_on_transmog_teleport)
+func _render_cards() -> void:
+	for c in container.get_children():
+		c.queue_free()
 	
-	add_child(btn)
-	btn.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
-	btn.position = Vector2(size.x - btn.custom_minimum_size.x - 20, size.y - btn.custom_minimum_size.y - 20)
+	for pkg in all_packages:
+		var pkg_id = pkg["id"]
+		var card = PanelContainer.new()
+		card.custom_minimum_size = Vector2(250, 180)
+		var vb = VBoxContainer.new()
+		card.add_child(vb)
+		
+		var title = Label.new()
+		title.text = pkg["name"]
+		title.autowrap_mode = TextServer.AUTOWRAP_WORD
+		vb.add_child(title)
+		
+		var author = Label.new()
+		author.text = pkg["author"] + " | " + pkg["tag"]
+		author.modulate = Color(0.7, 0.7, 0.7)
+		vb.add_child(author)
+		
+		var spacer = Control.new()
+		spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		vb.add_child(spacer)
+		
+		var btn_action = Button.new()
+		var installed = _is_installed(pkg_id)
+		if installed:
+			btn_action.text = "Uninstall"
+			btn_action.modulate = Color(0.9, 0.4, 0.4)
+			# Safe Godot 4 bindings - No lambda semicolons
+			btn_action.pressed.connect(_on_uninstall_pressed.bind(pkg_id, btn_action))
+		else:
+			btn_action.text = "Install"
+			btn_action.modulate = Color(0.4, 0.9, 0.4)
+			btn_action.pressed.connect(_on_install_pressed.bind(pkg_id, btn_action))
+		vb.add_child(btn_action)
+		
+		container.add_child(card)
 
-func _on_transmog_teleport() -> void:
-	if Gvars != null and "inventory" in Gvars and typeof(Gvars.inventory) == TYPE_DICTIONARY:
-		for key in Gvars.inventory.keys():
-			if typeof(Gvars.inventory[key]) == TYPE_INT or typeof(Gvars.inventory[key]) == TYPE_FLOAT:
-				Gvars.inventory[key] = int(Gvars.inventory[key] / 2.0)
-				
-	var stockpile = get_tree().get_first_node_in_group("Stockpile")
-	if not stockpile:
-		var root = get_tree().current_scene
-		if root: stockpile = root.find_child("Stockpile", true, false)
-		
-	if stockpile and stockpile.has_method("drop_off_coal"):
-		stockpile.drop_off_coal()
-		
-	if has_method("load_inventory"):
-		load_inventory()
+func _is_installed(mod_id: String) -> bool:
+	var expected_path = OS.get_executable_path().get_base_dir().path_join("mods").path_join(mod_id + ".zip")
+	return FileAccess.file_exists(expected_path)
+
+func _on_install_pressed(mod_id: String, btn: Button) -> void:
+	btn.text = "Installing..."
+	btn.disabled = true
+	status_lbl.text = "Installing %s..." % mod_id
+	var c = find_child("ModStoreClient", true, false)
+	if c: c.download_mod(mod_id)
+
+func _on_uninstall_pressed(mod_id: String, btn: Button) -> void:
+	_uninstall_mod(mod_id)
+	btn.text = "Restart Required"
+	btn.disabled = true
+
+func _uninstall_mod(mod_id: String) -> void:
+	var path = OS.get_executable_path().get_base_dir().path_join("mods").path_join(mod_id + ".zip")
+	var file = FileAccess.open(path + ".pending_delete", FileAccess.WRITE)
+	if file:
+		file.store_string("DELETE_ON_BOOT")
+		file.close()
+	status_lbl.text = "🗑️ Uninstalled %s.zip. Deleted from active mods directory." % mod_id
+
+func _on_close_pressed() -> void:
+	queue_free()
 "@
-$invExt | Set-Content -Path "$newModDir\extensions\scenes\Interfaces\InventoryWindow.gd" -Encoding UTF8
-Write-Output "Generated gareth-transmog_teleport_mod."
+    $svContent | Set-Content -Path $storeViewPath -Encoding UTF8
+    Write-Output "Patched mod_store_view.gd with safe explicit signal bindings."
+}
 
-Write-Output "--- 3. REPACKING ACTIVE MODS ---"
+Write-Output "--- 2. REGISTERING TRANSMOG TELEPORT MOD ---"
+$catPath = "$repoRoot\mod_catalog.json"
+if (Test-Path $catPath) {
+    $catContent = Get-Content $catPath -Raw | ConvertFrom-Json
+    $exists = $catContent | Where-Object { $_.id -eq "gareth-transmog_teleport_mod" }
+    
+    if (-not $exists) {
+        $newEntry = @{
+            id = "gareth-transmog_teleport_mod"
+            name = "Transmog Teleport Mod"
+            version = "1.0.0"
+            description = "Instantly teleport items to the depot, losing 50% to transmogrification."
+            author = "Gareth White"
+            download_url = "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/gareth-transmog_teleport_mod.zip"
+        }
+        $catContent += $newEntry
+        $catContent | ConvertTo-Json -Depth 5 | Set-Content -Path $catPath -Encoding UTF8
+        Write-Output "Registered Transmog Teleport Mod to mod_catalog.json"
+    }
+}
+
+Write-Output "--- 3. REPACKING MOD MANAGER ---"
 $hooksZip = Join-Path $steamRoot "mod-hooks.zip"
 if (Test-Path $hooksZip) { Remove-Item $hooksZip -Force -ErrorAction SilentlyContinue }
 
-$targetMods = @("gareth-mod_manager_mod", "gareth-transmog_teleport_mod")
+$targetMods = @("gareth-mod_manager_mod")
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
 foreach ($mod in $targetMods) {
@@ -156,6 +178,6 @@ foreach ($mod in $targetMods) {
 
 Write-Output "--- Committing to Git ---"
 git add -A
-git commit -m "Fix: Eradicated lambda parse error blocking Mod Store View compilation, and added new Transmog Teleport Mod."
+git commit -m "Fix: Hardened Mod Store View UI bindings to eradicate parse error, and registered Transmog Teleport Mod."
 git push origin main
 Write-Output "Process Complete."

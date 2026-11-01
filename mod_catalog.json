@@ -713,5 +713,13 @@
         "browser_download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/autopassivechooser.zip"
       }
     ]
+  },
+  {
+    "name": "Transmog Teleport Mod",
+    "author": "Gareth White",
+    "description": "Instantly teleport items to the depot, losing 50% to transmogrification.",
+    "id": "gareth-transmog_teleport_mod",
+    "download_url": "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/gareth-transmog_teleport_mod.zip",
+    "version": "1.0.0"
   }
 ]
