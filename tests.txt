@@ -2,28 +2,16 @@
   20: ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
   21: at: push_error (core/variant/variant_utility.cpp:1098)
   21: at: push_error (core/variant/variant_utility.cpp:1098)
-1032: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
-1033: at: apply_extension (res://addons/mod_loader/internal/script_extension.gd:118)
-1097: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
-1098: at: _load (core/io/resource_loader.cpp:359)
-1106: SCRIPT ERROR: Parse Error: Expected closing ")" after call arguments.
-1107: at: GDScript::reload (res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.gd:93)
-1108: ERROR: Failed to load script "res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.gd" with error "Parse error".
-1109: at: load (modules/gdscript/gdscript.cpp:3022)
-1110: SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
-1111: at: <anonymous lambda> (res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd:107)
-1112: SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
-1113: at: <anonymous lambda> (res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd:107)
-1114: SCRIPT ERROR: Parse Error: Expected statement, found "Indent" instead.
-1115: at: GDScript::reload (res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd:66)
-1116: ERROR: Failed to load script "res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd" with error "Parse error".
-1117: at: load (modules/gdscript/gdscript.cpp:3022)
-1118: SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
-1119: at: <anonymous lambda> (res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd:107)
-1120: SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
-1121: at: <anonymous lambda> (res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd:107)
-1122: SCRIPT ERROR: Invalid access to property or key 'confirmed' on a base object of type 'Control'.
-1123: at: on_profession_selected (res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd:146)
-1126: ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-1131: ERROR: 178 resources still in use at exit (run with --verbose for details).
-1132: at: clear (core/io/resource.cpp:614)
+ 530: SCRIPT ERROR: Parse Error: Identifier "chain" not declared in the current scope.
+ 531: at: GDScript::reload (res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd:21)
+ 532: ERROR: Failed to load script "res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd" with error "Parse error".
+ 533: at: load (modules/gdscript/gdscript.cpp:3022)
+ 534: SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+ 535: at: install_script_hooks (res://addons/mod_loader/api/mod.gd:78)
+1036: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
+1037: at: apply_extension (res://addons/mod_loader/internal/script_extension.gd:118)
+1101: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
+1102: at: _load (core/io/resource_loader.cpp:359)
+1110: ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+1115: ERROR: 176 resources still in use at exit (run with --verbose for details).
+1116: at: clear (core/io/resource.cpp:614)

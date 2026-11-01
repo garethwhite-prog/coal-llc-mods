@@ -1,23 +1,7 @@
 extends Object
 
 func _ready(chain: ModLoaderHookChain) -> void:
-	_process_pending_deletions()
 	chain.execute_next([])
-
-func _process_pending_deletions() -> void:
-	var base_dir = OS.get_executable_path().get_base_dir()
-	var mods_dir = base_dir.path_join("mods")
-	var dir = DirAccess.open(mods_dir)
-	if dir:
-		dir.list_dir_begin()
-		var file_name = dir.get_next()
-		while file_name != "":
-			if "pending_delete" in file_name:
-				var target_zip = file_name.replace(".pending_delete", ".zip")
-				if FileAccess.file_exists(mods_dir.path_join(target_zip)):
-					DirAccess.remove_absolute(mods_dir.path_join(target_zip))
-				DirAccess.remove_absolute(mods_dir.path_join(file_name))
-			file_name = dir.get_next()
 	var menu = chain.reference_object
 	if not is_instance_valid(menu):
 		return
@@ -171,4 +155,3 @@ func on_profession_selected(chain: ModLoaderHookChain, mode: int, prof: Object, 
 		menu.add_child(view)
 	else:
 		chain.execute_next([mode, prof, hard_modifier])
-

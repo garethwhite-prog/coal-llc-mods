@@ -1,1 +1,1 @@
---- 1. FIXING MOD MANAGER PARSE ERRORS (BUG-05) ---
+--- 1. FACTORY RESET: Main Menu Button Injection (BUG-06) ---
