@@ -8,10 +8,15 @@ func _ready(chain: ModLoaderHookChain) -> void:
 	var factory = load("res://mods-unpacked/gareth-drone_workforce_mod/scripts/drone_texture_factory.gd")
 	if not factory: return
 
-	# Bug 01 Fix: Explicitly hide the root 'Sprites' Node2D container verified in the dump
+	var anim = miner.get_node_or_null("MiningAnimationPlayer")
+	if is_instance_valid(anim):
+		anim.stop()
+		anim.active = false
+
 	var sprites_node = miner.get_node_or_null("Sprites")
 	if is_instance_valid(sprites_node):
 		sprites_node.visible = false
+		sprites_node.modulate.a = 0.0
 
 	var drone_spr = miner.get_node_or_null("MinerDroneSprite")
 	if not drone_spr:

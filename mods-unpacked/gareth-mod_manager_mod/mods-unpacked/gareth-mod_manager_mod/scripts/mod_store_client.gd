@@ -53,3 +53,4 @@ func download_mod_zip(download_url: String, target_filename: String) -> void:
 	var res = await dl_http.request_completed
 	dl_http.queue_free()
 	mod_download_completed.emit(target_filename, res[1] == 200)
+

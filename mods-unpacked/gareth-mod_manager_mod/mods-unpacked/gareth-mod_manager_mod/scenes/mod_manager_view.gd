@@ -99,7 +99,7 @@ func _populate_cards(content: VBoxContainer) -> void:
 		"Employees & Automation",
 		"Quality of Life",
 		"Performance & System",
-		"Community Add-Ons",
+		"Gareth White (Official Suite)",`n		"Community Add-Ons",
 		"Other Mods"
 	]
 
@@ -202,6 +202,7 @@ func _on_confirm() -> void:
 
 	confirmed.emit()
 	queue_free()
+
 
 
 
