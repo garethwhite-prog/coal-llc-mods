@@ -54,5 +54,3 @@ func download_mod_zip(download_url: String, target_filename: String) -> void:
 	dl_http.queue_free()
 	mod_download_completed.emit(target_filename, res[1] == 200)
 
-
-

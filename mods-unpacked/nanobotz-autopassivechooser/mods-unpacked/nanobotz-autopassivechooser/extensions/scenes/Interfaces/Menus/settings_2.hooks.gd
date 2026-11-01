@@ -6,17 +6,15 @@ func _ready(chain: ModLoaderHookChain) -> void:
 	if not is_instance_valid(menu): return
 	
 	var passive_list = menu.find_child("passive_list", true, false)
-	if not is_instance_valid(passive_list):
-		passive_list = menu.find_child("VBoxContainer", true, false)
-		
-	if is_instance_valid(passive_list) and not passive_list.has_node("BouncingBallDamage"):
-		var template = menu.get_node_or_null("%Template")
-		if not is_instance_valid(template) and passive_list.get_child_count() > 0:
-			for c in passive_list.get_children():
-				if c is Control: 
-					template = c
-					break
-					
+	if not is_instance_valid(passive_list): return
+	
+	if not passive_list.has_node("BouncingBallDamage"):
+		var template = null
+		for c in passive_list.get_children():
+			if c is Control: 
+				template = c
+				break
+				
 		if is_instance_valid(template):
 			var keys = ["Bouncing Ball Damage", "Bouncing Ball Radius", "Bouncing Ball Fire Rate"]
 			var internal_keys = ["ball_blast_damage", "ball_blast_radius", "ball_fire_rate"]

@@ -212,7 +212,7 @@ func _inject_search_bar() -> void:
 	var header = find_child("HeaderContainer", true, false)
 	if not header: header = self
 	var search = LineEdit.new()
-	search.placeholder_text = "Search installed mods..."
+	search.placeholder_text = "Search active mods..."
 	search.custom_minimum_size = Vector2(300, 35)
 	search.text_changed.connect(_on_search_filter)
 	header.add_child(search)
