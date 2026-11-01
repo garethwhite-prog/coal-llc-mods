@@ -8,96 +8,85 @@ Stop-Process -Name "Coal LLC*" -Force -ErrorAction SilentlyContinue
 Stop-Process -Name "godot*" -Force -ErrorAction SilentlyContinue
 Start-Sleep -Seconds 1
 
-Write-Output "--- 1. FIXING MAIN MENU BUTTON SCRIPT CRASH (BUG-06) ---"
+Write-Output "--- 1. FIXING PASSIVE ORDER GD SCRIPT (BUG-02) ---"
+$passiveOrderGdPath = "$repoRoot\mods-unpacked\nanobotz-autopassivechooser\mods-unpacked\nanobotz-autopassivechooser\scenes\passive_order.gd"
+if (Test-Path $passiveOrderGdPath) {
+    $content = Get-Content $passiveOrderGdPath -Raw
+    # Fix the static method call that crashed the parser
+    $oldCall = 'if ModLoaderConfig.has_method("update_config"):'
+    $newCall = 'if ModLoaderConfig and "update_config" in ModLoaderConfig:'
+    $content = $content.Replace($oldCall, $newCall)
+    $content | Set-Content -Path $passiveOrderGdPath -Encoding UTF8
+    Write-Output "Patched passive_order.gd to fix static method parse error."
+}
+
+Write-Output "--- 2. FIXING MOD STORE CLIENT PARSER (US-05) ---"
+$storeViewPath = "$repoRoot\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\scenes\mod_store_view.gd"
+if (Test-Path $storeViewPath) {
+    git checkout 807de20 -- "$storeViewPath"
+    $svContent = Get-Content $storeViewPath -Raw
+    
+    $clientInject = @"
+	var client_script = load("res://mods-unpacked/gareth-mod_manager_mod/scripts/mod_store_client.gd")
+	if client_script:
+		var c = client_script.new()
+		add_child(c)
+		c.repo_fetch_completed.connect(_on_catalog_loaded)
+		c.fetch_all_available_mods()
+"@
+    $svContent = $svContent -replace '_load_catalog_for_selected_repo\(\)', $clientInject
+    
+    # Extract data from the flat custom array, NOT the nested GitHub schema
+    $catalogCallback = @"
+
+func _on_catalog_loaded(repo: String, releases: Array) -> void:
+	all_packages.clear()
+	for r in releases:
+		if typeof(r) != TYPE_DICTIONARY: continue
+		var p_name = r.get("name", "Unknown Mod")
+		var p_id = r.get("id", "")
+		var dl_url = r.get("download_url", "")
+		var tag = r.get("version", "1.0.0")
+		if not tag.begins_with("v"): tag = "v" + tag
+		
+		# If it's a GitHub API formatted response (fallback)
+		var assets = r.get("assets", [])
+		if typeof(assets) == TYPE_ARRAY and assets.size() > 0:
+			var asset_map = assets[0]
+			if typeof(asset_map) == TYPE_DICTIONARY:
+				if p_id == "": p_id = asset_map.get("name", "").replace(".zip", "")
+				tag = r.get("tag_name", "v1.0")
+				
+		if p_id == "": continue
+
+		all_packages.append({
+			"id": p_id,
+			"name": p_name,
+			"tag": tag,
+			"desc": r.get("description", r.get("body", "No description available.")),
+			"cat": "Official Suite",
+			"author": r.get("author", "Gareth White")
+		})
+	status_lbl.text = "Gareth White (Official Suite): %d active packages loaded from catalog." % all_packages.size()
+	status_lbl.modulate = Color(0.4, 0.85, 1.0)
+	_render_cards()
+"@
+    $svContent = $svContent -replace 'func _load_catalog_for_selected_repo\(\) -> void:[\s\S]*?_render_cards\(\)', $catalogCallback
+    $svContent = $svContent -replace 'btn_action\.pressed\.connect\(func\(\): _uninstall_mod\(pkg_id\)\)', 'btn_action.pressed.connect(func(): _uninstall_mod(pkg_id); btn_action.text = "Restart Required"; btn_action.disabled = true)'
+    $svContent | Set-Content -Path $storeViewPath -Encoding UTF8
+    Write-Output "Patched Mod Store View for flat JSON array parsing."
+}
+
+Write-Output "--- 3. FIXING MAIN MENU NULL CALLS (BUG-06) ---"
 $mainMenuHooksPath = "$repoRoot\mods-unpacked\gareth-mod_manager_mod\mods-unpacked\gareth-mod_manager_mod\extensions\scripts\MainMenu.hooks.gd"
 if (Test-Path $mainMenuHooksPath) {
-    $mmContent = @"
-extends Object
-
+    git checkout a9ca50039c02c57c68f24f0fcb0be1b547bb53c3 -- "$mainMenuHooksPath"
+    $mmContent = Get-Content $mainMenuHooksPath -Raw
+    
+    $purgeLogic = @"
 func _ready(chain: ModLoaderHookChain) -> void:
 	_process_pending_deletions()
 	chain.execute_next([])
-	var menu = chain.reference_object
-	if not is_instance_valid(menu): return
-
-	var btn_grid = menu.get_node_or_null("%MainMenuButtons")
-	if btn_grid:
-		btn_grid.offset_top = -68.0
-		btn_grid.offset_bottom = 176.0
-		btn_grid.add_theme_constant_override("separation", 4)
-
-		if not btn_grid.has_node("ModManagerButton"):
-			var mod_btn := Button.new()
-			mod_btn.name = "ModManagerButton"
-			mod_btn.text = "Mod Manager"
-			mod_btn.custom_minimum_size = Vector2(0, 30)
-			mod_btn.pressed.connect(func():
-				var view_script = load("res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd")
-				if view_script and (view_script is GDScript):
-					var view = view_script.new()
-					if view is Control:
-						view.set_meta("is_pre_run_mode", false)
-						menu.add_child(view)
-			)
-			btn_grid.add_child(mod_btn)
-			btn_grid.move_child(mod_btn, 2)
-
-		if not btn_grid.has_node("ModStoreButton"):
-			var store_btn := Button.new()
-			store_btn.name = "ModStoreButton"
-			store_btn.text = "Mod & Map Store"
-			store_btn.custom_minimum_size = Vector2(0, 30)
-			store_btn.modulate = Color(1.0, 0.88, 0.35)
-			store_btn.pressed.connect(func():
-				var store_script = load("res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.gd")
-				if store_script and (store_script is GDScript):
-					var store_view = store_script.new()
-					if store_view is Node:
-						menu.add_child(store_view)
-			)
-			btn_grid.add_child(store_btn)
-			btn_grid.move_child(store_btn, 3)
-
-		if not btn_grid.has_node("LeaderboardsButton"):
-			var lb_btn := Button.new()
-			lb_btn.name = "LeaderboardsButton"
-			lb_btn.text = "Leaderboards"
-			lb_btn.custom_minimum_size = Vector2(0, 30)
-			lb_btn.pressed.connect(func():
-				var modal_script = load("res://mods-unpacked/gareth-leaderboard_mod/scenes/leaderboard_modal.gd")
-				if modal_script and (modal_script is GDScript):
-					var modal = modal_script.new()
-					if modal is Node:
-						menu.add_child(modal)
-			)
-			btn_grid.add_child(lb_btn)
-			btn_grid.move_child(lb_btn, 4)
-
-func on_profession_selected(chain: ModLoaderHookChain, mode: int, prof: Object, hard_modifier: Object) -> void:
-	var menu = chain.reference_object
-	if not menu:
-		chain.execute_next([mode, prof, hard_modifier])
-		return
-
-	var p_select = menu.get_node_or_null("ProfessionSelect")
-	if not p_select and "profession_select" in menu:
-		p_select = menu.profession_select
-	if p_select:
-		p_select.visible = false
-
-	var view_script = load("res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd")
-	if view_script and (view_script is GDScript):
-		var view = view_script.new()
-		if view is Control:
-			view.name = "PreRunModSelector"
-			view.set_meta("is_pre_run_mode", true)
-			if view.has_signal("confirmed"):
-				view.connect("confirmed", func(): chain.execute_next([mode, prof, hard_modifier]))
-			if view.has_signal("back_pressed"):
-				view.connect("back_pressed", func(): if p_select: p_select.visible = true)
-			menu.add_child(view)
-			return
-	chain.execute_next([mode, prof, hard_modifier])
 
 func _process_pending_deletions() -> void:
 	var base_dir = OS.get_executable_path().get_base_dir()
@@ -114,253 +103,12 @@ func _process_pending_deletions() -> void:
 				DirAccess.remove_absolute(mods_dir.path_join(file_name))
 			file_name = dir.get_next()
 "@
+    $mmContent = $mmContent -replace 'func _ready\(chain: ModLoaderHookChain\) -> void:\s*chain\.execute_next\(\[\]\)', $purgeLogic
     $mmContent | Set-Content -Path $mainMenuHooksPath -Encoding UTF8
-    Write-Output "Patched MainMenu.hooks.gd with strict type casting to prevent null lambda execution."
+    Write-Output "Patched MainMenu.hooks.gd to avoid null lambda crash."
 }
 
-Write-Output "--- 2. REWRITING AUTO PASSIVE CHOOSER SCRIPT (BUG-02) ---"
-$passiveOrderGdPath = "$repoRoot\mods-unpacked\nanobotz-autopassivechooser\mods-unpacked\nanobotz-autopassivechooser\scenes\passive_order.gd"
-if (Test-Path $passiveOrderGdPath) {
-    $passiveOrderContent = @"
-class_name PassiveOrder
-extends Control
-
-var NanobotzAutoPassiveChooserMod = load("res://mods-unpacked/nanobotz-autopassivechooser/mod_main.gd")
-
-@onready var profession_option: OptionButton = %ProfessionOption
-@onready var skip_weapons_check: CheckBox = %SkipWeaponsCheck
-@onready var reroll_check: CheckBox = %RerollCheck
-@onready var grid: GridContainer = %Grid
-@onready var template: Control = %Template
-
-var player_profession: String
-var template_children_count: int
-
-func _ready() -> void:
-	prepare_profession()
-	prepare_grid_and_reroll()
-
-func prepare_profession() -> void:
-	player_profession = NanobotzAutoPassiveChooserMod.get_current_profession_or_default()
-	if player_profession:
-		var profession_index: int = 0
-		if Gvars and ("profession_manager" in Gvars) and Gvars.profession_manager and ("all_professions" in Gvars.profession_manager):
-			for profession_idx in Gvars.profession_manager.all_professions:
-				var profession = Gvars.profession_manager.all_professions[profession_idx]
-				var profession_name = profession.profession.profession_name
-				profession_option.add_item(profession_name)
-				if profession_name.to_lower() == player_profession:
-					profession_index = profession_option.item_count - 1
-			
-			profession_option.select(profession_index)
-			profession_option.item_selected.connect(_on_profession_changed)
-
-func _on_profession_changed(idx: int) -> void:
-	player_profession = profession_option.get_item_text(idx).to_lower()
-	clear_grid()
-	prepare_grid_and_reroll()
-
-func clear_grid() -> void:
-	for child in grid.get_children():
-		grid.remove_child(child)
-		child.queue_free()
-
-func get_possible_passives_for_professions(profession_name: String) -> Array:
-	var passives: Array = []
-	if Gvars and ("profession_manager" in Gvars) and Gvars.profession_manager and ("all_professions" in Gvars.profession_manager):
-		for profession_idx in Gvars.profession_manager.all_professions:
-			var profession = Gvars.profession_manager.all_professions[profession_idx]
-			if profession_name.to_lower() == profession.profession.profession_name.to_lower():
-				var data = {"unlocked_passives": []}
-				if profession.profession.has_method("_profession_effect"):
-					data = profession.profession._profession_effect(data)
-					if data.has("unlocked_passives"):
-						passives = data["unlocked_passives"].duplicate()
-				break
-
-	if passives.is_empty():
-		if "ALL_PASSIVES" in ChoosePassive:
-			passives = ChoosePassive.ALL_PASSIVES.keys().duplicate()
-		else:
-			passives = ["player_jump_velocity", "player_sprint_speed"]
-
-	var extras: Array = [
-		"fire_damage", "wet_damage", "poison_damage", "elemental_tick_rate",
-		"employee_collector_speed", "employee_miner_damage", "employee_collector_capacity", 
-		"employee_miner_speed", "axe_damage", "bomb_damage", "bullet_damage", 
-		"drill_damage", "gun_recoil", "player_climb_speed",
-		"ball_blast_damage", "ball_blast_radius", "ball_fire_rate",
-		"exec_damage", "exec_fire_rate", "exec_bounty",
-		"drill_speed", "axe_speed", "gun_rate",
-		"dread_shell_damage", "dread_fire_rate", "dread_impact_radius",
-		"jedi_saber_damage", "jedi_swing_rate", "jedi_cleave_reach",
-		"sword_damage", "sword_speed", "sword_range",
-		"employee_miner_range", "employee_miner_pickup_speed", "collector_range",
-		"sinclair_melt_damage", "sinclair_beam_width", "sinclair_spectrum_ticks",
-		"fracker_pulse_damage", "fracker_seam_resonance", "fracker_fire_rate",
-		"void_implosion_damage", "void_pull_radius", "void_event_horizon"
-	]
-	
-	for ep in extras:
-		if not passives.has(ep):
-			passives.append(ep)
-
-	return passives
-
-func prepare_grid_and_reroll() -> void:
-	template_children_count = grid.columns
-	var config = NanobotzAutoPassiveChooserMod.get_or_create_config(player_profession)
-
-	if config and "data" in config:
-		if "skip_weapon_pickups" in config.data:
-			skip_weapons_check.button_pressed = config.data.skip_weapon_pickups
-		if "reroll_if_no_matches" in config.data:
-			reroll_check.button_pressed = config.data.reroll_if_no_matches
-
-		if not config.data.has("passive_order"):
-			config.data["passive_order"] = []
-		var passive_order = config.data["passive_order"]
-		var possible_passives := get_possible_passives_for_professions(player_profession)
-
-		var order_index := {}
-		for i in passive_order.size():
-			if "effect" in passive_order[i]:
-				order_index[passive_order[i].effect] = i
-
-		possible_passives.sort_custom(func(a, b):
-			var a_in := order_index.has(a)
-			var b_in := order_index.has(b)
-			if a_in and b_in: return order_index[a] < order_index[b]
-			elif a_in: return true
-			elif b_in: return false
-			else: return a < b
-		)
-
-		for effect_name in possible_passives:
-			var passive_settings := {}
-			for passive in passive_order:
-				if "effect" in passive and passive.effect == effect_name:
-					passive_settings = passive
-
-			var passive_enabled = passive_settings.get("enabled", false) if passive_settings else false
-			var passive_up_to = passive_settings.get("upTo", 0) if passive_settings else 0
-
-			var template_controls := template.get_children()
-			for control in template_controls:
-				var new_control := control.duplicate()
-
-				if new_control.name == "Enabled":
-					new_control.button_pressed = passive_enabled
-				elif new_control.name == "EffectName":
-					new_control.text = effect_name.replace("_", " ").capitalize()
-				elif new_control.name == "UpTo":
-					if passive_up_to > 0:
-						new_control.text = str(int(passive_up_to))
-					new_control.text_changed.connect(func(t): _on_up_to_text_changed(t, new_control))
-				elif new_control.name == "ButtonUp":
-					new_control.pressed.connect(func(): _on_button_up_pressed(effect_name))
-				elif new_control.name == "ButtonDown":
-					new_control.pressed.connect(func(): _on_button_down_pressed(effect_name))
-
-				new_control.name += "$" + effect_name
-				grid.add_child(new_control)
-
-func _on_button_up_pressed(effect_name: String) -> void:
-	move_controls(effect_name, true)
-
-func _on_button_down_pressed(effect_name: String) -> void:
-	move_controls(effect_name, false)
-
-func move_controls(effect_name: String, up: bool) -> void:
-	var child_offset := -template_children_count if up else template_children_count * 2
-	var control_offset := 0 if up else -1
-	var found_first := false
-
-	var control_idx: int = 0
-	for control in grid.get_children():
-		var parts = control.name.split("$")
-		if parts.size() > 1 and parts[1] == effect_name:
-			found_first = true
-			var new_pos := control_idx + child_offset + control_offset
-			if new_pos >= 0 and new_pos < grid.get_child_count():
-				grid.move_child(control, new_pos)
-				if not up:
-					control_idx -= 1
-		elif found_first:
-			break
-		control_idx += 1
-
-func _on_up_to_text_changed(text: String, control: Control) -> void:
-	if control is not LineEdit: return
-	var te := control as LineEdit
-	var old_text := text
-	var caret := te.caret_column
-	var new_text := ""
-	var removed_before := 0
-
-	for i in old_text.length():
-		if old_text[i].is_valid_int():
-			new_text += old_text[i]
-		elif i < caret:
-			removed_before += 1
-
-	if new_text != old_text:
-		te.text = new_text
-		te.caret_column = max(caret - removed_before, 0)
-
-func _on_confirm_pressed() -> void:
-	var config = NanobotzAutoPassiveChooserMod.get_or_create_config(player_profession)
-	if not config or not "data" in config: return
-
-	config.data.skip_weapon_pickups = skip_weapons_check.button_pressed
-	config.data.reroll_if_no_matches = reroll_check.button_pressed
-
-	if not config.data.has("passive_order"):
-		config.data["passive_order"] = []
-	var passive_order = config.data["passive_order"]
-	passive_order.clear()
-	
-	var prev_effect := ""
-	var passive := {}
-	for control in grid.get_children():
-		var splits = control.name.split("$")
-		if splits.size() < 2: continue
-
-		if splits[1] != prev_effect:
-			if not prev_effect.is_empty():
-				if passive.get("enabled", false):
-					passive_order.append(passive)
-				passive = {}
-
-			passive.effect = splits[1]
-			prev_effect = splits[1]
-				
-		if splits[0] == "Enabled":
-			passive.enabled = control.button_pressed
-		if splits[0] == "UpTo":
-			passive.upTo = int(control.text) if control.text else 0
-
-	if passive.get("enabled", false):
-		passive_order.append(passive)
-
-	if ModLoaderConfig.has_method("update_config"):
-		ModLoaderConfig.update_config(config)
-
-	clear_grid()
-	prepare_grid_and_reroll()
-"@
-    $passiveOrderContent | Set-Content -Path $passiveOrderGdPath -Encoding UTF8
-    Write-Output "Rewrote passive_order.gd to dynamically generate all extra passives safely."
-}
-
-Write-Output "--- 3. REMOVING SETTINGS 2 HACK (BUG-02) ---"
-$settingsHookPath = "$repoRoot\mods-unpacked\nanobotz-autopassivechooser\mods-unpacked\nanobotz-autopassivechooser\extensions\scenes\Interfaces\Menus\settings_2.hooks.gd"
-if (Test-Path $settingsHookPath) {
-    git checkout 807de20 -- "$settingsHookPath"
-    Write-Output "Reverted settings_2.hooks.gd to avoid layout corruption."
-}
-
-Write-Output "--- 4. REPACKING MODS ---"
+Write-Output "--- 4. Repacking Recovered Mods ---"
 $hooksZip = Join-Path $steamRoot "mod-hooks.zip"
 if (Test-Path $hooksZip) { Remove-Item $hooksZip -Force }
 
@@ -386,6 +134,6 @@ foreach ($mod in $targetMods) {
 
 Write-Output "--- Committing to Git ---"
 git add -A
-git commit -m "Fix: Hardened Main Menu button script to check class types, and dynamically generated UI rows for AutoPassiveChooser."
+git commit -m "Fix: Corrected ModLoaderConfig static call in passive_order, enforced Mod Store flat array mapping, and reset MainMenu lambdas."
 git push origin main
 Write-Output "Recovery Completed Successfully."
