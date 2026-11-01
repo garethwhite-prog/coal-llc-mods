@@ -41,22 +41,7 @@ func _on_button_2_pressed(chain: ModLoaderHookChain) -> void:
 func _on_button_3_pressed(chain: ModLoaderHookChain) -> void:
 	_handle_button_click(chain, 2)
 
-func _on_button_pressed(chain: ModLoaderHookChain) -> void:
-	chain.execute_next([])
-	_route_custom_passives(chain.reference_object)
-	
-func _on_button_2_pressed(chain: ModLoaderHookChain) -> void:
-	chain.execute_next([])
-	_route_custom_passives(chain.reference_object)
-	
-func _on_button_3_pressed(chain: ModLoaderHookChain) -> void:
-	chain.execute_next([])
-	_route_custom_passives(chain.reference_object)
-
-func _route_custom_passives(ui_node) -> void:
-	if is_instance_valid(ui_node):
-		# Re-implement custom logic here
-		pass(chain: ModLoaderHookChain, button_idx: int) -> void:
+func _handle_button_click(chain: ModLoaderHookChain, button_idx: int) -> void:
 	var screen = chain.reference_object
 	if not is_instance_valid(screen) or not screen.live or not ("choose_between" in screen):
 		chain.execute_next([])
@@ -91,4 +76,3 @@ func _route_custom_passives(ui_node) -> void:
 
 	screen.get_tree().paused = false
 	screen.queue_free()
-
