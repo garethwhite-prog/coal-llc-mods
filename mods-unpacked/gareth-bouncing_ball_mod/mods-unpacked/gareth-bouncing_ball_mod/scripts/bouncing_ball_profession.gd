@@ -1,4 +1,4 @@
-﻿class_name BouncingBallProfession
+class_name BouncingBallProfession
 extends Profession
 
 func _profession_effect(data: Dictionary) -> Dictionary:
@@ -17,7 +17,10 @@ func _profession_effect(data: Dictionary) -> Dictionary:
 			"ball_fire_rate",
 			"player_sprint_speed",
 			"player_jump_velocity",
-			"player_climb_speed"
+			"player_climb_speed",
+			"ball_blast_damage",
+			"ball_blast_radius",
+			"ball_fire_rate"
 		]
 
 	return data

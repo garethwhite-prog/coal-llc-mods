@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "bouncing_ball_mod",
   "namespace": "gareth",
   "version_number": "1.1.0",
@@ -9,10 +9,21 @@
     "godot": {
       "display_name": "Bouncing Ball Class",
       "category": "Progression & Upgrades",
-      "authors": ["Gareth White"],
-      "tags": ["class", "profession", "weapon", "ball"],
-      "compatible_mod_loader_version": ["7.0.1"],
-      "compatible_game_version": ["1.4.1.1"]
+      "authors": [
+        "Gareth White"
+      ],
+      "tags": [
+        "class",
+        "profession",
+        "weapon",
+        "ball"
+      ],
+      "compatible_mod_loader_version": [
+        "7.0.1"
+      ],
+      "compatible_game_version": [
+        "1.4.1.1"
+      ]
     }
   }
 }

@@ -8,10 +8,10 @@ func _ready(chain: ModLoaderHookChain) -> void:
 	var factory = load("res://mods-unpacked/gareth-drone_workforce_mod/scripts/drone_texture_factory.gd")
 	if not factory: return
 
-	for part in ["Head", "Torso", "Legs", "Tool"]:
-		var node = miner.find_child(part, true, false)
-		if is_instance_valid(node) and node is CanvasItem:
-			node.visible = false
+	# Bug 01 Fix: Explicitly hide the root 'Sprites' Node2D container verified in the dump
+	var sprites_node = miner.get_node_or_null("Sprites")
+	if is_instance_valid(sprites_node):
+		sprites_node.visible = false
 
 	var drone_spr = miner.get_node_or_null("MinerDroneSprite")
 	if not drone_spr:

@@ -1,24 +1,31 @@
+clear-host
 $repoRoot = "C:\Dev\coal-llc-mods"
 
-Write-Output "--- DISCOVERY: US-01 Thomas the Tank ---"
-$thomasDir = Join-Path $repoRoot "mods-unpacked\gareth-thomas_tank_engine_mod\mods-unpacked\gareth-thomas_tank_engine_mod"
-Write-Output "Thomas dir: $thomasDir"
-if (Test-Path $thomasDir) { Get-ChildItem $thomasDir -Recurse -Filter "*.gd" | ForEach-Object { Write-Output "FILE: $_"; Get-Content $_ -TotalCount 25 } } else { Write-Output "Thomas dir not found" }
+Write-Output "--- DISCOVERY: BUG-01 Drone Workforce Node Tree ---"
+$dumpMiner = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\_dump\scenes\AutoMiners\employee_miner_2.tscn"
+if (Test-Path $dumpMiner) { 
+    Write-Output "Scanning vanilla employee_miner_2.tscn for visual nodes:"
+    # FIXED: Wrapped pattern in single quotes
+    Select-String -Path $dumpMiner -Pattern 'type="Sprite2D"|type="Node2D"|name="Head"|name="Torso"' 
+} else { Write-Output "Miner dump not found" }
 
-Write-Output "
---- DISCOVERY: US-02 Reach Expansion ---"
-$reachDir = Join-Path $repoRoot "mods-unpacked\gareth-reach_expansion_mod\mods-unpacked\gareth-reach_expansion_mod"
-Write-Output "Reach dir: $reachDir"
-if (Test-Path $reachDir) { Get-ChildItem $reachDir -Recurse -Filter "*.gd" | ForEach-Object { Write-Output "FILE: $_"; Get-Content $_ -TotalCount 25 } } else { Write-Output "Reach dir not found" }
+$dumpUfo = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC\_dump\scenes\AutoMiners\LootCollectorUFO.tscn"
+if (Test-Path $dumpUfo) { 
+    Write-Output "Scanning vanilla LootCollectorUFO.tscn for visual nodes:"
+    # FIXED: Wrapped pattern in single quotes
+    Select-String -Path $dumpUfo -Pattern 'type="Sprite2D"|type="Node2D"|name="Models"' 
+} else { Write-Output "UFO dump not found" }
 
-Write-Output "
---- DISCOVERY: US-03 Quadcopter Drones ---"
-$droneDir = Join-Path $repoRoot "mods-unpacked\gareth-drone_workforce_mod\mods-unpacked\gareth-drone_workforce_mod"
-Write-Output "Drone dir: $droneDir"
-if (Test-Path $droneDir) { Get-ChildItem $droneDir -Recurse -Filter "*.gd" | ForEach-Object { Write-Output "FILE: $_"; Get-Content $_ -TotalCount 25 } } else { Write-Output "Drone dir not found" }
+Write-Output "`n--- DISCOVERY: BUG-02 AutoPassiveChooser UI Architecture ---"
+$passiveGd = Join-Path $repoRoot "mods-unpacked\nanobotz-autopassivechooser\mods-unpacked\nanobotz-autopassivechooser\scenes\passive_order.gd"
+if (Test-Path $passiveGd) { 
+    Write-Output "Scanning passive_order.gd:"
+    Get-Content $passiveGd -TotalCount 40 
+} else { Write-Output "passive_order.gd not found" }
 
-Write-Output "
---- DISCOVERY: US-04 Henry Hoover ---"
-$henryDir = Join-Path $repoRoot "mods-unpacked\gareth-henry_the_hoover_mod\mods-unpacked\gareth-henry_the_hoover_mod"
-Write-Output "Henry dir: $henryDir"
-if (Test-Path $henryDir) { Get-ChildItem $henryDir -Recurse -Filter "*.gd" | ForEach-Object { Write-Output "FILE: $_"; Get-Content $_ -TotalCount 25 } } else { Write-Output "Henry dir not found" }
+$passiveTscn = Join-Path $repoRoot "mods-unpacked\nanobotz-autopassivechooser\mods-unpacked\nanobotz-autopassivechooser\scenes\passive_order.tscn"
+if (Test-Path $passiveTscn) { 
+    Write-Output "Scanning passive_order.tscn for hardcoded nodes:"
+    # FIXED: Wrapped pattern in single quotes
+    Select-String -Path $passiveTscn -Pattern 'name="passive_list"|type="VBoxContainer"' 
+} else { Write-Output "passive_order.tscn not found" }
