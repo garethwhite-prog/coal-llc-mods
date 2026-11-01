@@ -41,6 +41,14 @@
 1177: at: connect (core/object/object.cpp:1451)
 1178: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
 1179: at: connect (core/object/object.cpp:1451)
+1267: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1268: at: add_child (scene/main/node.cpp:1657)
+1269: ERROR: Child is not a child of this node.
+1270: at: move_child (scene/main/node.cpp:465)
+1271: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1272: at: add_child (scene/main/node.cpp:1657)
+1273: ERROR: Child is not a child of this node.
+1274: at: move_child (scene/main/node.cpp:465)
 1276: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
 1277: at: add_child (scene/main/node.cpp:1657)
 1278: ERROR: Child is not a child of this node.
@@ -49,115 +57,281 @@
 1281: at: add_child (scene/main/node.cpp:1657)
 1282: ERROR: Child is not a child of this node.
 1283: at: move_child (scene/main/node.cpp:465)
-1326: ERROR: <Tween#-9223356707579592735>: started with no Tweeners.
-1327: at: step (scene/animation/tween.cpp:355)
-1328: ERROR: <Tween#-9223356699945957470>: started with no Tweeners.
-1329: at: step (scene/animation/tween.cpp:355)
-1331: SCRIPT ERROR: Trying to call an async function without "await".
-1332: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
-1336: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1337: at: add_child (scene/main/node.cpp:1657)
-1338: ERROR: Child is not a child of this node.
-1339: at: move_child (scene/main/node.cpp:465)
-1343: SCRIPT ERROR: Trying to call an async function without "await".
-1344: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
-1346: SCRIPT ERROR: Trying to call an async function without "await".
-1347: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
-1348: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1349: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
-1350: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1351: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
-1352: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1353: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
-1354: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1355: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
-1356: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1357: at: add_child (scene/main/node.cpp:1657)
-1358: ERROR: Child is not a child of this node.
-1359: at: move_child (scene/main/node.cpp:465)
-1360: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1361: at: add_child (scene/main/node.cpp:1657)
-1362: ERROR: Child is not a child of this node.
-1363: at: move_child (scene/main/node.cpp:465)
-1366: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
-1369: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-1370: at: connect (core/object/object.cpp:1451)
-1371: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-1372: at: connect (core/object/object.cpp:1451)
-1373: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-1374: at: connect (core/object/object.cpp:1451)
-1375: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-1376: at: connect (core/object/object.cpp:1451)
-1440: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1441: at: add_child (scene/main/node.cpp:1657)
-1442: ERROR: Child is not a child of this node.
-1443: at: move_child (scene/main/node.cpp:465)
-1444: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1445: at: add_child (scene/main/node.cpp:1657)
-1446: ERROR: Child is not a child of this node.
-1447: at: move_child (scene/main/node.cpp:465)
-1593: SCRIPT ERROR: Trying to call an async function without "await".
-1594: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
-1598: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1599: at: add_child (scene/main/node.cpp:1657)
-1600: ERROR: Child is not a child of this node.
-1601: at: move_child (scene/main/node.cpp:465)
-1605: SCRIPT ERROR: Trying to call an async function without "await".
-1606: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
-1608: SCRIPT ERROR: Trying to call an async function without "await".
-1609: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
-1610: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1611: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
-1612: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1613: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
-1614: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1615: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
-1616: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1617: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
-1618: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1619: at: add_child (scene/main/node.cpp:1657)
-1620: ERROR: Child is not a child of this node.
-1621: at: move_child (scene/main/node.cpp:465)
-1622: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1623: at: add_child (scene/main/node.cpp:1657)
-1624: ERROR: Child is not a child of this node.
-1625: at: move_child (scene/main/node.cpp:465)
-1628: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
-1631: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-1632: at: connect (core/object/object.cpp:1451)
-1633: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-1634: at: connect (core/object/object.cpp:1451)
-1635: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-1636: at: connect (core/object/object.cpp:1451)
-1637: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-1638: at: connect (core/object/object.cpp:1451)
-1911: SCRIPT ERROR: Trying to call an async function without "await".
-1912: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
-1916: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1917: at: add_child (scene/main/node.cpp:1657)
-1918: ERROR: Child is not a child of this node.
-1919: at: move_child (scene/main/node.cpp:465)
-1926: ERROR: 11 RID allocations of type 'N10RendererRD12LightStorage11ShadowAtlasE' were leaked at exit.
-1927: ERROR: 11 RID allocations of type 'N10RendererRD14TextureStorage12RenderTargetE' were leaked at exit.
-1928: ERROR: 106 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-1929: ERROR: 11 RID allocations of type 'N16RendererViewport8ViewportE' were leaked at exit.
-1932: ERROR: 111 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
-1933: ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
-1936: ERROR: 192 resources still in use at exit (run with --verbose for details).
-1937: at: clear (core/io/resource.cpp:614)
+1288: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1289: at: add_child (scene/main/node.cpp:1657)
+1290: ERROR: Child is not a child of this node.
+1291: at: move_child (scene/main/node.cpp:465)
+1292: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1293: at: add_child (scene/main/node.cpp:1657)
+1294: ERROR: Child is not a child of this node.
+1295: at: move_child (scene/main/node.cpp:465)
+1298: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1299: at: add_child (scene/main/node.cpp:1657)
+1300: ERROR: Child is not a child of this node.
+1301: at: move_child (scene/main/node.cpp:465)
+1302: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1303: at: add_child (scene/main/node.cpp:1657)
+1304: ERROR: Child is not a child of this node.
+1305: at: move_child (scene/main/node.cpp:465)
+1353: SCRIPT ERROR: Trying to call an async function without "await".
+1354: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+1358: SCRIPT ERROR: Trying to call an async function without "await".
+1359: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+1363: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1364: at: add_child (scene/main/node.cpp:1657)
+1365: ERROR: Child is not a child of this node.
+1366: at: move_child (scene/main/node.cpp:465)
+1367: SCRIPT ERROR: Trying to call an async function without "await".
+1368: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+1370: SCRIPT ERROR: Trying to call an async function without "await".
+1371: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+1372: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1373: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+1374: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1375: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+1376: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1377: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+1378: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1379: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+1380: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1381: at: add_child (scene/main/node.cpp:1657)
+1382: ERROR: Child is not a child of this node.
+1383: at: move_child (scene/main/node.cpp:465)
+1384: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1385: at: add_child (scene/main/node.cpp:1657)
+1386: ERROR: Child is not a child of this node.
+1387: at: move_child (scene/main/node.cpp:465)
+1390: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+1393: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1394: at: connect (core/object/object.cpp:1451)
+1395: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1396: at: connect (core/object/object.cpp:1451)
+1397: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1398: at: connect (core/object/object.cpp:1451)
+1399: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1400: at: connect (core/object/object.cpp:1451)
+1472: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1473: at: add_child (scene/main/node.cpp:1657)
+1474: ERROR: Child is not a child of this node.
+1475: at: move_child (scene/main/node.cpp:465)
+1476: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1477: at: add_child (scene/main/node.cpp:1657)
+1478: ERROR: Child is not a child of this node.
+1479: at: move_child (scene/main/node.cpp:465)
+1484: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1485: at: add_child (scene/main/node.cpp:1657)
+1486: ERROR: Child is not a child of this node.
+1487: at: move_child (scene/main/node.cpp:465)
+1488: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1489: at: add_child (scene/main/node.cpp:1657)
+1490: ERROR: Child is not a child of this node.
+1491: at: move_child (scene/main/node.cpp:465)
+1542: SCRIPT ERROR: Trying to call an async function without "await".
+1543: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+1547: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1548: at: add_child (scene/main/node.cpp:1657)
+1549: ERROR: Child is not a child of this node.
+1550: at: move_child (scene/main/node.cpp:465)
+1554: SCRIPT ERROR: Trying to call an async function without "await".
+1555: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+1557: SCRIPT ERROR: Trying to call an async function without "await".
+1558: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+1559: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1560: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+1561: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1562: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+1563: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1564: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+1565: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1566: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+1567: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1568: at: add_child (scene/main/node.cpp:1657)
+1569: ERROR: Child is not a child of this node.
+1570: at: move_child (scene/main/node.cpp:465)
+1571: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1572: at: add_child (scene/main/node.cpp:1657)
+1573: ERROR: Child is not a child of this node.
+1574: at: move_child (scene/main/node.cpp:465)
+1577: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+1580: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1581: at: connect (core/object/object.cpp:1451)
+1582: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1583: at: connect (core/object/object.cpp:1451)
+1584: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1585: at: connect (core/object/object.cpp:1451)
+1586: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1587: at: connect (core/object/object.cpp:1451)
+1679: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1680: at: add_child (scene/main/node.cpp:1657)
+1681: ERROR: Child is not a child of this node.
+1682: at: move_child (scene/main/node.cpp:465)
+1683: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1684: at: add_child (scene/main/node.cpp:1657)
+1685: ERROR: Child is not a child of this node.
+1686: at: move_child (scene/main/node.cpp:465)
+1723: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1724: at: add_child (scene/main/node.cpp:1657)
+1725: ERROR: Child is not a child of this node.
+1726: at: move_child (scene/main/node.cpp:465)
+1727: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1728: at: add_child (scene/main/node.cpp:1657)
+1729: ERROR: Child is not a child of this node.
+1730: at: move_child (scene/main/node.cpp:465)
+1832: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1833: at: add_child (scene/main/node.cpp:1657)
+1834: ERROR: Child is not a child of this node.
+1835: at: move_child (scene/main/node.cpp:465)
+1836: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1837: at: add_child (scene/main/node.cpp:1657)
+1838: ERROR: Child is not a child of this node.
+1839: at: move_child (scene/main/node.cpp:465)
+1939: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1940: at: add_child (scene/main/node.cpp:1657)
+1941: ERROR: Child is not a child of this node.
+1942: at: move_child (scene/main/node.cpp:465)
+1943: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1944: at: add_child (scene/main/node.cpp:1657)
+1945: ERROR: Child is not a child of this node.
+1946: at: move_child (scene/main/node.cpp:465)
+1985: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1986: at: add_child (scene/main/node.cpp:1657)
+1987: ERROR: Child is not a child of this node.
+1988: at: move_child (scene/main/node.cpp:465)
+1989: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1990: at: add_child (scene/main/node.cpp:1657)
+1991: ERROR: Child is not a child of this node.
+1992: at: move_child (scene/main/node.cpp:465)
+2039: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2040: at: add_child (scene/main/node.cpp:1657)
+2041: ERROR: Child is not a child of this node.
+2042: at: move_child (scene/main/node.cpp:465)
+2043: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2044: at: add_child (scene/main/node.cpp:1657)
+2045: ERROR: Child is not a child of this node.
+2046: at: move_child (scene/main/node.cpp:465)
+2061: SCRIPT ERROR: Trying to call an async function without "await".
+2062: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+2066: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2067: at: add_child (scene/main/node.cpp:1657)
+2068: ERROR: Child is not a child of this node.
+2069: at: move_child (scene/main/node.cpp:465)
+2073: SCRIPT ERROR: Trying to call an async function without "await".
+2074: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+2076: SCRIPT ERROR: Trying to call an async function without "await".
+2077: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+2078: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+2079: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+2080: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+2081: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+2082: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+2083: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+2084: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+2085: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+2086: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2087: at: add_child (scene/main/node.cpp:1657)
+2088: ERROR: Child is not a child of this node.
+2089: at: move_child (scene/main/node.cpp:465)
+2090: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2091: at: add_child (scene/main/node.cpp:1657)
+2092: ERROR: Child is not a child of this node.
+2093: at: move_child (scene/main/node.cpp:465)
+2096: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+2099: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+2100: at: connect (core/object/object.cpp:1451)
+2101: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+2102: at: connect (core/object/object.cpp:1451)
+2103: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+2104: at: connect (core/object/object.cpp:1451)
+2105: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+2106: at: connect (core/object/object.cpp:1451)
+2341: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2342: at: add_child (scene/main/node.cpp:1657)
+2343: ERROR: Child is not a child of this node.
+2344: at: move_child (scene/main/node.cpp:465)
+2345: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+2346: at: add_child (scene/main/node.cpp:1657)
+2347: ERROR: Child is not a child of this node.
+2348: at: move_child (scene/main/node.cpp:465)
+3245: SCRIPT ERROR: Trying to call an async function without "await".
+3246: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+3250: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+3251: at: add_child (scene/main/node.cpp:1657)
+3252: ERROR: Child is not a child of this node.
+3253: at: move_child (scene/main/node.cpp:465)
+3257: SCRIPT ERROR: Trying to call an async function without "await".
+3258: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+3260: SCRIPT ERROR: Trying to call an async function without "await".
+3261: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+3262: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+3263: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:125)
+3264: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+3265: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:125)
+3266: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+3267: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:111)
+3268: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+3269: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+3270: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+3271: at: add_child (scene/main/node.cpp:1657)
+3272: ERROR: Child is not a child of this node.
+3273: at: move_child (scene/main/node.cpp:465)
+3274: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+3275: at: add_child (scene/main/node.cpp:1657)
+3276: ERROR: Child is not a child of this node.
+3277: at: move_child (scene/main/node.cpp:465)
+3280: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+3285: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+3286: at: connect (core/object/object.cpp:1451)
+3287: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+3288: at: connect (core/object/object.cpp:1451)
+3289: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+3290: at: connect (core/object/object.cpp:1451)
+3291: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+3292: at: connect (core/object/object.cpp:1451)
+5126: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+5127: at: add_child (scene/main/node.cpp:1657)
+5128: ERROR: Child is not a child of this node.
+5129: at: move_child (scene/main/node.cpp:465)
+5150: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+5151: at: add_child (scene/main/node.cpp:1657)
+5152: ERROR: Child is not a child of this node.
+5153: at: move_child (scene/main/node.cpp:465)
+5416: ERROR: <Tween#-9223095585915982385>: started with no Tweeners.
+5417: at: step (scene/animation/tween.cpp:355)
+5905: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+5906: at: add_child (scene/main/node.cpp:1657)
+5907: ERROR: Child is not a child of this node.
+5908: at: move_child (scene/main/node.cpp:465)
+5917: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+5918: at: add_child (scene/main/node.cpp:1657)
+5919: ERROR: Child is not a child of this node.
+5920: at: move_child (scene/main/node.cpp:465)
+6059: SCRIPT ERROR: Trying to call an async function without "await".
+6060: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+6071: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+6072: at: add_child (scene/main/node.cpp:1657)
+6073: ERROR: Child is not a child of this node.
+6074: at: move_child (scene/main/node.cpp:465)
+6082: ERROR: 41 RID allocations of type 'N10RendererRD12LightStorage11ShadowAtlasE' were leaked at exit.
+6083: ERROR: 41 RID allocations of type 'N10RendererRD14TextureStorage12RenderTargetE' were leaked at exit.
+6084: ERROR: 165 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+6085: ERROR: 41 RID allocations of type 'N16RendererViewport8ViewportE' were leaked at exit.
+6088: ERROR: 389 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+6089: ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
+6092: ERROR: 192 resources still in use at exit (run with --verbose for details).
+6093: at: clear (core/io/resource.cpp:614)
 Telemetry Highlights (Last 15):
-1890: INFO gareth-elemental_transmutation_mod:Hook: [Transmutation] Burned tile destroyed at (27, 18)! Crystallized: +$35
-1891: INFO gareth-elemental_transmutation_mod:Hook: [Transmutation] Burned tile destroyed at (27, 19)! Crystallized: +$35
-1892: INFO gareth-elemental_transmutation_mod:Hook: [Transmutation] Burned tile destroyed at (18, 18)! Crystallized: +$35
-1893: INFO gareth-elemental_transmutation_mod:Hook: [Transmutation] Burned tile destroyed at (19, 18)! Crystallized: +$35
-1894: INFO gareth-elemental_transmutation_mod:Hook: [Transmutation] Burned tile destroyed at (19, 19)! Crystallized: +$35
-1895: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Pickaxe Mining Speed +20.0%
-1896: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Speed +20.0%
-1899: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Employee Collector Speed +50.0%
-1900: INFO nanobotz-autopassivechooser: Auto choosing option -1: Cash
-1902: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Pickaxe Mining Speed +20.0%
-1903: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Mortar Gun Damage +20.0%
-1904: INFO nanobotz-autopassivechooser: Auto choosing option -1: Cash
-1905: INFO nanobotz-autopassivechooser: Auto choosing option -1: Cash
-1907: INFO nanobotz-autopassivechooser: Auto choosing option -1: Cash
-1909: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Damage +20.0%
+6049: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Employee Collector Speed +128.0%
+6050: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Employee Collector Capacity +128.0%
+6051: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Damage +320.0%
+6052: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Pickaxe Mining Damage +320.0%
+6053: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Pickaxe Mining Damage +320.0%
+6054: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Damage +320.0%
+6055: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Damage +320.0%
+6056: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Damage +320.0%
+6057: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Speed +320.0%
+6061: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Speed +320.0%
+6063: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Speed +320.0%
+6064: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Pickaxe Mining Speed +320.0%
+6065: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Employee Collector Speed +128.0%
+6066: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Damage +320.0%
+6069: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Damage +320.0%

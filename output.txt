@@ -1,1 +1,1 @@
---- 1. Restoring Mod Manager View Logic (BUG-05) ---
+--- 1. RESTORING MOD MANAGER VIEW (BUG-05) ---
