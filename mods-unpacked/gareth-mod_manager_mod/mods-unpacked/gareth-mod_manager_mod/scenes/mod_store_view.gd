@@ -317,7 +317,7 @@ func _render_cards() -> void:
 		if is_installed:
 			btn_action.text = "Uninstall"
 			btn_action.modulate = Color(1.0, 0.45, 0.45)
-			btn_action.pressed.connect(func(): _uninstall_mod(pkg_id); btn_action.text = "Restart Required"; btn_action.disabled = true)
+			btn_action.pressed.connect(func(): _uninstall_mod(pkg_id))
 		else:
 			btn_action.text = "Install"
 			btn_action.modulate = Color(0.45, 0.95, 0.55)

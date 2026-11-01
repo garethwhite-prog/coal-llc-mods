@@ -1,0 +1,8 @@
+{
+  "name": "Transmog Teleport Mod",
+  "id": "gareth-transmog_teleport_mod",
+  "version": "1.0.0",
+  "authors": ["Gareth White"],
+  "description": "Adds a button to the bottom right of the inventory panel to instantly teleport items to the depot, losing 50% to transmogrification.",
+  "dependencies": {}
+}
