@@ -42,22 +42,22 @@ func _ready(chain: ModLoaderHookChain) -> void:
 
 func _on_mod_manager_pressed(menu: Node) -> void:
 	# FIX: Loading the .tscn scene file instead of the .gd script
-	var view_scene = load("res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.tscn")
+	var view_scene = load("res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd")
 	if view_scene:
-		var view = view_scene.instantiate()
+		var view = view_scene.new()
 		view.set_meta("is_pre_run_mode", false)
 		menu.add_child(view)
 
 func _on_mod_store_pressed(menu: Node) -> void:
-	var store_scene = load("res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.tscn")
+	var store_scene = load("res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.gd")
 	if store_scene:
-		var store_view = store_scene.instantiate()
+		var store_view = store_scene.new()
 		menu.add_child(store_view)
 
 func _on_leaderboards_pressed(menu: Node) -> void:
-	var modal_scene = load("res://mods-unpacked/gareth-leaderboard_mod/scenes/leaderboard_modal.tscn")
+	var modal_scene = load("res://mods-unpacked/gareth-leaderboard_mod/scenes/leaderboard_modal.gd")
 	if modal_scene:
-		var modal = modal_scene.instantiate()
+		var modal = modal_scene.new()
 		menu.add_child(modal)
 
 func on_profession_selected(chain: ModLoaderHookChain, mode: int, prof: Object, hard_modifier: Object = null) -> void:
@@ -72,9 +72,9 @@ func on_profession_selected(chain: ModLoaderHookChain, mode: int, prof: Object, 
 	if p_select:
 		p_select.visible = false
 
-	var view_scene = load("res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.tscn")
+	var view_scene = load("res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd")
 	if view_scene:
-		var view = view_scene.instantiate()
+		var view = view_scene.new()
 		view.name = "PreRunModSelector"
 		view.set_meta("is_pre_run_mode", true)
 		if view.has_signal("confirmed"):
@@ -106,3 +106,4 @@ func _process_pending_deletions() -> void:
 					DirAccess.remove_absolute(mods_dir.path_join(target_zip))
 				DirAccess.remove_absolute(mods_dir.path_join(file_name))
 			file_name = dir.get_next()
+

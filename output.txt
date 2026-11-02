@@ -1,4 +1,3 @@
---- 1. CLEARING CACHE ---
---- 2. FIXING MAIN MENU SCENE INSTANTIATION (BUG-06) ---
-Patched MainMenu.hooks.gd to load full .tscn nodes.
---- 3. FIXING MOD STORE SAFE STRING CASTING (US-05) ---
+--- 1. FIXING MAIN MENU SCENE INSTANTIATION (BUG-06) ---
+Reverted MainMenu.hooks.gd to load .gd scripts natively.
+--- 2. FIXING MOD MANAGER SEARCH UI (BUG-05) ---
