@@ -1,89 +1,27 @@
-﻿  19: ERROR ModLoader:Path: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
-  20: ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
-  21: at: push_error (core/variant/variant_utility.cpp:1098)
-  21: at: push_error (core/variant/variant_utility.cpp:1098)
-1038: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
-1039: at: apply_extension (res://addons/mod_loader/internal/script_extension.gd:118)
-1103: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
-1104: at: _load (core/io/resource_loader.cpp:359)
-1112: SCRIPT ERROR: Parse Error: Expected closing ")" after call arguments.
-1113: at: GDScript::reload (res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.gd:93)
-1114: ERROR: Failed to load script "res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.gd" with error "Parse error".
-1115: at: load (modules/gdscript/gdscript.cpp:3022)
-1116: SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
-1117: at: _on_mod_store_pressed (res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd:54)
-1118: ERROR: Error calling deferred method: 'Control(mod_manager_view.gd)::_inject_search_bar': Method not found.
-1119: at: _call_function (core/object/message_queue.cpp:222)
-1120: SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
-1121: at: _on_mod_store_pressed (res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd:54)
-1122: ERROR: Error calling deferred method: 'Control(mod_manager_view.gd)::_inject_search_bar': Method not found.
-1123: at: _call_function (core/object/message_queue.cpp:222)
-1124: SCRIPT ERROR: Trying to call an async function without "await".
-1125: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
-1129: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1130: at: add_child (scene/main/node.cpp:1657)
-1131: ERROR: Child is not a child of this node.
-1132: at: move_child (scene/main/node.cpp:465)
-1133: SCRIPT ERROR: Trying to call an async function without "await".
-1134: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
-1136: SCRIPT ERROR: Trying to call an async function without "await".
-1137: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
-1138: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1139: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
-1140: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1141: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
-1142: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1143: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
-1144: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
-1145: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
-1146: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1147: at: add_child (scene/main/node.cpp:1657)
-1148: ERROR: Child is not a child of this node.
-1149: at: move_child (scene/main/node.cpp:465)
-1150: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1151: at: add_child (scene/main/node.cpp:1657)
-1152: ERROR: Child is not a child of this node.
-1153: at: move_child (scene/main/node.cpp:465)
-1156: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
-1159: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-1160: at: connect (core/object/object.cpp:1451)
-1161: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-1162: at: connect (core/object/object.cpp:1451)
-1163: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-1164: at: connect (core/object/object.cpp:1451)
-1165: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
-1166: at: connect (core/object/object.cpp:1451)
-1226: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1227: at: add_child (scene/main/node.cpp:1657)
-1228: ERROR: Child is not a child of this node.
-1229: at: move_child (scene/main/node.cpp:465)
-1230: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
-1231: at: add_child (scene/main/node.cpp:1657)
-1232: ERROR: Child is not a child of this node.
-1233: at: move_child (scene/main/node.cpp:465)
-1315: SCRIPT ERROR: Trying to call an async function without "await".
-1316: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
-1324: ERROR: 4 RID allocations of type 'N10RendererRD12LightStorage11ShadowAtlasE' were leaked at exit.
-1325: ERROR: 4 RID allocations of type 'N10RendererRD14TextureStorage12RenderTargetE' were leaked at exit.
-1326: ERROR: 89 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-1327: ERROR: 4 RID allocations of type 'N16RendererViewport8ViewportE' were leaked at exit.
-1330: ERROR: 40 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
-1331: ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
-1334: ERROR: 189 resources still in use at exit (run with --verbose for details).
-1335: at: clear (core/io/resource.cpp:614)
-Telemetry Highlights (Last 15):
-1292: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Pickaxe Mining Damage +10.0%
-1294: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Damage +10.0%
-1295: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Employee Miner Speed +10.0%
-1296: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Employee Miner Damage +4.0%
-1297: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Player Pickaxe Mining Speed +10.0%
-1298: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Employee Miner Damage +4.0%
-1299: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Employee Collector Speed +4.0%
-1303: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Employee Collector Speed +4.0%
-1304: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Damage +10.0%
-1306: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Mortar Gun Rate +5.0%
-1307: INFO nanobotz-autopassivechooser: Auto choosing option 2: Increase Player Pickaxe Mining Damage +5.0%
-1308: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Bullet Damage +5.0%
-1309: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Mortar Gun Damage +5.0%
-1311: INFO nanobotz-autopassivechooser: Auto choosing option 1: Increase Player Pickaxe Mining Speed +5.0%
-1312: INFO nanobotz-autopassivechooser: Auto choosing option 0: Increase Employee Collector Speed +4.0%
+﻿   7: ERROR: Parameter "zfile" is null.
+   8: at: try_open_pack (core/io/file_access_zip.cpp:171)
+   9: ERROR ModLoader: Failed loading hooks pack from: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mod-hooks.zip
+  10: ERROR: Failed loading hooks pack from: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mod-hooks.zip
+  11: at: push_error (core/variant/variant_utility.cpp:1098)
+  11: at: push_error (core/variant/variant_utility.cpp:1098)
+  25: ERROR ModLoader:Path: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
+  26: ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
+  27: at: push_error (core/variant/variant_utility.cpp:1098)
+  27: at: push_error (core/variant/variant_utility.cpp:1098)
+1044: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
+1045: at: apply_extension (res://addons/mod_loader/internal/script_extension.gd:118)
+1109: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
+1110: at: _load (core/io/resource_loader.cpp:359)
+1181: Verified 3884 files, no errors detected!
+1186: Extracted 41 files, no errors detected!
+1222: If you find that you have many non-import errors upon opening the project
+1223: (i.e. scripts or shaders have many errors), use the original game's binary as the export template.
+1265: Verified 3884 files, no errors detected!
+1270: Extracted 41 files, no errors detected!
+1277: ERROR ModLoader:ModHookPacker: Error (1) writing to hooks zip, consider deleting this file: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mod-hooks.zip
+1278: ERROR: Error (1) writing to hooks zip, consider deleting this file: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mod-hooks.zip
+1279: at: push_error (core/variant/variant_utility.cpp:1098)
+1279: at: push_error (core/variant/variant_utility.cpp:1098)
+1281: ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+1286: ERROR: 177 resources still in use at exit (run with --verbose for details).
+1287: at: clear (core/io/resource.cpp:614)
