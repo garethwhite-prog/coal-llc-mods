@@ -17,7 +17,7 @@ func _ready(chain: ModLoaderHookChain) -> void:
 			mod_btn.name = "ModManagerButton"
 			mod_btn.text = "Mod Manager"
 			mod_btn.custom_minimum_size = Vector2(0, 30)
-			mod_btn.pressed.connect(_on_mod_manager_pressed.bind(menu))
+			mod_btn.pressed.connect(Callable(self, "_on_mod_manager_pressed").bind(menu))
 			btn_grid.add_child(mod_btn)
 			btn_grid.move_child(mod_btn, 2)
 
@@ -27,7 +27,7 @@ func _ready(chain: ModLoaderHookChain) -> void:
 			store_btn.text = "Mod & Map Store"
 			store_btn.custom_minimum_size = Vector2(0, 30)
 			store_btn.modulate = Color(1.0, 0.88, 0.35)
-			store_btn.pressed.connect(_on_mod_store_pressed.bind(menu))
+			store_btn.pressed.connect(Callable(self, "_on_mod_store_pressed").bind(menu))
 			btn_grid.add_child(store_btn)
 			btn_grid.move_child(store_btn, 3)
 
@@ -36,31 +36,29 @@ func _ready(chain: ModLoaderHookChain) -> void:
 			lb_btn.name = "LeaderboardsButton"
 			lb_btn.text = "Leaderboards"
 			lb_btn.custom_minimum_size = Vector2(0, 30)
-			lb_btn.pressed.connect(_on_leaderboards_pressed.bind(menu))
+			lb_btn.pressed.connect(Callable(self, "_on_leaderboards_pressed").bind(menu))
 			btn_grid.add_child(lb_btn)
 			btn_grid.move_child(lb_btn, 4)
 
 func _on_mod_manager_pressed(menu: Node) -> void:
-	var view_script = load("res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd")
-	if view_script and (view_script is GDScript):
-		var view = view_script.new()
-		if view is Control:
-			view.set_meta("is_pre_run_mode", false)
-			menu.add_child(view)
+	# FIX: Loading the .tscn scene file instead of the .gd script
+	var view_scene = load("res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.tscn")
+	if view_scene:
+		var view = view_scene.instantiate()
+		view.set_meta("is_pre_run_mode", false)
+		menu.add_child(view)
 
 func _on_mod_store_pressed(menu: Node) -> void:
-	var store_script = load("res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.gd")
-	if store_script and (store_script is GDScript):
-		var store_view = store_script.new()
-		if store_view is Node:
-			menu.add_child(store_view)
+	var store_scene = load("res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.tscn")
+	if store_scene:
+		var store_view = store_scene.instantiate()
+		menu.add_child(store_view)
 
 func _on_leaderboards_pressed(menu: Node) -> void:
-	var modal_script = load("res://mods-unpacked/gareth-leaderboard_mod/scenes/leaderboard_modal.gd")
-	if modal_script and (modal_script is GDScript):
-		var modal = modal_script.new()
-		if modal is Node:
-			menu.add_child(modal)
+	var modal_scene = load("res://mods-unpacked/gareth-leaderboard_mod/scenes/leaderboard_modal.tscn")
+	if modal_scene:
+		var modal = modal_scene.instantiate()
+		menu.add_child(modal)
 
 func on_profession_selected(chain: ModLoaderHookChain, mode: int, prof: Object, hard_modifier: Object = null) -> void:
 	var menu = chain.reference_object
@@ -74,18 +72,17 @@ func on_profession_selected(chain: ModLoaderHookChain, mode: int, prof: Object, 
 	if p_select:
 		p_select.visible = false
 
-	var view_script = load("res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd")
-	if view_script and (view_script is GDScript):
-		var view = view_script.new()
-		if view is Control:
-			view.name = "PreRunModSelector"
-			view.set_meta("is_pre_run_mode", true)
-			if view.has_signal("confirmed"):
-				view.connect("confirmed", _on_mod_selector_confirmed.bind(chain, mode, prof, hard_modifier))
-			if view.has_signal("back_pressed"):
-				view.connect("back_pressed", _on_mod_selector_back.bind(p_select))
-			menu.add_child(view)
-			return
+	var view_scene = load("res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.tscn")
+	if view_scene:
+		var view = view_scene.instantiate()
+		view.name = "PreRunModSelector"
+		view.set_meta("is_pre_run_mode", true)
+		if view.has_signal("confirmed"):
+			view.connect("confirmed", Callable(self, "_on_mod_selector_confirmed").bind(chain, mode, prof, hard_modifier))
+		if view.has_signal("back_pressed"):
+			view.connect("back_pressed", Callable(self, "_on_mod_selector_back").bind(p_select))
+		menu.add_child(view)
+		return
 	chain.execute_next([mode, prof, hard_modifier])
 
 func _on_mod_selector_confirmed(chain: ModLoaderHookChain, mode: int, prof: Object, hard_modifier: Object) -> void:

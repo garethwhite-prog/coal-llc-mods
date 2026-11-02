@@ -1,1 +1,4 @@
---- 1. REWRITING MOD STORE VIEW (US-05) ---
+--- 1. CLEARING CACHE ---
+--- 2. FIXING MAIN MENU SCENE INSTANTIATION (BUG-06) ---
+Patched MainMenu.hooks.gd to load full .tscn nodes.
+--- 3. FIXING MOD STORE SAFE STRING CASTING (US-05) ---
