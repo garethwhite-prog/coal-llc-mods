@@ -1,57 +1,59 @@
-class_name ModStoreClient
 extends Node
 
 signal repo_fetch_completed(repo_name: String, releases: Array)
-signal mod_download_completed(mod_id: String, success: bool)
+signal mod_download_completed(mod_id: String, success: bool, msg: String)
 
-const DEFAULT_REPOS := [
-	"garethwhite-prog/coal-llc-mods",
-	"Der-Floh/coal-llc-mods"
-]
-
-var http_client: HTTPRequest
+var _http: HTTPRequest
+var _request_queue: Array = []
+var _is_requesting: bool = false
 
 func _ready() -> void:
-	http_client = HTTPRequest.new()
-	add_child(http_client)
+	_http = HTTPRequest.new()
+	add_child(_http)
+	_http.request_completed.connect(Callable(self, "_on_request_completed"))
 
 func fetch_all_available_mods() -> void:
-	var repos = _load_repo_list()
-	for r in repos:
-		_fetch_repo_releases(r)
+	var url = "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/mod_catalog.json?v=" + str(Time.get_unix_time_from_system())
+	_queue_request(url, Callable(self, "_on_catalog_response"))
 
-func _load_repo_list() -> Array:
-	var list := DEFAULT_REPOS.duplicate()
-	var path := "user://mod_store_repos.json"
-	if FileAccess.file_exists(path):
-		var f := FileAccess.open(path, FileAccess.READ)
-		if f:
-			var data = JSON.parse_string(f.get_as_text())
-			if data is Array:
-				for custom_r in data:
-					if not custom_r in list:
-						list.append(custom_r)
-	return list
+func _queue_request(url: String, callback: Callable) -> void:
+	_request_queue.append({"url": url, "callback": callback})
+	_process_queue()
 
-func _fetch_repo_releases(repo: String) -> void:
-	var url := "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/mod_catalog.json?v=" + str(Time.get_unix_time_from_system())
-	var headers := ["User-Agent: Coal-LLC-Mod-Store/1.0"]
-	http_client.request(url, headers)
-	var result = await http_client.request_completed
-	if result[1] == 200:
-		var json = JSON.parse_string(result[3].get_string_from_utf8())
-		if json is Array:
-			repo_fetch_completed.emit(repo, json)
+func _process_queue() -> void:
+	if _is_requesting or _request_queue.is_empty(): return
+	_is_requesting = true
+	var req = _request_queue.pop_front()
+	_http.set_meta("current_callback", req.callback)
+	_http.request(req.url)
 
-func download_mod_zip(download_url: String, target_filename: String) -> void:
-	var dl_http = HTTPRequest.new()
-	add_child(dl_http)
-	var local_repo_dir := OS.get_executable_path().get_base_dir().path_join("mods_repository")
-	var dest_path := local_repo_dir.path_join(target_filename)
-	dl_http.download_file = dest_path
-	dl_http.request(download_url, ["User-Agent: Coal-LLC-Mod-Store/1.0"])
-	var res = await dl_http.request_completed
-	dl_http.queue_free()
-	mod_download_completed.emit(target_filename, res[1] == 200)
+func _on_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
+	_is_requesting = false
+	var cb = _http.get_meta("current_callback")
+	if cb and cb.is_valid():
+		cb.call(result, response_code, headers, body)
+	_process_queue()
 
+func _on_catalog_response(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
+	if response_code == 200:
+		var json = JSON.new()
+		var err = json.parse(body.get_string_from_utf8())
+		if err == OK:
+			var data = json.get_data()
+			if typeof(data) == TYPE_ARRAY:
+				repo_fetch_completed.emit("Coal LLC Mods", data)
+				return
+	repo_fetch_completed.emit("Coal LLC Mods", [])
 
+func download_mod(mod_id: String) -> void:
+	var url = "https://raw.githubusercontent.com/garethwhite-prog/coal-llc-mods/main/downloaded_mods/%s.zip" % mod_id
+	var save_path = OS.get_executable_path().get_base_dir().path_join("mods").path_join(mod_id + ".zip")
+	_http.download_file = save_path
+	_queue_request(url, Callable(self, "_on_download_completed").bind(mod_id))
+
+func _on_download_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray, mod_id: String) -> void:
+	_http.download_file = ""
+	if response_code == 200:
+		mod_download_completed.emit(mod_id, true, "Installed successfully.")
+	else:
+		mod_download_completed.emit(mod_id, false, "Download failed.")

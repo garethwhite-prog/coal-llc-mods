@@ -1,3 +1,1 @@
---- 1. FIXING MAIN MENU SCENE INSTANTIATION (BUG-06) ---
-Reverted MainMenu.hooks.gd to load .gd scripts natively.
---- 2. FIXING MOD MANAGER SEARCH UI (BUG-05) ---
+--- 1. FIXING MOD STORE HTTP REQUESTS (US-05) ---

@@ -6,58 +6,36 @@
 1039: at: apply_extension (res://addons/mod_loader/internal/script_extension.gd:118)
 1103: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
 1104: at: _load (core/io/resource_loader.cpp:359)
-1112: ERROR: Cannot open file 'res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.tscn'.
-1113: at: load (scene/resources/resource_format_text.cpp:1388)
-1114: ERROR: Failed loading resource: res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.tscn. Make sure resources have been imported by opening the project in the editor at least once.
-1115: at: _load (core/io/resource_loader.cpp:343)
-1116: ERROR: Cannot open file 'res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.tscn'.
-1117: at: load (scene/resources/resource_format_text.cpp:1388)
-1118: ERROR: Failed loading resource: res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.tscn. Make sure resources have been imported by opening the project in the editor at least once.
-1119: at: _load (core/io/resource_loader.cpp:343)
-1120: ERROR: Cannot open file 'res://mods-unpacked/gareth-leaderboard_mod/scenes/leaderboard_modal.tscn'.
-1121: at: load (scene/resources/resource_format_text.cpp:1388)
-1122: ERROR: Failed loading resource: res://mods-unpacked/gareth-leaderboard_mod/scenes/leaderboard_modal.tscn. Make sure resources have been imported by opening the project in the editor at least once.
-1123: at: _load (core/io/resource_loader.cpp:343)
-1124: ERROR: Cannot open file 'res://mods-unpacked/gareth-leaderboard_mod/scenes/leaderboard_modal.tscn'.
-1125: at: load (scene/resources/resource_format_text.cpp:1388)
-1126: ERROR: Failed loading resource: res://mods-unpacked/gareth-leaderboard_mod/scenes/leaderboard_modal.tscn. Make sure resources have been imported by opening the project in the editor at least once.
-1127: at: _load (core/io/resource_loader.cpp:343)
-1128: ERROR: Cannot open file 'res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.tscn'.
-1129: at: load (scene/resources/resource_format_text.cpp:1388)
-1130: ERROR: Failed loading resource: res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.tscn. Make sure resources have been imported by opening the project in the editor at least once.
-1131: at: _load (core/io/resource_loader.cpp:343)
-1132: ERROR: Cannot open file 'res://mods-unpacked/gareth-leaderboard_mod/scenes/leaderboard_modal.tscn'.
-1133: at: load (scene/resources/resource_format_text.cpp:1388)
-1134: ERROR: Failed loading resource: res://mods-unpacked/gareth-leaderboard_mod/scenes/leaderboard_modal.tscn. Make sure resources have been imported by opening the project in the editor at least once.
-1135: at: _load (core/io/resource_loader.cpp:343)
-1146: ERROR: Cannot open file 'res://mods-unpacked/gareth-leaderboard_mod/scenes/leaderboard_modal.tscn'.
-1147: at: load (scene/resources/resource_format_text.cpp:1388)
-1148: ERROR: Failed loading resource: res://mods-unpacked/gareth-leaderboard_mod/scenes/leaderboard_modal.tscn. Make sure resources have been imported by opening the project in the editor at least once.
-1149: at: _load (core/io/resource_loader.cpp:343)
-1150: ERROR: Cannot open file 'res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.tscn'.
-1151: at: load (scene/resources/resource_format_text.cpp:1388)
-1152: ERROR: Failed loading resource: res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.tscn. Make sure resources have been imported by opening the project in the editor at least once.
-1153: at: _load (core/io/resource_loader.cpp:343)
-1154: ERROR: Cannot open file 'res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.tscn'.
-1155: at: load (scene/resources/resource_format_text.cpp:1388)
-1156: ERROR: Failed loading resource: res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.tscn. Make sure resources have been imported by opening the project in the editor at least once.
-1157: at: _load (core/io/resource_loader.cpp:343)
-1158: ERROR: Cannot open file 'res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.tscn'.
-1159: at: load (scene/resources/resource_format_text.cpp:1388)
-1160: ERROR: Failed loading resource: res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.tscn. Make sure resources have been imported by opening the project in the editor at least once.
-1161: at: _load (core/io/resource_loader.cpp:343)
-1162: ERROR: Cannot open file 'res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.tscn'.
-1163: at: load (scene/resources/resource_format_text.cpp:1388)
-1164: ERROR: Failed loading resource: res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.tscn. Make sure resources have been imported by opening the project in the editor at least once.
-1165: at: _load (core/io/resource_loader.cpp:343)
-1166: ERROR: Cannot open file 'res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.tscn'.
-1167: at: load (scene/resources/resource_format_text.cpp:1388)
-1168: ERROR: Failed loading resource: res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.tscn. Make sure resources have been imported by opening the project in the editor at least once.
-1169: at: _load (core/io/resource_loader.cpp:343)
-1170: ERROR: Cannot open file 'res://mods-unpacked/gareth-leaderboard_mod/scenes/leaderboard_modal.tscn'.
-1171: at: load (scene/resources/resource_format_text.cpp:1388)
-1172: ERROR: Failed loading resource: res://mods-unpacked/gareth-leaderboard_mod/scenes/leaderboard_modal.tscn. Make sure resources have been imported by opening the project in the editor at least once.
-1173: at: _load (core/io/resource_loader.cpp:343)
-1174: ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-1179: ERROR: 177 resources still in use at exit (run with --verbose for details).
-1180: at: clear (core/io/resource.cpp:614)
+1112: ERROR: Node not found: "%ModStoreContainer" (relative to "/root/MainScene/MainMenu/@Control@41").
+1113: at: get_node (scene/main/node.cpp:1877)
+1114: ERROR: Node not found: "%StatusLabel" (relative to "/root/MainScene/MainMenu/@Control@41").
+1115: at: get_node (scene/main/node.cpp:1877)
+1116: ERROR: HTTPRequest is processing a request. Wait for completion or cancel it before attempting a new one.
+1117: at: request_raw (scene/main/http_request.cpp:119)
+1118: ERROR: Node not found: "%ModStoreContainer" (relative to "/root/MainScene/MainMenu/@Control@765").
+1119: at: get_node (scene/main/node.cpp:1877)
+1120: ERROR: Node not found: "%StatusLabel" (relative to "/root/MainScene/MainMenu/@Control@765").
+1121: at: get_node (scene/main/node.cpp:1877)
+1122: ERROR: HTTPRequest is processing a request. Wait for completion or cancel it before attempting a new one.
+1123: at: request_raw (scene/main/http_request.cpp:119)
+1124: ERROR: Node not found: "%ModStoreContainer" (relative to "/root/MainScene/MainMenu/@Control@769").
+1125: at: get_node (scene/main/node.cpp:1877)
+1126: ERROR: Node not found: "%StatusLabel" (relative to "/root/MainScene/MainMenu/@Control@769").
+1127: at: get_node (scene/main/node.cpp:1877)
+1128: ERROR: HTTPRequest is processing a request. Wait for completion or cancel it before attempting a new one.
+1129: at: request_raw (scene/main/http_request.cpp:119)
+1130: ERROR: Node not found: "%ModStoreContainer" (relative to "/root/MainScene/MainMenu/@Control@773").
+1131: at: get_node (scene/main/node.cpp:1877)
+1132: ERROR: Node not found: "%StatusLabel" (relative to "/root/MainScene/MainMenu/@Control@773").
+1133: at: get_node (scene/main/node.cpp:1877)
+1134: ERROR: HTTPRequest is processing a request. Wait for completion or cancel it before attempting a new one.
+1135: at: request_raw (scene/main/http_request.cpp:119)
+1136: ERROR: Node not found: "%ModStoreContainer" (relative to "/root/MainScene/MainMenu/@Control@777").
+1137: at: get_node (scene/main/node.cpp:1877)
+1138: ERROR: Node not found: "%StatusLabel" (relative to "/root/MainScene/MainMenu/@Control@777").
+1139: at: get_node (scene/main/node.cpp:1877)
+1140: ERROR: HTTPRequest is processing a request. Wait for completion or cancel it before attempting a new one.
+1141: at: request_raw (scene/main/http_request.cpp:119)
+1142: ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+1147: ERROR: 177 resources still in use at exit (run with --verbose for details).
+1148: at: clear (core/io/resource.cpp:614)
