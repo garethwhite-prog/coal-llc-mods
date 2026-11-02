@@ -1,0 +1,572 @@
+--- 1. RESTORING MOD STORE VIEW (CANVASLAYER BASELINE) ---
+Restored mod_store_view.gd as CanvasLayer with robust catalog schema parsing.
+--- 2. RESTORING MOD MANAGER VIEW (WITH EMBEDDED SEARCH) ---
+Restored mod_manager_view.gd with embedded top_bar search filter.
+--- 3. FIXING BOUNCING BALL PROJECTILE STAT LOOKUP ---
+Patched bouncing_ball_projectile.gd to query ball_blast_damage.
+--- 4. ENABLING BALL PASSIVES IN CHOOSE_PASSIVE HOOKS ---
+Patched choose_passive.hooks.gd with ball passives pool injection.
+--- 5. HOOKING TAB HUD (PASSIVE_BONUSES) TO DISPLAY BALL STATS ---
+Patched passive_bonuses.hooks.gd to render custom ball stats on Tab HUD.
+--- 6. RUNNING PRE-FLIGHT VALIDATION GATE ---
+--- 7. PACKAGING & DEPLOYING MODS ---
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 3911588051
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : manifest.json
+LastWriteTime      : 27/10/2026 18:05:15 +00:00
+Length             : 
+Name               : manifest.json
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 3713032227
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : README.md
+LastWriteTime      : 11/10/2026 15:33:48 +01:00
+Length             : 
+Name               : README.md
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 3684556660
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : extensions/resources/Inventories/Scripts/Inventory.hooks.gd
+LastWriteTime      : 01/11/2026 12:51:33 +00:00
+Length             : 
+Name               : Inventory.hooks.gd
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 2755213099
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : extensions/scenes/Interfaces/Management/passive_bonuses.hooks.gd
+LastWriteTime      : 01/11/2026 12:51:33 +00:00
+Length             : 
+Name               : passive_bonuses.hooks.gd
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 3911588051
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-mod_manager_mod/manifest.json
+LastWriteTime      : 27/10/2026 18:05:15 +00:00
+Length             : 
+Name               : manifest.json
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 3462000775
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-mod_manager_mod/mod_main.gd
+LastWriteTime      : 25/10/2026 11:54:09 +00:00
+Length             : 
+Name               : mod_main.gd
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 3713032227
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-mod_manager_mod/README.md
+LastWriteTime      : 11/10/2026 15:33:48 +01:00
+Length             : 
+Name               : README.md
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 183517487
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-mod_manager_mod/extensions/resources/BuyEffects/Scripts/AddToInventory.hooks.gd
+LastWriteTime      : 01/11/2026 12:51:33 +00:00
+Length             : 
+Name               : AddToInventory.hooks.gd
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 3684556660
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-mod_manager_mod/extensions/resources/Inventories/Scripts/Inventory.hooks.gd
+LastWriteTime      : 01/11/2026 12:51:33 +00:00
+Length             : 
+Name               : Inventory.hooks.gd
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 101336528
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-mod_manager_mod/extensions/scenes/Interfaces/in_game/choose_passive.hooks.gd
+LastWriteTime      : 02/11/2026 18:02:28 +00:00
+Length             : 
+Name               : choose_passive.hooks.gd
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 726684788
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-mod_manager_mod/extensions/scenes/Interfaces/Management/equipment_shop.hooks.gd
+LastWriteTime      : 01/11/2026 12:51:33 +00:00
+Length             : 
+Name               : equipment_shop.hooks.gd
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 3997095305
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-mod_manager_mod/extensions/scenes/Interfaces/Management/passive_bonuses.hooks.gd
+LastWriteTime      : 02/11/2026 18:02:28 +00:00
+Length             : 
+Name               : passive_bonuses.hooks.gd
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 2337401263
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-mod_manager_mod/extensions/scenes/Interfaces/Management/shop_item_card.hooks.gd
+LastWriteTime      : 01/11/2026 12:51:33 +00:00
+Length             : 
+Name               : shop_item_card.hooks.gd
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 4113223963
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-mod_manager_mod/extensions/scenes/Interfaces/Menus/profession_select.hooks.gd
+LastWriteTime      : 01/11/2026 12:51:33 +00:00
+Length             : 
+Name               : profession_select.hooks.gd
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 3490973623
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-mod_manager_mod/extensions/scenes/Interfaces/Menus/settings_2.hooks.gd
+LastWriteTime      : 01/11/2026 12:51:33 +00:00
+Length             : 
+Name               : settings_2.hooks.gd
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 391335550
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-mod_manager_mod/extensions/scenes/Stages/management_screen.hooks.gd
+LastWriteTime      : 01/11/2026 12:51:33 +00:00
+Length             : 
+Name               : management_screen.hooks.gd
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 4177445303
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-mod_manager_mod/extensions/scripts/Camera.hooks.gd
+LastWriteTime      : 01/11/2026 12:51:33 +00:00
+Length             : 
+Name               : Camera.hooks.gd
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 1184134530
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-mod_manager_mod/extensions/scripts/Gvars.hooks.gd
+LastWriteTime      : 01/11/2026 12:51:33 +00:00
+Length             : 
+Name               : Gvars.hooks.gd
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 3294450190
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd
+LastWriteTime      : 02/11/2026 17:40:13 +00:00
+Length             : 
+Name               : MainMenu.hooks.gd
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 1482361811
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-mod_manager_mod/extensions/scripts/PauseMenu.hooks.gd
+LastWriteTime      : 01/11/2026 12:51:33 +00:00
+Length             : 
+Name               : PauseMenu.hooks.gd
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 3683468528
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-mod_manager_mod/extensions/scripts/Stockpile.hooks.gd
+LastWriteTime      : 01/11/2026 12:51:33 +00:00
+Length             : 
+Name               : Stockpile.hooks.gd
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 2660380690
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd
+LastWriteTime      : 02/11/2026 18:02:28 +00:00
+Length             : 
+Name               : mod_manager_view.gd
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 2828342136
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.gd
+LastWriteTime      : 02/11/2026 18:02:28 +00:00
+Length             : 
+Name               : mod_store_view.gd
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 1024931737
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-mod_manager_mod/scripts/mod_registry.gd
+LastWriteTime      : 31/10/2026 09:31:11 +00:00
+Length             : 
+Name               : mod_registry.gd
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 1922168474
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-mod_manager_mod/scripts/mod_store_client.gd
+LastWriteTime      : 02/11/2026 17:45:54 +00:00
+Length             : 
+Name               : mod_store_client.gd
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 3392597524
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-mod_manager_mod/scripts/save_profile_sync.gd
+LastWriteTime      : 24/10/2026 20:04:03 +01:00
+Length             : 
+Name               : save_profile_sync.gd
+
+Deployed gareth-mod_manager_mod.zip
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 2874586709
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : manifest.json
+LastWriteTime      : 01/11/2026 07:42:45 +00:00
+Length             : 
+Name               : manifest.json
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 3266437868
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : README.md
+LastWriteTime      : 14/10/2026 18:13:10 +01:00
+Length             : 
+Name               : README.md
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 2874586709
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-bouncing_ball_mod/manifest.json
+LastWriteTime      : 01/11/2026 07:42:45 +00:00
+Length             : 
+Name               : manifest.json
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 444895453
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-bouncing_ball_mod/mod_main.gd
+LastWriteTime      : 23/10/2026 21:38:27 +01:00
+Length             : 
+Name               : mod_main.gd
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 3266437868
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-bouncing_ball_mod/README.md
+LastWriteTime      : 14/10/2026 18:13:10 +01:00
+Length             : 
+Name               : README.md
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 3832118636
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-bouncing_ball_mod/scripts/bouncing_ball_equip.gd
+LastWriteTime      : 14/10/2026 18:33:08 +01:00
+Length             : 
+Name               : bouncing_ball_equip.gd
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 1696394726
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-bouncing_ball_mod/scripts/bouncing_ball_profession.gd
+LastWriteTime      : 01/11/2026 07:42:45 +00:00
+Length             : 
+Name               : bouncing_ball_profession.gd
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 1021055165
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-bouncing_ball_mod/scripts/bouncing_ball_projectile.gd
+LastWriteTime      : 02/11/2026 18:02:28 +00:00
+Length             : 
+Name               : bouncing_ball_projectile.gd
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 2097794072
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-bouncing_ball_mod/textures/ball_01_shoddy.png
+LastWriteTime      : 14/10/2026 18:33:07 +01:00
+Length             : 
+Name               : ball_01_shoddy.png
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 3263010198
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-bouncing_ball_mod/textures/ball_02_copper.png
+LastWriteTime      : 14/10/2026 18:33:07 +01:00
+Length             : 
+Name               : ball_02_copper.png
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 3609296121
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-bouncing_ball_mod/textures/ball_03_iron.png
+LastWriteTime      : 14/10/2026 18:33:08 +01:00
+Length             : 
+Name               : ball_03_iron.png
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 841176725
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-bouncing_ball_mod/textures/ball_04_sapphire.png
+LastWriteTime      : 14/10/2026 18:33:08 +01:00
+Length             : 
+Name               : ball_04_sapphire.png
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 3972910251
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-bouncing_ball_mod/textures/ball_05_emerald.png
+LastWriteTime      : 14/10/2026 18:33:08 +01:00
+Length             : 
+Name               : ball_05_emerald.png
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 1822378386
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-bouncing_ball_mod/textures/ball_06_silver.png
+LastWriteTime      : 14/10/2026 18:33:08 +01:00
+Length             : 
+Name               : ball_06_silver.png
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 1591801557
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-bouncing_ball_mod/textures/ball_07_amethyst.png
+LastWriteTime      : 14/10/2026 18:33:08 +01:00
+Length             : 
+Name               : ball_07_amethyst.png
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 2409875159
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-bouncing_ball_mod/textures/ball_08_gold.png
+LastWriteTime      : 14/10/2026 18:33:08 +01:00
+Length             : 
+Name               : ball_08_gold.png
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 2498799948
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-bouncing_ball_mod/textures/ball_09_ruby.png
+LastWriteTime      : 14/10/2026 18:33:08 +01:00
+Length             : 
+Name               : ball_09_ruby.png
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 1073172397
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-bouncing_ball_mod/textures/ball_10_diamond.png
+LastWriteTime      : 14/10/2026 18:33:08 +01:00
+Length             : 
+Name               : ball_10_diamond.png
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 420746497
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-bouncing_ball_mod/textures/ball_11_pinkdiamond.png
+LastWriteTime      : 14/10/2026 18:33:08 +01:00
+Length             : 
+Name               : ball_11_pinkdiamond.png
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 3227484326
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-bouncing_ball_mod/textures/ball_12_spinel.png
+LastWriteTime      : 14/10/2026 18:33:08 +01:00
+Length             : 
+Name               : ball_12_spinel.png
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 4153716598
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-bouncing_ball_mod/textures/ball_13_uranium.png
+LastWriteTime      : 14/10/2026 18:33:08 +01:00
+Length             : 
+Name               : ball_13_uranium.png
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 87252305
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-bouncing_ball_mod/textures/ball_14_moonstone.png
+LastWriteTime      : 14/10/2026 18:33:08 +01:00
+Length             : 
+Name               : ball_14_moonstone.png
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 3558661426
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-bouncing_ball_mod/textures/ball_15_onyx.png
+LastWriteTime      : 14/10/2026 18:33:08 +01:00
+Length             : 
+Name               : ball_15_onyx.png
+
+Archive            : System.IO.Compression.ZipArchive
+Crc32              : 1700384274
+IsEncrypted        : False
+CompressedLength   : 
+ExternalAttributes : 0
+Comment            : 
+FullName           : mods-unpacked/gareth-bouncing_ball_mod/textures/bouncing_ball_icon.png
+LastWriteTime      : 14/10/2026 18:13:10 +01:00
+Length             : 
+Name               : bouncing_ball_icon.png
+
+Deployed gareth-bouncing_ball_mod.zip
+--- 8. COMMITTING TEST-VERIFIED BUILD ---
+warning: in the working copy of 'mods-unpacked/gareth-bouncing_ball_mod/mods-unpacked/gareth-bouncing_ball_mod/scripts/bouncing_ball_projectile.gd', LF will be replaced by CRLF the next time Git touches it
+[main eed6a06] Fix: Restored Mod Store CanvasLayer baseline, docked Mod Manager search, and mapped Bouncing Ball passives to in-game pool and Tab HUD.
+ 9 files changed, 851 insertions(+), 684 deletions(-)
+To https://github.com/garethwhite-prog/coal-llc-mods.git
+   1768aa9..eed6a06  main -> main
+Deployment Complete.

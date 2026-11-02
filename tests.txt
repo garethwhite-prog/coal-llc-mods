@@ -2,14 +2,22 @@
   20: ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
   21: at: push_error (core/variant/variant_utility.cpp:1098)
   21: at: push_error (core/variant/variant_utility.cpp:1098)
-1038: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
-1039: at: apply_extension (res://addons/mod_loader/internal/script_extension.gd:118)
-1103: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
-1104: at: _load (core/io/resource_loader.cpp:359)
-1112: SCRIPT ERROR: Invalid access to property or key 'mod_data' on a base object of type 'Node (mod_loader.gd)'.
-1113: at: _render_cards (res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd:46)
-1114: SCRIPT ERROR: Invalid access to property or key 'mod_data' on a base object of type 'Node (mod_loader.gd)'.
-1115: at: _render_cards (res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd:46)
-1116: ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-1121: ERROR: 177 resources still in use at exit (run with --verbose for details).
-1122: at: clear (core/io/resource.cpp:614)
+1036: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
+1037: at: apply_extension (res://addons/mod_loader/internal/script_extension.gd:118)
+1101: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
+1102: at: _load (core/io/resource_loader.cpp:359)
+1110: SCRIPT ERROR: Parse Error: Expected statement, found "Indent" instead.
+1111: at: GDScript::reload (res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd:66)
+1112: ERROR: Failed to load script "res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd" with error "Parse error".
+1113: at: load (modules/gdscript/gdscript.cpp:3022)
+1114: SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+1115: at: _on_mod_manager_pressed (res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd:47)
+1116: SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+1117: at: _on_mod_manager_pressed (res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd:47)
+1118: SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+1119: at: _on_mod_manager_pressed (res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd:47)
+1120: SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+1121: at: on_profession_selected (res://mods-unpacked/gareth-mod_manager_mod/extensions/scripts/MainMenu.hooks.gd:77)
+1122: ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+1127: ERROR: 177 resources still in use at exit (run with --verbose for details).
+1128: at: clear (core/io/resource.cpp:614)
