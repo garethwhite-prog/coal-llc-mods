@@ -63,9 +63,9 @@ func _ready() -> void:
 	title.add_theme_font_size_override("font_size", 18)
 	top_bar.add_child(title)
 
-		var search_bar := LineEdit.new()
+	var search_bar := LineEdit.new()
 	search_bar.placeholder_text = "Search active mods..."
-	search_bar.custom_minimum_size = Vector2(240, 36)
+	search_bar.custom_minimum_size = Vector2(220, 36)
 	search_bar.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	search_bar.clear_button_enabled = true
 	search_bar.text_changed.connect(_on_search_changed)
@@ -147,6 +147,7 @@ func _populate_cards(content: VBoxContainer) -> void:
 			toggles[k] = default_active
 
 			var card := PanelContainer.new()
+			card.name = k
 			card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
 			var c_margin := MarginContainer.new()
@@ -185,6 +186,25 @@ func _populate_cards(content: VBoxContainer) -> void:
 			hbox.add_child(info_vbox)
 			grid.add_child(card)
 
+func _on_search_changed(query: String) -> void:
+	var q := query.strip_edges().to_lower()
+	var scroll: ScrollContainer = find_child("*ScrollContainer*", true, false)
+	if not scroll: return
+	var content: Control = scroll.get_child(0)
+	if not content: return
+
+	for child in content.get_children():
+		if child is GridContainer:
+			for card in child.get_children():
+				if q.is_empty():
+					card.visible = true
+				else:
+					var card_text: String = card.name.to_lower()
+					var lbl = card.find_child("*Label*", true, false)
+					if lbl and ("text" in lbl):
+						card_text += " " + str(lbl.text).to_lower()
+					card.visible = (q in card_text)
+
 func _load_existing_config() -> Dictionary:
 	if FileAccess.file_exists(CONFIG_PATH):
 		var f := FileAccess.open(CONFIG_PATH, FileAccess.READ)
@@ -210,26 +230,3 @@ func _on_confirm() -> void:
 
 	confirmed.emit()
 	queue_free()
-
-
-
-
-
-func _on_search_changed(query: String) -> void:
-	var q = query.strip_edges().to_lower()
-	var scroll = find_child("*ScrollContainer*", true, false)
-	if not scroll: return
-	var content = scroll.get_child(0)
-	if not content: return
-
-	for child in content.get_children():
-		if child is GridContainer:
-			for card in child.get_children():
-				if q.is_empty():
-					card.visible = true
-				else:
-					var text_to_check: String = card.name.to_lower()
-					var lbl = card.find_child("*Label*", true, false)
-					if lbl and "text" in lbl:
-						text_to_check += " " + lbl.text.to_lower()
-					card.visible = (q in text_to_check)

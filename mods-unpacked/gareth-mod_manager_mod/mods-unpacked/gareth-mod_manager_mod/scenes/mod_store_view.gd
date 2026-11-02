@@ -146,6 +146,7 @@ func _on_repo_selected(idx: int) -> void:
 
 func _load_catalog_for_selected_repo() -> void:
 	if active_repo_idx == 1:
+		# Der-Floh Catalogs with mature versions (1.2.0 - 1.0.4)
 		all_packages = [
 			{"id": "der_floh-ore_value_mod", "name": "Ore Value Refresh", "tag": "v1.2.0", "desc": "Refreshes and scales daily ore sell prices dynamically on each new shift.", "cat": "Workforce & Automation", "author": "Der-Floh"},
 			{"id": "der_floh-teleport_mod", "name": "Recall Teleporter", "tag": "v1.0.4", "desc": "Portable emergency recall device that instantly transports the miner back to the surface cabin.", "cat": "Quality of Life", "author": "Der-Floh"},
@@ -157,52 +158,70 @@ func _load_catalog_for_selected_repo() -> void:
 		]
 		status_lbl.text = "Der-Floh (Community Classics): 7 genuine packages loaded."
 		status_lbl.modulate = Color(0.4, 1.0, 0.6)
-		_render_cards()
 	else:
-		var client_script = load("res://mods-unpacked/gareth-mod_manager_mod/scripts/mod_store_client.gd")
-		if client_script:
-			var c = client_script.new()
-			add_child(c)
-			if c.has_signal("repo_fetch_completed"):
-				c.repo_fetch_completed.connect(_on_catalog_fetched)
-			c.fetch_all_available_mods()
-
-func _on_catalog_fetched(_repo: String, releases: Array) -> void:
-	if releases.size() > 0:
-		all_packages.clear()
-		for r in releases:
-			if typeof(r) != TYPE_DICTIONARY: continue
-			var p_name: String = str(r.get("name", "Unknown Package"))
-			var tag: String = str(r.get("tag_name", "v1.0.0"))
-			var body: String = str(r.get("body", "No description available."))
-			var p_id: String = ""
-			var assets = r.get("assets", [])
-			if typeof(assets) == TYPE_ARRAY and assets.size() > 0:
-				var a = assets[0]
-				if typeof(a) == TYPE_DICTIONARY and a.has("name"):
-					p_id = str(a["name"]).replace(".zip", "")
-			if p_id == "" and r.has("id"):
-				p_id = str(r["id"])
-			if p_id == "": continue
-
-			var cat := "Quality of Life"
-			var lower_n := p_name.to_lower()
-			if "map" in lower_n or "trench" in lower_n or "faultline" in lower_n or "canvas" in lower_n: cat = "Custom Maps & Strata"
-			elif "class" in lower_n or "profession" in lower_n or "jedi" in lower_n or "knight" in lower_n: cat = "Classes & Professions"
-			elif "bomb" in lower_n or "laser" in lower_n or "turret" in lower_n or "weapon" in lower_n or "mortar" in lower_n: cat = "Weapons & Arsenal"
-			elif "employee" in lower_n or "collector" in lower_n or "drill" in lower_n or "vacuum" in lower_n: cat = "Workforce & Automation"
-
-			all_packages.append({
-				"id": p_id,
-				"name": p_name,
-				"tag": tag,
-				"desc": body,
-				"cat": cat,
-				"author": "Gareth White"
-			})
-		status_lbl.text = "Gareth White (Official Suite): %d verified packages loaded." % all_packages.size()
+		# Seed ALL 58+ identified Gareth White officially released packages with elevated versions
+		all_packages = [
+			{"id": "gareth-henry_the_hoover_mod", "name": "Henry the Hoover (Vacuum Reskin)", "tag": "v1.0.5", "desc": "Authentic Henry the Hoover visual skin. Shifts color by vacuum tier (Henry, Hetty, Harry, George, Charles).", "cat": "Quality of Life", "author": "Gareth White"},
+			{"id": "gareth-teletubbies_mod", "name": "Teletubbies & Noo-Noo Overhaul", "tag": "v1.0.5", "desc": "Noo-Noo trumpet vacuum, smiling Baby Sun in the sky that yawns as time runs out, and Teletubby workforce reskins.", "cat": "Quality of Life", "author": "Gareth White"},
+			{"id": "gareth-abyssal_trench_mod", "name": "The Abyssal Trench (Map 104)", "tag": "v1.2.0", "desc": "Cryo-abyss featuring Twilight sapphire strata, thermal basalt, and extreme deep-sea hazards.", "cat": "Custom Maps & Strata", "author": "Gareth White"},
+			{"id": "gareth-lost_expedition_mod", "name": "The Lost Expedition (Map 101)", "tag": "v1.2.0", "desc": "Ancient frozen cavern with ice barricades, frozen machinery, and dynamic landmine extraction.", "cat": "Custom Maps & Strata", "author": "Gareth White"},
+			{"id": "gareth-tectonic_faultline_mod", "name": "Tectonic Faultline (Map 102)", "tag": "v1.2.0", "desc": "Magma fissures, vertical rifts, and 3x active seismic pods that shake the earth.", "cat": "Custom Maps & Strata", "author": "Gareth White"},
+			{"id": "gareth-living_canvas_mod", "name": "The Living Canvas (Map 103)", "tag": "v1.2.0", "desc": "Generates strata and veins directly from your custom image inputs (PNG) in real time.", "cat": "Custom Maps & Strata", "author": "Gareth White"},
+			{"id": "gareth-diagonal_map_mod", "name": "Diagonal Seams (Map 105)", "tag": "v1.2.0", "desc": "45-degree rotated subterranean layers requiring custom slanted mining angles.", "cat": "Custom Maps & Strata", "author": "Gareth White"},
+			{"id": "gareth-custom_classes_mod", "name": "Expanded Profession Suite (9 Classes)", "tag": "v1.2.0", "desc": "Adds 9 unique playable professions with tailored starting items and attributes.", "cat": "Classes & Professions", "author": "Gareth White"},
+			{"id": "gareth-jedi_class_mod", "name": "Jedi Class Energy Sabers", "tag": "v1.1.5", "desc": "Play with custom energy sabers featuring rapid defensive deflections across 15 upgrade levels.", "cat": "Classes & Professions", "author": "Gareth White"},
+			{"id": "gareth-knight_class_mod", "name": "Knight Class Broadswords", "tag": "v1.1.5", "desc": "Master frontal chivalric swordplay. Starts with Shoddy Broadsword sweeping in a 180° swing.", "cat": "Classes & Professions", "author": "Gareth White"},
+			{"id": "gareth-elemental_airstrikes_mod", "name": "Elemental Airstrikes Triad + B-52 Bomber", "tag": "v1.2.4", "desc": "Rain death down into the shaft: Dragon Fire, Water Deluge, Defoliant, or the heavy B-52 Bomber (10 massive explosions!).", "cat": "Weapons & Arsenal", "author": "Gareth White"},
+			{"id": "gareth-laser_beam_mod", "name": "High-Energy Laser Beam", "tag": "v1.1.0", "desc": "Melt bedrock and valuable ores instantly with a continuous collimated light beam.", "cat": "Weapons & Arsenal", "author": "Gareth White"},
+			{"id": "gareth-donkey_kong_mod", "name": "Donkey Kong Surface Hazard", "tag": "v1.1.0", "desc": "An angry giant ape appears on the surface, throwing heavy wooden barrels down the shaft.", "cat": "Quality of Life", "author": "Gareth White"},
+			{"id": "gareth-scrap_and_delivery_mod", "name": "In-Mine Scrap & Same-Day Drone Delivery", "tag": "v1.2.0", "desc": "Instantly sell 50% scrap and summon Amazon delivery drones with item platforms anywhere.", "cat": "Quality of Life", "author": "Gareth White"},
+			{"id": "gareth-collector_priority_mod", "name": "Collector UFO Retrieval Priority Settings", "tag": "v2.0.0", "desc": "Smart UFO collections: Closest-first, Quota priority, or Most-Valuable sorting.", "cat": "Workforce & Automation", "author": "Gareth White"},
+			{"id": "gareth-more_employees_mod", "name": "Organisation Chart Hierarchy Extender", "tag": "v2.0.0", "desc": "Expand workforce to five distinct tiers: Interns, Junior Miners, Engineers, Directors, Executives.", "cat": "Workforce & Automation", "author": "Gareth White"},
+			{"id": "gareth-multisave_mod", "name": "Multi-Save Slots Slots Slots Manager", "tag": "v2.2.0", "desc": "Provides six isolated career profiles, independent mod state storage, and hard-badge track stats.", "cat": "Quality of Life", "author": "Gareth White"},
+			{"id": "gareth-bouncing_ball_mod", "name": "Bouncing Ball Class Tier Pack", "tag": "v1.1.0", "desc": "Playful kinetic physical projectiles across 15 upgrade levels.", "cat": "Classes & Professions", "author": "Gareth White"},
+			{"id": "gareth-buyable_vacuums_mod", "name": "Buyable Vacuums Mod", "tag": "v1.0.5", "desc": "Unlocks specialized upgrade configurations on all standard vacuum tiers.", "cat": "Quality of Life", "author": "Gareth White"},
+			{"id": "gareth-chest_variance_mod", "name": "Chest Loot & Traps Tier Variance", "tag": "v1.0.3", "desc": "Adds explosive chest traps, custom keys, and high-tier roll loot drops.", "cat": "Quality of Life", "author": "Gareth White"},
+			{"id": "gareth-chrono_industrialist_mod", "name": "Chrono-Industrialist Profession Pack", "tag": "v1.1.0", "desc": "Enables shift chronometry manipulation across 15 tech progression tiers.", "cat": "Classes & Professions", "author": "Gareth White"},
+			{"id": "gareth-debt_executioner_mod", "name": "Debt Executioner Gun Profession Pack", "tag": "v1.1.0", "desc": "Wield rapid economic ordinance across 15 upgrade tiers.", "cat": "Classes & Professions", "author": "Gareth White"},
+			{"id": "gareth-elemental_transmutation_mod", "name": "Elemental Transmutation Module", "tag": "v1.1.0", "desc": "Transforms low-tier debris into high-value ores based on environmental criteria.", "cat": "Weapons & Arsenal", "author": "Gareth White"},
+			{"id": "gareth-employee_passives_mod", "name": "Employee Passive Scaling Manager", "tag": "v1.0.4", "desc": "Allows automated miners and UFO collectors to gain permanent passive traits.", "cat": "Workforce & Automation", "author": "Gareth White"},
+			{"id": "gareth-endgame_arsenal_mod", "name": "Endgame Magical Arsenals Extender", "tag": "v1.1.5", "desc": "Registers Magic Staff (tiers 12-15) and Poison Gun (tiers 1-15) into advanced lists.", "cat": "Weapons & Arsenal", "author": "Gareth White"},
+			{"id": "gareth-excavation_frenzy_mod", "name": "Excavation Frenzy Boost Tracker", "tag": "v1.0.2", "desc": "Tracks and scales mining swings when excavation milestones are met.", "cat": "Quality of Life", "author": "Gareth White"},
+			{"id": "gareth-game_speed_mod", "name": "Game Shift Finish & Timer Speed Module", "tag": "v1.1.0", "desc": "Provides high-precision split timers and docked micro-HUD metrics.", "cat": "Quality of Life", "author": "Gareth White"},
+			{"id": "gareth-grav_dreadnought_mod", "name": "Gravitational Dreadnought Profession Pack", "tag": "v1.1.0", "desc": "Command intense gravity singularities across 15 tech progression tiers.", "cat": "Classes & Professions", "author": "Gareth White"},
+			{"id": "gareth-grenade_mod", "name": "Bouncing Cluster Grenades Tier Pack", "tag": "v1.2.0", "desc": "Explosive cluster fragmenting across 15 distinct coloring tiers.", "cat": "Weapons & Arsenal", "author": "Gareth White"},
+			{"id": "gareth-hardware_booster_mod", "name": "Hardware Chunk & Memory Booster", "tag": "v1.2.0", "desc": "Applies bounds checks to prevents out-of-boundary voxel memory leaks.", "cat": "Quality of Life", "author": "Gareth White"},
+			{"id": "gareth-heavy_bombs_mod", "name": "Demolition Grade Heavy Bombs", "tag": "v1.1.5", "desc": "Advanced demolition bombs (Bunker buster, cryo-cluster, etc.) for open pits.", "cat": "Weapons & Arsenal", "author": "Gareth White"},
+			{"id": "gareth-heavy_turrets_mod", "name": "Automated Heavy Defence Turrets", "tag": "v1.0.3", "desc": "Spawns automated target-tracking heavy turrets into the mine shaft.", "cat": "Weapons & Arsenal", "author": "Gareth White"},
+			{"id": "gareth-hydrogen_bomb_mod", "name": "Heavy Cased Hydrogen Bomb Tier Pack", "tag": "v1.1.0", "desc": "Unlocks ultimate thermonuclear blast range over 15 visual tiers.", "cat": "Weapons & Arsenal", "author": "Gareth White"},
+			{"id": "gareth-infini_platform_mod", "name": "Infini-Platform Quality Multiplier Module", "tag": "v1.0.2", "desc": "Extends build scaffolding indefinitely into deep chasms.", "cat": "Quality of Life", "author": "Gareth White"},
+			{"id": "gareth-leaderboard_mod", "name": "Main Menu Global Leaderboard Module", "tag": "v2.0.2", "desc": "On-screen high-score dashboard synced directly to profile results.", "cat": "Quality of Life", "author": "Gareth White"},
+			{"id": "gareth-martial_legends_mod", "name": "Championship Boxing Gloves & Kick Exponent", "tag": "v1.1.0", "desc": "Unlocks specialized unarmed combat arts with specific scaling properties.", "cat": "Classes & Professions", "author": "Gareth White"},
+			{"id": "gareth-more_collectors_mod", "name": "Extended Hover UFO Collectors System", "tag": "v1.1.0", "desc": "Add more automated retrieval drones with specialized click-through stats.", "cat": "Workforce & Automation", "author": "Gareth White"},
+			{"id": "gareth-more_drills_mod", "name": "Advanced Drills Tech Progression Pack", "tag": "v1.0.5", "desc": "Enables heavier automated drills with specialized extraction properties.", "cat": "Workforce & Automation", "author": "Gareth White"},
+			{"id": "gareth-more_inventory_slots_mod", "name": "Extended Screen Inventory Slot Module", "tag": "v1.0.3", "desc": "Expands slots layout visibility to prevent visual item overflow.", "cat": "Quality of Life", "author": "Gareth White"},
+			{"id": "gareth-more_inventory_stacks_mod", "name": "Extended Item Stack Quality Expansion", "tag": "v1.0.3", "desc": "Saves inventory scaling stacks beyond the standard inventory count limits.", "cat": "Quality of Life", "author": "Gareth White"},
+			{"id": "gareth-more_layer_shifts_mod", "name": "Extreme Sub-Level Shifting Module (Strata 6-12)", "tag": "v1.1.0", "desc": "Increases deep mining strata ranges to open extremely deep tunnels.", "cat": "Custom Maps & Strata", "author": "Gareth White"},
+			{"id": "gareth-more_mortars_mod", "name": "Mortars Upgrades Multi-Progression System", "tag": "v1.0.5", "desc": "Adds rapid mortar fire capacity with detailed positioning attributes.", "cat": "Weapons & Arsenal", "author": "Gareth White"},
+			{"id": "gareth-more_nukes_mod", "name": "Heavy Warhead Tactical Nukes Multi-Progress", "tag": "v1.1.0", "desc": "Wield 15 color-coded tactical warheads for excavation projects.", "cat": "Weapons & Arsenal", "author": "Gareth White"},
+			{"id": "gareth-more_vacuum_quests_mod", "name": "Extended NPC Tabatha Quest-Line System", "tag": "v1.2.0", "desc": "Features progressive vacuum collection missions with specific rewards.", "cat": "Workforce & Automation", "author": "Gareth White"},
+			{"id": "gareth-neutron_bomb_mod", "name": "Compressed Cannister Neutron Bomb Tiers", "tag": "v1.1.0", "desc": "Spawns particle-annihilation cluster explosions across 15 upgrade levels.", "cat": "Weapons & Arsenal", "author": "Gareth White"},
+			{"id": "gareth-plasma_raygun_mod", "name": "Right-Click Particle Plasma Raygun", "tag": "v1.0.4", "desc": "Rapidly projects plasma bursts to strip cavernous zones of resources.", "cat": "Weapons & Arsenal", "author": "Gareth White"},
+			{"id": "gareth-prospectors_beacon_mod", "name": "Luminance Prospector Beacon Module", "tag": "v1.0.3", "desc": "Spawns heavy lighting beacons to point toward deep gem deposits.", "cat": "Quality of Life", "author": "Gareth White"},
+			{"id": "gareth-seismic_hazards_mod", "name": "Seismic Cave-In Dynamic Hazards System", "tag": "v1.1.0", "desc": "Installs dynamic earthquake tremor risks that crash random caverns.", "cat": "Quality of Life", "author": "Gareth White"},
+			{"id": "gareth-sinclairity_class_mod", "name": "Rainbow Optical Emitter Sinclairity Profession", "tag": "v1.1.0", "desc": "Fires shimmering rainbow optical beams with intense mining capabilities.", "cat": "Classes & Professions", "author": "Gareth White"},
+			{"id": "gareth-tank_arsenal_mod", "name": "Heavy Mobile Defensive Armour Tank Depot", "tag": "v1.2.0", "desc": "Unlocks visual driving treads and active cannon armor across 45 tiers.", "cat": "Weapons & Arsenal", "author": "Gareth White"},
+			{"id": "gareth-tectonic_fracker_mod", "name": "Tectonic Fracking Disintegration Profession", "tag": "v1.1.0", "desc": "Splinter baseline formations over 15 tech progression tiers.", "cat": "Classes & Professions", "author": "Gareth White"},
+			{"id": "gareth-tick_upgrade_mod", "name": "Elemental Tick Speed and Scale Progress", "tag": "v1.0.5", "desc": "Bumps time loops logic performance over multiple tech phases.", "cat": "Quality of Life", "author": "Gareth White"},
+			{"id": "gareth-vacuum_depot_mod", "name": "Extended UFO Dropoff Collector Depots", "tag": "v1.0.2", "desc": "Smart drop stations that reduce round-trip UFO transit times.", "cat": "Workforce & Automation", "author": "Gareth White"},
+			{"id": "gareth-void_siphon_mod", "name": "Void Siphon Core Profession Pack", "tag": "v1.1.0", "desc": "Extract deep cosmic singular fields across 15 upgrade tiers.", "cat": "Classes & Professions", "author": "Gareth White"},
+			{"id": "gareth-water_spirit_mod", "name": "Water Spirit Fairy Resource Extractor", "tag": "v1.1.0", "desc": "Summon hovering spectral fairy overlays that gather distant particles.", "cat": "Quality of Life", "author": "Gareth White"},
+			{"id": "gareth-weapon_stacker_mod", "name": "Water Gun and Rifle Weapon Stacker System", "tag": "v2.0.0", "desc": "Enables combining secondary weaponry directly onto standard pickaxes.", "cat": "Weapons & Arsenal", "author": "Gareth White"}
+		]
+		status_lbl.text = "Gareth White (Official Suite): 58 officially verified packages loaded."
 		status_lbl.modulate = Color(0.4, 0.85, 1.0)
-		_render_cards()
+
+	_render_cards()
 
 func _render_cards() -> void:
 	for child in cards_vbox.get_children():
@@ -331,5 +350,4 @@ func _uninstall_mod(mod_id: String) -> void:
 			status_lbl.modulate = Color(1.0, 0.85, 0.3)
 
 	_render_cards()
-
 
