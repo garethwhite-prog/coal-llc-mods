@@ -6,36 +6,10 @@
 1039: at: apply_extension (res://addons/mod_loader/internal/script_extension.gd:118)
 1103: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
 1104: at: _load (core/io/resource_loader.cpp:359)
-1112: ERROR: Node not found: "%ModStoreContainer" (relative to "/root/MainScene/MainMenu/@Control@41").
-1113: at: get_node (scene/main/node.cpp:1877)
-1114: ERROR: Node not found: "%StatusLabel" (relative to "/root/MainScene/MainMenu/@Control@41").
-1115: at: get_node (scene/main/node.cpp:1877)
-1116: ERROR: HTTPRequest is processing a request. Wait for completion or cancel it before attempting a new one.
-1117: at: request_raw (scene/main/http_request.cpp:119)
-1118: ERROR: Node not found: "%ModStoreContainer" (relative to "/root/MainScene/MainMenu/@Control@765").
-1119: at: get_node (scene/main/node.cpp:1877)
-1120: ERROR: Node not found: "%StatusLabel" (relative to "/root/MainScene/MainMenu/@Control@765").
-1121: at: get_node (scene/main/node.cpp:1877)
-1122: ERROR: HTTPRequest is processing a request. Wait for completion or cancel it before attempting a new one.
-1123: at: request_raw (scene/main/http_request.cpp:119)
-1124: ERROR: Node not found: "%ModStoreContainer" (relative to "/root/MainScene/MainMenu/@Control@769").
-1125: at: get_node (scene/main/node.cpp:1877)
-1126: ERROR: Node not found: "%StatusLabel" (relative to "/root/MainScene/MainMenu/@Control@769").
-1127: at: get_node (scene/main/node.cpp:1877)
-1128: ERROR: HTTPRequest is processing a request. Wait for completion or cancel it before attempting a new one.
-1129: at: request_raw (scene/main/http_request.cpp:119)
-1130: ERROR: Node not found: "%ModStoreContainer" (relative to "/root/MainScene/MainMenu/@Control@773").
-1131: at: get_node (scene/main/node.cpp:1877)
-1132: ERROR: Node not found: "%StatusLabel" (relative to "/root/MainScene/MainMenu/@Control@773").
-1133: at: get_node (scene/main/node.cpp:1877)
-1134: ERROR: HTTPRequest is processing a request. Wait for completion or cancel it before attempting a new one.
-1135: at: request_raw (scene/main/http_request.cpp:119)
-1136: ERROR: Node not found: "%ModStoreContainer" (relative to "/root/MainScene/MainMenu/@Control@777").
-1137: at: get_node (scene/main/node.cpp:1877)
-1138: ERROR: Node not found: "%StatusLabel" (relative to "/root/MainScene/MainMenu/@Control@777").
-1139: at: get_node (scene/main/node.cpp:1877)
-1140: ERROR: HTTPRequest is processing a request. Wait for completion or cancel it before attempting a new one.
-1141: at: request_raw (scene/main/http_request.cpp:119)
-1142: ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-1147: ERROR: 177 resources still in use at exit (run with --verbose for details).
-1148: at: clear (core/io/resource.cpp:614)
+1112: SCRIPT ERROR: Invalid access to property or key 'mod_data' on a base object of type 'Node (mod_loader.gd)'.
+1113: at: _render_cards (res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd:46)
+1114: SCRIPT ERROR: Invalid access to property or key 'mod_data' on a base object of type 'Node (mod_loader.gd)'.
+1115: at: _render_cards (res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_manager_view.gd:46)
+1116: ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+1121: ERROR: 177 resources still in use at exit (run with --verbose for details).
+1122: at: clear (core/io/resource.cpp:614)

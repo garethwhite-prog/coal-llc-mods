@@ -68,7 +68,7 @@ func _physics_process(delta: float) -> void:
 		if Gvars and ("passives" in Gvars) and Gvars.passives:
 			var p = Gvars.passives
 			var pick_dmg = float(p.pickaxe_damage) if ("pickaxe_damage" in p) else 0.0
-			var ball_dmg = float(p.get("bouncing_ball_damage")) if ("bouncing_ball_damage" in p) else 0.0
+			var ball_dmg = float(p.get("ball_blast_damage")) if ("ball_blast_damage" in p) else 0.0
 			mult_passives = (1.0 + pick_dmg) * (1.0 + ball_dmg)
 
 		var final_damage: float = base_damage * mult_bounce * mult_velocity * mult_passives
@@ -123,6 +123,7 @@ func _spawn_blast_shockwave() -> void:
 			tween.tween_property(ring, "modulate:a", 0.0, 0.16)
 			tween.set_parallel(false)
 			tween.tween_callback(ring.queue_free)
+
 
 
 
