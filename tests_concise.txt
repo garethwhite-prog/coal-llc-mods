@@ -1,27 +1,227 @@
-﻿   7: ERROR: Parameter "zfile" is null.
-   8: at: try_open_pack (core/io/file_access_zip.cpp:171)
-   9: ERROR ModLoader: Failed loading hooks pack from: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mod-hooks.zip
-  10: ERROR: Failed loading hooks pack from: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mod-hooks.zip
-  11: at: push_error (core/variant/variant_utility.cpp:1098)
-  11: at: push_error (core/variant/variant_utility.cpp:1098)
-  25: ERROR ModLoader:Path: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
-  26: ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
-  27: at: push_error (core/variant/variant_utility.cpp:1098)
-  27: at: push_error (core/variant/variant_utility.cpp:1098)
-1044: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
-1045: at: apply_extension (res://addons/mod_loader/internal/script_extension.gd:118)
-1109: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
-1110: at: _load (core/io/resource_loader.cpp:359)
-1181: Verified 3884 files, no errors detected!
-1186: Extracted 41 files, no errors detected!
-1222: If you find that you have many non-import errors upon opening the project
-1223: (i.e. scripts or shaders have many errors), use the original game's binary as the export template.
-1265: Verified 3884 files, no errors detected!
-1270: Extracted 41 files, no errors detected!
-1277: ERROR ModLoader:ModHookPacker: Error (1) writing to hooks zip, consider deleting this file: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mod-hooks.zip
-1278: ERROR: Error (1) writing to hooks zip, consider deleting this file: C:/Program Files (x86)/Steam/steamapps/common/Coal LLC/Coal LLC/mod-hooks.zip
-1279: at: push_error (core/variant/variant_utility.cpp:1098)
-1279: at: push_error (core/variant/variant_utility.cpp:1098)
-1281: ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
-1286: ERROR: 177 resources still in use at exit (run with --verbose for details).
-1287: at: clear (core/io/resource.cpp:614)
+﻿  19: ERROR ModLoader:Path: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
+  20: ERROR: Encountered an error (Invalid parameter) when attempting to open a directory, with the path: res://mods-unpacked/
+  21: at: push_error (core/variant/variant_utility.cpp:1098)
+  21: at: push_error (core/variant/variant_utility.cpp:1098)
+1038: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
+1039: at: apply_extension (res://addons/mod_loader/internal/script_extension.gd:118)
+1103: ERROR: No loader found for resource: res://assets/sound/sound effects/SwordHit.wav (expected type: )
+1104: at: _load (core/io/resource_loader.cpp:359)
+1112: ERROR: Node not found: "%ModStoreContainer" (relative to "/root/MainScene/MainMenu/@Control@41").
+1113: at: get_node (scene/main/node.cpp:1877)
+1114: ERROR: Node not found: "%StatusLabel" (relative to "/root/MainScene/MainMenu/@Control@41").
+1115: at: get_node (scene/main/node.cpp:1877)
+1116: SCRIPT ERROR: Invalid assignment of property or key 'text' with value of type 'String' on a base object of type 'null instance'.
+1117: at: _ready (res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.gd:9)
+1118: ERROR: Node not found: "%ModStoreContainer" (relative to "/root/MainScene/MainMenu/@Control@42").
+1119: at: get_node (scene/main/node.cpp:1877)
+1120: ERROR: Node not found: "%StatusLabel" (relative to "/root/MainScene/MainMenu/@Control@42").
+1121: at: get_node (scene/main/node.cpp:1877)
+1122: SCRIPT ERROR: Invalid assignment of property or key 'text' with value of type 'String' on a base object of type 'null instance'.
+1123: at: _ready (res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.gd:9)
+1124: ERROR: Node not found: "%ModStoreContainer" (relative to "/root/MainScene/MainMenu/@Control@43").
+1125: at: get_node (scene/main/node.cpp:1877)
+1126: ERROR: Node not found: "%StatusLabel" (relative to "/root/MainScene/MainMenu/@Control@43").
+1127: at: get_node (scene/main/node.cpp:1877)
+1128: SCRIPT ERROR: Invalid assignment of property or key 'text' with value of type 'String' on a base object of type 'null instance'.
+1129: at: _ready (res://mods-unpacked/gareth-mod_manager_mod/scenes/mod_store_view.gd:9)
+1130: ERROR: Error calling deferred method: 'Control(mod_manager_view.gd)::_inject_search_bar': Method not found.
+1131: at: _call_function (core/object/message_queue.cpp:222)
+1132: ERROR: Error calling deferred method: 'Control(mod_manager_view.gd)::_inject_search_bar': Method not found.
+1133: at: _call_function (core/object/message_queue.cpp:222)
+1134: SCRIPT ERROR: Trying to call an async function without "await".
+1135: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+1139: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1140: at: add_child (scene/main/node.cpp:1657)
+1141: ERROR: Child is not a child of this node.
+1142: at: move_child (scene/main/node.cpp:465)
+1143: SCRIPT ERROR: Trying to call an async function without "await".
+1144: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+1146: SCRIPT ERROR: Trying to call an async function without "await".
+1147: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+1148: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1149: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+1150: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1151: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+1152: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1153: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+1154: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1155: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+1156: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1157: at: add_child (scene/main/node.cpp:1657)
+1158: ERROR: Child is not a child of this node.
+1159: at: move_child (scene/main/node.cpp:465)
+1160: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1161: at: add_child (scene/main/node.cpp:1657)
+1162: ERROR: Child is not a child of this node.
+1163: at: move_child (scene/main/node.cpp:465)
+1166: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+1169: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1170: at: connect (core/object/object.cpp:1451)
+1171: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1172: at: connect (core/object/object.cpp:1451)
+1173: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1174: at: connect (core/object/object.cpp:1451)
+1175: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1176: at: connect (core/object/object.cpp:1451)
+1273: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1274: at: add_child (scene/main/node.cpp:1657)
+1275: ERROR: Child is not a child of this node.
+1276: at: move_child (scene/main/node.cpp:465)
+1277: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1278: at: add_child (scene/main/node.cpp:1657)
+1279: ERROR: Child is not a child of this node.
+1280: at: move_child (scene/main/node.cpp:465)
+1292: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1293: at: add_child (scene/main/node.cpp:1657)
+1294: ERROR: Child is not a child of this node.
+1295: at: move_child (scene/main/node.cpp:465)
+1296: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1297: at: add_child (scene/main/node.cpp:1657)
+1298: ERROR: Child is not a child of this node.
+1299: at: move_child (scene/main/node.cpp:465)
+1313: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1314: at: add_child (scene/main/node.cpp:1657)
+1315: ERROR: Child is not a child of this node.
+1316: at: move_child (scene/main/node.cpp:465)
+1317: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1318: at: add_child (scene/main/node.cpp:1657)
+1319: ERROR: Child is not a child of this node.
+1320: at: move_child (scene/main/node.cpp:465)
+1325: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1326: at: add_child (scene/main/node.cpp:1657)
+1327: ERROR: Child is not a child of this node.
+1328: at: move_child (scene/main/node.cpp:465)
+1329: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1330: at: add_child (scene/main/node.cpp:1657)
+1331: ERROR: Child is not a child of this node.
+1332: at: move_child (scene/main/node.cpp:465)
+1361: ERROR: <Tween#-9223360325301009581>: started with no Tweeners.
+1362: at: step (scene/animation/tween.cpp:355)
+1363: ERROR: <Tween#-9223360315117241069>: started with no Tweeners.
+1364: at: step (scene/animation/tween.cpp:355)
+1365: ERROR: <Tween#-9223360307382944622>: started with no Tweeners.
+1366: at: step (scene/animation/tween.cpp:355)
+1367: ERROR: <Tween#-9223360300923716371>: started with no Tweeners.
+1368: at: step (scene/animation/tween.cpp:355)
+1369: ERROR: <Tween#-9223360292182782149>: started with no Tweeners.
+1370: at: step (scene/animation/tween.cpp:355)
+1371: ERROR: <Tween#-9223360283223748561>: started with no Tweeners.
+1372: at: step (scene/animation/tween.cpp:355)
+1373: ERROR: <Tween#-9223360272536662075>: started with no Tweeners.
+1374: at: step (scene/animation/tween.cpp:355)
+1375: ERROR: <Tween#-9223360263577630704>: started with no Tweeners.
+1376: at: step (scene/animation/tween.cpp:355)
+1390: SCRIPT ERROR: Trying to call an async function without "await".
+1391: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+1395: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1396: at: add_child (scene/main/node.cpp:1657)
+1397: ERROR: Child is not a child of this node.
+1398: at: move_child (scene/main/node.cpp:465)
+1402: SCRIPT ERROR: Trying to call an async function without "await".
+1403: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+1405: SCRIPT ERROR: Trying to call an async function without "await".
+1406: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+1407: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1408: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+1409: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1410: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+1411: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1412: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+1413: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1414: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+1415: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1416: at: add_child (scene/main/node.cpp:1657)
+1417: ERROR: Child is not a child of this node.
+1418: at: move_child (scene/main/node.cpp:465)
+1419: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1420: at: add_child (scene/main/node.cpp:1657)
+1421: ERROR: Child is not a child of this node.
+1422: at: move_child (scene/main/node.cpp:465)
+1425: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+1428: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1429: at: connect (core/object/object.cpp:1451)
+1430: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1431: at: connect (core/object/object.cpp:1451)
+1432: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1433: at: connect (core/object/object.cpp:1451)
+1434: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1435: at: connect (core/object/object.cpp:1451)
+1548: ERROR: <Tween#-9223342282428628303>: started with no Tweeners.
+1549: at: step (scene/animation/tween.cpp:355)
+1550: ERROR: <Tween#-9223342267077472967>: started with no Tweeners.
+1551: at: step (scene/animation/tween.cpp:355)
+1552: ERROR: <Tween#-9223342258470744207>: started with no Tweeners.
+1553: at: step (scene/animation/tween.cpp:355)
+1554: ERROR: <Tween#-9223342242918246176>: started with no Tweeners.
+1555: at: step (scene/animation/tween.cpp:355)
+1556: ERROR: <Tween#-9223342234865202430>: started with no Tweeners.
+1557: at: step (scene/animation/tween.cpp:355)
+1564: SCRIPT ERROR: Trying to call an async function without "await".
+1565: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+1569: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1570: at: add_child (scene/main/node.cpp:1657)
+1571: ERROR: Child is not a child of this node.
+1572: at: move_child (scene/main/node.cpp:465)
+1576: SCRIPT ERROR: Trying to call an async function without "await".
+1577: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+1579: SCRIPT ERROR: Trying to call an async function without "await".
+1580: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+1581: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1582: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+1583: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1584: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+1585: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1586: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+1587: SCRIPT ERROR: Invalid assignment of property or key 'monitoring' with value of type 'bool' on a base object of type 'Nil'.
+1588: at: QuestPoint.refresh_state (res://scenes/NPCs/quest_point.gd:102)
+1589: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1590: at: add_child (scene/main/node.cpp:1657)
+1591: ERROR: Child is not a child of this node.
+1592: at: move_child (scene/main/node.cpp:465)
+1593: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+1594: at: add_child (scene/main/node.cpp:1657)
+1595: ERROR: Child is not a child of this node.
+1596: at: move_child (scene/main/node.cpp:465)
+1599: ERROR in EmployeeManager: NO EMPLOYEE LEVEL FOUND FROM ENUM, RETURNING INTERN
+1602: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1603: at: connect (core/object/object.cpp:1451)
+1604: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1605: at: connect (core/object/object.cpp:1451)
+1606: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1607: at: connect (core/object/object.cpp:1451)
+1608: ERROR: Signal 'no_dialogue_left' is already connected to given callable 'Node2D(QuestPoint)::interact_with_quest' in that object.
+1609: at: connect (core/object/object.cpp:1451)
+1614: ERROR: <Tween#-9223335269166420363>: started with no Tweeners.
+1615: at: step (scene/animation/tween.cpp:355)
+1616: ERROR: <Tween#-9223335268277227805>: started with no Tweeners.
+1617: at: step (scene/animation/tween.cpp:355)
+3269: SCRIPT ERROR: Trying to call an async function without "await".
+3270: at: ModLoaderHookChain.execute_next (res://addons/mod_loader/api/hook_chain.gd:42)
+3274: ERROR: Parent node is busy setting up children, `add_child()` failed. Consider using `add_child.call_deferred(child)` instead.
+3275: at: add_child (scene/main/node.cpp:1657)
+3276: ERROR: Child is not a child of this node.
+3277: at: move_child (scene/main/node.cpp:465)
+3284: ERROR: 15 RID allocations of type 'N10RendererRD12LightStorage11ShadowAtlasE' were leaked at exit.
+3285: ERROR: 15 RID allocations of type 'N10RendererRD14TextureStorage12RenderTargetE' were leaked at exit.
+3286: ERROR: 114 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+3287: ERROR: 15 RID allocations of type 'N16RendererViewport8ViewportE' were leaked at exit.
+3290: ERROR: 147 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+3291: ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
+3294: ERROR: 189 resources still in use at exit (run with --verbose for details).
+3295: at: clear (core/io/resource.cpp:614)
+Telemetry Highlights (Last 15):
+3252: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (12.99529, 1080.0)!
+3253: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
+3254: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
+3255: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
+3256: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
+3257: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
+3258: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (44.97283, 1080.0)!
+3259: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
+3260: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x
+3262: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 3/5 | Animation Scale: 2.20x
+3263: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 4/5 | Animation Scale: 2.60x
+3264: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 5/5 | Animation Scale: 3.00x
+3265: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] MAX FRENZY SHOCKWAVE at (-115.1585, 1053.049)!
+3266: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 1/5 | Animation Scale: 1.40x
+3267: INFO gareth-excavation_frenzy_mod:Hook: [Frenzy] Swing! Combo: 2/5 | Animation Scale: 1.80x

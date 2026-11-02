@@ -1,12 +1,47 @@
 extends Control
 
-@onready var container: GridContainer = %ModStoreContainer
-@onready var status_lbl: Label = %StatusLabel
-
+var container: GridContainer
+var status_lbl: Label
 var all_packages: Array = []
 
 func _ready() -> void:
+	# Generate standalone UI layout dynamically to prevent % node null crashes
+	var panel = Panel.new()
+	panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	add_child(panel)
+
+	var vbox = VBoxContainer.new()
+	vbox.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	panel.add_child(vbox)
+
+	var header = HBoxContainer.new()
+	header.custom_minimum_size = Vector2(0, 60)
+	vbox.add_child(header)
+
+	status_lbl = Label.new()
 	status_lbl.text = "Loading Mod & Map Catalog..."
+	status_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	status_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	header.add_child(status_lbl)
+
+	var close_btn = Button.new()
+	close_btn.text = "Close"
+	close_btn.custom_minimum_size = Vector2(100, 40)
+	close_btn.pressed.connect(_on_close_pressed)
+	header.add_child(close_btn)
+
+	var scroll = ScrollContainer.new()
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	vbox.add_child(scroll)
+
+	container = GridContainer.new()
+	container.columns = 3
+	container.add_theme_constant_override("h_separation", 20)
+	container.add_theme_constant_override("v_separation", 20)
+	container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(container)
+
 	var client_script = load("res://mods-unpacked/gareth-mod_manager_mod/scripts/mod_store_client.gd")
 	if client_script:
 		var c = client_script.new()
@@ -23,7 +58,6 @@ func _on_catalog_loaded(repo: String, releases: Array) -> void:
 		var tag = r.get("version", "1.0.0")
 		if not tag.begins_with("v"): tag = "v" + tag
 		
-		# Fallback checking if it arrived in GitHub API structure
 		var assets = r.get("assets", [])
 		if typeof(assets) == TYPE_ARRAY and assets.size() > 0:
 			var asset_map = assets[0]
@@ -52,7 +86,7 @@ func _render_cards() -> void:
 	for pkg in all_packages:
 		var pkg_id = pkg["id"]
 		var card = PanelContainer.new()
-		card.custom_minimum_size = Vector2(250, 180)
+		card.custom_minimum_size = Vector2(280, 200)
 		var vb = VBoxContainer.new()
 		card.add_child(vb)
 		
@@ -71,11 +105,11 @@ func _render_cards() -> void:
 		vb.add_child(spacer)
 		
 		var btn_action = Button.new()
+		btn_action.custom_minimum_size = Vector2(0, 40)
 		var installed = _is_installed(pkg_id)
 		if installed:
 			btn_action.text = "Uninstall"
 			btn_action.modulate = Color(0.9, 0.4, 0.4)
-			# Safe Godot 4 bindings - No lambda semicolons
 			btn_action.pressed.connect(_on_uninstall_pressed.bind(pkg_id, btn_action))
 		else:
 			btn_action.text = "Install"
