@@ -1,39 +1,18 @@
 extends Object
 
+const BALL_PASSIVES: Array[String] = [
+	"ball_blast_radius",
+	"ball_blast_damage",
+	"ball_fire_rate"
+]
+
 const CUSTOM_PASSIVE_DEFAULTS: Dictionary = {
-	"ball_blast_damage": 0.05,
 	"ball_blast_radius": 0.05,
+	"ball_blast_damage": 0.05,
 	"ball_fire_rate": 0.05,
-	"chrono_tick_rate": 0.05,
-	"chrono_shockwave_damage": 0.05,
-	"chrono_stasis_duration": 0.05,
-	"exec_damage": 0.05,
-	"exec_fire_rate": 0.05,
-	"exec_bounty": 0.05,
-	"drill_speed": 0.05,
-	"axe_speed": 0.05,
-	"gun_rate": 0.05,
-	"dread_shell_damage": 0.05,
-	"dread_fire_rate": 0.05,
-	"dread_impact_radius": 0.05,
-	"jedi_saber_damage": 0.05,
-	"jedi_swing_rate": 0.05,
-	"jedi_cleave_reach": 0.05,
-	"sword_damage": 0.05,
-	"sword_speed": 0.05,
-	"sword_range": 0.05,
 	"employee_miner_range": 0.05,
 	"employee_miner_pickup_speed": 0.05,
-	"collector_range": 0.05,
-	"sinclair_melt_damage": 0.05,
-	"sinclair_beam_width": 0.05,
-	"sinclair_spectrum_ticks": 0.05,
-	"fracker_pulse_damage": 0.05,
-	"fracker_seam_resonance": 0.05,
-	"fracker_fire_rate": 0.05,
-	"void_implosion_damage": 0.05,
-	"void_pull_radius": 0.05,
-	"void_event_horizon": 0.05
+	"collector_range": 0.05
 }
 
 func set_up_buttons(chain: ModLoaderHookChain) -> void:
@@ -42,6 +21,28 @@ func set_up_buttons(chain: ModLoaderHookChain) -> void:
 		chain.execute_next([])
 		return
 
+	# Check if player has the Bouncing Ball in inventory
+	var has_ball := false
+	var inv: Inventory = load("res://resources/Inventories/PlayerInventory.tres")
+	if inv and inv.items:
+		for inv_item in inv.items:
+			if inv_item and inv_item.item and inv_item.item.itemType == "bouncing_ball":
+				has_ball = true
+				break
+
+	# If holding Bouncing Ball, ensure at least one card offers a ball upgrade
+	if has_ball and screen.choose_between.size() >= 3:
+		var has_ball_choice := false
+		for opt in screen.choose_between:
+			if opt in BALL_PASSIVES:
+				has_ball_choice = true
+				break
+		if not has_ball_choice:
+			var rand_idx: int = randi() % 3
+			var rand_ball_stat: String = BALL_PASSIVES[randi() % BALL_PASSIVES.size()]
+			screen.choose_between[rand_idx] = rand_ball_stat
+
+	# Format button text cleanly for both vanilla and custom passives
 	var buttons = [screen.button, screen.button_2, screen.button_3]
 	for i in range(0, min(3, screen.choose_between.size())):
 		var stat_name: String = str(screen.choose_between[i])
@@ -78,6 +79,7 @@ func _handle_button_click(chain: ModLoaderHookChain, button_idx: int) -> void:
 		chain.execute_next([])
 		return
 
+	# Handle custom mod passive
 	screen.live = false
 	var base_val: float = CUSTOM_PASSIVE_DEFAULTS.get(stat_name, 0.05)
 	var add_amount: float = screen.multiplier * base_val

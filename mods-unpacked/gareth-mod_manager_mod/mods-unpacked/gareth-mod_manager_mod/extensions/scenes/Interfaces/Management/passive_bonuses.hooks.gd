@@ -1,8 +1,8 @@
 extends Object
 
 const CUSTOM_DISPLAY_STATS: Array[String] = [
-	"ball_blast_damage",
 	"ball_blast_radius",
+	"ball_blast_damage",
 	"ball_fire_rate",
 	"employee_miner_range",
 	"employee_miner_pickup_speed",
@@ -22,6 +22,8 @@ func refresh(chain: ModLoaderHookChain) -> void:
 			val = float(p.get(stat))
 		elif p.has_meta(stat):
 			val = float(p.get_meta(stat))
+		elif Gvars and ("custom_passives" in Gvars) and (Gvars.custom_passives is Dictionary) and Gvars.custom_passives.has(stat):
+			val = float(Gvars.custom_passives[stat])
 
 		if val > 0.0:
 			var label := RichTextLabel.new()
