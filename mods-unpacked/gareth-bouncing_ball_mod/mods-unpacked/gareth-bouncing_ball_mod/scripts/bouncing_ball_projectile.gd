@@ -88,7 +88,9 @@ func _physics_process(delta: float) -> void:
 
 			mult_passives = (1.0 + pick_dmg) * (1.0 + ball_dmg)
 
-		var final_damage: float = base_damage * mult_bounce * mult_velocity * mult_passives
+		# Convert excess blast radius beyond the safety cap directly into bonus damage
+		var range_overflow_mult: float = max(1.0, radius / MAX_BLAST_RADIUS_TILES)
+		var final_damage: float = base_damage * mult_bounce * mult_velocity * mult_passives * range_overflow_mult
 		var hit_pos: Vector2 = collision.get_position() - (collision.get_normal() * 4.0)
 		_damage_at_pos(hit_pos, final_damage * 0.45)
 
@@ -115,11 +117,18 @@ func _detonate_final(pos: Vector2, dmg: float) -> void:
 			tm = tree.root.find_child("TileMapManager", true, false)
 			tilemap = tm
 
-	# Clamp maximum blast radius to maintain steady framerate under deep stratum scaling
+	# Clamp maximum physical blast radius to maintain steady framerate
 	var eff_radius: float = clampf(radius, 1.5, MAX_BLAST_RADIUS_TILES)
 
-	# Trigger visual shockwave ring scaled to the explosion's exact perimeter
-	_spawn_blast_shockwave(pos, eff_radius)
+	# Any blast radius beyond MAX_BLAST_RADIUS_TILES converts directly into extra damage
+	var eff_damage: float = dmg
+	var is_supercharged: bool = false
+	if radius > MAX_BLAST_RADIUS_TILES:
+		is_supercharged = true
+		eff_damage *= (radius / MAX_BLAST_RADIUS_TILES)
+
+	# Trigger visual shockwave ring scaled to the explosion perimeter
+	_spawn_blast_shockwave(pos, eff_radius, is_supercharged)
 
 	if tm and tm.has_method("damageTileCoords"):
 		var center_cell = tm.local_to_map(pos)
@@ -133,12 +142,12 @@ func _detonate_final(pos: Vector2, dmg: float) -> void:
 				continue
 			var max_dx: int = int(sqrt(r_sq - dy_sq))
 			for dx in range(-max_dx, max_dx + 1):
-				tm.damageTileCoords(center_cell + Vector2i(dx, dy), float(dmg))
+				tm.damageTileCoords(center_cell + Vector2i(dx, dy), float(eff_damage))
 
-func _spawn_blast_shockwave(pos: Vector2, r_tiles: float) -> void:
+func _spawn_blast_shockwave(pos: Vector2, r_tiles: float, is_supercharged: bool = false) -> void:
 	var ring := Line2D.new()
-	ring.width = 4.0
-	ring.default_color = Color(1.0, 0.60, 0.12, 0.95)
+	ring.width = 6.0 if is_supercharged else 4.0
+	ring.default_color = Color(1.0, 0.28, 0.12, 0.95) if is_supercharged else Color(1.0, 0.60, 0.12, 0.95)
 	ring.z_index = 50
 
 	var segs: int = 32
@@ -156,7 +165,8 @@ func _spawn_blast_shockwave(pos: Vector2, r_tiles: float) -> void:
 			parent = tree.current_scene
 	if parent:
 		parent.add_child(ring)
-		var tween = parent.create_tween()
+		# Bind tween directly to the ring so it cleans up without polluting parent scenes
+		var tween = ring.create_tween()
 		if tween:
 			tween.set_parallel(true)
 			ring.scale = Vector2(0.15, 0.15)
