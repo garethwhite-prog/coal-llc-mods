@@ -88,7 +88,7 @@ func _physics_process(delta: float) -> void:
 
 			mult_passives = (1.0 + pick_dmg) * (1.0 + ball_dmg)
 
-		# Convert excess blast radius beyond the safety cap directly into bonus damage
+		# Convert excess blast radius beyond cap directly into bonus damage
 		var range_overflow_mult: float = max(1.0, radius / MAX_BLAST_RADIUS_TILES)
 		var final_damage: float = base_damage * mult_bounce * mult_velocity * mult_passives * range_overflow_mult
 		var hit_pos: Vector2 = collision.get_position() - (collision.get_normal() * 4.0)
@@ -117,17 +117,10 @@ func _detonate_final(pos: Vector2, dmg: float) -> void:
 			tm = tree.root.find_child("TileMapManager", true, false)
 			tilemap = tm
 
-	# Clamp maximum physical blast radius to maintain steady framerate
+	# Clamp physical crater to 20 tiles to keep framerates steady
 	var eff_radius: float = clampf(radius, 1.5, MAX_BLAST_RADIUS_TILES)
+	var is_supercharged: bool = (radius > MAX_BLAST_RADIUS_TILES)
 
-	# Any blast radius beyond MAX_BLAST_RADIUS_TILES converts directly into extra damage
-	var eff_damage: float = dmg
-	var is_supercharged: bool = false
-	if radius > MAX_BLAST_RADIUS_TILES:
-		is_supercharged = true
-		eff_damage *= (radius / MAX_BLAST_RADIUS_TILES)
-
-	# Trigger visual shockwave ring scaled to the explosion perimeter
 	_spawn_blast_shockwave(pos, eff_radius, is_supercharged)
 
 	if tm and tm.has_method("damageTileCoords"):
@@ -135,14 +128,14 @@ func _detonate_final(pos: Vector2, dmg: float) -> void:
 		var r_int: int = int(ceil(eff_radius))
 		var r_sq: float = eff_radius * eff_radius
 
-		# Circular scanline loop: avoids outer corner checks and inner-loop Vector allocations
+		# Circular scanline traversal
 		for dy in range(-r_int, r_int + 1):
 			var dy_sq: float = float(dy * dy)
 			if dy_sq > r_sq:
 				continue
 			var max_dx: int = int(sqrt(r_sq - dy_sq))
 			for dx in range(-max_dx, max_dx + 1):
-				tm.damageTileCoords(center_cell + Vector2i(dx, dy), float(eff_damage))
+				tm.damageTileCoords(center_cell + Vector2i(dx, dy), float(dmg))
 
 func _spawn_blast_shockwave(pos: Vector2, r_tiles: float, is_supercharged: bool = false) -> void:
 	var ring := Line2D.new()
@@ -165,7 +158,6 @@ func _spawn_blast_shockwave(pos: Vector2, r_tiles: float, is_supercharged: bool 
 			parent = tree.current_scene
 	if parent:
 		parent.add_child(ring)
-		# Bind tween directly to the ring so it cleans up without polluting parent scenes
 		var tween = ring.create_tween()
 		if tween:
 			tween.set_parallel(true)
