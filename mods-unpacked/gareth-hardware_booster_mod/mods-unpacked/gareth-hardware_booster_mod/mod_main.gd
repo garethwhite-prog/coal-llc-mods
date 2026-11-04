@@ -14,4 +14,8 @@ func _init() -> void:
 		"res://scenes/tilemaps/tile_map_manager.gd",
 		ext_dir.path_join("scenes/tilemaps/tile_map_manager.hooks.gd")
 	)
-	ModLoaderLog.info("Hardware Booster Mod initialized with TileMapManager bounds protection.", MOD_DIR)
+	ModLoaderLog.info("Hardware Booster: Threaded chunk bounds protection and multi-core dispatch active.", MOD_DIR)
+
+func _ready() -> void:
+	var thread_count = OS.get_processor_count()
+	ModLoaderLog.info("Hardware Booster detected %d logical processor threads." % thread_count, MOD_DIR)
