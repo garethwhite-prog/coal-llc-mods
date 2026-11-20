@@ -4,30 +4,15 @@ const MOD_DIR := "gareth-emergency_deposit_mod"
 const SURVIVAL_RATE: float = 0.25
 const COOLDOWN_SEC: float = 8.0
 const STOCKPILABLE_TYPES: Array[String] = ["coal", "gem", "mineral"]
-const ACTION_NAME := "wcm_emergency_deposit"
 
 var _cooldown_left: float = 0.0
+var _prev_hotkey_down: bool = false
 var _status_label: Label = null
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	_register_input_actions()
 	_ensure_hud_hint()
 	ModLoaderLog.info("Emergency Deposit controller ready (F6 or G to bank 25% ore).", MOD_DIR)
-
-func _register_input_actions() -> void:
-	if not InputMap.has_action(ACTION_NAME):
-		InputMap.add_action(ACTION_NAME)
-	var f6_ev := InputEventKey.new()
-	f6_ev.keycode = KEY_F6
-	f6_ev.physical_keycode = KEY_F6
-	if not InputMap.action_has_event(ACTION_NAME, f6_ev):
-		InputMap.action_add_event(ACTION_NAME, f6_ev)
-	var g_ev := InputEventKey.new()
-	g_ev.keycode = KEY_G
-	g_ev.physical_keycode = KEY_G
-	if not InputMap.action_has_event(ACTION_NAME, g_ev):
-		InputMap.action_add_event(ACTION_NAME, g_ev)
 
 func _ensure_hud_hint() -> void:
 	var layer := CanvasLayer.new()
@@ -51,7 +36,10 @@ func _process(delta: float) -> void:
 		else:
 			_status_label.text = "[F6 / G] Emergency Deposit (25% Ore)"
 			_status_label.modulate = Color(1.0, 0.72, 0.25, 0.90)
-	if _cooldown_left <= 0.0 and Input.is_action_just_pressed(ACTION_NAME):
+	var hotkey_down := Input.is_physical_key_pressed(KEY_F6) or Input.is_physical_key_pressed(KEY_G)
+	var just_pressed := hotkey_down and not _prev_hotkey_down
+	_prev_hotkey_down = hotkey_down
+	if _cooldown_left <= 0.0 and just_pressed:
 		_trigger_emergency_deposit()
 
 func _trigger_emergency_deposit() -> void:
