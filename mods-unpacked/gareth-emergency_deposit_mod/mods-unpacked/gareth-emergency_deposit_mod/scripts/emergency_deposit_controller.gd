@@ -3,14 +3,15 @@ extends Node
 const MOD_DIR := "gareth-emergency_deposit_mod"
 const SURVIVAL_RATE: float = 0.25
 const COOLDOWN_SEC: float = 8.0
+const STOCKPILABLE_TYPES: Array[String] = ["coal", "gem", "mineral"]
 
 var _cooldown_left: float = 0.0
 var _status_label: Label = null
 
 func _ready() -> void:
-	process_mode = Node.PROCESS_MODE_PAUSABLE
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	_ensure_hud_hint()
-	ModLoaderLog.info("Emergency Deposit active (Hotkey E or F6: 25% ore survival).", MOD_DIR)
+	ModLoaderLog.info("Emergency Deposit bound to PlayerInventory & Stockpile (Hotkey F6: 25% ore survival).", MOD_DIR)
 
 func _ensure_hud_hint() -> void:
 	var layer := CanvasLayer.new()
@@ -37,7 +38,7 @@ func _process(delta: float) -> void:
 			_status_label.text = "[F6] Emergency Deposit (25% Ore)"
 			_status_label.modulate = Color(1.0, 0.72, 0.25, 0.85)
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if _cooldown_left > 0.0:
 		return
 	if event is InputEventKey and event.pressed and not event.echo:
@@ -45,72 +46,91 @@ func _unhandled_input(event: InputEvent) -> void:
 			_trigger_emergency_deposit()
 
 func _trigger_emergency_deposit() -> void:
-	var inv := _find_player_inventory()
-	if not inv or not ("items" in inv):
-		ModLoaderLog.warning("Emergency Deposit: Could not locate active player inventory.", MOD_DIR)
+	var player_inv: Inventory = _find_player_inventory()
+	var stock_inv: Inventory = _find_stockpile_inventory()
+
+	if not player_inv or not ("items" in player_inv):
+		ModLoaderLog.warning("Emergency Deposit: PlayerInventory not found.", MOD_DIR)
+		return
+	if not stock_inv or not stock_inv.has_method("addToInventory"):
+		ModLoaderLog.warning("Emergency Deposit: Stockpile inventory not found.", MOD_DIR)
 		return
 
-	var total_surviving: int = 0
-	var total_lost: int = 0
+	var total_surviving: float = 0.0
+	var total_lost: float = 0.0
+	var banked_entries: Array = []
 
-	for slot in inv.items:
-		if not slot:
+	for inv_item in player_inv.items:
+		if not inv_item or not inv_item.item:
 			continue
-		var count: int = 0
-		if "count" in slot:
-			count = int(slot.count)
-		elif "amount" in slot:
-			count = int(slot.amount)
-		elif "stack_count" in slot:
-			count = int(slot.stack_count)
-
-		if count <= 0:
+		if not (inv_item.item.itemType in STOCKPILABLE_TYPES):
+			continue
+		var count: float = float(inv_item.count)
+		if count <= 0.0:
 			continue
 
-		# Only 25% of ore survives teleportation (minimum 1 if at least 4, or floor/round)
-		var survived: int = int(floor(float(count) * SURVIVAL_RATE))
-		var lost: int = count - survived
+		var survived: float = floor(count * SURVIVAL_RATE)
+		var lost: float = count - survived
 		total_surviving += survived
 		total_lost += lost
 
-		if "count" in slot:
-			slot.count = 0
-		elif "amount" in slot:
-			slot.amount = 0
-		elif "stack_count" in slot:
-			slot.stack_count = 0
+		if player_inv.has_method("removeFromInventory"):
+			player_inv.removeFromInventory(inv_item.item, count)
+		else:
+			inv_item.count = 0.0
 
-	if total_surviving <= 0 and total_lost <= 0:
-		ModLoaderLog.info("Emergency Deposit: No ore stacks in inventory to teleport.", MOD_DIR)
+		if survived > 0.0:
+			stock_inv.addToInventory(inv_item.item, survived)
+			banked_entries.append({"item": inv_item.item, "count": int(survived)})
+
+	if total_surviving <= 0.0 and total_lost <= 0.0:
+		ModLoaderLog.info("Emergency Deposit: No stockpilable ore in inventory.", MOD_DIR)
 		return
 
-	_credit_stockpile(total_surviving)
+	_sync_coal_count(stock_inv)
+	_spawn_stockpile_fx(banked_entries)
 	_cooldown_left = COOLDOWN_SEC
 	ModLoaderLog.info(
-		"Emergency Deposit complete: Banked %d ore (25%% survived), %d ore lost in transit." % [total_surviving, total_lost],
+		"Emergency Deposit complete: Banked %.0f ore (25%% survived), %.0f ore lost in transit." % [total_surviving, total_lost],
 		MOD_DIR
 	)
 
-func _find_player_inventory():
-	if Gvars:
-		for prop in ["player_inventory", "inventory", "PlayerInventory"]:
-			if prop in Gvars and Gvars.get(prop):
-				return Gvars.get(prop)
-	var res_path := "res://resources/Inventories/PlayerInventory.tres"
-	if ResourceLoader.exists(res_path):
-		return load(res_path)
+func _find_player_inventory() -> Inventory:
+	if Gvars and ("playerInventory" in Gvars) and Gvars.playerInventory is Inventory:
+		return Gvars.playerInventory
+	var path := "res://resources/Inventories/PlayerInventory.tres"
+	if ResourceLoader.exists(path):
+		var res = load(path)
+		if res is Inventory:
+			return res
 	return null
 
-func _credit_stockpile(amount: int) -> void:
-	if amount <= 0:
+func _find_stockpile_inventory() -> Inventory:
+	if Gvars and ("stockpileInventory" in Gvars) and Gvars.stockpileInventory is Inventory:
+		return Gvars.stockpileInventory
+	var path := "res://resources/Inventories/Stockpile.tres"
+	if ResourceLoader.exists(path):
+		var res = load(path)
+		if res is Inventory:
+			return res
+	return null
+
+func _sync_coal_count(stock_inv: Inventory) -> void:
+	if not Gvars or not ("coalCount" in Gvars):
 		return
-	if Gvars:
-		for prop in ["coal_count", "CoalCount", "ore_count", "stockpile_count"]:
-			if prop in Gvars:
-				Gvars.set(prop, Gvars.get(prop) + amount)
-				return
+	var coal_total: float = 0.0
+	for slot in stock_inv.items:
+		if slot and slot.item and slot.item.itemID == "Coal":
+			coal_total += float(slot.count)
+	Gvars.coalCount = coal_total
+
+func _spawn_stockpile_fx(banked_entries: Array) -> void:
 	var tree := get_tree()
-	if tree and tree.root:
-		var stockpile := tree.root.find_child("*Stockpile*", true, false)
-		if stockpile and stockpile.has_method("add_ore"):
-			stockpile.call("add_ore", amount)
+	if not tree or not tree.root:
+		return
+	var stockpile := tree.root.find_child("*Stockpile*", true, false)
+	if not stockpile or not stockpile.has_method("sendItemToInventory"):
+		return
+	var tween := tree.create_tween()
+	for entry in banked_entries:
+		stockpile.call("sendItemToInventory", entry["item"], int(entry["count"]), tween)
