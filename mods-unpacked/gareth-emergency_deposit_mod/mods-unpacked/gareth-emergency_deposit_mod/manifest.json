@@ -1,0 +1,19 @@
+{
+  "name": "emergency_deposit_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "Emergency ore teleportation beacon: banks carried inventory to the stockpile, but only 25% of ore survives transit.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": [
+    "gareth-mod_manager_mod"
+  ],
+  "extra": {
+    "godot": {
+      "incompatibilities": [],
+      "authors": ["Gareth White"],
+      "compatible_mod_loader_version": ["6.0.0"],
+      "compatible_game_version": ["1.0.0"],
+      "tags": ["QoL", "Risk/Reward", "Mining"]
+    }
+  }
+}
