@@ -1,0 +1,19 @@
+{
+  "name": "beyond_onyx_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "Extends all vanilla and custom Onyx weapons from Tier 15 up to Tier 25 (Obsidian through Omnium) with scaled damage, capped AOE/rates, and color-tinted icons.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": [
+    "gareth-mod_manager_mod"
+  ],
+  "extra": {
+    "godot": {
+      "incompatibilities": [],
+      "authors": ["Gareth White"],
+      "compatible_mod_loader_version": ["6.0.0"],
+      "compatible_game_version": ["1.0.0"],
+      "tags": ["Weapons", "Endgame", "Progression"]
+    }
+  }
+}
