@@ -73,6 +73,12 @@ foreach ($dir in $modDirs) {
                 Add-Issue $modName "Mixed tabs/spaces indentation at ${rel}:${lineNum}"
             }
 
+            if ($line -match '"[^"]*%[^"]*"\s*%') {
+                if ($line -match '"[^"]*%[\+\-\#0-9\.\*]*[eEgGpnaA][^"]*"\s*%') {
+                    Add-Issue $modName "Unsupported Godot 4 format specifier (%e/%g/%p/%a) at ${rel}:${lineNum}"
+                }
+            }
+
             if ($line -match '\$\{T\}|\$\{Q\}') {
                 Add-Issue $modName "Unexpanded template token at ${rel}:${lineNum}"
             }

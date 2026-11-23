@@ -234,6 +234,13 @@ func _tint_texture(tex: Texture2D, tint: Color) -> Texture2D:
     return ImageTexture.create_from_image(img)
 
 func _format_big(val: float) -> String:
-    if val >= 1000000.0:
-        return "%.2e" % val
-    return "%.0f" % val
+    if val < 1000.0:
+        return "%.0f" % val
+    const SUFFIXES: Array[String] = ["", "K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc"]
+    var tier: int = int(floor(log(val) / log(1000.0)))
+    if tier < SUFFIXES.size():
+        var scaled: float = val / pow(1000.0, float(tier))
+        return "%.2f%s" % [scaled, SUFFIXES[tier]]
+    var exp10: int = int(floor(log(val) / log(10.0)))
+    var mantissa: float = val / pow(10.0, float(exp10))
+    return "%.2fe+%d" % [mantissa, exp10]
