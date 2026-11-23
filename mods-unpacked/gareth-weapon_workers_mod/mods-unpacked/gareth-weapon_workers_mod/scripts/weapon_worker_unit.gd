@@ -3,7 +3,6 @@ extends Node2D
 const HEAD_TEX := preload("res://assets/NPCs/Player/playerSheet_Head.png")
 const TORSO_TEX := preload("res://assets/NPCs/Player/playerSheet_Torso.png")
 const LEGS_TEX := preload("res://assets/NPCs/Player/playerSheet_Legs.png")
-const WINGS_TEX := preload("res://assets/NPCs/AngelWings.png")
 
 var worker_def: Dictionary = {}
 var stacked_count: int = 1
@@ -22,6 +21,21 @@ func _ready() -> void:
     _move_dir = -1.0 if randf() < 0.5 else 1.0
     _build_visuals()
 
+func _resolve_wings_texture() -> Texture2D:
+    if ResourceLoader.exists("res://scenes/Interfaces/Management/employee_level_icon_2.tscn"):
+        var packed: PackedScene = load("res://scenes/Interfaces/Management/employee_level_icon_2.tscn")
+        if packed:
+            var inst: Node = packed.instantiate()
+            if inst:
+                var wings_node: Node = inst.find_child("Wings", true, false)
+                var tex: Texture2D = null
+                if wings_node and ("texture" in wings_node):
+                    tex = wings_node.texture
+                inst.free()
+                if tex:
+                    return tex
+    return null
+
 func _build_visuals() -> void:
     var root_spr := Node2D.new()
     root_spr.name = "Visuals"
@@ -31,11 +45,13 @@ func _build_visuals() -> void:
     var tint: Color = worker_def.get("color", Color.WHITE)
 
     if bool(worker_def.get("winged", false)):
-        var w := Sprite2D.new()
-        w.texture = WINGS_TEX
-        w.position = Vector2(0, -14)
-        w.scale = Vector2(1.1, 1.1)
-        root_spr.add_child(w)
+        var w_tex: Texture2D = _resolve_wings_texture()
+        if w_tex:
+            var w := Sprite2D.new()
+            w.texture = w_tex
+            w.position = Vector2(0, -14)
+            w.scale = Vector2(1.1, 1.1)
+            root_spr.add_child(w)
 
     _add_part(root_spr, LEGS_TEX, 0, Color.WHITE)
     _add_part(root_spr, TORSO_TEX, rank_idx % 4, tint)
@@ -46,7 +62,7 @@ func _build_visuals() -> void:
     if ResourceLoader.exists(tex_path):
         wep_tex = load(tex_path)
     elif FileAccess.file_exists(tex_path):
-        var img := Image.load_from_file(tex_path)
+        var img: Image = Image.load_from_file(tex_path)
         if img:
             wep_tex = ImageTexture.create_from_image(img)
 
@@ -72,14 +88,14 @@ func _physics_process(delta: float) -> void:
     _wander_timer -= delta
     if _wander_timer <= 0.0:
         _wander_timer = randf_range(1.6, 3.4)
-        var player := _find_player()
+        var player: Node2D = _find_player()
         if is_instance_valid(player) and global_position.distance_to(player.global_position) > 260.0:
             _move_dir = 1.0 if player.global_position.x > global_position.x else -1.0
         else:
             _move_dir = -1.0 if randf() < 0.5 else 1.0
 
     if is_winged:
-        var player := _find_player()
+        var player: Node2D = _find_player()
         var hover_target := Vector2(global_position.x + _move_dir * 45.0, -48.0)
         if is_instance_valid(player):
             hover_target = player.global_position + Vector2(_move_dir * randf_range(32.0, 110.0), randf_range(-64.0, -24.0))
@@ -95,7 +111,7 @@ func _physics_process(delta: float) -> void:
         if _is_on_floor and randf() < 0.02:
             _velocity.y = -150.0
 
-    var vis := get_node_or_null("Visuals")
+    var vis: Node = get_node_or_null("Visuals")
     if vis:
         vis.scale.x = _move_dir
 
@@ -119,7 +135,7 @@ func _perform_weapon_strike() -> void:
 
     var reach_px: float = 48.0 if style == "melee" else 176.0
     var target_world: Vector2 = global_position + Vector2(_move_dir * randf_range(24.0, reach_px), randf_range(-24.0, 64.0))
-    var player := _find_player()
+    var player: Node2D = _find_player()
     if is_instance_valid(player):
         target_world = player.global_position + Vector2(randf_range(-reach_px, reach_px), randf_range(-16.0, 96.0))
 
@@ -151,10 +167,10 @@ func _draw() -> void:
         draw_circle(fx["to"], 5.0, c)
 
 func _find_player() -> Node2D:
-    var tree := get_tree()
+    var tree: SceneTree = get_tree()
     if not tree:
         return null
-    var players := tree.get_nodes_in_group("player")
+    var players: Array = tree.get_nodes_in_group("player")
     if players.size() > 0 and is_instance_valid(players[0]):
         return players[0]
     return null

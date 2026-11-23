@@ -1,6 +1,6 @@
 extends Object
 
-const UNIT_SCRIPT := preload("res://mods-unpacked/gareth-weapon_workers_mod/scripts/weapon_worker_unit.gd")
+const UNIT_SCRIPT_PATH := "res://mods-unpacked/gareth-weapon_workers_mod/scripts/weapon_worker_unit.gd"
 const MAX_ACTIVE_WEAPON_ENTITIES: int = 36
 
 func load_employees(chain: ModLoaderHookChain) -> void:
@@ -9,11 +9,15 @@ func load_employees(chain: ModLoaderHookChain) -> void:
     if not is_instance_valid(spawner):
         return
 
-    var tree := spawner.get_tree()
+    var tree: SceneTree = spawner.get_tree()
     if not tree or not tree.root:
         return
-    var reg := tree.root.get_node_or_null("WeaponWorkerRegistry")
+    var reg: Node = tree.root.get_node_or_null("WeaponWorkerRegistry")
     if not reg or not reg.has_method("get_all_defs"):
+        return
+
+    var unit_script: GDScript = load(UNIT_SCRIPT_PATH)
+    if not unit_script:
         return
 
     var defs: Dictionary = reg.call("get_all_defs")
@@ -35,7 +39,7 @@ func load_employees(chain: ModLoaderHookChain) -> void:
 
         for i in range(visual_entities):
             var unit := Node2D.new()
-            unit.set_script(UNIT_SCRIPT)
+            unit.set_script(unit_script)
             unit.worker_def = def
             unit.stacked_count = stack_per_unit
             if "tile_map_manager" in spawner:

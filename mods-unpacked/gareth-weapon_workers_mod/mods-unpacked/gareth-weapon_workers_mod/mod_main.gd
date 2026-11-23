@@ -1,7 +1,7 @@
 extends Node
 
 const MOD_DIR := "gareth-weapon_workers_mod"
-const REG_SCRIPT := preload("res://mods-unpacked/gareth-weapon_workers_mod/scripts/weapon_worker_registry.gd")
+const REG_SCRIPT_PATH := "res://mods-unpacked/gareth-weapon_workers_mod/scripts/weapon_worker_registry.gd"
 
 func _init() -> void:
     var mod_dir_path: String = ModLoaderMod.get_unpacked_dir().path_join(MOD_DIR)
@@ -19,10 +19,12 @@ func _init() -> void:
     )
 
 func _ready() -> void:
-    var tree := get_tree()
+    var tree: SceneTree = get_tree()
     if tree and tree.root and not tree.root.get_node_or_null("WeaponWorkerRegistry"):
-        var reg := Node.new()
-        reg.name = "WeaponWorkerRegistry"
-        reg.set_script(REG_SCRIPT)
-        tree.root.call_deferred("add_child", reg)
+        var reg_script: GDScript = load(REG_SCRIPT_PATH)
+        if reg_script:
+            var reg := Node.new()
+            reg.name = "WeaponWorkerRegistry"
+            reg.set_script(reg_script)
+            tree.root.call_deferred("add_child", reg)
     ModLoaderLog.info("Weapon Workers Mod initialized (14 weapon branches + winged endgame ranks).", MOD_DIR)

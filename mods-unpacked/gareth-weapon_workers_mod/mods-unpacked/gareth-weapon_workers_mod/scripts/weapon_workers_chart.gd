@@ -3,7 +3,6 @@ extends Control
 const HEAD_TEX := preload("res://assets/NPCs/Player/playerSheet_Head.png")
 const TORSO_TEX := preload("res://assets/NPCs/Player/playerSheet_Torso.png")
 const LEGS_TEX := preload("res://assets/NPCs/Player/playerSheet_Legs.png")
-const WINGS_TEX := preload("res://assets/NPCs/AngelWings.png")
 
 const COL_WIDTH: float = 112.0
 const ROW_HEIGHT: float = 136.0
@@ -16,20 +15,50 @@ var _tooltip_panel: PanelContainer = null
 var _tooltip_label: RichTextLabel = null
 var _cards_by_id: Dictionary = {}
 var _icon_tex_cache: Dictionary = {}
+var _wings_tex: Texture2D = null
+
+func _init() -> void:
+    name = "Weapon Workers"
 
 func _ready() -> void:
     name = "Weapon Workers"
     set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
     size_flags_horizontal = Control.SIZE_EXPAND_FILL
     size_flags_vertical = Control.SIZE_EXPAND_FILL
+    _wings_tex = _resolve_wings_texture()
     _registry = get_node_or_null("/root/WeaponWorkerRegistry")
     _build_ui()
     refresh_chart()
 
+func _resolve_wings_texture() -> Texture2D:
+    if ResourceLoader.exists("res://scenes/Interfaces/Management/employee_level_icon_2.tscn"):
+        var packed: PackedScene = load("res://scenes/Interfaces/Management/employee_level_icon_2.tscn")
+        if packed:
+            var inst: Node = packed.instantiate()
+            if inst:
+                var wings_node: Node = inst.find_child("Wings", true, false)
+                var tex: Texture2D = null
+                if wings_node and ("texture" in wings_node):
+                    tex = wings_node.texture
+                inst.free()
+                if tex:
+                    return tex
+    var img := Image.create(32, 16, false, Image.FORMAT_RGBA8)
+    var white := Color(0.98, 0.98, 1.0, 0.95)
+    var border := Color(0.2, 0.2, 0.25, 1.0)
+    for x in range(32):
+        for y in range(16):
+            if (x < 12 or x > 19) and y >= 3 and y <= 12:
+                if x == 0 or x == 11 or x == 20 or x == 31 or y == 3 or y == 12:
+                    img.set_pixel(x, y, border)
+                else:
+                    img.set_pixel(x, y, white)
+    return ImageTexture.create_from_image(img)
+
 func _process(_delta: float) -> void:
     if _tooltip_panel and _tooltip_panel.visible:
-        var m := get_local_mouse_position()
-        var target := m + Vector2(22, 22)
+        var m: Vector2 = get_local_mouse_position()
+        var target: Vector2 = m + Vector2(22, 22)
         if target.x + _tooltip_panel.size.x > size.x - 16.0:
             target.x = m.x - _tooltip_panel.size.x - 18.0
         if target.y + _tooltip_panel.size.y > size.y - 16.0:
@@ -37,9 +66,10 @@ func _process(_delta: float) -> void:
         _tooltip_panel.position = target
 
 func _build_ui() -> void:
-    # Parchment background matching vanilla Organisation Chart
     var bg := PanelContainer.new()
     bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+    bg.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+    bg.size_flags_vertical = Control.SIZE_EXPAND_FILL
     var sb := StyleBoxFlat.new()
     sb.bg_color = Color(0.93, 0.88, 0.77, 1.0)
     sb.border_width_left = 3
@@ -81,12 +111,10 @@ func _build_ui() -> void:
     _tree_canvas.draw.connect(_on_tree_canvas_draw)
     scroll.add_child(_tree_canvas)
 
-    # Row 4 (bottom): Weapon Recruit centered
     var center_x: float = CHART_PAD_X + (float(num_cols - 1) * COL_WIDTH) * 0.5
     var intern_pos := Vector2(center_x, CHART_PAD_Y + 4.0 * ROW_HEIGHT)
     _create_worker_card("weapon_intern", intern_pos, "Recruit")
 
-    # Columns 0..N-1: Rank 1 (row 3) up to Winged Rank 4 (row 0)
     for col_idx in range(num_cols):
         var b: Dictionary = branches[col_idx]
         var b_id: String = str(b["id"])
@@ -108,7 +136,6 @@ func _build_ui() -> void:
             var row_y: float = CHART_PAD_Y + float(4 - rank_num) * ROW_HEIGHT
             _create_worker_card(node_id, Vector2(x_pos, row_y), b_lbl)
 
-    # Floating tooltip panel
     _tooltip_panel = PanelContainer.new()
     _tooltip_panel.visible = false
     _tooltip_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -149,7 +176,6 @@ func _create_worker_card(worker_id: String, pos: Vector2, branch_short: String) 
     card.mouse_filter = Control.MOUSE_FILTER_IGNORE
     _tree_canvas.add_child(card)
 
-    # Portrait box
     var frame := Panel.new()
     frame.position = Vector2(20, 4)
     frame.size = Vector2(64, 64)
@@ -164,10 +190,9 @@ func _create_worker_card(worker_id: String, pos: Vector2, branch_short: String) 
     frame.add_theme_stylebox_override("panel", f_sb)
     card.add_child(frame)
 
-    # Angel wings on Rank 4 endgame workers (matching screenshot)
-    if bool(def["winged"]):
+    if bool(def["winged"]) and _wings_tex:
         var wings_rect := TextureRect.new()
-        wings_rect.texture = WINGS_TEX
+        wings_rect.texture = _wings_tex
         wings_rect.position = Vector2(-18, -4)
         wings_rect.size = Vector2(100, 64)
         wings_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
@@ -175,14 +200,12 @@ func _create_worker_card(worker_id: String, pos: Vector2, branch_short: String) 
         wings_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
         frame.add_child(wings_rect)
 
-    # Worker sprite composite (legs, torso, head)
     var rank_idx: int = int(def["rank"])
     _add_atlas_part(frame, LEGS_TEX, 0, Vector2(14, 14), Vector2(36, 36), Color.WHITE)
     _add_atlas_part(frame, TORSO_TEX, rank_idx % 4, Vector2(14, 14), Vector2(36, 36), def["color"])
     _add_atlas_part(frame, HEAD_TEX, rank_idx % 4, Vector2(14, 14), Vector2(36, 36), Color.WHITE)
 
-    # Weapon icon held on right side
-    var wep_tex := _load_weapon_tex(str(def["tex"]))
+    var wep_tex: Texture2D = _load_weapon_tex(str(def["tex"]))
     if wep_tex:
         var wep_rect := TextureRect.new()
         wep_rect.texture = wep_tex
@@ -193,7 +216,6 @@ func _create_worker_card(worker_id: String, pos: Vector2, branch_short: String) 
         wep_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
         frame.add_child(wep_rect)
 
-    # $$ Purchase / Promote button (top-left of portrait, matching screenshot)
     var buy_btn := Button.new()
     buy_btn.text = "$$"
     buy_btn.position = Vector2(2, 0)
@@ -210,7 +232,6 @@ func _create_worker_card(worker_id: String, pos: Vector2, branch_short: String) 
     buy_btn.gui_input.connect(_on_buy_gui_input.bind(worker_id))
     card.add_child(buy_btn)
 
-    # xN Headcount badge / Fire button (bottom-left of portrait, matching screenshot)
     var count_btn := Button.new()
     count_btn.text = "x0"
     count_btn.position = Vector2(2, 46)
@@ -228,7 +249,6 @@ func _create_worker_card(worker_id: String, pos: Vector2, branch_short: String) 
     count_btn.gui_input.connect(_on_sell_gui_input.bind(worker_id))
     card.add_child(count_btn)
 
-    # Short rank tag under portrait
     var tag_lbl := Label.new()
     tag_lbl.text = "T%d %s" % [rank_idx, branch_short] if rank_idx > 0 else "Recruit"
     tag_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -239,7 +259,6 @@ func _create_worker_card(worker_id: String, pos: Vector2, branch_short: String) 
     tag_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
     card.add_child(tag_lbl)
 
-    # Hover tooltip triggers
     frame.mouse_entered.connect(_show_worker_tooltip.bind(worker_id, false))
     frame.mouse_exited.connect(_hide_tooltip)
     buy_btn.mouse_entered.connect(_show_worker_tooltip.bind(worker_id, false))
@@ -277,7 +296,7 @@ func _load_weapon_tex(path: String) -> Texture2D:
     if ResourceLoader.exists(path):
         tex = load(path)
     elif FileAccess.file_exists(path):
-        var img := Image.load_from_file(path)
+        var img: Image = Image.load_from_file(path)
         if img:
             tex = ImageTexture.create_from_image(img)
     _icon_tex_cache[path] = tex
@@ -347,7 +366,7 @@ func _on_tree_canvas_draw() -> void:
         var p_child: Vector2 = _cards_by_id[worker_id]["center"]
         var p_parent: Vector2 = _cards_by_id[parent_id]["center"]
         var mid_y: float = (p_parent.y + p_child.y) * 0.5
-        var target_arr := unlocked_pts if _registry.can_purchase(worker_id, 1) else locked_pts
+        var target_arr: PackedVector2Array = unlocked_pts if _registry.can_purchase(worker_id, 1) else locked_pts
 
         target_arr.append(p_parent)
         target_arr.append(Vector2(p_parent.x, mid_y))

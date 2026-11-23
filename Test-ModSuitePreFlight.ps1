@@ -5,6 +5,7 @@ param(
 $ErrorActionPreference = "Stop"
 $repoRoot = "C:\Dev\coal-llc-mods"
 $steamRoot = "C:\Program Files (x86)\Steam\steamapps\common\Coal LLC\Coal LLC"
+$steamDump = Join-Path $steamRoot "_dump"
 $failures = New-Object System.Collections.Generic.List[string]
 $warnings = New-Object System.Collections.Generic.List[string]
 
@@ -14,6 +15,21 @@ function Add-Issue([string]$modName, [string]$msg) {
     } else {
         $warnings.Add("[$modName] $msg")
     }
+}
+
+function Test-ResPathExists([string]$resPath) {
+    if ($resPath -notmatch '^res://(.+)$') { return $false }
+    $rel = $Matches[1].Replace("/", "\")
+    if (Test-Path (Join-Path $steamDump $rel)) { return $true }
+    if ($rel -like "mods-unpacked\*") {
+        $parts = $rel.Split("\")
+        if ($parts.Length -ge 2) {
+            $modDir = $parts[1]
+            $candidate = Join-Path $repoRoot "mods-unpacked\$modDir\$rel"
+            if (Test-Path $candidate) { return $true }
+        }
+    }
+    return $false
 }
 
 if (Test-Path (Join-Path $steamRoot "override.cfg")) {
@@ -27,7 +43,6 @@ foreach ($dir in $modDirs) {
         continue
     }
 
-    # Check manifest.json validity
     $manifests = Get-ChildItem -Path $dir.FullName -Recurse -Filter "manifest.json"
     if ($manifests.Count -eq 0) {
         Add-Issue $modName "No manifest.json found."
@@ -40,7 +55,6 @@ foreach ($dir in $modDirs) {
         }
     }
 
-    # Check every .gd file for parse/indentation/encoding hazards
     $gdFiles = Get-ChildItem -Path $dir.FullName -Recurse -Filter "*.gd"
     foreach ($gd in $gdFiles) {
         $rel = $gd.FullName.Substring($repoRoot.Length + 1)
@@ -49,22 +63,38 @@ foreach ($dir in $modDirs) {
             Add-Issue $modName "UTF-8 BOM detected in $rel (must be UTF-8 without BOM)."
         }
 
+        $untypedVars = @{}
         $lines = Get-Content -Path $gd.FullName
         for ($i = 0; $i -lt $lines.Count; $i++) {
             $line = $lines[$i]
             $lineNum = $i + 1
 
-            # Mixed tabs and spaces in leading whitespace
             if ($line -match '^(\t+ +| +\t+)') {
                 Add-Issue $modName "Mixed tabs/spaces indentation at ${rel}:${lineNum}"
             }
 
-            # Unexpanded PowerShell placeholder artifacts
             if ($line -match '\$\{T\}|\$\{Q\}') {
                 Add-Issue $modName "Unexpanded template token at ${rel}:${lineNum}"
             }
 
-            # Top-level func declaration must be followed by an indented body line
+            if ($line -match 'preload\(\s*"(res://[^"]+)"\s*\)') {
+                $pRes = $Matches[1]
+                if (-not (Test-ResPathExists $pRes)) {
+                    Add-Issue $modName "Missing preload target '$pRes' at ${rel}:${lineNum}"
+                }
+            }
+
+            if ($line -match '^\s*var\s+([A-Za-z0-9_]+)\s*=') {
+                $untypedVars[$Matches[1]] = $true
+            }
+            if ($line -match '^\s*var\s+([A-Za-z0-9_]+)\s*:=\s*([A-Za-z0-9_]+)\.') {
+                $lhs = $Matches[1]
+                $recv = $Matches[2]
+                if ($untypedVars.ContainsKey($recv)) {
+                    Add-Issue $modName "Unsafe ':=' type inference on untyped variable '$recv' for '$lhs' at ${rel}:${lineNum}"
+                }
+            }
+
             if ($line -match '^func\s+[A-Za-z0-9_]+\s*\(.*\)\s*(->\s*[^:]+)?\s*:\s*$') {
                 $foundBody = $false
                 for ($j = $i + 1; $j -lt $lines.Count; $j++) {
