@@ -1,0 +1,356 @@
+{
+  "gareth-mod_manager_mod": {
+    "pack": "01_Core_Framework_And_Save_Suite",
+    "version": "2.1.0",
+    "nexus_mod_id": 28,
+    "nexus_file_id": 0
+  },
+  "gareth-mod_settings_mod": {
+    "pack": "01_Core_Framework_And_Save_Suite",
+    "version": "1.1.0",
+    "nexus_mod_id": 28,
+    "nexus_file_id": 0
+  },
+  "gareth-multisave_mod": {
+    "pack": "01_Core_Framework_And_Save_Suite",
+    "version": "2.2.0",
+    "nexus_mod_id": 28,
+    "nexus_file_id": 0
+  },
+  "gareth-leaderboard_mod": {
+    "pack": "01_Core_Framework_And_Save_Suite",
+    "version": "2.0.0",
+    "nexus_mod_id": 28,
+    "nexus_file_id": 0
+  },
+  "gareth-beyond_onyx_mod": {
+    "pack": "02_Beyond_Onyx_And_Endgame_Arsenal",
+    "version": "1.0.0",
+    "nexus_mod_id": 29,
+    "nexus_file_id": 0
+  },
+  "gareth-endgame_arsenal_mod": {
+    "pack": "02_Beyond_Onyx_And_Endgame_Arsenal",
+    "version": "1.0.0",
+    "nexus_mod_id": 29,
+    "nexus_file_id": 0
+  },
+  "gareth-deep_layer_weapons_mod": {
+    "pack": "02_Beyond_Onyx_And_Endgame_Arsenal",
+    "version": "1.0.0",
+    "nexus_mod_id": 29,
+    "nexus_file_id": 0
+  },
+  "gareth-bouncing_ball_mod": {
+    "pack": "02_Beyond_Onyx_And_Endgame_Arsenal",
+    "version": "1.1.0",
+    "nexus_mod_id": 29,
+    "nexus_file_id": 0
+  },
+  "gareth-laser_beam_mod": {
+    "pack": "02_Beyond_Onyx_And_Endgame_Arsenal",
+    "version": "1.0.0",
+    "nexus_mod_id": 29,
+    "nexus_file_id": 0
+  },
+  "gareth-plasma_raygun_mod": {
+    "pack": "02_Beyond_Onyx_And_Endgame_Arsenal",
+    "version": "1.0.0",
+    "nexus_mod_id": 29,
+    "nexus_file_id": 0
+  },
+  "gareth-water_spirit_mod": {
+    "pack": "02_Beyond_Onyx_And_Endgame_Arsenal",
+    "version": "1.0.0",
+    "nexus_mod_id": 29,
+    "nexus_file_id": 0
+  },
+  "gareth-weapon_stacker_mod": {
+    "pack": "02_Beyond_Onyx_And_Endgame_Arsenal",
+    "version": "1.1.1",
+    "nexus_mod_id": 29,
+    "nexus_file_id": 0
+  },
+  "gareth-dual_multipliers_mod": {
+    "pack": "02_Beyond_Onyx_And_Endgame_Arsenal",
+    "version": "1.0.0",
+    "nexus_mod_id": 29,
+    "nexus_file_id": 0
+  },
+  "gareth-excavation_frenzy_mod": {
+    "pack": "02_Beyond_Onyx_And_Endgame_Arsenal",
+    "version": "1.0.1",
+    "nexus_mod_id": 29,
+    "nexus_file_id": 0
+  },
+  "gareth-tank_arsenal_mod": {
+    "pack": "03_Heavy_Ordnance_Tanks_And_Airstrikes",
+    "version": "1.1.0",
+    "nexus_mod_id": 30,
+    "nexus_file_id": 0
+  },
+  "gareth-heavy_turrets_mod": {
+    "pack": "03_Heavy_Ordnance_Tanks_And_Airstrikes",
+    "version": "1.0.0",
+    "nexus_mod_id": 30,
+    "nexus_file_id": 0
+  },
+  "gareth-more_mortars_mod": {
+    "pack": "03_Heavy_Ordnance_Tanks_And_Airstrikes",
+    "version": "1.0.0",
+    "nexus_mod_id": 30,
+    "nexus_file_id": 0
+  },
+  "gareth-more_drills_mod": {
+    "pack": "03_Heavy_Ordnance_Tanks_And_Airstrikes",
+    "version": "1.0.0",
+    "nexus_mod_id": 30,
+    "nexus_file_id": 0
+  },
+  "gareth-grenade_mod": {
+    "pack": "03_Heavy_Ordnance_Tanks_And_Airstrikes",
+    "version": "1.0.0",
+    "nexus_mod_id": 30,
+    "nexus_file_id": 0
+  },
+  "gareth-heavy_bombs_mod": {
+    "pack": "03_Heavy_Ordnance_Tanks_And_Airstrikes",
+    "version": "1.0.0",
+    "nexus_mod_id": 30,
+    "nexus_file_id": 0
+  },
+  "gareth-hydrogen_bomb_mod": {
+    "pack": "03_Heavy_Ordnance_Tanks_And_Airstrikes",
+    "version": "2.0.0",
+    "nexus_mod_id": 30,
+    "nexus_file_id": 0
+  },
+  "gareth-neutron_bomb_mod": {
+    "pack": "03_Heavy_Ordnance_Tanks_And_Airstrikes",
+    "version": "2.0.0",
+    "nexus_mod_id": 30,
+    "nexus_file_id": 0
+  },
+  "gareth-more_nukes_mod": {
+    "pack": "03_Heavy_Ordnance_Tanks_And_Airstrikes",
+    "version": "1.0.0",
+    "nexus_mod_id": 30,
+    "nexus_file_id": 0
+  },
+  "gareth-elemental_airstrikes_mod": {
+    "pack": "03_Heavy_Ordnance_Tanks_And_Airstrikes",
+    "version": "1.0.0",
+    "nexus_mod_id": 30,
+    "nexus_file_id": 0
+  },
+  "gareth-custom_classes_mod": {
+    "pack": "04_Custom_Classes_And_Professions",
+    "version": "1.0.0",
+    "nexus_mod_id": 31,
+    "nexus_file_id": 0
+  },
+  "gareth-knight_class_mod": {
+    "pack": "04_Custom_Classes_And_Professions",
+    "version": "1.0.0",
+    "nexus_mod_id": 31,
+    "nexus_file_id": 0
+  },
+  "gareth-martial_legends_mod": {
+    "pack": "04_Custom_Classes_And_Professions",
+    "version": "1.0.0",
+    "nexus_mod_id": 31,
+    "nexus_file_id": 0
+  },
+  "gareth-chrono_industrialist_mod": {
+    "pack": "04_Custom_Classes_And_Professions",
+    "version": "1.1.0",
+    "nexus_mod_id": 31,
+    "nexus_file_id": 0
+  },
+  "gareth-debt_executioner_mod": {
+    "pack": "04_Custom_Classes_And_Professions",
+    "version": "1.1.0",
+    "nexus_mod_id": 31,
+    "nexus_file_id": 0
+  },
+  "gareth-grav_dreadnought_mod": {
+    "pack": "04_Custom_Classes_And_Professions",
+    "version": "1.1.0",
+    "nexus_mod_id": 31,
+    "nexus_file_id": 0
+  },
+  "gareth-sinclairity_class_mod": {
+    "pack": "04_Custom_Classes_And_Professions",
+    "version": "1.1.1",
+    "nexus_mod_id": 31,
+    "nexus_file_id": 0
+  },
+  "gareth-tectonic_fracker_mod": {
+    "pack": "04_Custom_Classes_And_Professions",
+    "version": "1.2.0",
+    "nexus_mod_id": 31,
+    "nexus_file_id": 0
+  },
+  "gareth-void_siphon_mod": {
+    "pack": "04_Custom_Classes_And_Professions",
+    "version": "1.1.1",
+    "nexus_mod_id": 31,
+    "nexus_file_id": 0
+  },
+  "gareth-lost_expedition_mod": {
+    "pack": "05_Custom_Maps_Biomes_And_Hazards",
+    "version": "1.0.0",
+    "nexus_mod_id": 32,
+    "nexus_file_id": 0
+  },
+  "gareth-tectonic_faultline_mod": {
+    "pack": "05_Custom_Maps_Biomes_And_Hazards",
+    "version": "1.0.0",
+    "nexus_mod_id": 32,
+    "nexus_file_id": 0
+  },
+  "gareth-living_canvas_mod": {
+    "pack": "05_Custom_Maps_Biomes_And_Hazards",
+    "version": "1.0.0",
+    "nexus_mod_id": 32,
+    "nexus_file_id": 0
+  },
+  "gareth-abyssal_trench_mod": {
+    "pack": "05_Custom_Maps_Biomes_And_Hazards",
+    "version": "1.0.0",
+    "nexus_mod_id": 32,
+    "nexus_file_id": 0
+  },
+  "gareth-diagonal_map_mod": {
+    "pack": "05_Custom_Maps_Biomes_And_Hazards",
+    "version": "1.0.0",
+    "nexus_mod_id": 32,
+    "nexus_file_id": 0
+  },
+  "gareth-more_layer_shifts_mod": {
+    "pack": "05_Custom_Maps_Biomes_And_Hazards",
+    "version": "1.1.0",
+    "nexus_mod_id": 32,
+    "nexus_file_id": 0
+  },
+  "gareth-seismic_hazards_mod": {
+    "pack": "05_Custom_Maps_Biomes_And_Hazards",
+    "version": "1.1.0",
+    "nexus_mod_id": 32,
+    "nexus_file_id": 0
+  },
+  "gareth-more_employees_mod": {
+    "pack": "06_Workforce_Drones_And_Automation",
+    "version": "1.1.0",
+    "nexus_mod_id": 33,
+    "nexus_file_id": 0
+  },
+  "gareth-more_collectors_mod": {
+    "pack": "06_Workforce_Drones_And_Automation",
+    "version": "1.1.0",
+    "nexus_mod_id": 33,
+    "nexus_file_id": 0
+  },
+  "gareth-employee_passives_mod": {
+    "pack": "06_Workforce_Drones_And_Automation",
+    "version": "1.0.0",
+    "nexus_mod_id": 33,
+    "nexus_file_id": 0
+  },
+  "gareth-drone_workforce_mod": {
+    "pack": "06_Workforce_Drones_And_Automation",
+    "version": "1.0.0",
+    "nexus_mod_id": 33,
+    "nexus_file_id": 0
+  },
+  "gareth-collector_priority_mod": {
+    "pack": "06_Workforce_Drones_And_Automation",
+    "version": "1.0.0",
+    "nexus_mod_id": 33,
+    "nexus_file_id": 0
+  },
+  "gareth-vacuum_depot_mod": {
+    "pack": "06_Workforce_Drones_And_Automation",
+    "version": "1.0.0",
+    "nexus_mod_id": 33,
+    "nexus_file_id": 0
+  },
+  "gareth-buyable_vacuums_mod": {
+    "pack": "06_Workforce_Drones_And_Automation",
+    "version": "1.0.0",
+    "nexus_mod_id": 33,
+    "nexus_file_id": 0
+  },
+  "gareth-more_vacuum_quests_mod": {
+    "pack": "06_Workforce_Drones_And_Automation",
+    "version": "1.1.0",
+    "nexus_mod_id": 33,
+    "nexus_file_id": 0
+  },
+  "gareth-emergency_deposit_mod": {
+    "pack": "07_Mining_QoL_Logistics_And_Performance",
+    "version": "1.0.1",
+    "nexus_mod_id": 34,
+    "nexus_file_id": 0
+  },
+  "gareth-auto_ladder_mod": {
+    "pack": "07_Mining_QoL_Logistics_And_Performance",
+    "version": "1.0.0",
+    "nexus_mod_id": 34,
+    "nexus_file_id": 0
+  },
+  "gareth-infini_platform_mod": {
+    "pack": "07_Mining_QoL_Logistics_And_Performance",
+    "version": "1.0.0",
+    "nexus_mod_id": 34,
+    "nexus_file_id": 0
+  },
+  "gareth-reach_expansion_mod": {
+    "pack": "07_Mining_QoL_Logistics_And_Performance",
+    "version": "1.0.0",
+    "nexus_mod_id": 34,
+    "nexus_file_id": 0
+  },
+  "gareth-more_inventory_slots_mod": {
+    "pack": "07_Mining_QoL_Logistics_And_Performance",
+    "version": "1.1.0",
+    "nexus_mod_id": 34,
+    "nexus_file_id": 0
+  },
+  "gareth-more_inventory_stacks_mod": {
+    "pack": "07_Mining_QoL_Logistics_And_Performance",
+    "version": "1.1.0",
+    "nexus_mod_id": 34,
+    "nexus_file_id": 0
+  },
+  "gareth-chest_variance_mod": {
+    "pack": "07_Mining_QoL_Logistics_And_Performance",
+    "version": "1.0.0",
+    "nexus_mod_id": 34,
+    "nexus_file_id": 0
+  },
+  "gareth-elemental_transmutation_mod": {
+    "pack": "07_Mining_QoL_Logistics_And_Performance",
+    "version": "1.1.0",
+    "nexus_mod_id": 34,
+    "nexus_file_id": 0
+  },
+  "gareth-prospectors_beacon_mod": {
+    "pack": "07_Mining_QoL_Logistics_And_Performance",
+    "version": "1.1.0",
+    "nexus_mod_id": 34,
+    "nexus_file_id": 0
+  },
+  "gareth-game_speed_mod": {
+    "pack": "07_Mining_QoL_Logistics_And_Performance",
+    "version": "1.0.0",
+    "nexus_mod_id": 34,
+    "nexus_file_id": 0
+  },
+  "gareth-hardware_booster_mod": {
+    "pack": "07_Mining_QoL_Logistics_And_Performance",
+    "version": "1.0.0",
+    "nexus_mod_id": 34,
+    "nexus_file_id": 0
+  }
+}
