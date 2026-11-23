@@ -212,6 +212,10 @@ func _spawn_stockpile_fx(banked_entries: Array) -> void:
             stockpile.player = p
     if not ("player" in stockpile) or not is_instance_valid(stockpile.player):
         return
+    if banked_entries.is_empty():
+        return
     var tween := stockpile.create_tween()
     for entry in banked_entries:
         stockpile.call("sendItemToInventory", entry["item"], int(entry["count"]), tween)
+    if tween and tween.is_valid() and tween.get_total_estimated_duration() <= 0.0:
+        tween.kill()
