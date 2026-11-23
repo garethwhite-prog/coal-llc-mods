@@ -1,0 +1,19 @@
+{
+  "name": "weapon_workers_mod",
+  "namespace": "gareth",
+  "version_number": "1.0.0",
+  "description": "Adds a dedicated Weapon Workers tab and multi-branch Organisation Chart to hire and promote combat miners wielding vanilla and custom weapons up to winged endgame ranks.",
+  "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
+  "dependencies": [
+    "gareth-mod_manager_mod"
+  ],
+  "extra": {
+    "godot": {
+      "incompatibilities": [],
+      "authors": ["Gareth White"],
+      "compatible_mod_loader_version": ["6.0.0"],
+      "compatible_game_version": ["1.0.0"],
+      "tags": ["Workforce", "Weapons", "Progression", "UI"]
+    }
+  }
+}

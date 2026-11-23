@@ -352,5 +352,11 @@
     "version": "1.0.0",
     "nexus_mod_id": 34,
     "nexus_file_id": 0
+  },
+  "gareth-weapon_workers_mod": {
+    "pack": "06_Workforce_Drones_And_Automation",
+    "version": "1.0.0",
+    "nexus_mod_id": 33,
+    "nexus_file_id": 0
   }
 }
