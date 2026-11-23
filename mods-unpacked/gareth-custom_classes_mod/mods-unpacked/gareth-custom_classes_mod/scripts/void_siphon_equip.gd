@@ -9,7 +9,7 @@ func _trigger_implosion(player) -> void:
 	var tilemap = player.tilemap
 	if not tilemap:
 		return
-	var center := tilemap.local_to_map(player.global_position)
+	var center: Vector2i = tilemap.local_to_map(player.global_position)
 	for dx in range(-3, 4):
 		for dy in range(-3, 4):
 			var pos := center + Vector2i(dx, dy)
