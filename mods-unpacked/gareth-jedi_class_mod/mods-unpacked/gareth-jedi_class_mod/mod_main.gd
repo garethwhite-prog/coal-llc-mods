@@ -40,7 +40,7 @@ func _register_weapon_tiers() -> void:
 	var buy_script = load("res://resources/BuyEffects/Scripts/AddToInventory.gd")
 	var pickup_script = load("res://resources/PickupEffects/Scripts/PickupToInventory.gd")
 	var equip_script = load("res://mods-unpacked/gareth-jedi_class_mod/scripts/jedi_saber_equip.gd")
-	var pickup_sound = load("res://assets/sound/sound effects/SwordHit.wav")
+	var pickup_sound = load("res://assets/sound/sound effects/SwordHit.wav") if ResourceLoader.exists("res://assets/sound/sound effects/SwordHit.wav") else load("res://assets/sound/sound effects/SwordThud.wav")
 
 	var item_unlocks = load("res://resources/unlockable_items/scripts/item_unlocks.tres")
 
