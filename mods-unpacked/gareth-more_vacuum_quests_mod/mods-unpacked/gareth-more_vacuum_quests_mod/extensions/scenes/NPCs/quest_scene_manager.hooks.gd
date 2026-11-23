@@ -128,5 +128,5 @@ func _build_quest_point(qsm: QuestSceneManager, parent_node: Node, mermaid: NPC,
 	qp.add_to_group("quest_points")
 	qsm.all_quest_points[q_id] = qp
 	if not mermaid.no_dialogue_left.is_connected(qp.interact_with_quest): mermaid.no_dialogue_left.connect(qp.interact_with_quest)
-	qp.refresh_state()
+	qp.refresh_state.call_deferred()
 
