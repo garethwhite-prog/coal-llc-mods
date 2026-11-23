@@ -1,4 +1,4 @@
-﻿extends Node
+extends Node
 
 const MOD_DIR := "gareth-neutron_bomb_mod"
 

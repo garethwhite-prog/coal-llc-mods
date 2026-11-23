@@ -1,4 +1,4 @@
-﻿class_name SinclairityProfession
+class_name SinclairityProfession
 extends Profession
 
 func _profession_effect(data: Dictionary) -> Dictionary:

@@ -1,4 +1,4 @@
-﻿class_name BouncingBallEquipEffect
+class_name BouncingBallEquipEffect
 extends EquipEffect
 
 @export var damage: float = 95.0

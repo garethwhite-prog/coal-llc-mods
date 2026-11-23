@@ -1,4 +1,4 @@
-﻿class_name SinclairityEquipEffect
+class_name SinclairityEquipEffect
 extends EquipEffect
 
 @export var damage: float = 95.0

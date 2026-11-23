@@ -1,4 +1,4 @@
-﻿class_name VoidSiphonProfession
+class_name VoidSiphonProfession
 extends Profession
 
 func _profession_effect(data: Dictionary) -> Dictionary:

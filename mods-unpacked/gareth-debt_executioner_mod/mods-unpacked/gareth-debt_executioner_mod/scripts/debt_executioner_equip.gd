@@ -1,4 +1,4 @@
-﻿class_name DebtExecutionerEquipEffect
+class_name DebtExecutionerEquipEffect
 extends EquipEffect
 
 @export var damage: float = 75.0

@@ -1,4 +1,4 @@
-﻿class_name MagmaSiphon
+class_name MagmaSiphon
 extends Node2D
 
 enum ElementType { FIRE, WATER, POISON }

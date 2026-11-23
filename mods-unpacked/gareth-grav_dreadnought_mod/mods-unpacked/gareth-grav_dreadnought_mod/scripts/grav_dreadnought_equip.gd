@@ -1,4 +1,4 @@
-﻿class_name GravDreadnoughtEquipEffect
+class_name GravDreadnoughtEquipEffect
 extends EquipEffect
 
 @export var damage: float = 110.0

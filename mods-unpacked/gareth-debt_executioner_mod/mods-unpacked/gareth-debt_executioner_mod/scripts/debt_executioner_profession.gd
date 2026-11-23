@@ -1,4 +1,4 @@
-﻿class_name DebtExecutionerProfession
+class_name DebtExecutionerProfession
 extends Profession
 
 func _profession_effect(data: Dictionary) -> Dictionary:

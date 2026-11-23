@@ -1,4 +1,4 @@
-﻿class_name CryoPod
+class_name CryoPod
 extends Node2D
 
 var in_range: bool = false

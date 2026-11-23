@@ -1,4 +1,4 @@
-﻿class_name JediSaberEquipEffect
+class_name JediSaberEquipEffect
 extends EquipEffect
 
 @export var damage: float = 75.0

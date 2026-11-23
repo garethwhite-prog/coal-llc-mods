@@ -1,4 +1,4 @@
-﻿class_name ChronoIndustrialistEquipEffect
+class_name ChronoIndustrialistEquipEffect
 extends EquipEffect
 
 @export var damage: float = 70.0

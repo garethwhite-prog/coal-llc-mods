@@ -1,4 +1,4 @@
-﻿class_name VoidSiphonEquipEffect
+class_name VoidSiphonEquipEffect
 extends EquipEffect
 
 @export var damage: float = 120.0

@@ -1,4 +1,4 @@
-﻿class_name GravDreadnoughtProfession
+class_name GravDreadnoughtProfession
 extends Profession
 
 func _profession_effect(data: Dictionary) -> Dictionary:

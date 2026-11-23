@@ -1,4 +1,4 @@
-﻿class_name LostExpeditionHelper
+class_name LostExpeditionHelper
 extends RefCounted
 
 const EXPEDITION_LEVEL_ID: int = 101

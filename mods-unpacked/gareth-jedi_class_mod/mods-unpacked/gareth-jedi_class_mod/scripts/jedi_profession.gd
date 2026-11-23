@@ -1,4 +1,4 @@
-﻿class_name JediProfession
+class_name JediProfession
 extends Profession
 
 func _profession_effect(data: Dictionary) -> Dictionary:

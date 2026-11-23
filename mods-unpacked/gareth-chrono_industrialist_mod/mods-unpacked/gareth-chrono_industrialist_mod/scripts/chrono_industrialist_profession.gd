@@ -1,4 +1,4 @@
-﻿class_name ChronoIndustrialistProfession
+class_name ChronoIndustrialistProfession
 extends Profession
 
 func _profession_effect(data: Dictionary) -> Dictionary:

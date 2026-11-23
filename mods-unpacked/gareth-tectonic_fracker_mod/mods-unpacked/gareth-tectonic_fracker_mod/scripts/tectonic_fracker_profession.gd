@@ -1,4 +1,4 @@
-﻿class_name TectonicFrackerProfession
+class_name TectonicFrackerProfession
 extends Profession
 
 func _profession_effect(data: Dictionary) -> Dictionary:

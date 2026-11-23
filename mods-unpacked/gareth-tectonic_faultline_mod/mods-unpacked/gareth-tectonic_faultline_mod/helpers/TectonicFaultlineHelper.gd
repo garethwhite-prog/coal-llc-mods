@@ -1,4 +1,4 @@
-﻿class_name TectonicFaultlineHelper
+class_name TectonicFaultlineHelper
 extends RefCounted
 
 const FAULTLINE_LEVEL_ID: int = 102

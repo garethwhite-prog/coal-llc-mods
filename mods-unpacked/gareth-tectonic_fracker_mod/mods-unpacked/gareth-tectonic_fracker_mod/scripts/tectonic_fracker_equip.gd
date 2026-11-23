@@ -1,4 +1,4 @@
-﻿class_name TectonicFrackerEquipEffect
+class_name TectonicFrackerEquipEffect
 extends EquipEffect
 
 @export var damage: float = 80.0
