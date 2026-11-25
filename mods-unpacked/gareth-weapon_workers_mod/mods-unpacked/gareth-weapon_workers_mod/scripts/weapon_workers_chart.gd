@@ -3,6 +3,7 @@ extends Control
 const HEAD_TEX := preload("res://assets/NPCs/Player/playerSheet_Head.png")
 const TORSO_TEX := preload("res://assets/NPCs/Player/playerSheet_Torso.png")
 const LEGS_TEX := preload("res://assets/NPCs/Player/playerSheet_Legs.png")
+const REG_SCRIPT_PATH := "res://mods-unpacked/gareth-weapon_workers_mod/scripts/weapon_worker_registry.gd"
 
 const CARD_W: float = 138.0
 const CARD_H: float = 166.0
@@ -19,13 +20,11 @@ var _cards_by_id: Dictionary = {}
 var _icon_tex_cache: Dictionary = {}
 var _wings_tex: Texture2D = null
 
-# Filter bar controls
 var _search_input: LineEdit = null
 var _set_dropdown: OptionButton = null
 var _chk_affordable: CheckBox = null
 var _is_affordable_only: bool = false
 
-# 1-Click Chain Calculator & Pinned Recruit controls
 var _selected_target_id: String = "pickaxe_t1"
 var _recruit_count_label: Label = null
 var _btn_recruit_1: Button = null
@@ -47,9 +46,26 @@ func _ready() -> void:
     size_flags_horizontal = Control.SIZE_EXPAND_FILL
     size_flags_vertical = Control.SIZE_EXPAND_FILL
     _wings_tex = _resolve_wings_texture()
-    _registry = get_node_or_null("/root/WeaponWorkerRegistry")
+    _registry = _get_or_create_registry()
     _build_ui()
     refresh_chart()
+
+func _get_or_create_registry() -> Node:
+    if is_instance_valid(_registry):
+        return _registry
+    var tree: SceneTree = get_tree()
+    if tree and tree.root:
+        var existing: Node = tree.root.get_node_or_null("WeaponWorkerRegistry")
+        if existing:
+            return existing
+        var reg_script: GDScript = load(REG_SCRIPT_PATH)
+        if reg_script:
+            var reg := Node.new()
+            reg.name = "WeaponWorkerRegistry"
+            reg.set_script(reg_script)
+            tree.root.add_child(reg)
+            return reg
+    return null
 
 func _resolve_wings_texture() -> Texture2D:
     if ResourceLoader.exists("res://scenes/Interfaces/Management/employee_level_icon_2.tscn"):
@@ -67,9 +83,9 @@ func _resolve_wings_texture() -> Texture2D:
     return null
 
 func _process(_delta: float) -> void:
-    if not _registry:
-        _registry = get_node_or_null("/root/WeaponWorkerRegistry")
-        if _registry:
+    if not is_instance_valid(_registry):
+        _registry = _get_or_create_registry()
+        if is_instance_valid(_registry):
             refresh_chart()
     if _tooltip_panel and _tooltip_panel.visible:
         var m: Vector2 = get_local_mouse_position()
@@ -79,6 +95,17 @@ func _process(_delta: float) -> void:
         if target.y + _tooltip_panel.size.y > size.y - 16.0:
             target.y = m.y - _tooltip_panel.size.y - 18.0
         _tooltip_panel.position = target
+
+func _play_ui_sound(is_cash: bool) -> void:
+    var p: Node = get_parent()
+    while is_instance_valid(p):
+        if is_cash and ("kaching_sound" in p) and is_instance_valid(p.kaching_sound):
+            p.kaching_sound.play()
+            return
+        if (not is_cash) and ("thud_click" in p) and is_instance_valid(p.thud_click):
+            p.thud_click.play()
+            return
+        p = p.get_parent()
 
 func _build_ui() -> void:
     var bg := PanelContainer.new()
@@ -113,6 +140,7 @@ func _build_ui() -> void:
     filter_bar.add_child(_search_input)
 
     _set_dropdown = OptionButton.new()
+    _set_dropdown.focus_mode = Control.FOCUS_NONE
     _set_dropdown.add_item("All Monopoly Sets & Weapons", 0)
     var branches: Array = _registry.BRANCHES if _registry else []
     for i in range(branches.size()):
@@ -122,6 +150,7 @@ func _build_ui() -> void:
     filter_bar.add_child(_set_dropdown)
 
     _chk_affordable = CheckBox.new()
+    _chk_affordable.focus_mode = Control.FOCUS_NONE
     _chk_affordable.text = "Affordable Only (Chain)"
     _chk_affordable.tooltip_text = "Show only cards whose full promotion chain from Recruit you can afford right now."
     _chk_affordable.add_theme_color_override("font_color", Color(0.1, 0.14, 0.1, 1.0))
@@ -157,11 +186,13 @@ func _build_ui() -> void:
     calc_hbox.add_child(_recruit_count_label)
 
     _btn_recruit_1 = Button.new()
+    _btn_recruit_1.focus_mode = Control.FOCUS_NONE
     _btn_recruit_1.text = "+1 Recruit (500g)"
     _btn_recruit_1.pressed.connect(func(): _execute_chain_buy_for("weapon_intern", 1))
     calc_hbox.add_child(_btn_recruit_1)
 
     _btn_recruit_5 = Button.new()
+    _btn_recruit_5.focus_mode = Control.FOCUS_NONE
     _btn_recruit_5.text = "+5"
     _btn_recruit_5.pressed.connect(func(): _execute_chain_buy_for("weapon_intern", 5))
     calc_hbox.add_child(_btn_recruit_5)
@@ -183,25 +214,30 @@ func _build_ui() -> void:
     calc_hbox.add_child(_calc_summary_label)
 
     _btn_buy_1 = Button.new()
+    _btn_buy_1.focus_mode = Control.FOCUS_NONE
     _btn_buy_1.text = "Chain x1"
     _btn_buy_1.pressed.connect(func(): _execute_chain_buy_for(_selected_target_id, 1))
     calc_hbox.add_child(_btn_buy_1)
 
     _btn_buy_5 = Button.new()
+    _btn_buy_5.focus_mode = Control.FOCUS_NONE
     _btn_buy_5.text = "x5"
     _btn_buy_5.pressed.connect(func(): _execute_chain_buy_for(_selected_target_id, 5))
     calc_hbox.add_child(_btn_buy_5)
 
     _btn_buy_10 = Button.new()
+    _btn_buy_10.focus_mode = Control.FOCUS_NONE
     _btn_buy_10.text = "x10"
     _btn_buy_10.pressed.connect(func(): _execute_chain_buy_for(_selected_target_id, 10))
     calc_hbox.add_child(_btn_buy_10)
 
     _btn_buy_max = Button.new()
+    _btn_buy_max.focus_mode = Control.FOCUS_NONE
     _btn_buy_max.text = "MAX (0)"
     _btn_buy_max.pressed.connect(func():
-        if _registry:
-            var m: int = _registry.get_max_chain_affordable(_selected_target_id)
+        var reg := _get_or_create_registry()
+        if reg:
+            var m: int = reg.get_max_chain_affordable(_selected_target_id)
             if m > 0:
                 _execute_chain_buy_for(_selected_target_id, m)
     )
@@ -215,9 +251,10 @@ func _build_ui() -> void:
     scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
     outer_vbox.add_child(scroll)
 
-    var num_cols: int = maxi(1, branches.size())
+    # Column 0 = GO! Recruit card; Columns 1..14 = 14 Monopoly Property Weapon Branches
+    var num_cols: int = branches.size() + 1
     var canvas_w: float = PAD_X * 2.0 + float(num_cols) * COL_STEP
-    var canvas_h: float = PAD_Y * 2.0 + 5.0 * ROW_STEP + 30.0
+    var canvas_h: float = PAD_Y * 2.0 + 4.0 * ROW_STEP + 30.0
 
     _tree_canvas = Control.new()
     _tree_canvas.name = "TreeCanvas"
@@ -225,13 +262,21 @@ func _build_ui() -> void:
     _tree_canvas.draw.connect(_on_tree_canvas_draw)
     scroll.add_child(_tree_canvas)
 
-    # Place GO! Recruit at bottom-left (PAD_X) so it is immediately reachable when scrolling down
-    var intern_pos := Vector2(PAD_X, PAD_Y + 4.0 * ROW_STEP)
-    _create_monopoly_pokemon_card("weapon_intern", intern_pos)
+    # Column 0, Row 0: GO! Recruit card always visible at top-left
+    var recruit_hdr := Label.new()
+    recruit_hdr.text = "GO Corner (UK/USA)\n(Base Recruit)"
+    recruit_hdr.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+    recruit_hdr.position = Vector2(PAD_X - 4.0, 2.0)
+    recruit_hdr.custom_minimum_size = Vector2(CARD_W + 8.0, 28.0)
+    recruit_hdr.add_theme_color_override("font_color", Color(0.12, 0.16, 0.12, 1.0))
+    recruit_hdr.add_theme_font_size_override("font_size", 10)
+    _tree_canvas.add_child(recruit_hdr)
+    _create_monopoly_pokemon_card("weapon_intern", Vector2(PAD_X, PAD_Y))
 
-    for col_idx in range(num_cols):
-        var b: Dictionary = branches[col_idx]
+    for branch_idx in range(branches.size()):
+        var b: Dictionary = branches[branch_idx]
         var b_id: String = str(b["id"])
+        var col_idx: int = branch_idx + 1
         var x_pos: float = PAD_X + float(col_idx) * COL_STEP
 
         var set_banner := Label.new()
@@ -246,10 +291,9 @@ func _build_ui() -> void:
         for rank_idx in range(4):
             var rank_num: int = rank_idx + 1
             var node_id: String = "%s_t%d" % [b_id, rank_num]
-            var row_y: float = PAD_Y + float(4 - rank_num) * ROW_STEP
+            var row_y: float = PAD_Y + float(rank_idx) * ROW_STEP
             _create_monopoly_pokemon_card(node_id, Vector2(x_pos, row_y))
 
-    # Floating tooltip
     _tooltip_panel = PanelContainer.new()
     _tooltip_panel.visible = false
     _tooltip_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -276,9 +320,10 @@ func _build_ui() -> void:
     _tooltip_panel.add_child(_tooltip_label)
 
 func _create_monopoly_pokemon_card(worker_id: String, pos: Vector2) -> void:
-    if not _registry:
+    var reg := _get_or_create_registry()
+    if not reg:
         return
-    var def: Dictionary = _registry.get_worker_def(worker_id)
+    var def: Dictionary = reg.get_worker_def(worker_id)
     if def.is_empty():
         return
 
@@ -409,6 +454,7 @@ func _create_monopoly_pokemon_card(worker_id: String, pos: Vector2) -> void:
 
     # 4. Bottom Action Row: 1-Click Chain Buy/Promote Button + xN Owned/Fire Button
     var buy_btn := Button.new()
+    buy_btn.focus_mode = Control.FOCUS_NONE
     buy_btn.text = "$$ %s" % _format_short(float(def["cost"]))
     buy_btn.position = Vector2(6, 132)
     buy_btn.size = Vector2(78, 26)
@@ -421,10 +467,18 @@ func _create_monopoly_pokemon_card(worker_id: String, pos: Vector2) -> void:
     b_sb.border_width_bottom = 2
     b_sb.border_color = Color(0.08, 0.14, 0.08, 1.0)
     buy_btn.add_theme_stylebox_override("normal", b_sb)
-    buy_btn.gui_input.connect(_on_buy_gui_input.bind(worker_id))
+    buy_btn.add_theme_stylebox_override("hover", b_sb)
+    buy_btn.add_theme_stylebox_override("pressed", b_sb)
+    buy_btn.pressed.connect(func():
+        _selected_target_id = worker_id
+        _execute_chain_buy_for(worker_id, 1)
+        _show_worker_tooltip(worker_id, false)
+    )
+    buy_btn.gui_input.connect(_on_buy_right_click.bind(worker_id))
     card.add_child(buy_btn)
 
     var count_btn := Button.new()
+    count_btn.focus_mode = Control.FOCUS_NONE
     count_btn.text = "x0"
     count_btn.position = Vector2(88, 132)
     count_btn.size = Vector2(44, 26)
@@ -438,7 +492,11 @@ func _create_monopoly_pokemon_card(worker_id: String, pos: Vector2) -> void:
     c_sb.border_color = Color(0.12, 0.12, 0.12, 1.0)
     count_btn.add_theme_stylebox_override("normal", c_sb)
     count_btn.add_theme_color_override("font_color", Color(0.1, 0.1, 0.1, 1.0))
-    count_btn.gui_input.connect(_on_sell_gui_input.bind(worker_id))
+    count_btn.pressed.connect(func():
+        _selected_target_id = worker_id
+        _fire_worker_qty(worker_id, 1)
+    )
+    count_btn.gui_input.connect(_on_sell_right_click.bind(worker_id))
     card.add_child(count_btn)
 
     card.gui_input.connect(_on_card_gui_input.bind(worker_id))
@@ -491,76 +549,73 @@ func _on_card_gui_input(event: InputEvent, worker_id: String) -> void:
         _status_msg = ""
         refresh_chart()
 
-func _on_buy_gui_input(event: InputEvent, worker_id: String) -> void:
-    if not _registry:
-        return
-    if event is InputEventMouseButton and event.pressed:
+func _on_buy_right_click(event: InputEvent, worker_id: String) -> void:
+    if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
         _selected_target_id = worker_id
-        var amt: int = 1
-        if event.button_index == MOUSE_BUTTON_RIGHT:
-            amt = 5
-        elif event.button_index != MOUSE_BUTTON_LEFT:
-            return
-        _execute_chain_buy_for(worker_id, amt)
+        _execute_chain_buy_for(worker_id, 5)
         _show_worker_tooltip(worker_id, false)
 
-func _on_sell_gui_input(event: InputEvent, worker_id: String) -> void:
-    if not _registry:
-        return
-    if event is InputEventMouseButton and event.pressed:
+func _on_sell_right_click(event: InputEvent, worker_id: String) -> void:
+    if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
         _selected_target_id = worker_id
-        var amt: int = 1
-        if event.button_index == MOUSE_BUTTON_RIGHT:
-            amt = 5
-        elif event.button_index != MOUSE_BUTTON_LEFT:
-            return
-        var fired: int = _registry.fire_worker(worker_id, amt)
-        if fired > 0:
-            var def: Dictionary = _registry.get_worker_def(worker_id)
-            _status_msg = "Fired %dx %s." % [fired, str(def.get("name", worker_id))]
-            refresh_chart()
-            _show_worker_tooltip(worker_id, true)
+        _fire_worker_qty(worker_id, 5)
+
+func _fire_worker_qty(worker_id: String, amt: int) -> void:
+    var reg := _get_or_create_registry()
+    if not reg:
+        return
+    var fired: int = reg.fire_worker(worker_id, amt)
+    if fired > 0:
+        var def: Dictionary = reg.get_worker_def(worker_id)
+        _status_msg = "Fired %dx %s." % [fired, str(def.get("name", worker_id))]
+        _play_ui_sound(false)
+        refresh_chart()
+        _show_worker_tooltip(worker_id, true)
 
 func _execute_chain_buy_for(worker_id: String, amount: int) -> void:
-    if not _registry or amount <= 0:
+    var reg := _get_or_create_registry()
+    if not reg or amount <= 0:
         return
-    var def: Dictionary = _registry.get_worker_def(worker_id)
-    var q: Dictionary = _registry.calculate_chain_quote(worker_id, amount)
+    var def: Dictionary = reg.get_worker_def(worker_id)
+    var q: Dictionary = reg.calculate_chain_quote(worker_id, amount)
     var cost: float = float(q.get("total_cost", 0.0))
     var cash: float = float(Gvars.CashCount) if Gvars else 0.0
     if cash < cost:
         _status_msg = "[color=#ff7777]Need %sg (Have %sg)[/color]" % [
             Gconsts.add_comma_to_int(int(cost)), Gconsts.add_comma_to_int(int(cash))
         ]
+        _play_ui_sound(false)
         refresh_chart()
         return
 
-    var res: Dictionary = _registry.execute_chain_purchase(worker_id, amount)
+    var res: Dictionary = reg.execute_chain_purchase(worker_id, amount)
     if bool(res.get("success", false)):
         _status_msg = "[color=#66ff88]Hired %dx %s (-%sg)![/color]" % [
             amount, str(def.get("name", worker_id)), Gconsts.add_comma_to_int(int(cost))
         ]
+        _play_ui_sound(true)
         refresh_chart()
 
 func refresh_chart() -> void:
-    if not _registry:
+    var reg := _get_or_create_registry()
+    if not reg:
         return
 
     var query: String = _search_input.text.strip_edges().to_lower() if is_instance_valid(_search_input) else ""
     var selected_branch_idx: int = _set_dropdown.selected if is_instance_valid(_set_dropdown) else 0
     var selected_branch_id: String = ""
-    if selected_branch_idx > 0 and selected_branch_idx <= _registry.BRANCHES.size():
-        selected_branch_id = str(_registry.BRANCHES[selected_branch_idx - 1]["id"])
+    if selected_branch_idx > 0 and selected_branch_idx <= reg.BRANCHES.size():
+        selected_branch_id = str(reg.BRANCHES[selected_branch_idx - 1]["id"])
 
     var cash: float = float(Gvars.CashCount) if Gvars else 0.0
-    var defs: Dictionary = _registry.get_all_defs()
+    var defs: Dictionary = reg.get_all_defs()
 
     for worker_id in _cards_by_id.keys():
         var entry: Dictionary = _cards_by_id[worker_id]
         var def: Dictionary = defs.get(worker_id, {})
-        var cnt: int = _registry.get_count(worker_id)
-        var can_buy_direct: bool = _registry.can_purchase(worker_id, 1)
-        var chain_q: Dictionary = _registry.calculate_chain_quote(worker_id, 1)
+        var cnt: int = reg.get_count(worker_id)
+        var can_buy_direct: bool = reg.can_purchase(worker_id, 1)
+        var chain_q: Dictionary = reg.calculate_chain_quote(worker_id, 1)
         var chain_cost: float = float(chain_q["total_cost"])
         var can_chain_afford: bool = bool(chain_q["valid"]) and chain_cost <= cash
 
@@ -602,10 +657,11 @@ func refresh_chart() -> void:
         _tree_canvas.queue_redraw()
 
 func _refresh_calculator_bar() -> void:
-    if not _registry or not is_instance_valid(_calc_target_label):
+    var reg := _get_or_create_registry()
+    if not reg or not is_instance_valid(_calc_target_label):
         return
     var cash: float = float(Gvars.CashCount) if Gvars else 0.0
-    var rec_cnt: int = _registry.get_count("weapon_intern")
+    var rec_cnt: int = reg.get_count("weapon_intern")
     if is_instance_valid(_recruit_count_label):
         _recruit_count_label.text = "Recruits: %d" % rec_cnt
     if is_instance_valid(_btn_recruit_1):
@@ -613,11 +669,11 @@ func _refresh_calculator_bar() -> void:
     if is_instance_valid(_btn_recruit_5):
         _btn_recruit_5.disabled = (cash < 2500.0)
 
-    var def: Dictionary = _registry.get_worker_def(_selected_target_id)
+    var def: Dictionary = reg.get_worker_def(_selected_target_id)
     if def.is_empty():
         return
-    var q1: Dictionary = _registry.calculate_chain_quote(_selected_target_id, 1)
-    var max_aff: int = _registry.get_max_chain_affordable(_selected_target_id)
+    var q1: Dictionary = reg.calculate_chain_quote(_selected_target_id, 1)
+    var max_aff: int = reg.get_max_chain_affordable(_selected_target_id)
     var cost1: float = float(q1["total_cost"])
     var recruits1: int = int(q1["recruits_needed"])
 
@@ -634,11 +690,12 @@ func _refresh_calculator_bar() -> void:
     _btn_buy_max.disabled = (max_aff <= 0)
 
 func _on_tree_canvas_draw() -> void:
-    if not _registry:
+    var reg := _get_or_create_registry()
+    if not reg:
         return
     var locked_pts := PackedVector2Array()
     var unlocked_pts := PackedVector2Array()
-    var defs: Dictionary = _registry.get_all_defs()
+    var defs: Dictionary = reg.get_all_defs()
     var cash: float = float(Gvars.CashCount) if Gvars else 0.0
 
     for worker_id in _cards_by_id.keys():
@@ -656,7 +713,7 @@ func _on_tree_canvas_draw() -> void:
         var p_child: Vector2 = _cards_by_id[worker_id]["center"]
         var p_parent: Vector2 = _cards_by_id[parent_id]["center"]
         var mid_y: float = (p_parent.y + p_child.y) * 0.5
-        var q1: Dictionary = _registry.calculate_chain_quote(worker_id, 1)
+        var q1: Dictionary = reg.calculate_chain_quote(worker_id, 1)
         var target_arr: PackedVector2Array = unlocked_pts if (bool(q1["valid"]) and float(q1["total_cost"]) <= cash) else locked_pts
 
         target_arr.append(p_parent)
@@ -672,13 +729,14 @@ func _on_tree_canvas_draw() -> void:
         _tree_canvas.draw_multiline(unlocked_pts, Color(0.08, 0.56, 0.12, 0.95), 6.0)
 
 func _show_worker_tooltip(worker_id: String, is_sell: bool) -> void:
-    if not _registry or not _tooltip_panel or not _tooltip_label:
+    var reg := _get_or_create_registry()
+    if not reg or not _tooltip_panel or not _tooltip_label:
         return
-    var def: Dictionary = _registry.get_worker_def(worker_id)
+    var def: Dictionary = reg.get_worker_def(worker_id)
     if def.is_empty():
         return
     var cost: float = float(def["cost"])
-    var cnt: int = _registry.get_count(worker_id)
+    var cnt: int = reg.get_count(worker_id)
 
     if is_sell:
         var refund: int = int(cost * 0.5)
@@ -686,8 +744,8 @@ func _show_worker_tooltip(worker_id: String, is_sell: bool) -> void:
             str(def["name"]), cnt, Gconsts.add_comma_to_int(refund), Gconsts.add_comma_to_int(refund * 5)
         ]
     else:
-        var q1: Dictionary = _registry.calculate_chain_quote(worker_id, 1)
-        var max_aff: int = _registry.get_max_chain_affordable(worker_id)
+        var q1: Dictionary = reg.calculate_chain_quote(worker_id, 1)
+        var max_aff: int = reg.get_max_chain_affordable(worker_id)
         _tooltip_label.text = "[b]%s[/b] — Step: [color=#ffe066]%sg[/color]\n%s | %s (Rank %d)\n1-Click Full Chain Cost: [color=#66ff88]%sg[/color] (Max Affordable: %d)\nStrike Power: %s | Rate: %.2fs | AOE: %d tiles\n[i]Left-click $$: 1-Click Chain Buy x1 | Right-click $$: x5[/i]" % [
             str(def["name"]),
             Gconsts.add_comma_to_int(int(cost)),
