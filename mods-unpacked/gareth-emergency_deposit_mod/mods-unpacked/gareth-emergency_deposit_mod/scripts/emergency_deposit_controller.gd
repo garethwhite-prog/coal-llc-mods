@@ -217,5 +217,5 @@ func _spawn_stockpile_fx(banked_entries: Array) -> void:
     var tween := stockpile.create_tween()
     for entry in banked_entries:
         stockpile.call("sendItemToInventory", entry["item"], int(entry["count"]), tween)
-    if tween and tween.is_valid() and tween.get_total_estimated_duration() <= 0.0:
+    if tween and tween.is_valid() and not tween.is_running():
         tween.kill()
