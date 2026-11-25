@@ -27,4 +27,4 @@ func _ready() -> void:
             reg.name = "WeaponWorkerRegistry"
             reg.set_script(reg_script)
             tree.root.call_deferred("add_child", reg)
-    ModLoaderLog.info("Weapon Workers Mod initialized (14 weapon branches + winged endgame ranks).", MOD_DIR)
+    ModLoaderLog.info("Weapon Workers Mod v1.2.0 initialized (14 Monopoly Colour Sets + Chain Calculator).", MOD_DIR)

@@ -1,8 +1,8 @@
 {
   "name": "weapon_workers_mod",
   "namespace": "gareth",
-  "version_number": "1.0.0",
-  "description": "Adds a dedicated Weapon Workers tab and multi-branch Organisation Chart to hire and promote combat miners wielding vanilla and custom weapons up to winged endgame ranks.",
+  "version_number": "1.2.0",
+  "description": "Monopoly Set Colour-Coded Title Deed x Pokemon Card Weapon Workers tab with UK & USA Monopoly properties, Search/Affordable filters, and 1-click Chain-Promotion Calculator.",
   "website_url": "https://github.com/garethwhite-prog/coal-llc-mods",
   "dependencies": [
     "gareth-mod_manager_mod"
